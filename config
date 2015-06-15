@@ -1,0 +1,22 @@
+walk: [1.3.6.1.2.1.2.2.1]
+metrics: 
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    indexes:
+      - labelname: ifIndex
+        type: Integer32
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    indexes:
+      - labelname: ifIndex
+        type: Integer32
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    indexes:
+      - labelname: ifIndex
+        type: Integer32
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    indexes:
+      - labelname: ifIndex
+        type: Integer32

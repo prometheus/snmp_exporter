@@ -1,17 +1,19 @@
+import yaml
+
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 
 from prometheus_client import Metric,CollectorRegistry,generate_latest
 
-cmdGen = cmdgen.CommandGenerator()
 
 
-def scrape_table(host, port, table):
+def walk_oids(host, port, oids):
+  cmdGen = cmdgen.CommandGenerator()
   errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.bulkCmd(
     cmdgen.CommunityData('public'),
     cmdgen.UdpTransportTarget((host, port)),
     0, 25,
-    table,
-    lookupNames=True, lookupValues=True)
+    *oids
+    )
   if errorIndication:
     print(errorIndication)
     return
@@ -23,47 +25,38 @@ def scrape_table(host, port, table):
     )
     return
 
-  # Indexes -> oid -> value
-  result = {}
-
   for varBindTableRow in varBindTable:
     for name, val in varBindTableRow:
-      name = str(name)
-      if not name.startswith(table + '.'): break
-      suffix = name[len(table) + 1:]
-      oid, indexes = suffix.split('.', 1)
-      result.setdefault(indexes, {})[oid] = val
+      yield name, val
 
-  return result
-
+def parse_indexes(suboid, config):
+  labels = {}
+  for index in config:
+    if index['type'] == 'Integer32':
+      labels[index['labelname']] = str(suboid[0])
+      suboid = suboid[1:]
+  if suboid:
+    raise ValueError('Indexes left over')
+  return labels
 
 
 if __name__ == '__main__':
-  config = { 'baseOid': '1.3.6.1.2.1.2.2.1',
-    'indexLengths': [1],
-    'indexLabelNames': ['interface'],
-    'indexLabelValues': [{'nameFromOid': '2'}],
-    'metrics' : [
-        { 'name': 'interface_in_octets',
-          'oid': '10'
-        },
-        { 'name': 'interface_out_octets',
-          'oid': '11'
-        },
-      ]
-  }
-
-  table = scrape_table('localhost', 161, config['baseOid'])
+  config = yaml.safe_load(open('config'))
 
   metrics = {}
   for metric in config['metrics']:
-    metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}.{1}'.format(config['baseOid'], metric['oid']), 'gauge')
+    metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
 
-  for indexes, item in table.items():
-    #TODO:Handle more than one index
-    labels = {config['indexLabelNames'][0]: str(item[config['indexLabelValues'][0]['nameFromOid']])}
+  values = walk_oids('192.168.1.2', 161, config['walk'])
+  for oid, value in values:
+    oid = tuple(oid)
     for metric in config['metrics']:
-      metrics[metric['name']].add_sample(metric['name'], labels, item[metric['oid']])
+      prefix = tuple([int(x) for x in metric['oid'].split('.')])
+      if oid[:len(prefix)] == prefix:
+        value = float(value)
+        indexes = oid[len(prefix):]
+        labels = parse_indexes(indexes, metric['indexes'])
+        metrics[metric['name']].add_sample(metric['name'], value=value, labels=labels)
 
   class Collector():
     def collect(self):
