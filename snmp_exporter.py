@@ -37,12 +37,17 @@ def parse_indexes(suboid, config, oids):
   labels = {}
   for index in config:
     if index['type'] == 'Integer32':
-      labels[index['labelname']] = str(suboid[0])
-      if 'lookup' in index:
-        value = oids.get(oid_to_tuple(index['lookup']) + (suboid[0], ))
-        if value is not None:
-          labels[index['labelname']] = str(value)
+      sub = suboid[0:1]
+      labels[index['labelname']] = '.'.join((str(s) for s in sub))
       suboid = suboid[1:]
+    elif index['type'] == 'PhysAddress48':
+      sub = suboid[0:6]
+      labels[index['labelname']] = '.'.join((str(s) for s in sub))
+      suboid = suboid[6:]
+    if 'lookup' in index:
+      value = oids.get(oid_to_tuple(index['lookup']) + sub)
+      if value is not None:
+        labels[index['labelname']] = str(value)
   return labels
 
 
