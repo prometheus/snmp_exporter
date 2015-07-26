@@ -42,7 +42,7 @@ def parse_indexes(suboid, config, oids):
       suboid = suboid[1:]
     elif index['type'] == 'PhysAddress48':
       sub = suboid[0:6]
-      labels[index['labelname']] = '.'.join((str(s) for s in sub))
+      labels[index['labelname']] = ':'.join((str(s) for s in sub))
       suboid = suboid[6:]
     if 'lookup' in index:
       value = oids.get(oid_to_tuple(index['lookup']) + sub)
