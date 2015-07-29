@@ -7,8 +7,17 @@ Work in progress
 `config` contains what OIDs to scrape and how to process them. It initially
 supports enough for the standard interface stats.
 
-Run `snmp_exporter.py`, and then visit http://localhost:9116/?address=1.2.3.4
+Run `snmp_exporter.py`, and then visit http://localhost:9116/1.2.3.4
 where 1.2.3.4 is the IP of the SNMP device to get metrics.
+
+### Prometheus config
+
+	  - job_name: 'switch123'
+	    scrape_interval: 10s
+	    metrics_path: '192.168.1.123'
+	    target_groups:
+	      - targets: ['snmp_exporter_server:9116']
+
 
 ## Design
 
