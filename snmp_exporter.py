@@ -1,3 +1,4 @@
+import itertools
 import urlparse
 import yaml
 from BaseHTTPServer import BaseHTTPRequestHandler
@@ -32,22 +33,28 @@ def oid_to_tuple(oid):
   return tuple([int(x) for x in oid.split('.')])
 
 
-def parse_indexes(suboid, config, oids):
+def parse_indexes(suboid, index_config, lookup_config, oids):
   """Return labels for an oid based on config and table entry."""
   labels = {}
-  for index in config:
+  label_oids = {}
+  for index in index_config:
     if index['type'] == 'Integer32':
       sub = suboid[0:1]
+      label_oids[index['labelname']] = sub
       labels[index['labelname']] = '.'.join((str(s) for s in sub))
       suboid = suboid[1:]
     elif index['type'] == 'PhysAddress48':
       sub = suboid[0:6]
+      label_oids[index['labelname']] = sub
       labels[index['labelname']] = ':'.join((str(s) for s in sub))
       suboid = suboid[6:]
-    if 'lookup' in index:
-      value = oids.get(oid_to_tuple(index['lookup']) + sub)
-      if value is not None:
-        labels[index['labelname']] = str(value)
+  for lookup in lookup_config:
+    index_oid = itertools.chain([label_oids[l] for l in lookup['labels']])
+    full_oid = oid_to_tuple(lookup['oid']) + tuple(*index_oid)
+    value = oids.get(full_oid)
+    if value is not None:
+      labels[lookup['labelname']] = str(value)
+
   return labels
 
 
@@ -69,7 +76,7 @@ def collect_snmp(config, host, port=161):
       if oid[:len(prefix)] == prefix:
         value = float(value)
         indexes = oid[len(prefix):]
-        labels = parse_indexes(indexes, metric.get('indexes', {}), oids)
+        labels = parse_indexes(indexes, metric.get('indexes', {}), metric.get('lookups', {}), oids)
         metrics[metric['name']].add_sample(metric['name'], value=value, labels=labels)
 
   class Collector():
