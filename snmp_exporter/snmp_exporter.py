@@ -93,18 +93,33 @@ class ForkingHTTPServer(ForkingMixIn, HTTPServer):
 
 class SnmpExporterHandler(BaseHTTPRequestHandler):
   def do_GET(self):
-    params = urlparse.parse_qs(urlparse.urlparse(self.path).query)
-    if 'address' not in params:
-      self.send_response(400)
+    url = urlparse.urlparse(self.path)
+    if url.path == '/metrics':
+      params = urlparse.parse_qs(url.query)
+      if 'address' not in params:
+        self.send_response(400)
+        self.end_headers()
+        self.wfile.write("Missing 'address' from parameters")
+        return
+      config = yaml.safe_load(open('config'))
+      output = collect_snmp(config, params['address'][0])
+      self.send_response(200)
+      self.send_header('Content-Type', CONTENT_TYPE_LATEST)
       self.end_headers()
-      self.wfile.write("Missing 'address' from parameters")
-      return
-    config = yaml.safe_load(open('config'))
-    output = collect_snmp(config, params['address'][0])
-    self.send_response(200)
-    self.send_header('Content-Type', CONTENT_TYPE_LATEST)
-    self.end_headers()
-    self.wfile.write(output)
+      self.wfile.write(output)
+    elif url.path == '/':
+      self.send_response(200)
+      self.end_headers()
+      self.wfile.write("""<html>
+      <head><title>SNMP Exporter</title></head>
+      <body>
+      <h1>SNMP Exporter</h1>
+      <p>Visit <code>/metrics?address=1.2.3.4</code> to use.</p>
+      </body>
+      </html>""")
+    else:
+      self.send_response(404)
+      self.end_headers()
 
 
 if __name__ == '__main__':
