@@ -1,7 +1,8 @@
 import itertools
+import time
 
 from pysnmp.entity.rfc3413.oneliner import cmdgen
-from prometheus_client import Metric, CollectorRegistry, generate_latest
+from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
 def walk_oids(host, port, oids):
   cmdGen = cmdgen.CommandGenerator()
@@ -54,6 +55,7 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
 def collect_snmp(config, host, port=161):
   """Scrape a host and return prometheus text format for it"""
 
+  start = time.time()
   metrics = {}
   for metric in config['metrics']:
     metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
@@ -77,4 +79,8 @@ def collect_snmp(config, host, port=161):
       return metrics.values()
   registry = CollectorRegistry()
   registry.register(Collector())
+  duration = Gauge('snmp_scrape_duration_seconds', 'Time this SNMP scrape took, in seconds', registry=registry)
+  duration.set(time.time() - start)
+  walked = Gauge('snmp_oids_walked', 'Number of oids walked in this scrape', registry=registry)
+  walked.set(len(oids))
   return generate_latest(registry)
