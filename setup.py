@@ -7,7 +7,7 @@ setup(
     author = "Brian Brazil",
     author_email = "brian.brazil@robustperception.io",
     description = ("Python client for the Prometheus monitoring system."),
-    long_description = ("See https://github.com/brian-brazil/snmp_exporter/blob/master/README.md for documentation."),
+    long_description = ("See https://github.com/prometheus/snmp_exporter/blob/master/README.md for documentation."),
     license = "Apache Software License 2.0",
     keywords = "prometheus exporter network monitoring snmp",
     url = "https://github.com/brian-brazil/snmp_exporter",
