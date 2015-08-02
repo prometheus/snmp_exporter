@@ -26,7 +26,8 @@ SNMP device to get metrics from.
 
 ## Prometheus Configuration
 
-The snmp exporter needs to be passed the address as a parameter.
+The snmp exporter needs to be passed the address as a parameter, this can be
+done with relabelling.
 
 Example config:
 ```
