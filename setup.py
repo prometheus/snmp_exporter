@@ -11,9 +11,10 @@ setup(
     license = "Apache Software License 2.0",
     keywords = "prometheus exporter network monitoring snmp",
     url = "https://github.com/brian-brazil/snmp_exporter",
+    scripts = ["scripts/snmp_exporter"],
     packages=['snmp_exporter'],
     test_suite="tests",
-    requires=["promethus_client>=0.0.11", "pyyaml", "pysnmp>=4.2.5"]
+    requires=["promethus_client(>=0.0.11)", "pyyaml", "pysnmp(>=4.2.5)"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Information Technology",
