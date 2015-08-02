@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name = "snmp_exporter",
-    version = "0.0.1",
+    version = "0.0.2",
     author = "Brian Brazil",
     author_email = "brian.brazil@robustperception.io",
     description = ("Python client for the Prometheus monitoring system."),
@@ -14,7 +14,7 @@ setup(
     scripts = ["scripts/snmp_exporter"],
     packages=['snmp_exporter'],
     test_suite="tests",
-    requires=["promethus_client(>=0.0.11)", "pyyaml", "pysnmp(>=4.2.5)"],
+    install_requires=["promethus_client>=0.0.11", "pyyaml", "pysnmp>=4.2.5"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Information Technology",
