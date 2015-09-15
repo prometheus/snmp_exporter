@@ -1,11 +1,11 @@
 # Prometheus SNMP Exporter
 
-This an exporter that exposes information gathered from SNMP
+This is an exporter that exposes information gathered from SNMP
 for use by the Prometheus monitoring system.
 
 ## Installation
 
-```
+```Shell
 pip install snmp_exporter
 ```
 
@@ -30,7 +30,7 @@ The snmp exporter needs to be passed the address as a parameter, this can be
 done with relabelling.
 
 Example config:
-```
+```YAML
 scrape_config:
   - job_name: 'snmp'
     target_groups:
