@@ -56,6 +56,10 @@ def collect_snmp(config, host, port=161):
   """Scrape a host and return prometheus text format for it"""
 
   start = time.time()
+  
+  if (config.has_key('snmpport')):
+    port = config['snmpport']
+  
   metrics = {}
   for metric in config['metrics']:
     metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
