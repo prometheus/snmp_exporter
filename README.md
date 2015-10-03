@@ -10,7 +10,7 @@ pip install snmp_exporter
 ```
 
 You may need to also install the `python-dev` package on Debian/Ubuntu systems,
-as some depenancies require it.
+as some dependencies require it.
 
 ## Usage
 
