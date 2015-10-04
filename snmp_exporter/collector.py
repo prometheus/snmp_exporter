@@ -4,10 +4,10 @@ import time
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
-def walk_oids(host, port, oids):
+def walk_oids(host, port, oids, community):
   cmdGen = cmdgen.CommandGenerator()
   errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.bulkCmd(
-    cmdgen.CommunityData('public'),
+    cmdgen.CommunityData(community),
     cmdgen.UdpTransportTarget((host, port)),
     0, 25,
     *oids
@@ -60,7 +60,7 @@ def collect_snmp(config, host, port=161):
   for metric in config['metrics']:
     metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
 
-  values = walk_oids(host, port, config['walk'])
+  values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
   oids = {}
   for oid, value in values:
     oids[tuple(oid)] = value
