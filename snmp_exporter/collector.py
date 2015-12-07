@@ -60,8 +60,9 @@ def collect_snmp(config, host, port=161):
   start = time.time()
   metrics = {}
   for metric in config['metrics']:
-    metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
-
+    prom_type = metric['metric_type'] if 'metric_type' in metric else 'untyped'
+    prom_help = metric['metric_help'] if 'metric_help' in metric else 'SNMP OID {0}'.format( metric['oid'] if 'oid' in metric else "NaN" )
+    metrics[metric['name']] = Metric(metric['name'], prom_help, prom_type)
   values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
   oids = {}
   for oid, value in values:
@@ -71,7 +72,12 @@ def collect_snmp(config, host, port=161):
     for metric in config['metrics']:
       prefix = oid_to_tuple(metric['oid'])
       if oid[:len(prefix)] == prefix:
-        value = float(value)
+        try:
+            value = float(value)
+        except ValueError as e:
+            print(e)
+            value = 0.0
+
         indexes = oid[len(prefix):]
         labels = parse_indexes(indexes, metric.get('indexes', {}), metric.get('lookups', {}), oids)
         metrics[metric['name']].add_sample(metric['name'], value=value, labels=labels)
