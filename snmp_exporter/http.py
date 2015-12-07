@@ -20,6 +20,7 @@ class SnmpExporterHandler(BaseHTTPRequestHandler):
 
   def do_GET(self):
     url = urlparse.urlparse(self.path)
+    snmp_port = 161
     if url.path == '/metrics':
       params = urlparse.parse_qs(url.query)
       if 'address' not in params:
@@ -27,9 +28,11 @@ class SnmpExporterHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write("Missing 'address' from parameters")
         return
+      if 'port' in params:
+        snmp_port = params['address']
       with open(self._config_path) as f:
         config = yaml.safe_load(f)
-      output = collect_snmp(config, params['address'][0])
+      output = collect_snmp(config, params['address'][0], snmp_port)
       self.send_response(200)
       self.send_header('Content-Type', CONTENT_TYPE_LATEST)
       self.end_headers()
@@ -52,4 +55,3 @@ def start_http_server(config_path, port):
   handler = lambda *args, **kwargs: SnmpExporterHandler(config_path, *args, **kwargs)
   server = ForkingHTTPServer(('', port), handler)
   server.serve_forever()
-
