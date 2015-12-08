@@ -71,7 +71,11 @@ def collect_snmp(config, host, port=161):
   values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
   oids = {}
   for oid, value in values:
-    oids[tuple(oid)] = value
+    if tuple(oid) in oids:
+      if (((not oids[tuple(oid)]) or oids[tuple(oid)] == None) and value):
+        oids[tuple(oid)] = value
+    else:
+        oids[tuple(oid)] = value
 
   for oid, value in oids.items():
     for metric in config['metrics']:
