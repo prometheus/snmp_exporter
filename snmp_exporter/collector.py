@@ -44,6 +44,11 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
       suboid = suboid[6:]
     elif index['type'] == 'StaticLabel':
       labels[index['labelname']] = index['labelvalue']
+    elif index['type'] == 'DynamicLabel':
+      full_oid = oid_to_tuple(index['oid'])
+      value = oids.get(full_oid)
+      if value is not None:
+        labels[index['labelname']] = str(value)
   for lookup in lookup_config:
     index_oid = itertools.chain(*[label_oids[l] for l in lookup['labels']])
     full_oid = oid_to_tuple(lookup['oid']) + tuple(index_oid)
