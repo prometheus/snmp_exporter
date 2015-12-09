@@ -66,6 +66,7 @@ def collect_snmp(config, host, port=161):
   metrics = {}
   for metric in config['metrics']:
     prom_type = metric['metric_type'] if 'metric_type' in metric else 'untyped'
+    prom_type = metric['metric_type'] if 'metric_type' in metric else 'gauge'
     prom_help = metric['metric_help'] if 'metric_help' in metric else 'SNMP OID {0}'.format( metric['oid'] if 'oid' in metric else "NaN" )
     metrics[metric['name']] = Metric(metric['name'], prom_help, prom_type)
   values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
