@@ -1,26 +1,18 @@
 import itertools
 import time
+from easysnmp import Session
 
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
 def walk_oids(host, port, oids, community):
-  cmdGen = cmdgen.CommandGenerator()
-  errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.bulkCmd(
-    cmdgen.CommunityData(community),
-    cmdgen.UdpTransportTarget((host, port)),
-    0, 25,
-    *oids
-    )
-  if errorIndication:
-    raise Exception(errorIndication)
-  elif errorStatus:
-    raise Exception(errorStatus)
 
-  for varBindTableRow in varBindTable:
-    for name, val in varBindTableRow:
-      yield name, val
+  session = Session(hostname=host, remote_port=port, community=community, version=2, use_numeric=True, use_long_names=True)
 
+  for oid in oids:
+      system_items = session.walk(oid)
+      for item in system_items:
+          yield item.oid[1:]+"."+item.oid_index, str((item.value).encode('ascii', 'ignore'))
 
 def oid_to_tuple(oid):
   """Convert an OID to a tuple of numbers"""
