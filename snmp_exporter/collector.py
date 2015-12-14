@@ -64,7 +64,7 @@ def collect_snmp(config, host, port=161):
   oids = {}
   for oid, value in values:
     if oid_to_tuple(oid) in oids:
-      if (((not oids[oid_to_tuple(oid)]) or oids[oid_to_tuple(oid)] == None) and value):
+      if ((oids[oid_to_tuple(oid)] is None) and value):
         oids[oid_to_tuple(oid)] = value
     else:
         oids[oid_to_tuple(oid)] = value
