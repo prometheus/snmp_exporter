@@ -1,26 +1,18 @@
 import itertools
 import time
+from easysnmp import Session
 
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
 def walk_oids(host, port, oids, community):
-  cmdGen = cmdgen.CommandGenerator()
-  errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.bulkCmd(
-    cmdgen.CommunityData(community),
-    cmdgen.UdpTransportTarget((host, port)),
-    0, 25,
-    *oids
-    )
-  if errorIndication:
-    raise Exception(errorIndication)
-  elif errorStatus:
-    raise Exception(errorStatus)
 
-  for varBindTableRow in varBindTable:
-    for name, val in varBindTableRow:
-      yield name, val
+  session = Session(hostname=host, remote_port=port, community=community, version=2, use_numeric=True, use_long_names=True)
 
+  for oid in oids:
+      system_items = session.walk(oid)
+      for item in system_items:
+          yield item.oid[1:]+"."+item.oid_index, str((item.value).encode('ascii', 'ignore'))
 
 def oid_to_tuple(oid):
   """Convert an OID to a tuple of numbers"""
@@ -42,6 +34,13 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
       label_oids[index['labelname']] = sub
       labels[index['labelname']] = ':'.join((str(s) for s in sub))
       suboid = suboid[6:]
+    elif index['type'] == 'StaticLabel':
+      labels[index['labelname']] = index['labelvalue']
+    elif index['type'] == 'DynamicLabel':
+      full_oid = oid_to_tuple(index['oid'])
+      value = oids.get(full_oid)
+      if value is not None:
+        labels[index['labelname']] = str(value)
   for lookup in lookup_config:
     index_oid = itertools.chain(*[label_oids[l] for l in lookup['labels']])
     full_oid = oid_to_tuple(lookup['oid']) + tuple(index_oid)
@@ -58,18 +57,28 @@ def collect_snmp(config, host, port=161):
   start = time.time()
   metrics = {}
   for metric in config['metrics']:
-    metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
-
+    prom_type = metric['metric_type'] if 'metric_type' in metric else 'gauge'
+    prom_help = metric['metric_help'] if 'metric_help' in metric else 'SNMP OID {0}'.format( metric['oid'] if 'oid' in metric else "NaN" )
+    metrics[metric['name']] = Metric(metric['name'], prom_help, prom_type)
   values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
   oids = {}
   for oid, value in values:
-    oids[tuple(oid)] = value
+    if oid_to_tuple(oid) in oids:
+      if ((oids[oid_to_tuple(oid)] is None) and value):
+        oids[oid_to_tuple(oid)] = value
+    else:
+        oids[oid_to_tuple(oid)] = value
 
   for oid, value in oids.items():
     for metric in config['metrics']:
       prefix = oid_to_tuple(metric['oid'])
       if oid[:len(prefix)] == prefix:
-        value = float(value)
+        try:
+            value = float(value)
+        except ValueError as e:
+            print(e)
+            value = 0.0
+
         indexes = oid[len(prefix):]
         labels = parse_indexes(indexes, metric.get('indexes', {}), metric.get('lookups', {}), oids)
         metrics[metric['name']].add_sample(metric['name'], value=value, labels=labels)
