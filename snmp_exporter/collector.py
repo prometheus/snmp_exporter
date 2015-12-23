@@ -1,26 +1,33 @@
 import itertools
 import time
 
-from pysnmp.entity.rfc3413.oneliner import cmdgen
+import netsnmp
+
 from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
 def walk_oids(host, port, oids, community):
-  cmdGen = cmdgen.CommandGenerator()
-  errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.bulkCmd(
-    cmdgen.CommunityData(community),
-    cmdgen.UdpTransportTarget((host, port)),
-    0, 25,
-    *oids
-    )
-  if errorIndication:
-    raise Exception(errorIndication)
-  elif errorStatus:
-    raise Exception(errorStatus)
+  session = netsnmp.Session(Version=2, DestHost=host, RemotePort=port,
+      Community=community, UseNumeric=True, Retries=0)
+  for oid in oids:
+    for v in walk_oid(session, oid):
+      yield v
 
-  for varBindTableRow in varBindTable:
-    for name, val in varBindTableRow:
-      yield name, val
+def walk_oid(session, oid):
+    last_oid = oid
+    while True:
+      # getbulk starts from the last oid we saw.
+      vl = netsnmp.VarList(netsnmp.Varbind('.' + last_oid))
+      if not session.getbulk(0, 100, vl):
+        return
 
+      for v in vl:
+        last_oid = v.tag[1:] + '.' + v.iid
+        if not (last_oid + '.').startswith(oid + '.'):
+          return
+        if v.iid == '0':
+          yield v.tag[1:], v.val
+        else:
+          yield last_oid, v.val
 
 def oid_to_tuple(oid):
   """Convert an OID to a tuple of numbers"""
@@ -63,7 +70,12 @@ def collect_snmp(config, host, port=161):
   values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
   oids = {}
   for oid, value in values:
-    oids[tuple(oid)] = value
+    oids[oid_to_tuple(oid)] = value
+
+  # Netsnmp doesn't tell us if an error has occured, so
+  # try to spot it by no results.
+  if not oids:
+    raise Exception("No OIDs returned, device not responding?")
 
   for oid, value in oids.items():
     for metric in config['metrics']:

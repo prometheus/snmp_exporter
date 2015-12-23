@@ -1,3 +1,4 @@
+import traceback
 import urlparse
 from BaseHTTPServer import BaseHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
@@ -29,11 +30,16 @@ class SnmpExporterHandler(BaseHTTPRequestHandler):
         return
       with open(self._config_path) as f:
         config = yaml.safe_load(f)
-      output = collect_snmp(config, params['address'][0])
-      self.send_response(200)
-      self.send_header('Content-Type', CONTENT_TYPE_LATEST)
-      self.end_headers()
-      self.wfile.write(output)
+      try:
+        output = collect_snmp(config, params['address'][0])
+        self.send_response(200)
+        self.send_header('Content-Type', CONTENT_TYPE_LATEST)
+        self.end_headers()
+        self.wfile.write(output)
+      except:
+        self.send_response(500)
+        self.end_headers()
+        self.wfile.write(traceback.format_exc())
     elif url.path == '/':
       self.send_response(200)
       self.end_headers()
