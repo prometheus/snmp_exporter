@@ -6,8 +6,10 @@ for use by the Prometheus monitoring system.
 ## Installation
 
 ```Shell
-apt-get install libsnmp-python  # On older distros.
-apt-get install python-netsnmp  # On newer distros.
+apt-get install libsnmp-python  # On older Debian-based distros.
+apt-get install python-netsnmp  # On newer Debian-based distros.
+yum install net-snmp-python     # On Red Hat-based distros.
+
 pip install snmp_exporter
 ```
 
