@@ -3,10 +3,10 @@ from setuptools import setup
 
 setup(
     name = "snmp_exporter",
-    version = "0.0.3",
+    version = "0.0.4",
     author = "Brian Brazil",
     author_email = "brian.brazil@robustperception.io",
-    description = ("Python client for the Prometheus monitoring system."),
+    description = ("SNMP exporter for the Prometheus monitoring system."),
     long_description = ("See https://github.com/prometheus/snmp_exporter/blob/master/README.md for documentation."),
     license = "Apache Software License 2.0",
     keywords = "prometheus exporter network monitoring snmp",
@@ -14,7 +14,8 @@ setup(
     scripts = ["scripts/snmp_exporter"],
     packages=['snmp_exporter'],
     test_suite="tests",
-    install_requires=["prometheus_client>=0.0.11", "pyyaml", "pysnmp>=4.2.5"],
+    # Also needs python-netsnmp per http://www.net-snmp.org/wiki/index.php/Python_Bindings
+    install_requires=["prometheus_client>=0.0.11", "pyyaml"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Information Technology",
