@@ -17,7 +17,7 @@ def walk_oid(session, oid):
     while True:
       # getbulk starts from the last oid we saw.
       vl = netsnmp.VarList(netsnmp.Varbind('.' + last_oid))
-      if not session.getbulk(0, 100, vl):
+      if not session.getbulk(0, 25, vl):
         return
 
       for v in vl:
