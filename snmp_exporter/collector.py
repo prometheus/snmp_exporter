@@ -77,14 +77,32 @@ def collect_snmp(config, host, port=161):
   if not oids:
     raise Exception("No OIDs returned, device not responding?")
 
+  # Build a tree from the rules based on oid for faster lookup.
+  metric_tree = {}
+  for metric in config['metrics']:
+    prefix = oid_to_tuple(metric['oid'])
+    head = metric_tree
+    for i in prefix:
+      head.setdefault('children', {})
+      head['children'].setdefault(i, {})
+      head = head['children'][i]
+    head['entry'] = metric
+
   for oid, value in oids.items():
-    for metric in config['metrics']:
-      prefix = oid_to_tuple(metric['oid'])
-      if oid[:len(prefix)] == prefix:
+    head = metric_tree
+    for i in oid:
+      head = head.get('children', {}).get(i)
+      if not head:
+        break
+      if 'entry' in head:
+        metric = head['entry']
+
+        prefix = oid_to_tuple(metric['oid'])
         value = float(value)
         indexes = oid[len(prefix):]
         labels = parse_indexes(indexes, metric.get('indexes', {}), metric.get('lookups', {}), oids)
         metrics[metric['name']].add_sample(metric['name'], value=value, labels=labels)
+        break
 
   class Collector():
     def collect(self):
