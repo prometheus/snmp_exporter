@@ -7,7 +7,7 @@ from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
 def walk_oids(host, port, oids, community):
   session = netsnmp.Session(Version=2, DestHost=host, RemotePort=port,
-      Community=community, UseNumeric=True, Retries=0)
+      Community=community, UseNumeric=True, Retries=3)
   for oid in oids:
     for v in walk_oid(session, oid):
       yield v
