@@ -3,14 +3,14 @@ from setuptools import setup
 
 setup(
     name = "snmp_exporter",
-    version = "0.0.4",
+    version = "0.0.5",
     author = "Brian Brazil",
     author_email = "brian.brazil@robustperception.io",
     description = ("SNMP exporter for the Prometheus monitoring system."),
     long_description = ("See https://github.com/prometheus/snmp_exporter/blob/master/README.md for documentation."),
     license = "Apache Software License 2.0",
     keywords = "prometheus exporter network monitoring snmp",
-    url = "https://github.com/brian-brazil/snmp_exporter",
+    url = "https://github.com/prometheus/snmp_exporter",
     scripts = ["scripts/snmp_exporter"],
     packages=['snmp_exporter'],
     test_suite="tests",
