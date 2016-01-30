@@ -33,6 +33,12 @@ def oid_to_tuple(oid):
   """Convert an OID to a tuple of numbers"""
   return tuple([int(x) for x in oid.split('.')])
 
+def pad_oid(oid, size):
+    """If oid is short, pad right with 0s."""
+    result = list(oid)
+    while len(result) < size:
+      result.append(0)
+    return result
 
 def parse_indexes(suboid, index_config, lookup_config, oids):
   """Return labels for an oid based on config and table entry."""
@@ -40,12 +46,12 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
   label_oids = {}
   for index in index_config:
     if index['type'] == 'Integer32':
-      sub = suboid[0:1]
+      sub = pad_oid(suboid[0:1], 1)
       label_oids[index['labelname']] = sub
       labels[index['labelname']] = '.'.join((str(s) for s in sub))
       suboid = suboid[1:]
     elif index['type'] == 'PhysAddress48':
-      sub = suboid[0:6]
+      sub = pad_oid(suboid[0:6], 6)
       label_oids[index['labelname']] = sub
       labels[index['labelname']] = ':'.join((str(s) for s in sub))
       suboid = suboid[6:]
