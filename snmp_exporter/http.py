@@ -30,8 +30,15 @@ class SnmpExporterHandler(BaseHTTPRequestHandler):
         return
       with open(self._config_path) as f:
         config = yaml.safe_load(f)
+
+      module = params.get("module", ["default"])[0]
+      if module not in config:
+        self.send_response(400)
+        self.end_headers()
+        self.wfile.write("Module '{0}' not found in config".format(module))
+        return
       try:
-        output = collect_snmp(config, params['address'][0])
+        output = collect_snmp(config[module], params['address'][0])
         self.send_response(200)
         self.send_header('Content-Type', CONTENT_TYPE_LATEST)
         self.end_headers()
