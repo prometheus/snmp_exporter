@@ -40,7 +40,7 @@ scrape_configs:
         - 192.168.1.2  # SNMP device.
     relabel_configs:
       - source_labels: [__address__]
-        regex: (.*)(:80)?
+        regex: (.*?)(:80)?
         target_label: __param_address
         replacement: ${1}
       - source_labels: [__param_address]
