@@ -26,6 +26,42 @@ Visit http://localhost:9116/metrics?address=1.2.3.4 where 1.2.3.4 is the IP of t
 SNMP device to get metrics from. You can also specify a `module` parameter, to
 choose which module to use from the config file.
 
+
+## Auththentication
+
+The default configuration is to use SNMPv2 with the community `public`.  This can be changed in the yaml config.  NOTE: Version 2 implies SNMP version 2c.
+
+Example:
+```YAML
+default:
+  version: 2
+  auth:
+    community: SomeCommunityString
+  walk:
+    - ...
+  metrics:
+    - ...
+```
+
+For SNMPv3, the authentication requires different parameters.  The `auth_proto` defaults to `MD5` and the `priv_proto` defaults to `DES`.  The `security_level` defaults to `noAuthNoPriv`.
+
+Example:
+```YAML
+default:
+  version: 3
+  auth:
+    username: SomeUser
+    password: TotallySecret
+    auth_proto: SHA
+    priv_proto: AES
+    security_level: SomethingReadOnly
+    priv_password: SomeOtherSecret
+  walk:
+    - ...
+  metrics:
+    - ...
+```
+
 ## Prometheus Configuration
 
 The snmp exporter needs to be passed the address as a parameter, this can be

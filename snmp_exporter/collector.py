@@ -5,9 +5,23 @@ import netsnmp
 
 from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
-def walk_oids(host, port, oids, community):
-  session = netsnmp.Session(Version=2, DestHost=host, RemotePort=port,
-      Community=community, UseNumeric=True, Retries=3)
+def walk_oids(host, port, oids, version, auth):
+  if version == 3:
+    auth_user = auth['username']
+    auth_pass = auth['password']
+    auth_proto = auth.get('auth_proto', 'MD5')
+    priv_proto = auth.get('priv_proto', 'DES')
+    priv_pass = auth['priv_password']
+    sec_level = auth.get('security_level', 'noAuthNoPriv')
+    session = netsnmp.Session(Version=3, DestHost=host, RemotePort=port,
+        SecName=auth_user, AuthPass=auth_pass, AuthProto=auth_proto,
+        PrivProto=priv_proto, PrivPass=priv_pass, SecLevel=sec_level,
+        UseNumeric=True, Retries=3)
+  elif version == 2:
+    community = auth.get('community', 'public')
+    session = netsnmp.Session(Version=2, DestHost=host, RemotePort=port,
+        Community=community, UseNumeric=True, Retries=3)
+    
   for oid in oids:
     for v in walk_oid(session, oid):
       yield v
@@ -73,7 +87,7 @@ def collect_snmp(config, host, port=161):
   for metric in config['metrics']:
     metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
 
-  values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
+  values = walk_oids(host, port, config['walk'], config.get('version', 2), config.get('auth', {}))
   oids = {}
   for oid, value in values:
     oids[oid_to_tuple(oid)] = value
