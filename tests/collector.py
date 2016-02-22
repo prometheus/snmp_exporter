@@ -18,4 +18,6 @@ class TestCollector(unittest.TestCase):
                       [{'labels': ['a', 'b'], 'labelname': 'l', 'oid': '1.2'}], oids))
     self.assertEqual({'l': '0'},
         parse_indexes((), [{'labelname': 'l', 'type': 'Integer32'}], [], {}))
-
+    self.assertEqual({'l': '01:FF:00:00:00:10'},
+        parse_indexes((1, 255, 0, 0, 0, 16), [{'labelname': 'l', 'type': 'PhysAddress48'}],
+                      [], {}))
