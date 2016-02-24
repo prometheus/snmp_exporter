@@ -1,3 +1,4 @@
+import binascii
 import itertools
 import time
 
@@ -53,8 +54,14 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
     elif index['type'] == 'PhysAddress48':
       sub = pad_oid(suboid[0:6], 6)
       label_oids[index['labelname']] = sub
-      labels[index['labelname']] = ':'.join((str(s) for s in sub))
+      labels[index['labelname']] = ':'.join(("{0:02X}".format(s) for s in sub))
       suboid = suboid[6:]
+    elif index['type'] == 'OctetString':
+      length = pad_oid(suboid[0:1], 1)[0]
+      content = pad_oid(suboid[1:length+1], length)
+      label_oids[index['labelname']] = [length] + content
+      labels[index['labelname']] = ''.join((chr(s) for s in content))
+      suboid = suboid[length+1:]
   for lookup in lookup_config:
     index_oid = itertools.chain(*[label_oids[l] for l in lookup['labels']])
     full_oid = oid_to_tuple(lookup['oid']) + tuple(index_oid)
