@@ -22,13 +22,21 @@ def walk_oid(session, oid):
         return
 
       for v in vl:
-        last_oid = v.tag[1:] + '.' + v.iid
-        if not (last_oid + '.').startswith(oid + '.'):
+        if v.iid == None or v.iid == '':
           return
+
+        next_oid = v.tag[1:] + '.' + v.iid
+        if not (next_oid + '.').startswith(oid + '.'):
+          return
+        if next_oid == last_oid:
+          return
+
+        last_oid = next_oid
         if v.iid == '0':
           yield v.tag[1:], v.val
         else:
-          yield last_oid, v.val
+          yield next_oid, v.val
+
 
 def oid_to_tuple(oid):
   """Convert an OID to a tuple of numbers"""
