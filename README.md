@@ -67,3 +67,19 @@ This is to allow for customisation of what's done during the scrape as many
 special cases are expected.  The varying levels of SNMP MIB-parsing support
 across different langauges also means that a single language may not be
 practical.
+
+## Metric Labels
+
+It's possible to add extra labels to the metrics. For example `sysName or
+`sysLocation` are pretty useful.
+
+```YAML
+  metrics:
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+      labels:
+       - labelname: sysName
+         oid: 1.3.6.1.2.1.1.5
+       - labelname: sysLocation
+         oid: 1.3.6.1.2.1.1.6
+```
