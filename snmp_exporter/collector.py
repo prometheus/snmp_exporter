@@ -71,6 +71,15 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
 
   return labels
 
+def add_labels(label_config, oids):
+  """Return a static label"""
+  labels = {}
+  for label in label_config:
+    value = oids.get(oid_to_tuple(label['oid']))
+    if value is not None:
+      labels[label['labelname']] = str(value)
+
+  return labels
 
 def collect_snmp(config, host, port=161):
   """Scrape a host and return prometheus text format for it"""
@@ -113,7 +122,10 @@ def collect_snmp(config, host, port=161):
         prefix = oid_to_tuple(metric['oid'])
         value = float(value)
         indexes = oid[len(prefix):]
-        labels = parse_indexes(indexes, metric.get('indexes', {}), metric.get('lookups', {}), oids)
+        index_labels = parse_indexes(indexes, metric.get('indexes', {}), metric.get('lookups', {}), oids)
+        single_labels = add_labels(metric.get('labels', {}), oids)
+        labels = dict(single_labels)
+        labels.update(index_labels)
         metrics[metric['name']].add_sample(metric['name'], value=value, labels=labels)
         break
 
