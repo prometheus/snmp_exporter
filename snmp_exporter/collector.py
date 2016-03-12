@@ -87,7 +87,12 @@ def collect_snmp(config, host, port=161):
   start = time.time()
   metrics = {}
   for metric in config['metrics']:
-    metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
+    if 'type' in metric:
+      type = metric['type']
+    else:
+      type = "untyped"
+
+    metrics[metric['name']] = Metric(metric['name'], metric['description'] + ' (OID {0})'.format(metric['oid']), type)
 
   values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
   oids = {}
