@@ -68,7 +68,7 @@ special cases are expected.  The varying levels of SNMP MIB-parsing support
 across different langauges also means that a single language may not be
 practical.
 
-## Metric Labels
+## Metric Label, Description and Type
 
 It's possible to add extra labels to the metrics. For example `sysName or
 `sysLocation` are pretty useful.
@@ -76,6 +76,8 @@ It's possible to add extra labels to the metrics. For example `sysName or
 ```YAML
   metrics:
     - name: sysUpTime
+      description: description: The time (in hundredths of a second) since the network management portion of the system was last re-initialized.
+      type: counter
       oid: 1.3.6.1.2.1.1.3
       labels:
        - labelname: sysName
@@ -83,3 +85,6 @@ It's possible to add extra labels to the metrics. For example `sysName or
        - labelname: sysLocation
          oid: 1.3.6.1.2.1.1.6
 ```
+
+With `description` you can set a useful help text. `type` is either counter or gauge. See
+<http://prometheus.io/docs/concepts/metric_types/>

@@ -92,7 +92,12 @@ def collect_snmp(config, host, port=161):
     else:
       type = "untyped"
 
-    metrics[metric['name']] = Metric(metric['name'], metric['description'] + ' (OID {0})'.format(metric['oid']), type)
+    if 'description' in metric:
+      description = metric['description']
+    else:
+      description = "Not available."
+
+    metrics[metric['name']] = Metric(metric['name'], description + ' (OID {0})'.format(metric['oid']), type)
 
   values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
   oids = {}
