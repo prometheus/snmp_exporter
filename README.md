@@ -38,6 +38,8 @@ scrape_configs:
     target_groups:
       - targets:
         - 192.168.1.2  # SNMP device.
+    params:
+      module: [default]
     relabel_configs:
       - source_labels: [__address__]
         regex: (.*?)(:80)?
