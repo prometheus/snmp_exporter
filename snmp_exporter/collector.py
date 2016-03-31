@@ -9,30 +9,37 @@ def walk_oids(host, port, oids, version, auth):
   if version == 3:
     auth_user = auth['username']
     auth_pass = auth['password']
-    auth_proto = auth.get('auth_proto', 'MD5')
-    priv_proto = auth.get('priv_proto', 'DES')
+    auth_protocol = auth.get('auth_protocol', 'MD5')
+    priv_protocol = auth.get('priv_protocol', 'DES')
     priv_pass = auth['priv_password']
     sec_level = auth.get('security_level', 'noAuthNoPriv')
     session = netsnmp.Session(Version=3, DestHost=host, RemotePort=port,
-        SecName=auth_user, AuthPass=auth_pass, AuthProto=auth_proto,
-        PrivProto=priv_proto, PrivPass=priv_pass, SecLevel=sec_level,
+        SecName=auth_user, AuthPass=auth_pass, AuthProto=auth_protocol,
+        PrivProto=priv_protocol, PrivPass=priv_pass, SecLevel=sec_level,
         UseNumeric=True, Retries=3)
   elif version == 2:
     community = auth.get('community', 'public')
     session = netsnmp.Session(Version=2, DestHost=host, RemotePort=port,
         Community=community, UseNumeric=True, Retries=3)
-    
+  elif version == 1:
+    community = auth.get('community', 'public')
+    session = netsnmp.Session(Version=1, DestHost=host, RemotePort=port,
+        Community=community, UseNumeric=True, Retries=3)
   for oid in oids:
-    for v in walk_oid(session, oid):
+    for v in walk_oid(session, version, oid):
       yield v
 
-def walk_oid(session, oid):
+def walk_oid(session, version, oid):
     last_oid = oid
     while True:
       # getbulk starts from the last oid we saw.
       vl = netsnmp.VarList(netsnmp.Varbind('.' + last_oid))
-      if not session.getbulk(0, 25, vl):
-        return
+      if version == 1:
+        if not session.walk(vl):
+          return
+      else:
+        if not session.getbulk(0, 25, vl):
+          return
 
       for v in vl:
         last_oid = v.tag[1:] + '.' + v.iid
@@ -90,7 +97,8 @@ def collect_snmp(config, host, port=161):
   values = walk_oids(host, port, config['walk'], config.get('version', 2), config.get('auth', {}))
   oids = {}
   for oid, value in values:
-    oids[oid_to_tuple(oid)] = value
+    if oid != '':
+      oids[oid_to_tuple(oid)] = value
 
   # Netsnmp doesn't tell us if an error has occured, so
   # try to spot it by no results.
