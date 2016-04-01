@@ -48,17 +48,20 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
   for index in index_config:
     if index['type'] == 'Integer32':
       sub = pad_oid(suboid[0:1], 1)
+      labels['index'] = '.'.join((str(s) for s in sub))
       label_oids[index['labelname']] = sub
       labels[index['labelname']] = '.'.join((str(s) for s in sub))
       suboid = suboid[1:]
     elif index['type'] == 'PhysAddress48':
       sub = pad_oid(suboid[0:6], 6)
+      labels['index'] = '.'.join((str(s) for s in sub))
       label_oids[index['labelname']] = sub
       labels[index['labelname']] = ':'.join(("{0:02X}".format(s) for s in sub))
       suboid = suboid[6:]
     elif index['type'] == 'OctetString':
       length = pad_oid(suboid[0:1], 1)[0]
       content = pad_oid(suboid[1:length+1], length)
+      labels['index'] = '.'.join((str(s) for s in content))
       label_oids[index['labelname']] = [length] + content
       labels[index['labelname']] = ''.join((chr(s) for s in content))
       suboid = suboid[length+1:]
