@@ -67,5 +67,5 @@ Only the exporter is written so far.
 
 This is to allow for customisation of what's done during the scrape as many
 special cases are expected.  The varying levels of SNMP MIB-parsing support
-across different langauges also means that a single language may not be
+across different languages also means that a single language may not be
 practical.
