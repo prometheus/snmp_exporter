@@ -69,3 +69,24 @@ This is to allow for customisation of what's done during the scrape as many
 special cases are expected.  The varying levels of SNMP MIB-parsing support
 across different languages also means that a single language may not be
 practical.
+
+## Metric Label, Description and Type
+
+It's possible to add extra labels to the metrics. For example `sysName or
+`sysLocation` are pretty useful.
+
+```YAML
+  metrics:
+    - name: sysUpTime
+      description: description: The time (in hundredths of a second) since the network management portion of the system was last re-initialized.
+      type: counter
+      oid: 1.3.6.1.2.1.1.3
+      labels:
+       - labelname: sysName
+         oid: 1.3.6.1.2.1.1.5
+       - labelname: sysLocation
+         oid: 1.3.6.1.2.1.1.6
+```
+
+With `description` you can set a useful help text. `type` is either counter or gauge. See
+<http://prometheus.io/docs/concepts/metric_types/>
