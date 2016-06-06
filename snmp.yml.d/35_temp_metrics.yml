@@ -1,0 +1,9 @@
+    - name: lmTempSensorsValue
+      oid: 1.3.6.1.4.1.2021.13.16.2.1.3
+      indexes:
+        - labelname: lmTempSensorsDevice
+          type: Integer32
+      lookups:
+        - labels: [lmTempSensorsDevice]
+          labelname: lmTempSensorsDevice
+          oid: 1.3.6.1.4.1.2021.13.16.2.1.2
