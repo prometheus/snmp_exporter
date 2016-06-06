@@ -1,0 +1,63 @@
+    - name: diskIOReads
+      oid: 1.3.6.1.4.1.2021.13.15.1.1.5
+      indexes:
+        - labelname: diskIODevice
+          type: Integer32
+      lookups:
+        - labels: [diskIODevice]
+          labelname: diskIODevice
+          oid: 1.3.6.1.4.1.2021.13.15.1.1.2
+    - name: diskIOWrites
+      oid: 1.3.6.1.4.1.2021.13.15.1.1.6
+      indexes:
+        - labelname: diskIODevice
+          type: Integer32
+      lookups:
+        - labels: [diskIODevice]
+          labelname: diskIODevice
+          oid: 1.3.6.1.4.1.2021.13.15.1.1.2
+    - name: diskIOLA1
+      oid: 1.3.6.1.4.1.2021.13.15.1.1.9
+      indexes:
+        - labelname: diskIODevice
+          type: Integer32
+      lookups:
+        - labels: [diskIODevice]
+          labelname: diskIODevice
+          oid: 1.3.6.1.4.1.2021.13.15.1.1.2
+    - name: diskIOLA5
+      oid: 1.3.6.1.4.1.2021.13.15.1.1.10
+      indexes:
+        - labelname: diskIODevice
+          type: Integer32
+      lookups:
+        - labels: [diskIODevice]
+          labelname: diskIODevice
+          oid: 1.3.6.1.4.1.2021.13.15.1.1.2
+    - name: diskIOLA15
+      oid: 1.3.6.1.4.1.2021.13.15.1.1.11
+      indexes:
+        - labelname: diskIODevice
+          type: Integer32
+      lookups:
+        - labels: [diskIODevice]
+          labelname: diskIODevice
+          oid: 1.3.6.1.4.1.2021.13.15.1.1.2
+    - name: diskIONReadX
+      oid: 1.3.6.1.4.1.2021.13.15.1.1.12
+      indexes:
+        - labelname: diskIODevice
+          type: Integer32
+      lookups:
+        - labels: [diskIODevice]
+          labelname: diskIODevice
+          oid: 1.3.6.1.4.1.2021.13.15.1.1.2
+    - name: diskIONWrittenX
+      oid: 1.3.6.1.4.1.2021.13.15.1.1.13
+      indexes:
+        - labelname: diskIODevice
+          type: Integer32
+      lookups:
+        - labels: [diskIODevice]
+          labelname: diskIODevice
+          oid: 1.3.6.1.4.1.2021.13.15.1.1.2

@@ -1,0 +1,14 @@
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+    - name: ssCpuUser
+      oid: 1.3.6.1.4.1.2021.11.9
+    - name: ssCpuSystem
+      oid: 1.3.6.1.4.1.2021.11.10
+    - name: ssCpuIdle
+      oid: 1.3.6.1.4.1.2021.11.11
+    - name: laLoad1
+      oid: 1.3.6.1.4.1.2021.10.1.3.1
+    - name: laLoad5
+      oid: 1.3.6.1.4.1.2021.10.1.3.2
+    - name: laLoad15
+      oid: 1.3.6.1.4.1.2021.10.1.3.3
