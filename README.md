@@ -69,3 +69,12 @@ This is to allow for customisation of what's done during the scrape as many
 special cases are expected.  The varying levels of SNMP MIB-parsing support
 across different languages also means that a single language may not be
 practical.
+
+## Extending modules
+
+To add new modules to be scraped by the SNMP exporter, edit the yaml files
+found under snmp.yml.d, and then run:
+
+    cat snmp.yml.d/*.yml > snmp.yml
+
+That file can then be used as the configuration file.
