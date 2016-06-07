@@ -19,6 +19,8 @@ def walk_oid(session, oid):
       # getbulk starts from the last oid we saw.
       vl = netsnmp.VarList(netsnmp.Varbind('.' + last_oid))
       result = session.getbulk(0, 25, vl)
+      # result check: when querying an OID that the target
+      # device does not support, getbulk returns ('',)
       if not result or (len(result) == 1 and not result[0]):
         return
 
