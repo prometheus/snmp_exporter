@@ -6,20 +6,24 @@ import netsnmp
 
 from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
-def walk_oids(host, port, oids, community):
-  session = netsnmp.Session(Version=2, DestHost=host, RemotePort=port,
+def walk_oids(host, port, oids, community, version):
+  session = netsnmp.Session(Version=version, DestHost=host, RemotePort=port,
       Community=community, UseNumeric=True, Retries=3)
   for oid in oids:
-    for v in walk_oid(session, oid):
+    for v in walk_oid(session, oid, version):
       yield v
 
-def walk_oid(session, oid):
+def walk_oid(session, oid, version):
     last_oid = oid
     while True:
       # getbulk starts from the last oid we saw.
       vl = netsnmp.VarList(netsnmp.Varbind('.' + last_oid))
-      if not session.getbulk(0, 25, vl):
-        return
+      if version == 1:
+        if not session.walk(vl):
+          return
+      else:
+        if not session.getbulk(0, 25, vl):
+          return
 
       for v in vl:
         last_oid = v.tag[1:] + '.' + v.iid
@@ -80,7 +84,9 @@ def collect_snmp(config, host, port=161):
   for metric in config['metrics']:
     metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
 
-  values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
+  community = config.get('community', 'public')
+  version = config.get('version', 2)
+  values = walk_oids(host, port, config['walk'], community, version)
   oids = {}
   for oid, value in values:
     oids[oid_to_tuple(oid)] = value
