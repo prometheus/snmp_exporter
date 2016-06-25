@@ -62,6 +62,20 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
       label_oids[index['labelname']] = [length] + content
       labels[index['labelname']] = ''.join((chr(s) for s in content))
       suboid = suboid[length+1:]
+    # InetAddress is always formed by [InetAddressType][InetAddressXX] 
+    elif index['type'] == 'InetAddress':
+      address_type = suboid[0]
+      octets = suboid[1:2][0]
+      address = suboid[2: 2 + octets]
+      label_oids[index['labelname']] = suboid[0: 2 + octets] 
+      # ipv4
+      if address_type == 1:
+        labels[index['labelname']] = '.'.join(str(s) for s in address)
+      # ipv6
+      elif address_type == 2:
+        labels[index['labelname']] = ':'.join(("{0:02X}".format(s) for s in address))   
+      suboid = suboid[2 + octets :]
+
   for lookup in lookup_config:
     index_oid = itertools.chain(*[label_oids[l] for l in lookup['labels']])
     full_oid = oid_to_tuple(lookup['oid']) + tuple(index_oid)
