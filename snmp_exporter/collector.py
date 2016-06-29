@@ -3,32 +3,43 @@ import itertools
 import time
 
 import netsnmp
-
 from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 
-def walk_oids(host, port, oids, community):
+def walk_oids(host, port, oids, community, do_bulkget):
   session = netsnmp.Session(Version=2, DestHost=host, RemotePort=port,
       Community=community, UseNumeric=True, Retries=3)
   for oid in oids:
-    for v in walk_oid(session, oid):
+    for v in walk_oid(session, oid, do_bulkget):
       yield v
 
-def walk_oid(session, oid):
+def walk_oid(session, oid, do_bulkget):
     last_oid = oid
     while True:
-      # getbulk starts from the last oid we saw.
       vl = netsnmp.VarList(netsnmp.Varbind('.' + last_oid))
-      if not session.getbulk(0, 25, vl):
+      if do_bulkget:
+        res = session.getbulk(0, 25, vl)
+      else:
+        res = session.getnext(vl)
+
+      if not res:
         return
 
       for v in vl:
-        last_oid = v.tag[1:] + '.' + v.iid
-        if not (last_oid + '.').startswith(oid + '.'):
+        if v.iid == None or v.iid == '':
           return
+
+        next_oid = v.tag[1:] + '.' + v.iid
+        if not (next_oid + '.').startswith(oid + '.'):
+          return
+        if next_oid == last_oid:
+          return
+
+        last_oid = next_oid
         if v.iid == '0':
           yield v.tag[1:], v.val
         else:
-          yield last_oid, v.val
+          yield next_oid, v.val
+
 
 def oid_to_tuple(oid):
   """Convert an OID to a tuple of numbers"""
@@ -94,7 +105,9 @@ def collect_snmp(config, host, port=161):
   for metric in config['metrics']:
     metrics[metric['name']] = Metric(metric['name'], 'SNMP OID {0}'.format(metric['oid']), 'untyped')
 
-  values = walk_oids(host, port, config['walk'], config.get('community', 'public'))
+  do_bulkget = 'bulkget' not in config or config['bulkget']
+  values = walk_oids(host, port, config['walk'], config.get('community', 'public'), do_bulkget)
+
   oids = {}
   for oid, value in values:
     oids[oid_to_tuple(oid)] = value
