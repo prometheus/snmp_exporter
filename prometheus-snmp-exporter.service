@@ -1,0 +1,10 @@
+[Unit]
+Description=prometheus SNMP exporter
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/snmp_exporter /etc/prometheus/snmp.yaml
+
+[Install]
+WantedBy=multi-user.target
