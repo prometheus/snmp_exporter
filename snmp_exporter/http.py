@@ -4,13 +4,13 @@ from prometheus_client import CONTENT_TYPE_LATEST
 from .collector import collect_snmp
 
 try:
-    from urlparse import urlparse
+    import urlparse
     from BaseHTTPServer import BaseHTTPRequestHandler
     from BaseHTTPServer import HTTPServer
     from SocketServer import ForkingMixIn
 except ImportError:
     # python3 renamed those modules, try new names
-    from urllib.parse import urlparse
+    import urllib.parse as urlparse
     from http.server import BaseHTTPRequestHandler
     from http.server import HTTPServer
     from socketserver import ForkingMixIn
