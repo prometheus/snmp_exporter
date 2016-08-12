@@ -4,7 +4,7 @@ from snmp_exporter.http import start_http_server
 
 if __name__ == '__main__':
   if len(sys.argv) not in [1, 2, 3]:
-    print "Usage: snmp_exporter [config_file] [port]"
+    print("Usage: snmp_exporter [config_file] [port]")
     sys.exit(1)
 
   if len(sys.argv) >= 2:
