@@ -89,7 +89,7 @@ security_level | The Level of Security from which the User-based Security module
 priv_password | If messages sent on behalf of this user can be en/decrypted, the (private) privacy key for use with the privacy protocol. Defined as privKey in RFC3414 | if security_level = authPriv 
 
 Security_level has 3 settings:
-* noAuthnoPriv: no authentication or privacy
+* noAuthNoPriv: no authentication or privacy
 * authNoPriv: user authentication, without privacy
 * authPriv: user authentication and privacy
 
