@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name = "snmp_exporter",
-    version = "0.0.5",
+    version = "0.0.6",
     author = "Brian Brazil",
     author_email = "brian.brazil@robustperception.io",
     description = ("SNMP exporter for the Prometheus monitoring system."),
