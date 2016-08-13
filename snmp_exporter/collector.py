@@ -9,10 +9,10 @@ from prometheus_client import Metric, CollectorRegistry, generate_latest, Gauge
 def walk_oids(host, port, oids, version, auth):
   if version == 3:
     auth_user = auth['username']
-    auth_pass = auth['password']
+    auth_pass = auth.get('password', '')
     auth_protocol = auth.get('auth_protocol', 'MD5')
     priv_protocol = auth.get('priv_protocol', 'DES')
-    priv_pass = auth['priv_password']
+    priv_pass = auth.get('priv_password', '')
     sec_level = auth.get('security_level', 'noAuthNoPriv')
     session = netsnmp.Session(Version=3, DestHost=host, RemotePort=port,
         SecName=auth_user, AuthPass=auth_pass, AuthProto=auth_protocol,
