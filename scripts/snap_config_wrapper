@@ -1,0 +1,4 @@
+#!/bin/sh
+
+test -e $SNAP_DATA/snmp.yml || cp $SNAP/etc/prometheus/snmp.yml.example $SNAP_DATA/snmp.yml
+$SNAP/usr/bin/prometheus-snmp-exporter $SNAP_DATA/snmp.yml
