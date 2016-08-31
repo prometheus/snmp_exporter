@@ -1080,144 +1080,144 @@ apcups:
     - name: upsOutletGroupStatusGroupState
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
       indexes:
-        - labelname: outlet_group_name
+        - labelname: upsOutletGroupStatusName
           type: Integer32
       lookups:
-        - labels: [outlet_group_name]
-          labelname: outlet_group_name
+        - labels: [upsOutletGroupStatusName]
+          labelname: upsOutletGroupStatusName
           oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
     - name: upsOutletGroupStatusCommandPending
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
       indexes:
-        - labelname: outlet_group_name
+        - labelname: upsOutletGroupStatusName
           type: Integer32
       lookups:
-        - labels: [outlet_group_name]
-          labelname: outlet_group_name
+        - labels: [upsOutletGroupStatusName]
+          labelname: upsOutletGroupStatusName
           oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
     - name: upsOutletGroupStatusOutletType
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
       indexes:
-        - labelname: outlet_group_name
+        - labelname: upsOutletGroupStatusName
           type: Integer32
       lookups:
-        - labels: [outlet_group_name]
-          labelname: outlet_group_name
+        - labels: [upsOutletGroupStatusName]
+          labelname: upsOutletGroupStatusName
           oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
     - name: iemStatusProbeCurrentTemp
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeStatus
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.3
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeCurrentTemp
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeTempUnits
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.5
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeCurrentHumid
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.6
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeHighTempViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.7
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeLowTempViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.8
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeHighHumidViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.9
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeLowHumidViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.10
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeMaxTempViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.11
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeMinTempViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.12
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeMaxHumidViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.13
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     - name: iemStatusProbeMinHumidViolation
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.14
       indexes:
-        - labelname: probe_name
+        - labelname: iemStatusProbeName
           type: Integer32
       lookups:
-        - labels: [probe_name]
-          labelname: probe_name
+        - labels: [iemStatusProbeName]
+          labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
