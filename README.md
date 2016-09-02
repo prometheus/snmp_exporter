@@ -27,7 +27,7 @@ SNMP device to get metrics from. You can also specify a `module` parameter, to
 choose which module to use from the config file.
 
 
-## Auththentication
+## Authentication
 
 ###SNMPv2
 
