@@ -96,6 +96,11 @@ def parse_indexes(suboid, index_config, lookup_config, oids):
       elif address_type == 2:
         labels[index['labelname']] = ':'.join(("{0:02X}".format(s) for s in address))   
       suboid = suboid[2 + octets :]
+    elif index['type'] == 'IpAddress':
+      sub = pad_oid(suboid[0:4], 4)
+      label_oids[index['labelname']] = sub
+      labels[index['labelname']] = '.'.join(str(s) for s in sub)
+      suboid = suboid[4:]
 
   for lookup in lookup_config:
     index_oid = itertools.chain(*[label_oids[l] for l in lookup['labels']])

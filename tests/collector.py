@@ -39,3 +39,9 @@ class TestCollector(unittest.TestCase):
     self.assertEqual({'l': '2A:06:1D:80:00:01:00:03:00:00:00:00:00:01:01:34'},
         parse_indexes((2, 16, 42, 6, 29, 128, 0, 1, 0, 3, 0, 0, 0, 0, 0, 1, 1, 52), [{'labelname': 'l', 'type': 'InetAddress'}],
                       [], oids))
+    self.assertEqual({'i': '127.0.0.1'},
+                     parse_indexes((127, 0 , 0, 1),
+                                   [{'labelname': 'i',
+                                     'type': 'IpAddress'}],
+                                   [],
+                                   oids))
