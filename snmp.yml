@@ -1221,3 +1221,285 @@ apcups:
         - labels: [iemStatusProbeName]
           labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
+
+# The BGP MIB is from RFC 1657/4273 and should be supported by many
+# router vendors. Of course, you'll need to actually be running BGP
+# for this to be useful.
+#
+# ftp://ftp.cisco.com/pub/mibs/v2/BGP4-MIB.my
+# https://tools.ietf.org/html/rfc1657
+# https://tools.ietf.org/html/rfc4273
+
+bgp4:
+  version: 2
+  walk:
+    - 1.3.6.1.2.1.15.2
+    - 1.3.6.1.2.1.15.3
+  metrics:
+    - name: bgpLocalAs
+      oid: 1.3.6.1.2.1.15.2
+    - name: bgpPeerState
+      oid: 1.3.6.1.2.1.15.3.1.2
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerAdminStatus
+      oid: 1.3.6.1.2.1.15.3.1.3
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerNegotiatedVersion
+      oid: 1.3.6.1.2.1.15.3.1.4
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerLocalPort
+      oid: 1.3.6.1.2.1.15.3.1.6
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerRemotePort
+      oid: 1.3.6.1.2.1.15.3.1.8
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerRemoteAs
+      oid: 1.3.6.1.2.1.15.3.1.9
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerInUpdates
+      oid: 1.3.6.1.2.1.15.3.1.10
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerOutUpdates
+      oid: 1.3.6.1.2.1.15.3.1.11
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerInTotalMessages
+      oid: 1.3.6.1.2.1.15.3.1.12
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerOutTotalMessages
+      oid: 1.3.6.1.2.1.15.3.1.13
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerFsmEstablishedTransitions
+      oid: 1.3.6.1.2.1.15.3.1.15
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerFsmEstablishedTime
+      oid: 1.3.6.1.2.1.15.3.1.16
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerConnectRetryInterval
+      oid: 1.3.6.1.2.1.15.3.1.17
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerHoldTime
+      oid: 1.3.6.1.2.1.15.3.1.18
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerKeepAlive
+      oid: 1.3.6.1.2.1.15.3.1.19
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerHoldTimeConfigured
+      oid: 1.3.6.1.2.1.15.3.1.20
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerKeepAliveConfigured
+      oid: 1.3.6.1.2.1.15.3.1.21
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerMinASOriginationInterval
+      oid: 1.3.6.1.2.1.15.3.1.22
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerMinRouteAdvertisementInterval
+      oid: 1.3.6.1.2.1.15.3.1.23
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+    - name: bgpPeerInUpdateElapsedTime
+      oid: 1.3.6.1.2.1.15.3.1.24
+      indexes:
+        - labelname: bgpPeerIdentifier
+          type: IpAddress
+      lookups:
+        - labels: [bgpPeerIdentifier]
+          labelname: bgpPeerRemoteAddr
+          oid: 1.3.6.1.2.1.15.3.1.7
+
+# The Cisco BGP4 MIB is proprietary to Cisco routers. Not all routers
+# support all parts of the MIB, even if they are running BGP so your
+# mileage may vary. If possible, upgrade to the latest version of the
+# firmware possible.
+#
+# ftp://ftp.cisco.com/pub/mibs/v2/CISCO-BGP4-MIB.my
+
+cisco_bgp4:
+  version: 2
+  walk:
+    - 1.3.6.1.4.1.9.9.187.1.2
+  metrics:
+    - name: cbgpPeerAcceptedPrefixes
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.1
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
+    - name: cbgpPeerDeniedPrefixes
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.2
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
+    - name: cbgpPeerPrefixAdminLimit
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.3
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
+    - name: cbgpPeerPrefixThreshold
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.4
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
+    - name: cbgpPeerPrefixClearThreshold
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.5
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
+    - name: cbgpPeerAdvertisedPrefixes
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.6
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
+    - name: cbgpPeerSuppressedPrefixes
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.7
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
+    - name: cbgpPeerWithdrawnPrefixes
+      oid: 1.3.6.1.4.1.9.9.187.1.2.4.1.8
+      indexes:
+        - labelname: bgpPeerRemoteAddr
+          type: IpAddress
+        - labelname: cbgpPeerAddrFamilyAfi
+          type: InetAddressType
+        - labelname: cbgpPeerAddrFamilySafi
+          type: Integer32
