@@ -5,6 +5,7 @@ for use by the Prometheus monitoring system.
 
 ## Installation
 
+### Using pip ###
 ```Shell
 apt-get install libsnmp-python  # On older Debian-based distros.
 apt-get install python-netsnmp  # On newer Debian-based distros.
@@ -13,14 +14,32 @@ yum install net-snmp-python     # On Red Hat-based distros.
 pip install snmp_exporter
 ```
 
-## Usage
+And start it:
 
 ```
 snmp_exporter [config_file] [port]
 ```
 
-`config_file` contains what OIDs to scrape and how to process them.
-`config_file` defaults to `snmp.yml`. `port` defaults to 9116.
+`port` defaults to 9116.
+
+### Using snap (Ubuntu 16.04 and later) ###
+
+```Shell
+git clone https://github.com/prometheus/snmp_exporter.git
+cd snmp_exporter
+snapcraft
+sudo snap install ./prometheus-snmp-exporter_<version>_<arch>.snap
+```
+
+To restart, for example after configuration updates:
+```Shell
+sudo systemctl restart snap.prometheus-snmp-exporter.snmp-exporter
+```
+
+## Usage
+
+Configuration file contains what OIDs to scrape and how to process them.
+It defaults to `snmp.yml`. Snap config path is `/var/snap/prometheus-snmp-exporter/current/snmp.yml`. Default port is 9116.
 
 Visit http://localhost:9116/metrics?address=1.2.3.4 where 1.2.3.4 is the IP of the
 SNMP device to get metrics from. You can also specify a `module` parameter, to

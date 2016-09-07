@@ -1,0 +1,27 @@
+name: prometheus-snmp-exporter
+version: 0.0.5
+summary: Prometheus SNMP Exporter
+description: |
+  Exporter that exposes information gathered from SNMP for use by the Prometheus monitoring system
+confinement: strict
+apps:
+  snmp-exporter:
+    command: 'usr/bin/prometheus-snmp-exporter.wrapper'
+    plugs: [network-bind, network]
+    daemon: simple
+parts:
+  snmp-exporter:
+    plugin: python2
+    source: .
+    stage-packages: [python-netsnmp]
+  config-wrapper:
+    plugin: dump
+    source: .
+    organize:
+      snmp.yml: etc/prometheus/snmp.yml.example
+      scripts/snmp_exporter: usr/bin/prometheus-snmp-exporter
+      scripts/snap_config_wrapper: usr/bin/prometheus-snmp-exporter.wrapper
+    snap:
+      - etc/prometheus/snmp.yml.example
+      - usr/bin/prometheus-snmp-exporter
+      - usr/bin/prometheus-snmp-exporter.wrapper

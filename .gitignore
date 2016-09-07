@@ -1,4 +1,8 @@
 build/
 dist/
+parts/
+stage/
+prime/
 *.pyc
 *.egg-info
+*.snap
