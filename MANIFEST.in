@@ -1,2 +1,0 @@
-include NOTICE
-recursive-include example_configs *.yml
