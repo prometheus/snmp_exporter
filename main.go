@@ -24,7 +24,27 @@ var (
 		"web.listen-address", ":9116",
 		"Address to listen on for web interface and telemetry.",
 	)
+
+	// Mertrics about the SNMP exporter itself.
+	snmpDuration = prometheus.NewSummaryVec(
+		prometheus.SummaryOpts{
+			Name: "snmp_collection_duration_seconds",
+			Help: "Duration of collections by the SNMP exporter",
+		},
+		[]string{"module"},
+	)
+	snmpRequestErrors = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "snmp_request_errors_total",
+			Help: "Errors in requests to the SNMP exporter",
+		},
+	)
 )
+
+func init() {
+	prometheus.MustRegister(snmpDuration)
+	prometheus.MustRegister(snmpRequestErrors)
+}
 
 func OidToList(oid string) []int {
 	result := []int{}
@@ -80,8 +100,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 }
 
 type MetricNode struct {
-	metric  *Metric
-	oidList []int
+	metric *Metric
 
 	children map[int]*MetricNode
 }
@@ -99,7 +118,6 @@ func buildMetricTree(metrics []*Metric) *MetricNode {
 			head = head.children[o]
 		}
 		head.metric = metric
-		head.oidList = OidToList(metric.Oid)
 	}
 	return metricTree
 }
@@ -141,7 +159,7 @@ PduLoop:
 	for oid, pdu := range oidToPdu {
 		head := metricTree
 		oidList := OidToList(oid)
-		for _, o := range oidList {
+		for i, o := range oidList {
 			var ok bool
 			head, ok = head.children[o]
 			if !ok {
@@ -149,7 +167,7 @@ PduLoop:
 			}
 			if head.metric != nil {
 				// Found a match.
-				ch <- pduToSample(oidList[len(head.oidList):], &pdu, head.metric, oidToPdu)
+				ch <- pduToSample(oidList[i+1:], &pdu, head.metric, oidToPdu)
 				break
 			}
 		}
@@ -326,6 +344,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	target := r.URL.Query().Get("target")
 	if target == "" {
 		http.Error(w, "'target' parameter must be specified", 400)
+		snmpRequestErrors.Inc()
 		return
 	}
 	moduleName := r.URL.Query().Get("module")
@@ -335,15 +354,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	module, ok := (*cfg)[moduleName]
 	if !ok {
 		http.Error(w, fmt.Sprintf("Unkown module '%s'", module), 400)
+		snmpRequestErrors.Inc()
 		return
 	}
 
+	start := time.Now()
 	registry := prometheus.NewRegistry()
 	collector := collector{target: target, module: module}
 	registry.MustRegister(collector)
 	// Delegate http serving to Promethues client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
+	snmpDuration.WithLabelValues(moduleName).Observe(float64(time.Since(start).Seconds()))
 }
 
 func main() {
