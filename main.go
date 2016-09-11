@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"strconv"
@@ -14,7 +13,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
 	"github.com/soniah/gosnmp"
-	"gopkg.in/yaml.v2"
 )
 
 var (
@@ -27,55 +25,6 @@ var (
 		"Address to listen on for web interface and telemetry.",
 	)
 )
-
-func LoadFile(filename string) (*Config, error) {
-	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-	cfg := &Config{}
-	err = yaml.Unmarshal(content, cfg)
-	if err != nil {
-		return nil, err
-	}
-	return cfg, nil
-}
-
-type Config map[string]*Module
-
-type Module struct {
-	// A list of OIDs.
-	Walk    []string  `yaml:"walk"`
-	Metrics []*Metric `yaml:"metrics"`
-	// TODO: Security
-
-	// TODO: Use these.
-	XXX map[string]interface{} `yaml:",inline"`
-}
-
-type Metric struct {
-	Name    string    `yaml:"name"`
-	Oid     string    `yaml:"oid"`
-	Indexes []*Index  `yaml:"indexes,omitempty"`
-	Lookups []*Lookup `yaml:"lookups,omitempty"`
-
-	XXX map[string]interface{} `yaml:",inline"`
-}
-
-type Index struct {
-	Labelname string `yaml:"labelname"`
-	Type      string `yaml:"type"`
-
-	XXX map[string]interface{} `yaml:",inline"`
-}
-
-type Lookup struct {
-	Labels    []string `yaml:"labels"`
-	Labelname string   `yaml:"labelname"`
-	Oid       string   `yaml:"oid"`
-
-	XXX map[string]interface{} `yaml:",inline"`
-}
 
 func OidToList(oid string) []int {
 	result := []int{}
@@ -165,14 +114,6 @@ func (c collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- prometheus.NewDesc("dummy", "dummy", nil, nil)
 }
 
-func PduToSample(metric *Metric, pdu *gosnmp.SnmpPDU) prometheus.Metric {
-	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, "", []string{"label"}, nil),
-		prometheus.UntypedValue,
-		float64(gosnmp.ToBigInt(pdu.Value).Int64()),
-		pdu.Name,
-	)
-}
-
 // Collect implements Prometheus.Collector.
 func (c collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
@@ -208,7 +149,7 @@ PduLoop:
 			}
 			if head.metric != nil {
 				// Found a match.
-				ch <- PduToSample(head.metric, &pdu)
+				ch <- pduToSample(oidList[len(head.oidList):], &pdu, head.metric, oidToPdu)
 				break
 			}
 		}
@@ -217,6 +158,160 @@ PduLoop:
 		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, nil),
 		prometheus.GaugeValue,
 		float64(time.Since(start).Seconds()))
+}
+
+func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *Metric, oidToPdu map[string]gosnmp.SnmpPDU) prometheus.Metric {
+	// The part of the OID that is the indexes.
+	labels := indexesToLabels(indexOids, metric, oidToPdu)
+
+	labelnames := make([]string, 0, len(labels))
+	labelvalues := make([]string, 0, len(labels))
+	for k, v := range labels {
+		labelnames = append(labelnames, k)
+		labelvalues = append(labelvalues, v)
+	}
+	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, "", labelnames, nil),
+		prometheus.UntypedValue,
+		float64(gosnmp.ToBigInt(pdu.Value).Int64()),
+		labelvalues...,
+	)
+}
+
+// Right pad oid with zeros, and split at the given point.
+// Some routers exclude trailing 0s in responses.
+func splitOid(oid []int, count int) ([]int, []int) {
+	head := make([]int, count)
+	tail := []int{}
+	for i, v := range oid {
+		if i < count {
+			head[i] = v
+		} else {
+			tail = append(tail, i)
+		}
+	}
+	return head, tail
+}
+
+func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
+	switch pdu.Value.(type) {
+	case int:
+		return string(pdu.Value.(int))
+	case uint:
+		return string(pdu.Value.(uint))
+	case int64:
+		return string(pdu.Value.(int64))
+	case string:
+		if pdu.Type == gosnmp.ObjectIdentifier {
+			// Trim leading period.
+			return pdu.Value.(string)[1:]
+		}
+		return pdu.Value.(string)
+	case []byte:
+		// OctetString
+		return string(pdu.Value.([]byte))
+	default:
+		// Likely nil for various errors.
+		return fmt.Sprintf("%s", pdu.Value)
+	}
+
+}
+
+func indexesToLabels(indexOids []int, metric *Metric, oidToPdu map[string]gosnmp.SnmpPDU) map[string]string {
+	labels := map[string]string{}
+	labelOids := map[string][]int{}
+
+	// Covert indexes to useful strings.
+	for _, index := range metric.Indexes {
+		var subOid, content, addressType, octets, address []int
+		switch index.Type {
+		case "Integer32":
+			// Extract the oid for this index, and keep the remainder for the next index.
+			subOid, indexOids = splitOid(indexOids, 1)
+			// Save its oid in case we need it for lookups.
+			labelOids[index.Labelname] = subOid
+			// The labelname is the text form of the index oids.
+			labels[index.Labelname] = fmt.Sprintf("%d", subOid[0])
+		case "PhysAddress48":
+			subOid, indexOids = splitOid(indexOids, 6)
+			labelOids[index.Labelname] = subOid
+			parts := make([]string, 6)
+			for i, o := range subOid {
+				parts[i] = fmt.Sprintf("%02X", o)
+			}
+			labels[index.Labelname] = strings.Join(parts, ":")
+		case "OctetString":
+			subOid, indexOids = splitOid(indexOids, 1)
+			length := subOid[0]
+			content, indexOids = splitOid(indexOids, length)
+			labelOids[index.Labelname] = append(subOid, content...)
+			parts := make([]byte, length)
+			for i, o := range content {
+				parts[i] = byte(o)
+			}
+			labels[index.Labelname] = string(parts)
+		case "InetAddress":
+			addressType, indexOids = splitOid(indexOids, 1)
+			octets, indexOids = splitOid(indexOids, 1)
+			address, indexOids = splitOid(indexOids, octets[0])
+			labelOids[index.Labelname] = append(addressType, octets...)
+			labelOids[index.Labelname] = append(labelOids[index.Labelname], address...)
+			if addressType[0] == 1 { // IPv4.
+				parts := make([]string, 4)
+				for i, o := range address {
+					parts[i] = string(o)
+				}
+				labels[index.Labelname] = strings.Join(parts, ".")
+			} else if addressType[0] == 2 { // IPv6.
+				parts := make([]string, 8)
+				for i := 0; i < 8; i++ {
+					parts[i] = fmt.Sprintf("%02X%02X", address[i*2], address[i*2+1])
+				}
+				labels[index.Labelname] = strings.Join(parts, ":")
+			}
+		case "IpAddress":
+			subOid, indexOids = splitOid(indexOids, 4)
+			labelOids[index.Labelname] = subOid
+			parts := make([]string, 3)
+			for i, o := range subOid {
+				parts[i] = string(o)
+			}
+			labels[index.Labelname] = strings.Join(parts, ".")
+		case "InetAddressType":
+			subOid, indexOids = splitOid(indexOids, 1)
+			labelOids[index.Labelname] = subOid
+			switch subOid[0] {
+			case 0:
+				labels[index.Labelname] = "unknown"
+			case 1:
+				labels[index.Labelname] = "ipv4"
+			case 2:
+				labels[index.Labelname] = "ipv6"
+			case 3:
+				labels[index.Labelname] = "ipv4v"
+			case 4:
+				labels[index.Labelname] = "ipv6v"
+			case 16:
+				labels[index.Labelname] = "dns"
+			default:
+				labels[index.Labelname] = string(subOid[0])
+			}
+		}
+	}
+
+	// Perform lookups.
+	for _, lookup := range metric.Lookups {
+		oid := lookup.Oid
+		for _, label := range lookup.Labels {
+			for _, o := range labelOids[label] {
+				oid = fmt.Sprintf("%s.%d", oid, o)
+			}
+		}
+		if pdu, ok := oidToPdu[oid]; ok {
+			labels[lookup.Labelname] = pduValueAsString(&pdu)
+		}
+	}
+
+	return labels
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
