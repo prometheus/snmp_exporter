@@ -358,6 +358,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		snmpRequestErrors.Inc()
 		return
 	}
+	log.Debugf("Scraping target '%s' with module '%s'", target, moduleName)
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
@@ -366,13 +367,22 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Delegate http serving to Promethues client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
-	snmpDuration.WithLabelValues(moduleName).Observe(float64(time.Since(start).Seconds()))
+	duration := float64(time.Since(start).Seconds())
+	snmpDuration.WithLabelValues(moduleName).Observe(duration)
+	log.Debugf("Scrape of target '%s' with module '%s' took %f seconds", target, moduleName, duration)
 }
 
 func main() {
 	flag.Parse()
 
+	// Bail early if the config is bad.
+	_, err := LoadFile(*configFile)
+	if err != nil {
+		log.Fatalf("Error parsing config file: %s", err)
+	}
+
 	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	http.HandleFunc("/snmp", handler)           // Endpoint to do SNMP scrapes.
+	log.Infof("Listening on %s", *listenAddress)
 	log.Fatal(http.ListenAndServe(*listenAddress, nil))
 }
