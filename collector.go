@@ -12,7 +12,7 @@ import (
 	"github.com/soniah/gosnmp"
 )
 
-func OidToList(oid string) []int {
+func oidToList(oid string) []int {
 	result := []int{}
 	for _, x := range strings.Split(oid, ".") {
 		o, _ := strconv.Atoi(x)
@@ -76,7 +76,7 @@ func buildMetricTree(metrics []*Metric) *MetricNode {
 	metricTree := &MetricNode{children: map[int]*MetricNode{}}
 	for _, metric := range metrics {
 		head := metricTree
-		for _, o := range OidToList(metric.Oid) {
+		for _, o := range oidToList(metric.Oid) {
 			_, ok := head.children[o]
 			if !ok {
 				head.children[o] = &MetricNode{children: map[int]*MetricNode{}}
@@ -104,6 +104,7 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 	pdus, err := ScrapeTarget(c.target, c.module)
 	if err != nil {
 		log.Errorf("Error scraping target %s: %s", c.target, err)
+    ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
 		return
 	}
 	ch <- prometheus.MustNewConstMetric(
@@ -124,7 +125,7 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 PduLoop:
 	for oid, pdu := range oidToPdu {
 		head := metricTree
-		oidList := OidToList(oid)
+		oidList := oidToList(oid)
 		for i, o := range oidList {
 			var ok bool
 			head, ok = head.children[o]
@@ -170,20 +171,21 @@ func splitOid(oid []int, count int) ([]int, []int) {
 		if i < count {
 			head[i] = v
 		} else {
-			tail = append(tail, i)
+			tail = append(tail, v)
 		}
 	}
 	return head, tail
 }
 
+// This mirrors decodeValue in gosnmp's helper.go.
 func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
 	switch pdu.Value.(type) {
 	case int:
-		return string(pdu.Value.(int))
+		return strconv.Itoa(pdu.Value.(int))
 	case uint:
-		return string(pdu.Value.(uint))
+		return strconv.FormatUint(uint64(pdu.Value.(uint)), 10)
 	case int64:
-		return string(pdu.Value.(int64))
+		return strconv.FormatInt(pdu.Value.(int64), 10)
 	case string:
 		if pdu.Type == gosnmp.ObjectIdentifier {
 			// Trim leading period.
@@ -193,11 +195,12 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
 	case []byte:
 		// OctetString
 		return string(pdu.Value.([]byte))
+	case nil:
+		return ""
 	default:
-		// Likely nil for various errors.
+		// This shouldn't happen.
 		return fmt.Sprintf("%s", pdu.Value)
 	}
-
 }
 
 func indexesToLabels(indexOids []int, metric *Metric, oidToPdu map[string]gosnmp.SnmpPDU) map[string]string {
