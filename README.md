@@ -6,23 +6,17 @@ for use by the Prometheus monitoring system.
 ## Installation
 
 ```Shell
-apt-get install libsnmp-python  # On older Debian-based distros.
-apt-get install python-netsnmp  # On newer Debian-based distros.
-yum install net-snmp-python     # On Red Hat-based distros.
-
-pip install snmp_exporter
+go get -d
+go build
 ```
 
 ## Usage
 
 ```
-snmp_exporter [config_file] [port]
+./snmp_exporter
 ```
 
-`config_file` contains what OIDs to scrape and how to process them.
-`config_file` defaults to `snmp.yml`. `port` defaults to 9116.
-
-Visit http://localhost:9116/metrics?address=1.2.3.4 where 1.2.3.4 is the IP of the
+Visit http://localhost:9116/snmp?target=1.2.3.4 where 1.2.3.4 is the IP of the
 SNMP device to get metrics from. You can also specify a `module` parameter, to
 choose which module to use from the config file.
 
