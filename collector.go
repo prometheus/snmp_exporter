@@ -104,7 +104,7 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 	pdus, err := ScrapeTarget(c.target, c.module)
 	if err != nil {
 		log.Errorf("Error scraping target %s: %s", c.target, err)
-    ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
+		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
 		return
 	}
 	ch <- prometheus.MustNewConstMetric(
@@ -245,7 +245,7 @@ func indexesToLabels(indexOids []int, metric *Metric, oidToPdu map[string]gosnmp
 			if addressType[0] == 1 { // IPv4.
 				parts := make([]string, 4)
 				for i, o := range address {
-					parts[i] = string(o)
+					parts[i] = strconv.Itoa(o)
 				}
 				labels[index.Labelname] = strings.Join(parts, ".")
 			} else if addressType[0] == 2 { // IPv6.
@@ -258,9 +258,9 @@ func indexesToLabels(indexOids []int, metric *Metric, oidToPdu map[string]gosnmp
 		case "IpAddress":
 			subOid, indexOids = splitOid(indexOids, 4)
 			labelOids[index.Labelname] = subOid
-			parts := make([]string, 3)
+			parts := make([]string, 4)
 			for i, o := range subOid {
-				parts[i] = string(o)
+				parts[i] = strconv.Itoa(o)
 			}
 			labels[index.Labelname] = strings.Join(parts, ".")
 		case "InetAddressType":
@@ -274,13 +274,13 @@ func indexesToLabels(indexOids []int, metric *Metric, oidToPdu map[string]gosnmp
 			case 2:
 				labels[index.Labelname] = "ipv6"
 			case 3:
-				labels[index.Labelname] = "ipv4v"
+				labels[index.Labelname] = "ipv4z"
 			case 4:
-				labels[index.Labelname] = "ipv6v"
+				labels[index.Labelname] = "ipv6z"
 			case 16:
 				labels[index.Labelname] = "dns"
 			default:
-				labels[index.Labelname] = string(subOid[0])
+				labels[index.Labelname] = strconv.Itoa(subOid[0])
 			}
 		}
 	}
