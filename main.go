@@ -64,7 +64,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	module, ok := (*cfg)[moduleName]
 	if !ok {
-		http.Error(w, fmt.Sprintf("Unkown module '%s'", module), 400)
+		http.Error(w, fmt.Sprintf("Unkown module '%s'", moduleName), 400)
 		snmpRequestErrors.Inc()
 		return
 	}

@@ -58,7 +58,7 @@ func TestSplitOid(t *testing.T) {
 	for _, c := range cases {
 		head, tail := splitOid(c.oid, c.count)
 		if !reflect.DeepEqual(head, c.resultHead) || !reflect.DeepEqual(tail, c.resultTail) {
-			t.Errorf("splitOid(%s, %d): got [%v, %v], want [%v, %v]", c.oid, c.count, head, tail, c.resultHead, c.resultTail)
+			t.Errorf("splitOid(%v, %d): got [%v, %v], want [%v, %v]", c.oid, c.count, head, tail, c.resultHead, c.resultTail)
 		}
 	}
 }
