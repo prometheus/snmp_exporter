@@ -26,6 +26,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 	snmp := gosnmp.GoSNMP{}
 	snmp.Retries = 3
 	snmp.MaxRepetitions = 25
+	snmp.Timeout = time.Second * 60
 
 	snmp.Target = target
 	snmp.Port = 161
@@ -38,9 +39,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 		snmp.Port = uint16(p)
 	}
 
-	snmp.Version = gosnmp.Version2c
-	snmp.Community = "public"
-	snmp.Timeout = time.Second * 60
+	config.configureSNMP(&snmp)
 
 	// Do the actual walk.
 	err := snmp.Connect()
