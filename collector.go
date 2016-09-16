@@ -12,6 +12,19 @@ import (
 	"github.com/soniah/gosnmp"
 )
 
+var (
+	snmpUnexpectedPduType = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "snmp_unexpected_pdu_type_total",
+			Help: "Unexpected Go types in a PDU.",
+		},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(snmpUnexpectedPduType)
+}
+
 func oidToList(oid string) []int {
 	result := []int{}
 	for _, x := range strings.Split(oid, ".") {
@@ -199,6 +212,8 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
 		return ""
 	default:
 		// This shouldn't happen.
+		log.Infof("Got PDU with unexpected type: Name: %s Value: '%s', Go Type: %T SNMP Type: %s", pdu.Name, pdu.Value, pdu.Value, pdu.Type)
+		snmpUnexpectedPduType.Inc()
 		return fmt.Sprintf("%s", pdu.Value)
 	}
 }

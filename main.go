@@ -22,7 +22,7 @@ var (
 		"Address to listen on for web interface and telemetry.",
 	)
 
-	// Mertrics about the SNMP exporter itself.
+	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Name: "snmp_collection_duration_seconds",
@@ -37,6 +37,11 @@ var (
 		},
 	)
 )
+
+func init() {
+	prometheus.MustRegister(snmpDuration)
+	prometheus.MustRegister(snmpRequestErrors)
+}
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	cfg, err := LoadFile(*configFile)
@@ -81,9 +86,13 @@ func main() {
 	flag.Parse()
 
 	// Bail early if the config is bad.
-	_, err := LoadFile(*configFile)
+	c, err := LoadFile(*configFile)
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
+	}
+	// Initilise metrics.
+	for module, _ := range *c {
+		snmpDuration.WithLabelValues(module)
 	}
 
 	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
