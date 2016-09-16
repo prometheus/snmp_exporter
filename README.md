@@ -122,20 +122,15 @@ scrape_configs:
     target_groups:
       - targets:
         - 192.168.1.2  # SNMP device.
+    metrics_path: /snmp
     params:
       module: [default]
     relabel_configs:
       - source_labels: [__address__]
-        regex: (.*?)(:80)?
-        target_label: __param_address
-        replacement: ${1}
-      - source_labels: [__param_address]
-        regex: (.*)
+        target_label: __param_target
+      - source_labels: [__param_target]
         target_label: instance
-        replacement: ${1}
-      - source_labels: []
-        regex: .*
-        target_label: __address__
+      - target_label: __address__
         replacement: 127.0.0.1:9116  # SNMP exporter.
 ```
 

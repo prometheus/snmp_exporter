@@ -39,6 +39,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 		snmp.Port = uint16(p)
 	}
 
+	// Configure auth.
 	config.configureSNMP(&snmp)
 
 	// Do the actual walk.
