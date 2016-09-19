@@ -147,6 +147,15 @@ func TestIndexesToLabels(t *testing.T) {
 			result:   map[string]string{"l": "eth0"},
 		},
 		{
+			oid: []int{4},
+			metric: Metric{
+				Indexes: []*Index{{Labelname: "l", Type: "Integer32"}},
+				Lookups: []*Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3"}},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "4"},
+		},
+		{
 			oid:      []int{},
 			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "Integer32"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
