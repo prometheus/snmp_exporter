@@ -10,6 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
+	"github.com/prometheus/common/version"
 )
 
 var (
@@ -41,6 +42,7 @@ var (
 func init() {
 	prometheus.MustRegister(snmpDuration)
 	prometheus.MustRegister(snmpRequestErrors)
+	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -84,6 +86,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	flag.Parse()
+
+	log.Infoln("Starting snmp exporter", version.Info())
+	log.Infoln("Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
 	c, err := LoadFile(*configFile)
