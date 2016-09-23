@@ -1,0 +1,101 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "github.com/Sirupsen/logrus",
+			"revision": "4b6ea7319e214d98c938f12692336f7ca9348d6b",
+			"revisionTime": "2016-03-17T14:11:10Z"
+		},
+		{
+			"path": "github.com/beorn7/perks/quantile",
+			"revision": "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9",
+			"revisionTime": "2016-08-04T12:47:26+02:00"
+		},
+		{
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "7390af9dcd3c33042ebaf2474a1724a83cf1a7e6",
+			"revisionTime": "2016-08-15T22:33:34Z"
+		},
+		{
+			"path": "github.com/matttproud/golang_protobuf_extensions/pbutil",
+			"revision": "d0c3fe89de86839aecf2e0579c40ba3bb336a453",
+			"revisionTime": "2015-10-11T12:25:29+02:00"
+		},
+		{
+			"path": "github.com/prometheus/client_golang/prometheus",
+			"revision": "ea6e1db4cb8127eeb0b6954f7320363e5451820f",
+			"revisionTime": "2016-08-29T10:57:35+02:00"
+		},
+		{
+			"path": "github.com/prometheus/client_golang/prometheus/promhttp",
+			"revision": "ea6e1db4cb8127eeb0b6954f7320363e5451820f",
+			"revisionTime": "2016-08-29T10:57:35+02:00"
+		},
+		{
+			"path": "github.com/prometheus/client_model/go",
+			"revision": "fa8ad6fec33561be4280a8f0514318c79d7f6cb6",
+			"revisionTime": "2015-02-12T10:17:44Z"
+		},
+		{
+			"path": "github.com/prometheus/common/expfmt",
+			"revision": "9a94032291f2192936512bab367bc45e77990d6a",
+			"revisionTime": "2016-09-17T14:44:01-04:00"
+		},
+		{
+			"path": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg",
+			"revision": "9a94032291f2192936512bab367bc45e77990d6a",
+			"revisionTime": "2016-09-17T14:44:01-04:00"
+		},
+		{
+			"path": "github.com/prometheus/common/log",
+			"revision": "9a94032291f2192936512bab367bc45e77990d6a",
+			"revisionTime": "2016-09-17T14:44:01-04:00"
+		},
+		{
+			"path": "github.com/prometheus/common/model",
+			"revision": "9a94032291f2192936512bab367bc45e77990d6a",
+			"revisionTime": "2016-09-17T14:44:01-04:00"
+		},
+		{
+			"path": "github.com/prometheus/common/version",
+			"revision": "9a94032291f2192936512bab367bc45e77990d6a",
+			"revisionTime": "2016-09-17T14:44:01-04:00"
+		},
+		{
+			"path": "github.com/prometheus/procfs",
+			"revision": "406e5b7bfd8201a36e2bb5f7bdae0b03380c2ce8",
+			"revisionTime": "2015-10-29T15:50:50-04:00"
+		},
+		{
+			"path": "github.com/soniah/gosnmp",
+			"revision": "db6b5e552bd4a54e1692046a03b4dd8682cdcd6f",
+			"revisionTime": "2016-09-11T02:16:57-08:00"
+		},
+		{
+			"path": "golang.org/x/sys/unix",
+			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
+			"revisionTime": "2016-03-02T21:58:15+02:00"
+		},
+		{
+			"path": "golang.org/x/sys/windows",
+			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
+			"revisionTime": "2016-03-02T21:58:15+02:00"
+		},
+		{
+			"path": "golang.org/x/sys/windows/registry",
+			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
+			"revisionTime": "2016-03-02T21:58:15+02:00"
+		},
+		{
+			"path": "golang.org/x/sys/windows/svc/eventlog",
+			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
+			"revisionTime": "2016-03-02T21:58:15+02:00"
+		},
+		{
+			"path": "gopkg.in/yaml.v2",
+			"revision": "a83829b6f1293c91addabc89d0571c246397bbf4",
+			"revisionTime": "2016-03-01T17:40:22-03:00"
+		}
+	]
+}
