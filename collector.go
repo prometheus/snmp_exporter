@@ -13,6 +13,12 @@ import (
 )
 
 var (
+	snmpCollectionErrors = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "snmp_collection_errors_total",
+			Help: "Errors encountered while collection data.",
+		},
+	)
 	snmpUnexpectedPduType = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Name: "snmp_unexpected_pdu_type_total",
@@ -22,6 +28,7 @@ var (
 )
 
 func init() {
+	prometheus.MustRegister(snmpCollectionErrors)
 	prometheus.MustRegister(snmpUnexpectedPduType)
 }
 
@@ -48,6 +55,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 		p, err := strconv.Atoi(port)
 		if err != nil {
 			return nil, fmt.Errorf("Error converting port number to int for target %s: %s", target, err)
+			snmpCollectionErrors.Inc()
 		}
 		snmp.Port = uint16(p)
 	}
@@ -59,6 +67,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 	err := snmp.Connect()
 	if err != nil {
 		return nil, fmt.Errorf("Error connecting to target %s: %s", target, err)
+		snmpCollectionErrors.Inc()
 	}
 	defer snmp.Conn.Close()
 
@@ -72,6 +81,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 		}
 		if err != nil {
 			return nil, fmt.Errorf("Error walking target %s: %s", snmp.Target, err)
+			snmpCollectionErrors.Inc()
 		}
 		result = append(result, pdus...)
 	}
@@ -118,6 +128,7 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 	if err != nil {
 		log.Errorf("Error scraping target %s: %s", c.target, err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
+		snmpCollectionErrors.Inc()
 		return
 	}
 	ch <- prometheus.MustNewConstMetric(
