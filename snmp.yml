@@ -1221,3 +1221,303 @@ apcups:
         - labels: [iemStatusProbeName]
           labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
+
+# Vyatta module: interface stats and uptime.
+vyatta:
+  walk:
+    - 1.3.6.1.2.1.1.3
+    - 1.3.6.1.2.1.2
+    - 1.3.6.1.2.1.31.1.1
+  metrics:
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+    - name: ifNumber
+      oid: 1.3.6.1.2.1.2.1
+    - name: ifMtu
+      oid: 1.3.6.1.2.1.2.2.1.4
+      indexes:
+        - labelname: ifMtu
+          type: Integer32
+      lookups:
+        - labels: [ifMtu]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifSpeed
+      oid: 1.3.6.1.2.1.2.2.1.5
+      indexes:
+        - labelname: ifSpeed
+          type: Integer32
+      lookups:
+        - labels: [ifSpeed]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifAdminStatus
+      oid: 1.3.6.1.2.1.2.2.1.7
+      indexes:
+        - labelname: ifAdminStatus
+          type: Integer32
+      lookups:
+        - labels: [ifAdminStatus]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOperStatus
+      oid: 1.3.6.1.2.1.2.2.1.8
+      indexes:
+        - labelname: ifOperStatus
+          type: Integer32
+      lookups:
+        - labels: [ifOperStatus]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInOctets
+      oid: 1.3.6.1.2.1.2.2.1.10
+      indexes:
+        - labelname: ifInOctets
+          type: Integer32
+      lookups:
+        - labels: [ifInOctets]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.11
+      indexes:
+        - labelname: ifInUcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifInUcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.12
+      indexes:
+        - labelname: ifInNUcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifInNUcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInDiscards
+      oid: 1.3.6.1.2.1.2.2.1.13
+      indexes:
+        - labelname: ifInDiscards
+          type: Integer32
+      lookups:
+        - labels: [ifInDiscards]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInErrors
+      oid: 1.3.6.1.2.1.2.2.1.14
+      indexes:
+        - labelname: ifInErrors
+          type: Integer32
+      lookups:
+        - labels: [ifInErrors]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInUnknownProtos
+      oid: 1.3.6.1.2.1.2.2.1.15
+      indexes:
+        - labelname: ifInUnknownProtos
+          type: Integer32
+      lookups:
+        - labels: [ifInUnknownProtos]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutOctets
+      oid: 1.3.6.1.2.1.2.2.1.16
+      indexes:
+        - labelname: ifOutOctets
+          type: Integer32
+      lookups:
+        - labels: [ifOutOctets]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.17
+      indexes:
+        - labelname: ifOutUcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifOutUcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.18
+      indexes:
+        - labelname: ifOutNUcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifOutNUcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutDiscards
+      oid: 1.3.6.1.2.1.2.2.1.19
+      indexes:
+        - labelname: ifOutDiscards
+          type: Integer32
+      lookups:
+        - labels: [ifOutDiscards]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutErrors
+      oid: 1.3.6.1.2.1.2.2.1.20
+      indexes:
+        - labelname: ifOutErrors
+          type: Integer32
+      lookups:
+        - labels: [ifOutErrors]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutQLen
+      oid: 1.3.6.1.2.1.2.2.1.21
+      indexes:
+        - labelname: ifOutQLen
+          type: Integer32
+      lookups:
+        - labels: [ifOutQLen]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.2
+      indexes:
+        - labelname: ifInMulticastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifInMulticastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.3
+      indexes:
+        - labelname: ifInBroadcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifInBroadcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.4
+      indexes:
+        - labelname: ifOutMulticastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifOutMulticastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.5
+      indexes:
+        - labelname: ifOutBroadcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifOutBroadcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.6
+      indexes:
+        - labelname: ifHCInOctets
+          type: Integer32
+      lookups:
+        - labels: [ifHCInOctets]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.7
+      indexes:
+        - labelname: ifHCInUcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifHCInUcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.8
+      indexes:
+        - labelname: ifHCInMulticastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifHCInMulticastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.9
+      indexes:
+        - labelname: ifHCInBroadcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifHCInBroadcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.10
+      indexes:
+        - labelname: ifHCOutOctets
+          type: Integer32
+      lookups:
+        - labels: [ifHCOutOctets]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.11
+      indexes:
+        - labelname: ifHCOutUcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifHCOutUcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.12
+      indexes:
+        - labelname: ifHCOutMulticastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifHCOutMulticastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.13
+      indexes:
+        - labelname: ifHCOutBroadcastPkts
+          type: Integer32
+      lookups:
+        - labels: [ifHCOutBroadcastPkts]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifLinkUpDownTrapEnable
+      oid: 1.3.6.1.2.1.31.1.1.1.14
+      indexes:
+        - labelname: ifLinkUpDownTrapEnable
+          type: Integer32
+      lookups:
+        - labels: [ifLinkUpDownTrapEnable]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHighSpeed
+      oid: 1.3.6.1.2.1.31.1.1.1.15
+      indexes:
+        - labelname: ifHighSpeed
+          type: Integer32
+      lookups:
+        - labels: [ifHighSpeed]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifPromiscuousMode
+      oid: 1.3.6.1.2.1.31.1.1.1.16
+      indexes:
+        - labelname: ifPromiscuousMode
+          type: Integer32
+      lookups:
+        - labels: [ifPromiscuousMode]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifConnectorPresent
+      oid: 1.3.6.1.2.1.31.1.1.1.17
+      indexes:
+        - labelname: ifConnectorPresent
+          type: Integer32
+      lookups:
+        - labels: [ifConnectorPresent]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
