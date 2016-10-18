@@ -1565,3 +1565,946 @@ fortinet_fortigate:
           type: Integer32
         - labelname: fgWcWtpSessionWtpId
           type: OctetString
+          
+# MikroTik RouterOS Devices
+# There are a few undocumented MIBs in use in this, and a few MIBs that I was unable to test so they were not implemented
+# May require tweaking to meet your exact needs
+mikrotik_routeros:
+  walk:
+    - 1.3.6.1.4.1.14988.1.1
+  metrics:
+    - name: mtxrWlRtabAddr
+      oid: 	1.3.6.1.4.1.14988.1.1.1.2.1.1
+    - name: mtxrWlRtabRouterOSVersion
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.10
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabUptime
+      oid: 	1.3.6.1.4.1.14988.1.1.1.2.1.11
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabSignalToNoise
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.12
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabIface
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.2
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabTxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.4
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabRxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.5
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabTxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.6
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabRxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.7
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabTxRate
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.8
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+    - name: mtxrWlRtabRxRate
+      oid: 1.3.6.1.4.1.14988.1.1.1.2.1.9
+      indexes:
+        - labelname: mtxrWlRtabAddr
+          type: PhysAddress48
+
+    - name: mtxrWlApIndex
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.1
+    - name: mtxrWlApOverallTxCCQ
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.10
+      indexes:
+        - labelname: mtxrWlApIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrWlApIndex]
+          labelname: mtxrWlApSsid
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+    - name: mtxrWlApAuthClientCount
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.11
+      indexes:
+        - labelname: mtxrWlApIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrWlApIndex]
+          labelname: mtxrWlApSsid
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+    - name: mtxrWlApTxRate
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.2
+      indexes:
+        - labelname: mtxrWlApIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrWlApIndex]
+          labelname: mtxrWlApSsid
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+    - name: mtxrWlApRxRate
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.3
+      indexes:
+        - labelname: mtxrWlApIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrWlApIndex]
+          labelname: mtxrWlApSsid
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+    - name: mtxrWlApClientCount
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.6
+      indexes:
+        - labelname: mtxrWlApIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrWlApIndex]
+          labelname: mtxrWlApSsid
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+    - name: mtxrWlApFreq
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.7
+      indexes:
+        - labelname: mtxrWlApIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrWlApIndex]
+          labelname: mtxrWlApSsid
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+        - labels: [mtxrWlApBand]
+          labelname: mtxrWlApBand
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.8
+    - name: mtxrWlApNoiseFloor
+      oid: 1.3.6.1.4.1.14988.1.1.1.3.1.9
+      indexes:
+        - labelname: mtxrWlApIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrWlApIndex]
+          labelname: mtxrWlApSsid
+          oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+    - name: mtxrHlCoreVoltage
+      oid: 1.3.6.1.4.1.14988.1.1.3.1
+    - name: mtxrHlTemperature
+      oid: 1.3.6.1.4.1.14988.1.1.3.10
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlProcessorTemperature
+      oid: 1.3.6.1.4.1.14988.1.1.3.11
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlPower
+      oid: 1.3.6.1.4.1.14988.1.1.3.12
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlCurrent
+      oid: 1.3.6.1.4.1.14988.1.1.3.13
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlThreeDotThreeVoltage
+      oid: 1.3.6.1.4.1.14988.1.1.3.2
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlFiveVoltage
+      oid: 1.3.6.1.4.1.14988.1.1.3.3
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlTwelveVoltage
+      oid: 1.3.6.1.4.1.14988.1.1.3.4
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlSensorTemperature
+      oid: 1.3.6.1.4.1.14988.1.1.3.5
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlCpuTemperature
+      oid: 1.3.6.1.4.1.14988.1.1.3.6
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlBoardTemperature
+      oid: 1.3.6.1.4.1.14988.1.1.3.7
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlVoltage
+      oid: 1.3.6.1.4.1.14988.1.1.3.8
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrHlActiveFan
+      oid: 1.3.6.1.4.1.14988.1.1.3.9
+      indexes:
+        - labelname: mtxrSerialNumber
+          type: OctetString
+      lookups:
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrSerialNumber
+          oid: 1.3.6.1.4.1.14988.1.1.7.3
+        - labels: [mtxrSerialNumber]
+          labelname: mtxrFirmwareVersion
+          oid: 1.3.6.1.4.1.14988.1.1.7.4
+    - name: mtxrLicUpgrUntil
+      oid: 1.3.6.1.4.1.14988.1.1.4.2
+      indexes:
+        - labelname: mtxrLicSoftwareId
+          type: OctetString
+      lookups:
+        - labels: [mtxrLicSoftwareId]
+          labelname: mtxrLicVersion
+          oid: 1.3.6.1.4.1.14988.1.1.4.4
+        - labels: [mtxrLicSoftwareId]
+          labelname: mtxrLicSoftwareId
+          oid: 1.3.6.1.4.1.14988.1.1.4.1
+    - name: mtxrLicLevel
+      oid: 1.3.6.1.4.1.14988.1.1.4.3
+      indexes:
+        - labelname: mtxrLicSoftwareId
+          type: OctetString
+      lookups:
+        - labels: [mtxrLicSoftwareId]
+          labelname: mtxrLicVersion
+          oid: 1.3.6.1.4.1.14988.1.1.4.4
+        - labels: [mtxrLicSoftwareId]
+          labelname: mtxrLicSoftwareId
+          oid: 1.3.6.1.4.1.14988.1.1.4.1
+    - name: mtxrLicUpgradableTo
+      oid: 1.3.6.1.4.1.14988.1.1.4.5
+      indexes:
+        - labelname: mtxrLicSoftwareId
+          type: OctetString
+      lookups:
+        - labels: [mtxrLicSoftwareId]
+          labelname: mtxrLicVersion
+          oid: 1.3.6.1.4.1.14988.1.1.4.4
+        - labels: [mtxrLicSoftwareId]
+          labelname: mtxrLicSoftwareId
+          oid: 1.3.6.1.4.1.14988.1.1.4.1
+
+    - name: mtxrNeighborIfIndex
+      oid: 1.3.6.1.4.1.14988.1.1.11.1.1.8
+      indexes:
+        - labelname: mtxrNeighborIpAddress
+          type: Integer32
+      lookups:
+        - labels: [mtxrNeighborIpAddress]
+          labelname: mtxrNeighborIpAddress
+          oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        - labels: [mtxrNeighborIpAddress]
+          labelname: mtxrNeighborIdentity
+          oid: 1.3.6.1.4.1.14988.1.1.11.1.1.6
+        - labels: [mtxrNeighborIpAddress]
+          labelname: mtxrNeighborSoftwareID
+          oid: 1.3.6.1.4.1.14988.1.1.11.1.1.7
+        - labels: [mtxrNeighborIpAddress]
+          labelname: mtxrNeighborPlatform
+          oid: 1.3.6.1.4.1.14988.1.1.11.1.1.5
+        - labels: [mtxrNeighborIpAddress]
+          labelname: mtxrNeighborVersion
+          oid: 1.3.6.1.4.1.14988.1.1.11.1.1.4
+
+
+    - name: mtxrInterfaceStatsIndex
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.1
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsDriverRxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.11
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsDriverRxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.12
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsDriverTxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.13
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsDriverTxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.14
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxRx64
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.15
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxRx65To127
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.16
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxRx128To255
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.17
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxRx256To511
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.18
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxRx512To1023
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.19
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxRx1024To1518
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.20
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxRx1519ToMax
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.21
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.31
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.32
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxTooShort
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.33
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRx64
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.34
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRx65To127
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.35
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRx128To255
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.36
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRx256To511
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.37
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRx512To1023
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.38
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRx1024To1518
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.39
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRx1519ToMax
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.40
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxTooLong
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.41
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxBroadcast
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.42
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxPause
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.43
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxMulticast
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.44
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxFCSError
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.45
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxAlignError
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.46
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxFragment
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.47
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxOverflow
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.48
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxControl
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.49
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxUnknownOp
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.50
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxLengthError
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.51
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxCodeError
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.52
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxCarrierError
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.53
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxJabber
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.54
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsRxDrop
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.55
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.61
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.62
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxTooShort
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.63
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTx64
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.64
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTx65To127
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.65
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTx128To255
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.66
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTx256To511
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.67
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTx512To1023
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.68
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTx1024To1518
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.69
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTx1519ToMax
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.70
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxTooLong
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.71
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxBroadcast
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.72
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxPause
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.73
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxMulticast
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.74
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxUnderrun
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.75
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxCollision
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.76
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxExcessiveCollision
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.77
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxMultipleCollision
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.78
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxSingleCollision
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.79
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxExcessiveDeferred
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.80
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxDeferred
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.81
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxLateCollision
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.82
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxTotalCollision
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.83
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxPauseHonored
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.84
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxDrop
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.85
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxJabber
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.86
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxFCSError
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.87
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxControl
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.88
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrInterfaceStatsTxFragment
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.89
+      indexes:
+        - labelname: mtxrInterfaceStatsIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrInterfaceStatsIndex]
+          labelname: mtxrInterfaceStatsName
+          oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    - name: mtxrDHCPLeaseCount
+      oid: 1.3.6.1.4.1.14988.1.1.6.1
+    - name: mtxrScriptRunCmd
+      oid: 1.3.6.1.4.1.14988.1.1.8.1.1.3
+      indexes:
+        - labelname: mtxrScriptIndex
+          type: Integer32
+      lookups:
+        - labels: [mtxrScriptIndex]
+          labelname: mtxrScriptIndex
+          oid: 1.3.6.1.4.1.14988.1.1.8.1.1.1
+        - labels: [mtxrScriptIndex]
+          labelname: mtxrScriptName
+          oid: 1.3.6.1.4.1.14988.1.1.8.1.1.2
