@@ -113,7 +113,7 @@ Example config:
 ```YAML
 scrape_configs:
   - job_name: 'snmp'
-    target_groups:
+    static_configs:
       - targets:
         - 192.168.1.2  # SNMP device.
     metrics_path: /snmp
