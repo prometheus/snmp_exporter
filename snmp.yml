@@ -1565,3 +1565,82 @@ fortinet_fortigate:
           type: Integer32
         - labelname: fgWcWtpSessionWtpId
           type: OctetString
+
+# ServerTech Sentry 3 MIB
+#
+# Used by ServerTech PDUs
+#
+# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3OIDTree.txt
+# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
+servertech_sentry3:
+  walk:
+    - 1.3.6.1.2.1.1
+    - 1.3.6.1.4.1.1718.3.2.2.1
+    - 1.3.6.1.4.1.1718.3.2.3.1
+  metrics:
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+    - name: infeedLoadValue
+      oid: 1.3.6.1.4.1.1718.3.2.2.1.7
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+    - name: infeedVoltage
+      oid: 1.3.6.1.4.1.1718.3.2.2.1.11
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+    - name: infeedPower
+      oid: 1.3.6.1.4.1.1718.3.2.2.1.12
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+    - name: infeedEnergy
+      oid: 1.3.6.1.4.1.1718.3.2.2.1.16
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+    - name: outletLoadValue
+      oid: 1.3.6.1.4.1.1718.3.2.3.1.7
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+        - labelname: outletIndex
+          type: Integer32
+    - name: outletVoltage
+      oid: 1.3.6.1.4.1.1718.3.2.3.1.13
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+        - labelname: outletIndex
+          type: Integer32
+    - name: outletPower
+      oid: 1.3.6.1.4.1.1718.3.2.3.1.14
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+        - labelname: outletIndex
+          type: Integer32
+    - name: outletEnergy
+      oid: 1.3.6.1.4.1.1718.3.2.3.1.18
+      indexes:
+        - labelname: towerIndex
+          type: Integer32
+        - labelname: infeedIndex
+          type: Integer32
+        - labelname: outletIndex
+          type: Integer32
