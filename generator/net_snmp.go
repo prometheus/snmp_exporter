@@ -50,6 +50,7 @@ var netSnmptypeMap = map[int]string{
 }
 
 func init() {
+	C.snmp_set_save_descriptions(1)
 	C.netsnmp_init_mib()
 }
 
@@ -67,6 +68,7 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 		n.Type = "unknown"
 	}
 	n.Augments = C.GoString(t.augments)
+	n.Description = C.GoString(t.description)
 
 	if t.child_list == nil {
 		return
@@ -76,7 +78,8 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	n.Children = []*Node{}
 	for head != nil {
 		child := &Node{}
-		n.Children = append(n.Children, child)
+    // Prepend, as nodes are backwards.
+		n.Children = append([]*Node{child}, n.Children...)
 		buildMIBTree(head, child, n.Oid)
 		head = head.next_peer
 	}
