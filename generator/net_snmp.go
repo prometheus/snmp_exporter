@@ -12,6 +12,7 @@ import "fmt"
 type Node struct {
 	Oid         string
 	Label       string
+	Augments    string
 	Children    []*Node
 	Description string
 	Type        string
@@ -49,18 +50,23 @@ var netSnmptypeMap = map[int]string{
 }
 
 func init() {
-C.netsnmp_init_mib()
+	C.netsnmp_init_mib()
 }
 
 // Walk NetSNMP MIB tree, building a Go tree from it.
 func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
-	n.Oid = fmt.Sprintf("%s.%d", oid, t.subid)
+	if oid != "" {
+		n.Oid = fmt.Sprintf("%s.%d", oid, t.subid)
+	} else {
+		n.Oid = fmt.Sprintf("%d", t.subid)
+	}
 	n.Label = C.GoString(t.label)
 	if typ, ok := netSnmptypeMap[int(t._type)]; ok {
 		n.Type = typ
 	} else {
 		n.Type = "unknown"
 	}
+	n.Augments = C.GoString(t.augments)
 
 	if t.child_list == nil {
 		return
@@ -84,16 +90,20 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 		indexes = append(indexes, C.GoString(index.ilabel))
 		index = index.next
 	}
-	for _, c := range n.Children {
-		c.Indexes = indexes
+	if len(indexes) != 0 {
+		for _, c := range n.Children {
+			c.Indexes = indexes
+		}
+		// Set it on the table entry too.
+		n.Indexes = indexes
 	}
 
 }
 
 // Convert the NetSNMP MIB tree to a Go data structure.
 func getMIBTree() *Node {
-  tree := C.get_tree_head()
+	tree := C.get_tree_head()
 	head := &Node{}
 	buildMIBTree(tree, head, "")
-  return head
+	return head
 }
