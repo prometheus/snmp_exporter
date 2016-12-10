@@ -42,7 +42,7 @@ type Module struct {
 	Metrics []*Metric `yaml:"metrics"`
 
 	Version int   `yaml:"version,omitempty"`
-	Auth    *Auth `yaml:"auth"`
+	Auth    *Auth `yaml:"auth,omitempty"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }
