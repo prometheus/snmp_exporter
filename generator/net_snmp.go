@@ -6,7 +6,11 @@ package main
 #include <net-snmp/mib_api.h>
 */
 import "C"
-import "fmt"
+
+import (
+	"fmt"
+	"os"
+)
 
 // One entry in the tree of the MIB.
 type Node struct {
@@ -50,6 +54,9 @@ var netSnmptypeMap = map[int]string{
 }
 
 func init() {
+  // Load all the MIBs.
+	os.Setenv("MIBS", "ALL")
+  // We want the descriptions.
 	C.snmp_set_save_descriptions(1)
 	C.netsnmp_init_mib()
 }
@@ -78,7 +85,7 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	n.Children = []*Node{}
 	for head != nil {
 		child := &Node{}
-    // Prepend, as nodes are backwards.
+		// Prepend, as nodes are backwards.
 		n.Children = append([]*Node{child}, n.Children...)
 		buildMIBTree(head, child, n.Oid)
 		head = head.next_peer
@@ -105,6 +112,7 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 
 // Convert the NetSNMP MIB tree to a Go data structure.
 func getMIBTree() *Node {
+
 	tree := C.get_tree_head()
 	head := &Node{}
 	buildMIBTree(tree, head, "")

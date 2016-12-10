@@ -43,10 +43,11 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 func main() {
 	nodes := getMIBTree()
-
 	nameToNode := prepareTree(nodes)
 
-	walkNode(nameToNode["ifTable"], func(n *Node) {
+	_ = nameToNode
+
+	walkNode(nodes, func(n *Node) {
 		fmt.Printf("%s %s %s %s %s\n", n.Oid, n.Label, n.Type, n.Indexes, n.Description)
 	})
 }
