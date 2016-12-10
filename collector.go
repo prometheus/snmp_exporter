@@ -10,6 +10,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/log"
 	"github.com/soniah/gosnmp"
+
+  "github.com/prometheus/snmp_exporter/config"
 )
 
 var (
@@ -34,7 +36,7 @@ func oidToList(oid string) []int {
 	return result
 }
 
-func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
+func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error) {
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
 	snmp.Retries = 3
@@ -53,7 +55,7 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 	}
 
 	// Configure auth.
-	config.configureSNMP(&snmp)
+	config.ConfigureSNMP(&snmp)
 
 	// Do the actual walk.
 	err := snmp.Connect()
@@ -79,13 +81,13 @@ func ScrapeTarget(target string, config *Module) ([]gosnmp.SnmpPDU, error) {
 }
 
 type MetricNode struct {
-	metric *Metric
+	metric *config.Metric
 
 	children map[int]*MetricNode
 }
 
 // Build a tree of metrics from the config, for fast lookup when there's lots of them.
-func buildMetricTree(metrics []*Metric) *MetricNode {
+func buildMetricTree(metrics []*config.Metric) *MetricNode {
 	metricTree := &MetricNode{children: map[int]*MetricNode{}}
 	for _, metric := range metrics {
 		head := metricTree
@@ -103,7 +105,7 @@ func buildMetricTree(metrics []*Metric) *MetricNode {
 
 type collector struct {
 	target string
-	module *Module
+	module *config.Module
 }
 
 // Describe implements Prometheus.Collector.
@@ -158,7 +160,7 @@ PduLoop:
 		float64(time.Since(start).Seconds()))
 }
 
-func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *Metric, oidToPdu map[string]gosnmp.SnmpPDU) prometheus.Metric {
+func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) prometheus.Metric {
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
 
@@ -218,7 +220,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
 	}
 }
 
-func indexesToLabels(indexOids []int, metric *Metric, oidToPdu map[string]gosnmp.SnmpPDU) map[string]string {
+func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) map[string]string {
 	labels := map[string]string{}
 	labelOids := map[string][]int{}
 

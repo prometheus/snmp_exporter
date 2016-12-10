@@ -5,6 +5,8 @@ import (
 	"testing"
 
 	"github.com/soniah/gosnmp"
+
+  "github.com/prometheus/snmp_exporter/config"
 )
 
 func TestOidToList(t *testing.T) {
@@ -112,116 +114,116 @@ func TestPduValueAsString(t *testing.T) {
 func TestIndexesToLabels(t *testing.T) {
 	cases := []struct {
 		oid      []int
-		metric   Metric
+		metric   config.Metric
 		oidToPdu map[string]gosnmp.SnmpPDU
 		result   map[string]string
 	}{
 		{
 			oid:      []int{},
-			metric:   Metric{},
+			metric:   config.Metric{},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{},
 		},
 		{
 			oid:      []int{4},
-			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "Integer32"}}},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "Integer32"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "4"},
 		},
 		{
 			oid: []int{3, 4},
-			metric: Metric{
-				Indexes: []*Index{{Labelname: "a", Type: "Integer32"}, {Labelname: "b", Type: "Integer32"}},
-				Lookups: []*Lookup{{Labels: []string{"a", "b"}, Labelname: "l", Oid: "1.2"}},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "a", Type: "Integer32"}, {Labelname: "b", Type: "Integer32"}},
+				Lookups: []*config.Lookup{{Labels: []string{"a", "b"}, Labelname: "l", Oid: "1.2"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.4": gosnmp.SnmpPDU{Value: "eth0"}},
 			result:   map[string]string{"a": "3", "b": "4", "l": "eth0"},
 		},
 		{
 			oid: []int{4},
-			metric: Metric{
-				Indexes: []*Index{{Labelname: "l", Type: "Integer32"}},
-				Lookups: []*Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3"}},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "Integer32"}},
+				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.4": gosnmp.SnmpPDU{Value: "eth0"}},
 			result:   map[string]string{"l": "eth0"},
 		},
 		{
 			oid: []int{4},
-			metric: Metric{
-				Indexes: []*Index{{Labelname: "l", Type: "Integer32"}},
-				Lookups: []*Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3"}},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "Integer32"}},
+				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "4"},
 		},
 		{
 			oid:      []int{},
-			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "Integer32"}}},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "Integer32"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "0"},
 		},
 		{
 			oid:      []int{1, 255, 0, 0, 0, 16},
-			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "PhysAddress48"}}},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "PhysAddress48"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "01:FF:00:00:00:10"},
 		},
 		{
 			oid:      []int{3, 65, 32, 255},
-			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "OctetString"}}},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "OctetString"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "A \xff"},
 		},
 		{
 			oid: []int{3, 65, 32, 255},
-			metric: Metric{
-				Indexes: []*Index{{Labelname: "l", Type: "OctetString"}},
-				Lookups: []*Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1"}},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "OctetString"}},
+				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{"1.3.65.32.255": gosnmp.SnmpPDU{Value: "octet"}},
 			result:   map[string]string{"l": "octet"},
 		},
 		{
 			oid:      []int{1, 4, 192, 168, 1, 2},
-			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "InetAddress"}}},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "192.168.1.2"},
 		},
 		{
 			oid: []int{1, 4, 192, 168, 1, 2, 7},
-			metric: Metric{
-				Indexes: []*Index{{Labelname: "l", Type: "InetAddress"}, {Labelname: "b", Type: "Integer32"}},
-				Lookups: []*Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "3"}},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}, {Labelname: "b", Type: "Integer32"}},
+				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "3"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{"3.1.4.192.168.1.2": gosnmp.SnmpPDU{Value: "ipv4"}},
 			result:   map[string]string{"l": "ipv4", "b": "7"},
 		},
 		{
 			oid:      []int{2, 16, 42, 6, 29, 128, 0, 1, 0, 3, 0, 0, 0, 0, 0, 1, 1, 52},
-			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "InetAddress"}}},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "2A06:1D80:0001:0003:0000:0000:0001:0134"},
 		},
 		{
 			oid: []int{2, 16, 42, 6, 29, 128, 0, 1, 0, 3, 0, 0, 0, 0, 0, 1, 1, 52, 7},
-			metric: Metric{
-				Indexes: []*Index{{Labelname: "l", Type: "InetAddress"}, {Labelname: "b", Type: "Integer32"}},
-				Lookups: []*Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "3"}},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}, {Labelname: "b", Type: "Integer32"}},
+				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "3"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{"3.2.16.42.6.29.128.0.1.0.3.0.0.0.0.0.1.1.52": gosnmp.SnmpPDU{Value: "ipv6"}},
 			result:   map[string]string{"l": "ipv6", "b": "7"},
 		},
 		{
 			oid:      []int{192, 168, 1, 2},
-			metric:   Metric{Indexes: []*Index{{Labelname: "l", Type: "IpAddress"}}},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "IpAddress"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "192.168.1.2"},
 		},
 		{
 			oid: []int{0, 1, 2, 3, 4, 16, 42},
-			metric: Metric{
-				Indexes: []*Index{
+			metric: config.Metric{
+				Indexes: []*config.Index{
 					{Labelname: "a", Type: "InetAddressType"},
 					{Labelname: "b", Type: "InetAddressType"},
 					{Labelname: "c", Type: "InetAddressType"},

@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -88,7 +88,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 // configureSNMP sets the various version and auth settings.
-func (c Module) configureSNMP(g *gosnmp.GoSNMP) {
+func (c Module) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	switch c.Version {
 	case 1:
 		g.Version = gosnmp.Version1
