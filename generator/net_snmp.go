@@ -20,6 +20,8 @@ type Node struct {
 	Children    []*Node
 	Description string
 	Type        string
+	Hint        string
+	Units       string
 
 	Indexes []string
 }
@@ -54,9 +56,9 @@ var netSnmptypeMap = map[int]string{
 }
 
 func init() {
-  // Load all the MIBs.
+	// Load all the MIBs.
 	os.Setenv("MIBS", "ALL")
-  // We want the descriptions.
+	// We want the descriptions.
 	C.snmp_set_save_descriptions(1)
 	C.netsnmp_init_mib()
 }
@@ -76,6 +78,8 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	}
 	n.Augments = C.GoString(t.augments)
 	n.Description = C.GoString(t.description)
+	n.Hint = C.GoString(t.hint)
+	n.Units = C.GoString(t.units)
 
 	if t.child_list == nil {
 		return

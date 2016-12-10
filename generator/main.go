@@ -38,6 +38,14 @@ func prepareTree(nodes *Node) map[string]*Node {
 		n.Indexes = augmented.Indexes
 	})
 
+	// Set type on MAC addresses.
+	walkNode(nodes, func(n *Node) {
+		// RFC 2579
+		if n.Hint == "1x:" {
+			n.Type = "PhysAddress48"
+		}
+	})
+
 	return nameToNode
 }
 
@@ -48,6 +56,6 @@ func main() {
 	_ = nameToNode
 
 	walkNode(nodes, func(n *Node) {
-		fmt.Printf("%s %s %s %s %s\n", n.Oid, n.Label, n.Type, n.Indexes, n.Description)
+		fmt.Printf("%s %s %s %s %s %+v\n", n.Oid, n.Label, n.Type, n.Indexes, n.Description)
 	})
 }
