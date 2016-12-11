@@ -32,12 +32,31 @@ func prepareTree(nodes *Node) map[string]*Node {
 		n.Description = strings.Split(s, ". ")[0]
 	})
 
+	// Fix indexes to "INTEGER" rather than an object name.
+	// Example: snSlotsEntry in LANOPTICS-HUB-MIB
+	walkNode(nodes, func(n *Node) {
+		indexes := []string{}
+		for _, i := range n.Indexes {
+			if i == "INTEGER" {
+				// Use the TableEntry name.
+				indexes = append(indexes, n.Label)
+			} else {
+				indexes = append(indexes, i)
+			}
+		}
+		n.Indexes = indexes
+	})
+
 	// Copy over indexes based on augments.
 	walkNode(nodes, func(n *Node) {
 		if n.Augments == "" {
 			return
 		}
-		augmented := nameToNode[n.Augments]
+		augmented, ok := nameToNode[n.Augments]
+		if !ok {
+			println("Error, can't find augmenting oid " + n.Augments + " for " + n.Label)
+			return
+		}
 		for _, c := range n.Children {
 			c.Indexes = augmented.Indexes
 		}
@@ -64,7 +83,7 @@ var cfg = struct {
 	Walk    []string
 	Lookups []Lookup
 }{
-	Walk: []string{"sysUpTime", "ifNumber", "ifTable", "ifXTable"},
+	Walk: []string{"sysUpTime", "interfaces", "ifXTable"},
 	Lookups: []Lookup{
 		Lookup{
 			OldIndex: "ifIndex",
@@ -107,7 +126,12 @@ func main() {
 			}
 			for _, i := range n.Indexes {
 				index := &config.Index{Labelname: i}
-				indexType := nameToNode[i].Type
+				indexNode, ok := nameToNode[i]
+				if !ok {
+					println("Error, can't find index " + i + " for node " + n.Label)
+					return
+				}
+				indexType := indexNode.Type
 				switch {
 				case isNumericType(indexType):
 					index.Type = "Integer32"
@@ -117,7 +141,7 @@ func main() {
 					index.Type = "IpAddr"
 				case indexType == "NETADDR":
 					// TODO: Not sure about this one.
-					index.Type = "InetAddtess"
+					index.Type = "InetAddress"
 				case indexType == "PhysAddress48":
 					index.Type = "PhysAddress48"
 				}
