@@ -134,7 +134,7 @@ func main() {
 				indexType := indexNode.Type
 				switch {
 				case isNumericType(indexType):
-					index.Type = "Integer32"
+					index.Type = "Integer"
 				case indexType == "OCTETSTR" || indexType == "BITSTRING":
 					index.Type = "OctetString"
 				case indexType == "IPADDR":

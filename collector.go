@@ -228,7 +228,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 	for _, index := range metric.Indexes {
 		var subOid, content, addressType, octets, address []int
 		switch index.Type {
-		case "Integer32":
+		case "Integer32", "Integer":
 			// Extract the oid for this index, and keep the remainder for the next index.
 			subOid, indexOids = splitOid(indexOids, 1)
 			// Save its oid in case we need it for lookups.

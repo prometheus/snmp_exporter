@@ -26,7 +26,7 @@ type Node struct {
 	Indexes []string
 }
 
-// Adapted from parse.h
+// Adapted from parse.h.
 var netSnmptypeMap = map[int]string{
 	0:  "OTHER",
 	1:  "OBJID",
