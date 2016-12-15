@@ -1674,11 +1674,11 @@ synology:
       oid: 1.3.6.1.4.1.2021.11.10.0
     - name: ssCpuIdle
       oid: 1.3.6.1.4.1.2021.11.11.0
-    - name: laLoadInt.1
+    - name: laLoadInt1
       oid: 1.3.6.1.4.1.2021.10.1.5.1
-    - name: laLoadInt.2
+    - name: laLoadInt2
       oid: 1.3.6.1.4.1.2021.10.1.5.2
-    - name: laLoadInt.3
+    - name: laLoadInt3
       oid: 1.3.6.1.4.1.2021.10.1.5.3
     - name: memTotalSwap 
       oid: 1.3.6.1.4.1.2021.4.3.0 
