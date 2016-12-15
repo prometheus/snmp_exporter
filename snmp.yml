@@ -1644,3 +1644,193 @@ servertech_sentry3:
           type: Integer32
         - labelname: outletIndex
           type: Integer32
+
+#
+# Synology Diskstation MIB
+# https://global.download.synology.com/download/Document/MIBGuide/Synology_DiskStation_MIB_Guide.pdf
+# Note: The 1.3.6.1.4.1.6574 values are mostly set up, but don't seem to be working
+#
+synology:
+  walk: 
+    - 1.3.6.1.4.1.2021.11         # CPU
+    - 1.3.6.1.4.1.2021.10.1       # Load
+    - 1.3.6.1.4.1.2021.4          # Memory
+    - 1.3.6.1.2.1.25.2.3.1        # Disk
+    - 1.3.6.1.2.1.31.1.1.1        # Network
+    - 1.3.6.1.4.1.6574.1    # synoSystem
+    #- 1.3.6.1.4.1.6574.2    # synoDisk
+    #- 1.3.6.1.4.1.6574.3    # synoRaid
+    #- 1.3.6.1.4.1.6574.4    # synoUPS
+    #- 1.3.6.1.4.1.6574.5    # synoDiskSMART
+    #- 1.3.6.1.4.1.6574.6    # synologyService
+    #- 1.3.6.1.4.1.6574.101  # storageIO (devices)
+    #- 1.3.6.1.4.1.6574.102  # spaceIO
+    #- 1.3.4.1.4.1.6574.104  # synologyiSCSILUN
+
+  metrics:
+    - name: ssCpuUser
+      oid: 1.3.6.1.4.1.2021.11.9.0
+    - name: ssCpuSystem
+      oid: 1.3.6.1.4.1.2021.11.10.0
+    - name: ssCpuIdle
+      oid: 1.3.6.1.4.1.2021.11.11.0
+    - name: laLoadInt1
+      oid: 1.3.6.1.4.1.2021.10.1.5.1
+    - name: laLoadInt2
+      oid: 1.3.6.1.4.1.2021.10.1.5.2
+    - name: laLoadInt3
+      oid: 1.3.6.1.4.1.2021.10.1.5.3
+    - name: memTotalSwap 
+      oid: 1.3.6.1.4.1.2021.4.3.0 
+    - name: memAvailSwap 
+      oid: 1.3.6.1.4.1.2021.4.4.0 
+    - name: memTotalReal 
+      oid: 1.3.6.1.4.1.2021.4.5.0 
+    - name: memAvailReal 
+      oid: 1.3.6.1.4.1.2021.4.6.0 
+    - name: memTotalFree 
+      oid: 1.3.6.1.4.1.2021.4.11.0 
+    - name: memShared
+      oid: 1.3.6.1.4.1.2021.4.13.0 
+    - name: memBuffer
+      oid: 1.3.6.1.4.1.2021.4.14.0
+    - name: memCached
+      oid: 1.3.6.1.4.1.2021.4.15.0
+    - name: ifHCInOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.6
+      indexes:
+        - labelname: ifName
+          type: Integer32
+      lookups:
+        - labels: [ifName]
+          labelname: ifName
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+    - name: ifHCOutOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.10
+      indexes:
+        - labelname: ifName
+          type: Integer32
+      lookups:
+        - labels: [ifName]
+          labelname: ifName
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+    - name: hrStorageAllocationUnits
+      oid: 1.3.6.1.2.1.25.2.3.1.4
+      indexes:
+        - labelname: desc
+          type: Integer32
+      lookups:
+        - labels: [desc]
+          labelname: desc
+          oid: 1.3.6.1.2.1.25.2.3.1.3
+    - name: hrStorageSize
+      oid: 1.3.6.1.2.1.25.2.3.1.5
+      indexes:
+        - labelname: desc
+          type: Integer32
+      lookups:
+        - labels: [desc]
+          labelname: desc
+          oid: 1.3.6.1.2.1.25.2.3.1.3
+    - name: hrStorageUsed
+      oid: 1.3.6.1.2.1.25.2.3.1.6
+      indexes:
+        - labelname: desc
+          type: Integer32
+      lookups:
+        - labels: [desc]
+          labelname: desc
+          oid: 1.3.6.1.2.1.25.2.3.1.3
+    - name: temperature
+      oid: 1.3.6.1.4.1.6574.1.2.0
+    - name: powerStatus
+      oid: 1.3.6.1.4.1.6574.1.3.0
+    - name: systemFanStatus
+      oid: 1.3.6.1.4.1.6574.1.4.1.0
+    - name: diskStatus
+      oid: 1.3.6.1.4.1.6574.2.5
+      indexes:
+        - labelname: diskID
+          type: Integer32
+      lookups:
+        - labels: [diskID]
+          labelname: diskID
+          oid: 1.3.6.1.4.1.6574.2
+    - name: diskTemperature
+      oid: 1.3.6.1.4.1.6574.2.6
+      indexes:
+        - labelname: diskID
+          type: Integer32
+      lookups:
+        - labels: [diskID]
+          labelname: diskID
+          oid: 1.3.6.1.4.1.6574.2
+    - name: raidStatus
+      oid: 1.3.6.1.4.1.6574.3.3
+      indexes:
+        - labelname: raidName
+          type: Integer32
+      lookups:
+        - labels: [raidName]
+          labelname: raidName
+          oid: 1.3.6.1.4.1.6574.3.2
+    - name: diskSMARTAttrCurrent
+      oid: 1.3.6.1.4.1.6574.5.5
+      indexes:
+        - labelname: attribute
+          type: Integer32
+        - labelname: device
+          type: Integer32
+      lookups:
+        - labels: [attribute]
+          labelname: attribute
+          oid: 1.3.6.1.4.1.6574.5.3
+        - labels: [device]
+          labelname: device
+          oid: 1.3.6.1.4.1.6574.5.2
+    - name: diskSMARTAttrWorst
+      oid: 1.3.6.1.4.1.6574.5.6
+      indexes:
+        - labelname: attribute
+          type: Integer32
+        - labelname: device
+          type: Integer32
+      lookups:
+        - labels: [attribute]
+          labelname: attribute
+          oid: 1.3.6.1.4.1.6574.5.3
+        - labels: [device]
+          labelname: device
+          oid: 1.3.6.1.4.1.6574.5.2
+    - name: diskSMARTAttrThreshold
+      oid: 1.3.6.1.4.1.6574.5.7
+      indexes:
+        - labelname: attribute
+          type: Integer32
+        - labelname: device
+          type: Integer32
+      lookups:
+        - labels: [attribute]
+          labelname: attribute
+          oid: 1.3.6.1.4.1.6574.5.3
+        - labels: [device]
+          labelname: device
+          oid: 1.3.6.1.4.1.6574.5.2
+    - name: spaceIONRead
+      oid: 1.3.6.1.4.1.6574.102.1.1.3
+      indexes:
+        - labelname: device
+          type: Integer32
+      lookups:
+        - labels: [device]
+          labelname: device
+          oid: 1.3.6.1.4.1.6574.102.1.1.2
+    - name: spaceIONWritten
+      oid: 1.3.6.1.4.1.6574.102.1.1.3
+      indexes:
+        - labelname: device
+          type: Integer32
+      lookups:
+        - labels: [device]
+          labelname: device
+          oid: 1.3.6.1.4.1.6574.102.1.1.2
