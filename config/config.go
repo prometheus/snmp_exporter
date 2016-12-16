@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"io/ioutil"
+	"regexp"
 	"strings"
 	"time"
 
@@ -137,10 +138,61 @@ func (c Module) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	g.SecurityParameters = usm
 }
 
+// Regexp encapsulates a regexp.Regexp and makes it YAML marshallable.
+type Regexp struct {
+	*regexp.Regexp
+	original string
+}
+
+// NewRegexp creates a new anchored Regexp and returns an error if the
+// passed-in regular expression does not compile.
+func NewRegexp(s string) (Regexp, error) {
+	regex, err := regexp.Compile("^(?:" + s + ")$")
+	return Regexp{
+		Regexp:   regex,
+		original: s,
+	}, err
+}
+
+// MustNewRegexp works like NewRegexp, but panics if the regular expression does not compile.
+func MustNewRegexp(s string) Regexp {
+	re, err := NewRegexp(s)
+	if err != nil {
+		panic(err)
+	}
+	return re
+}
+
+// UnmarshalYAML implements the yaml.Unmarshaler interface.
+func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var s string
+	if err := unmarshal(&s); err != nil {
+		return err
+	}
+	r, err := NewRegexp(s)
+	if err != nil {
+		return err
+	}
+	if r.NumSubexp() != 1 {
+		return fmt.Errorf("regexp %q needs to have exactly one sub-expression", s)
+	}
+	*re = r
+	return nil
+}
+
+// MarshalYAML implements the yaml.Marshaler interface.
+func (re Regexp) MarshalYAML() (interface{}, error) {
+	if re.original != "" {
+		return re.original, nil
+	}
+	return nil, nil
+}
+
 type Metric struct {
 	Name    string    `yaml:"name"`
 	Oid     string    `yaml:"oid"`
 	Type    string    `yaml:"type"`
+	Regex   Regexp    `yaml:"regex,omitempty"`
 	Indexes []*Index  `yaml:"indexes,omitempty"`
 	Lookups []*Lookup `yaml:"lookups,omitempty"`
 
