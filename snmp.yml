@@ -1222,6 +1222,317 @@ apcups:
           labelname: iemStatusProbeName
           oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
 
+# Eaton ConnectUPS Web/SNMP cards
+#
+# Note: My version V4.38 only supports SNMP v1
+#
+# The management cards have relatively slow processors so don't poll
+# very often and give a generous timeout to prevent spurious
+# errors. Alternatively you can eliminate the interface polling (OIDs
+# beginning with 1.3.6.1.2.1) to reduce the time taken for polling.
+#
+# http://www.oidview.com/mibs/0/UPS-MIB.html
+# http://www.oidview.com/mibs/534/XUPS-MIB.html
+# http://www.oidview.com/mibs/534/EATON-OIDS.html
+
+eatonconnectups:
+  version: 1
+  walk:
+    - 1.3.6.1.2.1.1
+    - 1.3.6.1.2.1.2
+    - 1.3.6.1.2.1.33
+    - 1.3.6.1.4.1.534.1
+  metrics:
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+    - name: ifNumber
+      oid: 1.3.6.1.2.1.2.1
+    - name: ifMtu
+      oid: 1.3.6.1.2.1.2.2.1.4
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifSpeed
+      oid: 1.3.6.1.2.1.2.2.1.5
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifAdminStatus
+      oid: 1.3.6.1.2.1.2.2.1.7
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOperStatus
+      oid: 1.3.6.1.2.1.2.2.1.8
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInOctets
+      oid: 1.3.6.1.2.1.2.2.1.10
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.11
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.12
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInDiscards
+      oid: 1.3.6.1.2.1.2.2.1.13
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInErrors
+      oid: 1.3.6.1.2.1.2.2.1.14
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInUnknownProtos
+      oid: 1.3.6.1.2.1.2.2.1.15
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutOctets
+      oid: 1.3.6.1.2.1.2.2.1.16
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.17
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.18
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutDiscards
+      oid: 1.3.6.1.2.1.2.2.1.19
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutErrors
+      oid: 1.3.6.1.2.1.2.2.1.20
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutQLen
+      oid: 1.3.6.1.2.1.2.2.1.21
+      indexes:
+        - labelname: ifDescr
+          type: Integer32
+      lookups:
+        - labels: [ifDescr]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: upsBasicBatteryStatus
+      oid: 1.3.6.1.2.1.33.1.2.1
+    - name: upsBasicBatteryTimeOnBattery
+      oid: 1.3.6.1.2.1.33.1.2.2
+    - name: upsAdvBatteryCapacity
+      oid: 1.3.6.1.2.1.33.1.2.4
+    - name: upsAdvBatteryTemperature
+      oid: 1.3.6.1.2.1.33.1.2.7
+    - name: upsAdvBatteryRunTimeRemaining
+      oid: 1.3.6.1.2.1.33.1.2.3
+    - name: upsAdvBatteryActualVoltage
+      oid: 1.3.6.1.2.1.33.1.2.5
+    - name: upsInputLineBads
+      oid: 1.3.6.1.2.1.33.1.3.1
+# should we use upsBasicOutputStatus ?
+    - name: upsOutputSource
+      oid: 	1.3.6.1.2.1.33.1.4.1
+# should we use upsAdvOutputFrequency ?
+    - name: upsOutputFrequency
+      oid: 	1.3.6.1.2.1.33.1.4.2
+    - name: upsBypassFrequency
+      oid: 1.3.6.1.2.1.33.1.5.1
+    - name: upsAlarmsPresent
+      oid: 1.3.6.1.2.1.33.1.6.1
+    - name: upsInputFrequency
+      oid: 1.3.6.1.2.1.33.1.3.3.1.2
+      indexes:
+        - labelname: upsInputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsInputLineIndex]
+          labelname: upsInputLineIndex
+          oid: 1.3.6.1.2.1.33.1.3.3.1.1
+    - name: upsInputVoltage
+      oid: 1.3.6.1.2.1.33.1.3.3.1.3
+      indexes:
+        - labelname: upsInputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsInputLineIndex]
+          labelname: upsInputLineIndex
+          oid: 1.3.6.1.2.1.33.1.3.3.1.1
+    - name: upsInputCurrent
+      oid: 1.3.6.1.2.1.33.1.3.3.1.4
+      indexes:
+        - labelname: upsInputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsInputLineIndex]
+          labelname: upsInputLineIndex
+          oid: 1.3.6.1.2.1.33.1.3.3.1.1
+    - name: upsInputTruePower
+      oid: 1.3.6.1.2.1.33.1.3.3.1.5
+      indexes:
+        - labelname: upsInputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsInputLineIndex]
+          labelname: upsInputLineIndex
+          oid: 1.3.6.1.2.1.33.1.3.3.1.1
+    - name: upsOutputVoltage
+      oid: 1.3.6.1.2.1.33.1.4.4.1.2
+      indexes:
+        - labelname: upsOutputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsOutputLineIndex]
+          labelname: upsOutputLineIndex
+          oid: 1.3.6.1.2.1.33.1.4.4.1.1
+    - name: upsOutputCurrent
+      oid: 1.3.6.1.2.1.33.1.4.4.1.3
+      indexes:
+        - labelname: upsOutputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsOutputLineIndex]
+          labelname: upsOutputLineIndex
+          oid: 1.3.6.1.2.1.33.1.4.4.1.1
+    - name: upsOutputPower
+      oid: 1.3.6.1.2.1.33.1.4.4.1.4
+      indexes:
+        - labelname: upsOutputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsOutputLineIndex]
+          labelname: upsOutputLineIndex
+          oid: 1.3.6.1.2.1.33.1.4.4.1.1
+    - name: upsOutputPercentLoad
+      oid: 1.3.6.1.2.1.33.1.4.4.1.5
+      indexes:
+        - labelname: upsOutputLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsOutputLineIndex]
+          labelname: upsOutputLineIndex
+          oid: 1.3.6.1.2.1.33.1.4.4.1.1
+    - name: upsBypassVoltage
+      oid: 1.3.6.1.2.1.33.1.5.3.1.2
+      indexes:
+        - labelname: upsBypassLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsBypassLineIndex]
+          labelname: upsBypassLineIndex
+          oid: 1.3.6.1.2.1.33.1.5.3.1.1
+    - name: upsBypassCurrent
+      oid: 1.3.6.1.2.1.33.1.5.3.1.3
+      indexes:
+        - labelname: upsBypassLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsBypassLineIndex]
+          labelname: upsBypassLineIndex
+          oid: 1.3.6.1.2.1.33.1.5.3.1.1
+    - name: upsBypassPower
+      oid: 1.3.6.1.2.1.33.1.5.3.1.4
+      indexes:
+        - labelname: upsBypassLineIndex
+          type: Integer32
+      lookups:
+        - labels: [upsBypassLineIndex]
+          labelname: upsBypassLineIndex
+          oid: 1.3.6.1.2.1.33.1.5.3.1.1
+    - name: xupsOutputLoad
+      oid: 1.3.6.1.4.1.534.1.4.1
+    - name: xupsOutputFrequency
+      oid: 1.3.6.1.4.1.534.1.4.2
+    - name: xupsOutputNumPhases
+      oid: 1.3.6.1.4.1.534.1.4.3
+    - name: xupsOutputSource
+      oid: 1.3.6.1.4.1.534.1.4.5
+# A bit unsure about the following, they are part of a snmp table,
+# but I do not see any fields to use as label
+    - name: xupsOutputPhase
+      oid: 1.3.6.1.4.1.534.1.4.4.1.1
+    - name: xupsOutputVoltage
+      oid: 1.3.6.1.4.1.534.1.4.4.1.2
+    - name: xupsOutputCurrent
+      oid: 1.3.6.1.4.1.534.1.4.4.1.3
+    - name: xupsOutputWatts
+      oid: 1.3.6.1.4.1.534.1.4.4.1.4
+
 # Fortinet Fortigate Devices
 #
 # On Fortigates the ifDescr is empty, the lookups should be done on ifName
