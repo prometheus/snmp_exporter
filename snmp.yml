@@ -1644,3 +1644,1071 @@ servertech_sentry3:
           type: Integer32
         - labelname: outletIndex
           type: Integer32
+
+aruba_controller:
+  walk:
+    - 1.3.6.1.2.1.1.3
+    - 1.3.6.1.2.1.2
+    - 1.3.6.1.2.1.31.1.1
+    - 1.3.6.1.4.1.14823.2.2.1.1.3
+    - 1.3.6.1.4.1.14823.2.2.1.2.1
+    - 1.3.6.1.4.1.14823.2.2.1.4.1.1
+    - 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1
+    - 1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1
+    - 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1
+    - 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1
+    - 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1
+    - 1.3.6.1.4.1.14823.2.2.1.8.1.1.1
+  metrics:
+    - name: wlsxSwitchTotalNumAccessPoints
+      oid: 1.3.6.1.4.1.14823.2.2.1.1.3.1
+    - name: wlsxSwitchTotalNumStationsAssociated
+      oid: 1.3.6.1.4.1.14823.2.2.1.1.3.2
+    - name: sysExtProcessorLoad
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.13.1.3
+      indexes:
+        - labelname: sysExtProcessorDescr
+          type: Integer32
+      lookups:
+        - labels: [sysExtProcessorDescr]
+          labelname: sysExtProcessorDescr
+          oid: 1.3.6.1.4.1.14823.2.2.1.2.1.13.1.2
+    - name: wlsxSysExtInternalTemparature
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.10
+    - name: sysExtMemorySize
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.15.1.2
+    - name: sysExtMemoryUsed
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.15.1.3
+    - name: sysExtMemoryFree
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.15.1.4
+    - name: sysExtFanStatus
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.17.1.2
+      indexes:
+        - labelname: id
+          type: Integer32
+    - name: sysExtPowerSupplyStatus
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.18.1.2
+      indexes:
+        - labelname: id
+          type: Integer32
+    - name: wlsxSysExtCpuUsedPercent
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.30
+    - name: wlsxSysExtMemoryUsedPercent
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.31
+    - name: wlsxSysExtPacketLossPercent
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.32
+    - name: wlsxSysExtPoweredViaPoe
+      oid: 1.3.6.1.4.1.14823.2.2.1.2.1.33
+    - name: wlsxTotalNumOfUsers
+      oid: 1.3.6.1.4.1.14823.2.2.1.4.1.1
+    - name: wlanAPdot11aAntennaGain
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.7
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPdot11gAntennaGain
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.8
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPNumRadios
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.9
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPEnet1Mode
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.10
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPIpsecMode
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.11
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPUpTime
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.12
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPModelName
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.13
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPExternalAntenna
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.18
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPStatus
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.19
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPNumBootstraps
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.20
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPNumReboots
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.21
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPUnprovisioned
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.22
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPMonitorMode
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.23
+      indexes:
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPRadioType
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.2
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChannelNumber
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.1
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPName
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPName]
+          labelname: wlanAPName
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3
+    - name: wlanAPChNumStations
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.2
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTotPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.3
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTotBytes
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.4
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTotRetryPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.5
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTotFragmentedPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.6
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTotPhyErrPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.7
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTotMacErrPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.8
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChNoise
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.9
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChCoverageIndex
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.10
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChInterferenceIndex
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.11
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameRetryRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.12
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameLowSpeedRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.13
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameNonUnicastRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.14
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameFragmentationRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.15
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameBandwidthRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.16
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameRetryErrorRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.17
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChBusyRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.18
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChNumAPs
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.19
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameReceiveErrorRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.20
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTransmittedFragmentCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.21
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChMulticastTransmittedFrameCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.22
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFailedCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.23
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChRetryCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.24
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChMultipleRetryCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.25
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFrameDuplicateCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.26
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChRTSSuccessCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.27
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChRTSFailureCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.28
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChACKFailureCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.29
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChReceivedFragmentCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.30
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChMulticastReceivedFrameCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.31
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChFCSErrorCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.32
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTransmittedFrameCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.33
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChWEPUndecryptableCount
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.34
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChRxUtilization
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.35
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChTxUtilization
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.36
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPChUtilization
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.6.1.37
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+    - name: wlanAPCurrentChannel
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.1
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPFrameRetryRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.10
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPFrameLowSpeedRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.11
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPFrameNonUnicastRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.12
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPFrameFragmentationRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.13
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPFrameBandwidthRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.14
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPFrameRetryErrorRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.15
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPChannelErrorRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.16
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPFrameReceiveErrorRate
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.17
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPRxDataPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.18
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPRxDataBytes
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.19
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPNumClients
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.2
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPTxDataPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.20
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPTxDataBytes
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.21
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPRxDataPkts64
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.22
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPRxDataBytes64
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.23
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPTxDataPkts64
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.24
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPTxDataBytes64
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.25
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPTxPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.3
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPTxBytes
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.4
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPRxPkts
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.5
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPRxBytes
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.6
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPTxDeauthentications
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.7
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPRxDeauthentications
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.8
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: wlanAPChannelThroughput
+      oid: 1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.9
+      indexes:
+        - labelname: wlanAPMacAddress
+          type: PhysAddress48
+        - labelname: wlanAPRadioNumber
+          type: Integer32
+        - labelname: wlanAPBSSID
+          type: PhysAddress48
+      lookups:
+        - labels: [wlanAPMacAddress, wlanAPRadioNumber, wlanAPBSSID]
+          labelname: wlanAPESSID
+          oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+    - name: ifNumber
+      oid: 1.3.6.1.2.1.2.1
+    - name: ifMtu
+      oid: 1.3.6.1.2.1.2.2.1.4
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifSpeed
+      oid: 1.3.6.1.2.1.2.2.1.5
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifAdminStatus
+      oid: 1.3.6.1.2.1.2.2.1.7
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOperStatus
+      oid: 1.3.6.1.2.1.2.2.1.8
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInOctets
+      oid: 1.3.6.1.2.1.2.2.1.10
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.11
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.12
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInDiscards
+      oid: 1.3.6.1.2.1.2.2.1.13
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInErrors
+      oid: 1.3.6.1.2.1.2.2.1.14
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInUnknownProtos
+      oid: 1.3.6.1.2.1.2.2.1.15
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutOctets
+      oid: 1.3.6.1.2.1.2.2.1.16
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.17
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.18
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutDiscards
+      oid: 1.3.6.1.2.1.2.2.1.19
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutErrors
+      oid: 1.3.6.1.2.1.2.2.1.20
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutQLen
+      oid: 1.3.6.1.2.1.2.2.1.21
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.2
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.3
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.4
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.5
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.6
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.7
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.8
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.9
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.10
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.11
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.12
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHCOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.13
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifLinkUpDownTrapEnable
+      oid: 1.3.6.1.2.1.31.1.1.1.14
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifHighSpeed
+      oid: 1.3.6.1.2.1.31.1.1.1.15
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifPromiscuousMode
+      oid: 1.3.6.1.2.1.31.1.1.1.16
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: ifConnectorPresent
+      oid: 1.3.6.1.2.1.31.1.1.1.17
+      indexes:
+        - labelname: ifEntry
+          type: Integer32
+      lookups:
+        - labels: [ifEntry]
+          labelname: ifDescr
+          oid: 1.3.6.1.2.1.2.2.1.2
+    - name: authServerType
+      oid: 1.3.6.1.4.1.14823.2.2.1.8.1.1.1.2
+      indexes:
+        - labelname: nUserAuthServerName
+          type: OctetString
