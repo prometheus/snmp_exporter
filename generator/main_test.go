@@ -5,31 +5,6 @@ import (
 	"testing"
 )
 
-/*
-type Node struct {
-  Oid         string
-  Label       string
-  Augments    string
-  Children    []*Node
-  Description string
-  Type        string
-  Hint        string
-  Units       string
-
-  Indexes []string
-}
-*/
-
-func copyTree(in *Node) *Node {
-	out := *in
-	walkNode(&out, func(n *Node) {
-		for i, c := range n.Children {
-			n.Children[i] = &*c
-		}
-	})
-	return &out
-}
-
 func TestOidToList(t *testing.T) {
 	cases := []struct {
 		in  *Node

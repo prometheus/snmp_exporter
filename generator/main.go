@@ -83,24 +83,6 @@ func prepareTree(nodes *Node) map[string]*Node {
 	return nameToNode
 }
 
-type Lookup struct {
-	OldIndex string
-	NewIndex string
-}
-
-var cfg = struct {
-	Walk    []string
-	Lookups []Lookup
-}{
-	Walk: []string{"sysUpTime", "interfaces", "ifXTable"},
-	Lookups: []Lookup{
-		Lookup{
-			OldIndex: "ifIndex",
-			NewIndex: "ifDescr",
-		},
-	},
-}
-
 func isNumericType(t string) bool {
 	switch t {
 	case "INTEGER", "COUNTER", "GAUGE", "TIMETICKS", "COUNTER64", "UINTEGER", "UNSIGNED32", "INTEGER32":
@@ -110,13 +92,8 @@ func isNumericType(t string) bool {
 	}
 }
 
-func main() {
-	initSNMP()
-	nodes := getMIBTree()
-	nameToNode := prepareTree(nodes)
 
-	_ = nameToNode
-
+func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node) *config.Module {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 
@@ -196,6 +173,37 @@ func main() {
 		}
 	}
 	out.Walk = neededOids
+  return out
+}
+
+type Lookup struct {
+	OldIndex string
+	NewIndex string
+}
+
+type ModuleConfig struct {
+	Walk    []string
+	Lookups []Lookup
+}
+
+var cfg = &ModuleConfig{
+	Walk: []string{"sysUpTime", "interfaces", "ifXTable"},
+	Lookups: []Lookup{
+		Lookup{
+			OldIndex: "ifIndex",
+			NewIndex: "ifDescr",
+		},
+	},
+}
+
+func main() {
+	initSNMP()
+	nodes := getMIBTree()
+	nameToNode := prepareTree(nodes)
+
+	_ = nameToNode
+
+  out := generateConfigModule(cfg, nodes, nameToNode)
 
 	m, _ := yaml.Marshal(out)
 	fmt.Println(string(m))
