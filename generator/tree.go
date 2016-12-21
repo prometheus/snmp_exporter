@@ -167,6 +167,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		for _, metric := range out.Metrics {
 			for _, index := range metric.Indexes {
 				if index.Labelname == lookup.OldIndex {
+					if _, ok := nameToNode[lookup.NewIndex]; !ok {
+						log.Fatalf("Unknown index '%s'", lookup.NewIndex)
+					}
 					oid := nameToNode[lookup.NewIndex].Oid
 					// Avoid leaving the old labelname around.
 					index.Labelname = lookup.NewIndex

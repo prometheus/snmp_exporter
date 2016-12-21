@@ -425,7 +425,6 @@ func TestGenerateConfigModule(t *testing.T) {
 			t.Errorf("Got: %s", out)
 			out, _ = yaml.Marshal(c.out)
 			t.Errorf("Wanted: %s", out)
-
 		}
 	}
 }
