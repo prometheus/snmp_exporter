@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/prometheus/common/log"
 	"gopkg.in/yaml.v2"
 )
 
@@ -29,7 +30,7 @@ var cfg = &ModuleConfig{
 
 func main() {
 	parseErrors := initSNMP()
-	fmt.Printf("NetSNMP reported %d parse errors\n", len(strings.Split(errors, "\n")))
+	log.Warnf("NetSNMP reported %d parse errors", len(strings.Split(parseErrors, "\n")))
 
 	nodes := getMIBTree()
 	nameToNode := prepareTree(nodes)

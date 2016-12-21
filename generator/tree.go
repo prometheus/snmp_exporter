@@ -4,6 +4,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/prometheus/common/log"
+
 	"github.com/prometheus/snmp_exporter/config"
 )
 
@@ -52,7 +54,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 		augmented, ok := nameToNode[n.Augments]
 		if !ok {
-			println("Error, can't find augmenting oid " + n.Augments + " for " + n.Label)
+			log.Warnf("Can't find augmenting oid %s for %s", n.Augments, n.Label)
 			return
 		}
 		for _, c := range n.Children {
@@ -112,7 +114,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
 				if !ok {
-					println("Error, can't find index " + i + " for node " + n.Label)
+					log.Warnf("Error, can't find index %s for node %s", i, n.Label)
 					return
 				}
 				indexType := indexNode.Type

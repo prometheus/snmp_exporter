@@ -12,6 +12,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+
+	"github.com/prometheus/common/log"
 )
 
 // One entry in the tree of the MIB.
@@ -71,7 +73,7 @@ func initSNMP() string {
 	// way to disable or redirect.
 	r, w, err := os.Pipe()
 	if err != nil {
-		println(err)
+		log.Fatalf("Error creating pipe: %s", err)
 	}
 	defer r.Close()
 	defer w.Close()
@@ -82,7 +84,7 @@ func initSNMP() string {
 	go func() {
 		data, err := ioutil.ReadAll(r)
 		if err != nil {
-			println(err)
+			log.Fatalf("Error reading from pipe: %s", err)
 		}
 		ch <- string(data)
 	}()
@@ -90,7 +92,7 @@ func initSNMP() string {
 	// Do the initilization.
 	C.netsnmp_init_mib()
 
-	// Restore stderr to normal
+	// Restore stderr to normal.
 	w.Close()
 	C.close(2)
 	C.dup2(savedStderrFd, 2)
