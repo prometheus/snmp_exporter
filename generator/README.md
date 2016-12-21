@@ -28,4 +28,8 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
 
 * Cisco: ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz
 * APC: ftp://ftp.apc.com/apc/public/software/pnetmib/mib/419/powernet419.mib
+* Fortinet: http://kb.fortinet.com/kb/documentLink.do?externalID=11607
+* Servertech: ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
+
+https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
 
