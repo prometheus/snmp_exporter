@@ -6,7 +6,7 @@ This config generator uses NetSNMP to parse MIBs, and generates configs for the 
 ## Building
 
 ```
-sudo apt-get install build-essential libsnmp-dev  # Debian-based distros
+sudo apt-get install build-essential libsnmp-dev snmp-mibs-downloader  # Debian-based distros
 go build
 ```
 
