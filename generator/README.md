@@ -13,10 +13,12 @@ go build
 ## Running
 
 ```
-./generator
+./generator generate
 ```
 
 The generator reads in from `generator.yml` and writes to `snmp.yml`.
+
+Additional command are available for debugging, use the `help` command to see them.
 
 ## Where to get MIBs
 

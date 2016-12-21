@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -25,13 +26,9 @@ type Lookup struct {
 	NewIndex string `yaml:"new_index"`
 }
 
-func main() {
-	parseErrors := initSNMP()
-	log.Warnf("NetSNMP reported %d parse errors", len(strings.Split(parseErrors, "\n")))
 
-	nodes := getMIBTree()
-	nameToNode := prepareTree(nodes)
-
+// Generate a snmp_exporter config and write it out.
+func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	content, err := ioutil.ReadFile("generator.yml")
 	if err != nil {
 		log.Fatalf("Error reading yml config: %s", err)
@@ -62,8 +59,45 @@ func main() {
 		log.Fatalf("Error writing to output file: %s", err)
 	}
 	log.Infof("Config written to snmp.yml")
+}
 
-	//walkNode(nodes, func(n *Node) {
-	//	fmt.Printf("%s %s %s %s %s %+v\n", n.Oid, n.Label, n.Type, n.Indexes, n.Description)
-	//})
+func help() {
+	fmt.Println(`
+Commands:
+  generate     Generate snmp.yml from generator.yml
+  parse_errors Debug: Print the parse errors output by NetSNMP
+  dump         Debug: Dump the parsed and prepared MIBs
+  help         Print this help`)
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		help()
+		log.Errorf("A command must be provided as an argument.")
+		os.Exit(1)
+	}
+
+	parseErrors := initSNMP()
+	log.Warnf("NetSNMP reported %d parse errors", len(strings.Split(parseErrors, "\n")))
+
+	nodes := getMIBTree()
+	nameToNode := prepareTree(nodes)
+
+	switch os.Args[1] {
+	case "generate":
+		generateConfig(nodes, nameToNode)
+	case "parse_errors":
+		fmt.Println(parseErrors)
+	case "dump":
+		walkNode(nodes, func(n *Node) {
+			fmt.Printf("%s %s %s %s %s\n", n.Oid, n.Label, n.Type, n.Indexes, n.Description)
+		})
+	case "help":
+		help()
+	default:
+		help()
+		log.Errorf("Unknown command '%s'", os.Args[1])
+		os.Exit(1)
+	}
+
 }
