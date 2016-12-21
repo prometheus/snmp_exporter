@@ -12,20 +12,6 @@ import (
 	"github.com/prometheus/snmp_exporter/config"
 )
 
-type Config struct {
-	Modules map[string]*ModuleConfig `yaml:"modules"`
-}
-
-type ModuleConfig struct {
-	Walk    []string  `yaml:"walk"`
-	Lookups []*Lookup `yaml:"lookups"`
-}
-
-type Lookup struct {
-	OldIndex string `yaml:"old_index"`
-	NewIndex string `yaml:"new_index"`
-}
-
 // Generate a snmp_exporter config and write it out.
 func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	content, err := ioutil.ReadFile("generator.yml")
@@ -42,6 +28,8 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	for name, m := range cfg.Modules {
 		log.Infof("Generating config for module %s", name)
 		outputConfig[name] = generateConfigModule(m, nodes, nameToNode)
+		outputConfig[name].Version = m.Version
+		outputConfig[name].Auth = m.Auth
 		log.Infof("Generated %d metrics for module %s", len(outputConfig[name].Metrics), name)
 	}
 

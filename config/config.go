@@ -34,6 +34,7 @@ var (
 	}
 )
 
+// Config for the snmp_exporter.
 type Config map[string]*Module
 
 type Module struct {
@@ -53,7 +54,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
-	if err := checkOverflow(c.XXX, "module"); err != nil {
+	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	if c.Auth == nil {
@@ -143,7 +144,7 @@ func (c *Metric) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
-	if err := checkOverflow(c.XXX, "module"); err != nil {
+	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
@@ -161,7 +162,7 @@ func (c *Index) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
-	if err := checkOverflow(c.XXX, "module"); err != nil {
+	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
@@ -180,7 +181,7 @@ func (c *Lookup) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
-	if err := checkOverflow(c.XXX, "module"); err != nil {
+	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
@@ -204,13 +205,13 @@ func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
-	if err := checkOverflow(c.XXX, "module"); err != nil {
+	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
 }
 
-func checkOverflow(m map[string]interface{}, ctx string) error {
+func CheckOverflow(m map[string]interface{}, ctx string) error {
 	if len(m) > 0 {
 		var keys []string
 		for k := range m {

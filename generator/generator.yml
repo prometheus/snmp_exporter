@@ -50,7 +50,7 @@ modules:
 # ftp://ftp.apc.com/apc/public/software/pnetmib/mib/343/mibguide.pdf
 # ftp://ftp.apc.com/apc/public/software/pnetmib/mib/330/manual.pdf
   apcups:
-    # version: 1    # TODO
+    version: 1
     walk:
       - sysUpTime
       - interfaces
