@@ -12,7 +12,7 @@ import (
 	"github.com/prometheus/common/log"
 	"github.com/prometheus/common/version"
 
-  "github.com/prometheus/snmp_exporter/config"
+	"github.com/prometheus/snmp_exporter/config"
 )
 
 var (

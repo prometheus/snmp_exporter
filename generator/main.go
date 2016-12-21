@@ -26,7 +26,6 @@ type Lookup struct {
 	NewIndex string `yaml:"new_index"`
 }
 
-
 // Generate a snmp_exporter config and write it out.
 func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	content, err := ioutil.ReadFile("generator.yml")

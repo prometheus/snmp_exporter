@@ -11,7 +11,7 @@ import (
 	"github.com/prometheus/common/log"
 	"github.com/soniah/gosnmp"
 
-  "github.com/prometheus/snmp_exporter/config"
+	"github.com/prometheus/snmp_exporter/config"
 )
 
 var (

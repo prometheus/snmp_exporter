@@ -6,7 +6,7 @@ import (
 
 	"github.com/soniah/gosnmp"
 
-  "github.com/prometheus/snmp_exporter/config"
+	"github.com/prometheus/snmp_exporter/config"
 )
 
 func TestOidToList(t *testing.T) {
