@@ -11,6 +11,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
 	"github.com/prometheus/common/version"
+
+	"github.com/prometheus/snmp_exporter/config"
 )
 
 var (
@@ -46,7 +48,7 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	cfg, err := LoadFile(*configFile)
+	cfg, err := config.LoadFile(*configFile)
 	if err != nil {
 		msg := fmt.Sprintf("Error parsing config file: %s", err)
 		http.Error(w, msg, 400)
@@ -91,7 +93,7 @@ func main() {
 	log.Infoln("Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
-	c, err := LoadFile(*configFile)
+	c, err := config.LoadFile(*configFile)
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
 	}

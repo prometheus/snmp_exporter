@@ -3,6 +3,11 @@
 This is an exporter that exposes information gathered from SNMP
 for use by the Prometheus monitoring system.
 
+There are two components. An exporter that does the actual scraping, and a
+[generator](https://github.com/prometheus/snmp_exporter/tree/master/generator)
+(which depends on NetSNMP) that creates the configuration for use by the
+exporter.
+
 ## Installation
 
 ```Shell
@@ -131,14 +136,3 @@ scrape_configs:
 This setup allows Prometheus to provide scheduling and service discovery, as
 unlike all other exporters running an exporter on the machine from which we are
 getting the metrics from is not possible.
-
-## Design
-
-There are two components. An exporter that does the actual scraping,
-and a generator that creates the configuration for use by the exporter.
-Only the exporter is written so far.
-
-This is to allow for customisation of what's done during the scrape as many
-special cases are expected.  The varying levels of SNMP MIB-parsing support
-across different languages also means that a single language may not be
-practical.

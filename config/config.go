@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -42,7 +42,7 @@ type Module struct {
 	Metrics []*Metric `yaml:"metrics"`
 
 	Version int   `yaml:"version,omitempty"`
-	Auth    *Auth `yaml:"auth"`
+	Auth    *Auth `yaml:"auth,omitempty"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }
@@ -88,7 +88,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 // configureSNMP sets the various version and auth settings.
-func (c Module) configureSNMP(g *gosnmp.GoSNMP) {
+func (c Module) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	switch c.Version {
 	case 1:
 		g.Version = gosnmp.Version1
