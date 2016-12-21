@@ -55,7 +55,7 @@ var netSnmptypeMap = map[int]string{
 	27: "OBJIDENTITY",
 }
 
-func init() {
+func initSNMP() {
 	// Load all the MIBs.
 	os.Setenv("MIBS", "ALL")
 	// We want the descriptions.
@@ -96,21 +96,14 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	}
 
 	// Set names of indexes on each child.
-	// This avoids having to walk back up the tree to get
-	// the index from the table entry.
+	// In practice this means only the entry will have it.
 	index := t.indexes
 	indexes := []string{}
 	for index != nil {
 		indexes = append(indexes, C.GoString(index.ilabel))
 		index = index.next
 	}
-	if len(indexes) != 0 {
-		for _, c := range n.Children {
-			c.Indexes = indexes
-		}
-		// Set it on the table entry too.
-		n.Indexes = indexes
-	}
+	n.Indexes = indexes
 
 }
 

@@ -63,6 +63,15 @@ func prepareTree(nodes *Node) map[string]*Node {
 		n.Indexes = augmented.Indexes
 	})
 
+	// Copy indexes from table entries down to the entries.
+	walkNode(nodes, func(n *Node) {
+		if len(n.Indexes) != 0 {
+			for _, c := range n.Children {
+				c.Indexes = n.Indexes
+			}
+		}
+	})
+
 	// Set type on MAC addresses.
 	walkNode(nodes, func(n *Node) {
 		// RFC 2579
@@ -102,6 +111,7 @@ func isNumericType(t string) bool {
 }
 
 func main() {
+	initSNMP()
 	nodes := getMIBTree()
 	nameToNode := prepareTree(nodes)
 
