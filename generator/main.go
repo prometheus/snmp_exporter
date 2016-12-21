@@ -15,13 +15,13 @@ type Lookup struct {
 
 type ModuleConfig struct {
 	Walk    []string
-	Lookups []Lookup
+	Lookups []*Lookup
 }
 
 var cfg = &ModuleConfig{
 	Walk: []string{"sysUpTime", "interfaces", "ifXTable"},
-	Lookups: []Lookup{
-		Lookup{
+	Lookups: []*Lookup{
+		{
 			OldIndex: "ifIndex",
 			NewIndex: "ifDescr",
 		},

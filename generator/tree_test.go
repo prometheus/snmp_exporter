@@ -104,8 +104,8 @@ func TestTreePrepate(t *testing.T) {
 func TestGenerateConfigModule(t *testing.T) {
 	cases := []struct {
 		node *Node
-		cfg  *ModuleConfig
-		out  *config.Module
+		cfg  *ModuleConfig  // SNMP generator config.
+		out  *config.Module // SNMP exporter config.
 	}{
 		// Simple metric.
 		{
@@ -155,7 +155,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Types.
+		// Metric types.
 		{
 			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
 				Children: []*Node{
@@ -186,7 +186,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.100", Label: "MacAddress", Type: "OCTETSTR", Hint: "1x:"},
 				}},
 			cfg: &ModuleConfig{
-				Walk: []string{"root"},
+				Walk: []string{"root", "1.3"},
 			},
 			out: &config.Module{
 				Walk: []string{"1"},
@@ -222,6 +222,184 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "INTEGER32",
 						Oid:  "1.16",
+					},
+				},
+			},
+		},
+		// Basic table with integer index.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Label: "tableFoo", Type: "INTEGER"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableIndex",
+						Oid:  "1.1.1.1",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "Integer",
+							},
+						},
+					},
+					{
+						Name: "tableFoo",
+						Oid:  "1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "Integer",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Tables with non-integer indexes.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "octet",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "octetEntry", Indexes: []string{"octetIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Label: "octetIndex", Type: "OCTETSTR"},
+									{Oid: "1.1.1.2", Label: "octetFoo", Type: "INTEGER"}}}}},
+					{Oid: "1.2", Label: "bitstring",
+						Children: []*Node{
+							{Oid: "1.2.1", Label: "bitstringEntry", Indexes: []string{"bitstringIndex"},
+								Children: []*Node{
+									{Oid: "1.2.1.1", Label: "bitstringIndex", Type: "BITSTRING"},
+									{Oid: "1.2.1.2", Label: "bitstringFoo", Type: "INTEGER"}}}}},
+					{Oid: "1.3", Label: "ipaddr",
+						Children: []*Node{
+							{Oid: "1.3.1", Label: "ipaddrEntry", Indexes: []string{"ipaddrIndex"},
+								Children: []*Node{
+									{Oid: "1.3.1.1", Label: "ipaddrIndex", Type: "IPADDR"},
+									{Oid: "1.3.1.2", Label: "ipaddrFoo", Type: "INTEGER"}}}}},
+					{Oid: "1.4", Label: "netaddr",
+						Children: []*Node{
+							{Oid: "1.4.1", Label: "netaddrEntry", Indexes: []string{"netaddrIndex"},
+								Children: []*Node{
+									{Oid: "1.4.1.1", Label: "netaddrIndex", Type: "NETADDR"},
+									{Oid: "1.4.1.2", Label: "netaddrFoo", Type: "INTEGER"}}}}},
+					{Oid: "1.5", Label: "physaddress48",
+						Children: []*Node{
+							{Oid: "1.5.1", Label: "physaddress48Entry", Indexes: []string{"physaddress48Index"},
+								Children: []*Node{
+									{Oid: "1.5.1.1", Label: "physaddress48Index", Type: "OCTETSTRING", Hint: "1x:"},
+									{Oid: "1.5.1.2", Label: "physaddress48Foo", Type: "INTEGER"}}}}},
+				}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "octetFoo",
+						Oid:  "1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "octetIndex",
+								Type:      "OctetString",
+							},
+						},
+					},
+					{
+						Name: "bitstringFoo",
+						Oid:  "1.2.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "bitstringIndex",
+								Type:      "OctetString",
+							},
+						},
+					},
+					{
+						Name: "ipaddrFoo",
+						Oid:  "1.3.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "ipaddrIndex",
+								Type:      "IpAddr",
+							},
+						},
+					},
+					{
+						Name: "netaddrFoo",
+						Oid:  "1.4.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "netaddrIndex",
+								Type:      "InetAddress",
+							},
+						},
+					},
+					{
+						Name: "physaddress48Foo",
+						Oid:  "1.5.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "physaddress48Index",
+								Type:      "PhysAddress48",
+							},
+						},
+					},
+				},
+			},
+		},
+		// One table lookup, lookup not walked.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "octet",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "octetEntry", Indexes: []string{"octetIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Label: "octetIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Label: "octetDesc", Type: "OCTETSTRING"},
+									{Oid: "1.1.1.3", Label: "octetFoo", Type: "INTEGER"}}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"octetFoo"},
+				Lookups: []*Lookup{
+					{
+						OldIndex: "octetIndex",
+						NewIndex: "octetDesc",
+					},
+				},
+			},
+			out: &config.Module{
+				// Walk is expanded to include the lookup OID.
+				Walk: []string{"1.1.1.2", "1.1.1.3"},
+				Metrics: []*config.Metric{
+					{
+						Name: "octetFoo",
+						Oid:  "1.1.1.3",
+						Indexes: []*config.Index{
+							{
+								Labelname: "octetDesc",
+								Type:      "Integer",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"octetDesc"},
+								Labelname: "octetDesc",
+								Oid:       "1.1.1.2",
+							},
+						},
 					},
 				},
 			},
