@@ -4,11 +4,13 @@ package main
 #cgo LDFLAGS: -lsnmp
 #include <net-snmp/net-snmp-config.h>
 #include <net-snmp/mib_api.h>
+#include <unistd.h>
 */
 import "C"
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
@@ -55,12 +57,45 @@ var netSnmptypeMap = map[int]string{
 	27: "OBJIDENTITY",
 }
 
-func initSNMP() {
+// Initilise NetSNMP. Returns MIB parse errors.
+//
+// Warning: This function plays with the stderr file descriptor.
+func initSNMP() string {
 	// Load all the MIBs.
 	os.Setenv("MIBS", "ALL")
 	// We want the descriptions.
 	C.snmp_set_save_descriptions(1)
+
+	// Make stderr go to a pipe, as netsnmp tends to spew a
+	// lot of errors on startup that there's no apparent
+	// way to disable or redirect.
+	r, w, err := os.Pipe()
+	if err != nil {
+		println(err)
+	}
+	defer r.Close()
+	defer w.Close()
+	savedStderrFd := C.dup(2)
+	C.close(2)
+	C.dup2(C.int(w.Fd()), 2)
+	ch := make(chan string)
+	go func() {
+		data, err := ioutil.ReadAll(r)
+		if err != nil {
+			println(err)
+		}
+		ch <- string(data)
+	}()
+
+	// Do the initilization.
 	C.netsnmp_init_mib()
+
+	// Restore stderr to normal
+	w.Close()
+	C.close(2)
+	C.dup2(savedStderrFd, 2)
+	C.close(savedStderrFd)
+	return <-ch
 }
 
 // Walk NetSNMP MIB tree, building a Go tree from it.

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
-	//"github.com/prometheus/snmp_exporter/config"
 	"gopkg.in/yaml.v2"
 )
 
@@ -28,7 +28,9 @@ var cfg = &ModuleConfig{
 }
 
 func main() {
-	initSNMP()
+	parseErrors := initSNMP()
+	fmt.Printf("NetSNMP reported %d parse errors\n", len(strings.Split(errors, "\n")))
+
 	nodes := getMIBTree()
 	nameToNode := prepareTree(nodes)
 
