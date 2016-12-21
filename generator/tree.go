@@ -92,12 +92,37 @@ func isNumericType(t string) bool {
 	}
 }
 
+// Reduce a set of overlapping OID subtrees.
+func minimizeOids(oids []string) []string {
+	sort.Strings(oids)
+	prevOid := ""
+	minimized := []string{}
+	for _, oid := range oids {
+		if !strings.HasPrefix(oid+".", prevOid) || prevOid == "" {
+			minimized = append(minimized, oid)
+			prevOid = oid + "."
+		}
+	}
+	return minimized
+}
+
 func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node) *config.Module {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 
-	// Find all the usable metrics.
+	// Remove redundant OIDs to be walked.
+	toWalk := []string{}
 	for _, oid := range cfg.Walk {
+		node, ok := nameToNode[oid]
+		if !ok {
+			log.Fatalf("Cannot find oid '%s' to walk", oid)
+		}
+		toWalk = append(toWalk, node.Oid)
+	}
+	toWalk = minimizeOids(toWalk)
+
+	// Find all the usable metrics.
+	for _, oid := range toWalk {
 		node := nameToNode[oid]
 		needToWalk[node.Oid] = struct{}{}
 		walkNode(node, func(n *Node) {
@@ -157,20 +182,11 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		}
 	}
 
-	// Remove redundant OIDs to be walked.
 	oids := []string{}
 	for k, _ := range needToWalk {
 		oids = append(oids, k)
 	}
-	sort.Strings(oids)
-	prevOid := ""
-	neededOids := []string{}
-	for _, oid := range oids {
-		if !strings.HasPrefix(oid+".", prevOid) || prevOid == "" {
-			neededOids = append(neededOids, oid)
-			prevOid = oid + "."
-		}
-	}
-	out.Walk = neededOids
+	// Remove redundant OIDs to be walked.
+	out.Walk = minimizeOids(oids)
 	return out
 }
