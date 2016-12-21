@@ -37,6 +37,13 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	if err != nil {
 		log.Fatalf("Error marshalling yml: %s", err)
 	}
+
+	// Check the generated config to catch auth/version issues.
+	err = yaml.Unmarshal(out, &config.Config{})
+	if err != nil {
+		log.Fatalf("Error parsing generated config: %s", err)
+	}
+
 	f, err := os.Create("snmp.yml")
 	if err != nil {
 		log.Fatalf("Error opening output file: %s", err)
