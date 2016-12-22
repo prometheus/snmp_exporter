@@ -1,1646 +1,2431 @@
----
-# Default module: interface stats and uptime.
-default:
-  walk:
-    - 1.3.6.1.2.1.1.3
-    - 1.3.6.1.2.1.2
-    - 1.3.6.1.2.1.31.1.1
-  metrics:
-    - name: sysUpTime
-      oid: 1.3.6.1.2.1.1.3
-    - name: ifNumber
-      oid: 1.3.6.1.2.1.2.1
-    - name: ifMtu
-      oid: 1.3.6.1.2.1.2.2.1.4
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifSpeed
-      oid: 1.3.6.1.2.1.2.2.1.5
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifAdminStatus
-      oid: 1.3.6.1.2.1.2.2.1.7
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOperStatus
-      oid: 1.3.6.1.2.1.2.2.1.8
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInOctets
-      oid: 1.3.6.1.2.1.2.2.1.10
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.11
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.12
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInDiscards
-      oid: 1.3.6.1.2.1.2.2.1.13
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInErrors
-      oid: 1.3.6.1.2.1.2.2.1.14
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInUnknownProtos
-      oid: 1.3.6.1.2.1.2.2.1.15
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutOctets
-      oid: 1.3.6.1.2.1.2.2.1.16
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.17
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.18
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutDiscards
-      oid: 1.3.6.1.2.1.2.2.1.19
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutErrors
-      oid: 1.3.6.1.2.1.2.2.1.20
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutQLen
-      oid: 1.3.6.1.2.1.2.2.1.21
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.2
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.3
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.4
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.5
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInOctets
-      oid: 1.3.6.1.2.1.31.1.1.1.6
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInUcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.7
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.8
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.9
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutOctets
-      oid: 1.3.6.1.2.1.31.1.1.1.10
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutUcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.11
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.12
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.13
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifLinkUpDownTrapEnable
-      oid: 1.3.6.1.2.1.31.1.1.1.14
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHighSpeed
-      oid: 1.3.6.1.2.1.31.1.1.1.15
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifPromiscuousMode
-      oid: 1.3.6.1.2.1.31.1.1.1.16
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifConnectorPresent
-      oid: 1.3.6.1.2.1.31.1.1.1.17
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-
-# Cicso Wireless LAN Controller
-cisco_wlc:
-  walk:
-    - 1.3.6.1.2.1.2
-    - 1.3.6.1.2.1.31.1.1
-    - 1.3.6.1.4.1.14179.2.1.1.1
-    - 1.3.6.1.4.1.14179.2.2.1.1.3
-    - 1.3.6.1.4.1.14179.2.2.2.1.15
-    - 1.3.6.1.4.1.14179.2.2.2.1.2
-    - 1.3.6.1.4.1.14179.2.2.2.1.4
-    - 1.3.6.1.4.1.14179.2.2.6.1
-    - 1.3.6.1.4.1.14179.2.2.13.1.3
-    - 1.3.6.1.4.1.14179.2.2.15.1.1
-    - 1.3.6.1.4.1.14179.2.2.15.1.21
-  metrics:
-    - name: ifNumber
-      oid: 1.3.6.1.2.1.2.1
-    - name: ifMtu
-      oid: 1.3.6.1.2.1.2.2.1.4
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifSpeed
-      oid: 1.3.6.1.2.1.2.2.1.5
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifAdminStatus
-      oid: 1.3.6.1.2.1.2.2.1.7
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOperStatus
-      oid: 1.3.6.1.2.1.2.2.1.8
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInOctets
-      oid: 1.3.6.1.2.1.2.2.1.10
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.11
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.12
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInDiscards
-      oid: 1.3.6.1.2.1.2.2.1.13
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInErrors
-      oid: 1.3.6.1.2.1.2.2.1.14
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInUnknownProtos
-      oid: 1.3.6.1.2.1.2.2.1.15
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutOctets
-      oid: 1.3.6.1.2.1.2.2.1.16
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.17
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.18
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutDiscards
-      oid: 1.3.6.1.2.1.2.2.1.19
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutErrors
-      oid: 1.3.6.1.2.1.2.2.1.20
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutQLen
-      oid: 1.3.6.1.2.1.2.2.1.21
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.2
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.3
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.4
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.5
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInOctets
-      oid: 1.3.6.1.2.1.31.1.1.1.6
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInUcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.7
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.8
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCInBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.9
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutOctets
-      oid: 1.3.6.1.2.1.31.1.1.1.10
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutUcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.11
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.12
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHCOutBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.13
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifLinkUpDownTrapEnable
-      oid: 1.3.6.1.2.1.31.1.1.1.14
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifHighSpeed
-      oid: 1.3.6.1.2.1.31.1.1.1.15
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifPromiscuousMode
-      oid: 1.3.6.1.2.1.31.1.1.1.16
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifConnectorPresent
-      oid: 1.3.6.1.2.1.31.1.1.1.17
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-      # wifi
-    - name: bsnDot11EssNumberofMobileStations
-      oid: 1.3.6.1.4.1.14179.2.1.1.1.38
-      indexes:
-        - labelname: bsnDot11EssSsid
-          type: Integer32
-      lookups:
-        - labels: [bsnDot11EssSsid]
-          labelname: bsnDot11EssSsid
-          oid: 1.3.6.1.4.1.14179.2.1.1.1.2
-    - name: bsnAPIfType
-      oid: 1.3.6.1.4.1.14179.2.2.2.1.2
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfPhyChannelNumber
-      oid: 1.3.6.1.4.1.14179.2.2.2.1.4
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnApIfNoOfUsers
-      oid: 1.3.6.1.4.1.14179.2.2.2.1.15
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDBNoisePower
-      oid: 1.3.6.1.4.1.14179.2.2.15.1.21
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-        - labelname: bsnAPIfNoiseChannelNo
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        - labels: [bsnAPIfNoiseChannelNo]
-          labelname: bsnAPIfNoiseChannel
-          oid: 1.3.6.1.4.1.14179.2.2.15.1.1
-    - name: bsnAPIfLoadChannelUtilization
-      oid: 1.3.6.1.4.1.14179.2.2.13.1.3
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11TransmittedFragmentCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.1
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: MulticastTransmittedFrameCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.2
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11RetryCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.3
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11MultipleRetryCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.4
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11FrameDuplicateCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.5
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11RTSSuccessCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.6
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11RTSFailureCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.7
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11ACKFailureCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.8
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11ReceivedFragmentCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.9
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11MulticastReceivedFrameCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.10
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11FCSErrorCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.11
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11TransmittedFrameCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.12
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11WEPUndecryptableCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.13
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-    - name: bsnAPIfDot11FailedCount
-      oid: 1.3.6.1.4.1.14179.2.2.6.1.33
-      indexes:
-        - labelname: bsnAPName
-          type: PhysAddress48
-        - labelname: bsnAPIfSlotId
-          type: Integer32
-      lookups:
-        - labels: [bsnAPName]
-          labelname: bsnAPName
-          oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-
-# APC/Schneider UPS Network Management Cards
-#
-# Note: older management cards only support SNMP v1 (AP9606 and
-# AP9607, possibly others). Older versions of the firmware may only
-# support v1 as well. If you only have newer cards you can switch to
-# version v2c or v3.
-#
-# The management cards have relatively slow processors so don't poll
-# very often and give a generous timeout to prevent spurious
-# errors. Alternatively you can eliminate the interface polling (OIDs
-# beginning with 1.3.6.1.2.1) to reduce the time taken for polling.
-#
-# ftp://ftp.apc.com/apc/public/software/pnetmib/mib/419/powernet419.mib
-# ftp://ftp.apc.com/apc/public/software/pnetmib/mib/344/990-6052C.pdf
-# ftp://ftp.apc.com/apc/public/software/pnetmib/mib/343/mibguide.pdf
-# ftp://ftp.apc.com/apc/public/software/pnetmib/mib/330/manual.pdf
-# ftp://ftp.apc.com/apc/public/software/pnetmib/mib/330/addendum.pdf
-
 apcups:
   version: 1
   walk:
-    - 1.3.6.1.2.1.1
-    - 1.3.6.1.2.1.2
-    - 1.3.6.1.4.1.318.1.1.1
-    - 1.3.6.1.4.1.318.1.1.10
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.4.1.318.1.1.1.12
+  - 1.3.6.1.4.1.318.1.1.1.2
+  - 1.3.6.1.4.1.318.1.1.1.3
+  - 1.3.6.1.4.1.318.1.1.1.4
+  - 1.3.6.1.4.1.318.1.1.1.7.2
+  - 1.3.6.1.4.1.318.1.1.1.8.1
+  - 1.3.6.1.4.1.318.1.1.10.2.3.2
   metrics:
-    - name: sysUpTime
-      oid: 1.3.6.1.2.1.1.3
-    - name: ifNumber
-      oid: 1.3.6.1.2.1.2.1
-    - name: ifMtu
-      oid: 1.3.6.1.2.1.2.2.1.4
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifSpeed
-      oid: 1.3.6.1.2.1.2.2.1.5
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifAdminStatus
-      oid: 1.3.6.1.2.1.2.2.1.7
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOperStatus
-      oid: 1.3.6.1.2.1.2.2.1.8
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInOctets
-      oid: 1.3.6.1.2.1.2.2.1.10
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.11
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.12
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInDiscards
-      oid: 1.3.6.1.2.1.2.2.1.13
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInErrors
-      oid: 1.3.6.1.2.1.2.2.1.14
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifInUnknownProtos
-      oid: 1.3.6.1.2.1.2.2.1.15
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutOctets
-      oid: 1.3.6.1.2.1.2.2.1.16
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.17
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.18
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutDiscards
-      oid: 1.3.6.1.2.1.2.2.1.19
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutErrors
-      oid: 1.3.6.1.2.1.2.2.1.20
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: ifOutQLen
-      oid: 1.3.6.1.2.1.2.2.1.21
-      indexes:
-        - labelname: ifDescr
-          type: Integer32
-      lookups:
-        - labels: [ifDescr]
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-    - name: upsBasicBatteryStatus
-      oid: 1.3.6.1.4.1.318.1.1.1.2.1.1
-    - name: upsBasicBatteryTimeOnBattery
-      oid: 1.3.6.1.4.1.318.1.1.1.2.1.2
-    - name: upsAdvBatteryCapacity
-      oid: 1.3.6.1.4.1.318.1.1.1.2.2.1
-    - name: upsAdvBatteryTemperature
-      oid: 1.3.6.1.4.1.318.1.1.1.2.2.2
-    - name: upsAdvBatteryRunTimeRemaining
-      oid: 1.3.6.1.4.1.318.1.1.1.2.2.3
-    - name: upsAdvBatteryReplaceIndicator
-      oid: 1.3.6.1.4.1.318.1.1.1.2.2.4
-    - name: upsAdvBatteryActualVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.2.2.8
-    - name: upsHighPrecBatteryCapacity
-      oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
-    - name: upsHighPrecBatteryTemperature
-      oid: 1.3.6.1.4.1.318.1.1.1.2.3.2
-    - name: upsHighPrecBatteryActualVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.2.3.4
-    - name: upsBasicInputPhase
-      oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
-    - name: upsAdvInputLineVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.3.2.1
-    - name: upsAdvInputMaxLineVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.3.2.2
-    - name: upsAdvInputMinLineVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.3.2.3
-    - name: upsAdvInputFrequency
-      oid: 1.3.6.1.4.1.318.1.1.1.3.2.4
-    - name: upsAdvInputLineFailCause
-      oid: 1.3.6.1.4.1.318.1.1.1.3.2.5
-    - name: upsHighPrecInputLineVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.3.3.1
-    - name: upsHighPrecInputMaxLineVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.3.3.2
-    - name: upsHighPrecInputMinLineVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.3.3.3
-    - name: upsHighPrecInputFrequency
-      oid: 1.3.6.1.4.1.318.1.1.1.3.3.4
-    - name: upsBasicOutputStatus
-      oid: 1.3.6.1.4.1.318.1.1.1.4.1.1
-    - name: upsBasicOutputPhase
-      oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
-    - name: upsAdvOutputVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.4.2.1
-    - name: upsAdvOutputFrequency
-      oid: 1.3.6.1.4.1.318.1.1.1.4.2.2
-    - name: upsAdvOutputLoad
-      oid: 1.3.6.1.4.1.318.1.1.1.4.2.3
-    - name: upsAdvOutputCurrent
-      oid: 1.3.6.1.4.1.318.1.1.1.4.2.4
-    - name: upsAdvOutputKVACapacity
-      oid: 1.3.6.1.4.1.318.1.1.1.4.2.6
-    - name: upsAdvOutputActivePower
-      oid: 1.3.6.1.4.1.318.1.1.1.4.2.8
-    - name: upsAdvOutputApparentPower
-      oid: 1.3.6.1.4.1.318.1.1.1.4.2.9
-    - name: upsHighPrecOutputVoltage
-      oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
-    - name: upsHighPrecOutputFrequency
-      oid: 1.3.6.1.4.1.318.1.1.1.4.3.2
-    - name: upsHighPrecOutputLoad
-      oid: 1.3.6.1.4.1.318.1.1.1.4.3.3
-    - name: upsHighPrecOutputCurrent
-      oid: 1.3.6.1.4.1.318.1.1.1.4.3.4
-    - name: upsHighPrecOutputEfficiency
-      oid: 1.3.6.1.4.1.318.1.1.1.4.3.5
-    - name: upsHighPrecOutputEnergyUsage
-      oid: 1.3.6.1.4.1.318.1.1.1.4.3.6
-    - name: upsAdvTestDiagnosticSchedule
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.1
-    - name: upsAdvTestDiagnostics
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.2
-    - name: upsAdvTestDiagnosticsResults
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.3
-    - name: upsCommStatus
-      oid: 1.3.6.1.4.1.318.1.1.1.8.1
-    - name: upsOutletGroupStatusGroupState
-      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
-      indexes:
-        - labelname: upsOutletGroupStatusName
-          type: Integer32
-      lookups:
-        - labels: [upsOutletGroupStatusName]
-          labelname: upsOutletGroupStatusName
-          oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-    - name: upsOutletGroupStatusCommandPending
-      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
-      indexes:
-        - labelname: upsOutletGroupStatusName
-          type: Integer32
-      lookups:
-        - labels: [upsOutletGroupStatusName]
-          labelname: upsOutletGroupStatusName
-          oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-    - name: upsOutletGroupStatusOutletType
-      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
-      indexes:
-        - labelname: upsOutletGroupStatusName
-          type: Integer32
-      lookups:
-        - labels: [upsOutletGroupStatusName]
-          labelname: upsOutletGroupStatusName
-          oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-    - name: iemStatusProbeCurrentTemp
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeStatus
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.3
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeCurrentTemp
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeTempUnits
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.5
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeCurrentHumid
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.6
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeHighTempViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.7
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeLowTempViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.8
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeHighHumidViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.9
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeLowHumidViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.10
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeMaxTempViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.11
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeMinTempViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.12
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeMaxHumidViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.13
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    - name: iemStatusProbeMinHumidViolation
-      oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.14
-      indexes:
-        - labelname: iemStatusProbeName
-          type: Integer32
-      lookups:
-        - labels: [iemStatusProbeName]
-          labelname: iemStatusProbeName
-          oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-
-# Fortinet Fortigate Devices
-#
-# On Fortigates the ifDescr is empty, the lookups should be done on ifName
-# They are also capable of managing wireless access points (called FortiAP).
-#
-# This module clones the default one changing the lookups and adds few metrics
-# from the managed APs. Noticeably:
-#   * fgWcWtpSessionWtpStationCount: Number of clients connected to each AP
-#   * fgWcWtpSessionWtpByteRxCount: Number of bytes received per AP
-#   * fgWcWtpSessionWtpByteTxCount: Number of bytes transmitted per AP
-#
-# Tested on a FortiGate 240D with 3 FortiAP-320C
-#
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: upsOutletGroupStatusTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.1
+  - name: upsOutletGroupStatusIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.1
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: Integer
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+  - name: upsOutletGroupStatusGroupState
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: Integer
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+  - name: upsOutletGroupStatusCommandPending
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: Integer
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+  - name: upsOutletGroupStatusOutletType
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: Integer
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+  - name: upsOutletGroupConfigTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.1
+  - name: upsOutletGroupConfigIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.1
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigPowerOnDelay
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.3
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigPowerOffDelay
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.4
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigRebootDuration
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.5
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigMinReturnRuntime
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.6
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigOutletType
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.7
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigLoadShedControlSkipOffDelay
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.8
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigLoadShedControlAutoRestart
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.9
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigLoadShedControlTimeOnBattery
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.10
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigLoadShedControlRuntimeRemaining
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.11
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigLoadShedControlInOverload
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.12
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigLoadShedTimeOnBattery
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.13
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigLoadShedRuntimeRemaining
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.14
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupControlTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.1
+  - name: upsOutletGroupControlIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.1
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: Integer
+  - name: upsOutletGroupControlCommand
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.3
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: Integer
+  - name: upsOutletGroupControlOutletType
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.4
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: Integer
+  - name: upsBasicBatteryStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.1.1
+  - name: upsBasicBatteryTimeOnBattery
+    oid: 1.3.6.1.4.1.318.1.1.1.2.1.2
+  - name: upsAdvBatteryCapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.1
+  - name: upsAdvBatteryTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.2
+  - name: upsAdvBatteryRunTimeRemaining
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.3
+  - name: upsAdvBatteryReplaceIndicator
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.4
+  - name: upsAdvBatteryNumOfBattPacks
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.5
+  - name: upsAdvBatteryNumOfBadBattPacks
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.6
+  - name: upsAdvBatteryNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.7
+  - name: upsAdvBatteryActualVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.8
+  - name: upsAdvBatteryCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.9
+  - name: upsAdvTotalDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.10
+  - name: upsAdvBatteryFullCapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.11
+  - name: upsAdvBatteryActualVoltageTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.1
+    indexes:
+    - labelname: upsAdvBatteryActualVoltageTableIndex
+      type: Integer
+  - name: upsAdvBatteryActualVoltagePolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.2
+    indexes:
+    - labelname: upsAdvBatteryActualVoltageTableIndex
+      type: Integer
+  - name: upsAdvBatteryFrameActualVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.3
+    indexes:
+    - labelname: upsAdvBatteryActualVoltageTableIndex
+      type: Integer
+  - name: upsAdvTotalDCCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.1
+    indexes:
+    - labelname: upsAdvTotalDCCurrentTableIndex
+      type: Integer
+  - name: upsAdvTotalDCCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.2
+    indexes:
+    - labelname: upsAdvTotalDCCurrentTableIndex
+      type: Integer
+  - name: upsAdvTotalFrameDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.3
+    indexes:
+    - labelname: upsAdvTotalDCCurrentTableIndex
+      type: Integer
+  - name: upsAdvBatteryCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.1
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsAdvBatteryCurrentIndex
+      type: Integer
+  - name: upsAdvBatteryCurrentIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.2
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsAdvBatteryCurrentIndex
+      type: Integer
+  - name: upsAdvBatteryCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.3
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsAdvBatteryCurrentIndex
+      type: Integer
+  - name: upsAdvBatteryFrameCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.4
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsAdvBatteryCurrentIndex
+      type: Integer
+  - name: upsAdvBatteryEstimatedChargeTime
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.15
+  - name: upsAdvBatteryPower
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.16
+  - name: upsAdvBatteryChargerStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.17
+  - name: upsHighPrecBatteryCapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
+  - name: upsHighPrecBatteryTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.2
+  - name: upsHighPrecBatteryNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.3
+  - name: upsHighPrecBatteryActualVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.4
+  - name: upsHighPrecBatteryCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.5
+  - name: upsHighPrecTotalDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.6
+  - name: upsHighPrecBatteryActualVoltageTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.1
+    indexes:
+    - labelname: upsHighPrecBatteryActualVoltageTableIndex
+      type: Integer
+  - name: upsHighPrecBatteryActualVoltagePolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.2
+    indexes:
+    - labelname: upsHighPrecBatteryActualVoltageTableIndex
+      type: Integer
+  - name: upsHighPrecBatteryVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
+    indexes:
+    - labelname: upsHighPrecBatteryActualVoltageTableIndex
+      type: Integer
+  - name: upsHighPrecTotalDCCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.1
+    indexes:
+    - labelname: upsHighPrecTotalDCCurrentTableIndex
+      type: Integer
+  - name: upsHighPrecTotalDCCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.2
+    indexes:
+    - labelname: upsHighPrecTotalDCCurrentTableIndex
+      type: Integer
+  - name: upsHighPrecTotalDCFrameCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
+    indexes:
+    - labelname: upsHighPrecTotalDCCurrentTableIndex
+      type: Integer
+  - name: upsHighPrecBatteryCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.1
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: Integer
+  - name: upsHighPrecBatteryCurrentIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.2
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: Integer
+  - name: upsHighPrecBatteryCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.3
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: Integer
+  - name: upsHighPrecBatteryFrameCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.1
+  - name: upsHighPrecBatteryPackIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.1
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryCartridgeIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.2
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.5
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsBasicInputPhase
+    oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
+  - name: upsAdvInputLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.1
+  - name: upsAdvInputMaxLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.2
+  - name: upsAdvInputMinLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.3
+  - name: upsAdvInputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.4
+  - name: upsAdvInputLineFailCause
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.5
+  - name: upsAdvInputNominalFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.6
+  - name: upsAdvInputNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.7
+  - name: upsAdvInputBypassNominalFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.8
+  - name: upsAdvInputBypassNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.9
+  - name: upsAdvInputStatisticsIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.1
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: Integer
+  - name: upsAdvInputApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.2
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: Integer
+  - name: upsAdvInputVoltageTHD
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.3
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: Integer
+  - name: upsAdvInputBypassVoltageTHD
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.4
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: Integer
+  - name: upsAdvInputPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.5
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: Integer
+  - name: upsAdvInputBypassPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.6
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: Integer
+  - name: upsAdvInputActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.7
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: Integer
+  - name: upsAdvInputTotalApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.11
+  - name: upsAdvInputTotalActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.12
+  - name: upsAdvInputBypassTotalApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.13
+  - name: upsAdvInputBypassTotalActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.14
+  - name: upsAdvInputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.15
+  - name: upsHighPrecInputLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.1
+  - name: upsHighPrecInputMaxLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.2
+  - name: upsHighPrecInputMinLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.3
+  - name: upsHighPrecInputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.4
+  - name: upsHighPrecInputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.5
+  - name: upsHighPrecInputBypassVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.6
+  - name: upsHighPrecInputBypassFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.7
+  - name: upsBasicOutputStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.1
+  - name: upsBasicOutputPhase
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
+  - name: upsBasicSystemStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.3
+  - name: upsBasicSystemInternalTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.4
+  - name: upsBasicSystemInverterStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.5
+  - name: upsBasicSystemPFCStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.6
+  - name: upsBasicOutputACwiringConfiguration
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.7
+  - name: upsAdvOutputVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.1
+  - name: upsAdvOutputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.2
+  - name: upsAdvOutputLoad
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.3
+  - name: upsAdvOutputCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.4
+  - name: upsAdvOutputRedundancy
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.5
+  - name: upsAdvOutputKVACapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.6
+  - name: upsAdvOutputNominalFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.7
+  - name: upsAdvOutputActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.8
+  - name: upsAdvOutputApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.9
+  - name: upsAdvOutputStatisticsIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.1
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: Integer
+  - name: upsAdvOutputPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.2
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: Integer
+  - name: upsAdvOutputCurrentTHD
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.3
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: Integer
+  - name: upsAdvOutputCrestFactor
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: Integer
+  - name: upsAdvOutputNeutralCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.11
+  - name: upsAdvOutputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.12
+  - name: upsHighPrecOutputVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
+  - name: upsHighPrecOutputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.2
+  - name: upsHighPrecOutputLoad
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.3
+  - name: upsHighPrecOutputCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.4
+  - name: upsHighPrecOutputEfficiency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.5
+  - name: upsHighPrecOutputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.6
+  - name: upsAdvTestDiagnosticSchedule
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.1
+  - name: upsAdvTestDiagnostics
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.2
+  - name: upsAdvTestDiagnosticsResults
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.3
+  - name: upsAdvTestRuntimeCalibration
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.5
+  - name: upsAdvTestCalibrationResults
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.6
+  - name: upsAdvTestDiagnosticDay
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
+  - name: upsCommStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.8.1
+  - name: iemStatusProbeNumber
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.1
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeStatus
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.3
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeCurrentTemp
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeTempUnits
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.5
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeCurrentHumid
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.6
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeHighTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.7
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeLowTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.8
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeHighHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.9
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeLowHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.10
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeMaxTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.11
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeMinTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.12
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeMaxHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.13
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeMinHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.14
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+cisco_wlc:
+  walk:
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.14179.2.1.1.1.2
+  - 1.3.6.1.4.1.14179.2.1.1.1.38
+  - 1.3.6.1.4.1.14179.2.2.1.1.3
+  - 1.3.6.1.4.1.14179.2.2.13.1.3
+  - 1.3.6.1.4.1.14179.2.2.15.1.21
+  - 1.3.6.1.4.1.14179.2.2.2.1.15
+  - 1.3.6.1.4.1.14179.2.2.2.1.2
+  - 1.3.6.1.4.1.14179.2.2.2.1.4
+  - 1.3.6.1.4.1.14179.2.2.6.1
+  metrics:
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: bsnDot11EssNumberOfMobileStations
+    oid: 1.3.6.1.4.1.14179.2.1.1.1.38
+    indexes:
+    - labelname: bsnDot11EssSsid
+      type: Integer
+    lookups:
+    - labels:
+      - bsnDot11EssSsid
+      labelname: bsnDot11EssSsid
+      oid: 1.3.6.1.4.1.14179.2.1.1.1.2
+  - name: bsnAPIfLoadChannelUtilization
+    oid: 1.3.6.1.4.1.14179.2.2.13.1.3
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDBNoisePower
+    oid: 1.3.6.1.4.1.14179.2.2.15.1.21
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    - labelname: bsnAPIfNoiseChannelNo
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnApIfNoOfUsers
+    oid: 1.3.6.1.4.1.14179.2.2.2.1.15
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfType
+    oid: 1.3.6.1.4.1.14179.2.2.2.1.2
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfPhyChannelNumber
+    oid: 1.3.6.1.4.1.14179.2.2.2.1.4
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11TransmittedFragmentCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.1
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11MulticastTransmittedFrameCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.2
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11RetryCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.3
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11MultipleRetryCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.4
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11FrameDuplicateCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.5
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11RTSSuccessCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.6
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11RTSFailureCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.7
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11ACKFailureCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.8
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11ReceivedFragmentCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.9
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11MulticastReceivedFrameCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.10
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11FCSErrorCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.11
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11TransmittedFrameCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.12
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11WEPUndecryptableCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.13
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+  - name: bsnAPIfDot11FailedCount
+    oid: 1.3.6.1.4.1.14179.2.2.6.1.33
+    indexes:
+    - labelname: bsnAPName
+      type: PhysAddress48
+    - labelname: bsnAPIfSlotId
+      type: Integer
+    lookups:
+    - labels:
+      - bsnAPName
+      labelname: bsnAPName
+      oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+default:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+default_ifindex:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+default_ifname:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
 fortinet_fortigate:
   walk:
-    - 1.3.6.1.2.1.1.3
-    - 1.3.6.1.2.1.31.1.1
-    - 1.3.6.1.4.1.12356.101.14.4.4.1.8
-    - 1.3.6.1.4.1.12356.101.14.4.4.1.17
-    - 1.3.6.1.4.1.12356.101.14.4.4.1.18
-    - 1.3.6.1.4.1.12356.101.14.4.4.1.19
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.12356.101.14.4.4.1.17
+  - 1.3.6.1.4.1.12356.101.14.4.4.1.18
+  - 1.3.6.1.4.1.12356.101.14.4.4.1.19
+  - 1.3.6.1.4.1.12356.101.14.4.4.1.8
   metrics:
-    - name: sysUpTime
-      oid: 1.3.6.1.2.1.1.3
-    - name: ifNumber
-      oid: 1.3.6.1.2.1.2.1
-    - name: ifMtu
-      oid: 1.3.6.1.2.1.2.2.1.4
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifSpeed
-      oid: 1.3.6.1.2.1.2.2.1.5
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifAdminStatus
-      oid: 1.3.6.1.2.1.2.2.1.7
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOperStatus
-      oid: 1.3.6.1.2.1.2.2.1.8
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInOctets
-      oid: 1.3.6.1.2.1.2.2.1.10
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.11
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.12
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInDiscards
-      oid: 1.3.6.1.2.1.2.2.1.13
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInErrors
-      oid: 1.3.6.1.2.1.2.2.1.14
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInUnknownProtos
-      oid: 1.3.6.1.2.1.2.2.1.15
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutOctets
-      oid: 1.3.6.1.2.1.2.2.1.16
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.17
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutNUcastPkts
-      oid: 1.3.6.1.2.1.2.2.1.18
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutDiscards
-      oid: 1.3.6.1.2.1.2.2.1.19
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutErrors
-      oid: 1.3.6.1.2.1.31.1.1.1.10
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutQLen
-      oid: 1.3.6.1.2.1.31.1.1.1.11
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.2
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifInBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.3
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.4
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifOutBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.5
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCInOctets
-      oid: 1.3.6.1.2.1.31.1.1.1.6
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCInUcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.7
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCInMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.8
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCInBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.9
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCOutOctets
-      oid: 1.3.6.1.2.1.31.1.1.1.10
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCOutUcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.11
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCOutMulticastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.12
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHCOutBroadcastPkts
-      oid: 1.3.6.1.2.1.31.1.1.1.13
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifLinkUpDownTrapEnable
-      oid: 1.3.6.1.2.1.31.1.1.1.14
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifHighSpeed
-      oid: 1.3.6.1.2.1.31.1.1.1.15
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifPromiscuousMode
-      oid: 1.3.6.1.2.1.31.1.1.1.16
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    - name: ifConnectorPresent
-      oid: 1.3.6.1.2.1.31.1.1.1.17
-      indexes:
-        - labelname: ifName
-          type: Integer32
-      lookups:
-        - labels: [ifName]
-          labelname: ifName
-          oid: 1.3.6.1.2.1.31.1.1.1.1
-    # Metrics about the Access Points
-    - name: fgWcWtpSessionWtpUpTime
-      oid: 1.3.6.1.4.1.12356.101.14.4.4.1.8
-      indexes:
-        - labelname: fgVdEntIndex
-          type: Integer32
-        - labelname: fgWcWtpSessionWtpId
-          type: OctetString
-    - name: fgWcWtpSessionWtpStationCount
-      oid: 1.3.6.1.4.1.12356.101.14.4.4.1.17
-      indexes:
-        - labelname: fgVdEntIndex
-          type: Integer32
-        - labelname: fgWcWtpSessionWtpId
-          type: OctetString
-    - name: fgWcWtpSessionWtpByteRxCount 
-      oid: 1.3.6.1.4.1.12356.101.14.4.4.1.18
-      indexes:
-        - labelname: fgVdEntIndex
-          type: Integer32
-        - labelname: fgWcWtpSessionWtpId
-          type: OctetString
-    - name: fgWcWtpSessionWtpByteTxCount 
-      oid: 1.3.6.1.4.1.12356.101.14.4.4.1.19
-      indexes:
-        - labelname: fgVdEntIndex
-          type: Integer32
-        - labelname: fgWcWtpSessionWtpId
-          type: OctetString
-
-# ServerTech Sentry 3 MIB
-#
-# Used by ServerTech PDUs
-#
-# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3OIDTree.txt
-# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: fgWcWtpSessionWtpStationCount
+    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.17
+    indexes:
+    - labelname: fgVdEntIndex
+      type: Integer
+    - labelname: fgWcWtpSessionWtpId
+      type: OctetString
+  - name: fgWcWtpSessionWtpByteRxCount
+    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.18
+    indexes:
+    - labelname: fgVdEntIndex
+      type: Integer
+    - labelname: fgWcWtpSessionWtpId
+      type: OctetString
+  - name: fgWcWtpSessionWtpByteTxCount
+    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.19
+    indexes:
+    - labelname: fgVdEntIndex
+      type: Integer
+    - labelname: fgWcWtpSessionWtpId
+      type: OctetString
+  - name: fgWcWtpSessionWtpUpTime
+    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.8
+    indexes:
+    - labelname: fgVdEntIndex
+      type: Integer
+    - labelname: fgWcWtpSessionWtpId
+      type: OctetString
 servertech_sentry3:
   walk:
-    - 1.3.6.1.2.1.1
-    - 1.3.6.1.4.1.1718.3.2.2.1
-    - 1.3.6.1.4.1.1718.3.2.3.1
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.4.1.1718.3.2.2
+  - 1.3.6.1.4.1.1718.3.2.3
   metrics:
-    - name: sysUpTime
-      oid: 1.3.6.1.2.1.1.3
-    - name: infeedLoadValue
-      oid: 1.3.6.1.4.1.1718.3.2.2.1.7
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-    - name: infeedVoltage
-      oid: 1.3.6.1.4.1.1718.3.2.2.1.11
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-    - name: infeedPower
-      oid: 1.3.6.1.4.1.1718.3.2.2.1.12
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-    - name: infeedEnergy
-      oid: 1.3.6.1.4.1.1718.3.2.2.1.16
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-    - name: outletLoadValue
-      oid: 1.3.6.1.4.1.1718.3.2.3.1.7
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-        - labelname: outletIndex
-          type: Integer32
-    - name: outletVoltage
-      oid: 1.3.6.1.4.1.1718.3.2.3.1.13
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-        - labelname: outletIndex
-          type: Integer32
-    - name: outletPower
-      oid: 1.3.6.1.4.1.1718.3.2.3.1.14
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-        - labelname: outletIndex
-          type: Integer32
-    - name: outletEnergy
-      oid: 1.3.6.1.4.1.1718.3.2.3.1.18
-      indexes:
-        - labelname: towerIndex
-          type: Integer32
-        - labelname: infeedIndex
-          type: Integer32
-        - labelname: outletIndex
-          type: Integer32
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+  - name: infeedIndex
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.1
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedStatus
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.5
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedLoadStatus
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.6
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedLoadValue
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.7
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedLoadHighThresh
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.8
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedOutletCount
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.9
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedCapacity
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.10
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedVoltage
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.11
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedPower
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.12
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedApparentPower
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.13
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedPowerFactor
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.14
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedCrestFactor
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.15
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedEnergy
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.16
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedReactance
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.17
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedPhaseVoltage
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.18
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedPhaseCurrent
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.19
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedCapacityUsed
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.20
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedVACapacity
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.24
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedVACapacityUsed
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.25
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: outletIndex
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.1
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletStatus
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.5
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletLoadStatus
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.6
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletLoadValue
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.7
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletLoadLowThresh
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.8
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletLoadHighThresh
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.9
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletControlState
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.10
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletControlAction
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.11
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletCapacity
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.12
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletVoltage
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.13
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletPower
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.14
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletApparentPower
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.15
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletPowerFactor
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.16
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletCrestFactor
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.17
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletEnergy
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.18
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletWakeupState
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.19
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletPostOnDelay
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.20
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
