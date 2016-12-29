@@ -155,7 +155,7 @@ func TestIndexesToLabels(t *testing.T) {
 				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
-			result:   map[string]string{"l": "4"},
+			result:   map[string]string{"l": ""},
 		},
 		{
 			oid:      []int{},
