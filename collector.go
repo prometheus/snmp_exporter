@@ -67,6 +67,8 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	result := []gosnmp.SnmpPDU{}
 	for _, subtree := range config.Walk {
 		var pdus []gosnmp.SnmpPDU
+		log.Debugf("Walking target %q subtree %q", snmp.Target, subtree)
+		walkStart := time.Now()
 		if snmp.Version == gosnmp.Version1 {
 			pdus, err = snmp.WalkAll(subtree)
 		} else {
@@ -74,6 +76,8 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		}
 		if err != nil {
 			return nil, fmt.Errorf("Error walking target %s: %s", snmp.Target, err)
+		} else {
+			log.Debugf("Walk of target %q subtree %q completed in %s", snmp.Target, subtree, time.Since(walkStart))
 		}
 		result = append(result, pdus...)
 	}
