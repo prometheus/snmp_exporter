@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	_ "net/http/pprof"
+	"os"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -16,7 +17,8 @@ import (
 )
 
 var (
-	configFile = flag.String(
+	showVersion = flag.Bool("version", false, "Print version information.")
+	configFile  = flag.String(
 		"config.file", "snmp.yml",
 		"Path to configuration file.",
 	)
@@ -88,6 +90,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Fprintln(os.Stdout, version.Print("node_exporter"))
+		os.Exit(0)
+	}
 
 	log.Infoln("Starting snmp exporter", version.Info())
 	log.Infoln("Build context", version.BuildContext())
