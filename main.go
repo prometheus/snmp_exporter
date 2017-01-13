@@ -92,7 +92,7 @@ func main() {
 	flag.Parse()
 
 	if *showVersion {
-		fmt.Fprintln(os.Stdout, version.Print("node_exporter"))
+		fmt.Fprintln(os.Stdout, version.Print("snmp_exporter"))
 		os.Exit(0)
 	}
 
