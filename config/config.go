@@ -133,6 +133,7 @@ func (c Module) ConfigureSNMP(g *gosnmp.GoSNMP) {
 type Metric struct {
 	Name    string    `yaml:"name"`
 	Oid     string    `yaml:"oid"`
+	Type    string    `yaml:"type"`
 	Indexes []*Index  `yaml:"indexes,omitempty"`
 	Lookups []*Lookup `yaml:"lookups,omitempty"`
 

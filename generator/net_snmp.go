@@ -141,7 +141,6 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 		index = index.next
 	}
 	n.Indexes = indexes
-
 }
 
 // Convert the NetSNMP MIB tree to a Go data structure.

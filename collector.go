@@ -168,17 +168,36 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
 
-	labelnames := make([]string, 0, len(labels))
-	labelvalues := make([]string, 0, len(labels))
+	value := float64(gosnmp.ToBigInt(pdu.Value).Int64())
+	t := prometheus.UntypedValue
+
+	switch metric.Type {
+	case "counter":
+		t = prometheus.CounterValue
+	case "gauge":
+		t = prometheus.GaugeValue
+	case "string":
+		t = prometheus.GaugeValue
+		value = 1.0
+	}
+
+	labelnames := make([]string, 0, len(labels)+1)
+	labelvalues := make([]string, 0, len(labels)+1)
 	for k, v := range labels {
 		labelnames = append(labelnames, k)
 		labelvalues = append(labelvalues, v)
 	}
+	// For strings we put the value as a label with the same name as the metric.
+	// If the name is already an index, we do not need to set it again.
+	if metric.Type == "string" {
+		if _, ok := labels[metric.Name]; !ok {
+			labelnames = append(labelnames, metric.Name)
+			labelvalues = append(labelvalues, pduValueAsString(pdu))
+		}
+	}
+
 	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, "", labelnames, nil),
-		prometheus.UntypedValue,
-		float64(gosnmp.ToBigInt(pdu.Value).Int64()),
-		labelvalues...,
-	)
+		t, value, labelvalues...)
 }
 
 // Right pad oid with zeros, and split at the given point.

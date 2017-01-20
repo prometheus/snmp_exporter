@@ -9,7 +9,7 @@ import (
 	"github.com/prometheus/snmp_exporter/config"
 )
 
-func TestTreePrepate(t *testing.T) {
+func TestTreePrepare(t *testing.T) {
 	cases := []struct {
 		in  *Node
 		out *Node
@@ -119,6 +119,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "root",
 						Oid:  "1",
+						Type: "gauge",
 					},
 				},
 			},
@@ -135,6 +136,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "root",
 						Oid:  "1",
+						Type: "gauge",
 					},
 				},
 			},
@@ -151,6 +153,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "root",
 						Oid:  "1",
+						Type: "gauge",
 					},
 				},
 			},
@@ -192,36 +195,54 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1"},
 				Metrics: []*config.Metric{
 					{
+						Name: "OCTETSTR",
+						Oid:  "1.2",
+						Type: "string",
+					},
+					{
 						Name: "INTEGER",
 						Oid:  "1.3",
+						Type: "gauge",
 					},
 					{
 						Name: "COUNTER",
 						Oid:  "1.6",
+						Type: "counter",
 					},
 					{
 						Name: "GAUGE",
 						Oid:  "1.7",
+						Type: "gauge",
 					},
 					{
 						Name: "TIMETICKS",
 						Oid:  "1.8",
+						Type: "gauge",
 					},
 					{
 						Name: "COUNTER64",
 						Oid:  "1.11",
+						Type: "counter",
+					},
+					{
+						Name: "BITSTRING",
+						Oid:  "1.12",
+						Type: "string",
 					},
 					{
 						Name: "UINTEGER",
 						Oid:  "1.14",
+						Type: "gauge",
 					},
 					{
 						Name: "UNSIGNED32",
 						Oid:  "1.15",
+						Type: "gauge",
 					},
 					{
 						Name: "INTEGER32",
 						Oid:  "1.16",
+						Type: "gauge",
 					},
 				},
 			},
@@ -246,6 +267,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "tableIndex",
 						Oid:  "1.1.1.1",
+						Type: "gauge",
 						Indexes: []*config.Index{
 							{
 								Labelname: "tableIndex",
@@ -256,6 +278,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "tableFoo",
 						Oid:  "1.1.1.2",
+						Type: "gauge",
 						Indexes: []*config.Index{
 							{
 								Labelname: "tableIndex",
@@ -308,8 +331,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1"},
 				Metrics: []*config.Metric{
 					{
-						Name: "octetFoo",
-						Oid:  "1.1.1.2",
+						Name: "octetIndex",
+						Oid:  "1.1.1.1",
+						Type: "string",
 						Indexes: []*config.Index{
 							{
 								Labelname: "octetIndex",
@@ -318,8 +342,31 @@ func TestGenerateConfigModule(t *testing.T) {
 						},
 					},
 					{
+						Name: "octetFoo",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "octetIndex",
+								Type:      "OctetString",
+							},
+						},
+					},
+					{
+						Name: "bitstringIndex",
+						Oid:  "1.2.1.1",
+						Type: "string",
+						Indexes: []*config.Index{
+							{
+								Labelname: "bitstringIndex",
+								Type:      "OctetString",
+							},
+						},
+					},
+					{
 						Name: "bitstringFoo",
 						Oid:  "1.2.1.2",
+						Type: "gauge",
 						Indexes: []*config.Index{
 							{
 								Labelname: "bitstringIndex",
@@ -330,6 +377,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "ipaddrFoo",
 						Oid:  "1.3.1.2",
+						Type: "gauge",
 						Indexes: []*config.Index{
 							{
 								Labelname: "ipaddrIndex",
@@ -340,6 +388,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "netaddrFoo",
 						Oid:  "1.4.1.2",
+						Type: "gauge",
 						Indexes: []*config.Index{
 							{
 								Labelname: "netaddrIndex",
@@ -350,6 +399,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "physaddress48Foo",
 						Oid:  "1.5.1.2",
+						Type: "gauge",
 						Indexes: []*config.Index{
 							{
 								Labelname: "physaddress48Index",
@@ -387,6 +437,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "octetFoo",
 						Oid:  "1.1.1.3",
+						Type: "gauge",
 						Indexes: []*config.Index{
 							{
 								Labelname: "octetDesc",
