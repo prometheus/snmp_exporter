@@ -74,6 +74,11 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 	// Set type on MAC addresses.
 	walkNode(nodes, func(n *Node) {
+		// For some odd reason ifPhysAddress's MIB isn't being parsed correctly
+		// so set this by hand.
+		if n.Oid == "1.3.6.1.2.1.2.2.1.6" {
+			n.Hint = "1x:"
+		}
 		// RFC 2579
 		if n.Hint == "1x:" {
 			n.Type = "PhysAddress48"
@@ -89,6 +94,20 @@ func isNumericType(t string) bool {
 		return true
 	default:
 		return false
+	}
+}
+
+func metricType(t string) (string, bool) {
+	switch t {
+	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
+		return "gauge", true
+	case "COUNTER", "COUNTER64":
+		return "counter", true
+	case "OCTETSTR", "BITSTRING":
+		return "string", true
+	default:
+		// Unsupported type.
+		return "", false
 	}
 }
 
@@ -126,12 +145,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		node := nameToNode[oid]
 		needToWalk[node.Oid] = struct{}{}
 		walkNode(node, func(n *Node) {
-			if !isNumericType(n.Type) {
-				return
+			t, ok := metricType(n.Type)
+			if !ok {
+				return // Unsupported type.
 			}
 			metric := &config.Metric{
 				Name:    n.Label,
 				Oid:     n.Oid,
+				Type:    t,
 				Indexes: []*config.Index{},
 				Lookups: []*config.Lookup{},
 			}

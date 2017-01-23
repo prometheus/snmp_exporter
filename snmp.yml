@@ -1,5 +1,4 @@
 apcups:
-  version: 1
   walk:
   - 1.3.6.1.2.1.1.3
   - 1.3.6.1.2.1.2
@@ -13,107 +12,147 @@ apcups:
   metrics:
   - name: sysUpTime
     oid: 1.3.6.1.2.1.1.3
+    type: gauge
   - name: ifNumber
     oid: 1.3.6.1.2.1.2.1
+    type: gauge
   - name: ifIndex
     oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: upsOutletGroupStatusTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.1
+    type: gauge
   - name: upsOutletGroupStatusIndex
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.1
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: Integer
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+  - name: upsOutletGroupStatusName
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+    type: string
     indexes:
     - labelname: upsOutletGroupStatusName
       type: Integer
@@ -124,6 +163,7 @@ apcups:
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
   - name: upsOutletGroupStatusGroupState
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
+    type: gauge
     indexes:
     - labelname: upsOutletGroupStatusName
       type: Integer
@@ -134,6 +174,7 @@ apcups:
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
   - name: upsOutletGroupStatusCommandPending
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
+    type: gauge
     indexes:
     - labelname: upsOutletGroupStatusName
       type: Integer
@@ -144,6 +185,7 @@ apcups:
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
   - name: upsOutletGroupStatusOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
+    type: gauge
     indexes:
     - labelname: upsOutletGroupStatusName
       type: Integer
@@ -154,146 +196,199 @@ apcups:
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
   - name: upsOutletGroupConfigTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.1
+    type: gauge
   - name: upsOutletGroupConfigIndex
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: Integer
+  - name: upsOutletGroupConfigName
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.2
+    type: string
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigPowerOnDelay
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.3
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigPowerOffDelay
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.4
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigRebootDuration
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.5
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigMinReturnRuntime
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.6
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.7
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigLoadShedControlSkipOffDelay
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.8
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigLoadShedControlAutoRestart
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.9
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigLoadShedControlTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.10
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigLoadShedControlRuntimeRemaining
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.11
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigLoadShedControlInOverload
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.12
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigLoadShedTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.13
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupConfigLoadShedRuntimeRemaining
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.14
+    type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: Integer
   - name: upsOutletGroupControlTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.1
+    type: gauge
   - name: upsOutletGroupControlIndex
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.1
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: Integer
+  - name: upsOutletGroupControlName
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.2
+    type: string
     indexes:
     - labelname: upsOutletGroupControlIndex
       type: Integer
   - name: upsOutletGroupControlCommand
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.3
+    type: gauge
     indexes:
     - labelname: upsOutletGroupControlIndex
       type: Integer
   - name: upsOutletGroupControlOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.4
+    type: gauge
     indexes:
     - labelname: upsOutletGroupControlIndex
       type: Integer
   - name: upsBasicBatteryStatus
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.1
+    type: gauge
   - name: upsBasicBatteryTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.2
+    type: gauge
+  - name: upsBasicBatteryLastReplaceDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.1.3
+    type: string
   - name: upsAdvBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.1
+    type: gauge
   - name: upsAdvBatteryTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.2
+    type: gauge
   - name: upsAdvBatteryRunTimeRemaining
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.3
+    type: gauge
   - name: upsAdvBatteryReplaceIndicator
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.4
+    type: gauge
   - name: upsAdvBatteryNumOfBattPacks
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.5
+    type: gauge
   - name: upsAdvBatteryNumOfBadBattPacks
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.6
+    type: gauge
   - name: upsAdvBatteryNominalVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.7
+    type: gauge
   - name: upsAdvBatteryActualVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.8
+    type: gauge
   - name: upsAdvBatteryCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.9
+    type: gauge
   - name: upsAdvTotalDCCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.10
+    type: gauge
   - name: upsAdvBatteryFullCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.11
+    type: gauge
   - name: upsAdvBatteryActualVoltageTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.1
+    type: gauge
     indexes:
     - labelname: upsAdvBatteryActualVoltageTableIndex
       type: Integer
   - name: upsAdvBatteryActualVoltagePolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.2
+    type: gauge
     indexes:
     - labelname: upsAdvBatteryActualVoltageTableIndex
       type: Integer
   - name: upsAdvBatteryFrameActualVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.3
+    type: gauge
     indexes:
     - labelname: upsAdvBatteryActualVoltageTableIndex
       type: Integer
   - name: upsAdvTotalDCCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.1
+    type: gauge
     indexes:
     - labelname: upsAdvTotalDCCurrentTableIndex
       type: Integer
   - name: upsAdvTotalDCCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.2
+    type: gauge
     indexes:
     - labelname: upsAdvTotalDCCurrentTableIndex
       type: Integer
   - name: upsAdvTotalFrameDCCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.3
+    type: gauge
     indexes:
     - labelname: upsAdvTotalDCCurrentTableIndex
       type: Integer
   - name: upsAdvBatteryCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.1
+    type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
       type: Integer
@@ -301,6 +396,7 @@ apcups:
       type: Integer
   - name: upsAdvBatteryCurrentIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.2
+    type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
       type: Integer
@@ -308,6 +404,7 @@ apcups:
       type: Integer
   - name: upsAdvBatteryCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.3
+    type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
       type: Integer
@@ -315,6 +412,7 @@ apcups:
       type: Integer
   - name: upsAdvBatteryFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.4
+    type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
       type: Integer
@@ -322,54 +420,79 @@ apcups:
       type: Integer
   - name: upsAdvBatteryEstimatedChargeTime
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.15
+    type: gauge
   - name: upsAdvBatteryPower
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.16
+    type: gauge
   - name: upsAdvBatteryChargerStatus
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.17
+    type: gauge
+  - name: upsAdvBatteryInternalSKU
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.19
+    type: string
+  - name: upsAdvBatteryExternalSKU
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.20
+    type: string
+  - name: upsAdvBatteryRecommendedReplaceDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.21
+    type: string
   - name: upsHighPrecBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
+    type: gauge
   - name: upsHighPrecBatteryTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.2
+    type: gauge
   - name: upsHighPrecBatteryNominalVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.3
+    type: gauge
   - name: upsHighPrecBatteryActualVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.4
+    type: gauge
   - name: upsHighPrecBatteryCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.5
+    type: gauge
   - name: upsHighPrecTotalDCCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.6
+    type: gauge
   - name: upsHighPrecBatteryActualVoltageTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.1
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
       type: Integer
   - name: upsHighPrecBatteryActualVoltagePolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.2
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
       type: Integer
   - name: upsHighPrecBatteryVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
       type: Integer
   - name: upsHighPrecTotalDCCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.1
+    type: gauge
     indexes:
     - labelname: upsHighPrecTotalDCCurrentTableIndex
       type: Integer
   - name: upsHighPrecTotalDCCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.2
+    type: gauge
     indexes:
     - labelname: upsHighPrecTotalDCCurrentTableIndex
       type: Integer
   - name: upsHighPrecTotalDCFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
+    type: gauge
     indexes:
     - labelname: upsHighPrecTotalDCCurrentTableIndex
       type: Integer
   - name: upsHighPrecBatteryCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.1
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
       type: Integer
@@ -377,6 +500,7 @@ apcups:
       type: Integer
   - name: upsHighPrecBatteryCurrentIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.2
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
       type: Integer
@@ -384,6 +508,7 @@ apcups:
       type: Integer
   - name: upsHighPrecBatteryCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.3
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
       type: Integer
@@ -391,6 +516,7 @@ apcups:
       type: Integer
   - name: upsHighPrecBatteryFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
       type: Integer
@@ -398,8 +524,10 @@ apcups:
       type: Integer
   - name: upsHighPrecBatteryPackTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.1
+    type: gauge
   - name: upsHighPrecBatteryPackIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.1
+    type: gauge
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
       type: Integer
@@ -407,6 +535,23 @@ apcups:
       type: Integer
   - name: upsHighPrecBatteryCartridgeIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.2
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackFirmwareRevision
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
+    type: string
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackSerialNumber
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
+    type: string
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
       type: Integer
@@ -414,6 +559,47 @@ apcups:
       type: Integer
   - name: upsHighPrecBatteryPackTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.5
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.6
+    type: string
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackCartridgeHealth
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.7
+    type: string
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackCartridgeReplaceDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
+    type: string
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackCartridgeInstallDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
+    type: string
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: Integer
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: Integer
+  - name: upsHighPrecBatteryPackCartridgeStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.10
+    type: string
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
       type: Integer
@@ -421,230 +607,329 @@ apcups:
       type: Integer
   - name: upsBasicInputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
+    type: gauge
   - name: upsAdvInputLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.1
+    type: gauge
   - name: upsAdvInputMaxLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.2
+    type: gauge
   - name: upsAdvInputMinLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.3
+    type: gauge
   - name: upsAdvInputFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.4
+    type: gauge
   - name: upsAdvInputLineFailCause
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.5
+    type: gauge
   - name: upsAdvInputNominalFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.6
+    type: gauge
   - name: upsAdvInputNominalVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.7
+    type: gauge
   - name: upsAdvInputBypassNominalFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.8
+    type: gauge
   - name: upsAdvInputBypassNominalVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.9
+    type: gauge
   - name: upsAdvInputStatisticsIndex
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.1
+    type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
       type: Integer
   - name: upsAdvInputApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.2
+    type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
       type: Integer
   - name: upsAdvInputVoltageTHD
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.3
+    type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
       type: Integer
   - name: upsAdvInputBypassVoltageTHD
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.4
+    type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
       type: Integer
   - name: upsAdvInputPeakCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.5
+    type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
       type: Integer
   - name: upsAdvInputBypassPeakCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.6
+    type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
       type: Integer
   - name: upsAdvInputActivePower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.7
+    type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
       type: Integer
   - name: upsAdvInputTotalApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.11
+    type: gauge
   - name: upsAdvInputTotalActivePower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.12
+    type: gauge
   - name: upsAdvInputBypassTotalApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.13
+    type: gauge
   - name: upsAdvInputBypassTotalActivePower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.14
+    type: gauge
   - name: upsAdvInputEnergyUsage
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.15
+    type: gauge
   - name: upsHighPrecInputLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.1
+    type: gauge
   - name: upsHighPrecInputMaxLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.2
+    type: gauge
   - name: upsHighPrecInputMinLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.3
+    type: gauge
   - name: upsHighPrecInputFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.4
+    type: gauge
   - name: upsHighPrecInputEnergyUsage
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.5
+    type: gauge
   - name: upsHighPrecInputBypassVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.6
+    type: gauge
   - name: upsHighPrecInputBypassFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.7
+    type: gauge
   - name: upsBasicOutputStatus
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.1
+    type: gauge
   - name: upsBasicOutputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
+    type: gauge
   - name: upsBasicSystemStatus
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.3
+    type: gauge
   - name: upsBasicSystemInternalTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.4
+    type: gauge
   - name: upsBasicSystemInverterStatus
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.5
+    type: gauge
   - name: upsBasicSystemPFCStatus
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.6
+    type: gauge
   - name: upsBasicOutputACwiringConfiguration
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.7
+    type: gauge
   - name: upsAdvOutputVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.1
+    type: gauge
   - name: upsAdvOutputFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.2
+    type: gauge
   - name: upsAdvOutputLoad
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.3
+    type: gauge
   - name: upsAdvOutputCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.4
+    type: gauge
   - name: upsAdvOutputRedundancy
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.5
+    type: gauge
   - name: upsAdvOutputKVACapacity
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.6
+    type: gauge
   - name: upsAdvOutputNominalFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.7
+    type: gauge
   - name: upsAdvOutputActivePower
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.8
+    type: gauge
   - name: upsAdvOutputApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.9
+    type: gauge
   - name: upsAdvOutputStatisticsIndex
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.1
+    type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
       type: Integer
   - name: upsAdvOutputPeakCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.2
+    type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
       type: Integer
   - name: upsAdvOutputCurrentTHD
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.3
+    type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
       type: Integer
   - name: upsAdvOutputCrestFactor
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
+    type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
       type: Integer
   - name: upsAdvOutputNeutralCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.11
+    type: gauge
   - name: upsAdvOutputEnergyUsage
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.12
+    type: gauge
   - name: upsHighPrecOutputVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
+    type: gauge
   - name: upsHighPrecOutputFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.2
+    type: gauge
   - name: upsHighPrecOutputLoad
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.3
+    type: gauge
   - name: upsHighPrecOutputCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.4
+    type: gauge
   - name: upsHighPrecOutputEfficiency
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.5
+    type: gauge
   - name: upsHighPrecOutputEnergyUsage
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.6
+    type: gauge
   - name: upsAdvTestDiagnosticSchedule
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.1
+    type: gauge
   - name: upsAdvTestDiagnostics
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.2
+    type: gauge
   - name: upsAdvTestDiagnosticsResults
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.3
+    type: gauge
+  - name: upsAdvTestLastDiagnosticsDate
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.4
+    type: string
   - name: upsAdvTestRuntimeCalibration
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.5
+    type: gauge
   - name: upsAdvTestCalibrationResults
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.6
+    type: gauge
+  - name: upsAdvTestCalibrationDate
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.7
+    type: string
+  - name: upsAdvTestDiagnosticTime
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.8
+    type: string
   - name: upsAdvTestDiagnosticDay
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
+    type: gauge
   - name: upsCommStatus
     oid: 1.3.6.1.4.1.318.1.1.1.8.1
+    type: gauge
   - name: iemStatusProbeNumber
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.1
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  - name: iemStatusProbeName
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
+    type: string
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeStatus
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.3
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeCurrentTemp
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeTempUnits
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.5
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeCurrentHumid
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.6
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeHighTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.7
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeLowTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.8
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeHighHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.9
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeLowHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.10
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeMaxTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.11
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeMinTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.12
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeMaxHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.13
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
   - name: iemStatusProbeMinHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.14
+    type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
       type: Integer
+  - name: iemStatusProbeLocation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
+    type: string
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: Integer
+  version: 1
 cisco_wlc:
   walk:
   - 1.3.6.1.2.1.2
@@ -661,188 +946,244 @@ cisco_wlc:
   metrics:
   - name: ifNumber
     oid: 1.3.6.1.2.1.2.1
+    type: gauge
   - name: ifIndex
     oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: bsnDot11EssNumberOfMobileStations
     oid: 1.3.6.1.4.1.14179.2.1.1.1.38
+    type: counter
     indexes:
     - labelname: bsnDot11EssSsid
       type: Integer
@@ -853,6 +1194,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.1.1.1.2
   - name: bsnAPIfLoadChannelUtilization
     oid: 1.3.6.1.4.1.14179.2.2.13.1.3
+    type: gauge
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -865,6 +1207,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDBNoisePower
     oid: 1.3.6.1.4.1.14179.2.2.15.1.21
+    type: gauge
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -879,6 +1222,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnApIfNoOfUsers
     oid: 1.3.6.1.4.1.14179.2.2.2.1.15
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -891,6 +1235,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfType
     oid: 1.3.6.1.4.1.14179.2.2.2.1.2
+    type: gauge
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -903,6 +1248,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfPhyChannelNumber
     oid: 1.3.6.1.4.1.14179.2.2.2.1.4
+    type: gauge
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -915,6 +1261,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11TransmittedFragmentCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.1
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -927,6 +1274,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11MulticastTransmittedFrameCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.2
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -939,6 +1287,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11RetryCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.3
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -951,6 +1300,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11MultipleRetryCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.4
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -963,6 +1313,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11FrameDuplicateCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.5
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -975,6 +1326,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11RTSSuccessCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.6
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -987,6 +1339,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11RTSFailureCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.7
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -999,6 +1352,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11ACKFailureCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.8
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -1011,6 +1365,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11ReceivedFragmentCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.9
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -1023,6 +1378,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11MulticastReceivedFrameCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.10
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -1035,6 +1391,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11FCSErrorCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.11
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -1047,6 +1404,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11TransmittedFrameCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.12
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -1059,6 +1417,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11WEPUndecryptableCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.13
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -1071,6 +1430,7 @@ cisco_wlc:
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
   - name: bsnAPIfDot11FailedCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.33
+    type: counter
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
@@ -1089,10 +1449,24 @@ default:
   metrics:
   - name: sysUpTime
     oid: 1.3.6.1.2.1.1.3
+    type: gauge
   - name: ifNumber
     oid: 1.3.6.1.2.1.2.1
+    type: gauge
   - name: ifIndex
     oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: string
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1103,6 +1477,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1113,6 +1488,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1123,6 +1499,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1133,6 +1510,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1143,6 +1521,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1153,6 +1532,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1163,6 +1543,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1173,6 +1554,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1183,6 +1565,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1193,6 +1576,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1203,6 +1587,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1213,6 +1598,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1223,6 +1609,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1233,6 +1620,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1243,6 +1631,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1253,6 +1642,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1263,6 +1653,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1273,6 +1664,18 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: string
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1283,6 +1686,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1293,6 +1697,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1303,6 +1708,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1313,6 +1719,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1323,6 +1730,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1333,6 +1741,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1343,6 +1752,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1353,6 +1763,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1363,6 +1774,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1373,6 +1785,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1383,6 +1796,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1393,6 +1807,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1403,6 +1818,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1413,6 +1829,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1423,6 +1840,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1433,6 +1851,18 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: string
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1443,6 +1873,7 @@ default:
       oid: 1.3.6.1.2.1.2.2.1.2
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1459,185 +1890,241 @@ default_ifindex:
   metrics:
   - name: sysUpTime
     oid: 1.3.6.1.2.1.1.3
+    type: gauge
   - name: ifNumber
     oid: 1.3.6.1.2.1.2.1
+    type: gauge
   - name: ifIndex
     oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -1649,10 +2136,24 @@ default_ifname:
   metrics:
   - name: sysUpTime
     oid: 1.3.6.1.2.1.1.3
+    type: gauge
   - name: ifNumber
     oid: 1.3.6.1.2.1.2.1
+    type: gauge
   - name: ifIndex
     oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: string
     indexes:
     - labelname: ifName
       type: Integer
@@ -1663,6 +2164,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1673,6 +2175,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1683,6 +2186,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1693,6 +2197,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1703,6 +2208,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1713,6 +2219,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1723,6 +2230,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1733,6 +2241,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1743,6 +2252,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1753,6 +2263,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1763,6 +2274,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1773,6 +2285,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1783,6 +2296,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1793,6 +2307,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1803,6 +2318,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1813,6 +2329,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1823,6 +2340,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1833,6 +2351,18 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: string
     indexes:
     - labelname: ifName
       type: Integer
@@ -1843,6 +2373,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1853,6 +2384,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1863,6 +2395,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1873,6 +2406,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1883,6 +2417,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1893,6 +2428,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1903,6 +2439,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1913,6 +2450,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1923,6 +2461,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1933,6 +2472,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1943,6 +2483,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1953,6 +2494,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
     indexes:
     - labelname: ifName
       type: Integer
@@ -1963,6 +2505,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1973,6 +2516,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1983,6 +2527,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -1993,6 +2538,18 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: string
     indexes:
     - labelname: ifName
       type: Integer
@@ -2003,6 +2560,7 @@ default_ifname:
       oid: 1.3.6.1.2.1.31.1.1.1.1
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
     indexes:
     - labelname: ifName
       type: Integer
@@ -2022,93 +2580,124 @@ fortinet_fortigate:
   metrics:
   - name: sysUpTime
     oid: 1.3.6.1.2.1.1.3
+    type: gauge
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: string
+    indexes:
+    - labelname: ifIndex
+      type: Integer
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: string
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
     indexes:
     - labelname: ifIndex
       type: Integer
   - name: fgWcWtpSessionWtpStationCount
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.17
+    type: gauge
     indexes:
     - labelname: fgVdEntIndex
       type: Integer
@@ -2116,6 +2705,7 @@ fortinet_fortigate:
       type: OctetString
   - name: fgWcWtpSessionWtpByteRxCount
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.18
+    type: counter
     indexes:
     - labelname: fgVdEntIndex
       type: Integer
@@ -2123,6 +2713,7 @@ fortinet_fortigate:
       type: OctetString
   - name: fgWcWtpSessionWtpByteTxCount
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.19
+    type: counter
     indexes:
     - labelname: fgVdEntIndex
       type: Integer
@@ -2130,6 +2721,7 @@ fortinet_fortigate:
       type: OctetString
   - name: fgWcWtpSessionWtpUpTime
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.8
+    type: gauge
     indexes:
     - labelname: fgVdEntIndex
       type: Integer
@@ -2143,8 +2735,34 @@ servertech_sentry3:
   metrics:
   - name: sysUpTime
     oid: 1.3.6.1.2.1.1.3
+    type: gauge
   - name: infeedIndex
     oid: 1.3.6.1.4.1.1718.3.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+    type: string
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedName
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+    type: string
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedCapabilities
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.4
+    type: string
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2152,6 +2770,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedStatus
     oid: 1.3.6.1.4.1.1718.3.2.2.1.5
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2159,6 +2778,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedLoadStatus
     oid: 1.3.6.1.4.1.1718.3.2.2.1.6
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2166,6 +2786,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedLoadValue
     oid: 1.3.6.1.4.1.1718.3.2.2.1.7
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2173,6 +2794,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedLoadHighThresh
     oid: 1.3.6.1.4.1.1718.3.2.2.1.8
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2180,6 +2802,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedOutletCount
     oid: 1.3.6.1.4.1.1718.3.2.2.1.9
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2187,6 +2810,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedCapacity
     oid: 1.3.6.1.4.1.1718.3.2.2.1.10
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2194,6 +2818,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedVoltage
     oid: 1.3.6.1.4.1.1718.3.2.2.1.11
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2201,6 +2826,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedPower
     oid: 1.3.6.1.4.1.1718.3.2.2.1.12
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2208,6 +2834,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedApparentPower
     oid: 1.3.6.1.4.1.1718.3.2.2.1.13
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2215,6 +2842,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedPowerFactor
     oid: 1.3.6.1.4.1.1718.3.2.2.1.14
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2222,6 +2850,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedCrestFactor
     oid: 1.3.6.1.4.1.1718.3.2.2.1.15
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2229,6 +2858,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedEnergy
     oid: 1.3.6.1.4.1.1718.3.2.2.1.16
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2236,6 +2866,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedReactance
     oid: 1.3.6.1.4.1.1718.3.2.2.1.17
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2243,6 +2874,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedPhaseVoltage
     oid: 1.3.6.1.4.1.1718.3.2.2.1.18
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2250,6 +2882,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedPhaseCurrent
     oid: 1.3.6.1.4.1.1718.3.2.2.1.19
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2257,6 +2890,31 @@ servertech_sentry3:
       type: Integer
   - name: infeedCapacityUsed
     oid: 1.3.6.1.4.1.1718.3.2.2.1.20
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedLineID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.21
+    type: string
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedLineToLineID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.22
+    type: string
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+  - name: infeedPhaseID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.23
+    type: string
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2264,6 +2922,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedVACapacity
     oid: 1.3.6.1.4.1.1718.3.2.2.1.24
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2271,6 +2930,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedVACapacityUsed
     oid: 1.3.6.1.4.1.1718.3.2.2.1.25
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2278,6 +2938,37 @@ servertech_sentry3:
       type: Integer
   - name: outletIndex
     oid: 1.3.6.1.4.1.1718.3.2.3.1.1
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletID
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+    type: string
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletName
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+    type: string
+    indexes:
+    - labelname: towerIndex
+      type: Integer
+    - labelname: infeedIndex
+      type: Integer
+    - labelname: outletIndex
+      type: Integer
+  - name: outletCapabilities
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.4
+    type: string
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2287,6 +2978,7 @@ servertech_sentry3:
       type: Integer
   - name: outletStatus
     oid: 1.3.6.1.4.1.1718.3.2.3.1.5
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2296,6 +2988,7 @@ servertech_sentry3:
       type: Integer
   - name: outletLoadStatus
     oid: 1.3.6.1.4.1.1718.3.2.3.1.6
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2305,6 +2998,7 @@ servertech_sentry3:
       type: Integer
   - name: outletLoadValue
     oid: 1.3.6.1.4.1.1718.3.2.3.1.7
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2314,6 +3008,7 @@ servertech_sentry3:
       type: Integer
   - name: outletLoadLowThresh
     oid: 1.3.6.1.4.1.1718.3.2.3.1.8
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2323,6 +3018,7 @@ servertech_sentry3:
       type: Integer
   - name: outletLoadHighThresh
     oid: 1.3.6.1.4.1.1718.3.2.3.1.9
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2332,6 +3028,7 @@ servertech_sentry3:
       type: Integer
   - name: outletControlState
     oid: 1.3.6.1.4.1.1718.3.2.3.1.10
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2341,6 +3038,7 @@ servertech_sentry3:
       type: Integer
   - name: outletControlAction
     oid: 1.3.6.1.4.1.1718.3.2.3.1.11
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2350,6 +3048,7 @@ servertech_sentry3:
       type: Integer
   - name: outletCapacity
     oid: 1.3.6.1.4.1.1718.3.2.3.1.12
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2359,6 +3058,7 @@ servertech_sentry3:
       type: Integer
   - name: outletVoltage
     oid: 1.3.6.1.4.1.1718.3.2.3.1.13
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2368,6 +3068,7 @@ servertech_sentry3:
       type: Integer
   - name: outletPower
     oid: 1.3.6.1.4.1.1718.3.2.3.1.14
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2377,6 +3078,7 @@ servertech_sentry3:
       type: Integer
   - name: outletApparentPower
     oid: 1.3.6.1.4.1.1718.3.2.3.1.15
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2386,6 +3088,7 @@ servertech_sentry3:
       type: Integer
   - name: outletPowerFactor
     oid: 1.3.6.1.4.1.1718.3.2.3.1.16
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2395,6 +3098,7 @@ servertech_sentry3:
       type: Integer
   - name: outletCrestFactor
     oid: 1.3.6.1.4.1.1718.3.2.3.1.17
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2404,6 +3108,7 @@ servertech_sentry3:
       type: Integer
   - name: outletEnergy
     oid: 1.3.6.1.4.1.1718.3.2.3.1.18
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2413,6 +3118,7 @@ servertech_sentry3:
       type: Integer
   - name: outletWakeupState
     oid: 1.3.6.1.4.1.1718.3.2.3.1.19
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2422,6 +3128,7 @@ servertech_sentry3:
       type: Integer
   - name: outletPostOnDelay
     oid: 1.3.6.1.4.1.1718.3.2.3.1.20
+    type: gauge
     indexes:
     - labelname: towerIndex
       type: Integer
