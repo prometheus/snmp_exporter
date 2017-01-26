@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/prometheus/snmp_exporter/config"
 	"time"
+
+	"github.com/prometheus/snmp_exporter/config"
 )
 
 // The generator config.
@@ -29,8 +30,8 @@ type ModuleConfig struct {
 
 	// This need to be kepy in sync with the generated config.
 	Version        int           `yaml:"version,omitempty"`
-	Retries        int           `yaml:"retries,omitempty"`
 	MaxRepititions uint8         `yaml:"max_repititions,omitempty"`
+	Retries        int           `yaml:"retries,omitempty"`
 	Timeout        time.Duration `yaml:"timeout,omitempty"`
 	Auth           *config.Auth  `yaml:"auth,omitempty"`
 
