@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+	"time"
 
 	"github.com/soniah/gosnmp"
 	"gopkg.in/yaml.v2"
@@ -24,7 +25,10 @@ func LoadFile(filename string) (*Config, error) {
 
 var (
 	DefaultModule = Module{
-		Version: 2,
+		Version:        2,
+		Retries:        3,
+		MaxRepititions: 25,
+		Timeout:        60,
 	}
 	DefaultAuth = Auth{
 		Community:     "public",
@@ -42,8 +46,11 @@ type Module struct {
 	Walk    []string  `yaml:"walk"`
 	Metrics []*Metric `yaml:"metrics"`
 
-	Version int   `yaml:"version,omitempty"`
-	Auth    *Auth `yaml:"auth,omitempty"`
+	Version        int           `yaml:"version,omitempty"`
+	Retries        int           `yaml:"retries,omitempty"`
+	MaxRepititions uint8         `yaml:"max_repititions,omitempty"`
+	Timeout        time.Duration `yaml:"timeout,omitempty"`
+	Auth           *Auth         `yaml:"auth,omitempty"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }
