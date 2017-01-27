@@ -28,7 +28,7 @@ var (
 		Version:        2,
 		MaxRepititions: 25,
 		Retries:        3,
-		Timeout:        time.Second,
+		Timeout:        time.Second * 20,
 	}
 	DefaultAuth = Auth{
 		Community:     "public",
