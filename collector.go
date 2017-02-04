@@ -171,15 +171,18 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 
 	value := float64(gosnmp.ToBigInt(pdu.Value).Int64())
 	t := prometheus.UntypedValue
+	stringType := false
 
 	switch metric.Type {
 	case "counter":
 		t = prometheus.CounterValue
 	case "gauge":
 		t = prometheus.GaugeValue
-	case "string":
+	default:
+		// It's some form of string.
 		t = prometheus.GaugeValue
 		value = 1.0
+		stringType = true
 	}
 
 	labelnames := make([]string, 0, len(labels)+1)
@@ -190,10 +193,10 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 	}
 	// For strings we put the value as a label with the same name as the metric.
 	// If the name is already an index, we do not need to set it again.
-	if metric.Type == "string" {
+	if stringType {
 		if _, ok := labels[metric.Name]; !ok {
 			labelnames = append(labelnames, metric.Name)
-			labelvalues = append(labelvalues, pduValueAsString(pdu))
+			labelvalues = append(labelvalues, pduValueAsString(pdu, metric.Type))
 		}
 	}
 
@@ -217,7 +220,7 @@ func splitOid(oid []int, count int) ([]int, []int) {
 }
 
 // This mirrors decodeValue in gosnmp's helper.go.
-func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
+func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 	switch pdu.Value.(type) {
 	case int:
 		return strconv.Itoa(pdu.Value.(int))
@@ -230,10 +233,23 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
 			// Trim leading period.
 			return pdu.Value.(string)[1:]
 		}
+		// DisplayString
 		return pdu.Value.(string)
 	case []byte:
-		// OctetString
-		return string(pdu.Value.([]byte))
+		if typ == "" {
+			typ = "OctetString"
+		}
+		// Reuse the OID index parsing code.
+		parts := make([]int, len(pdu.Value.([]byte)))
+		for i, o := range pdu.Value.([]byte) {
+			parts[i] = int(o)
+		}
+		if typ == "OctetString" || typ == "DisplayString" {
+			// Prepend the length, as it is explicit in an index.
+			parts = append([]int{len(pdu.Value.([]byte))}, parts...)
+		}
+		str, _, _ := indexOidsAsString(parts, typ)
+		return str
 	case nil:
 		return ""
 	default:
@@ -244,86 +260,116 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
 	}
 }
 
+// Convert oids to a string index value.
+//
+// Returns the string, the oids that were used and the oids left over.
+func indexOidsAsString(indexOids []int, typ string) (string, []int, []int) {
+	switch typ {
+	case "Integer32", "Integer", "gauge", "counter":
+		// Extract the oid for this index, and keep the remainder for the next index.
+		subOid, indexOids := splitOid(indexOids, 1)
+		return fmt.Sprintf("%d", subOid[0]), subOid, indexOids
+	case "PhysAddress48":
+		subOid, indexOids := splitOid(indexOids, 6)
+		parts := make([]string, 6)
+		for i, o := range subOid {
+			parts[i] = fmt.Sprintf("%02X", o)
+		}
+		return strings.Join(parts, ":"), subOid, indexOids
+	case "OctetString":
+		subOid, indexOids := splitOid(indexOids, 1)
+		length := subOid[0]
+		content, indexOids := splitOid(indexOids, length)
+		subOid = append(subOid, content...)
+		parts := make([]byte, length)
+		for i, o := range content {
+			parts[i] = byte(o)
+		}
+		if len(parts) == 0 {
+			return "", subOid, indexOids
+		} else {
+			return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
+		}
+	case "DisplayString":
+		subOid, indexOids := splitOid(indexOids, 1)
+		length := subOid[0]
+		content, indexOids := splitOid(indexOids, length)
+		subOid = append(subOid, content...)
+		parts := make([]byte, length)
+		for i, o := range content {
+			parts[i] = byte(o)
+		}
+		// ASCII, so can convert staight to utf-8.
+		return string(parts), subOid, indexOids
+	case "InetAddress":
+		addressType, indexOids := splitOid(indexOids, 1)
+		octets, indexOids := splitOid(indexOids, 1)
+		address, indexOids := splitOid(indexOids, octets[0])
+		subOid := append(addressType, octets...)
+		subOid = append(subOid, address...)
+		if addressType[0] == 1 { // IPv4.
+			parts := make([]string, 4)
+			for i, o := range address {
+				parts[i] = strconv.Itoa(o)
+			}
+			return strings.Join(parts, "."), subOid, indexOids
+		} else if addressType[0] == 2 { // IPv6.
+			parts := make([]string, 8)
+			for i := 0; i < 8; i++ {
+				parts[i] = fmt.Sprintf("%02X%02X", address[i*2], address[i*2+1])
+			}
+			return strings.Join(parts, ":"), subOid, indexOids
+		} else { // Unknown, treat as OctetString.
+			parts := make([]byte, octets[0])
+			for i, o := range address {
+				parts[i] = byte(o)
+			}
+			return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
+		}
+	case "IpAddr":
+		subOid, indexOids := splitOid(indexOids, 4)
+		parts := make([]string, 4)
+		for i, o := range subOid {
+			parts[i] = strconv.Itoa(o)
+		}
+		return strings.Join(parts, "."), subOid, indexOids
+	case "InetAddressType":
+		subOid, indexOids := splitOid(indexOids, 1)
+		switch subOid[0] {
+		case 0:
+			return "unknown", subOid, indexOids
+		case 1:
+			return "ipv4", subOid, indexOids
+		case 2:
+			return "ipv6", subOid, indexOids
+		case 3:
+			return "ipv4z", subOid, indexOids
+		case 4:
+			return "ipv6z", subOid, indexOids
+		case 16:
+			return "dns", subOid, indexOids
+		default:
+			return strconv.Itoa(subOid[0]), subOid, indexOids
+		}
+	default:
+		log.Fatalf("Unknown index type %s", typ)
+		return "", nil, nil
+	}
+}
+
 func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) map[string]string {
 	labels := map[string]string{}
 	labelOids := map[string][]int{}
 
 	// Covert indexes to useful strings.
 	for _, index := range metric.Indexes {
-		var subOid, content, addressType, octets, address []int
-		switch index.Type {
-		case "Integer32", "Integer":
-			// Extract the oid for this index, and keep the remainder for the next index.
-			subOid, indexOids = splitOid(indexOids, 1)
-			// Save its oid in case we need it for lookups.
-			labelOids[index.Labelname] = subOid
-			// The labelname is the text form of the index oids.
-			labels[index.Labelname] = fmt.Sprintf("%d", subOid[0])
-		case "PhysAddress48":
-			subOid, indexOids = splitOid(indexOids, 6)
-			labelOids[index.Labelname] = subOid
-			parts := make([]string, 6)
-			for i, o := range subOid {
-				parts[i] = fmt.Sprintf("%02X", o)
-			}
-			labels[index.Labelname] = strings.Join(parts, ":")
-		case "OctetString":
-			subOid, indexOids = splitOid(indexOids, 1)
-			length := subOid[0]
-			content, indexOids = splitOid(indexOids, length)
-			labelOids[index.Labelname] = append(subOid, content...)
-			parts := make([]byte, length)
-			for i, o := range content {
-				parts[i] = byte(o)
-			}
-			labels[index.Labelname] = string(parts)
-		case "InetAddress":
-			addressType, indexOids = splitOid(indexOids, 1)
-			octets, indexOids = splitOid(indexOids, 1)
-			address, indexOids = splitOid(indexOids, octets[0])
-			labelOids[index.Labelname] = append(addressType, octets...)
-			labelOids[index.Labelname] = append(labelOids[index.Labelname], address...)
-			if addressType[0] == 1 { // IPv4.
-				parts := make([]string, 4)
-				for i, o := range address {
-					parts[i] = strconv.Itoa(o)
-				}
-				labels[index.Labelname] = strings.Join(parts, ".")
-			} else if addressType[0] == 2 { // IPv6.
-				parts := make([]string, 8)
-				for i := 0; i < 8; i++ {
-					parts[i] = fmt.Sprintf("%02X%02X", address[i*2], address[i*2+1])
-				}
-				labels[index.Labelname] = strings.Join(parts, ":")
-			}
-		case "IpAddress":
-			subOid, indexOids = splitOid(indexOids, 4)
-			labelOids[index.Labelname] = subOid
-			parts := make([]string, 4)
-			for i, o := range subOid {
-				parts[i] = strconv.Itoa(o)
-			}
-			labels[index.Labelname] = strings.Join(parts, ".")
-		case "InetAddressType":
-			subOid, indexOids = splitOid(indexOids, 1)
-			labelOids[index.Labelname] = subOid
-			switch subOid[0] {
-			case 0:
-				labels[index.Labelname] = "unknown"
-			case 1:
-				labels[index.Labelname] = "ipv4"
-			case 2:
-				labels[index.Labelname] = "ipv6"
-			case 3:
-				labels[index.Labelname] = "ipv4z"
-			case 4:
-				labels[index.Labelname] = "ipv6z"
-			case 16:
-				labels[index.Labelname] = "dns"
-			default:
-				labels[index.Labelname] = strconv.Itoa(subOid[0])
-			}
-		}
+		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type)
+		// The labelvalue is the text form of the index oids.
+		labels[index.Labelname] = str
+		// Save its oid in case we need it for lookups.
+		labelOids[index.Labelname] = subOid
+		// For the next iteration.
+		indexOids = remainingOids
 	}
 
 	// Perform lookups.
@@ -335,7 +381,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 			}
 		}
 		if pdu, ok := oidToPdu[oid]; ok {
-			labels[lookup.Labelname] = pduValueAsString(&pdu)
+			labels[lookup.Labelname] = pduValueAsString(&pdu, lookup.Type)
 		} else {
 			labels[lookup.Labelname] = ""
 		}

@@ -197,12 +197,22 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "OCTETSTR",
 						Oid:  "1.2",
-						Type: "string",
+						Type: "OctetString",
 					},
 					{
 						Name: "INTEGER",
 						Oid:  "1.3",
 						Type: "gauge",
+					},
+					{
+						Name: "NETADDR",
+						Oid:  "1.4",
+						Type: "InetAddress",
+					},
+					{
+						Name: "IPADDR",
+						Oid:  "1.5",
+						Type: "IpAddr",
 					},
 					{
 						Name: "COUNTER",
@@ -227,7 +237,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "BITSTRING",
 						Oid:  "1.12",
-						Type: "string",
+						Type: "OctetString",
 					},
 					{
 						Name: "UINTEGER",
@@ -243,6 +253,11 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "INTEGER32",
 						Oid:  "1.16",
 						Type: "gauge",
+					},
+					{
+						Name: "MacAddress",
+						Oid:  "1.100",
+						Type: "PhysAddress48",
 					},
 				},
 			},
@@ -271,7 +286,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Indexes: []*config.Index{
 							{
 								Labelname: "tableIndex",
-								Type:      "Integer",
+								Type:      "gauge",
 							},
 						},
 					},
@@ -282,7 +297,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Indexes: []*config.Index{
 							{
 								Labelname: "tableIndex",
-								Type:      "Integer",
+								Type:      "gauge",
 							},
 						},
 					},
@@ -321,7 +336,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Children: []*Node{
 							{Oid: "1.5.1", Label: "physaddress48Entry", Indexes: []string{"physaddress48Index"},
 								Children: []*Node{
-									{Oid: "1.5.1.1", Label: "physaddress48Index", Type: "OCTETSTRING", Hint: "1x:"},
+									{Oid: "1.5.1.1", Label: "physaddress48Index", Type: "OCTETSTR", Hint: "1x:"},
 									{Oid: "1.5.1.2", Label: "physaddress48Foo", Type: "INTEGER"}}}}},
 				}},
 			cfg: &ModuleConfig{
@@ -333,7 +348,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "octetIndex",
 						Oid:  "1.1.1.1",
-						Type: "string",
+						Type: "OctetString",
 						Indexes: []*config.Index{
 							{
 								Labelname: "octetIndex",
@@ -355,7 +370,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "bitstringIndex",
 						Oid:  "1.2.1.1",
-						Type: "string",
+						Type: "OctetString",
 						Indexes: []*config.Index{
 							{
 								Labelname: "bitstringIndex",
@@ -375,6 +390,17 @@ func TestGenerateConfigModule(t *testing.T) {
 						},
 					},
 					{
+						Name: "ipaddrIndex",
+						Oid:  "1.3.1.1",
+						Type: "IpAddr",
+						Indexes: []*config.Index{
+							{
+								Labelname: "ipaddrIndex",
+								Type:      "IpAddr",
+							},
+						},
+					},
+					{
 						Name: "ipaddrFoo",
 						Oid:  "1.3.1.2",
 						Type: "gauge",
@@ -386,6 +412,17 @@ func TestGenerateConfigModule(t *testing.T) {
 						},
 					},
 					{
+						Name: "netaddrIndex",
+						Oid:  "1.4.1.1",
+						Type: "InetAddress",
+						Indexes: []*config.Index{
+							{
+								Labelname: "netaddrIndex",
+								Type:      "InetAddress",
+							},
+						},
+					},
+					{
 						Name: "netaddrFoo",
 						Oid:  "1.4.1.2",
 						Type: "gauge",
@@ -393,6 +430,17 @@ func TestGenerateConfigModule(t *testing.T) {
 							{
 								Labelname: "netaddrIndex",
 								Type:      "InetAddress",
+							},
+						},
+					},
+					{
+						Name: "physaddress48Index",
+						Oid:  "1.5.1.1",
+						Type: "PhysAddress48",
+						Indexes: []*config.Index{
+							{
+								Labelname: "physaddress48Index",
+								Type:      "PhysAddress48",
 							},
 						},
 					},
@@ -419,7 +467,7 @@ func TestGenerateConfigModule(t *testing.T) {
 							{Oid: "1.1.1", Label: "octetEntry", Indexes: []string{"octetIndex"},
 								Children: []*Node{
 									{Oid: "1.1.1.1", Label: "octetIndex", Type: "INTEGER"},
-									{Oid: "1.1.1.2", Label: "octetDesc", Type: "OCTETSTRING"},
+									{Oid: "1.1.1.2", Label: "octetDesc", Type: "OCTETSTR"},
 									{Oid: "1.1.1.3", Label: "octetFoo", Type: "INTEGER"}}}}}}},
 			cfg: &ModuleConfig{
 				Walk: []string{"octetFoo"},
@@ -441,13 +489,14 @@ func TestGenerateConfigModule(t *testing.T) {
 						Indexes: []*config.Index{
 							{
 								Labelname: "octetDesc",
-								Type:      "Integer",
+								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
 								Labels:    []string{"octetDesc"},
 								Labelname: "octetDesc",
+								Type:      "OctetString",
 								Oid:       "1.1.1.2",
 							},
 						},
