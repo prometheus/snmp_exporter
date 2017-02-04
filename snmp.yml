@@ -24,7 +24,7 @@ apcups:
       type: Integer
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -43,6 +43,12 @@ apcups:
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -150,6 +156,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
   - name: upsOutletGroupStatusName
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
     type: string
@@ -161,6 +168,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
   - name: upsOutletGroupStatusGroupState
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
     type: gauge
@@ -172,6 +180,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
   - name: upsOutletGroupStatusCommandPending
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
     type: gauge
@@ -183,6 +192,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
   - name: upsOutletGroupStatusOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
     type: gauge
@@ -194,6 +204,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
   - name: upsOutletGroupConfigTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.1
     type: gauge
@@ -955,7 +966,7 @@ cisco_wlc:
       type: Integer
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -974,6 +985,12 @@ cisco_wlc:
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -1069,7 +1086,7 @@ cisco_wlc:
       type: Integer
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -1171,7 +1188,7 @@ cisco_wlc:
       type: Integer
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -1192,6 +1209,7 @@ cisco_wlc:
       - bsnDot11EssSsid
       labelname: bsnDot11EssSsid
       oid: 1.3.6.1.4.1.14179.2.1.1.1.2
+      type: DisplayString
   - name: bsnAPIfLoadChannelUtilization
     oid: 1.3.6.1.4.1.14179.2.2.13.1.3
     type: gauge
@@ -1205,6 +1223,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDBNoisePower
     oid: 1.3.6.1.4.1.14179.2.2.15.1.21
     type: gauge
@@ -1220,6 +1239,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnApIfNoOfUsers
     oid: 1.3.6.1.4.1.14179.2.2.2.1.15
     type: counter
@@ -1233,6 +1253,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfType
     oid: 1.3.6.1.4.1.14179.2.2.2.1.2
     type: gauge
@@ -1246,6 +1267,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfPhyChannelNumber
     oid: 1.3.6.1.4.1.14179.2.2.2.1.4
     type: gauge
@@ -1259,6 +1281,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11TransmittedFragmentCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.1
     type: counter
@@ -1272,6 +1295,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11MulticastTransmittedFrameCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.2
     type: counter
@@ -1285,6 +1309,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11RetryCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.3
     type: counter
@@ -1298,6 +1323,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11MultipleRetryCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.4
     type: counter
@@ -1311,6 +1337,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11FrameDuplicateCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.5
     type: counter
@@ -1324,6 +1351,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11RTSSuccessCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.6
     type: counter
@@ -1337,6 +1365,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11RTSFailureCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.7
     type: counter
@@ -1350,6 +1379,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11ACKFailureCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.8
     type: counter
@@ -1363,6 +1393,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11ReceivedFragmentCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.9
     type: counter
@@ -1376,6 +1407,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11MulticastReceivedFrameCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.10
     type: counter
@@ -1389,6 +1421,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11FCSErrorCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.11
     type: counter
@@ -1402,6 +1435,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11TransmittedFrameCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.12
     type: counter
@@ -1415,6 +1449,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11WEPUndecryptableCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.13
     type: counter
@@ -1428,6 +1463,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
   - name: bsnAPIfDot11FailedCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.33
     type: counter
@@ -1441,6 +1477,7 @@ cisco_wlc:
       - bsnAPName
       labelname: bsnAPName
       oid: 1.3.6.1.4.1.14179.2.2.1.1.3
+      type: OctetString
 default:
   walk:
   - 1.3.6.1.2.1.1.3
@@ -1464,9 +1501,10 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1475,6 +1513,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: gauge
@@ -1486,6 +1525,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -1497,6 +1537,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
@@ -1508,6 +1549,19 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    indexes:
+    - labelname: ifDescr
+      type: Integer
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
     type: gauge
@@ -1519,6 +1573,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -1530,6 +1585,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -1541,6 +1597,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
     type: counter
@@ -1552,6 +1609,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
     type: counter
@@ -1563,6 +1621,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
     type: counter
@@ -1574,6 +1633,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
     type: counter
@@ -1585,6 +1645,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
     type: counter
@@ -1596,6 +1657,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
     type: counter
@@ -1607,6 +1669,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
     type: counter
@@ -1618,6 +1681,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
     type: counter
@@ -1629,6 +1693,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
     type: counter
@@ -1640,6 +1705,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
     type: counter
@@ -1651,6 +1717,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
     type: counter
@@ -1662,6 +1729,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
     type: gauge
@@ -1673,9 +1741,10 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1684,6 +1753,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
     type: counter
@@ -1695,6 +1765,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
     type: counter
@@ -1706,6 +1777,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
     type: counter
@@ -1717,6 +1789,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
     type: counter
@@ -1728,6 +1801,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
     type: counter
@@ -1739,6 +1813,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
     type: counter
@@ -1750,6 +1825,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
     type: counter
@@ -1761,6 +1837,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
     type: counter
@@ -1772,6 +1849,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
     type: counter
@@ -1783,6 +1861,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
     type: counter
@@ -1794,6 +1873,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
     type: counter
@@ -1805,6 +1885,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
     type: counter
@@ -1816,6 +1897,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
     type: gauge
@@ -1827,6 +1909,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -1838,6 +1921,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
     type: gauge
@@ -1849,6 +1933,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -1860,9 +1945,10 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifDescr
       type: Integer
@@ -1871,6 +1957,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
     type: gauge
@@ -1882,6 +1969,7 @@ default:
       - ifDescr
       labelname: ifDescr
       oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
 default_ifindex:
   walk:
   - 1.3.6.1.2.1.1.3
@@ -1902,7 +1990,7 @@ default_ifindex:
       type: Integer
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -1921,6 +2009,12 @@ default_ifindex:
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -2016,7 +2110,7 @@ default_ifindex:
       type: Integer
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -2118,7 +2212,7 @@ default_ifindex:
       type: Integer
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -2151,9 +2245,10 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifName
       type: Integer
@@ -2162,6 +2257,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: gauge
@@ -2173,6 +2269,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -2184,6 +2281,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
@@ -2195,6 +2293,19 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    indexes:
+    - labelname: ifName
+      type: Integer
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
     type: gauge
@@ -2206,6 +2317,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -2217,6 +2329,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -2228,6 +2341,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
     type: counter
@@ -2239,6 +2353,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
     type: counter
@@ -2250,6 +2365,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
     type: counter
@@ -2261,6 +2377,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
     type: counter
@@ -2272,6 +2389,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
     type: counter
@@ -2283,6 +2401,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
     type: counter
@@ -2294,6 +2413,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
     type: counter
@@ -2305,6 +2425,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
     type: counter
@@ -2316,6 +2437,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
     type: counter
@@ -2327,6 +2449,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
     type: counter
@@ -2338,6 +2461,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
     type: counter
@@ -2349,6 +2473,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
     type: gauge
@@ -2360,9 +2485,10 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifName
       type: Integer
@@ -2371,6 +2497,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
     type: counter
@@ -2382,6 +2509,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
     type: counter
@@ -2393,6 +2521,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
     type: counter
@@ -2404,6 +2533,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
     type: counter
@@ -2415,6 +2545,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
     type: counter
@@ -2426,6 +2557,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
     type: counter
@@ -2437,6 +2569,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
     type: counter
@@ -2448,6 +2581,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
     type: counter
@@ -2459,6 +2593,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
     type: counter
@@ -2470,6 +2605,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
     type: counter
@@ -2481,6 +2617,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
     type: counter
@@ -2492,6 +2629,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
     type: counter
@@ -2503,6 +2641,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
     type: gauge
@@ -2514,6 +2653,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -2525,6 +2665,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
     type: gauge
@@ -2536,6 +2677,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -2547,9 +2689,10 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifName
       type: Integer
@@ -2558,6 +2701,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
     type: gauge
@@ -2569,6 +2713,7 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
 fortinet_fortigate:
   walk:
   - 1.3.6.1.2.1.1.3
@@ -2583,7 +2728,7 @@ fortinet_fortigate:
     type: gauge
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -2685,7 +2830,7 @@ fortinet_fortigate:
       type: Integer
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
       type: Integer
@@ -2702,7 +2847,7 @@ fortinet_fortigate:
     - labelname: fgVdEntIndex
       type: Integer
     - labelname: fgWcWtpSessionWtpId
-      type: OctetString
+      type: DisplayString
   - name: fgWcWtpSessionWtpByteRxCount
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.18
     type: counter
@@ -2710,7 +2855,7 @@ fortinet_fortigate:
     - labelname: fgVdEntIndex
       type: Integer
     - labelname: fgWcWtpSessionWtpId
-      type: OctetString
+      type: DisplayString
   - name: fgWcWtpSessionWtpByteTxCount
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.19
     type: counter
@@ -2718,7 +2863,7 @@ fortinet_fortigate:
     - labelname: fgVdEntIndex
       type: Integer
     - labelname: fgWcWtpSessionWtpId
-      type: OctetString
+      type: DisplayString
   - name: fgWcWtpSessionWtpUpTime
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.8
     type: gauge
@@ -2726,7 +2871,7 @@ fortinet_fortigate:
     - labelname: fgVdEntIndex
       type: Integer
     - labelname: fgWcWtpSessionWtpId
-      type: OctetString
+      type: DisplayString
 servertech_sentry3:
   walk:
   - 1.3.6.1.2.1.1.3
@@ -2746,7 +2891,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedID
     oid: 1.3.6.1.4.1.1718.3.2.2.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2754,7 +2899,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedName
     oid: 1.3.6.1.4.1.1718.3.2.2.1.3
-    type: string
+    type: DisplayString
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2898,7 +3043,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedLineID
     oid: 1.3.6.1.4.1.1718.3.2.2.1.21
-    type: string
+    type: DisplayString
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2906,7 +3051,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedLineToLineID
     oid: 1.3.6.1.4.1.1718.3.2.2.1.22
-    type: string
+    type: DisplayString
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2914,7 +3059,7 @@ servertech_sentry3:
       type: Integer
   - name: infeedPhaseID
     oid: 1.3.6.1.4.1.1718.3.2.2.1.23
-    type: string
+    type: DisplayString
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2948,7 +3093,7 @@ servertech_sentry3:
       type: Integer
   - name: outletID
     oid: 1.3.6.1.4.1.1718.3.2.3.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: towerIndex
       type: Integer
@@ -2958,7 +3103,7 @@ servertech_sentry3:
       type: Integer
   - name: outletName
     oid: 1.3.6.1.4.1.1718.3.2.3.1.3
-    type: string
+    type: DisplayString
     indexes:
     - labelname: towerIndex
       type: Integer
