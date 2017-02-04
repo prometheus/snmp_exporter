@@ -91,12 +91,16 @@ func TestPduValueAsString(t *testing.T) {
 			result: "1.2.3.4",
 		},
 		{
-			pdu:    &gosnmp.SnmpPDU{Value: []byte{65, 66}},
-			result: "AB",
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{}},
+			result: "",
 		},
 		{
-			pdu:    &gosnmp.SnmpPDU{Value: []byte{127, 128, 255}},
-			result: "\x7f\x80\xff",
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{65, 66}},
+			result: "0x4142",
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{127, 128, 255, 0}},
+			result: "0x7F80FF00",
 		},
 		{
 			pdu:    &gosnmp.SnmpPDU{Value: nil},

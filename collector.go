@@ -171,15 +171,18 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 
 	value := float64(gosnmp.ToBigInt(pdu.Value).Int64())
 	t := prometheus.UntypedValue
+	stringType := false
 
 	switch metric.Type {
 	case "counter":
 		t = prometheus.CounterValue
 	case "gauge":
 		t = prometheus.GaugeValue
-	case "string":
+	default:
+    // It's some form of string.
 		t = prometheus.GaugeValue
 		value = 1.0
+		stringType = true
 	}
 
 	labelnames := make([]string, 0, len(labels)+1)
@@ -190,10 +193,10 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 	}
 	// For strings we put the value as a label with the same name as the metric.
 	// If the name is already an index, we do not need to set it again.
-	if metric.Type == "string" {
+	if stringType {
 		if _, ok := labels[metric.Name]; !ok {
 			labelnames = append(labelnames, metric.Name)
-			labelvalues = append(labelvalues, pduValueAsString(pdu))
+			labelvalues = append(labelvalues, pduValueAsString(pdu, metric.Type))
 		}
 	}
 
@@ -217,7 +220,7 @@ func splitOid(oid []int, count int) ([]int, []int) {
 }
 
 // This mirrors decodeValue in gosnmp's helper.go.
-func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
+func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 	switch pdu.Value.(type) {
 	case int:
 		return strconv.Itoa(pdu.Value.(int))
@@ -232,8 +235,21 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU) string {
 		}
 		return pdu.Value.(string)
 	case []byte:
-		// OctetString
-		return string(pdu.Value.([]byte))
+		switch typ {
+		case "DisplayString":
+			return string(pdu.Value.([]byte))
+		case "PhysAddress48":
+			parts := make([]string, 6)
+			for i, o := range pdu.Value.([]byte) {
+				parts[i] = fmt.Sprintf("%02X", o)
+			}
+			return strings.Join(parts, ":")
+		default: // Assume OctetString.
+			if len(pdu.Value.([]byte)) == 0 {
+				return ""
+			}
+			return fmt.Sprintf("0x%X", pdu.Value.([]byte))
+		}
 	case nil:
 		return ""
 	default:
@@ -268,6 +284,20 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 			}
 			labels[index.Labelname] = strings.Join(parts, ":")
 		case "OctetString":
+			subOid, indexOids = splitOid(indexOids, 1)
+			length := subOid[0]
+			content, indexOids = splitOid(indexOids, length)
+			labelOids[index.Labelname] = append(subOid, content...)
+			parts := make([]byte, length)
+			for i, o := range content {
+				parts[i] = byte(o)
+			}
+			if len(parts) == 0 {
+				labels[index.Labelname] = ""
+			} else {
+				labels[index.Labelname] = fmt.Sprintf("0x%X", string(parts))
+			}
+		case "DisplayString":
 			subOid, indexOids = splitOid(indexOids, 1)
 			length := subOid[0]
 			content, indexOids = splitOid(indexOids, length)
@@ -335,7 +365,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 			}
 		}
 		if pdu, ok := oidToPdu[oid]; ok {
-			labels[lookup.Labelname] = pduValueAsString(&pdu)
+			labels[lookup.Labelname] = pduValueAsString(&pdu, lookup.Type)
 		} else {
 			labels[lookup.Labelname] = ""
 		}

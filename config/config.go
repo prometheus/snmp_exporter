@@ -180,6 +180,7 @@ type Lookup struct {
 	Labels    []string `yaml:"labels"`
 	Labelname string   `yaml:"labelname"`
 	Oid       string   `yaml:"oid"`
+	Type      string   `yaml:"type"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }

@@ -72,16 +72,22 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 	})
 
-	// Set type on MAC addresses.
+	// Set type on MAC addresses and ASCII strings.
 	walkNode(nodes, func(n *Node) {
 		// For some odd reason ifPhysAddress's MIB isn't being parsed correctly
 		// so set this by hand.
-		if n.Oid == "1.3.6.1.2.1.2.2.1.6" {
+		switch n.Label {
+		case "ifPhysAddress":
 			n.Hint = "1x:"
+		case "ifDescr", "ifName", "ifAlias":
+			n.Hint = "255a"
 		}
 		// RFC 2579
-		if n.Hint == "1x:" {
+		switch n.Hint {
+		case "1x:":
 			n.Type = "PhysAddress48"
+		case "255a":
+			n.Type = "DisplayString"
 		}
 	})
 
@@ -105,9 +111,27 @@ func metricType(t string) (string, bool) {
 		return "counter", true
 	case "OCTETSTR", "BITSTRING":
 		return "string", true
+	case "PhysAddress48", "DisplayString":
+		return t, true
 	default:
 		// Unsupported type.
 		return "", false
+	}
+}
+
+func indexType(t string) string {
+	switch {
+	case isNumericType(t):
+		return "Integer"
+	case t == "OCTETSTR" || t == "BITSTRING":
+		return "OctetString"
+	case t == "IPADDR":
+		return "IpAddr"
+	case t == "NETADDR":
+		// TODO: Not sure about this one.
+		return "InetAddress"
+	default:
+		return t
 	}
 }
 
@@ -163,20 +187,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					log.Warnf("Error, can't find index %s for node %s", i, n.Label)
 					return
 				}
-				indexType := indexNode.Type
-				switch {
-				case isNumericType(indexType):
-					index.Type = "Integer"
-				case indexType == "OCTETSTR" || indexType == "BITSTRING":
-					index.Type = "OctetString"
-				case indexType == "IPADDR":
-					index.Type = "IpAddr"
-				case indexType == "NETADDR":
-					// TODO: Not sure about this one.
-					index.Type = "InetAddress"
-				case indexType == "PhysAddress48":
-					index.Type = "PhysAddress48"
-				}
+				index.Type = indexType(indexNode.Type)
 				metric.Indexes = append(metric.Indexes, index)
 			}
 			out.Metrics = append(out.Metrics, metric)
@@ -191,16 +202,17 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					if _, ok := nameToNode[lookup.NewIndex]; !ok {
 						log.Fatalf("Unknown index '%s'", lookup.NewIndex)
 					}
-					oid := nameToNode[lookup.NewIndex].Oid
+					indexNode := nameToNode[lookup.NewIndex]
 					// Avoid leaving the old labelname around.
 					index.Labelname = lookup.NewIndex
 					metric.Lookups = append(metric.Lookups, &config.Lookup{
 						Labels:    []string{lookup.NewIndex},
 						Labelname: lookup.NewIndex,
-						Oid:       oid,
+						Type:      indexType(indexNode.Type),
+						Oid:       indexNode.Oid,
 					})
 					// Make sure we walk the lookup OID
-					needToWalk[oid] = struct{}{}
+					needToWalk[indexNode.Oid] = struct{}{}
 				}
 			}
 		}
