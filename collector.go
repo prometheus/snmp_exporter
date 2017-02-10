@@ -244,6 +244,12 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 				parts[i] = fmt.Sprintf("%02X", o)
 			}
 			return strings.Join(parts, ":")
+		case "IpAddress":
+			parts := make([]string, 4)
+				for i, o := range pdu.Value.([]byte) {
+					parts[i] = strconv.Itoa(int(o))
+				}
+			return strings.Join(parts, ".")
 		default: // Assume OctetString.
 			if len(pdu.Value.([]byte)) == 0 {
 				return ""
