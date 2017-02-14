@@ -101,3 +101,17 @@ modules:
       - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
       - 1.3.6.1.4.1.1718.3.2.3  # outletTable
 
+# A10 Ax Load Balancers
+#
+# The MIBs can be downloaded directly from the device.
+# A10 Networks doesn't share them publicly.
+# 
+  a10_axlb:
+    walk:
+      - sysUpTime # Uptime
+      - interfaces # Interfaces 
+      - axSysCpu # CPU stats
+      - axSysMemory # Memory stats
+      - axSysDisk # Disk stats
+      - axSysHwInfo # Hardware stats (Temperature, Fans Speed)
+      - axNetwork # Network stats
