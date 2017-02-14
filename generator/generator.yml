@@ -115,3 +115,4 @@ modules:
       - axSysDisk # Disk stats
       - axSysHwInfo # Hardware stats (Temperature, Fans Speed)
       - axNetwork # Network stats
+
