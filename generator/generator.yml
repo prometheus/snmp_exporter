@@ -103,7 +103,11 @@ modules:
 
 # A10 Ax Load Balancers
 #
-# The MIBs can be downloaded directly from the device.
+# The MIB files are available for download through the load balancer GUI:
+# - Hover over System on the menu bar, then select Monitoring.
+# - Click on the SNMP tab, then select SNMP MIB Download from the drop-down menu.
+# - Select a target location for the MIB archive file, the click Save.
+#
 # A10 Networks doesn't share them publicly.
 # 
   a10_axlb:
