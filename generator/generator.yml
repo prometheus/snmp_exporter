@@ -120,3 +120,22 @@ modules:
       - axSysHwInfo # Hardware stats (Temperature, Fans Speed)
       - axNetwork # Network stats
 
+# Palo Alto Firewalls
+#
+# Palo Alto MIBs can be found here: 
+# https://www.paloaltonetworks.com/documentation/misc/snmp-mibs.html
+# 
+# PanOS 7.1 enterprise MIBs:
+# https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.1.zip
+#
+  paloalto_fw:
+    walk: 
+      - sysUpTime # Uptime
+      - interfaces # Interfaces 
+      - hrDevice 
+      - hrSystem 
+      - hrStorage 
+      - 1.3.6.1.4.1.25461.2.1.2.1 # system objects
+      - 1.3.6.1.4.1.25461.2.1.2.3 # session utilization
+      - 1.3.6.1.4.1.25461.2.1.2.5 # global protect gateway utilization
+
