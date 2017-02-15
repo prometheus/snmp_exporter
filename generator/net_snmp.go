@@ -1,7 +1,7 @@
 package main
 
 /*
-#cgo LDFLAGS: -lsnmp
+#cgo LDFLAGS: -lnetsnmp
 #include <net-snmp/net-snmp-config.h>
 #include <net-snmp/mib_api.h>
 #include <unistd.h>
