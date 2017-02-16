@@ -112,13 +112,13 @@ modules:
 # 
   a10_axlb:
     walk:
-      - sysUpTime # Uptime
-      - interfaces # Interfaces 
-      - axSysCpu # CPU stats
-      - axSysMemory # Memory stats
-      - axSysDisk # Disk stats
-      - axSysHwInfo # Hardware stats (Temperature, Fans Speed)
-      - axNetwork # Network stats
+      - sysUpTime 
+      - interfaces 
+      - axSysCpu 
+      - axSysMemory
+      - axSysDisk 
+      - axSysHwInfo 
+      - axNetwork 
 
 # Palo Alto Firewalls
 #
@@ -128,14 +128,16 @@ modules:
 # PanOS 7.1 enterprise MIBs:
 # https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.1.zip
 #
+# Tested on a Palo Alto Networks PA-3020 series firewall
+#
   paloalto_fw:
     walk: 
-      - sysUpTime # Uptime
-      - interfaces # Interfaces 
+      - sysUpTime 
+      - interfaces  
       - hrDevice 
       - hrSystem 
       - hrStorage 
-      - 1.3.6.1.4.1.25461.2.1.2.1 # system objects
-      - 1.3.6.1.4.1.25461.2.1.2.3 # session utilization
-      - 1.3.6.1.4.1.25461.2.1.2.5 # global protect gateway utilization
+      - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
+      - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
+      - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
 
