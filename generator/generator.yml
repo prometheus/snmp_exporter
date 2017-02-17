@@ -101,25 +101,6 @@ modules:
       - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
       - 1.3.6.1.4.1.1718.3.2.3  # outletTable
 
-# A10 Ax Load Balancers
-#
-# The MIB files are available for download through the load balancer GUI:
-# - Hover over System on the menu bar, then select Monitoring.
-# - Click on the SNMP tab, then select SNMP MIB Download from the drop-down menu.
-# - Select a target location for the MIB archive file, the click Save.
-#
-# A10 Networks doesn't share them publicly.
-# 
-  a10_axlb:
-    walk:
-      - sysUpTime 
-      - interfaces 
-      - axSysCpu 
-      - axSysMemory
-      - axSysDisk 
-      - axSysHwInfo 
-      - axNetwork 
-
 # Palo Alto Firewalls
 #
 # Palo Alto MIBs can be found here: 
