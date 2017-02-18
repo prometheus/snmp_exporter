@@ -30,7 +30,6 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
 * APC: ftp://ftp.apc.com/apc/public/software/pnetmib/mib/419/powernet419.mib
 * Fortinet: http://kb.fortinet.com/kb/documentLink.do?externalID=11607
 * Servertech: ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
-* Palo Alto: https://www.paloaltonetworks.com/documentation/misc/snmp-mibs.html
 * Palo Alto PanOS 7.1 enterprise MIBs: https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.1.zip
 
 https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
