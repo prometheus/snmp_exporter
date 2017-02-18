@@ -3136,3 +3136,645 @@ servertech_sentry3:
       type: Integer
     - labelname: outletIndex
       type: Integer
+paloalto_fw:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.25.1
+  - 1.3.6.1.2.1.25.2
+  - 1.3.6.1.2.1.25.3
+  - 1.3.6.1.4.1.25461.2.1.2.1
+  - 1.3.6.1.4.1.25461.2.1.2.3
+  - 1.3.6.1.4.1.25461.2.1.2.5
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: string
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: hrSystemUptime
+    oid: 1.3.6.1.2.1.25.1.1
+    type: gauge
+  - name: hrSystemDate
+    oid: 1.3.6.1.2.1.25.1.2
+    type: string
+  - name: hrSystemInitialLoadDevice
+    oid: 1.3.6.1.2.1.25.1.3
+    type: gauge
+  - name: hrSystemInitialLoadParameters
+    oid: 1.3.6.1.2.1.25.1.4
+    type: string
+  - name: hrSystemNumUsers
+    oid: 1.3.6.1.2.1.25.1.5
+    type: gauge
+  - name: hrSystemProcesses
+    oid: 1.3.6.1.2.1.25.1.6
+    type: gauge
+  - name: hrSystemMaxProcesses
+    oid: 1.3.6.1.2.1.25.1.7
+    type: gauge
+  - name: hrMemorySize
+    oid: 1.3.6.1.2.1.25.2.2
+    type: gauge
+  - name: hrStorageIndex
+    oid: 1.3.6.1.2.1.25.2.3.1.1
+    type: gauge
+    indexes:
+    - labelname: hrStorageIndex
+      type: Integer
+  - name: hrStorageDescr
+    oid: 1.3.6.1.2.1.25.2.3.1.3
+    type: string
+    indexes:
+    - labelname: hrStorageIndex
+      type: Integer
+  - name: hrStorageAllocationUnits
+    oid: 1.3.6.1.2.1.25.2.3.1.4
+    type: gauge
+    indexes:
+    - labelname: hrStorageIndex
+      type: Integer
+  - name: hrStorageSize
+    oid: 1.3.6.1.2.1.25.2.3.1.5
+    type: gauge
+    indexes:
+    - labelname: hrStorageIndex
+      type: Integer
+  - name: hrStorageUsed
+    oid: 1.3.6.1.2.1.25.2.3.1.6
+    type: gauge
+    indexes:
+    - labelname: hrStorageIndex
+      type: Integer
+  - name: hrStorageAllocationFailures
+    oid: 1.3.6.1.2.1.25.2.3.1.7
+    type: counter
+    indexes:
+    - labelname: hrStorageIndex
+      type: Integer
+  - name: hrDeviceIndex
+    oid: 1.3.6.1.2.1.25.3.2.1.1
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrDeviceDescr
+    oid: 1.3.6.1.2.1.25.3.2.1.3
+    type: string
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrDeviceStatus
+    oid: 1.3.6.1.2.1.25.3.2.1.5
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrDeviceErrors
+    oid: 1.3.6.1.2.1.25.3.2.1.6
+    type: counter
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrProcessorLoad
+    oid: 1.3.6.1.2.1.25.3.3.1.2
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrNetworkIfIndex
+    oid: 1.3.6.1.2.1.25.3.4.1.1
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrPrinterStatus
+    oid: 1.3.6.1.2.1.25.3.5.1.1
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrPrinterDetectedErrorState
+    oid: 1.3.6.1.2.1.25.3.5.1.2
+    type: string
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrDiskStorageAccess
+    oid: 1.3.6.1.2.1.25.3.6.1.1
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrDiskStorageMedia
+    oid: 1.3.6.1.2.1.25.3.6.1.2
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrDiskStorageRemoveble
+    oid: 1.3.6.1.2.1.25.3.6.1.3
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrDiskStorageCapacity
+    oid: 1.3.6.1.2.1.25.3.6.1.4
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: hrPartitionIndex
+    oid: 1.3.6.1.2.1.25.3.7.1.1
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+    - labelname: hrPartitionIndex
+      type: Integer
+  - name: hrPartitionLabel
+    oid: 1.3.6.1.2.1.25.3.7.1.2
+    type: string
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+    - labelname: hrPartitionIndex
+      type: Integer
+  - name: hrPartitionID
+    oid: 1.3.6.1.2.1.25.3.7.1.3
+    type: string
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+    - labelname: hrPartitionIndex
+      type: Integer
+  - name: hrPartitionSize
+    oid: 1.3.6.1.2.1.25.3.7.1.4
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+    - labelname: hrPartitionIndex
+      type: Integer
+  - name: hrPartitionFSIndex
+    oid: 1.3.6.1.2.1.25.3.7.1.5
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+    - labelname: hrPartitionIndex
+      type: Integer
+  - name: hrFSIndex
+    oid: 1.3.6.1.2.1.25.3.8.1.1
+    type: gauge
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: hrFSMountPoint
+    oid: 1.3.6.1.2.1.25.3.8.1.2
+    type: string
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: hrFSRemoteMountPoint
+    oid: 1.3.6.1.2.1.25.3.8.1.3
+    type: string
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: hrFSAccess
+    oid: 1.3.6.1.2.1.25.3.8.1.5
+    type: gauge
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: hrFSBootable
+    oid: 1.3.6.1.2.1.25.3.8.1.6
+    type: gauge
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: hrFSStorageIndex
+    oid: 1.3.6.1.2.1.25.3.8.1.7
+    type: gauge
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: hrFSLastFullBackupDate
+    oid: 1.3.6.1.2.1.25.3.8.1.8
+    type: string
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: hrFSLastPartialBackupDate
+    oid: 1.3.6.1.2.1.25.3.8.1.9
+    type: string
+    indexes:
+    - labelname: hrFSIndex
+      type: Integer
+  - name: panAhoSw
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.1
+    type: counter
+  - name: panDfaSw
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.2
+    type: counter
+  - name: panFlowHostServiceAllow
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.3
+    type: counter
+  - name: panHaPathmonSent
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.4
+    type: counter
+  - name: panAhoFpga
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.5
+    type: counter
+  - name: panDfaFpga
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.6
+    type: counter
+  - name: panFpgaPkt
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.7
+    type: counter
+  - name: panFlowDosAgMaxSessLimit
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.1
+    type: counter
+  - name: panFlowDosBlkNumEntries
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.2
+    type: counter
+  - name: panFlowDosClMaxSessLimit
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.3
+    type: counter
+  - name: panFlowDosClSyncookieAckErr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.4
+    type: counter
+  - name: panFlowDosClSyncookieAckRcv
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.5
+    type: counter
+  - name: panFlowDosClSyncookieBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.6
+    type: counter
+  - name: panFlowDosClSyncookieMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.7
+    type: counter
+  - name: panFlowDosClSyncookieSent
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.8
+    type: counter
+  - name: panFlowMeterVsysThrottle
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.9
+    type: counter
+  - name: panFlowPolicyDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.10
+    type: counter
+  - name: panFlowPolicyNat
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.11
+    type: counter
+  - name: panFlowScanDrop
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.12
+    type: counter
+  - name: panFlowDosDropIpBlocked
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.13
+    type: counter
+  - name: panFlowDosRedIcmp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.14
+    type: counter
+  - name: panFlowDosRedIcmp6
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.15
+    type: counter
+  - name: panFlowDosRedIp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.16
+    type: counter
+  - name: panFlowDosRedTcp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.17
+    type: counter
+  - name: panFlowDosRedUdp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.18
+    type: counter
+  - name: panFlowDosRuleAgBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.19
+    type: counter
+  - name: panFlowDosRuleAgRedAct
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.20
+    type: counter
+  - name: panFlowDosRuleAgRedMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.21
+    type: counter
+  - name: panFlowDosRuleDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.22
+    type: counter
+  - name: panFlowDosRuleDrop
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.23
+    type: counter
+  - name: panFlowDosRuleDropAggr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.24
+    type: counter
+  - name: panFlowDosRuleDropClBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.25
+    type: counter
+  - name: panFlowDosRuleDropClRedAct
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.26
+    type: counter
+  - name: panFlowDosRuleDropClRedMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.27
+    type: counter
+  - name: panFlowDosRuleDropClassified
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.28
+    type: counter
+  - name: panFlowDosSyncookieBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.29
+    type: counter
+  - name: panFlowDosSyncookieMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.30
+    type: counter
+  - name: panFlowDosZoneRedAct
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.31
+    type: counter
+  - name: panFlowDosZoneRedMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.32
+    type: counter
+  - name: panFlowFwdL3TtlZero
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.1
+    type: counter
+  - name: panFlowMeterHostThrottle
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.2
+    type: counter
+  - name: panFlowHostServiceDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.3
+    type: counter
+  - name: panFlowHostServiceUnknown
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.4
+    type: counter
+  - name: panPktAllocFailure
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.5
+    type: counter
+  - name: panPktAllocFailureCos
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.6
+    type: counter
+  - name: panSessionDiscard
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.7
+    type: counter
+  - name: panFlowIpfragFragErr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.10.1
+    type: counter
+  - name: panFlowIpfragRecv
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.10.2
+    type: counter
+  - name: panTcpAllocWqeFailed
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.1
+    type: counter
+  - name: panTcpDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.2
+    type: counter
+  - name: panTcpDropOutOfWnd
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.3
+    type: counter
+  - name: panTcpDropPacket
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.4
+    type: counter
+  - name: panFlowActionClose
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.5
+    type: counter
+  - name: panFlowActionReset
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.6
+    type: counter
+  - name: panFlowTcpNonSyn
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.7
+    type: counter
+  - name: panTcpExceedSegLimit
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.8
+    type: counter
+  - name: panSysSwVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.1
+    type: string
+  - name: panSysHwVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.2
+    type: string
+  - name: panSysSerialNumber
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.3
+    type: string
+  - name: panSysTimeZoneOffset
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.4
+    type: gauge
+  - name: panSysDaylightSaving
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.5
+    type: gauge
+  - name: panSysVpnClientVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.6
+    type: string
+  - name: panSysAppVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.7
+    type: string
+  - name: panSysAvVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.8
+    type: string
+  - name: panSysThreatVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.9
+    type: string
+  - name: panSysUrlFilteringVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.10
+    type: string
+  - name: panSysHAState
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.11
+    type: string
+  - name: panSysHAPeerState
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.12
+    type: string
+  - name: panSysHAMode
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.13
+    type: string
+  - name: panSysUrlFilteringDatabase
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.14
+    type: string
+  - name: panSysGlobalProtectClientVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.15
+    type: string
+  - name: panSysOpswatDatafileVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.16
+    type: string
+  - name: panSysWildfireVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.17
+    type: string
+  - name: panSysWildfirePrivateCloudVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.18
+    type: string
+  - name: panSessionUtilization
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.1
+    type: gauge
+  - name: panSessionMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.2
+    type: gauge
+  - name: panSessionActive
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.3
+    type: gauge
+  - name: panSessionActiveTcp
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.4
+    type: gauge
+  - name: panSessionActiveUdp
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.5
+    type: gauge
+  - name: panSessionActiveICMP
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.6
+    type: gauge
+  - name: panSessionActiveSslProxy
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.7
+    type: gauge
+  - name: panSessionSslProxyUtilization
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.8
+    type: gauge
+  - name: panVsysId
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.1
+    type: gauge
+    indexes:
+    - labelname: panVsysId
+      type: Integer
+  - name: panVsysName
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.2
+    type: string
+    indexes:
+    - labelname: panVsysId
+      type: Integer
+  - name: panVsysSessionUtilizationPct
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.3
+    type: gauge
+    indexes:
+    - labelname: panVsysId
+      type: Integer
+  - name: panVsysActiveSessions
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.4
+    type: gauge
+    indexes:
+    - labelname: panVsysId
+      type: Integer
+  - name: panVsysMaxSessions
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.5
+    type: gauge
+    indexes:
+    - labelname: panVsysId
+      type: Integer
+  - name: panGPGWUtilizationPct
+    oid: 1.3.6.1.4.1.25461.2.1.2.5.1.1
+    type: gauge
+  - name: panGPGWUtilizationMaxTunnels
+    oid: 1.3.6.1.4.1.25461.2.1.2.5.1.2
+    type: gauge
+  - name: panGPGWUtilizationActiveTunnels
+    oid: 1.3.6.1.4.1.25461.2.1.2.5.1.3
+    type: gauge
