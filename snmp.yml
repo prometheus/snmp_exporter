@@ -3778,3 +3778,425 @@ paloalto_fw:
   - name: panGPGWUtilizationActiveTunnels
     oid: 1.3.6.1.4.1.25461.2.1.2.5.1.3
     type: gauge
+arista_sw:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.25.2.3.1.6
+  - 1.3.6.1.2.1.25.3.3.1.2
+  - 1.3.6.1.4.1.30065.3.1.1
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: string
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: hrStorageUsed
+    oid: 1.3.6.1.2.1.25.2.3.1.6
+    type: gauge
+    indexes:
+    - labelname: hrStorageIndex
+      type: Integer
+  - name: hrProcessorLoad
+    oid: 1.3.6.1.2.1.25.3.3.1.2
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: Integer
+  - name: aristaSwFwdIpStatsIPVersion
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.1
+    type: gauge
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInReceives
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.3
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCInReceives
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.4
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.5
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCInOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.6
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInHdrErrors
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.7
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInNoRoutes
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.8
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInAddrErrors
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.9
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInUnknownProtos
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.10
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInTruncatedPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.11
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.12
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCInForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.13
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsReasmReqds
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.14
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsReasmOKs
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.15
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsReasmFails
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.16
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInDiscards
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.17
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInDelivers
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.18
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCInDelivers
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.19
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutRequests
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.20
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCOutRequests
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.21
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutNoRoutes
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.22
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.23
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCOutForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.24
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutDiscards
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.25
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutFragReqds
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.26
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutFragOKs
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.27
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutFragFails
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.28
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutFragCreates
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.29
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutTransmits
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.30
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCOutTransmits
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.31
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.32
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCOutOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.33
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.34
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCInMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.35
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.36
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCInMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.37
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.38
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCOutMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.39
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.40
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCOutMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.41
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsInBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.42
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCInBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.43
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsOutBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.44
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsHCOutBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.45
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsDiscontinuityTime
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.46
+    type: gauge
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
+  - name: aristaSwFwdIpStatsRefreshRate
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.47
+    type: gauge
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: Integer
