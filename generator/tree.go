@@ -94,15 +94,6 @@ func prepareTree(nodes *Node) map[string]*Node {
 	return nameToNode
 }
 
-func isNumericType(t string) bool {
-	switch t {
-	case "INTEGER", "COUNTER", "GAUGE", "TIMETICKS", "COUNTER64", "UINTEGER", "UNSIGNED32", "INTEGER32":
-		return true
-	default:
-		return false
-	}
-}
-
 func metricType(t string) (string, bool) {
 	switch t {
 	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
@@ -110,28 +101,17 @@ func metricType(t string) (string, bool) {
 	case "COUNTER", "COUNTER64":
 		return "counter", true
 	case "OCTETSTR", "BITSTRING":
-		return "string", true
+		return "OctetString", true
+	case "IPADDR":
+		return "IpAddr", true
+	case "NETADDR":
+		// TODO: Not sure about this one.
+		return "InetAddress", true
 	case "PhysAddress48", "DisplayString":
 		return t, true
 	default:
 		// Unsupported type.
 		return "", false
-	}
-}
-
-func indexType(t string) string {
-	switch {
-	case isNumericType(t):
-		return "Integer"
-	case t == "OCTETSTR" || t == "BITSTRING":
-		return "OctetString"
-	case t == "IPADDR":
-		return "IpAddr"
-	case t == "NETADDR":
-		// TODO: Not sure about this one.
-		return "InetAddress"
-	default:
-		return t
 	}
 }
 
@@ -187,7 +167,11 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					log.Warnf("Error, can't find index %s for node %s", i, n.Label)
 					return
 				}
-				index.Type = indexType(indexNode.Type)
+				index.Type, ok = metricType(indexNode.Type)
+				if !ok {
+					log.Warnf("Error, can't handle index type %s for node %s", indexNode.Type, n.Label)
+					return
+				}
 				metric.Indexes = append(metric.Indexes, index)
 			}
 			out.Metrics = append(out.Metrics, metric)
@@ -205,10 +189,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					indexNode := nameToNode[lookup.NewIndex]
 					// Avoid leaving the old labelname around.
 					index.Labelname = lookup.NewIndex
+					typ, ok := metricType(indexNode.Type)
+					if !ok {
+						log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.NewIndex)
+					}
 					metric.Lookups = append(metric.Lookups, &config.Lookup{
 						Labels:    []string{lookup.NewIndex},
 						Labelname: lookup.NewIndex,
-						Type:      indexType(indexNode.Type),
+						Type:      typ,
 						Oid:       indexNode.Oid,
 					})
 					// Make sure we walk the lookup OID
