@@ -3784,6 +3784,7 @@ arista_sw:
   - 1.3.6.1.2.1.2
   - 1.3.6.1.2.1.25.2.3.1.6
   - 1.3.6.1.2.1.25.3.3.1.2
+  - 1.3.6.1.2.1.31.1.1
   - 1.3.6.1.4.1.30065.3.1.1
   metrics:
   - name: sysUpTime
@@ -3923,6 +3924,120 @@ arista_sw:
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
+      type: Integer
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: string
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: string
+    indexes:
+    - labelname: ifIndex
+      type: Integer
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    indexes:
+    - labelname: ifIndex
       type: Integer
   - name: aristaSwFwdIpStatsIPVersion
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.1
