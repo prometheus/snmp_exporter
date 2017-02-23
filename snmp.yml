@@ -21,127 +21,127 @@ apcups:
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifPhysAddress
     oid: 1.3.6.1.2.1.2.2.1.6
     type: PhysAddress48
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupStatusTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.1
     type: gauge
@@ -150,7 +150,7 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsOutletGroupStatusName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - upsOutletGroupStatusName
@@ -159,10 +159,10 @@ apcups:
       type: OctetString
   - name: upsOutletGroupStatusName
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsOutletGroupStatusName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - upsOutletGroupStatusName
@@ -174,7 +174,7 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsOutletGroupStatusName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - upsOutletGroupStatusName
@@ -186,7 +186,7 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsOutletGroupStatusName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - upsOutletGroupStatusName
@@ -198,7 +198,7 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsOutletGroupStatusName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - upsOutletGroupStatusName
@@ -213,85 +213,85 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigName
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.2
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigPowerOnDelay
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.3
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigPowerOffDelay
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.4
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigRebootDuration
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.5
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigMinReturnRuntime
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.6
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.7
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigLoadShedControlSkipOffDelay
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.8
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigLoadShedControlAutoRestart
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.9
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigLoadShedControlTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.10
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigLoadShedControlRuntimeRemaining
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.11
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigLoadShedControlInOverload
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.12
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigLoadShedTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.13
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupConfigLoadShedRuntimeRemaining
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.14
     type: gauge
     indexes:
     - labelname: upsOutletGroupConfigIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupControlTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.1
     type: gauge
@@ -300,25 +300,25 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsOutletGroupControlIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupControlName
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.2
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsOutletGroupControlIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupControlCommand
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.3
     type: gauge
     indexes:
     - labelname: upsOutletGroupControlIndex
-      type: Integer
+      type: gauge
   - name: upsOutletGroupControlOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.4
     type: gauge
     indexes:
     - labelname: upsOutletGroupControlIndex
-      type: Integer
+      type: gauge
   - name: upsBasicBatteryStatus
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.1
     type: gauge
@@ -327,7 +327,7 @@ apcups:
     type: gauge
   - name: upsBasicBatteryLastReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.3
-    type: string
+    type: OctetString
   - name: upsAdvBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.1
     type: gauge
@@ -366,69 +366,69 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsAdvBatteryActualVoltageTableIndex
-      type: Integer
+      type: gauge
   - name: upsAdvBatteryActualVoltagePolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.2
     type: gauge
     indexes:
     - labelname: upsAdvBatteryActualVoltageTableIndex
-      type: Integer
+      type: gauge
   - name: upsAdvBatteryFrameActualVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.3
     type: gauge
     indexes:
     - labelname: upsAdvBatteryActualVoltageTableIndex
-      type: Integer
+      type: gauge
   - name: upsAdvTotalDCCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.1
     type: gauge
     indexes:
     - labelname: upsAdvTotalDCCurrentTableIndex
-      type: Integer
+      type: gauge
   - name: upsAdvTotalDCCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.2
     type: gauge
     indexes:
     - labelname: upsAdvTotalDCCurrentTableIndex
-      type: Integer
+      type: gauge
   - name: upsAdvTotalFrameDCCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.3
     type: gauge
     indexes:
     - labelname: upsAdvTotalDCCurrentTableIndex
-      type: Integer
+      type: gauge
   - name: upsAdvBatteryCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.1
     type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsAdvBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsAdvBatteryCurrentIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.2
     type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsAdvBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsAdvBatteryCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.3
     type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsAdvBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsAdvBatteryFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.4
     type: gauge
     indexes:
     - labelname: upsAdvBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsAdvBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsAdvBatteryEstimatedChargeTime
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.15
     type: gauge
@@ -440,13 +440,13 @@ apcups:
     type: gauge
   - name: upsAdvBatteryInternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.19
-    type: string
+    type: OctetString
   - name: upsAdvBatteryExternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.20
-    type: string
+    type: OctetString
   - name: upsAdvBatteryRecommendedReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.21
-    type: string
+    type: OctetString
   - name: upsHighPrecBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
     type: gauge
@@ -470,69 +470,69 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryActualVoltagePolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.2
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecTotalDCCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.1
     type: gauge
     indexes:
     - labelname: upsHighPrecTotalDCCurrentTableIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecTotalDCCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.2
     type: gauge
     indexes:
     - labelname: upsHighPrecTotalDCCurrentTableIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecTotalDCFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
     type: gauge
     indexes:
     - labelname: upsHighPrecTotalDCCurrentTableIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryCurrentTableIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.1
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryCurrentIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.2
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryCurrentPolarity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.3
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryCurrentTableIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCurrentIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.1
     type: gauge
@@ -541,81 +541,81 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryCartridgeIndex
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.2
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackFirmwareRevision
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackSerialNumber
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.5
     type: gauge
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackStatus
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.6
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackCartridgeHealth
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.7
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackCartridgeReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackCartridgeInstallDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsHighPrecBatteryPackCartridgeStatus
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.10
-    type: string
+    type: OctetString
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
-      type: Integer
+      type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
-      type: Integer
+      type: gauge
   - name: upsBasicInputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
     type: gauge
@@ -651,43 +651,43 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvInputApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.2
     type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvInputVoltageTHD
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.3
     type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvInputBypassVoltageTHD
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.4
     type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvInputPeakCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.5
     type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvInputBypassPeakCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.6
     type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvInputActivePower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.7
     type: gauge
     indexes:
     - labelname: upsAdvInputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvInputTotalApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.11
     type: gauge
@@ -777,25 +777,25 @@ apcups:
     type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvOutputPeakCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.2
     type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvOutputCurrentTHD
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.3
     type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvOutputCrestFactor
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
     type: gauge
     indexes:
     - labelname: upsAdvOutputStatisticsIndex
-      type: Integer
+      type: gauge
   - name: upsAdvOutputNeutralCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.11
     type: gauge
@@ -831,7 +831,7 @@ apcups:
     type: gauge
   - name: upsAdvTestLastDiagnosticsDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.4
-    type: string
+    type: OctetString
   - name: upsAdvTestRuntimeCalibration
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.5
     type: gauge
@@ -840,10 +840,10 @@ apcups:
     type: gauge
   - name: upsAdvTestCalibrationDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.7
-    type: string
+    type: OctetString
   - name: upsAdvTestDiagnosticTime
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.8
-    type: string
+    type: OctetString
   - name: upsAdvTestDiagnosticDay
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
     type: gauge
@@ -855,92 +855,635 @@ apcups:
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeName
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    type: string
+    type: OctetString
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeStatus
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.3
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeCurrentTemp
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeTempUnits
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.5
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeCurrentHumid
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.6
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeHighTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.7
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeLowTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.8
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeHighHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.9
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeLowHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.10
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeMaxTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.11
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeMinTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.12
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeMaxHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.13
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeMinHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.14
     type: gauge
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   - name: iemStatusProbeLocation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
-    type: string
+    type: OctetString
     indexes:
     - labelname: iemStatusProbeNumber
-      type: Integer
+      type: gauge
   version: 1
+arista_sw:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.25.2.3.1.6
+  - 1.3.6.1.2.1.25.3.3.1.2
+  - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.30065.3.1.1
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: hrStorageUsed
+    oid: 1.3.6.1.2.1.25.2.3.1.6
+    type: gauge
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrProcessorLoad
+    oid: 1.3.6.1.2.1.25.3.3.1.2
+    type: gauge
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: aristaSwFwdIpStatsIPVersion
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.1
+    type: gauge
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInReceives
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.3
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCInReceives
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.4
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.5
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCInOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.6
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInHdrErrors
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.7
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInNoRoutes
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.8
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInAddrErrors
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.9
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInUnknownProtos
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.10
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInTruncatedPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.11
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.12
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCInForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.13
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsReasmReqds
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.14
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsReasmOKs
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.15
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsReasmFails
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.16
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInDiscards
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.17
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInDelivers
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.18
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCInDelivers
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.19
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutRequests
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.20
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCOutRequests
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.21
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutNoRoutes
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.22
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.23
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCOutForwDatagrams
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.24
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutDiscards
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.25
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutFragReqds
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.26
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutFragOKs
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.27
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutFragFails
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.28
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutFragCreates
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.29
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutTransmits
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.30
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCOutTransmits
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.31
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.32
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCOutOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.33
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.34
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCInMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.35
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.36
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCInMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.37
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.38
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCOutMcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.39
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.40
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCOutMcastOctets
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.41
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsInBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.42
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCInBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.43
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsOutBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.44
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsHCOutBcastPkts
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.45
+    type: counter
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsDiscontinuityTime
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.46
+    type: gauge
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
+  - name: aristaSwFwdIpStatsRefreshRate
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.47
+    type: gauge
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
 cisco_wlc:
   walk:
   - 1.3.6.1.2.1.2
@@ -963,247 +1506,247 @@ cisco_wlc:
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifPhysAddress
     oid: 1.3.6.1.2.1.2.2.1.6
     type: PhysAddress48
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: bsnDot11EssNumberOfMobileStations
     oid: 1.3.6.1.4.1.14179.2.1.1.1.38
     type: counter
     indexes:
     - labelname: bsnDot11EssSsid
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnDot11EssSsid
@@ -1217,7 +1760,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1231,9 +1774,9 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     - labelname: bsnAPIfNoiseChannelNo
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1247,7 +1790,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1261,7 +1804,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1275,7 +1818,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1289,7 +1832,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1303,7 +1846,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1317,7 +1860,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1331,7 +1874,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1345,7 +1888,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1359,7 +1902,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1373,7 +1916,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1387,7 +1930,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1401,7 +1944,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1415,7 +1958,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1429,7 +1972,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1443,7 +1986,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1457,7 +2000,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1471,7 +2014,7 @@ cisco_wlc:
     - labelname: bsnAPName
       type: PhysAddress48
     - labelname: bsnAPIfSlotId
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - bsnAPName
@@ -1495,7 +2038,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1507,7 +2050,7 @@ default:
     type: DisplayString
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1519,7 +2062,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1531,7 +2074,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1543,7 +2086,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1555,7 +2098,7 @@ default:
     type: PhysAddress48
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1567,7 +2110,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1579,7 +2122,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1591,7 +2134,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1603,7 +2146,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1615,7 +2158,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1627,7 +2170,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1639,7 +2182,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1651,7 +2194,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1663,7 +2206,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1675,7 +2218,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1687,7 +2230,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1699,7 +2242,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1711,7 +2254,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1723,7 +2266,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1735,7 +2278,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1747,7 +2290,7 @@ default:
     type: DisplayString
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1759,7 +2302,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1771,7 +2314,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1783,7 +2326,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1795,7 +2338,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1807,7 +2350,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1819,7 +2362,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1831,7 +2374,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1843,7 +2386,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1855,7 +2398,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1867,7 +2410,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1879,7 +2422,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1891,7 +2434,7 @@ default:
     type: counter
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1903,7 +2446,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1915,7 +2458,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1927,7 +2470,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1939,7 +2482,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1951,7 +2494,7 @@ default:
     type: DisplayString
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1963,7 +2506,7 @@ default:
     type: gauge
     indexes:
     - labelname: ifDescr
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifDescr
@@ -1987,241 +2530,241 @@ default_ifindex:
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifPhysAddress
     oid: 1.3.6.1.2.1.2.2.1.6
     type: PhysAddress48
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
 default_ifname:
   walk:
   - 1.3.6.1.2.1.1.3
@@ -2239,7 +2782,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2251,7 +2794,7 @@ default_ifname:
     type: DisplayString
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2263,7 +2806,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2275,7 +2818,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2287,7 +2830,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2299,7 +2842,7 @@ default_ifname:
     type: PhysAddress48
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2311,7 +2854,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2323,7 +2866,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2335,7 +2878,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2347,7 +2890,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2359,7 +2902,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2371,7 +2914,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2383,7 +2926,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2395,7 +2938,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2407,7 +2950,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2419,7 +2962,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2431,7 +2974,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2443,7 +2986,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2455,7 +2998,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2467,7 +3010,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2479,7 +3022,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2491,7 +3034,7 @@ default_ifname:
     type: DisplayString
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2503,7 +3046,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2515,7 +3058,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2527,7 +3070,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2539,7 +3082,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2551,7 +3094,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2563,7 +3106,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2575,7 +3118,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2587,7 +3130,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2599,7 +3142,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2611,7 +3154,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2623,7 +3166,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2635,7 +3178,7 @@ default_ifname:
     type: counter
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2647,7 +3190,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2659,7 +3202,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2671,7 +3214,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2683,7 +3226,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2695,7 +3238,7 @@ default_ifname:
     type: DisplayString
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2707,7 +3250,7 @@ default_ifname:
     type: gauge
     indexes:
     - labelname: ifName
-      type: Integer
+      type: gauge
     lookups:
     - labels:
       - ifName
@@ -2731,121 +3274,121 @@ fortinet_fortigate:
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: fgWcWtpSessionWtpStationCount
     oid: 1.3.6.1.4.1.12356.101.14.4.4.1.17
     type: gauge
     indexes:
     - labelname: fgVdEntIndex
-      type: Integer
+      type: gauge
     - labelname: fgWcWtpSessionWtpId
       type: DisplayString
   - name: fgWcWtpSessionWtpByteRxCount
@@ -2853,7 +3396,7 @@ fortinet_fortigate:
     type: counter
     indexes:
     - labelname: fgVdEntIndex
-      type: Integer
+      type: gauge
     - labelname: fgWcWtpSessionWtpId
       type: DisplayString
   - name: fgWcWtpSessionWtpByteTxCount
@@ -2861,7 +3404,7 @@ fortinet_fortigate:
     type: counter
     indexes:
     - labelname: fgVdEntIndex
-      type: Integer
+      type: gauge
     - labelname: fgWcWtpSessionWtpId
       type: DisplayString
   - name: fgWcWtpSessionWtpUpTime
@@ -2869,418 +3412,9 @@ fortinet_fortigate:
     type: gauge
     indexes:
     - labelname: fgVdEntIndex
-      type: Integer
+      type: gauge
     - labelname: fgWcWtpSessionWtpId
       type: DisplayString
-servertech_sentry3:
-  walk:
-  - 1.3.6.1.2.1.1.3
-  - 1.3.6.1.4.1.1718.3.2.2
-  - 1.3.6.1.4.1.1718.3.2.3
-  metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-  - name: infeedIndex
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.1
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedID
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.2
-    type: DisplayString
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedName
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.3
-    type: DisplayString
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedCapabilities
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.4
-    type: string
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedStatus
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.5
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedLoadStatus
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.6
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedLoadValue
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.7
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedLoadHighThresh
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.8
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedOutletCount
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.9
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedCapacity
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.10
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedVoltage
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.11
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedPower
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.12
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedApparentPower
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.13
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedPowerFactor
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.14
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedCrestFactor
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.15
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedEnergy
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.16
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedReactance
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.17
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedPhaseVoltage
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.18
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedPhaseCurrent
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.19
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedCapacityUsed
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.20
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedLineID
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.21
-    type: DisplayString
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedLineToLineID
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.22
-    type: DisplayString
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedPhaseID
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.23
-    type: DisplayString
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedVACapacity
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.24
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: infeedVACapacityUsed
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.25
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-  - name: outletIndex
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.1
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletID
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.2
-    type: DisplayString
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletName
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.3
-    type: DisplayString
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletCapabilities
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.4
-    type: string
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletStatus
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.5
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletLoadStatus
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.6
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletLoadValue
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.7
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletLoadLowThresh
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.8
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletLoadHighThresh
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.9
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletControlState
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.10
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletControlAction
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.11
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletCapacity
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.12
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletVoltage
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.13
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletPower
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.14
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletApparentPower
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.15
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletPowerFactor
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.16
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletCrestFactor
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.17
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletEnergy
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.18
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletWakeupState
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.19
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
-  - name: outletPostOnDelay
-    oid: 1.3.6.1.4.1.1718.3.2.3.1.20
-    type: gauge
-    indexes:
-    - labelname: towerIndex
-      type: Integer
-    - labelname: infeedIndex
-      type: Integer
-    - labelname: outletIndex
-      type: Integer
 paloalto_fw:
   walk:
   - 1.3.6.1.2.1.1.3
@@ -3303,133 +3437,139 @@ paloalto_fw:
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    indexes:
+    - labelname: ifIndex
+      type: gauge
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
     type: counter
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
     type: gauge
     indexes:
     - labelname: ifIndex
-      type: Integer
+      type: gauge
   - name: hrSystemUptime
     oid: 1.3.6.1.2.1.25.1.1
     type: gauge
   - name: hrSystemDate
     oid: 1.3.6.1.2.1.25.1.2
-    type: string
+    type: OctetString
   - name: hrSystemInitialLoadDevice
     oid: 1.3.6.1.2.1.25.1.3
     type: gauge
   - name: hrSystemInitialLoadParameters
     oid: 1.3.6.1.2.1.25.1.4
-    type: string
+    type: OctetString
   - name: hrSystemNumUsers
     oid: 1.3.6.1.2.1.25.1.5
     type: gauge
@@ -3447,197 +3587,197 @@ paloalto_fw:
     type: gauge
     indexes:
     - labelname: hrStorageIndex
-      type: Integer
+      type: gauge
   - name: hrStorageDescr
     oid: 1.3.6.1.2.1.25.2.3.1.3
-    type: string
+    type: DisplayString
     indexes:
     - labelname: hrStorageIndex
-      type: Integer
+      type: gauge
   - name: hrStorageAllocationUnits
     oid: 1.3.6.1.2.1.25.2.3.1.4
     type: gauge
     indexes:
     - labelname: hrStorageIndex
-      type: Integer
+      type: gauge
   - name: hrStorageSize
     oid: 1.3.6.1.2.1.25.2.3.1.5
     type: gauge
     indexes:
     - labelname: hrStorageIndex
-      type: Integer
+      type: gauge
   - name: hrStorageUsed
     oid: 1.3.6.1.2.1.25.2.3.1.6
     type: gauge
     indexes:
     - labelname: hrStorageIndex
-      type: Integer
+      type: gauge
   - name: hrStorageAllocationFailures
     oid: 1.3.6.1.2.1.25.2.3.1.7
     type: counter
     indexes:
     - labelname: hrStorageIndex
-      type: Integer
+      type: gauge
   - name: hrDeviceIndex
     oid: 1.3.6.1.2.1.25.3.2.1.1
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrDeviceDescr
     oid: 1.3.6.1.2.1.25.3.2.1.3
-    type: string
+    type: DisplayString
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrDeviceStatus
     oid: 1.3.6.1.2.1.25.3.2.1.5
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrDeviceErrors
     oid: 1.3.6.1.2.1.25.3.2.1.6
     type: counter
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrProcessorLoad
     oid: 1.3.6.1.2.1.25.3.3.1.2
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrNetworkIfIndex
     oid: 1.3.6.1.2.1.25.3.4.1.1
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrPrinterStatus
     oid: 1.3.6.1.2.1.25.3.5.1.1
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrPrinterDetectedErrorState
     oid: 1.3.6.1.2.1.25.3.5.1.2
-    type: string
+    type: OctetString
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrDiskStorageAccess
     oid: 1.3.6.1.2.1.25.3.6.1.1
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrDiskStorageMedia
     oid: 1.3.6.1.2.1.25.3.6.1.2
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrDiskStorageRemoveble
     oid: 1.3.6.1.2.1.25.3.6.1.3
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrDiskStorageCapacity
     oid: 1.3.6.1.2.1.25.3.6.1.4
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
   - name: hrPartitionIndex
     oid: 1.3.6.1.2.1.25.3.7.1.1
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
     - labelname: hrPartitionIndex
-      type: Integer
+      type: gauge
   - name: hrPartitionLabel
     oid: 1.3.6.1.2.1.25.3.7.1.2
-    type: string
+    type: OctetString
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
     - labelname: hrPartitionIndex
-      type: Integer
+      type: gauge
   - name: hrPartitionID
     oid: 1.3.6.1.2.1.25.3.7.1.3
-    type: string
+    type: OctetString
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
     - labelname: hrPartitionIndex
-      type: Integer
+      type: gauge
   - name: hrPartitionSize
     oid: 1.3.6.1.2.1.25.3.7.1.4
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
     - labelname: hrPartitionIndex
-      type: Integer
+      type: gauge
   - name: hrPartitionFSIndex
     oid: 1.3.6.1.2.1.25.3.7.1.5
     type: gauge
     indexes:
     - labelname: hrDeviceIndex
-      type: Integer
+      type: gauge
     - labelname: hrPartitionIndex
-      type: Integer
+      type: gauge
   - name: hrFSIndex
     oid: 1.3.6.1.2.1.25.3.8.1.1
     type: gauge
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: hrFSMountPoint
     oid: 1.3.6.1.2.1.25.3.8.1.2
-    type: string
+    type: OctetString
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: hrFSRemoteMountPoint
     oid: 1.3.6.1.2.1.25.3.8.1.3
-    type: string
+    type: OctetString
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: hrFSAccess
     oid: 1.3.6.1.2.1.25.3.8.1.5
     type: gauge
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: hrFSBootable
     oid: 1.3.6.1.2.1.25.3.8.1.6
     type: gauge
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: hrFSStorageIndex
     oid: 1.3.6.1.2.1.25.3.8.1.7
     type: gauge
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: hrFSLastFullBackupDate
     oid: 1.3.6.1.2.1.25.3.8.1.8
-    type: string
+    type: OctetString
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: hrFSLastPartialBackupDate
     oid: 1.3.6.1.2.1.25.3.8.1.9
-    type: string
+    type: OctetString
     indexes:
     - labelname: hrFSIndex
-      type: Integer
+      type: gauge
   - name: panAhoSw
     oid: 1.3.6.1.4.1.25461.2.1.2.1.19.1
     type: counter
@@ -3808,13 +3948,13 @@ paloalto_fw:
     type: counter
   - name: panSysSwVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.1
-    type: string
+    type: DisplayString
   - name: panSysHwVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.2
-    type: string
+    type: DisplayString
   - name: panSysSerialNumber
     oid: 1.3.6.1.4.1.25461.2.1.2.1.3
-    type: string
+    type: DisplayString
   - name: panSysTimeZoneOffset
     oid: 1.3.6.1.4.1.25461.2.1.2.1.4
     type: gauge
@@ -3823,43 +3963,43 @@ paloalto_fw:
     type: gauge
   - name: panSysVpnClientVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.6
-    type: string
+    type: DisplayString
   - name: panSysAppVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.7
-    type: string
+    type: DisplayString
   - name: panSysAvVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.8
-    type: string
+    type: DisplayString
   - name: panSysThreatVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.9
-    type: string
+    type: DisplayString
   - name: panSysUrlFilteringVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.10
-    type: string
+    type: DisplayString
   - name: panSysHAState
     oid: 1.3.6.1.4.1.25461.2.1.2.1.11
-    type: string
+    type: DisplayString
   - name: panSysHAPeerState
     oid: 1.3.6.1.4.1.25461.2.1.2.1.12
-    type: string
+    type: DisplayString
   - name: panSysHAMode
     oid: 1.3.6.1.4.1.25461.2.1.2.1.13
-    type: string
+    type: DisplayString
   - name: panSysUrlFilteringDatabase
     oid: 1.3.6.1.4.1.25461.2.1.2.1.14
-    type: string
+    type: DisplayString
   - name: panSysGlobalProtectClientVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.15
-    type: string
+    type: DisplayString
   - name: panSysOpswatDatafileVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.16
-    type: string
+    type: DisplayString
   - name: panSysWildfireVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.17
-    type: string
+    type: DisplayString
   - name: panSysWildfirePrivateCloudVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.18
-    type: string
+    type: DisplayString
   - name: panSessionUtilization
     oid: 1.3.6.1.4.1.25461.2.1.2.3.1
     type: gauge
@@ -3889,31 +4029,31 @@ paloalto_fw:
     type: gauge
     indexes:
     - labelname: panVsysId
-      type: Integer
+      type: gauge
   - name: panVsysName
     oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.2
-    type: string
+    type: DisplayString
     indexes:
     - labelname: panVsysId
-      type: Integer
+      type: gauge
   - name: panVsysSessionUtilizationPct
     oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.3
     type: gauge
     indexes:
     - labelname: panVsysId
-      type: Integer
+      type: gauge
   - name: panVsysActiveSessions
     oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.4
     type: gauge
     indexes:
     - labelname: panVsysId
-      type: Integer
+      type: gauge
   - name: panVsysMaxSessions
     oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.5
     type: gauge
     indexes:
     - labelname: panVsysId
-      type: Integer
+      type: gauge
   - name: panGPGWUtilizationPct
     oid: 1.3.6.1.4.1.25461.2.1.2.5.1.1
     type: gauge
@@ -3923,540 +4063,412 @@ paloalto_fw:
   - name: panGPGWUtilizationActiveTunnels
     oid: 1.3.6.1.4.1.25461.2.1.2.5.1.3
     type: gauge
-arista_sw:
+servertech_sentry3:
   walk:
   - 1.3.6.1.2.1.1.3
-  - 1.3.6.1.2.1.2
-  - 1.3.6.1.2.1.25.2.3.1.6
-  - 1.3.6.1.2.1.25.3.3.1.2
-  - 1.3.6.1.2.1.31.1.1
-  - 1.3.6.1.4.1.30065.3.1.1
+  - 1.3.6.1.4.1.1718.3.2.2
+  - 1.3.6.1.4.1.1718.3.2.3
   metrics:
   - name: sysUpTime
     oid: 1.3.6.1.2.1.1.3
     type: gauge
-  - name: ifNumber
-    oid: 1.3.6.1.2.1.2.1
-    type: gauge
-  - name: ifIndex
-    oid: 1.3.6.1.2.1.2.2.1.1
+  - name: infeedIndex
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.1
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifDescr
-    oid: 1.3.6.1.2.1.2.2.1.2
-    type: string
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+    type: DisplayString
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifType
-    oid: 1.3.6.1.2.1.2.2.1.3
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedName
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+    type: DisplayString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedCapabilities
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.4
+    type: OctetString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedStatus
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.5
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifMtu
-    oid: 1.3.6.1.2.1.2.2.1.4
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedLoadStatus
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.6
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifSpeed
-    oid: 1.3.6.1.2.1.2.2.1.5
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedLoadValue
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.7
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifAdminStatus
-    oid: 1.3.6.1.2.1.2.2.1.7
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedLoadHighThresh
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.8
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOperStatus
-    oid: 1.3.6.1.2.1.2.2.1.8
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedOutletCount
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.9
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifLastChange
-    oid: 1.3.6.1.2.1.2.2.1.9
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedCapacity
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.10
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInOctets
-    oid: 1.3.6.1.2.1.2.2.1.10
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInUcastPkts
-    oid: 1.3.6.1.2.1.2.2.1.11
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInNUcastPkts
-    oid: 1.3.6.1.2.1.2.2.1.12
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInDiscards
-    oid: 1.3.6.1.2.1.2.2.1.13
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInErrors
-    oid: 1.3.6.1.2.1.2.2.1.14
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInUnknownProtos
-    oid: 1.3.6.1.2.1.2.2.1.15
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutOctets
-    oid: 1.3.6.1.2.1.2.2.1.16
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutUcastPkts
-    oid: 1.3.6.1.2.1.2.2.1.17
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutNUcastPkts
-    oid: 1.3.6.1.2.1.2.2.1.18
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutDiscards
-    oid: 1.3.6.1.2.1.2.2.1.19
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutErrors
-    oid: 1.3.6.1.2.1.2.2.1.20
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutQLen
-    oid: 1.3.6.1.2.1.2.2.1.21
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedVoltage
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.11
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: hrStorageUsed
-    oid: 1.3.6.1.2.1.25.2.3.1.6
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedPower
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.12
     type: gauge
     indexes:
-    - labelname: hrStorageIndex
-      type: Integer
-  - name: hrProcessorLoad
-    oid: 1.3.6.1.2.1.25.3.3.1.2
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedApparentPower
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.13
     type: gauge
     indexes:
-    - labelname: hrDeviceIndex
-      type: Integer
-  - name: ifName
-    oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: string
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.2
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifInBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.3
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.4
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifOutBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.5
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCInOctets
-    oid: 1.3.6.1.2.1.31.1.1.1.6
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCInUcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.7
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCInMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.8
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCInBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.9
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCOutOctets
-    oid: 1.3.6.1.2.1.31.1.1.1.10
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCOutUcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.11
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCOutMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.12
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHCOutBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.13
-    type: counter
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifLinkUpDownTrapEnable
-    oid: 1.3.6.1.2.1.31.1.1.1.14
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedPowerFactor
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.14
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifHighSpeed
-    oid: 1.3.6.1.2.1.31.1.1.1.15
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedCrestFactor
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.15
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifPromiscuousMode
-    oid: 1.3.6.1.2.1.31.1.1.1.16
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedEnergy
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.16
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifConnectorPresent
-    oid: 1.3.6.1.2.1.31.1.1.1.17
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedReactance
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.17
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifAlias
-    oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: string
-    indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: ifCounterDiscontinuityTime
-    oid: 1.3.6.1.2.1.31.1.1.1.19
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedPhaseVoltage
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.18
     type: gauge
     indexes:
-    - labelname: ifIndex
-      type: Integer
-  - name: aristaSwFwdIpStatsIPVersion
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.1
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedPhaseCurrent
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.19
     type: gauge
     indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInReceives
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.3
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCInReceives
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.4
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.5
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCInOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.6
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInHdrErrors
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.7
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInNoRoutes
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.8
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInAddrErrors
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.9
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInUnknownProtos
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.10
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInTruncatedPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.11
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInForwDatagrams
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.12
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCInForwDatagrams
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.13
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsReasmReqds
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.14
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsReasmOKs
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.15
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsReasmFails
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.16
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInDiscards
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.17
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInDelivers
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.18
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCInDelivers
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.19
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutRequests
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.20
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCOutRequests
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.21
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutNoRoutes
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.22
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutForwDatagrams
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.23
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCOutForwDatagrams
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.24
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutDiscards
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.25
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutFragReqds
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.26
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutFragOKs
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.27
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutFragFails
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.28
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutFragCreates
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.29
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutTransmits
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.30
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCOutTransmits
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.31
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.32
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCOutOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.33
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInMcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.34
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCInMcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.35
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInMcastOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.36
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCInMcastOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.37
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutMcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.38
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCOutMcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.39
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutMcastOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.40
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCOutMcastOctets
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.41
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsInBcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.42
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCInBcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.43
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsOutBcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.44
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsHCOutBcastPkts
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.45
-    type: counter
-    indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsDiscontinuityTime
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.46
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedCapacityUsed
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.20
     type: gauge
     indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
-  - name: aristaSwFwdIpStatsRefreshRate
-    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.47
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedLineID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.21
+    type: DisplayString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedLineToLineID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.22
+    type: DisplayString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedPhaseID
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.23
+    type: DisplayString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedVACapacity
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.24
     type: gauge
     indexes:
-    - labelname: aristaSwFwdIpStatsIPVersion
-      type: Integer
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: infeedVACapacityUsed
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.25
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+  - name: outletIndex
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.1
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletID
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+    type: DisplayString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletName
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+    type: DisplayString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletCapabilities
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.4
+    type: OctetString
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletStatus
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.5
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletLoadStatus
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.6
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletLoadValue
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.7
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletLoadLowThresh
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.8
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletLoadHighThresh
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.9
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletControlState
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.10
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletControlAction
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.11
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletCapacity
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.12
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletVoltage
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.13
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletPower
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.14
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletApparentPower
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.15
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletPowerFactor
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.16
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletCrestFactor
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.17
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletEnergy
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.18
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletWakeupState
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.19
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
+  - name: outletPostOnDelay
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.20
+    type: gauge
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
+      type: gauge
