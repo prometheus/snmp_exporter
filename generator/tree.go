@@ -74,14 +74,6 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 	// Set type on MAC addresses and ASCII strings.
 	walkNode(nodes, func(n *Node) {
-		// For some odd reason ifPhysAddress's MIB isn't being parsed correctly
-		// so set this by hand.
-		switch n.Label {
-		case "ifPhysAddress":
-			n.Hint = "1x:"
-		case "ifDescr", "ifName", "ifAlias":
-			n.Hint = "255a"
-		}
 		// RFC 2579
 		switch n.Hint {
 		case "1x:":

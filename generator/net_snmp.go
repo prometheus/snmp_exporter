@@ -65,7 +65,11 @@ var netSnmptypeMap = map[int]string{
 // Warning: This function plays with the stderr file descriptor.
 func initSNMP() string {
 	// Load all the MIBs.
-	os.Setenv("MIBS", "ALL")
+	// RFC1213-MIB is lacking type hints and has many common tables,
+	// so prefer MIBs with hints.
+	os.Setenv("MIBS", "SNMPv2-MIB:IF-MIB:IP-MIB:ALL")
+	// Help the user find their MIB directories.
+	log.Infof("Loading MIBs from %s", C.GoString(C.netsnmp_get_mib_directory()))
 	// We want the descriptions.
 	C.snmp_set_save_descriptions(1)
 
