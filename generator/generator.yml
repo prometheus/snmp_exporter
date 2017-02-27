@@ -122,3 +122,21 @@ modules:
       - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
       - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
 
+# Arista Networks
+#
+# Arista Networks MIBs can be found here: https://www.arista.com/en/support/product-documentation/arista-snmp-mibs
+#
+# https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt
+# https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
+#
+# Tested on Arista DCS-7010T-48 switch
+#
+  arista_sw:
+    walk: 
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - 1.3.6.1.2.1.25.3.3.1.2 # hrProcessorLoad
+      - 1.3.6.1.2.1.25.2.3.1.6 # hrStorageUsed
+      - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
+
