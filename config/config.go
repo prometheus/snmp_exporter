@@ -26,7 +26,7 @@ func LoadFile(filename string) (*Config, error) {
 var (
 	DefaultModule = Module{
 		Version:        2,
-		MaxRepititions: 25,
+		MaxRepetitions: 25,
 		Retries:        3,
 		Timeout:        time.Second * 20,
 	}
@@ -47,7 +47,7 @@ type Module struct {
 	Metrics []*Metric `yaml:"metrics"`
 
 	Version        int           `yaml:"version,omitempty"`
-	MaxRepititions uint8         `yaml:"max_repititions,omitempty"`
+	MaxRepetitions uint8         `yaml:"max_repetitions,omitempty"`
 	Retries        int           `yaml:"retries,omitempty"`
 	Timeout        time.Duration `yaml:"timeout,omitempty"`
 	Auth           *Auth         `yaml:"auth,omitempty"`

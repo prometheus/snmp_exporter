@@ -30,7 +30,7 @@ type ModuleConfig struct {
 
 	// This need to be kepy in sync with the generated config.
 	Version        int           `yaml:"version,omitempty"`
-	MaxRepititions uint8         `yaml:"max_repititions,omitempty"`
+	MaxRepetitions uint8         `yaml:"max_repetitions,omitempty"`
 	Retries        int           `yaml:"retries,omitempty"`
 	Timeout        time.Duration `yaml:"timeout,omitempty"`
 	Auth           *config.Auth  `yaml:"auth,omitempty"`
