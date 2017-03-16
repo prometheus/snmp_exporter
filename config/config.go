@@ -76,8 +76,8 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			return fmt.Errorf("Auth username is missing, required for SNMPv3")
 		}
 		if c.Auth.SecurityLevel != "authPriv" &&
-			c.Auth.SecurityLevel != "noAuthPriv" && c.Auth.SecurityLevel != "noAuthNoPriv" {
-			return fmt.Errorf("Security level must be one of authPriv, noAuthPriv or noAuthNoPriv")
+			c.Auth.SecurityLevel != "authNoPriv" && c.Auth.SecurityLevel != "noAuthNoPriv" {
+			return fmt.Errorf("Security level must be one of authPriv, authNoPriv or noAuthNoPriv")
 		}
 		if c.Auth.Password == "" && c.Auth.SecurityLevel != "noAuthNoPriv" {
 			return fmt.Errorf("Auth password is missing, required for SNMPv3 with auth.")
