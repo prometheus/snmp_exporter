@@ -39,7 +39,7 @@ func oidToList(oid string) []int {
 func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error) {
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
-	snmp.MaxRepetitions = config.MaxRepititions
+	snmp.MaxRepetitions = config.MaxRepetitions
 	// User specifies timeout of each retry attempt but GoSNMP expects total timeout for all attemtps.
 	snmp.Retries = config.Retries
 	snmp.Timeout = config.Timeout * time.Duration(snmp.Retries)

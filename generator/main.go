@@ -29,7 +29,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 		log.Infof("Generating config for module %s", name)
 		outputConfig[name] = generateConfigModule(m, nodes, nameToNode)
 		outputConfig[name].Version = m.Version
-		outputConfig[name].MaxRepititions = m.MaxRepititions
+		outputConfig[name].MaxRepetitions = m.MaxRepetitions
 		outputConfig[name].Retries = m.Retries
 		outputConfig[name].Timeout = m.Timeout
 		outputConfig[name].Auth = m.Auth
