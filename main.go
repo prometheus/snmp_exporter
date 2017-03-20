@@ -126,7 +126,7 @@ func main() {
             }
             form input {
             margin: 10px;
-						}
+            }
             </style>
             </head>
             <body>
