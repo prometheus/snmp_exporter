@@ -111,6 +111,22 @@ func main() {
 
 	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	http.HandleFunc("/snmp", handler)           // Endpoint to do SNMP scrapes.
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`<html>
+            <head><title>SNMP Exporter</title></head>
+            <body>
+            <h1>SNMP Exporter</h1>
+						<p><a href="/snmp?target=1.2.3.4"></a></p>
+						<form action="/snmp">
+						  Target: <input type="text" name="target"><br>
+						  <input type="submit" value="Submit">
+						</form>
+            <p><a href="/metrics">Metrics</a></p>
+            </body>
+            </html>`))
+	})
+
 	log.Infof("Listening on %s", *listenAddress)
 	log.Fatal(http.ListenAndServe(*listenAddress, nil))
 }
