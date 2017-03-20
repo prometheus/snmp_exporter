@@ -114,30 +114,30 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
-            <head>
-						<title>SNMP Exporter</title>
-						<style>
-							label{
-								display:inline-block;
-								width:75px;
-							}
-							form label {
-								margin: 10px;
-							}
-							form input {
-								margin: 10px;
-						}
-						</style>
-						</head>
-            <body>
-            <h1>SNMP Exporter</h1>
-						<form action="/snmp">
-						  <label>Target:</label> <input type="text" name="target" placeholder="X.X.X.X" value="1.2.3.4"><br>
-						  <label>Module:</label> <input type="text" name="module" placeholder="module" value="default"><br>
-						  <input type="submit" value="Submit">
-						</form>
-            </body>
-            </html>`))
+    <head>
+		<title>SNMP Exporter</title>
+		<style>
+		label{
+		display:inline-block;
+		width:75px;
+		}
+		form label {
+		margin: 10px;
+		}
+		form input {
+		margin: 10px;
+		}
+		</style>
+		</head>
+    <body>
+    <h1>SNMP Exporter</h1>
+		<form action="/snmp">
+	  <label>Target:</label> <input type="text" name="target" placeholder="X.X.X.X" value="1.2.3.4"><br>
+	  <label>Module:</label> <input type="text" name="module" placeholder="module" value="default"><br>
+	  <input type="submit" value="Submit">
+		</form>
+    </body>
+    </html>`))
 	})
 
 	log.Infof("Listening on %s", *listenAddress)
