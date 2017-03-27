@@ -104,7 +104,9 @@ func (t *TrapListener) Listen(addr string) (err error) {
 
 		msg := buf[:rlen]
 		traps := t.Params.unmarshalTrap(msg)
-		t.OnNewTrap(traps, remote)
+		if traps != nil {
+			t.OnNewTrap(traps, remote)
+		}
 	}
 }
 
@@ -116,15 +118,23 @@ func debugTrapHandler(s *SnmpPacket, u *net.UDPAddr) {
 // Unmarshal SNMP Trap
 func (x *GoSNMP) unmarshalTrap(trap []byte) (result *SnmpPacket) {
 	result = new(SnmpPacket)
+
+	if x.SecurityParameters != nil {
+		result.SecurityParameters = x.SecurityParameters.Copy()
+	}
+
 	cursor, err := x.unmarshalHeader(trap, result)
 	if err != nil {
 		x.logPrintf("unmarshalTrap: %s\n", err)
+		return nil
 	}
+
 	if result.Version == Version3 {
 		if result.SecurityModel == UserSecurityModel {
 			err = x.testAuthentication(trap, result)
 			if err != nil {
-				x.logPrintf("unmarshalTrap: %s\n", err)
+				x.logPrintf("unmarshalTrap v3 auth: %s\n", err)
+				return nil
 			}
 		}
 		trap, cursor, err = x.decryptPacket(trap, cursor, result)
@@ -132,6 +142,7 @@ func (x *GoSNMP) unmarshalTrap(trap []byte) (result *SnmpPacket) {
 	err = x.unmarshalPayload(trap, cursor, result)
 	if err != nil {
 		x.logPrintf("unmarshalTrap: %s\n", err)
+		return nil
 	}
 	return result
 }

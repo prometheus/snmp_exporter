@@ -111,6 +111,9 @@ func (x *GoSNMP) decodeValue(data []byte, msg string) (retVal *variable, err err
 		x.logPrint("decodeValue: type is IPAddress")
 		retVal.Type = IPAddress
 		switch data[1] {
+		case 0: // real life, buggy devices returning bad data
+			retVal.Value = nil
+			return retVal, nil
 		case 4: // IPv4
 			if len(data) < 6 {
 				return nil, fmt.Errorf("not enough data for ipv4 address: %x", data)
@@ -163,7 +166,7 @@ func (x *GoSNMP) decodeValue(data []byte, msg string) (retVal *variable, err err
 		// 0x46
 		x.logPrint("decodeValue: type is Counter64")
 		length, cursor := parseLength(data)
-		ret, err := parseInt64(data[cursor:length])
+		ret, err := parseUint64(data[cursor:length])
 		if err != nil {
 			x.logPrintf("decodeValue: err is %v", err)
 			break
@@ -538,8 +541,8 @@ func parseInt(bytes []byte) (int, error) {
 func parseLength(bytes []byte) (length int, cursor int) {
 	if len(bytes) <= 2 {
 		// handle null octet strings ie "0x04 0x00"
-		cursor = 1
-		length = 2
+		cursor = len(bytes)
+		length = len(bytes)
 	} else if int(bytes[1]) <= 127 {
 		length = int(bytes[1])
 		length += 2
@@ -609,7 +612,7 @@ func parseRawField(data []byte, msg string) (interface{}, int, error) {
 // parseUint64 treats the given bytes as a big-endian, unsigned integer and returns
 // the result.
 func parseUint64(bytes []byte) (ret uint64, err error) {
-	if len(bytes) > 8 {
+	if len(bytes) > 9 || (len(bytes) > 8 && bytes[0] != 0x0) {
 		// We'll overflow a uint64 in this case.
 		err = errors.New("integer too large")
 		return

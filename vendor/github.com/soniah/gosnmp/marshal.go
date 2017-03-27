@@ -571,6 +571,9 @@ func marshalVarbind(pdu *SnmpPDU) ([]byte, error) {
 // -- Unmarshalling Logic ------------------------------------------------------
 
 func (x *GoSNMP) unmarshalHeader(packet []byte, response *SnmpPacket) (int, error) {
+	if len(packet) < 2 {
+		return 0, fmt.Errorf("Cannot unmarshal empty packet")
+	}
 	if response == nil {
 		return 0, fmt.Errorf("Cannot unmarshal response into nil packet reference")
 	}
