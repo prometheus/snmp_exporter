@@ -345,6 +345,10 @@ func (x *GoSNMP) unmarshalV3Header(packet []byte,
 	_, cursorTmp = parseLength(packet[cursor:])
 	cursor += cursorTmp
 
+	if response.SecurityParameters == nil {
+		return 0, fmt.Errorf("Unable to parse V3 packet - unknown security model")
+	}
+
 	cursor, err = response.SecurityParameters.unmarshal(response.MsgFlags, packet, cursor)
 	if err != nil {
 		return 0, err
