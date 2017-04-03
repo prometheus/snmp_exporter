@@ -28,11 +28,11 @@ choose which module to use from the config file.
 
 ## Authentication
 
-###SNMPv2
+### SNMPv2
 
 The default configuration is to use SNMPv2 with the community `public`.  This can be changed in the yaml config.  NOTE: Version 2 implies SNMP version 2c.
 
-####Authentication parameters
+#### Authentication parameters
 
 Name | Description
 --------|------------
@@ -50,11 +50,11 @@ default:
     - ...
 ```
 
-###SNMPv1
+### SNMPv1
 
 For SNMPv1, the authentication also requires a community string which will default to 'public'.
 
-####Authentication parameters
+#### Authentication parameters
 
 Name | Description
 --------|-----------
@@ -72,11 +72,11 @@ default:
     - ...
 ````
 
-##SNMPv3
+## SNMPv3
 
 For SNMPv3, the authentication requires different parameters.  The `auth_protocol` defaults to `MD5` and the `priv_protocol` defaults to `DES`.  The `security_level` defaults to `noAuthNoPriv`.
 
-####Authentication parameters
+#### Authentication parameters
 
 Name | Description | required
 --------|--------------|--------------
