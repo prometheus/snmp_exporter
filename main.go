@@ -14,6 +14,7 @@ import (
 	"github.com/prometheus/common/version"
 
 	"github.com/prometheus/snmp_exporter/config"
+	"strconv"
 )
 
 var (
@@ -75,6 +76,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Debugf("Scraping target '%s' with module '%s'", target, moduleName)
+
+	snmpVersion := r.URL.Query().Get("version")
+	if v, err := strconv.Atoi(snmpVersion); snmpVersion != "" && err != nil {
+		log.Debugf("Overriding version. Old version: '%d' new version: '%d'", module.Version, v)
+		module.Version = v
+	}
+
+	community := r.URL.Query().Get("community")
+	if community != "" {
+		log.Debugf("Overriding community. Old community: '%s' new community: '%s'", module.Auth.Community, community)
+		module.Auth.Community = community
+	}
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
