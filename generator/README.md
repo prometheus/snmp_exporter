@@ -7,6 +7,8 @@ This config generator uses NetSNMP to parse MIBs, and generates configs for the 
 
 ```
 sudo apt-get install build-essential libsnmp-dev snmp-mibs-downloader  # Debian-based distros
+go get github.com/prometheus/snmp_exporter/generator
+cd ${GOPATH-$HOME/go}/src/github.com/prometheus/snmp_exporter/generator
 go build
 ```
 
