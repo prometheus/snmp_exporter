@@ -10,10 +10,8 @@ exporter.
 
 ## Installation
 
-```Shell
-go get -d
-go build
-```
+Binaries can be downloaded from the [Github
+releases](https://github.com/prometheus/snmp_exporter/releases) page.
 
 ## Usage
 
