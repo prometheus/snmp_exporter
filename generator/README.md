@@ -36,6 +36,7 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
 * Arista Networks: https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt  
                    https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
                    https://www.arista.com/assets/data/docs/MIBS/ARISTA-SMI-MIB.txt
+* Synology: http://dedl.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip
 
 https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
 
