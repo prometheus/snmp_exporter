@@ -4472,3 +4472,1323 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+synology:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.6574.1
+  - 1.3.6.1.4.1.6574.101
+  - 1.3.6.1.4.1.6574.102
+  - 1.3.6.1.4.1.6574.104
+  - 1.3.6.1.4.1.6574.2
+  - 1.3.6.1.4.1.6574.3
+  - 1.3.6.1.4.1.6574.4
+  - 1.3.6.1.4.1.6574.5
+  - 1.3.6.1.4.1.6574.6
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: systemStatus
+    oid: 1.3.6.1.4.1.6574.1.1
+    type: gauge
+  - name: temperature
+    oid: 1.3.6.1.4.1.6574.1.2
+    type: gauge
+  - name: powerStatus
+    oid: 1.3.6.1.4.1.6574.1.3
+    type: gauge
+  - name: systemFanStatus
+    oid: 1.3.6.1.4.1.6574.1.4.1
+    type: gauge
+  - name: cpuFanStatus
+    oid: 1.3.6.1.4.1.6574.1.4.2
+    type: gauge
+  - name: modelName
+    oid: 1.3.6.1.4.1.6574.1.5.1
+    type: OctetString
+  - name: serialNumber
+    oid: 1.3.6.1.4.1.6574.1.5.2
+    type: OctetString
+  - name: version
+    oid: 1.3.6.1.4.1.6574.1.5.3
+    type: OctetString
+  - name: upgradeAvailable
+    oid: 1.3.6.1.4.1.6574.1.5.4
+    type: gauge
+  - name: storageIOIndex
+    oid: 1.3.6.1.4.1.6574.101.1.1.1
+    type: gauge
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIODevice
+    oid: 1.3.6.1.4.1.6574.101.1.1.2
+    type: DisplayString
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIONRead
+    oid: 1.3.6.1.4.1.6574.101.1.1.3
+    type: counter
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIONWritten
+    oid: 1.3.6.1.4.1.6574.101.1.1.4
+    type: counter
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIOReads
+    oid: 1.3.6.1.4.1.6574.101.1.1.5
+    type: counter
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIOWrites
+    oid: 1.3.6.1.4.1.6574.101.1.1.6
+    type: counter
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIOLA
+    oid: 1.3.6.1.4.1.6574.101.1.1.8
+    type: gauge
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIOLA1
+    oid: 1.3.6.1.4.1.6574.101.1.1.9
+    type: gauge
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIOLA5
+    oid: 1.3.6.1.4.1.6574.101.1.1.10
+    type: gauge
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIOLA15
+    oid: 1.3.6.1.4.1.6574.101.1.1.11
+    type: gauge
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIONReadX
+    oid: 1.3.6.1.4.1.6574.101.1.1.12
+    type: counter
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: storageIONWrittenX
+    oid: 1.3.6.1.4.1.6574.101.1.1.13
+    type: counter
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: spaceIOIndex
+    oid: 1.3.6.1.4.1.6574.102.1.1.1
+    type: gauge
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIODevice
+    oid: 1.3.6.1.4.1.6574.102.1.1.2
+    type: DisplayString
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIONRead
+    oid: 1.3.6.1.4.1.6574.102.1.1.3
+    type: counter
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIONWritten
+    oid: 1.3.6.1.4.1.6574.102.1.1.4
+    type: counter
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIOReads
+    oid: 1.3.6.1.4.1.6574.102.1.1.5
+    type: counter
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIOWrites
+    oid: 1.3.6.1.4.1.6574.102.1.1.6
+    type: counter
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIOLA
+    oid: 1.3.6.1.4.1.6574.102.1.1.8
+    type: gauge
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIOLA1
+    oid: 1.3.6.1.4.1.6574.102.1.1.9
+    type: gauge
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIOLA5
+    oid: 1.3.6.1.4.1.6574.102.1.1.10
+    type: gauge
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIOLA15
+    oid: 1.3.6.1.4.1.6574.102.1.1.11
+    type: gauge
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIONReadX
+    oid: 1.3.6.1.4.1.6574.102.1.1.12
+    type: counter
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: spaceIONWrittenX
+    oid: 1.3.6.1.4.1.6574.102.1.1.13
+    type: counter
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
+      type: DisplayString
+  - name: iSCSILUNInfoIndex
+    oid: 1.3.6.1.4.1.6574.104.1.1.1
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNUUID
+    oid: 1.3.6.1.4.1.6574.104.1.1.2
+    type: OctetString
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNName
+    oid: 1.3.6.1.4.1.6574.104.1.1.3
+    type: OctetString
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNThroughputReadHigh
+    oid: 1.3.6.1.4.1.6574.104.1.1.4
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNThroughputReadLow
+    oid: 1.3.6.1.4.1.6574.104.1.1.5
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNThroughputWriteHigh
+    oid: 1.3.6.1.4.1.6574.104.1.1.6
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNThroughputWriteLow
+    oid: 1.3.6.1.4.1.6574.104.1.1.7
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNIopsRead
+    oid: 1.3.6.1.4.1.6574.104.1.1.8
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNIopsWrite
+    oid: 1.3.6.1.4.1.6574.104.1.1.9
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNDiskLatencyRead
+    oid: 1.3.6.1.4.1.6574.104.1.1.10
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNDiskLatencyWrite
+    oid: 1.3.6.1.4.1.6574.104.1.1.11
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNNetworkLatencyTx
+    oid: 1.3.6.1.4.1.6574.104.1.1.12
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNNetworkLatencyRx
+    oid: 1.3.6.1.4.1.6574.104.1.1.13
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNIoSizeRead
+    oid: 1.3.6.1.4.1.6574.104.1.1.14
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNIoSizeWrite
+    oid: 1.3.6.1.4.1.6574.104.1.1.15
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNQueueDepth
+    oid: 1.3.6.1.4.1.6574.104.1.1.16
+    type: gauge
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNType
+    oid: 1.3.6.1.4.1.6574.104.1.1.17
+    type: OctetString
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: diskIndex
+    oid: 1.3.6.1.4.1.6574.2.1.1.1
+    type: gauge
+    indexes:
+    - labelname: diskID
+      type: gauge
+    lookups:
+    - labels:
+      - diskID
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+  - name: diskID
+    oid: 1.3.6.1.4.1.6574.2.1.1.2
+    type: OctetString
+    indexes:
+    - labelname: diskID
+      type: gauge
+    lookups:
+    - labels:
+      - diskID
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+  - name: diskModel
+    oid: 1.3.6.1.4.1.6574.2.1.1.3
+    type: OctetString
+    indexes:
+    - labelname: diskID
+      type: gauge
+    lookups:
+    - labels:
+      - diskID
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+  - name: diskType
+    oid: 1.3.6.1.4.1.6574.2.1.1.4
+    type: OctetString
+    indexes:
+    - labelname: diskID
+      type: gauge
+    lookups:
+    - labels:
+      - diskID
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+  - name: diskStatus
+    oid: 1.3.6.1.4.1.6574.2.1.1.5
+    type: gauge
+    indexes:
+    - labelname: diskID
+      type: gauge
+    lookups:
+    - labels:
+      - diskID
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+  - name: diskTemperature
+    oid: 1.3.6.1.4.1.6574.2.1.1.6
+    type: gauge
+    indexes:
+    - labelname: diskID
+      type: gauge
+    lookups:
+    - labels:
+      - diskID
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+  - name: raidIndex
+    oid: 1.3.6.1.4.1.6574.3.1.1.1
+    type: gauge
+    indexes:
+    - labelname: raidName
+      type: gauge
+    lookups:
+    - labels:
+      - raidName
+      labelname: raidName
+      oid: 1.3.6.1.4.1.6574.3.1.1.2
+      type: OctetString
+  - name: raidName
+    oid: 1.3.6.1.4.1.6574.3.1.1.2
+    type: OctetString
+    indexes:
+    - labelname: raidName
+      type: gauge
+    lookups:
+    - labels:
+      - raidName
+      labelname: raidName
+      oid: 1.3.6.1.4.1.6574.3.1.1.2
+      type: OctetString
+  - name: raidStatus
+    oid: 1.3.6.1.4.1.6574.3.1.1.3
+    type: gauge
+    indexes:
+    - labelname: raidName
+      type: gauge
+    lookups:
+    - labels:
+      - raidName
+      labelname: raidName
+      oid: 1.3.6.1.4.1.6574.3.1.1.2
+      type: OctetString
+  - name: upsDeviceModel
+    oid: 1.3.6.1.4.1.6574.4.1.1
+    type: DisplayString
+  - name: upsDeviceManufacturer
+    oid: 1.3.6.1.4.1.6574.4.1.2
+    type: DisplayString
+  - name: upsDeviceSerial
+    oid: 1.3.6.1.4.1.6574.4.1.3
+    type: DisplayString
+  - name: upsDeviceType
+    oid: 1.3.6.1.4.1.6574.4.1.4
+    type: DisplayString
+  - name: upsDeviceDescription
+    oid: 1.3.6.1.4.1.6574.4.1.5
+    type: DisplayString
+  - name: upsDeviceContact
+    oid: 1.3.6.1.4.1.6574.4.1.6
+    type: DisplayString
+  - name: upsDeviceLocation
+    oid: 1.3.6.1.4.1.6574.4.1.7
+    type: DisplayString
+  - name: upsDevicePart
+    oid: 1.3.6.1.4.1.6574.4.1.8
+    type: DisplayString
+  - name: upsDeviceMACAddr
+    oid: 1.3.6.1.4.1.6574.4.1.9
+    type: DisplayString
+  - name: upsInfoStatus
+    oid: 1.3.6.1.4.1.6574.4.2.1
+    type: DisplayString
+  - name: upsInfoAlarm
+    oid: 1.3.6.1.4.1.6574.4.2.2
+    type: DisplayString
+  - name: upsInfoTime
+    oid: 1.3.6.1.4.1.6574.4.2.3
+    type: DisplayString
+  - name: upsInfoDate
+    oid: 1.3.6.1.4.1.6574.4.2.4
+    type: DisplayString
+  - name: upsInfoModel
+    oid: 1.3.6.1.4.1.6574.4.2.5
+    type: DisplayString
+  - name: upsInfoMfrName
+    oid: 1.3.6.1.4.1.6574.4.2.6.1
+    type: DisplayString
+  - name: upsInfoMfrDate
+    oid: 1.3.6.1.4.1.6574.4.2.6.2
+    type: DisplayString
+  - name: upsInfoSerial
+    oid: 1.3.6.1.4.1.6574.4.2.7
+    type: DisplayString
+  - name: upsInfoVendorID
+    oid: 1.3.6.1.4.1.6574.4.2.8
+    type: DisplayString
+  - name: upsInfoProductID
+    oid: 1.3.6.1.4.1.6574.4.2.9
+    type: DisplayString
+  - name: upsInfoFirmwareName
+    oid: 1.3.6.1.4.1.6574.4.2.10.1
+    type: DisplayString
+  - name: upsInfoFirmwareAux
+    oid: 1.3.6.1.4.1.6574.4.2.10.2
+    type: DisplayString
+  - name: upsInfoID
+    oid: 1.3.6.1.4.1.6574.4.2.13
+    type: DisplayString
+  - name: upsInfoDelayStart
+    oid: 1.3.6.1.4.1.6574.4.2.14.1
+    type: gauge
+  - name: upsInfoDelayReboot
+    oid: 1.3.6.1.4.1.6574.4.2.14.2
+    type: gauge
+  - name: upsInfoDelayShutdown
+    oid: 1.3.6.1.4.1.6574.4.2.14.3
+    type: gauge
+  - name: upsInfoTimerStart
+    oid: 1.3.6.1.4.1.6574.4.2.15.1
+    type: gauge
+  - name: upsInfoTimerReboot
+    oid: 1.3.6.1.4.1.6574.4.2.15.2
+    type: gauge
+  - name: upsInfoTimerShutdown
+    oid: 1.3.6.1.4.1.6574.4.2.15.3
+    type: gauge
+  - name: upsInfoTestInterval
+    oid: 1.3.6.1.4.1.6574.4.2.16.1
+    type: gauge
+  - name: upsInfoTestResult
+    oid: 1.3.6.1.4.1.6574.4.2.16.2
+    type: DisplayString
+  - name: upsInfoDisplayLanguage
+    oid: 1.3.6.1.4.1.6574.4.2.17
+    type: DisplayString
+  - name: upsInfoContacts
+    oid: 1.3.6.1.4.1.6574.4.2.18
+    type: DisplayString
+  - name: upsInfoEffciency
+    oid: 1.3.6.1.4.1.6574.4.2.19
+    type: gauge
+  - name: upsInfoBeeperStatus
+    oid: 1.3.6.1.4.1.6574.4.2.22
+    type: DisplayString
+  - name: upsInfoType
+    oid: 1.3.6.1.4.1.6574.4.2.23
+    type: DisplayString
+  - name: upsInfoWatchdogStatus
+    oid: 1.3.6.1.4.1.6574.4.2.24
+    type: DisplayString
+  - name: upsInfoStartAuto
+    oid: 1.3.6.1.4.1.6574.4.2.25.1
+    type: DisplayString
+  - name: upsInfoStartBattery
+    oid: 1.3.6.1.4.1.6574.4.2.25.2
+    type: DisplayString
+  - name: upsInfoStartReboot
+    oid: 1.3.6.1.4.1.6574.4.2.25.3
+    type: DisplayString
+  - name: upsBatteryRuntimeValue
+    oid: 1.3.6.1.4.1.6574.4.3.6.1
+    type: gauge
+  - name: upsBatteryRuntimeLow
+    oid: 1.3.6.1.4.1.6574.4.3.6.2
+    type: gauge
+  - name: upsBatteryRuntimeRestart
+    oid: 1.3.6.1.4.1.6574.4.3.6.3
+    type: gauge
+  - name: upsBatteryAlarmThreshold
+    oid: 1.3.6.1.4.1.6574.4.3.7
+    type: DisplayString
+  - name: upsBatteryDate
+    oid: 1.3.6.1.4.1.6574.4.3.8
+    type: DisplayString
+  - name: upsBatteryMfrDate
+    oid: 1.3.6.1.4.1.6574.4.3.9
+    type: DisplayString
+  - name: upsBatteryPacks
+    oid: 1.3.6.1.4.1.6574.4.3.10
+    type: gauge
+  - name: upsBatteryPacksBad
+    oid: 1.3.6.1.4.1.6574.4.3.11
+    type: gauge
+  - name: upsBatteryType
+    oid: 1.3.6.1.4.1.6574.4.3.12
+    type: DisplayString
+  - name: upsBatteryProtection
+    oid: 1.3.6.1.4.1.6574.4.3.13
+    type: DisplayString
+  - name: upsBatteryEnergySave
+    oid: 1.3.6.1.4.1.6574.4.3.14
+    type: DisplayString
+  - name: upsInputVoltageExtend
+    oid: 1.3.6.1.4.1.6574.4.4.1.5
+    type: DisplayString
+  - name: upsInputTransferReason
+    oid: 1.3.6.1.4.1.6574.4.4.2.1
+    type: DisplayString
+  - name: upsInputSensitivity
+    oid: 1.3.6.1.4.1.6574.4.4.3
+    type: DisplayString
+  - name: upsInputQuality
+    oid: 1.3.6.1.4.1.6574.4.4.4
+    type: DisplayString
+  - name: upsInputFrequencyExtend
+    oid: 1.3.6.1.4.1.6574.4.4.6.5
+    type: DisplayString
+  - name: upsAmbientTemperatureAlarm
+    oid: 1.3.6.1.4.1.6574.4.6.1.2
+    type: DisplayString
+  - name: upsAmbientHumidityAlarm
+    oid: 1.3.6.1.4.1.6574.4.6.2.2
+    type: DisplayString
+  - name: upsDriverName
+    oid: 1.3.6.1.4.1.6574.4.7.1
+    type: DisplayString
+  - name: upsDriverVersion
+    oid: 1.3.6.1.4.1.6574.4.7.2
+    type: DisplayString
+  - name: upsDriverVersionData
+    oid: 1.3.6.1.4.1.6574.4.7.3
+    type: DisplayString
+  - name: upsDriverVersionInternal
+    oid: 1.3.6.1.4.1.6574.4.7.4
+    type: DisplayString
+  - name: upsDriverPollInterval
+    oid: 1.3.6.1.4.1.6574.4.7.5
+    type: gauge
+  - name: upsDriverPort
+    oid: 1.3.6.1.4.1.6574.4.7.6
+    type: DisplayString
+  - name: upsDriverPollFrequency
+    oid: 1.3.6.1.4.1.6574.4.7.7
+    type: gauge
+  - name: upsDriverProductID
+    oid: 1.3.6.1.4.1.6574.4.7.8
+    type: DisplayString
+  - name: upsDriverSnmpVersion
+    oid: 1.3.6.1.4.1.6574.4.7.9
+    type: DisplayString
+  - name: upsServerInfo
+    oid: 1.3.6.1.4.1.6574.4.8.1
+    type: DisplayString
+  - name: upsServerVersion
+    oid: 1.3.6.1.4.1.6574.4.8.2
+    type: DisplayString
+  - name: diskSMARTInfoIndex
+    oid: 1.3.6.1.4.1.6574.5.1.1.1
+    type: gauge
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTInfoDevName
+    oid: 1.3.6.1.4.1.6574.5.1.1.2
+    type: OctetString
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTAttrName
+    oid: 1.3.6.1.4.1.6574.5.1.1.3
+    type: OctetString
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTAttrId
+    oid: 1.3.6.1.4.1.6574.5.1.1.4
+    type: gauge
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTAttrCurrent
+    oid: 1.3.6.1.4.1.6574.5.1.1.5
+    type: gauge
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTAttrWorst
+    oid: 1.3.6.1.4.1.6574.5.1.1.6
+    type: gauge
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTAttrThreshold
+    oid: 1.3.6.1.4.1.6574.5.1.1.7
+    type: gauge
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTAttrRaw
+    oid: 1.3.6.1.4.1.6574.5.1.1.8
+    type: gauge
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: diskSMARTAttrStatus
+    oid: 1.3.6.1.4.1.6574.5.1.1.9
+    type: OctetString
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
+  - name: serviceInfoIndex
+    oid: 1.3.6.1.4.1.6574.6.1.1.1
+    type: gauge
+    indexes:
+    - labelname: serviceName
+      type: gauge
+    lookups:
+    - labels:
+      - serviceName
+      labelname: serviceName
+      oid: 1.3.6.1.4.1.6574.6.1.1.2
+      type: OctetString
+  - name: serviceName
+    oid: 1.3.6.1.4.1.6574.6.1.1.2
+    type: OctetString
+    indexes:
+    - labelname: serviceName
+      type: gauge
+    lookups:
+    - labels:
+      - serviceName
+      labelname: serviceName
+      oid: 1.3.6.1.4.1.6574.6.1.1.2
+      type: OctetString
+  - name: serviceUsers
+    oid: 1.3.6.1.4.1.6574.6.1.1.3
+    type: gauge
+    indexes:
+    - labelname: serviceName
+      type: gauge
+    lookups:
+    - labels:
+      - serviceName
+      labelname: serviceName
+      oid: 1.3.6.1.4.1.6574.6.1.1.2
+      type: OctetString
