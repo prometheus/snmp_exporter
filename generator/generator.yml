@@ -163,9 +163,6 @@ modules:
       - 1.3.6.1.4.1.6574.102     # spaceIO
       - 1.3.6.1.4.1.6574.104     # synologyiSCSILUN
     lookups:
-      # spaceIODevice{spaceIODevice="md2",spaceIOIndex="1"} 1
-      # spaceIOIndex{spaceIOIndex="1"} 1
-      #...
       - old_index: spaceIOIndex
         new_index: spaceIODevice
       - old_index: storageIOIndex
