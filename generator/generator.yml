@@ -140,3 +140,26 @@ modules:
       - 1.3.6.1.2.1.25.2.3.1.6 # hrStorageUsed
       - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
 
+# Synology
+#
+# Synology MIBs can be found here:
+#   http://www.synology.com/support/snmp_mib.php
+#   http://dedl.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip
+#
+# Tested on RS2414rp+ NAS
+#
+  synology:
+    walk:
+      - interfaces
+      - sysUpTime
+      - ifXTable
+      - 1.3.6.1.4.1.6574.1       # synoSystem
+      - 1.3.6.1.4.1.6574.2       # synoDisk
+      - 1.3.6.1.4.1.6574.3       # synoRaid
+      - 1.3.6.1.4.1.6574.4       # synoUPS
+      - 1.3.6.1.4.1.6574.5       # synologyDiskSMART
+      - 1.3.6.1.4.1.6574.6       # synologyService
+      - 1.3.6.1.4.1.6574.101     # storageIO
+      - 1.3.6.1.4.1.6574.102     # spaceIO
+      - 1.3.6.1.4.1.6574.104     # synologyiSCSILUN
+
