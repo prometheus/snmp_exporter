@@ -14,6 +14,10 @@
 ### snmp_exporter version: output of `snmp_exporter -version`
 <!-- If building from source, run `make` first. -->
 
+### What device/snmpwalk OID are you using?
+
+### If this is a new device, please link to the MIB(s).
+
 ### What did you do that produced an error?
 
 ### What did you expect to see?
