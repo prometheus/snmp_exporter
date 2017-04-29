@@ -61,7 +61,7 @@ module_name:
      oid:   1.3.6.1.2.1.1.3
      type:  gauge
      # Possible types are:
-     #   gauge:   An integer with type counter.
+     #   gauge:   An integer with type gauge.
      #   counter: An integer with type counter.
      #   OctetString: A bit string, rendered as 0xff34.
      #   DisplayString: An ASCII string.
