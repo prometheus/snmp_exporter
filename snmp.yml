@@ -3974,6 +3974,1395 @@ default_ifname:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+f5ltm:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.3375.2.1.1.2.9.6
+  - 1.3.6.1.4.1.3375.2.1.1.2.9.9
+  - 1.3.6.1.4.1.3375.2.1.3.2
+  - 1.3.6.1.4.1.3375.2.2.10.2
+  - 1.3.6.1.4.1.3375.2.2.5.2
+  - 1.3.6.1.4.1.3375.2.2.5.4
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: sysClientsslStatTotNativeConns
+    oid: 1.3.6.1.4.1.3375.2.1.1.2.9.6
+    type: counter
+  - name: sysClientsslStatTotCompatConns
+    oid: 1.3.6.1.4.1.3375.2.1.1.2.9.9
+    type: counter
+  - name: sysChassisFanNumber
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.1.1
+    type: gauge
+  - name: sysChassisFanIndex
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.1.2.1.1
+    type: gauge
+    indexes:
+    - labelname: sysChassisFanIndex
+      type: gauge
+  - name: sysChassisFanStatus
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.1.2.1.2
+    type: gauge
+    indexes:
+    - labelname: sysChassisFanIndex
+      type: gauge
+  - name: sysChassisFanSpeed
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.1.2.1.3
+    type: gauge
+    indexes:
+    - labelname: sysChassisFanIndex
+      type: gauge
+  - name: sysChassisPowerSupplyNumber
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.2.1
+    type: gauge
+  - name: sysChassisPowerSupplyIndex
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: sysChassisPowerSupplyIndex
+      type: gauge
+  - name: sysChassisPowerSupplyStatus
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.2.2.1.2
+    type: gauge
+    indexes:
+    - labelname: sysChassisPowerSupplyIndex
+      type: gauge
+  - name: sysChassisTempNumber
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.3.1
+    type: gauge
+  - name: sysChassisTempIndex
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.3.2.1.1
+    type: gauge
+    indexes:
+    - labelname: sysChassisTempIndex
+      type: gauge
+  - name: sysChassisTempTemperature
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.3.2.1.2
+    type: gauge
+    indexes:
+    - labelname: sysChassisTempIndex
+      type: gauge
+  - name: sysBladeTempNumber
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.4.1
+    type: gauge
+  - name: sysBladeTempIndex
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.4.2.1.1
+    type: gauge
+    indexes:
+    - labelname: sysBladeTempIndex
+      type: gauge
+    - labelname: sysBladeTempSlot
+      type: gauge
+  - name: sysBladeTempTemperature
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.4.2.1.2
+    type: gauge
+    indexes:
+    - labelname: sysBladeTempIndex
+      type: gauge
+    - labelname: sysBladeTempSlot
+      type: gauge
+  - name: sysBladeTempLocation
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.4.2.1.3
+    type: OctetString
+    indexes:
+    - labelname: sysBladeTempIndex
+      type: gauge
+    - labelname: sysBladeTempSlot
+      type: gauge
+  - name: sysBladeTempSlot
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.4.2.1.4
+    type: gauge
+    indexes:
+    - labelname: sysBladeTempIndex
+      type: gauge
+    - labelname: sysBladeTempSlot
+      type: gauge
+  - name: sysBladeVoltageNumber
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.5.1
+    type: gauge
+  - name: sysBladeVoltageIndex
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.5.2.1.1
+    type: OctetString
+    indexes:
+    - labelname: sysBladeVoltageIndex
+      type: OctetString
+  - name: sysBladeVoltageVoltage
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.5.2.1.2
+    type: gauge
+    indexes:
+    - labelname: sysBladeVoltageIndex
+      type: OctetString
+  - name: sysBladeVoltageSlot
+    oid: 1.3.6.1.4.1.3375.2.1.3.2.5.2.1.3
+    type: gauge
+    indexes:
+    - labelname: sysBladeVoltageIndex
+      type: OctetString
+  - name: ltmVirtualServStatResetStats
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.1
+    type: gauge
+  - name: ltmVirtualServStatNumber
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.2
+    type: gauge
+  - name: ltmVirtualServStatName
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.1
+    type: OctetString
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatCsMinConnDur
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.2
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatCsMaxConnDur
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.3
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatCsMeanConnDur
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.4
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatNoNodesErrors
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.5
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientPktsIn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.6
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientBytesIn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.7
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientPktsOut
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.8
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientBytesOut
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.9
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientMaxConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.10
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientTotConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.11
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientCurConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.12
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatEphemeralPktsIn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.13
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatEphemeralBytesIn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.14
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatEphemeralPktsOut
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.15
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatEphemeralBytesOut
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.16
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatEphemeralMaxConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.17
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatEphemeralTotConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.18
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatEphemeralCurConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.19
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatPvaPktsIn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.20
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatPvaBytesIn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.21
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatPvaPktsOut
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.22
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatPvaBytesOut
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.23
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatPvaMaxConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.24
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatPvaTotConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.25
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatPvaCurConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.26
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatTotRequests
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.27
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatTotPvaAssistConn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.28
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatCurrPvaAssistConn
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.29
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatCycleCount
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.30
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatVsUsageRatio5s
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.31
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatVsUsageRatio1m
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.32
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatVsUsageRatio5m
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.33
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatCurrentConnsPerSec
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.34
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatDurationRateExceeded
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.35
+    type: gauge
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatSwSyncookies
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.36
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatSwSyncookieAccepts
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.37
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatHwSyncookies
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.38
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatHwSyncookieAccepts
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.39
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientEvictedConns
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.40
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatClientSlowKilled
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.41
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatWlSyncookieHits
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.42
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatWlSyncookieAccepts
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.43
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmVirtualServStatWlSyncookieRejects
+    oid: 1.3.6.1.4.1.3375.2.2.10.2.3.1.44
+    type: counter
+    indexes:
+    - labelname: ltmVirtualServStatName
+      type: OctetString
+  - name: ltmPoolStatResetStats
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.1
+    type: gauge
+  - name: ltmPoolStatNumber
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.2
+    type: gauge
+  - name: ltmPoolStatName
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.1
+    type: OctetString
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatServerPktsIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.2
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatServerBytesIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.3
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatServerPktsOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.4
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatServerBytesOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.5
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatServerMaxConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.6
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatServerTotConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.7
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatServerCurConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.8
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatPvaPktsIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.9
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatPvaBytesIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.10
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatPvaPktsOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.11
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatPvaBytesOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.12
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatPvaMaxConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.13
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatPvaTotConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.14
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatPvaCurConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.15
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatTotPvaAssistConn
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.16
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatCurrPvaAssistConn
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.17
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqDepth
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.18
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAgeHead
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.19
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAgeMax
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.20
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAgeEma
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.21
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAgeEdm
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.22
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqServiced
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.23
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAllDepth
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.24
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAllAgeHead
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.25
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAllAgeMax
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.26
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAllAgeEma
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.27
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAllAgeEdm
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.28
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatConnqAllServiced
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.29
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatTotRequests
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.30
+    type: counter
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolStatCurSessions
+    oid: 1.3.6.1.4.1.3375.2.2.5.2.3.1.31
+    type: gauge
+    indexes:
+    - labelname: ltmPoolStatName
+      type: OctetString
+  - name: ltmPoolMemberStatResetStats
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.1
+    type: gauge
+  - name: ltmPoolMemberStatNumber
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.2
+    type: gauge
+  - name: ltmPoolMemberStatPoolName
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.1
+    type: OctetString
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatAddrType
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.2
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatAddr
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.3
+    type: OctetString
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPort
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.4
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatServerPktsIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.5
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatServerBytesIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.6
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatServerPktsOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.7
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatServerBytesOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.8
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatServerMaxConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.9
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatServerTotConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.10
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatServerCurConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.11
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPvaPktsIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.12
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPvaBytesIn
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.13
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPvaPktsOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.14
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPvaBytesOut
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.15
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPvaMaxConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.16
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPvaTotConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.17
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatPvaCurConns
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.18
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatTotRequests
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.19
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatTotPvaAssistConn
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.20
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatCurrPvaAssistConn
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.21
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatConnqDepth
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.22
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatConnqAgeHead
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.23
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatConnqAgeMax
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.24
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatConnqAgeEma
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.25
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatConnqAgeEdm
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.26
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatConnqServiced
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.27
+    type: counter
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatNodeName
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.28
+    type: OctetString
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatCurSessions
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.29
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatCurrentConnsPerSec
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.30
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
+  - name: ltmPoolMemberStatDurationRateExceeded
+    oid: 1.3.6.1.4.1.3375.2.2.5.4.3.1.31
+    type: gauge
+    indexes:
+    - labelname: ltmPoolMemberStatPoolName
+      type: OctetString
+    - labelname: ltmPoolMemberStatNodeName
+      type: OctetString
+    - labelname: ltmPoolMemberStatPort
+      type: gauge
 fortinet_fortigate:
   walk:
   - 1.3.6.1.2.1.1.3
@@ -6681,3 +8070,4 @@ synology:
       labelname: serviceName
       oid: 1.3.6.1.4.1.6574.6.1.1.2
       type: OctetString
+
