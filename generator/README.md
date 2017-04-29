@@ -37,10 +37,10 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
                    https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
                    https://www.arista.com/assets/data/docs/MIBS/ARISTA-SMI-MIB.txt
 * Synology: http://dedl.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip
+* UCD-SNMP-MIB (Net-SNMP): http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 
 https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
 
-* UCD-SNMP-MIB (Net-SNMP): http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 
 
 ## Exporter file format
