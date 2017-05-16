@@ -24,7 +24,7 @@ Additional command are available for debugging, use the `help` command to see th
 
 ## HowTo
 
-There is a simple [tutorial](https://github.com/prometheus/snmp_exporter/tree/master/generator/Tutorial.md) for using generator to generate `snmp.yml` from `generator.yml`.
+There is a simple [tutorial](Tutorial.md) for using generator to generate `snmp.yml` from `generator.yml`.
 
 ## Where to get MIBs
 

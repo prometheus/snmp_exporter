@@ -1,7 +1,7 @@
 
 # SNMP Exporter Config Generator Tutorial
 
-This tutorial explains how to config `generator.yml` uses NetSNMP to parse MIBs which we indeed required, and generates `snmp.yml` config for the snmp_exporter using them.
+This tutorial explains how the config file `generator.yml` uses NetSNMP to parse MIBs, and generates `snmp.yml` config for the snmp_exporter using them.
 
 ## Build the generator bundle
 
@@ -29,7 +29,7 @@ Put the `HUAWEI-MIB`, `HUAWEI-DEVICE-MIB`, `IF-MIB`, `HUAWEI-CPU` in a location 
 
 ## Preparing generator.yml
 
-As we need to scrape `hwCpuDevTable`, our generator.yml would be:
+As we need to scrape `hwCpuDevTable`, our `generator.yml` would be:
 
 ```
 modules:
