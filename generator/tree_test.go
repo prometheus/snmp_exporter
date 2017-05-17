@@ -109,7 +109,7 @@ func TestGenerateConfigModule(t *testing.T) {
 	}{
 		// Simple metric.
 		{
-			node: &Node{Oid: "1", Type: "INTEGER", Label: "root"},
+			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
 			cfg: &ModuleConfig{
 				Walk: []string{"root"},
 			},
@@ -126,7 +126,7 @@ func TestGenerateConfigModule(t *testing.T) {
 		},
 		// Can also provide OIDs to walk.
 		{
-			node: &Node{Oid: "1", Type: "INTEGER", Label: "root"},
+			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
 			},
@@ -143,7 +143,7 @@ func TestGenerateConfigModule(t *testing.T) {
 		},
 		// Duplicate walks handled gracefully.
 		{
-			node: &Node{Oid: "1", Type: "INTEGER", Label: "root"},
+			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
 			cfg: &ModuleConfig{
 				Walk: []string{"1", "root"},
 			},
@@ -162,31 +162,31 @@ func TestGenerateConfigModule(t *testing.T) {
 		{
 			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
 				Children: []*Node{
-					{Oid: "1.1", Label: "OBJID", Type: "OBJID"},
-					{Oid: "1.2", Label: "OCTETSTR", Type: "OCTETSTR"},
-					{Oid: "1.3", Label: "INTEGER", Type: "INTEGER"},
-					{Oid: "1.4", Label: "NETADDR", Type: "NETADDR"},
-					{Oid: "1.5", Label: "IPADDR", Type: "IPADDR"},
-					{Oid: "1.6", Label: "COUNTER", Type: "COUNTER"},
-					{Oid: "1.7", Label: "GAUGE", Type: "GAUGE"},
-					{Oid: "1.8", Label: "TIMETICKS", Type: "TIMETICKS"},
-					{Oid: "1.9", Label: "OPAQUE", Type: "OPAQUE"},
-					{Oid: "1.10", Label: "NULL", Type: "NULL"},
-					{Oid: "1.11", Label: "COUNTER64", Type: "COUNTER64"},
-					{Oid: "1.12", Label: "BITSTRING", Type: "BITSTRING"},
-					{Oid: "1.13", Label: "NSAPADDRESS", Type: "NSAPADDRESS"},
-					{Oid: "1.14", Label: "UINTEGER", Type: "UINTEGER"},
-					{Oid: "1.15", Label: "UNSIGNED32", Type: "UNSIGNED32"},
-					{Oid: "1.16", Label: "INTEGER32", Type: "INTEGER32"},
-					{Oid: "1.20", Label: "TRAPTYPE", Type: "TRAPTYPE"},
-					{Oid: "1.21", Label: "NOTIFTYPE", Type: "NOTIFTYPE"},
-					{Oid: "1.22", Label: "OBJGROUP", Type: "OBJGROUP"},
-					{Oid: "1.23", Label: "NOTIFGROUP", Type: "NOTIFGROUP"},
-					{Oid: "1.24", Label: "MODID", Type: "MODID"},
-					{Oid: "1.25", Label: "AGENTCAP", Type: "AGENTCAP"},
-					{Oid: "1.26", Label: "MODCOMP", Type: "MODCOMP"},
-					{Oid: "1.27", Label: "OBJIDENTITY", Type: "OBJIDENTITY"},
-					{Oid: "1.100", Label: "MacAddress", Type: "OCTETSTR", Hint: "1x:"},
+					{Oid: "1.1", Access: "ACCESS_READONLY", Label: "OBJID", Type: "OBJID"},
+					{Oid: "1.2", Access: "ACCESS_READONLY", Label: "OCTETSTR", Type: "OCTETSTR"},
+					{Oid: "1.3", Access: "ACCESS_READONLY", Label: "INTEGER", Type: "INTEGER"},
+					{Oid: "1.4", Access: "ACCESS_READONLY", Label: "NETADDR", Type: "NETADDR"},
+					{Oid: "1.5", Access: "ACCESS_READONLY", Label: "IPADDR", Type: "IPADDR"},
+					{Oid: "1.6", Access: "ACCESS_READONLY", Label: "COUNTER", Type: "COUNTER"},
+					{Oid: "1.7", Access: "ACCESS_READONLY", Label: "GAUGE", Type: "GAUGE"},
+					{Oid: "1.8", Access: "ACCESS_READONLY", Label: "TIMETICKS", Type: "TIMETICKS"},
+					{Oid: "1.9", Access: "ACCESS_READONLY", Label: "OPAQUE", Type: "OPAQUE"},
+					{Oid: "1.10", Access: "ACCESS_READONLY", Label: "NULL", Type: "NULL"},
+					{Oid: "1.11", Access: "ACCESS_READONLY", Label: "COUNTER64", Type: "COUNTER64"},
+					{Oid: "1.12", Access: "ACCESS_READONLY", Label: "BITSTRING", Type: "BITSTRING"},
+					{Oid: "1.13", Access: "ACCESS_READONLY", Label: "NSAPADDRESS", Type: "NSAPADDRESS"},
+					{Oid: "1.14", Access: "ACCESS_READONLY", Label: "UINTEGER", Type: "UINTEGER"},
+					{Oid: "1.15", Access: "ACCESS_READONLY", Label: "UNSIGNED32", Type: "UNSIGNED32"},
+					{Oid: "1.16", Access: "ACCESS_READONLY", Label: "INTEGER32", Type: "INTEGER32"},
+					{Oid: "1.20", Access: "ACCESS_READONLY", Label: "TRAPTYPE", Type: "TRAPTYPE"},
+					{Oid: "1.21", Access: "ACCESS_READONLY", Label: "NOTIFTYPE", Type: "NOTIFTYPE"},
+					{Oid: "1.22", Access: "ACCESS_READONLY", Label: "OBJGROUP", Type: "OBJGROUP"},
+					{Oid: "1.23", Access: "ACCESS_READONLY", Label: "NOTIFGROUP", Type: "NOTIFGROUP"},
+					{Oid: "1.24", Access: "ACCESS_READONLY", Label: "MODID", Type: "MODID"},
+					{Oid: "1.25", Access: "ACCESS_READONLY", Label: "AGENTCAP", Type: "AGENTCAP"},
+					{Oid: "1.26", Access: "ACCESS_READONLY", Label: "MODCOMP", Type: "MODCOMP"},
+					{Oid: "1.27", Access: "ACCESS_READONLY", Label: "OBJIDENTITY", Type: "OBJIDENTITY"},
+					{Oid: "1.100", Access: "ACCESS_READONLY", Label: "MacAddress", Type: "OCTETSTR", Hint: "1x:"},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"root", "1.3"},
@@ -262,6 +262,45 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Tables with accessible & inaccessible.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry",
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_NOACCESS", Label: "tableNoAccess", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_CREATE", Label: "tableCreate", Type: "INTEGER"},
+									{Oid: "1.1.1.3", Access: "ACCESS_WRITEONLY", Label: "tableWriteOnly", Type: "INTEGER"},
+									{Oid: "1.1.1.4", Access: "ACCESS_READONLY", Label: "tableReadOnly", Type: "INTEGER"},
+									{Oid: "1.1.1.5", Access: "ACCESS_READWRITE", Label: "tableReadWrite", Type: "INTEGER"},
+									{Oid: "1.1.1.6", Access: "ACCESS_NOTIFY", Label: "tableNotify", Type: "INTEGER"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableCreate",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+					},
+					{
+						Name: "tableReadOnly",
+						Oid:  "1.1.1.4",
+						Type: "gauge",
+					},
+					{
+						Name: "tableReadWrite",
+						Oid:  "1.1.1.5",
+						Type: "gauge",
+					},
+				},
+			},
+		},
 		// Basic table with integer index.
 		{
 			node: &Node{Oid: "1", Label: "root",
@@ -270,8 +309,8 @@ func TestGenerateConfigModule(t *testing.T) {
 						Children: []*Node{
 							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
 								Children: []*Node{
-									{Oid: "1.1.1.1", Label: "tableIndex", Type: "INTEGER"},
-									{Oid: "1.1.1.2", Label: "tableFoo", Type: "INTEGER"},
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
 								}}}}}},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
@@ -312,32 +351,32 @@ func TestGenerateConfigModule(t *testing.T) {
 						Children: []*Node{
 							{Oid: "1.1.1", Label: "octetEntry", Indexes: []string{"octetIndex"},
 								Children: []*Node{
-									{Oid: "1.1.1.1", Label: "octetIndex", Type: "OCTETSTR"},
-									{Oid: "1.1.1.2", Label: "octetFoo", Type: "INTEGER"}}}}},
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "octetIndex", Type: "OCTETSTR"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "octetFoo", Type: "INTEGER"}}}}},
 					{Oid: "1.2", Label: "bitstring",
 						Children: []*Node{
 							{Oid: "1.2.1", Label: "bitstringEntry", Indexes: []string{"bitstringIndex"},
 								Children: []*Node{
-									{Oid: "1.2.1.1", Label: "bitstringIndex", Type: "BITSTRING"},
-									{Oid: "1.2.1.2", Label: "bitstringFoo", Type: "INTEGER"}}}}},
+									{Oid: "1.2.1.1", Access: "ACCESS_READONLY", Label: "bitstringIndex", Type: "BITSTRING"},
+									{Oid: "1.2.1.2", Access: "ACCESS_READONLY", Label: "bitstringFoo", Type: "INTEGER"}}}}},
 					{Oid: "1.3", Label: "ipaddr",
 						Children: []*Node{
 							{Oid: "1.3.1", Label: "ipaddrEntry", Indexes: []string{"ipaddrIndex"},
 								Children: []*Node{
-									{Oid: "1.3.1.1", Label: "ipaddrIndex", Type: "IPADDR"},
-									{Oid: "1.3.1.2", Label: "ipaddrFoo", Type: "INTEGER"}}}}},
+									{Oid: "1.3.1.1", Access: "ACCESS_READONLY", Label: "ipaddrIndex", Type: "IPADDR"},
+									{Oid: "1.3.1.2", Access: "ACCESS_READONLY", Label: "ipaddrFoo", Type: "INTEGER"}}}}},
 					{Oid: "1.4", Label: "netaddr",
 						Children: []*Node{
 							{Oid: "1.4.1", Label: "netaddrEntry", Indexes: []string{"netaddrIndex"},
 								Children: []*Node{
-									{Oid: "1.4.1.1", Label: "netaddrIndex", Type: "NETADDR"},
-									{Oid: "1.4.1.2", Label: "netaddrFoo", Type: "INTEGER"}}}}},
+									{Oid: "1.4.1.1", Access: "ACCESS_READONLY", Label: "netaddrIndex", Type: "NETADDR"},
+									{Oid: "1.4.1.2", Access: "ACCESS_READONLY", Label: "netaddrFoo", Type: "INTEGER"}}}}},
 					{Oid: "1.5", Label: "physaddress48",
 						Children: []*Node{
 							{Oid: "1.5.1", Label: "physaddress48Entry", Indexes: []string{"physaddress48Index"},
 								Children: []*Node{
-									{Oid: "1.5.1.1", Label: "physaddress48Index", Type: "OCTETSTR", Hint: "1x:"},
-									{Oid: "1.5.1.2", Label: "physaddress48Foo", Type: "INTEGER"}}}}},
+									{Oid: "1.5.1.1", Access: "ACCESS_READONLY", Label: "physaddress48Index", Type: "OCTETSTR", Hint: "1x:"},
+									{Oid: "1.5.1.2", Access: "ACCESS_READONLY", Label: "physaddress48Foo", Type: "INTEGER"}}}}},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
@@ -466,9 +505,9 @@ func TestGenerateConfigModule(t *testing.T) {
 						Children: []*Node{
 							{Oid: "1.1.1", Label: "octetEntry", Indexes: []string{"octetIndex"},
 								Children: []*Node{
-									{Oid: "1.1.1.1", Label: "octetIndex", Type: "INTEGER"},
-									{Oid: "1.1.1.2", Label: "octetDesc", Type: "OCTETSTR"},
-									{Oid: "1.1.1.3", Label: "octetFoo", Type: "INTEGER"}}}}}}},
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "octetIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "octetDesc", Type: "OCTETSTR"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "octetFoo", Type: "INTEGER"}}}}}}},
 			cfg: &ModuleConfig{
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{

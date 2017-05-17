@@ -107,6 +107,16 @@ func metricType(t string) (string, bool) {
 	}
 }
 
+func metricAccess(a string) bool {
+	switch a {
+	case "ACCESS_READONLY", "ACCESS_READWRITE", "ACCESS_CREATE":
+		return true
+	default:
+		// the others are inaccessible metrics.
+		return false
+	}
+}
+
 // Reduce a set of overlapping OID subtrees.
 func minimizeOids(oids []string) []string {
 	sort.Strings(oids)
@@ -145,6 +155,11 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			if !ok {
 				return // Unsupported type.
 			}
+
+			if !metricAccess(n.Access) {
+				return // Inaccessible metrics.
+			}
+
 			metric := &config.Metric{
 				Name:    n.Label,
 				Oid:     n.Oid,
