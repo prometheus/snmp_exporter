@@ -107,13 +107,14 @@ func metricType(t string) (string, bool) {
 	}
 }
 
-func metricAccess(a string) (string, bool) {
+func metricAccess(a string) bool {
 	switch a {
-	case "ACCESS_READONLY", "ACCESS_READWRITE":
-		return a, true
+	// TODO: make a unittest cover the inaccessible\accessible cases in `tree_test.go`.
+	case "ACCESS_READONLY", "ACCESS_READWRITE", "ACCESS_CREATE":
+		return true
 	default:
-		// the others are unaccessible metrics.
-		return "", false
+		// the others are inaccessible metrics.
+		return false
 	}
 }
 
@@ -156,9 +157,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				return // Unsupported type.
 			}
 
-			_, ok = metricAccess(n.Access)
+			ok = metricAccess(n.Access)
 			if !ok {
-				return // Unaccessible metrics.
+				return // Inaccessible metrics.
 			}
 
 			metric := &config.Metric{
