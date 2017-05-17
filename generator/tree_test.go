@@ -296,7 +296,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "tableReadOnly",
 						Oid:  "1.1.1.4",
-						Type: "counter",
+						Type: "gauge",
 					},
 					{
 						Name: "tableReadWrite",
