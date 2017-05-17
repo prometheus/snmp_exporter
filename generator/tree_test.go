@@ -262,6 +262,55 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Tables with accessible & inaccessible.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry",
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_NOACCESS", Label: "tableNoAccessIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_CREATE", Label: "tableCreateDescr", Type: "OCTETSTR"},
+									{Oid: "1.1.1.3", Access: "ACCESS_WRITEONLY", Label: "tableWriteOnlyId", Type: "INTEGER"},
+									{Oid: "1.1.1.4", Access: "ACCESS_READONLY", Label: "tableReadOnlyMetric", Type: "COUNTER"},
+									{Oid: "1.1.1.5", Access: "ACCESS_READWRITE", Label: "tableReadWriteResetFlag", Type: "INTEGER"},
+									{Oid: "1.1.1.6", Access: "ACCESS_NOTIFY", Label: "tableNotifyUserSlot", Type: "INTEGER"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableCreateDescr",
+						Oid:  "1.1.1.2",
+						Type: "OctetString",
+					},
+					{
+						Name: "tableWriteOnlyId",
+						Oid:  "1.1.1.3",
+						Type: "gauge",
+					},
+					{
+						Name: "tableReadOnlyMetric",
+						Oid:  "1.1.1.4",
+						Type: "counter",
+					},
+					{
+						Name: "tableReadWriteResetFlag",
+						Oid:  "1.1.1.5",
+						Type: "gauge",
+					},
+					{
+						Name: "tableNotifyUserSlot",
+						Oid:  "1.1.1.6",
+						Type: "gauge",
+					},
+				},
+			},
+		},
 		// Basic table with integer index.
 		{
 			node: &Node{Oid: "1", Label: "root",

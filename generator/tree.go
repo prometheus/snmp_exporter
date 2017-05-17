@@ -109,7 +109,6 @@ func metricType(t string) (string, bool) {
 
 func metricAccess(a string) bool {
 	switch a {
-	// TODO: make a unittest cover the inaccessible\accessible cases in `tree_test.go`.
 	case "ACCESS_READONLY", "ACCESS_READWRITE", "ACCESS_CREATE":
 		return true
 	default:
