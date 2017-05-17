@@ -270,12 +270,12 @@ func TestGenerateConfigModule(t *testing.T) {
 						Children: []*Node{
 							{Oid: "1.1.1", Label: "tableEntry",
 								Children: []*Node{
-									{Oid: "1.1.1.1", Access: "ACCESS_NOACCESS", Label: "tableNoAccessIndex", Type: "INTEGER"},
-									{Oid: "1.1.1.2", Access: "ACCESS_CREATE", Label: "tableCreateDescr", Type: "OCTETSTR"},
-									{Oid: "1.1.1.3", Access: "ACCESS_WRITEONLY", Label: "tableWriteOnlyId", Type: "INTEGER"},
-									{Oid: "1.1.1.4", Access: "ACCESS_READONLY", Label: "tableReadOnlyMetric", Type: "COUNTER"},
-									{Oid: "1.1.1.5", Access: "ACCESS_READWRITE", Label: "tableReadWriteResetFlag", Type: "INTEGER"},
-									{Oid: "1.1.1.6", Access: "ACCESS_NOTIFY", Label: "tableNotifyUserSlot", Type: "INTEGER"},
+									{Oid: "1.1.1.1", Access: "ACCESS_NOACCESS", Label: "tableNoAccess", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_CREATE", Label: "tableCreate", Type: "INTEGER"},
+									{Oid: "1.1.1.3", Access: "ACCESS_WRITEONLY", Label: "tableWriteOnly", Type: "INTEGER"},
+									{Oid: "1.1.1.4", Access: "ACCESS_READONLY", Label: "tableReadOnly", Type: "INTEGER"},
+									{Oid: "1.1.1.5", Access: "ACCESS_READWRITE", Label: "tableReadWrite", Type: "INTEGER"},
+									{Oid: "1.1.1.6", Access: "ACCESS_NOTIFY", Label: "tableNotify", Type: "INTEGER"},
 								}}}}}},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
@@ -284,27 +284,27 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1"},
 				Metrics: []*config.Metric{
 					{
-						Name: "tableCreateDescr",
+						Name: "tableCreate",
 						Oid:  "1.1.1.2",
-						Type: "OctetString",
+						Type: "gauge",
 					},
 					{
-						Name: "tableWriteOnlyId",
+						Name: "tableWriteOnly",
 						Oid:  "1.1.1.3",
 						Type: "gauge",
 					},
 					{
-						Name: "tableReadOnlyMetric",
+						Name: "tableReadOnly",
 						Oid:  "1.1.1.4",
 						Type: "counter",
 					},
 					{
-						Name: "tableReadWriteResetFlag",
+						Name: "tableReadWrite",
 						Oid:  "1.1.1.5",
 						Type: "gauge",
 					},
 					{
-						Name: "tableNotifyUserSlot",
+						Name: "tableNotify",
 						Oid:  "1.1.1.6",
 						Type: "gauge",
 					},
