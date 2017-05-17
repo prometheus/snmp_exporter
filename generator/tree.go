@@ -145,6 +145,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			if !ok {
 				return // Unsupported type.
 			}
+
+			// Unaccessible metrics should throw warning
+			if n.Access == "ACCESS_NOACCESS" || n.Access == "unknown" {
+				log.Warnf("Error, %s is unaccessible", n.Label)
+			}
+
 			metric := &config.Metric{
 				Name:    n.Label,
 				Oid:     n.Oid,

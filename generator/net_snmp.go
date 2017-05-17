@@ -27,38 +27,49 @@ type Node struct {
 	Type        string
 	Hint        string
 	Units       string
+	Access      string
 
 	Indexes []string
 }
 
 // Adapted from parse.h.
-var netSnmptypeMap = map[int]string{
-	0:  "OTHER",
-	1:  "OBJID",
-	2:  "OCTETSTR",
-	3:  "INTEGER",
-	4:  "NETADDR",
-	5:  "IPADDR",
-	6:  "COUNTER",
-	7:  "GAUGE",
-	8:  "TIMETICKS",
-	9:  "OPAQUE",
-	10: "NULL",
-	11: "COUNTER64",
-	12: "BITSTRING",
-	13: "NSAPADDRESS",
-	14: "UINTEGER",
-	15: "UNSIGNED32",
-	16: "INTEGER32",
-	20: "TRAPTYPE",
-	21: "NOTIFTYPE",
-	22: "OBJGROUP",
-	23: "NOTIFGROUP",
-	24: "MODID",
-	25: "AGENTCAP",
-	26: "MODCOMP",
-	27: "OBJIDENTITY",
-}
+var (
+	netSnmptypeMap = map[int]string{
+		0:  "OTHER",
+		1:  "OBJID",
+		2:  "OCTETSTR",
+		3:  "INTEGER",
+		4:  "NETADDR",
+		5:  "IPADDR",
+		6:  "COUNTER",
+		7:  "GAUGE",
+		8:  "TIMETICKS",
+		9:  "OPAQUE",
+		10: "NULL",
+		11: "COUNTER64",
+		12: "BITSTRING",
+		13: "NSAPADDRESS",
+		14: "UINTEGER",
+		15: "UNSIGNED32",
+		16: "INTEGER32",
+		20: "TRAPTYPE",
+		21: "NOTIFTYPE",
+		22: "OBJGROUP",
+		23: "NOTIFGROUP",
+		24: "MODID",
+		25: "AGENTCAP",
+		26: "MODCOMP",
+		27: "OBJIDENTITY",
+	}
+	netSnmpaccessMap = map[int]string{
+		18: "ACCESS_READONLY",
+		19: "ACCESS_READWRITE",
+		20: "ACCESS_WRITEONLY",
+		21: "ACCESS_NOACCESS",
+		67: "ACCESS_NOTIFY",
+		48: "ACCESS_CREATE",
+	}
+)
 
 // Initilise NetSNMP. Returns MIB parse errors.
 //
@@ -118,6 +129,13 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	} else {
 		n.Type = "unknown"
 	}
+
+	if access, ok := netSnmpaccessMap[int(t.access)]; ok {
+		n.Access = access
+	} else {
+		n.Access = "unknown"
+	}
+
 	n.Augments = C.GoString(t.augments)
 	n.Description = C.GoString(t.description)
 	n.Hint = C.GoString(t.hint)
