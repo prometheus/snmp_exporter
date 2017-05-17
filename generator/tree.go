@@ -156,7 +156,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				return // Unsupported type.
 			}
 
-			if ok = metricAccess(n.Access); !ok {
+			if !metricAccess(n.Access) {
 				return // Inaccessible metrics.
 			}
 
