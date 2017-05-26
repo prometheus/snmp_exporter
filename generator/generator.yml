@@ -46,7 +46,7 @@ modules:
 # errors. Alternatively you can eliminate the interface polling (OIDs
 # beginning with 1.3.6.1.2.1) to reduce the time taken for polling.
 #
-# ftp://ftp.apc.com/apc/public/software/pnetmib/mib/419/powernet419.mib
+# ftp://ftp.apc.com/apc/public/software/pnetmib/mib/421/powernet421.mib
 # ftp://ftp.apc.com/apc/public/software/pnetmib/mib/344/990-6052C.pdf
 # ftp://ftp.apc.com/apc/public/software/pnetmib/mib/343/mibguide.pdf
 # ftp://ftp.apc.com/apc/public/software/pnetmib/mib/330/manual.pdf
