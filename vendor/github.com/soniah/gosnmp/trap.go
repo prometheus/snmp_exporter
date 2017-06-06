@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"sync"
 	"time"
 )
 
@@ -47,10 +48,9 @@ func (x *GoSNMP) SendTrap(pdus []SnmpPDU) (result *SnmpPacket, err error) {
 
 	// add a timetick to start, set to now
 	now := uint32(time.Now().Unix())
-	timetickPDU := SnmpPDU{"", TimeTicks, now, x.Logger}
+	timetickPDU := SnmpPDU{"1.3.6.1.2.1.1.3.0", TimeTicks, now, x.Logger}
 	// prepend timetickPDU
-	copy(pdus[1:], pdus)
-	pdus[0] = timetickPDU
+	pdus = append([]SnmpPDU{timetickPDU}, pdus...)
 
 	packetOut := x.mkSnmpPacket(SNMPv2Trap, pdus, 0, 0)
 
@@ -71,6 +71,26 @@ func (x *GoSNMP) SendTrap(pdus []SnmpPDU) (result *SnmpPacket, err error) {
 type TrapListener struct {
 	OnNewTrap func(s *SnmpPacket, u *net.UDPAddr)
 	Params    *GoSNMP
+
+	// these unexported fields are for letting test cases
+	// know we are ready
+	listening bool
+	c         *sync.Cond
+	m         sync.Mutex
+}
+
+// optional constructor for TrapListener
+func NewTrapListener() *TrapListener {
+	tl := &TrapListener{}
+	tl.c = sync.NewCond(&sync.Mutex{})
+	return tl
+}
+
+// safely check if TrapListener is ready and listening
+func (t *TrapListener) ready() bool {
+	t.m.Lock()
+	defer t.m.Unlock()
+	return t.listening
 }
 
 // Listen listens on the UDP address addr and calls the OnNewTrap
@@ -94,6 +114,22 @@ func (t *TrapListener) Listen(addr string) (err error) {
 		return err
 	}
 	defer conn.Close()
+
+	// mark that we are listening now
+	func() {
+		t.m.Lock()
+		defer t.m.Unlock()
+		t.listening = true
+		t.c.Broadcast()
+	}()
+
+	// don't forget to mark that we are no longer listening later on
+	defer func() {
+		t.m.Lock()
+		defer t.m.Unlock()
+		t.listening = false
+		t.c.Broadcast()
+	}()
 
 	for {
 		var buf [4096]byte
