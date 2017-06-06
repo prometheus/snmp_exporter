@@ -95,10 +95,10 @@
 			"revisionTime": "2017-05-19T19:08:37Z"
 		},
 		{
-			"checksumSHA1": "L7+d0vCZcj7GoFMswzyWBPDr2iY=",
+			"checksumSHA1": "aI5aUo+Alls3lpO43Sd9Uqk2LyI=",
 			"path": "github.com/soniah/gosnmp",
-			"revision": "5ad50dc75ab389f8a1c9f8a67d3a1cd85f67ed15",
-			"revisionTime": "2017-01-04T02:24:20Z"
+			"revision": "60bf4ae2e262f0e17c004a31712f63913559d4ec",
+			"revisionTime": "2017-04-28T18:28:33Z"
 		},
 		{
 			"path": "golang.org/x/sys/unix",
