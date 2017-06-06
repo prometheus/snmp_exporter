@@ -8,7 +8,12 @@
 	For bug reports, please fill out the below fields and provide as much detail
 	as possible about your issue.  For feature requests, you may omit the
 	following template.
+	
+	If you include CLI output, please run those programs with additional parameters:
+		snmp_exporter: `-log.level=debug`
+		snmpbulkget etc: `-On`
 -->
+
 ### Host operating system: output of `uname -a`
 
 ### snmp_exporter version: output of `snmp_exporter -version`
