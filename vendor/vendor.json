@@ -83,9 +83,16 @@
 			"revisionTime": "2017-04-27T09:54:55Z"
 		},
 		{
+			"checksumSHA1": "Yyg/3nrbmiSL8eQnPisYWINAxqw=",
 			"path": "github.com/prometheus/procfs",
-			"revision": "406e5b7bfd8201a36e2bb5f7bdae0b03380c2ce8",
-			"revisionTime": "2015-10-29T15:50:50-04:00"
+			"revision": "65c1f6f8f0fc1e2185eb9863a3bc751496404259",
+			"revisionTime": "2017-05-19T19:08:37Z"
+		},
+		{
+			"checksumSHA1": "xCiFAAwVTrjsfZT1BIJQ3DgeNCY=",
+			"path": "github.com/prometheus/procfs/xfs",
+			"revision": "65c1f6f8f0fc1e2185eb9863a3bc751496404259",
+			"revisionTime": "2017-05-19T19:08:37Z"
 		},
 		{
 			"checksumSHA1": "L7+d0vCZcj7GoFMswzyWBPDr2iY=",
