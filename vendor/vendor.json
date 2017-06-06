@@ -3,9 +3,12 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "Ksl4kXr4ty0HwjrLRLZOrNz05Bw=",
 			"path": "github.com/Sirupsen/logrus",
-			"revision": "4b6ea7319e214d98c938f12692336f7ca9348d6b",
-			"revisionTime": "2016-03-17T14:11:10Z"
+			"revision": "ba1b36c82c5e05c4f912a88eab0dcd91a171688f",
+			"revisionTime": "2017-03-14T19:23:53Z",
+			"version": "=v0.11.5",
+			"versionExact": "v0.11.5"
 		},
 		{
 			"path": "github.com/beorn7/perks/quantile",
