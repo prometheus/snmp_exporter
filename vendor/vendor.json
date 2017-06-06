@@ -11,9 +11,10 @@
 			"versionExact": "v0.11.5"
 		},
 		{
+			"checksumSHA1": "spyv5/YFBjYyZLZa1U2LBfDR8PM=",
 			"path": "github.com/beorn7/perks/quantile",
 			"revision": "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9",
-			"revisionTime": "2016-08-04T12:47:26+02:00"
+			"revisionTime": "2016-08-04T10:47:26Z"
 		},
 		{
 			"path": "github.com/golang/protobuf/proto",
