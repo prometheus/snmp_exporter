@@ -101,24 +101,28 @@
 			"revisionTime": "2017-04-28T18:28:33Z"
 		},
 		{
+			"checksumSHA1": "PugQbLLjnbBSj+NOXRYBVRnLuuQ=",
 			"path": "golang.org/x/sys/unix",
-			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
-			"revisionTime": "2016-03-02T21:58:15+02:00"
+			"revision": "b90f89a1e7a9c1f6b918820b3daa7f08488c8594",
+			"revisionTime": "2017-05-29T13:44:53Z"
 		},
 		{
+			"checksumSHA1": "2Coyr3Bq1dPkFg+ZYHEq1+/Rn58=",
 			"path": "golang.org/x/sys/windows",
-			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
-			"revisionTime": "2016-03-02T21:58:15+02:00"
+			"revision": "b90f89a1e7a9c1f6b918820b3daa7f08488c8594",
+			"revisionTime": "2017-05-29T13:44:53Z"
 		},
 		{
+			"checksumSHA1": "ZdFZFaXmCgEEaEhVPkyXrnhKhsg=",
 			"path": "golang.org/x/sys/windows/registry",
-			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
-			"revisionTime": "2016-03-02T21:58:15+02:00"
+			"revision": "b90f89a1e7a9c1f6b918820b3daa7f08488c8594",
+			"revisionTime": "2017-05-29T13:44:53Z"
 		},
 		{
+			"checksumSHA1": "uVlUSSKplihZG7N+QJ6fzDZ4Kh8=",
 			"path": "golang.org/x/sys/windows/svc/eventlog",
-			"revision": "7a56174f0086b32866ebd746a794417edbc678a1",
-			"revisionTime": "2016-03-02T21:58:15+02:00"
+			"revision": "b90f89a1e7a9c1f6b918820b3daa7f08488c8594",
+			"revisionTime": "2017-05-29T13:44:53Z"
 		},
 		{
 			"path": "gopkg.in/yaml.v2",
