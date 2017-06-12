@@ -123,7 +123,7 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
 	pdus, err := ScrapeTarget(c.target, c.module)
 	if err != nil {
-		log.Errorf("Error scraping target %s: %s", c.target, err)
+		log.Infof("Error scraping target %s: %s", c.target, err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
 		return
 	}
