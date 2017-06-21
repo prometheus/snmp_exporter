@@ -22,6 +22,10 @@ var (
 		"config.file", "snmp.yml",
 		"Path to configuration file.",
 	)
+	configDirectory = flag.String(
+		"config.directory", "",
+		"Path to directory with configuration files. It will be preferred if specified.",
+	)
 	listenAddress = flag.String(
 		"web.listen-address", ":9116",
 		"Address to listen on for web interface and telemetry.",
@@ -50,14 +54,20 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	cfg, err := config.LoadFile(*configFile)
+	var cfg *config.Config
+	var err error
+	// Prefer config directory in case it is specified
+	if *configDirectory != "" {
+		cfg, err = config.LoadFiles(*configDirectory)
+	} else {
+		cfg, err = config.LoadFile(*configFile)
+	}
 	if err != nil {
 		msg := fmt.Sprintf("Error parsing config file: %s", err)
 		http.Error(w, msg, 400)
 		log.Errorf(msg)
 		return
 	}
-
 	target := r.URL.Query().Get("target")
 	if target == "" {
 		http.Error(w, "'target' parameter must be specified", 400)
@@ -100,12 +110,20 @@ func main() {
 	log.Infoln("Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
-	c, err := config.LoadFile(*configFile)
+	var cfg *config.Config
+	var err error
+	if *configDirectory != "" {
+		log.Infoln("Read configurations from", *configDirectory)
+		cfg, err = config.LoadFiles(*configDirectory)
+	} else {
+		log.Infoln("Read configuration from", *configFile)
+		cfg, err = config.LoadFile(*configFile)
+	}
 	if err != nil {
-		log.Fatalf("Error parsing config file: %s", err)
+		log.Fatalf("Error parsing configuration: %s", err)
 	}
 	// Initilise metrics.
-	for module, _ := range *c {
+	for module, _ := range *cfg {
 		snmpDuration.WithLabelValues(module)
 	}
 

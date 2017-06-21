@@ -23,6 +23,25 @@ func LoadFile(filename string) (*Config, error) {
 	return cfg, nil
 }
 
+func LoadFiles(dirname string) (*Config, error) {
+	fileInfos, err := ioutil.ReadDir(dirname)
+	if err != nil {
+		return nil, err
+	}
+	cfg := &Config{}
+	for _, fileInfo := range fileInfos {
+		content, err := ioutil.ReadFile(dirname + "/" + fileInfo.Name())
+		if err != nil {
+			return nil, err
+		}
+		err = yaml.Unmarshal(content, cfg)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return cfg, nil
+}
+
 var (
 	DefaultModule = Module{
 		Version:        2,
