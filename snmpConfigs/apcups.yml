@@ -1,0 +1,958 @@
+apcups:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.4.1.318.1.1.1.12
+  - 1.3.6.1.4.1.318.1.1.1.2
+  - 1.3.6.1.4.1.318.1.1.1.3
+  - 1.3.6.1.4.1.318.1.1.1.4
+  - 1.3.6.1.4.1.318.1.1.1.7.2
+  - 1.3.6.1.4.1.318.1.1.1.8.1
+  - 1.3.6.1.4.1.318.1.1.10.2.3.2
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: upsOutletGroupStatusTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.1
+    type: gauge
+  - name: upsOutletGroupStatusIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.1
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: gauge
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
+  - name: upsOutletGroupStatusName
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+    type: OctetString
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: gauge
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
+  - name: upsOutletGroupStatusGroupState
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: gauge
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
+  - name: upsOutletGroupStatusCommandPending
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: gauge
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
+  - name: upsOutletGroupStatusOutletType
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: gauge
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
+  - name: upsOutletGroupStatusGroupFullState
+    oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.6
+    type: OctetString
+    indexes:
+    - labelname: upsOutletGroupStatusName
+      type: gauge
+    lookups:
+    - labels:
+      - upsOutletGroupStatusName
+      labelname: upsOutletGroupStatusName
+      oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
+      type: OctetString
+  - name: upsOutletGroupConfigTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.1
+    type: gauge
+  - name: upsOutletGroupConfigIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.1
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigName
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.2
+    type: OctetString
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigPowerOnDelay
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.3
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigPowerOffDelay
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.4
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigRebootDuration
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.5
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigMinReturnRuntime
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.6
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigOutletType
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.7
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigLoadShedControlSkipOffDelay
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.8
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigLoadShedControlAutoRestart
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.9
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigLoadShedControlTimeOnBattery
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.10
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigLoadShedControlRuntimeRemaining
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.11
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigLoadShedControlInOverload
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.12
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigLoadShedTimeOnBattery
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.13
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupConfigLoadShedRuntimeRemaining
+    oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.14
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupConfigIndex
+      type: gauge
+  - name: upsOutletGroupControlTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.1
+    type: gauge
+  - name: upsOutletGroupControlIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.1
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: gauge
+  - name: upsOutletGroupControlName
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.2
+    type: OctetString
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: gauge
+  - name: upsOutletGroupControlCommand
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.3
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: gauge
+  - name: upsOutletGroupControlOutletType
+    oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.4
+    type: gauge
+    indexes:
+    - labelname: upsOutletGroupControlIndex
+      type: gauge
+  - name: upsBasicBatteryStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.1.1
+    type: gauge
+  - name: upsBasicBatteryTimeOnBattery
+    oid: 1.3.6.1.4.1.318.1.1.1.2.1.2
+    type: gauge
+  - name: upsBasicBatteryLastReplaceDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.1.3
+    type: OctetString
+  - name: upsAdvBatteryCapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.1
+    type: gauge
+  - name: upsAdvBatteryTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.2
+    type: gauge
+  - name: upsAdvBatteryRunTimeRemaining
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.3
+    type: gauge
+  - name: upsAdvBatteryReplaceIndicator
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.4
+    type: gauge
+  - name: upsAdvBatteryNumOfBattPacks
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.5
+    type: gauge
+  - name: upsAdvBatteryNumOfBadBattPacks
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.6
+    type: gauge
+  - name: upsAdvBatteryNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.7
+    type: gauge
+  - name: upsAdvBatteryActualVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.8
+    type: gauge
+  - name: upsAdvBatteryCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.9
+    type: gauge
+  - name: upsAdvTotalDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.10
+    type: gauge
+  - name: upsAdvBatteryFullCapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.11
+    type: gauge
+  - name: upsAdvBatteryActualVoltageTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.1
+    type: gauge
+    indexes:
+    - labelname: upsAdvBatteryActualVoltageTableIndex
+      type: gauge
+  - name: upsAdvBatteryActualVoltagePolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.2
+    type: gauge
+    indexes:
+    - labelname: upsAdvBatteryActualVoltageTableIndex
+      type: gauge
+  - name: upsAdvBatteryFrameActualVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.3
+    type: gauge
+    indexes:
+    - labelname: upsAdvBatteryActualVoltageTableIndex
+      type: gauge
+  - name: upsAdvTotalDCCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.1
+    type: gauge
+    indexes:
+    - labelname: upsAdvTotalDCCurrentTableIndex
+      type: gauge
+  - name: upsAdvTotalDCCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.2
+    type: gauge
+    indexes:
+    - labelname: upsAdvTotalDCCurrentTableIndex
+      type: gauge
+  - name: upsAdvTotalFrameDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.3
+    type: gauge
+    indexes:
+    - labelname: upsAdvTotalDCCurrentTableIndex
+      type: gauge
+  - name: upsAdvBatteryCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.1
+    type: gauge
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsAdvBatteryCurrentIndex
+      type: gauge
+  - name: upsAdvBatteryCurrentIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.2
+    type: gauge
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsAdvBatteryCurrentIndex
+      type: gauge
+  - name: upsAdvBatteryCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.3
+    type: gauge
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsAdvBatteryCurrentIndex
+      type: gauge
+  - name: upsAdvBatteryFrameCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.4
+    type: gauge
+    indexes:
+    - labelname: upsAdvBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsAdvBatteryCurrentIndex
+      type: gauge
+  - name: upsAdvBatteryEstimatedChargeTime
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.15
+    type: gauge
+  - name: upsAdvBatteryPower
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.16
+    type: gauge
+  - name: upsAdvBatteryChargerStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.17
+    type: gauge
+  - name: upsAdvBatteryInternalSKU
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.19
+    type: OctetString
+  - name: upsAdvBatteryExternalSKU
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.20
+    type: OctetString
+  - name: upsAdvBatteryRecommendedReplaceDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.21
+    type: OctetString
+  - name: upsHighPrecBatteryCapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
+    type: gauge
+  - name: upsHighPrecBatteryTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.2
+    type: gauge
+  - name: upsHighPrecBatteryNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.3
+    type: gauge
+  - name: upsHighPrecBatteryActualVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.4
+    type: gauge
+  - name: upsHighPrecBatteryCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.5
+    type: gauge
+  - name: upsHighPrecTotalDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.6
+    type: gauge
+  - name: upsHighPrecBatteryActualVoltageTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.1
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryActualVoltageTableIndex
+      type: gauge
+  - name: upsHighPrecBatteryActualVoltagePolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.2
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryActualVoltageTableIndex
+      type: gauge
+  - name: upsHighPrecBatteryVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryActualVoltageTableIndex
+      type: gauge
+  - name: upsHighPrecTotalDCCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.1
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecTotalDCCurrentTableIndex
+      type: gauge
+  - name: upsHighPrecTotalDCCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.2
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecTotalDCCurrentTableIndex
+      type: gauge
+  - name: upsHighPrecTotalDCFrameCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecTotalDCCurrentTableIndex
+      type: gauge
+  - name: upsHighPrecBatteryCurrentTableIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.1
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: gauge
+  - name: upsHighPrecBatteryCurrentIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.2
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: gauge
+  - name: upsHighPrecBatteryCurrentPolarity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.3
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: gauge
+  - name: upsHighPrecBatteryFrameCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryCurrentTableIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCurrentIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.1
+    type: gauge
+  - name: upsHighPrecBatteryPackIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.1
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryCartridgeIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.2
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackFirmwareRevision
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
+    type: OctetString
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackSerialNumber
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
+    type: OctetString
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.5
+    type: gauge
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.6
+    type: OctetString
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackCartridgeHealth
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.7
+    type: OctetString
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackCartridgeReplaceDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
+    type: OctetString
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackCartridgeInstallDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
+    type: OctetString
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackCartridgeStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.10
+    type: OctetString
+    indexes:
+    - labelname: upsHighPrecBatteryPackIndex
+      type: gauge
+    - labelname: upsHighPrecBatteryCartridgeIndex
+      type: gauge
+  - name: upsHighPrecBatteryHealth
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.11
+    type: OctetString
+  - name: upsBasicInputPhase
+    oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
+    type: gauge
+  - name: upsAdvInputLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.1
+    type: gauge
+  - name: upsAdvInputMaxLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.2
+    type: gauge
+  - name: upsAdvInputMinLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.3
+    type: gauge
+  - name: upsAdvInputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.4
+    type: gauge
+  - name: upsAdvInputLineFailCause
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.5
+    type: gauge
+  - name: upsAdvInputNominalFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.6
+    type: gauge
+  - name: upsAdvInputNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.7
+    type: gauge
+  - name: upsAdvInputBypassNominalFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.8
+    type: gauge
+  - name: upsAdvInputBypassNominalVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.9
+    type: gauge
+  - name: upsAdvInputStatisticsIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.1
+    type: gauge
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: gauge
+  - name: upsAdvInputApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.2
+    type: gauge
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: gauge
+  - name: upsAdvInputVoltageTHD
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.3
+    type: gauge
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: gauge
+  - name: upsAdvInputBypassVoltageTHD
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.4
+    type: gauge
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: gauge
+  - name: upsAdvInputPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.5
+    type: gauge
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: gauge
+  - name: upsAdvInputBypassPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.6
+    type: gauge
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: gauge
+  - name: upsAdvInputActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.10.1.7
+    type: gauge
+    indexes:
+    - labelname: upsAdvInputStatisticsIndex
+      type: gauge
+  - name: upsAdvInputTotalApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.11
+    type: gauge
+  - name: upsAdvInputTotalActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.12
+    type: gauge
+  - name: upsAdvInputBypassTotalApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.13
+    type: gauge
+  - name: upsAdvInputBypassTotalActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.14
+    type: gauge
+  - name: upsAdvInputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.15
+    type: gauge
+  - name: upsHighPrecInputLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.1
+    type: gauge
+  - name: upsHighPrecInputMaxLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.2
+    type: gauge
+  - name: upsHighPrecInputMinLineVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.3
+    type: gauge
+  - name: upsHighPrecInputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.4
+    type: gauge
+  - name: upsHighPrecInputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.5
+    type: gauge
+  - name: upsHighPrecInputBypassVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.6
+    type: gauge
+  - name: upsHighPrecInputBypassFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.7
+    type: gauge
+  - name: upsBasicOutputStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.1
+    type: gauge
+  - name: upsBasicOutputPhase
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
+    type: gauge
+  - name: upsBasicSystemStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.3
+    type: gauge
+  - name: upsBasicSystemInternalTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.4
+    type: gauge
+  - name: upsBasicSystemInverterStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.5
+    type: gauge
+  - name: upsBasicSystemPFCStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.6
+    type: gauge
+  - name: upsBasicOutputACwiringConfiguration
+    oid: 1.3.6.1.4.1.318.1.1.1.4.1.7
+    type: gauge
+  - name: upsAdvOutputVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.1
+    type: gauge
+  - name: upsAdvOutputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.2
+    type: gauge
+  - name: upsAdvOutputLoad
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.3
+    type: gauge
+  - name: upsAdvOutputCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.4
+    type: gauge
+  - name: upsAdvOutputRedundancy
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.5
+    type: gauge
+  - name: upsAdvOutputKVACapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.6
+    type: gauge
+  - name: upsAdvOutputNominalFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.7
+    type: gauge
+  - name: upsAdvOutputActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.8
+    type: gauge
+  - name: upsAdvOutputApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.9
+    type: gauge
+  - name: upsAdvOutputStatisticsIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.1
+    type: gauge
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: gauge
+  - name: upsAdvOutputPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.2
+    type: gauge
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: gauge
+  - name: upsAdvOutputCurrentTHD
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.3
+    type: gauge
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: gauge
+  - name: upsAdvOutputCrestFactor
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
+    type: gauge
+    indexes:
+    - labelname: upsAdvOutputStatisticsIndex
+      type: gauge
+  - name: upsAdvOutputNeutralCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.11
+    type: gauge
+  - name: upsAdvOutputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.12
+    type: gauge
+  - name: upsHighPrecOutputVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
+    type: gauge
+  - name: upsHighPrecOutputFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.2
+    type: gauge
+  - name: upsHighPrecOutputLoad
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.3
+    type: gauge
+  - name: upsHighPrecOutputCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.4
+    type: gauge
+  - name: upsHighPrecOutputEfficiency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.5
+    type: gauge
+  - name: upsHighPrecOutputEnergyUsage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.3.6
+    type: gauge
+  - name: upsAdvTestDiagnosticSchedule
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.1
+    type: gauge
+  - name: upsAdvTestDiagnostics
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.2
+    type: gauge
+  - name: upsAdvTestDiagnosticsResults
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.3
+    type: gauge
+  - name: upsAdvTestLastDiagnosticsDate
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.4
+    type: OctetString
+  - name: upsAdvTestRuntimeCalibration
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.5
+    type: gauge
+  - name: upsAdvTestCalibrationResults
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.6
+    type: gauge
+  - name: upsAdvTestCalibrationDate
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.7
+    type: OctetString
+  - name: upsAdvTestDiagnosticTime
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.8
+    type: OctetString
+  - name: upsAdvTestDiagnosticDay
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
+    type: gauge
+  - name: upsCommStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.8.1
+    type: gauge
+  - name: iemStatusProbeNumber
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.1
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeName
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
+    type: OctetString
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeStatus
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.3
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeCurrentTemp
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeTempUnits
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.5
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeCurrentHumid
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.6
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeHighTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.7
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeLowTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.8
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeHighHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.9
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeLowHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.10
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeMaxTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.11
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeMinTempViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.12
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeMaxHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.13
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeMinHumidViolation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.14
+    type: gauge
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: iemStatusProbeLocation
+    oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
+    type: OctetString
+    indexes:
+    - labelname: iemStatusProbeNumber
+      type: gauge
+  version: 1
