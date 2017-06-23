@@ -6,7 +6,9 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -50,7 +52,8 @@ var (
 	sc = &SafeConfig{
 		C: &config.Config{},
 	}
-	err error
+	err      error
+	reloadCh chan chan error
 )
 
 func init() {
@@ -95,20 +98,27 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		sc.Lock()
-		sc.C, err = config.LoadFile(*configFile)
-		sc.Unlock()
-		if err != nil {
-			msg := fmt.Sprintf("Error parsing config file: %s", err)
-			http.Error(w, msg, 400)
-			log.Errorf(msg)
-			return
+		rc := make(chan error)
+		reloadCh <- rc
+		if err = <-rc; err != nil {
+			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
 		}
-		log.Infoln("Loaded config file")
 	default:
 		log.Errorf("POST method expected")
 		http.Error(w, "POST method expected", 400)
 	}
+}
+
+func (sc *SafeConfig) reloadConfig(configFile string) (err error) {
+	sc.Lock()
+	sc.C, err = config.LoadFile(configFile)
+	sc.Unlock()
+	if err != nil {
+		log.Errorf("Error parsing config file: %s", err)
+		return err
+	}
+	log.Infoln("Loaded config file")
+	return nil
 }
 
 func main() {
@@ -130,6 +140,27 @@ func main() {
 	for module, _ := range *sc.C {
 		snmpDuration.WithLabelValues(module)
 	}
+
+	hup := make(chan os.Signal)
+	reloadCh = make(chan chan error)
+	signal.Notify(hup, syscall.SIGHUP)
+	go func() {
+		for {
+			select {
+			case <-hup:
+				if err := sc.reloadConfig(*configFile); err != nil {
+					log.Errorf("Error reloading config: %s", err)
+				}
+			case rc := <-reloadCh:
+				if err := sc.reloadConfig(*configFile); err != nil {
+					log.Errorf("Error reloading config: %s", err)
+					rc <- err
+				} else {
+					rc <- nil
+				}
+			}
+		}
+	}()
 
 	http.Handle("/metrics", promhttp.Handler())       // Normal metrics endpoint for SNMP exporter itself.
 	http.HandleFunc("/snmp", handler)                 // Endpoint to do SNMP scrapes.
