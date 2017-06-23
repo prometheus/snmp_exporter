@@ -41,6 +41,9 @@ var (
 			Help: "Errors in requests to the SNMP exporter",
 		},
 	)
+	updateOnDemand = flag.Bool("config.update-on-demand", false, "Configuration will be updated only on demand in case true.")
+	cfg            *config.Config
+	err            error
 )
 
 func init() {
@@ -50,12 +53,14 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	cfg, err := config.LoadFile(*configFile)
-	if err != nil {
-		msg := fmt.Sprintf("Error parsing config file: %s", err)
-		http.Error(w, msg, 400)
-		log.Errorf(msg)
-		return
+	if !*updateOnDemand {
+		cfg, err = config.LoadFile(*configFile)
+		if err != nil {
+			msg := fmt.Sprintf("Error parsing config file: %s", err)
+			http.Error(w, msg, 400)
+			log.Errorf(msg)
+			return
+		}
 	}
 
 	target := r.URL.Query().Get("target")
@@ -88,6 +93,22 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	log.Debugf("Scrape of target '%s' with module '%s' took %f seconds", target, moduleName, duration)
 }
 
+func updateConfiguration(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "POST":
+		cfg, err = config.LoadFile(*configFile)
+		if err != nil {
+			msg := fmt.Sprintf("Error parsing config file: %s", err)
+			http.Error(w, msg, 400)
+			log.Errorf(msg)
+			return
+		}
+	default:
+		log.Errorf("POST method expected")
+		http.Error(w, "POST method expected", 400)
+	}
+}
+
 func main() {
 	flag.Parse()
 
@@ -100,17 +121,18 @@ func main() {
 	log.Infoln("Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
-	c, err := config.LoadFile(*configFile)
+	cfg, err = config.LoadFile(*configFile)
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
 	}
 	// Initilise metrics.
-	for module, _ := range *c {
+	for module, _ := range *cfg {
 		snmpDuration.WithLabelValues(module)
 	}
 
-	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
-	http.HandleFunc("/snmp", handler)           // Endpoint to do SNMP scrapes.
+	http.Handle("/metrics", promhttp.Handler())     // Normal metrics endpoint for SNMP exporter itself.
+	http.HandleFunc("/snmp", handler)               // Endpoint to do SNMP scrapes.
+	http.HandleFunc("/reload", updateConfiguration) // Endpoint to do SNMP scrapes.
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
