@@ -6,6 +6,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -15,6 +16,11 @@ import (
 
 	"github.com/prometheus/snmp_exporter/config"
 )
+
+type SafeConfig struct {
+	sync.RWMutex
+	C *config.Config
+}
 
 var (
 	showVersion = flag.Bool("version", false, "Print version information.")
@@ -41,9 +47,10 @@ var (
 			Help: "Errors in requests to the SNMP exporter",
 		},
 	)
-	updateOnDemand = flag.Bool("config.update-on-demand", false, "Configuration will be updated only on demand if specified.")
-	cfg            *config.Config
-	err            error
+	sc = &SafeConfig{
+		C: &config.Config{},
+	}
+	err error
 )
 
 func init() {
@@ -53,16 +60,6 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	if !*updateOnDemand {
-		cfg, err = config.LoadFile(*configFile)
-		if err != nil {
-			msg := fmt.Sprintf("Error parsing config file: %s", err)
-			http.Error(w, msg, 400)
-			log.Errorf(msg)
-			return
-		}
-	}
-
 	target := r.URL.Query().Get("target")
 	if target == "" {
 		http.Error(w, "'target' parameter must be specified", 400)
@@ -73,7 +70,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if moduleName == "" {
 		moduleName = "default"
 	}
-	module, ok := (*cfg)[moduleName]
+	sc.RLock()
+	module, ok := (*(sc.C))[moduleName]
+	sc.RUnlock()
 	if !ok {
 		http.Error(w, fmt.Sprintf("Unkown module '%s'", moduleName), 400)
 		snmpRequestErrors.Inc()
@@ -96,13 +95,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		cfg, err = config.LoadFile(*configFile)
+		sc.Lock()
+		sc.C, err = config.LoadFile(*configFile)
+		sc.Unlock()
 		if err != nil {
 			msg := fmt.Sprintf("Error parsing config file: %s", err)
 			http.Error(w, msg, 400)
 			log.Errorf(msg)
 			return
 		}
+		log.Infoln("Loaded config file")
 	default:
 		log.Errorf("POST method expected")
 		http.Error(w, "POST method expected", 400)
@@ -111,7 +113,6 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	flag.Parse()
-
 	if *showVersion {
 		fmt.Fprintln(os.Stdout, version.Print("snmp_exporter"))
 		os.Exit(0)
@@ -121,18 +122,18 @@ func main() {
 	log.Infoln("Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
-	cfg, err = config.LoadFile(*configFile)
+	sc.C, err = config.LoadFile(*configFile)
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
 	}
 	// Initilise metrics.
-	for module, _ := range *cfg {
+	for module, _ := range *sc.C {
 		snmpDuration.WithLabelValues(module)
 	}
 
-	http.Handle("/metrics", promhttp.Handler())     // Normal metrics endpoint for SNMP exporter itself.
-	http.HandleFunc("/snmp", handler)               // Endpoint to do SNMP scrapes.
-	http.HandleFunc("/reload", updateConfiguration) // Endpoint to do SNMP scrapes.
+	http.Handle("/metrics", promhttp.Handler())       // Normal metrics endpoint for SNMP exporter itself.
+	http.HandleFunc("/snmp", handler)                 // Endpoint to do SNMP scrapes.
+	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
