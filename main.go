@@ -41,7 +41,7 @@ var (
 			Help: "Errors in requests to the SNMP exporter",
 		},
 	)
-	updateOnDemand = flag.Bool("config.update-on-demand", false, "Configuration will be updated only on demand in case true.")
+	updateOnDemand = flag.Bool("config.update-on-demand", false, "Configuration will be updated only on demand if specified.")
 	cfg            *config.Config
 	err            error
 )
