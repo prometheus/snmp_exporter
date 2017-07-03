@@ -109,13 +109,14 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 }
 
 func (sc *SafeConfig) reloadConfig(configFile string) (err error) {
-	sc.Lock()
-	sc.C, err = config.LoadFile(configFile)
-	sc.Unlock()
+	conf, err := config.LoadFile(configFile)
 	if err != nil {
 		log.Errorf("Error parsing config file: %s", err)
 		return err
 	}
+	sc.Lock()
+	sc.C = conf
+	sc.Unlock()
 	log.Infoln("Loaded config file")
 	return nil
 }
