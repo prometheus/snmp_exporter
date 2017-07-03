@@ -127,6 +127,31 @@ func TestPduValueAsString(t *testing.T) {
 	}
 }
 
+func TestPduToSample(t *testing.T) {
+	cases := []struct {
+		pdu    *gosnmp.SnmpPDU
+		metric *config.Metric
+		result float64
+	}{
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: uint(1)},
+			metric: &config.Metric{},
+			result: 1.0,
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: "Pi is 3.14159!"},
+			metric: &config.Metric{Regex: config.MustNewRegexp("Pi is (\\d+\\.\\d+)!")},
+			result: 3.14159,
+		},
+	}
+	for _, c := range cases {
+		got, _ := pduToSample(c.pdu, c.metric)
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("pduToSample(%v): got %q, want %q", c.pdu, got, c.result)
+		}
+	}
+}
+
 func TestIndexesToLabels(t *testing.T) {
 	cases := []struct {
 		oid      []int

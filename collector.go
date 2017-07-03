@@ -154,7 +154,12 @@ PduLoop:
 			}
 			if head.metric != nil {
 				// Found a match.
-				ch <- pduToSample(oidList[i+1:], &pdu, head.metric, oidToPdu)
+				m, err := pduToMetric(oidList[i+1:], &pdu, head.metric, oidToPdu)
+				if err != nil {
+					log.Errorf("Error converting pdu to sample %s", err)
+				} else {
+					ch <- m
+				}
 				break
 			}
 		}
@@ -165,7 +170,24 @@ PduLoop:
 		float64(time.Since(start).Seconds()))
 }
 
-func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) prometheus.Metric {
+func pduToSample(pdu *gosnmp.SnmpPDU, metric *config.Metric) (float64, error) {
+	// If the config requires regexp, apply that regexp to the pdu.
+	// Otherwise convert the sample to a float64.
+	var sample float64
+	var err error
+	if metric.Regex.Regexp != nil {
+		match := metric.Regex.FindStringSubmatch(pduValueAsString(pdu))
+		sample, err = strconv.ParseFloat(match[1], 64)
+		if err != nil {
+			return sample, fmt.Errorf("Failed to parse a float %s", err)
+		}
+	} else {
+		sample = float64(gosnmp.ToBigInt(pdu.Value).Int64())
+	}
+	return sample, nil
+}
+
+func pduToMetric(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) (prometheus.Metric, error) {
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
 
@@ -200,8 +222,16 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 		}
 	}
 
+	sample, err := pduToSample(pdu, metric)
+	if err != nil {
+		return nil, err
+	}
+
 	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, "", labelnames, nil),
-		t, value, labelvalues...)
+		prometheus.UntypedValue,
+		sample,
+		labelvalues...,
+	), nil
 }
 
 // Right pad oid with zeros, and split at the given point.
