@@ -80,8 +80,8 @@ func TestPduValueAsString(t *testing.T) {
 			result: "1",
 		},
 		{
-			pdu:    &gosnmp.SnmpPDU{Value: int64(-1000000000000)},
-			result: "-1000000000000",
+			pdu:    &gosnmp.SnmpPDU{Value: uint64(1)},
+			result: "1",
 		},
 		{
 			pdu:    &gosnmp.SnmpPDU{Value: ".1.2.3.4", Type: gosnmp.ObjectIdentifier},
