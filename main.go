@@ -99,8 +99,7 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		rc := make(chan error)
 		reloadCh <- rc
-		var err error
-		if err = <-rc; err != nil {
+		if err := <-rc; err != nil {
 			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
 		}
 	default:
