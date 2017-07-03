@@ -6,6 +6,9 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
+	"os/signal"
+	"sync"
+	"syscall"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -15,6 +18,11 @@ import (
 
 	"github.com/prometheus/snmp_exporter/config"
 )
+
+type SafeConfig struct {
+	sync.RWMutex
+	C *config.Config
+}
 
 var (
 	showVersion = flag.Bool("version", false, "Print version information.")
@@ -41,6 +49,10 @@ var (
 			Help: "Errors in requests to the SNMP exporter",
 		},
 	)
+	sc = &SafeConfig{
+		C: &config.Config{},
+	}
+	reloadCh chan chan error
 )
 
 func init() {
@@ -50,14 +62,6 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	cfg, err := config.LoadFile(*configFile)
-	if err != nil {
-		msg := fmt.Sprintf("Error parsing config file: %s", err)
-		http.Error(w, msg, 400)
-		log.Errorf(msg)
-		return
-	}
-
 	target := r.URL.Query().Get("target")
 	if target == "" {
 		http.Error(w, "'target' parameter must be specified", 400)
@@ -68,7 +72,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if moduleName == "" {
 		moduleName = "default"
 	}
-	module, ok := (*cfg)[moduleName]
+	sc.RLock()
+	module, ok := (*(sc.C))[moduleName]
+	sc.RUnlock()
 	if !ok {
 		http.Error(w, fmt.Sprintf("Unkown module '%s'", moduleName), 400)
 		snmpRequestErrors.Inc()
@@ -88,9 +94,35 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	log.Debugf("Scrape of target '%s' with module '%s' took %f seconds", target, moduleName, duration)
 }
 
+func updateConfiguration(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "POST":
+		rc := make(chan error)
+		reloadCh <- rc
+		if err := <-rc; err != nil {
+			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
+		}
+	default:
+		log.Errorf("POST method expected")
+		http.Error(w, "POST method expected", 400)
+	}
+}
+
+func (sc *SafeConfig) reloadConfig(configFile string) (err error) {
+	conf, err := config.LoadFile(configFile)
+	if err != nil {
+		log.Errorf("Error parsing config file: %s", err)
+		return err
+	}
+	sc.Lock()
+	sc.C = conf
+	sc.Unlock()
+	log.Infoln("Loaded config file")
+	return nil
+}
+
 func main() {
 	flag.Parse()
-
 	if *showVersion {
 		fmt.Fprintln(os.Stdout, version.Print("snmp_exporter"))
 		os.Exit(0)
@@ -100,17 +132,40 @@ func main() {
 	log.Infoln("Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
-	c, err := config.LoadFile(*configFile)
+	var err error
+	sc.C, err = config.LoadFile(*configFile)
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
 	}
 	// Initilise metrics.
-	for module, _ := range *c {
+	for module, _ := range *sc.C {
 		snmpDuration.WithLabelValues(module)
 	}
 
-	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
-	http.HandleFunc("/snmp", handler)           // Endpoint to do SNMP scrapes.
+	hup := make(chan os.Signal)
+	reloadCh = make(chan chan error)
+	signal.Notify(hup, syscall.SIGHUP)
+	go func() {
+		for {
+			select {
+			case <-hup:
+				if err := sc.reloadConfig(*configFile); err != nil {
+					log.Errorf("Error reloading config: %s", err)
+				}
+			case rc := <-reloadCh:
+				if err := sc.reloadConfig(*configFile); err != nil {
+					log.Errorf("Error reloading config: %s", err)
+					rc <- err
+				} else {
+					rc <- nil
+				}
+			}
+		}
+	}()
+
+	http.Handle("/metrics", promhttp.Handler())       // Normal metrics endpoint for SNMP exporter itself.
+	http.HandleFunc("/snmp", handler)                 // Endpoint to do SNMP scrapes.
+	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
