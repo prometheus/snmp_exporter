@@ -226,8 +226,6 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 		return strconv.Itoa(pdu.Value.(int))
 	case uint:
 		return strconv.FormatUint(uint64(pdu.Value.(uint)), 10)
-	case int64:
-		return strconv.FormatInt(pdu.Value.(int64), 10)
 	case uint64:
 		return strconv.FormatUint(pdu.Value.(uint64), 10)
 	case string:
