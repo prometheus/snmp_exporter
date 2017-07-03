@@ -52,7 +52,6 @@ var (
 	sc = &SafeConfig{
 		C: &config.Config{},
 	}
-	err      error
 	reloadCh chan chan error
 )
 
@@ -100,6 +99,7 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		rc := make(chan error)
 		reloadCh <- rc
+		var err error
 		if err = <-rc; err != nil {
 			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
 		}
@@ -132,6 +132,7 @@ func main() {
 	log.Infoln("Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
+	var err error
 	sc.C, err = config.LoadFile(*configFile)
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
