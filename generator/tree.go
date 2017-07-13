@@ -1,6 +1,7 @@
 package main
 
 import (
+	"regexp"
 	"sort"
 	"strings"
 
@@ -161,7 +162,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 
 			metric := &config.Metric{
-				Name:    n.Label,
+				Name:    sanitizeLabelName(n.Label),
 				Oid:     n.Oid,
 				Type:    t,
 				Indexes: []*config.Index{},
@@ -195,14 +196,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					}
 					indexNode := nameToNode[lookup.NewIndex]
 					// Avoid leaving the old labelname around.
-					index.Labelname = indexNode.Label
+					index.Labelname = sanitizeLabelName(indexNode.Label)
 					typ, ok := metricType(indexNode.Type)
 					if !ok {
 						log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.NewIndex)
 					}
 					metric.Lookups = append(metric.Lookups, &config.Lookup{
-						Labels:    []string{indexNode.Label},
-						Labelname: indexNode.Label,
+						Labels:    []string{sanitizeLabelName(indexNode.Label)},
+						Labelname: sanitizeLabelName(indexNode.Label),
 						Type:      typ,
 						Oid:       indexNode.Oid,
 					})
@@ -220,4 +221,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Remove redundant OIDs to be walked.
 	out.Walk = minimizeOids(oids)
 	return out
+}
+
+var (
+	invalidLabelCharRE = regexp.MustCompile(`[^a-zA-Z0-9_]`)
+)
+
+func sanitizeLabelName(name string) string {
+	return invalidLabelCharRE.ReplaceAllString(name, "_")
 }
