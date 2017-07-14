@@ -60,6 +60,7 @@ module_name:
    - name:  sysUpTime
      oid:   1.3.6.1.2.1.1.3
      type:  gauge
+     help:  The time (in hundredths of a second) since the network management portion of the system was last re-initialized. - 1.3.6.1.2.1.1.3
      # Possible types are:
      #   gauge:   An integer with type gauge.
      #   counter: An integer with type counter.

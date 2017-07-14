@@ -4,9 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"gopkg.in/yaml.v2"
-
 	"github.com/prometheus/snmp_exporter/config"
+	yaml "gopkg.in/yaml.v2"
 )
 
 func TestTreePrepare(t *testing.T) {
@@ -94,7 +93,7 @@ func TestTreePrepare(t *testing.T) {
 				t.Errorf("Got: %+v", n)
 			})
 			walkNode(c.out, func(n *Node) {
-				t.Errorf("Wanted: %+v", n)
+				t.Errorf("Wanted: %+v\n\n", n)
 			})
 
 		}
@@ -120,6 +119,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "root",
 						Oid:  "1",
 						Type: "gauge",
+						Help: " - 1",
 					},
 				},
 			},
@@ -137,6 +137,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "root",
 						Oid:  "1",
 						Type: "gauge",
+						Help: " - 1",
 					},
 				},
 			},
@@ -154,6 +155,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "root",
 						Oid:  "1",
 						Type: "gauge",
+						Help: " - 1",
 					},
 				},
 			},
@@ -198,66 +200,79 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "OCTETSTR",
 						Oid:  "1.2",
 						Type: "OctetString",
+						Help: " - 1.2",
 					},
 					{
 						Name: "INTEGER",
 						Oid:  "1.3",
 						Type: "gauge",
+						Help: " - 1.3",
 					},
 					{
 						Name: "NETADDR",
 						Oid:  "1.4",
 						Type: "InetAddress",
+						Help: " - 1.4",
 					},
 					{
 						Name: "IPADDR",
 						Oid:  "1.5",
 						Type: "IpAddr",
+						Help: " - 1.5",
 					},
 					{
 						Name: "COUNTER",
 						Oid:  "1.6",
 						Type: "counter",
+						Help: " - 1.6",
 					},
 					{
 						Name: "GAUGE",
 						Oid:  "1.7",
 						Type: "gauge",
+						Help: " - 1.7",
 					},
 					{
 						Name: "TIMETICKS",
 						Oid:  "1.8",
 						Type: "gauge",
+						Help: " - 1.8",
 					},
 					{
 						Name: "COUNTER64",
 						Oid:  "1.11",
 						Type: "counter",
+						Help: " - 1.11",
 					},
 					{
 						Name: "BITSTRING",
 						Oid:  "1.12",
 						Type: "OctetString",
+						Help: " - 1.12",
 					},
 					{
 						Name: "UINTEGER",
 						Oid:  "1.14",
 						Type: "gauge",
+						Help: " - 1.14",
 					},
 					{
 						Name: "UNSIGNED32",
 						Oid:  "1.15",
 						Type: "gauge",
+						Help: " - 1.15",
 					},
 					{
 						Name: "INTEGER32",
 						Oid:  "1.16",
 						Type: "gauge",
+						Help: " - 1.16",
 					},
 					{
 						Name: "MacAddress",
 						Oid:  "1.100",
 						Type: "PhysAddress48",
+						Help: " - 1.100",
 					},
 				},
 			},
@@ -287,16 +302,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "tableCreate",
 						Oid:  "1.1.1.2",
 						Type: "gauge",
+						Help: " - 1.1.1.2",
 					},
 					{
 						Name: "tableReadOnly",
 						Oid:  "1.1.1.4",
 						Type: "gauge",
+						Help: " - 1.1.1.4",
 					},
 					{
 						Name: "tableReadWrite",
 						Oid:  "1.1.1.5",
 						Type: "gauge",
+						Help: " - 1.1.1.5",
 					},
 				},
 			},
@@ -322,6 +340,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "tableIndex",
 						Oid:  "1.1.1.1",
 						Type: "gauge",
+						Help: " - 1.1.1.1",
 						Indexes: []*config.Index{
 							{
 								Labelname: "tableIndex",
@@ -333,6 +352,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "tableFoo",
 						Oid:  "1.1.1.2",
 						Type: "gauge",
+						Help: " - 1.1.1.2",
 						Indexes: []*config.Index{
 							{
 								Labelname: "tableIndex",
@@ -387,6 +407,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "octetIndex",
 						Oid:  "1.1.1.1",
+						Help: " - 1.1.1.1",
 						Type: "OctetString",
 						Indexes: []*config.Index{
 							{
@@ -398,6 +419,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "octetFoo",
 						Oid:  "1.1.1.2",
+						Help: " - 1.1.1.2",
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
@@ -409,6 +431,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "bitstringIndex",
 						Oid:  "1.2.1.1",
+						Help: " - 1.2.1.1",
 						Type: "OctetString",
 						Indexes: []*config.Index{
 							{
@@ -420,6 +443,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "bitstringFoo",
 						Oid:  "1.2.1.2",
+						Help: " - 1.2.1.2",
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
@@ -431,6 +455,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "ipaddrIndex",
 						Oid:  "1.3.1.1",
+						Help: " - 1.3.1.1",
 						Type: "IpAddr",
 						Indexes: []*config.Index{
 							{
@@ -442,6 +467,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "ipaddrFoo",
 						Oid:  "1.3.1.2",
+						Help: " - 1.3.1.2",
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
@@ -453,6 +479,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "netaddrIndex",
 						Oid:  "1.4.1.1",
+						Help: " - 1.4.1.1",
 						Type: "InetAddress",
 						Indexes: []*config.Index{
 							{
@@ -464,6 +491,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "netaddrFoo",
 						Oid:  "1.4.1.2",
+						Help: " - 1.4.1.2",
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
@@ -475,6 +503,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "physaddress48Index",
 						Oid:  "1.5.1.1",
+						Help: " - 1.5.1.1",
 						Type: "PhysAddress48",
 						Indexes: []*config.Index{
 							{
@@ -486,6 +515,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "physaddress48Foo",
 						Oid:  "1.5.1.2",
+						Help: " - 1.5.1.2",
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
@@ -524,6 +554,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "octetFoo",
 						Oid:  "1.1.1.3",
+						Help: " - 1.1.1.3",
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
@@ -570,6 +601,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "octetFoo",
 						Oid:  "1.1.1.3",
+						Help: " - 1.1.1.3",
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{

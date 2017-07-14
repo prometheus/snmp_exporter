@@ -164,6 +164,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				Name:    n.Label,
 				Oid:     n.Oid,
 				Type:    t,
+				Help:    n.Description + " - " + n.Oid,
 				Indexes: []*config.Index{},
 				Lookups: []*config.Lookup{},
 			}
