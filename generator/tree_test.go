@@ -589,6 +589,74 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Validate metric names.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Label: "digital-sen1-1", Hint: "1x:"},
+				}},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name:    "digital_sen1_1",
+						Oid:     "1.1",
+						Type:    "PhysAddress48",
+						Indexes: []*config.Index{},
+						Lookups: []*config.Lookup{},
+					},
+				},
+			},
+		},
+		// Validate label names.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "octet",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "octet-Entry", Indexes: []string{"octet&Index"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "octet&Index", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "octet*Desc", Type: "OCTETSTR"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "octet^Foo", Type: "INTEGER"}}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"octet^Foo"},
+				Lookups: []*Lookup{
+					{
+						OldIndex: "octet&Index",
+						NewIndex: "1.1.1.2",
+					},
+				},
+			},
+			out: &config.Module{
+				// Walk is expanded to include the lookup OID.
+				Walk: []string{"1.1.1.2", "1.1.1.3"},
+				Metrics: []*config.Metric{
+					{
+						Name: "octet_Foo",
+						Oid:  "1.1.1.3",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "octet_Desc",
+								Type:      "gauge",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"octet_Desc"},
+								Labelname: "octet_Desc",
+								Type:      "OctetString",
+								Oid:       "1.1.1.2",
+							},
+						},
+					},
+				},
+			},
+		},
 	}
 	for i, c := range cases {
 		// Indexes and lookups always end up initilized.
