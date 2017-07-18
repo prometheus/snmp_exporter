@@ -200,7 +200,7 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 		}
 	}
 
-	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, "", labelnames, nil),
+	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
 		t, value, labelvalues...)
 }
 

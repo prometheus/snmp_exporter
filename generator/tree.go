@@ -165,6 +165,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				Name:    sanitizeLabelName(n.Label),
 				Oid:     n.Oid,
 				Type:    t,
+				Help:    n.Description + " - " + n.Oid,
 				Indexes: []*config.Index{},
 				Lookups: []*config.Lookup{},
 			}

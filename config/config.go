@@ -141,6 +141,7 @@ type Metric struct {
 	Name    string    `yaml:"name"`
 	Oid     string    `yaml:"oid"`
 	Type    string    `yaml:"type"`
+	Help    string    `yaml:"help"`
 	Indexes []*Index  `yaml:"indexes,omitempty"`
 	Lookups []*Lookup `yaml:"lookups,omitempty"`
 
