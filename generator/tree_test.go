@@ -637,6 +637,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name:    "digital_sen1_1",
 						Oid:     "1.1",
 						Type:    "PhysAddress48",
+						Help:    " - 1.1",
 						Indexes: []*config.Index{},
 						Lookups: []*config.Lookup{},
 					},
@@ -671,6 +672,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "octet_Foo",
 						Oid:  "1.1.1.3",
 						Type: "gauge",
+						Help: " - 1.1.1.3",
 						Indexes: []*config.Index{
 							{
 								Labelname: "octet_Desc",

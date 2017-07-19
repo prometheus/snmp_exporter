@@ -11,6 +11,8 @@ import (
 	"syscall"
 	"time"
 
+	yaml "gopkg.in/yaml.v2"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
@@ -18,11 +20,6 @@ import (
 
 	"github.com/prometheus/snmp_exporter/config"
 )
-
-type SafeConfig struct {
-	sync.RWMutex
-	C *config.Config
-}
 
 var (
 	showVersion = flag.Bool("version", false, "Print version information.")
@@ -108,7 +105,12 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (sc *SafeConfig) reloadConfig(configFile string) (err error) {
+type SafeConfig struct {
+	sync.RWMutex
+	C *config.Config
+}
+
+func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	conf, err := config.LoadFile(configFile)
 	if err != nil {
 		log.Errorf("Error parsing config file: %s", err)
@@ -149,11 +151,11 @@ func main() {
 		for {
 			select {
 			case <-hup:
-				if err := sc.reloadConfig(*configFile); err != nil {
+				if err := sc.ReloadConfig(*configFile); err != nil {
 					log.Errorf("Error reloading config: %s", err)
 				}
 			case rc := <-reloadCh:
-				if err := sc.reloadConfig(*configFile); err != nil {
+				if err := sc.ReloadConfig(*configFile); err != nil {
 					log.Errorf("Error reloading config: %s", err)
 					rc <- err
 				} else {
@@ -191,8 +193,21 @@ func main() {
             <label>Module:</label> <input type="text" name="module" placeholder="module" value="default"><br>
             <input type="submit" value="Submit">
             </form>
+						<p><a href="/config">Config</a></p>
             </body>
             </html>`))
+	})
+
+	http.HandleFunc("/config", func(w http.ResponseWriter, r *http.Request) {
+		sc.RLock()
+		c, err := yaml.Marshal(sc.C)
+		sc.RUnlock()
+		if err != nil {
+			log.Warnf("Error marshalling configuration: %v", err)
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		w.Write(c)
 	})
 
 	log.Infof("Listening on %s", *listenAddress)
