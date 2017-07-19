@@ -1,0 +1,9 @@
+module-auth-test:
+  auth:
+    community: mysecret
+    security_level: SomethingReadOnly
+    username: user
+    password: mysecret
+    auth_protocol: SHA
+    priv_protocol: AES
+    priv_password: mysecret

@@ -105,7 +105,7 @@ func (c Module) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	case 3:
 		g.Version = gosnmp.Version3
 	}
-	g.Community = c.Auth.Community
+	g.Community = string(c.Auth.Community)
 
 	// v3 security settings.
 	g.SecurityModel = gosnmp.UserSecurityModel
@@ -119,8 +119,8 @@ func (c Module) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	}
 	usm := &gosnmp.UsmSecurityParameters{
 		UserName:                 c.Auth.Username,
-		AuthenticationPassphrase: c.Auth.Password,
-		PrivacyPassphrase:        c.Auth.PrivPassword,
+		AuthenticationPassphrase: string(c.Auth.Password),
+		PrivacyPassphrase:        string(c.Auth.PrivPassword),
 	}
 	switch c.Auth.AuthProtocol {
 	case "SHA":
@@ -197,14 +197,31 @@ func (c *Lookup) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 
+// Secret is a string that must not be revealed on marshaling.
+type Secret string
+
+// MarshalYAML implements the yaml.Marshaler interface.
+func (s Secret) MarshalYAML() (interface{}, error) {
+	if s != "" {
+		return "<secret>", nil
+	}
+	return nil, nil
+}
+
+//UnmarshalYAML implements the yaml.Unmarshaler interface for Secrets.
+func (s *Secret) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	type plain Secret
+	return unmarshal((*plain)(s))
+}
+
 type Auth struct {
-	Community     string `yaml:"community,omitempty"`
+	Community     Secret `yaml:"community,omitempty"`
 	SecurityLevel string `yaml:"security_level,omitempty"`
 	Username      string `yaml:"username,omitempty"`
-	Password      string `yaml:"password,omitempty"`
+	Password      Secret `yaml:"password,omitempty"`
 	AuthProtocol  string `yaml:"auth_protocol,omitempty"`
 	PrivProtocol  string `yaml:"priv_protocol,omitempty"`
-	PrivPassword  string `yaml:"priv_password,omitempty"`
+	PrivPassword  Secret `yaml:"priv_password,omitempty"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }
