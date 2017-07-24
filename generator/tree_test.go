@@ -299,6 +299,12 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1"},
 				Metrics: []*config.Metric{
 					{
+						Name: "tableNoAccess",
+						Oid:  "1.1.1.1",
+						Type: "gauge",
+						Help: " - 1.1.1.1",
+					},
+					{
 						Name: "tableCreate",
 						Oid:  "1.1.1.2",
 						Type: "gauge",
