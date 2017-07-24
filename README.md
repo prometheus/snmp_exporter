@@ -4,9 +4,8 @@ This is an exporter that exposes information gathered from SNMP
 for use by the Prometheus monitoring system.
 
 There are two components. An exporter that does the actual scraping, and a
-[generator](https://github.com/prometheus/snmp_exporter/tree/master/generator)
-(which depends on NetSNMP) that creates the configuration for use by the
-exporter.
+[generator](generator/) (which depends on NetSNMP) that creates the
+configuration for use by the exporter.
 
 ## Installation
 
@@ -25,7 +24,16 @@ choose which module to use from the config file.
 
 ## Configuration
 
-TODO
+The snmp exporter reads from a `snmp.yml` config file by default. This file is
+not intended to be written by hand, rather use the [generator](generator/) to
+generate it for you.
+
+The default `snmp.yml` covers a variety of common hardware for which
+MIBs are available to the public, walking them using SNMP v2 GETBULK.
+
+You'll need to use the generator in all but the simplest of setups. Is is
+needed to customise which objects are walked, use non-public MIBs or specify
+authentication parameters.
 
 ## Prometheus Configuration
 
