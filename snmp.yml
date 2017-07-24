@@ -1576,6 +1576,13 @@ arista_sw:
     indexes:
     - labelname: ifIndex
       type: gauge
+  - name: aristaSwFwdIpStatsIPVersion
+    oid: 1.3.6.1.4.1.30065.3.1.1.1.1.1
+    type: gauge
+    help: The IP version of this row. - 1.3.6.1.4.1.30065.3.1.1.1.1.1
+    indexes:
+    - labelname: aristaSwFwdIpStatsIPVersion
+      type: gauge
   - name: aristaSwFwdIpStatsInReceives
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.3
     type: counter
@@ -6053,6 +6060,15 @@ servertech_sentry3:
     type: gauge
     help: The time (in hundredths of a second) since the network management portion
       of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: infeedIndex
+    oid: 1.3.6.1.4.1.1718.3.2.2.1.1
+    type: gauge
+    help: Index for the input feed table. - 1.3.6.1.4.1.1718.3.2.2.1.1
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
   - name: infeedID
     oid: 1.3.6.1.4.1.1718.3.2.2.1.2
     type: DisplayString
@@ -6271,6 +6287,17 @@ servertech_sentry3:
     - labelname: towerIndex
       type: gauge
     - labelname: infeedIndex
+      type: gauge
+  - name: outletIndex
+    oid: 1.3.6.1.4.1.1718.3.2.3.1.1
+    type: gauge
+    help: Index for the outlet table. - 1.3.6.1.4.1.1718.3.2.3.1.1
+    indexes:
+    - labelname: towerIndex
+      type: gauge
+    - labelname: infeedIndex
+      type: gauge
+    - labelname: outletIndex
       type: gauge
   - name: outletID
     oid: 1.3.6.1.4.1.1718.3.2.3.1.2
@@ -7333,6 +7360,19 @@ synology:
     type: gauge
     help: This oid is for checking whether there is a latest DSM can be upgraded -
       1.3.6.1.4.1.6574.1.5.4
+  - name: storageIOIndex
+    oid: 1.3.6.1.4.1.6574.101.1.1.1
+    type: gauge
+    help: Reference index for each observed device. - 1.3.6.1.4.1.6574.101.1.1.1
+    indexes:
+    - labelname: storageIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - storageIODevice
+      labelname: storageIODevice
+      oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
   - name: storageIODevice
     oid: 1.3.6.1.4.1.6574.101.1.1.2
     type: DisplayString
@@ -7475,6 +7515,19 @@ synology:
       - storageIODevice
       labelname: storageIODevice
       oid: 1.3.6.1.4.1.6574.101.1.1.2
+      type: DisplayString
+  - name: spaceIOIndex
+    oid: 1.3.6.1.4.1.6574.102.1.1.1
+    type: gauge
+    help: Reference index for each observed device. - 1.3.6.1.4.1.6574.102.1.1.1
+    indexes:
+    - labelname: spaceIODevice
+      type: gauge
+    lookups:
+    - labels:
+      - spaceIODevice
+      labelname: spaceIODevice
+      oid: 1.3.6.1.4.1.6574.102.1.1.2
       type: DisplayString
   - name: spaceIODevice
     oid: 1.3.6.1.4.1.6574.102.1.1.2
@@ -7619,6 +7672,13 @@ synology:
       labelname: spaceIODevice
       oid: 1.3.6.1.4.1.6574.102.1.1.2
       type: DisplayString
+  - name: iSCSILUNInfoIndex
+    oid: 1.3.6.1.4.1.6574.104.1.1.1
+    type: gauge
+    help: LUN info index - 1.3.6.1.4.1.6574.104.1.1.1
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
   - name: iSCSILUNUUID
     oid: 1.3.6.1.4.1.6574.104.1.1.2
     type: OctetString
@@ -7731,6 +7791,19 @@ synology:
     indexes:
     - labelname: iSCSILUNInfoIndex
       type: gauge
+  - name: diskIndex
+    oid: 1.3.6.1.4.1.6574.2.1.1.1
+    type: gauge
+    help: The index of disk table - 1.3.6.1.4.1.6574.2.1.1.1
+    indexes:
+    - labelname: diskID
+      type: gauge
+    lookups:
+    - labels:
+      - diskID
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
   - name: diskID
     oid: 1.3.6.1.4.1.6574.2.1.1.2
     type: OctetString
@@ -7798,6 +7871,19 @@ synology:
       - diskID
       labelname: diskID
       oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+  - name: raidIndex
+    oid: 1.3.6.1.4.1.6574.3.1.1.1
+    type: gauge
+    help: The index of raid table - 1.3.6.1.4.1.6574.3.1.1.1
+    indexes:
+    - labelname: raidName
+      type: gauge
+    lookups:
+    - labels:
+      - raidName
+      labelname: raidName
+      oid: 1.3.6.1.4.1.6574.3.1.1.2
       type: OctetString
   - name: raidName
     oid: 1.3.6.1.4.1.6574.3.1.1.2
@@ -8099,6 +8185,13 @@ synology:
     oid: 1.3.6.1.4.1.6574.4.8.2
     type: DisplayString
     help: Server version - 1.3.6.1.4.1.6574.4.8.2
+  - name: diskSMARTInfoIndex
+    oid: 1.3.6.1.4.1.6574.5.1.1.1
+    type: gauge
+    help: SMART info index - 1.3.6.1.4.1.6574.5.1.1.1
+    indexes:
+    - labelname: diskSMARTInfoIndex
+      type: gauge
   - name: diskSMARTInfoDevName
     oid: 1.3.6.1.4.1.6574.5.1.1.2
     type: OctetString
@@ -8155,6 +8248,19 @@ synology:
     indexes:
     - labelname: diskSMARTInfoIndex
       type: gauge
+  - name: serviceInfoIndex
+    oid: 1.3.6.1.4.1.6574.6.1.1.1
+    type: gauge
+    help: Service info index - 1.3.6.1.4.1.6574.6.1.1.1
+    indexes:
+    - labelname: serviceName
+      type: gauge
+    lookups:
+    - labels:
+      - serviceName
+      labelname: serviceName
+      oid: 1.3.6.1.4.1.6574.6.1.1.2
+      type: OctetString
   - name: serviceName
     oid: 1.3.6.1.4.1.6574.6.1.1.2
     type: OctetString
