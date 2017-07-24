@@ -110,7 +110,7 @@ func metricType(t string) (string, bool) {
 
 func metricAccess(a string) bool {
 	switch a {
-	case "ACCESS_READONLY", "ACCESS_READWRITE", "ACCESS_CREATE":
+	case "ACCESS_READONLY", "ACCESS_READWRITE", "ACCESS_CREATE", "ACCESS_NOACCESS":
 		return true
 	default:
 		// the others are inaccessible metrics.
