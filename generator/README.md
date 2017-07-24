@@ -26,6 +26,9 @@ Additional command are available for debugging, use the `help` command to see th
 
 ## File Format
 
+`generator.yml` provides a list of modules. The simplest module is just a name
+and a set of OIDs to walk.
+
 ```
 modules:
   module_name:  # The module name. You can have as many modules as you want.
@@ -39,21 +42,30 @@ modules:
       # Community string is used with SNMP v1 and v2. Defaults to "public".
       community: public
 
-
       # v3 has different and more complex settings.
-      # Which are required depends on the security_level:
-      username: user  # Required, no default.
-      security_level: noAuthNoPriv  # Defaults to noAuthNoPriv. Can be noAuthNoPriv, authNoPriv or authPriv.
-      password: pass  # Has no default. Required if security_level is authNoPriv or authPriv.
-                      # Also known as authKey.
-      auth_protocol: SHA  # MD5 or SHA, defaults to SHA. Used if security_level is authNoPriv or authPriv.
-      priv_protocol: DES  # DES or AES, defaults to DES. Used if security_level is authPriv.
-      priv_password: otherPass # Has no default. Required if security_level is authPriv.
-                               # Also known as privKey.
+      # Which are required depends on the security_level.
+      # The equivilent options on NetSNMP commands like snmpbulkwalk
+      # and snmpget are also listed. See snmpcmd(1).
+      username: user  # Required, no default. -u option to NetSNMP.
+      security_level: noAuthNoPriv  # Defaults to noAuthNoPriv. -l option to NetSNMP.
+                                    # Can be noAuthNoPriv, authNoPriv or authPriv.
+      password: pass  # Has no default. Also known as authKey, -A option to NetSNMP.
+                      # Required if security_level is authNoPriv or authPriv.
+      auth_protocol: SHA  # MD5 or SHA, defaults to SHA. -a option to NetSNMP.
+                          # Used if security_level is authNoPriv or authPriv.
+      priv_protocol: DES  # DES or AES, defaults to DES. -x option to NetSNMP.
+                          # Used if security_level is authPriv.
+      priv_password: otherPass # Has no default. Also known as privKey, -X option to NetSNMP.
+                               # Required if security_level is authPriv.
 
     lookups:  # Optional list of lookups to perform.
               # This must only be used when the new index is unique.
-      - old_index: bsnDot11EssIndex  # If the index would be bsnDot11EssIndex, instead use bsnDot11EssSsid.
+
+      # If the index of a table is bsnDot11EssIndex, usually that'd be the label
+      # on the resulting metrics from that table. Instead, use the index to
+      # lookup the bsnDot11EssSsid table entry and create a bsnDot11EssSsid label
+      # with that value.
+      - old_index: bsnDot11EssIndex
         new_index: bsnDot11EssSsid
 ```
 
