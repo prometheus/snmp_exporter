@@ -24,6 +24,39 @@ The generator reads in from `generator.yml` and writes to `snmp.yml`.
 
 Additional command are available for debugging, use the `help` command to see them.
 
+## File Format
+
+```
+modules:
+  module_name:  # The module name. You can have as many modules as you want.
+    walk:       # List of OIDs to walk. Can also be SNMP object names.
+      - 1.3.6.1.2.1.2  # Same as "interfaces"
+
+    version: 2  # SNMP version to use. Defaults to 2.
+                # 1 will use GETNEXT, 2 and 3 use GETBULK.
+
+    auth:
+      # Community string is used with SNMP v1 and v2. Defaults to "public".
+      community: public
+
+
+      # v3 has different and more complex settings.
+      # Which are required depends on the security_level:
+      username: user  # Required, no default.
+      security_level: noAuthNoPriv  # Defaults to noAuthNoPriv. Can be noAuthNoPriv, authNoPriv or authPriv.
+      password: pass  # Has no default. Required if security_level is authNoPriv or authPriv.
+                      # Also known as authKey.
+      auth_protocol: SHA  # MD5 or SHA, defaults to SHA. Used if security_level is authNoPriv or authPriv.
+      priv_protocol: DES  # DES or AES, defaults to DES. Used if security_level is authPriv.
+      priv_password: otherPass # Has no default. Required if security_level is authPriv.
+                               # Also known as privKey.
+
+    lookups:  # Optional list of lookups to perform.
+              # This must only be used when the new index is unique.
+      - old_index: bsnDot11EssIndex  # If the index would be bsnDot11EssIndex, instead use bsnDot11EssSsid.
+        new_index: bsnDot11EssSsid
+```
+
 ## Where to get MIBs
 
 Some of these are quite sluggish, so use wget to download.
@@ -42,5 +75,7 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
 * UCD-SNMP-MIB (Net-SNMP): http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 
 https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
+
+http://oidref.com is recommended for browsing MIBs.
 
 
