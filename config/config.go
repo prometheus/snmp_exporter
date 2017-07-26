@@ -24,28 +24,28 @@ func LoadFile(filename string) (*Config, error) {
 }
 
 var (
-	DefaultModule = Module{
-		Version:        2,
-		MaxRepetitions: 25,
-		Retries:        3,
-		Timeout:        time.Second * 20,
-	}
 	DefaultAuth = Auth{
 		Community:     "public",
 		SecurityLevel: "noAuthNoPriv",
 		AuthProtocol:  "MD5",
 		PrivProtocol:  "DES",
 	}
+	DefaultWalkParams = WalkParams{
+		Version:        2,
+		MaxRepetitions: 25,
+		Retries:        3,
+		Timeout:        time.Second * 20,
+		Auth:           &DefaultAuth,
+	}
+	DefaultModule = Module{
+		WalkParams: DefaultWalkParams,
+	}
 )
 
 // Config for the snmp_exporter.
 type Config map[string]*Module
 
-type Module struct {
-	// A list of OIDs.
-	Walk    []string  `yaml:"walk"`
-	Metrics []*Metric `yaml:"metrics"`
-
+type WalkParams struct {
 	Version        int           `yaml:"version,omitempty"`
 	MaxRepetitions uint8         `yaml:"max_repetitions,omitempty"`
 	Retries        int           `yaml:"retries,omitempty"`
@@ -55,17 +55,23 @@ type Module struct {
 	XXX map[string]interface{} `yaml:",inline"`
 }
 
-func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	*c = DefaultModule
-	type plain Module
+type Module struct {
+	// A list of OIDs.
+	Walk       []string   `yaml:"walk"`
+	Metrics    []*Metric  `yaml:"metrics"`
+	WalkParams WalkParams `yaml:",inline"`
+
+	XXX map[string]interface{} `yaml:",inline"`
+}
+
+func (c *WalkParams) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	*c = DefaultWalkParams
+	type plain WalkParams
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
 	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
-	}
-	if c.Auth == nil {
-		c.Auth = &DefaultAuth
 	}
 
 	if c.Version < 1 || c.Version > 3 {
@@ -95,8 +101,20 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 
+func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	*c = DefaultModule
+	type plain Module
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	if err := CheckOverflow(c.XXX, "module"); err != nil {
+		return err
+	}
+	return nil
+}
+
 // configureSNMP sets the various version and auth settings.
-func (c Module) ConfigureSNMP(g *gosnmp.GoSNMP) {
+func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	switch c.Version {
 	case 1:
 		g.Version = gosnmp.Version1

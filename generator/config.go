@@ -1,10 +1,6 @@
 package main
 
-import (
-	"time"
-
-	"github.com/prometheus/snmp_exporter/config"
-)
+import "github.com/prometheus/snmp_exporter/config"
 
 // The generator config.
 type Config struct {
@@ -28,12 +24,7 @@ type ModuleConfig struct {
 	Walk    []string  `yaml:"walk"`
 	Lookups []*Lookup `yaml:"lookups"`
 
-	// This need to be kepy in sync with the generated config.
-	Version        int           `yaml:"version,omitempty"`
-	MaxRepetitions uint8         `yaml:"max_repetitions,omitempty"`
-	Retries        int           `yaml:"retries,omitempty"`
-	Timeout        time.Duration `yaml:"timeout,omitempty"`
-	Auth           *config.Auth  `yaml:"auth,omitempty"`
+	WalkParams config.WalkParams `yaml:",inline"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }

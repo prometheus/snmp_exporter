@@ -39,10 +39,10 @@ func oidToList(oid string) []int {
 func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error) {
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
-	snmp.MaxRepetitions = config.MaxRepetitions
+	snmp.MaxRepetitions = config.WalkParams.MaxRepetitions
 	// User specifies timeout of each retry attempt but GoSNMP expects total timeout for all attemtps.
-	snmp.Retries = config.Retries
-	snmp.Timeout = config.Timeout * time.Duration(snmp.Retries)
+	snmp.Retries = config.WalkParams.Retries
+	snmp.Timeout = config.WalkParams.Timeout * time.Duration(snmp.Retries)
 
 	snmp.Target = target
 	snmp.Port = 161
@@ -56,7 +56,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	}
 
 	// Configure auth.
-	config.ConfigureSNMP(&snmp)
+	config.WalkParams.ConfigureSNMP(&snmp)
 
 	// Do the actual walk.
 	err := snmp.Connect()

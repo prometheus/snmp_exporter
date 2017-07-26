@@ -28,11 +28,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	for name, m := range cfg.Modules {
 		log.Infof("Generating config for module %s", name)
 		outputConfig[name] = generateConfigModule(m, nodes, nameToNode)
-		outputConfig[name].Version = m.Version
-		outputConfig[name].MaxRepetitions = m.MaxRepetitions
-		outputConfig[name].Retries = m.Retries
-		outputConfig[name].Timeout = m.Timeout
-		outputConfig[name].Auth = m.Auth
+		outputConfig[name].WalkParams = m.WalkParams
 		log.Infof("Generated %d metrics for module %s", len(outputConfig[name].Metrics), name)
 	}
 
