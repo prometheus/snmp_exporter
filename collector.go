@@ -165,11 +165,20 @@ PduLoop:
 		float64(time.Since(start).Seconds()))
 }
 
+func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
+	switch pdu.Type {
+	case gosnmp.Counter64:
+		return float64(gosnmp.ToBigInt(pdu.Value).Uint64())
+	default:
+		return float64(gosnmp.ToBigInt(pdu.Value).Int64())
+	}
+}
+
 func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) prometheus.Metric {
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
 
-	value := float64(gosnmp.ToBigInt(pdu.Value).Int64())
+	value := getPduValue(pdu)
 	t := prometheus.UntypedValue
 	stringType := false
 
@@ -199,7 +208,6 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 			labelvalues = append(labelvalues, pduValueAsString(pdu, metric.Type))
 		}
 	}
-
 	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
 		t, value, labelvalues...)
 }

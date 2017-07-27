@@ -6,8 +6,97 @@ import (
 
 	"github.com/soniah/gosnmp"
 
+	"github.com/prometheus/client_model/go"
 	"github.com/prometheus/snmp_exporter/config"
 )
+
+func TestPduToSample(t *testing.T) {
+	cases := []struct {
+		pdu                *gosnmp.SnmpPDU
+		indexOids          []int
+		metric             *config.Metric
+		oidToPdu           map[string]gosnmp.SnmpPDU
+		expectedMetric     string
+		expectedMetricDesc string
+	}{
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 2,
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.1.1.1.1",
+				Type: "counter",
+				Help: "Help string",
+			},
+			oidToPdu:           make(map[string]gosnmp.SnmpPDU),
+			expectedMetric:     "counter:<value:2 > ",
+			expectedMetricDesc: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []}`,
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 2,
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.1.1.1.1",
+				Type: "gauge",
+				Help: "Help string",
+			},
+			oidToPdu:           make(map[string]gosnmp.SnmpPDU),
+			expectedMetric:     "gauge:<value:2 > ",
+			expectedMetricDesc: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []}`,
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: -2,
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.1.1.1.1",
+				Help: "Help string",
+			},
+			oidToPdu:           make(map[string]gosnmp.SnmpPDU),
+			expectedMetric:     `label:<name:"test_metric" value:"-2" > gauge:<value:1 > `,
+			expectedMetricDesc: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`,
+		},
+	}
+
+	for _, c := range cases {
+		m := pduToSample(c.indexOids, c.pdu, c.metric, c.oidToPdu)
+		metric := &io_prometheus_client.Metric{}
+		err := m.Write(metric)
+		if err != nil {
+			t.Fatalf("Error writing metric: %v", err)
+		}
+		if metric.String() != c.expectedMetric {
+			t.Fatalf("Unexpected metric: got %v, want %v", metric.String(), c.expectedMetric)
+		}
+		if m.Desc().String() != c.expectedMetricDesc {
+			t.Fatalf("Unexpected metric description: got %v, want %v", m.Desc().String(), c.expectedMetricDesc)
+		}
+	}
+}
+
+func TestGetPduValue(t *testing.T) {
+	pdu := &gosnmp.SnmpPDU{
+		Value: uint64(1 << 63),
+		Type:  gosnmp.Counter64,
+	}
+	value := getPduValue(pdu)
+	if value <= 0 {
+		t.Fatalf("Got negative value for PDU value type Counter64: %v", value)
+	}
+}
 
 func TestOidToList(t *testing.T) {
 	cases := []struct {
