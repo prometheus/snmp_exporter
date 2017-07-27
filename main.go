@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"net/http"
 	_ "net/http/pprof"
@@ -11,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"gopkg.in/alecthomas/kingpin.v2"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -22,15 +22,10 @@ import (
 )
 
 var (
-	showVersion = flag.Bool("version", false, "Print version information.")
-	configFile  = flag.String(
-		"config.file", "snmp.yml",
-		"Path to configuration file.",
-	)
-	listenAddress = flag.String(
-		"web.listen-address", ":9116",
-		"Address to listen on for web interface and telemetry.",
-	)
+	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
+	logLevel      = kingpin.Flag("log.level", "Only log messages with the given severity or above. One of: [debug, info, warn, error, fatal]").Default("info").String()
+	logFormat     = kingpin.Flag("log.format", `Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"`).Default("logger:stderr").String()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
@@ -124,11 +119,12 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 }
 
 func main() {
-	flag.Parse()
-	if *showVersion {
-		fmt.Fprintln(os.Stdout, version.Print("snmp_exporter"))
-		os.Exit(0)
-	}
+	kingpin.Version(version.Print("snmp_exporter"))
+	kingpin.HelpFlag.Short('h')
+	kingpin.Parse()
+
+	log.Base().SetLevel(*logLevel)
+	log.Base().SetLevel(*logFormat)
 
 	log.Infoln("Starting snmp exporter", version.Info())
 	log.Infoln("Build context", version.BuildContext())
