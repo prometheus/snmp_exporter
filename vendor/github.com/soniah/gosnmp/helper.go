@@ -604,6 +604,26 @@ func parseRawField(data []byte, msg string) (interface{}, int, error) {
 		length, cursor := parseLength(data)
 		oid, err := parseObjectIdentifier(data[cursor:length])
 		return oid, length, err
+	case IPAddress:
+		length, _ := parseLength(data)
+		switch data[1] {
+		case 0: // real life, buggy devices returning bad data
+			return nil, length, nil
+		case 4: // IPv4
+			if len(data) < 6 {
+				return nil, 0, fmt.Errorf("not enough data for ipv4 address: %x", data)
+			}
+			return net.IPv4(data[2], data[3], data[4], data[5]).String(), length, nil
+		default:
+			return nil, 0, fmt.Errorf("got ipaddress len %d, expected 4", data[1])
+		}
+	case TimeTicks:
+		length, cursor := parseLength(data)
+		ret, err := parseInt(data[cursor:length])
+		if err != nil {
+			return nil, 0, fmt.Errorf("Error in parseInt: %s", err)
+		}
+		return ret, length, nil
 	}
 
 	return nil, 0, fmt.Errorf("Unknown field type: %x\n", data[0])

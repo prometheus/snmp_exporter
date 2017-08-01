@@ -49,6 +49,13 @@ type SnmpPacket struct {
 	MaxRepetitions     uint8
 	Variables          []SnmpPDU
 	Logger             Logger
+
+	// Trap V1 header
+	Enterprise   []int
+	AgentAddr    string
+	GenericTrap  int
+	SpecificTrap int
+	Timestamp    int
 }
 
 // VarBind struct represents an SNMP Varbind.
@@ -214,6 +221,13 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 				validID = true
 			}
 			if !validID {
+				if result.Version == Version3 {
+					// detect out-of-time-window error and go out of this function with all data
+					// (outside it will be handled and retransmitted )
+					if len(result.Variables) == 1 && result.Variables[0].Name == ".1.3.6.1.6.3.15.1.1.2.0" {
+						break
+					}
+				}
 				err = fmt.Errorf("Out of order response")
 				continue
 			}
@@ -638,6 +652,12 @@ func (x *GoSNMP) unmarshalPayload(packet []byte, cursor int, response *SnmpPacke
 		if err != nil {
 			return fmt.Errorf("Error in unmarshalResponse: %s", err.Error())
 		}
+	case Trap:
+		response.PDUType = requestType
+		err = x.unmarshalTrapV1(packet[cursor:], response)
+		if err != nil {
+			return fmt.Errorf("Error in unmarshalTrapV1: %s", err.Error())
+		}
 	default:
 		return fmt.Errorf("Unknown PDUType %#x", requestType)
 	}
@@ -706,6 +726,73 @@ func (x *GoSNMP) unmarshalResponse(packet []byte, response *SnmpPacket) error {
 			response.ErrorIndex = uint8(errorindex)
 			x.logPrintf("error-index: %d", uint8(errorindex))
 		}
+	}
+
+	return x.unmarshalVBL(packet[cursor:], response)
+}
+
+func (x *GoSNMP) unmarshalTrapV1(packet []byte, response *SnmpPacket) error {
+	cursor := 0
+
+	getResponseLength, cursor := parseLength(packet)
+	if len(packet) != getResponseLength {
+		return fmt.Errorf("Error verifying Response sanity: Got %d Expected: %d\n", len(packet), getResponseLength)
+	}
+	x.logPrintf("getResponseLength: %d", getResponseLength)
+
+	// Parse Enterprise
+	rawEnterprise, count, err := parseRawField(packet[cursor:], "enterprise")
+	if err != nil {
+		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
+	}
+	cursor += count
+	if Enterpise, ok := rawEnterprise.([]int); ok {
+		response.Enterprise = Enterpise
+		x.logPrintf("Enterprise: %+v", Enterpise)
+	}
+
+	// Parse AgentAddr
+	rawAgentAddr, count, err := parseRawField(packet[cursor:], "agent-addr")
+	if err != nil {
+		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
+	}
+	cursor += count
+	if AgentAddr, ok := rawAgentAddr.(string); ok {
+		response.AgentAddr = AgentAddr
+		x.logPrintf("AgentAddr: %s", AgentAddr)
+	}
+
+	// Parse GenericTrap
+	rawGenericTrap, count, err := parseRawField(packet[cursor:], "generic-trap")
+	if err != nil {
+		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
+	}
+	cursor += count
+	if GenericTrap, ok := rawGenericTrap.(int); ok {
+		response.GenericTrap = GenericTrap
+		x.logPrintf("GenericTrap: %d", GenericTrap)
+	}
+
+	// Parse SpecificTrap
+	rawSpecificTrap, count, err := parseRawField(packet[cursor:], "specific-trap")
+	if err != nil {
+		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
+	}
+	cursor += count
+	if SpecificTrap, ok := rawSpecificTrap.(int); ok {
+		response.SpecificTrap = SpecificTrap
+		x.logPrintf("SpecificTrap: %d", SpecificTrap)
+	}
+
+	// Parse TimeStamp
+	rawTimestamp, count, err := parseRawField(packet[cursor:], "time-stamp")
+	if err != nil {
+		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
+	}
+	cursor += count
+	if Timestamp, ok := rawTimestamp.(int); ok {
+		response.Timestamp = Timestamp
+		x.logPrintf("Timestamp: %d", Timestamp)
 	}
 
 	return x.unmarshalVBL(packet[cursor:], response)
