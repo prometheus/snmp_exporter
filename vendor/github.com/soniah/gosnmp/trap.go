@@ -99,6 +99,7 @@ func (t *TrapListener) Listen(addr string) (err error) {
 	if t.Params == nil {
 		t.Params = Default
 	}
+	t.Params.validateParameters()
 
 	if t.OnNewTrap == nil {
 		t.OnNewTrap = debugTrapHandler
