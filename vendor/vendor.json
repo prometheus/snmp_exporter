@@ -113,6 +113,12 @@
 			"revisionTime": "2017-05-19T19:08:37Z"
 		},
 		{
+			"checksumSHA1": "fabVNshbE6WKqfO9/ymL8JGFq+k=",
+			"path": "github.com/sirupsen/logrus",
+			"revision": "10f801ebc38b33738c9d17d50860f484a0988ff5",
+			"revisionTime": "2017-03-17T14:32:14Z"
+		},
+		{
 			"checksumSHA1": "aI5aUo+Alls3lpO43Sd9Uqk2LyI=",
 			"path": "github.com/soniah/gosnmp",
 			"revision": "60bf4ae2e262f0e17c004a31712f63913559d4ec",
