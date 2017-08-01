@@ -24,8 +24,6 @@ import (
 var (
 	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
 	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
-	logLevel      = kingpin.Flag("log.level", "Only log messages with the given severity or above. One of: [debug, info, warn, error, fatal]").Default("info").String()
-	logFormat     = kingpin.Flag("log.format", `Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"`).Default("logger:stderr").String()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
@@ -119,12 +117,10 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 }
 
 func main() {
+	log.AddFlags(kingpin.CommandLine)
 	kingpin.Version(version.Print("snmp_exporter"))
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
-
-	log.Base().SetLevel(*logLevel)
-	log.Base().SetLevel(*logFormat)
 
 	log.Infoln("Starting snmp exporter", version.Info())
 	log.Infoln("Build context", version.BuildContext())

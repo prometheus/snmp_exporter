@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/prometheus/common/log"
+	"gopkg.in/alecthomas/kingpin.v2"
 	"gopkg.in/yaml.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
@@ -54,21 +55,16 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	log.Infof("Config written to snmp.yml")
 }
 
-func help() {
-	fmt.Println(`
-Commands:
-  generate     Generate snmp.yml from generator.yml
-  parse_errors Debug: Print the parse errors output by NetSNMP
-  dump         Debug: Dump the parsed and prepared MIBs
-  help         Print this help`)
-}
+var (
+	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
+	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")
+	dumpCommand        = kingpin.Command("dump", "Debug: Dump the parsed and prepared MIBs")
+)
 
 func main() {
-	if len(os.Args) < 2 {
-		help()
-		log.Errorf("A command must be provided as an argument.")
-		os.Exit(1)
-	}
+	log.AddFlags(kingpin.CommandLine)
+	kingpin.HelpFlag.Short('h')
+	command := kingpin.Parse()
 
 	parseErrors := initSNMP()
 	log.Warnf("NetSNMP reported %d parse errors", len(strings.Split(parseErrors, "\n")))
@@ -76,21 +72,14 @@ func main() {
 	nodes := getMIBTree()
 	nameToNode := prepareTree(nodes)
 
-	switch os.Args[1] {
-	case "generate":
+	switch command {
+	case generateCommand.FullCommand():
 		generateConfig(nodes, nameToNode)
-	case "parse_errors":
+	case parseErrorsCommand.FullCommand():
 		fmt.Println(parseErrors)
-	case "dump":
+	case dumpCommand.FullCommand():
 		walkNode(nodes, func(n *Node) {
 			fmt.Printf("%s %s %s %s %s\n", n.Oid, n.Label, n.Type, n.Indexes, n.Description)
 		})
-	case "help":
-		help()
-	default:
-		help()
-		log.Errorf("Unknown command '%s'", os.Args[1])
-		os.Exit(1)
 	}
-
 }
