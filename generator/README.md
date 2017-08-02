@@ -71,6 +71,18 @@ modules:
       # with that value.
       - old_index: bsnDot11EssIndex
         new_index: bsnDot11EssSsid
+
+     overrides: # Allows for per-module overrides of bits of MIBs
+       metricName:
+         regex_extracts:
+           Temp: # A new metric will be created appending this to the metricName to become metricNameTemp.
+             - regex: '(.*)' # Regex to extract a value from the returned SNMP walks's value.
+               value: '$1' # The result will be parsed as a float64, defaults to $1.
+           Status:
+             - regex: '.*Example'
+               value: '1'
+             - regex: '.*'
+               value: '0'
 ```
 
 ## Where to get MIBs
@@ -93,5 +105,3 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
 https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
 
 http://oidref.com is recommended for browsing MIBs.
-
-

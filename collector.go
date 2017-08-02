@@ -154,7 +154,10 @@ PduLoop:
 			}
 			if head.metric != nil {
 				// Found a match.
-				ch <- pduToSample(oidList[i+1:], &pdu, head.metric, oidToPdu)
+				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu)
+				for _, sample := range samples {
+					ch <- sample
+				}
 				break
 			}
 		}
@@ -174,13 +177,19 @@ func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 	}
 }
 
-func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) prometheus.Metric {
+func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) []prometheus.Metric {
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
 
 	value := getPduValue(pdu)
 	t := prometheus.UntypedValue
-	stringType := false
+
+	labelnames := make([]string, 0, len(labels)+1)
+	labelvalues := make([]string, 0, len(labels)+1)
+	for k, v := range labels {
+		labelnames = append(labelnames, k)
+		labelvalues = append(labelvalues, v)
+	}
 
 	switch metric.Type {
 	case "counter":
@@ -191,25 +200,48 @@ func pduToSample(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oi
 		// It's some form of string.
 		t = prometheus.GaugeValue
 		value = 1.0
-		stringType = true
-	}
-
-	labelnames := make([]string, 0, len(labels)+1)
-	labelvalues := make([]string, 0, len(labels)+1)
-	for k, v := range labels {
-		labelnames = append(labelnames, k)
-		labelvalues = append(labelvalues, v)
-	}
-	// For strings we put the value as a label with the same name as the metric.
-	// If the name is already an index, we do not need to set it again.
-	if stringType {
+		if len(metric.RegexpExtracts) > 0 {
+			v, ok := pdu.Value.(string)
+			if !ok {
+				log.Errorf("Invalid PDU value type: got %T, want string for metric: %v", pdu.Value, metric.Name)
+				return nil
+			}
+			return applyRegexExtracts(metric, v, labelnames, labelvalues)
+		}
+		// For strings we put the value as a label with the same name as the metric.
+		// If the name is already an index, we do not need to set it again.
 		if _, ok := labels[metric.Name]; !ok {
 			labelnames = append(labelnames, metric.Name)
 			labelvalues = append(labelvalues, pduValueAsString(pdu, metric.Type))
 		}
 	}
-	return prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
-		t, value, labelvalues...)
+
+	return []prometheus.Metric{prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
+		t, value, labelvalues...)}
+}
+
+func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string) []prometheus.Metric {
+	results := []prometheus.Metric{}
+	for name, strMetricSlice := range metric.RegexpExtracts {
+		for _, strMetric := range strMetricSlice {
+			indexes := strMetric.Regex.FindStringSubmatchIndex(pduValue)
+			if indexes == nil {
+				log.Debugf("No match found for regexp: %v against value: %v for metric %v", strMetric.Regex.String(), pduValue, metric.Name)
+				continue
+			}
+			res := strMetric.Regex.ExpandString([]byte{}, strMetric.Value, pduValue, indexes)
+			v, err := strconv.ParseFloat(string(res), 64)
+			if err != nil {
+				log.Debugf("Error parsing float64 from value: %v for metric: %v", res, metric.Name)
+				continue
+			}
+			newMetric := prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
+				prometheus.GaugeValue, v, labelvalues...)
+			results = append(results, newMetric)
+			break
+		}
+	}
+	return results
 }
 
 // Right pad oid with zeros, and split at the given point.

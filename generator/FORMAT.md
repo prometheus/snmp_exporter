@@ -28,7 +28,7 @@ module_name:
    - name:  ifMtu
      oid:   1.3.6.1.2.1.2.2.1.4
      type:  gauge
-     # A list of the tabel indexes and their types. All indexes become labels.
+     # A list of the table indexes and their types. All indexes become labels.
      indexes:
       - labelname: ifIndex
         type: gauge
@@ -45,4 +45,9 @@ module_name:
          oid: 1.3.6.1.2.1.2.2.1.2  # OID to look under.
          labelname: ifDescr        # Output label name.
          type: OctetString         # Type of output object.
+     # Creates new metrics based on the regex and the metric value.
+     regex_extracts:
+       Temp: # A new metric will be created appending this to the metricName to become metricNameTemp.
+         - regex: '(.*)' # Regex to extract a value from the returned SNMP walks's value.
+           value: '$1' # Parsed as float64, defaults to $1.
 ```

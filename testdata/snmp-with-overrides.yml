@@ -1,0 +1,10 @@
+default:
+  walk:
+  - 1.1.1.1.1.1
+  metrics:
+  - name: testMetric
+    oid: 1.1.1.1.1
+    type: gauge
+    regex_extracts:
+      Temp:
+      - regex:

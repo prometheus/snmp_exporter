@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"io/ioutil"
+	"regexp"
 	"strings"
 	"time"
 
@@ -39,6 +40,9 @@ var (
 	}
 	DefaultModule = Module{
 		WalkParams: DefaultWalkParams,
+	}
+	DefaultRegexpExtract = RegexpExtract{
+		Value: "$1",
 	}
 )
 
@@ -156,22 +160,18 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 }
 
 type Metric struct {
-	Name    string    `yaml:"name"`
-	Oid     string    `yaml:"oid"`
-	Type    string    `yaml:"type"`
-	Help    string    `yaml:"help"`
-	Indexes []*Index  `yaml:"indexes,omitempty"`
-	Lookups []*Lookup `yaml:"lookups,omitempty"`
-
-	XXX map[string]interface{} `yaml:",inline"`
+	Name           string                     `yaml:"name"`
+	Oid            string                     `yaml:"oid"`
+	Type           string                     `yaml:"type"`
+	Help           string                     `yaml:"help"`
+	Indexes        []*Index                   `yaml:"indexes,omitempty"`
+	Lookups        []*Lookup                  `yaml:"lookups,omitempty"`
+	RegexpExtracts map[string][]RegexpExtract `yaml:"regex_extracts,omitempty"`
 }
 
 func (c *Metric) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	type plain Metric
 	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
@@ -253,6 +253,52 @@ func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
+	return nil
+}
+
+type RegexpExtract struct {
+	Value string `yaml:"value"`
+	Regex Regexp `yaml:"regex"`
+
+	XXX map[string]interface{} `yaml:",inline"`
+}
+
+func (c *RegexpExtract) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	*c = DefaultRegexpExtract
+	type plain RegexpExtract
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	if err := CheckOverflow(c.XXX, "regex_extract"); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Regexp encapsulates a regexp.Regexp and makes it YAML marshalable.
+type Regexp struct {
+	*regexp.Regexp
+}
+
+// MarshalYAML implements the yaml.Marshaler interface.
+func (re Regexp) MarshalYAML() (interface{}, error) {
+	if re.Regexp != nil {
+		return re.String(), nil
+	}
+	return nil, nil
+}
+
+// UnmarshalYAML implements the yaml.Unmarshaler interface.
+func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var s string
+	if err := unmarshal(&s); err != nil {
+		return err
+	}
+	regex, err := regexp.Compile("^(?:" + s + ")$")
+	if err != nil {
+		return err
+	}
+	re.Regexp = regex
 	return nil
 }
 
