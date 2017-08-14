@@ -215,6 +215,15 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		}
 	}
 
+	// Apply module config overrides to their corresponding metrics.
+	for name, params := range cfg.Overrides {
+		for _, metric := range out.Metrics {
+			if name == metric.Name || name == metric.Oid {
+				metric.RegexpExtracts = params.RegexpExtracts
+			}
+		}
+	}
+
 	oids := []string{}
 	for k, _ := range needToWalk {
 		oids = append(oids, k)

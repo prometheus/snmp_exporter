@@ -20,11 +20,28 @@ func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 
-type ModuleConfig struct {
-	Walk    []string  `yaml:"walk"`
-	Lookups []*Lookup `yaml:"lookups"`
+type MetricOverrides struct {
+	RegexpExtracts map[string][]config.RegexpExtract `yaml:"regex_extracts,omitempty"`
 
-	WalkParams config.WalkParams `yaml:",inline"`
+	XXX map[string]interface{} `yaml:",inline"`
+}
+
+func (c *MetricOverrides) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	type plain MetricOverrides
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	if err := config.CheckOverflow(c.XXX, "overrides"); err != nil {
+		return err
+	}
+	return nil
+}
+
+type ModuleConfig struct {
+	Walk       []string                   `yaml:"walk"`
+	Lookups    []*Lookup                  `yaml:"lookups"`
+	WalkParams config.WalkParams          `yaml:",inline"`
+	Overrides  map[string]MetricOverrides `yaml:"overrides"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }

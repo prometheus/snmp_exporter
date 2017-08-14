@@ -25,3 +25,17 @@ func TestHideConfigSecrets(t *testing.T) {
 		t.Fatal("config's String method reveals authentication credentials.")
 	}
 }
+
+func TestLoadConfigWithOverrides(t *testing.T) {
+	sc := &SafeConfig{}
+	err := sc.ReloadConfig("testdata/snmp-with-overrides.yml")
+	if err != nil {
+		t.Errorf("Error loading config %v: %v", "testdata/snmp-with-overrides.yml", err)
+	}
+	sc.RLock()
+	_, err = yaml.Marshal(sc.C)
+	sc.RUnlock()
+	if err != nil {
+		t.Errorf("Error marshalling config: %v", err)
+	}
+}

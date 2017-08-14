@@ -2,6 +2,7 @@ package main
 
 import (
 	"reflect"
+	"regexp"
 	"testing"
 
 	"github.com/prometheus/snmp_exporter/config"
@@ -101,11 +102,48 @@ func TestTreePrepare(t *testing.T) {
 }
 
 func TestGenerateConfigModule(t *testing.T) {
+	var regexpFooBar config.Regexp
+	regexpFooBar.Regexp, _ = regexp.Compile(".*")
+
+	strMetrics := make(map[string][]config.RegexpExtract)
+	strMetrics["Status"] = []config.RegexpExtract{
+		{
+			Regex: regexpFooBar,
+			Value: "5",
+		},
+	}
+
+	overrides := make(map[string]MetricOverrides)
+	metricOverrides := MetricOverrides{
+		RegexpExtracts: strMetrics,
+	}
+	overrides["root"] = metricOverrides
+
 	cases := []struct {
 		node *Node
 		cfg  *ModuleConfig  // SNMP generator config.
 		out  *config.Module // SNMP exporter config.
 	}{
+		// Simple metric with overrides.
+		{
+			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
+			cfg: &ModuleConfig{
+				Walk:      []string{"root"},
+				Overrides: overrides,
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name:           "root",
+						Oid:            "1",
+						Type:           "gauge",
+						Help:           " - 1",
+						RegexpExtracts: strMetrics,
+					},
+				},
+			},
+		},
 		// Simple metric.
 		{
 			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
@@ -711,7 +749,6 @@ func TestGenerateConfigModule(t *testing.T) {
 
 		nameToNode := prepareTree(c.node)
 		got := generateConfigModule(c.cfg, c.node, nameToNode)
-
 		if !reflect.DeepEqual(got, c.out) {
 			t.Errorf("GenerateConfigModule: difference in case %d", i)
 			out, _ := yaml.Marshal(got)
