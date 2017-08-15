@@ -113,7 +113,9 @@ func TestPduToSample(t *testing.T) {
 					},
 				},
 			},
-			expectedMetrics: map[string]string{},
+			expectedMetrics: map[string]string{
+				`gauge:<value:5 > `: `Desc{fqName: "TestMetricNameStatus", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: []}`,
+			},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{

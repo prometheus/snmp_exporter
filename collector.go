@@ -201,12 +201,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t = prometheus.GaugeValue
 		value = 1.0
 		if len(metric.RegexpExtracts) > 0 {
-			v, ok := pdu.Value.(string)
-			if !ok {
-				log.Errorf("Invalid PDU value type: got %T, want string for metric: %v", pdu.Value, metric.Name)
-				return nil
-			}
-			return applyRegexExtracts(metric, v, labelnames, labelvalues)
+			return applyRegexExtracts(metric, pduValueAsString(pdu, metric.Type), labelnames, labelvalues)
 		}
 		// For strings we put the value as a label with the same name as the metric.
 		// If the name is already an index, we do not need to set it again.
