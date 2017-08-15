@@ -201,10 +201,10 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: DisplayString
+      type: OctetString
   - name: upsOutletGroupStatusName
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-    type: DisplayString
+    type: OctetString
     help: The name of the outlet group - 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
     indexes:
     - labelname: upsOutletGroupStatusName
@@ -214,7 +214,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: DisplayString
+      type: OctetString
   - name: upsOutletGroupStatusGroupState
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
     type: gauge
@@ -227,7 +227,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: DisplayString
+      type: OctetString
   - name: upsOutletGroupStatusCommandPending
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
     type: gauge
@@ -241,7 +241,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: DisplayString
+      type: OctetString
   - name: upsOutletGroupStatusOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
     type: gauge
@@ -254,10 +254,10 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: DisplayString
+      type: OctetString
   - name: upsOutletGroupStatusGroupFullState
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.6
-    type: DisplayString
+    type: OctetString
     help: An ASCII string containing the 32 flags representing the current state(s)
       of the outlet group - 1.3.6.1.4.1.318.1.1.1.12.1.2.1.6
     indexes:
@@ -268,7 +268,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: DisplayString
+      type: OctetString
   - name: upsOutletGroupConfigTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.1
     type: gauge
@@ -282,7 +282,7 @@ apcups:
       type: gauge
   - name: upsOutletGroupConfigName
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.2
-    type: DisplayString
+    type: OctetString
     help: The name of the outlet group. - 1.3.6.1.4.1.318.1.1.1.12.2.2.1.2
     indexes:
     - labelname: upsOutletGroupConfigIndex
@@ -398,7 +398,7 @@ apcups:
       type: gauge
   - name: upsOutletGroupControlName
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.2
-    type: DisplayString
+    type: OctetString
     help: The name of the outlet group - 1.3.6.1.4.1.318.1.1.1.12.3.2.1.2
     indexes:
     - labelname: upsOutletGroupControlIndex
@@ -427,7 +427,7 @@ apcups:
     help: The elapsed time since the UPS has switched to battery power. - 1.3.6.1.4.1.318.1.1.1.2.1.2
   - name: upsBasicBatteryLastReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.3
-    type: DisplayString
+    type: OctetString
     help: The date when the UPS system's batteries were last replaced in mm/dd/yy
       (or yyyy) format - 1.3.6.1.4.1.318.1.1.1.2.1.3
   - name: upsAdvBatteryCapacity
@@ -570,15 +570,15 @@ apcups:
     help: The status of the battery charger - 1.3.6.1.4.1.318.1.1.1.2.2.17
   - name: upsAdvBatteryInternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.19
-    type: DisplayString
+    type: OctetString
     help: The SKU of the internal battery. - 1.3.6.1.4.1.318.1.1.1.2.2.19
   - name: upsAdvBatteryExternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.20
-    type: DisplayString
+    type: OctetString
     help: The SKU of the external battery. - 1.3.6.1.4.1.318.1.1.1.2.2.20
   - name: upsAdvBatteryRecommendedReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.21
-    type: DisplayString
+    type: OctetString
     help: The recommended replacement date for the battery based on the UPS internal
       battery life algorithm. - 1.3.6.1.4.1.318.1.1.1.2.2.21
   - name: upsHighPrecBatteryCapacity
@@ -709,7 +709,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackFirmwareRevision
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
-    type: DisplayString
+    type: OctetString
     help: The battery pack firmware revision. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -718,7 +718,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackSerialNumber
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
-    type: DisplayString
+    type: OctetString
     help: The battery pack serial number. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -754,7 +754,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackCartridgeReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
-    type: DisplayString
+    type: OctetString
     help: The battery cartridge estimated battery replace date. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -763,7 +763,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackCartridgeInstallDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
-    type: DisplayString
+    type: OctetString
     help: The battery cartridge install date. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -1076,7 +1076,7 @@ apcups:
     help: The results of the last UPS diagnostics test performed. - 1.3.6.1.4.1.318.1.1.1.7.2.3
   - name: upsAdvTestLastDiagnosticsDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.4
-    type: DisplayString
+    type: OctetString
     help: The date the last UPS diagnostics test was performed in mm/dd/yy format.
       - 1.3.6.1.4.1.318.1.1.1.7.2.4
   - name: upsAdvTestRuntimeCalibration
@@ -1090,12 +1090,12 @@ apcups:
     help: The results of the last runtime calibration - 1.3.6.1.4.1.318.1.1.1.7.2.6
   - name: upsAdvTestCalibrationDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.7
-    type: DisplayString
+    type: OctetString
     help: The date the last UPS runtime calibration was performed in mm/dd/yy format.
       - 1.3.6.1.4.1.318.1.1.1.7.2.7
   - name: upsAdvTestDiagnosticTime
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.8
-    type: DisplayString
+    type: OctetString
     help: The time of the day to perform automatic battery test - 1.3.6.1.4.1.318.1.1.1.7.2.8
   - name: upsAdvTestDiagnosticDay
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
@@ -1114,7 +1114,7 @@ apcups:
       type: gauge
   - name: iemStatusProbeName
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    type: DisplayString
+    type: OctetString
     help: A descriptive name for the probe set by the user. - 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     indexes:
     - labelname: iemStatusProbeNumber
@@ -1213,7 +1213,7 @@ apcups:
       type: gauge
   - name: iemStatusProbeLocation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
-    type: DisplayString
+    type: OctetString
     help: A descriptive location for the probe set by the user. - 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
     indexes:
     - labelname: iemStatusProbeNumber
@@ -3405,6 +3405,10 @@ ddwrt:
     type: counter
     help: The number of 'ticks' (typically 1/100s) spent by the CPU to run a niced
       virtual CPU (guest) - 1.3.6.1.4.1.2021.11.66
+  - name: ssCpuNumCpus
+    oid: 1.3.6.1.4.1.2021.11.67
+    type: gauge
+    help: The number of processors, as counted by the agent - 1.3.6.1.4.1.2021.11.67
   - name: memIndex
     oid: 1.3.6.1.4.1.2021.4.1
     type: gauge
@@ -4986,213 +4990,6 @@ default_ifname:
       - ifName
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-fortinet_fortigate:
-  walk:
-  - 1.3.6.1.2.1.1.3
-  - 1.3.6.1.2.1.31.1.1
-  - 1.3.6.1.4.1.12356.101.14.4.4.1.17
-  - 1.3.6.1.4.1.12356.101.14.4.4.1.18
-  - 1.3.6.1.4.1.12356.101.14.4.4.1.19
-  - 1.3.6.1.4.1.12356.101.14.4.4.1.8
-  metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
-  - name: ifName
-    oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: DisplayString
-    help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifInMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.2
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifInBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.3
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifOutMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.4
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a multicast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifOutBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.5
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a broadcast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCInOctets
-    oid: 1.3.6.1.2.1.31.1.1.1.6
-    type: counter
-    help: The total number of octets received on the interface, including framing
-      characters - 1.3.6.1.2.1.31.1.1.1.6
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCInUcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.7
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were not addressed to a multicast or broadcast address at this sub-layer
-      - 1.3.6.1.2.1.31.1.1.1.7
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCInMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.8
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCInBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.9
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCOutOctets
-    oid: 1.3.6.1.2.1.31.1.1.1.10
-    type: counter
-    help: The total number of octets transmitted out of the interface, including framing
-      characters - 1.3.6.1.2.1.31.1.1.1.10
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCOutUcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.11
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were not addressed to a multicast or broadcast address at this sub-layer,
-      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCOutMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.12
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a multicast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHCOutBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.13
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a broadcast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifLinkUpDownTrapEnable
-    oid: 1.3.6.1.2.1.31.1.1.1.14
-    type: gauge
-    help: Indicates whether linkUp/linkDown traps should be generated for this interface
-      - 1.3.6.1.2.1.31.1.1.1.14
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifHighSpeed
-    oid: 1.3.6.1.2.1.31.1.1.1.15
-    type: gauge
-    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
-      per second - 1.3.6.1.2.1.31.1.1.1.15
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifPromiscuousMode
-    oid: 1.3.6.1.2.1.31.1.1.1.16
-    type: gauge
-    help: This object has a value of false(2) if this interface only accepts packets/frames
-      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifConnectorPresent
-    oid: 1.3.6.1.2.1.31.1.1.1.17
-    type: gauge
-    help: This object has the value 'true(1)' if the interface sublayer has a physical
-      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifAlias
-    oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: DisplayString
-    help: This object is an 'alias' name for the interface as specified by a network
-      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: ifCounterDiscontinuityTime
-    oid: 1.3.6.1.2.1.31.1.1.1.19
-    type: gauge
-    help: The value of sysUpTime on the most recent occasion at which any one or more
-      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-  - name: fgWcWtpSessionWtpStationCount
-    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.17
-    type: gauge
-    help: Represents the number of clients currently connected to this WTP. - 1.3.6.1.4.1.12356.101.14.4.4.1.17
-    indexes:
-    - labelname: fgVdEntIndex
-      type: gauge
-    - labelname: fgWcWtpSessionWtpId
-      type: DisplayString
-  - name: fgWcWtpSessionWtpByteRxCount
-    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.18
-    type: counter
-    help: Represents the number of bytes received by this WTP. - 1.3.6.1.4.1.12356.101.14.4.4.1.18
-    indexes:
-    - labelname: fgVdEntIndex
-      type: gauge
-    - labelname: fgWcWtpSessionWtpId
-      type: DisplayString
-  - name: fgWcWtpSessionWtpByteTxCount
-    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.19
-    type: counter
-    help: Represents the number of bytes transmitted by this WTP. - 1.3.6.1.4.1.12356.101.14.4.4.1.19
-    indexes:
-    - labelname: fgVdEntIndex
-      type: gauge
-    - labelname: fgWcWtpSessionWtpId
-      type: DisplayString
-  - name: fgWcWtpSessionWtpUpTime
-    oid: 1.3.6.1.4.1.12356.101.14.4.4.1.8
-    type: gauge
-    help: Represents the time (in hundredths of a second) since the WTP boots. - 1.3.6.1.4.1.12356.101.14.4.4.1.8
-    indexes:
-    - labelname: fgVdEntIndex
-      type: gauge
-    - labelname: fgWcWtpSessionWtpId
       type: DisplayString
 paloalto_fw:
   walk:
