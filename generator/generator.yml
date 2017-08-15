@@ -68,28 +68,6 @@ modules:
       - old_index: iemStatusProbeIndex
         new_index: iemStatusProbeName
 
-# Fortinet Fortigate Devices
-#
-# On Fortigates the ifDescr is empty, the lookups should be done on ifName
-# They are also capable of managing wireless access points (called FortiAP).
-#
-# This module clones the default one changing the lookups and adds few metrics
-# from the managed APs. Noticeably:
-#   * fgWcWtpSessionWtpStationCount: Number of clients connected to each AP
-#   * fgWcWtpSessionWtpByteRxCount: Number of bytes received per AP
-#   * fgWcWtpSessionWtpByteTxCount: Number of bytes transmitted per AP
-#
-# Tested on a FortiGate 240D with 3 FortiAP-320C
-#
-  fortinet_fortigate:
-    walk:
-      - sysUpTime
-      - ifXTable
-      - 1.3.6.1.4.1.12356.101.14.4.4.1.8   # fgWcWtpSessionWtpUpTime
-      - 1.3.6.1.4.1.12356.101.14.4.4.1.17  # fgWcWtpSessionWtpStationCount
-      - 1.3.6.1.4.1.12356.101.14.4.4.1.18  # fgWcWtpSessionWtpByteRxCount
-      - 1.3.6.1.4.1.12356.101.14.4.4.1.19  # fgWcWtpSessionWtpByteTxCount
-
 # ServerTech Sentry 3 MIB
 #
 # Used by ServerTech PDUs

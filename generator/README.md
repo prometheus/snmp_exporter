@@ -93,7 +93,6 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
 
 * Cisco: ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz
 * APC: ftp://ftp.apc.com/apc/public/software/pnetmib/mib/421/powernet421.mib
-* Fortinet: http://kb.fortinet.com/kb/documentLink.do?externalID=11607
 * Servertech: ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
 * Palo Alto PanOS 7.0 enterprise MIBs: https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip
 * Arista Networks: https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt
