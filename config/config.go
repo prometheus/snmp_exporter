@@ -36,7 +36,7 @@ var (
 		MaxRepetitions: 25,
 		Retries:        3,
 		Timeout:        time.Second * 20,
-		Auth:           &DefaultAuth,
+		Auth:           DefaultAuth,
 	}
 	DefaultModule = Module{
 		WalkParams: DefaultWalkParams,
@@ -54,7 +54,7 @@ type WalkParams struct {
 	MaxRepetitions uint8         `yaml:"max_repetitions,omitempty"`
 	Retries        int           `yaml:"retries,omitempty"`
 	Timeout        time.Duration `yaml:"timeout,omitempty"`
-	Auth           *Auth         `yaml:"auth,omitempty"`
+	Auth           Auth          `yaml:"auth,omitempty"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }
