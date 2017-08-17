@@ -33,7 +33,9 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 		log.Infof("Generated %d metrics for module %s", len(outputConfig[name].Metrics), name)
 	}
 
+	config.DoNotHideSecrets = true
 	out, err := yaml.Marshal(outputConfig)
+	config.DoNotHideSecrets = false
 	if err != nil {
 		log.Fatalf("Error marshalling yml: %s", err)
 	}

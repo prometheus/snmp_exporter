@@ -218,8 +218,16 @@ func (c *Lookup) UnmarshalYAML(unmarshal func(interface{}) error) error {
 // Secret is a string that must not be revealed on marshaling.
 type Secret string
 
+// Hack for creating snmp.yml with the secret.
+var (
+	DoNotHideSecrets = false
+)
+
 // MarshalYAML implements the yaml.Marshaler interface.
 func (s Secret) MarshalYAML() (interface{}, error) {
+	if DoNotHideSecrets {
+		return string(s), nil
+	}
 	if s != "" {
 		return "<secret>", nil
 	}
