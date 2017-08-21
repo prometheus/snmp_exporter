@@ -1,3 +1,15 @@
+## v0.5.0 / 2017-08-15
+
+* [FEATURE] Expose config on /config
+* [FEATURE] Add help text to metrics
+* [FEATURE] Allow for extracting numeric metrics from string objects via regular expressions
+* [FEATURE/CHANGE] Config now only reloaded on SIGHUP or /-/reload
+* [CHANGE] Switch to kingpin flags, all flags now have two hyphens rather than one
+* [CHANGE] Remove Fortinet example module
+* [BUGFIX] Handle Counter64s with values >=2^63 correctly
+* [BUGFIX] Sanitize metric names
+* [BUGFIX] Add back objects marked no-access to generator output
+
 ## v0.4.0 / 2017-06-06
 
 * [FEATURE] Add Homepage on /. #135
