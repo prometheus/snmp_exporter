@@ -49,7 +49,7 @@ scrape_configs:
         - 192.168.1.2  # SNMP device.
     metrics_path: /snmp
     params:
-      module: [default]
+      module: [if_mib]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target

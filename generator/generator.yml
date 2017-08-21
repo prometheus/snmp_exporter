@@ -1,20 +1,26 @@
 modules:
-# If ifDesc is unique.
-  default:
+  # Default IF-MIB interfaces table with ifIndex.
+  if_mib:
+    walk: [sysUpTime, interfaces, ifXTable]
+  # Interfaces if ifAlias is unique.
+  if_mib_ifalias:
+    walk: [sysUpTime, interfaces, ifXTable]
+    lookups:
+      - old_index: ifIndex
+        new_index: ifAlias
+  # Interfaces if ifDescr is unique.
+  if_mib_ifdescr:
     walk: [sysUpTime, interfaces, ifXTable]
     lookups:
       - old_index: ifIndex
         new_index: ifDescr
-# If ifName is unique.
-  default_ifname:
+  # Interfaces if ifName is unique.
+  if_mib_ifname:
     walk: [sysUpTime, interfaces, ifXTable]
     lookups:
       - old_index: ifIndex
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
         new_index: 1.3.6.1.2.1.31.1.1.1.1 # ifName
-# If only ifIndex is unique.
-  default_ifindex:
-    walk: [sysUpTime, interfaces, ifXTable]
 
 # Cicso Wireless LAN Controller
   cisco_wlc:
