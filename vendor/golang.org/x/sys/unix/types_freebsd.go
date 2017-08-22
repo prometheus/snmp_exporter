@@ -356,6 +356,8 @@ type BpfZbufHeader C.struct_bpf_zbuf_header
 
 type Termios C.struct_termios
 
+type Winsize C.struct_winsize
+
 // fchmodat-like syscalls.
 
 const (
