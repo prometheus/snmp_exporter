@@ -19,7 +19,7 @@ module_name:
      #   gauge:   An integer with type gauge.
      #   counter: An integer with type counter.
      #   OctetString: A bit string, rendered as 0xff34.
-     #   DisplayString: An ASCII string.
+     #   DisplayString: An ASCII or UTF-8 string.
      #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
      # Non-numeric types are represented as a gauge with value 1, and the rendered value
      # as a label value on that gauge.

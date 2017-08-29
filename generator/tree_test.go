@@ -77,6 +77,21 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Label: "mac", Hint: "1x:"},
 			out: &Node{Oid: "1", Label: "mac", Hint: "1x:", Type: "PhysAddress48"},
 		},
+		// Short ASCII string.
+		{
+			in:  &Node{Oid: "1", Label: "ascii", Hint: "32a"},
+			out: &Node{Oid: "1", Label: "ascii", Hint: "32a", Type: "DisplayString"},
+		},
+		// DisplayString referencing RFC1213.
+		{
+			in:  &Node{Oid: "1", Label: "ascii", TextualConvention: "DisplayString"},
+			out: &Node{Oid: "1", Label: "ascii", TextualConvention: "DisplayString", Type: "DisplayString"},
+		},
+		// UTF-8 string.
+		{
+			in:  &Node{Oid: "1", Label: "utf8", Hint: "255t"},
+			out: &Node{Oid: "1", Label: "utf8", Hint: "255t", Type: "DisplayString"},
+		},
 	}
 	for i, c := range cases {
 		// Indexes always end up initilized.

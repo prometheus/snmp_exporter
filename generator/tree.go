@@ -73,13 +73,24 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 	})
 
-	// Set type on MAC addresses and ASCII strings.
+	// Include both ASCII and UTF-8 in DisplayString, even though DisplayString
+	// is technically only ASCII.
+	displayStringRe := regexp.MustCompile(`\d+[at]`)
+
+	// Set type on MAC addresses and strings.
 	walkNode(nodes, func(n *Node) {
 		// RFC 2579
 		switch n.Hint {
 		case "1x:":
 			n.Type = "PhysAddress48"
-		case "255a":
+		}
+		if displayStringRe.MatchString(n.Hint) {
+			n.Type = "DisplayString"
+		}
+
+		// Some MIBs refer to RFC1213 for this, which is too
+		// old to have the right hint set.
+		if n.TextualConvention == "DisplayString" {
 			n.Type = "DisplayString"
 		}
 	})
