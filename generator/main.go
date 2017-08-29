@@ -81,7 +81,7 @@ func main() {
 		fmt.Println(parseErrors)
 	case dumpCommand.FullCommand():
 		walkNode(nodes, func(n *Node) {
-			fmt.Printf("%s %s %s %s %s\n", n.Oid, n.Label, n.Type, n.Indexes, n.Description)
+			fmt.Printf("%s %s %s %q %q %s %s\n", n.Oid, n.Label, n.Type, n.TextualConvention, n.Hint, n.Indexes, n.Description)
 		})
 	}
 }

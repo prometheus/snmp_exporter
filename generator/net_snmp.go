@@ -19,15 +19,16 @@ import (
 
 // One entry in the tree of the MIB.
 type Node struct {
-	Oid         string
-	Label       string
-	Augments    string
-	Children    []*Node
-	Description string
-	Type        string
-	Hint        string
-	Units       string
-	Access      string
+	Oid               string
+	Label             string
+	Augments          string
+	Children          []*Node
+	Description       string
+	Type              string
+	Hint              string
+	TextualConvention string
+	Units             string
+	Access            string
 
 	Indexes []string
 }
@@ -139,6 +140,7 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	n.Augments = C.GoString(t.augments)
 	n.Description = C.GoString(t.description)
 	n.Hint = C.GoString(t.hint)
+	n.TextualConvention = C.GoString(C.get_tc_descriptor(t.tc_index))
 	n.Units = C.GoString(t.units)
 
 	if t.child_list == nil {
