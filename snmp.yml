@@ -201,10 +201,10 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: OctetString
+      type: DisplayString
   - name: upsOutletGroupStatusName
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-    type: OctetString
+    type: DisplayString
     help: The name of the outlet group - 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
     indexes:
     - labelname: upsOutletGroupStatusName
@@ -214,7 +214,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: OctetString
+      type: DisplayString
   - name: upsOutletGroupStatusGroupState
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.3
     type: gauge
@@ -227,7 +227,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: OctetString
+      type: DisplayString
   - name: upsOutletGroupStatusCommandPending
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
     type: gauge
@@ -241,7 +241,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: OctetString
+      type: DisplayString
   - name: upsOutletGroupStatusOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
     type: gauge
@@ -254,10 +254,10 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: OctetString
+      type: DisplayString
   - name: upsOutletGroupStatusGroupFullState
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.6
-    type: OctetString
+    type: DisplayString
     help: An ASCII string containing the 32 flags representing the current state(s)
       of the outlet group - 1.3.6.1.4.1.318.1.1.1.12.1.2.1.6
     indexes:
@@ -268,7 +268,7 @@ apcups:
       - upsOutletGroupStatusName
       labelname: upsOutletGroupStatusName
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.2
-      type: OctetString
+      type: DisplayString
   - name: upsOutletGroupConfigTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.1
     type: gauge
@@ -282,7 +282,7 @@ apcups:
       type: gauge
   - name: upsOutletGroupConfigName
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.2
-    type: OctetString
+    type: DisplayString
     help: The name of the outlet group. - 1.3.6.1.4.1.318.1.1.1.12.2.2.1.2
     indexes:
     - labelname: upsOutletGroupConfigIndex
@@ -398,7 +398,7 @@ apcups:
       type: gauge
   - name: upsOutletGroupControlName
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.2
-    type: OctetString
+    type: DisplayString
     help: The name of the outlet group - 1.3.6.1.4.1.318.1.1.1.12.3.2.1.2
     indexes:
     - labelname: upsOutletGroupControlIndex
@@ -427,7 +427,7 @@ apcups:
     help: The elapsed time since the UPS has switched to battery power. - 1.3.6.1.4.1.318.1.1.1.2.1.2
   - name: upsBasicBatteryLastReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.3
-    type: OctetString
+    type: DisplayString
     help: The date when the UPS system's batteries were last replaced in mm/dd/yy
       (or yyyy) format - 1.3.6.1.4.1.318.1.1.1.2.1.3
   - name: upsAdvBatteryCapacity
@@ -570,15 +570,15 @@ apcups:
     help: The status of the battery charger - 1.3.6.1.4.1.318.1.1.1.2.2.17
   - name: upsAdvBatteryInternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.19
-    type: OctetString
+    type: DisplayString
     help: The SKU of the internal battery. - 1.3.6.1.4.1.318.1.1.1.2.2.19
   - name: upsAdvBatteryExternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.20
-    type: OctetString
+    type: DisplayString
     help: The SKU of the external battery. - 1.3.6.1.4.1.318.1.1.1.2.2.20
   - name: upsAdvBatteryRecommendedReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.21
-    type: OctetString
+    type: DisplayString
     help: The recommended replacement date for the battery based on the UPS internal
       battery life algorithm. - 1.3.6.1.4.1.318.1.1.1.2.2.21
   - name: upsHighPrecBatteryCapacity
@@ -709,7 +709,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackFirmwareRevision
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
-    type: OctetString
+    type: DisplayString
     help: The battery pack firmware revision. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -718,7 +718,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackSerialNumber
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
-    type: OctetString
+    type: DisplayString
     help: The battery pack serial number. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -754,7 +754,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackCartridgeReplaceDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
-    type: OctetString
+    type: DisplayString
     help: The battery cartridge estimated battery replace date. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -763,7 +763,7 @@ apcups:
       type: gauge
   - name: upsHighPrecBatteryPackCartridgeInstallDate
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
-    type: OctetString
+    type: DisplayString
     help: The battery cartridge install date. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
     indexes:
     - labelname: upsHighPrecBatteryPackIndex
@@ -1076,7 +1076,7 @@ apcups:
     help: The results of the last UPS diagnostics test performed. - 1.3.6.1.4.1.318.1.1.1.7.2.3
   - name: upsAdvTestLastDiagnosticsDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.4
-    type: OctetString
+    type: DisplayString
     help: The date the last UPS diagnostics test was performed in mm/dd/yy format.
       - 1.3.6.1.4.1.318.1.1.1.7.2.4
   - name: upsAdvTestRuntimeCalibration
@@ -1090,12 +1090,12 @@ apcups:
     help: The results of the last runtime calibration - 1.3.6.1.4.1.318.1.1.1.7.2.6
   - name: upsAdvTestCalibrationDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.7
-    type: OctetString
+    type: DisplayString
     help: The date the last UPS runtime calibration was performed in mm/dd/yy format.
       - 1.3.6.1.4.1.318.1.1.1.7.2.7
   - name: upsAdvTestDiagnosticTime
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.8
-    type: OctetString
+    type: DisplayString
     help: The time of the day to perform automatic battery test - 1.3.6.1.4.1.318.1.1.1.7.2.8
   - name: upsAdvTestDiagnosticDay
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
@@ -1114,7 +1114,7 @@ apcups:
       type: gauge
   - name: iemStatusProbeName
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
-    type: OctetString
+    type: DisplayString
     help: A descriptive name for the probe set by the user. - 1.3.6.1.4.1.318.1.1.10.2.3.2.1.2
     indexes:
     - labelname: iemStatusProbeNumber
@@ -1213,7 +1213,7 @@ apcups:
       type: gauge
   - name: iemStatusProbeLocation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
-    type: OctetString
+    type: DisplayString
     help: A descriptive location for the probe set by the user. - 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
     indexes:
     - labelname: iemStatusProbeNumber
@@ -5761,7 +5761,7 @@ paloalto_fw:
     help: The amount of time since this host was last initialized - 1.3.6.1.2.1.25.1.1
   - name: hrSystemDate
     oid: 1.3.6.1.2.1.25.1.2
-    type: OctetString
+    type: DisplayString
     help: The host's notion of the local date and time of day. - 1.3.6.1.2.1.25.1.2
   - name: hrSystemInitialLoadDevice
     oid: 1.3.6.1.2.1.25.1.3
@@ -6020,7 +6020,7 @@ paloalto_fw:
       type: gauge
   - name: hrFSLastFullBackupDate
     oid: 1.3.6.1.2.1.25.3.8.1.8
-    type: OctetString
+    type: DisplayString
     help: The last date at which this complete file system was copied to another storage
       device for backup - 1.3.6.1.2.1.25.3.8.1.8
     indexes:
@@ -6028,7 +6028,7 @@ paloalto_fw:
       type: gauge
   - name: hrFSLastPartialBackupDate
     oid: 1.3.6.1.2.1.25.3.8.1.9
-    type: OctetString
+    type: DisplayString
     help: The last date at which a portion of this file system was copied to another
       storage device for backup - 1.3.6.1.2.1.25.3.8.1.9
     indexes:
