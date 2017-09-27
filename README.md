@@ -31,7 +31,7 @@ generate it for you.
 The default `snmp.yml` covers a variety of common hardware for which
 MIBs are available to the public, walking them using SNMP v2 GETBULK.
 
-You'll need to use the generator in all but the simplest of setups. Is is
+You'll need to use the generator in all but the simplest of setups. It is
 needed to customise which objects are walked, use non-public MIBs or specify
 authentication parameters.
 
