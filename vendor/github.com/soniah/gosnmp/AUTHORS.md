@@ -11,6 +11,7 @@
 * Sonia Hamilton (@soniah)
 * Marcin Jurczuk (@mrspock)
 * Andreas Louca (@alouca)
+* Toni Moreno (@toni-moreno)
 * Nathan Owens (@virtuallynathan)
 * Whitham Reeve (@wdreeveii)
 * Benjamin Thomas (@benjamin-thomas)

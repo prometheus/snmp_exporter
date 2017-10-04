@@ -394,3 +394,36 @@ func TestSnmpV3AuthSHAPrivAESGet(t *testing.T) {
 		t.Fatalf("Got a zero length sysDescr")
 	}
 }
+
+func TestSnmpV3PrivEmptyPrivatePassword(t *testing.T) {
+	Default.Version = Version3
+	Default.MsgFlags = AuthPriv
+	Default.SecurityModel = UserSecurityModel
+	Default.SecurityParameters = &UsmSecurityParameters{UserName: "authSHAPrivAESUser",
+		AuthenticationProtocol:   SHA,
+		AuthenticationPassphrase: "AEStestingpassabc6543210",
+		PrivacyProtocol:          AES,
+		PrivacyPassphrase:        ""}
+
+	err := Default.Connect()
+	if err == nil {
+		t.Fatalf("Expected validation error for empty PrivacyPassphrase")
+	}
+}
+
+func TestSnmpV3AuthNoPrivEmptyPrivatePassword(t *testing.T) {
+	Default.Version = Version3
+	Default.MsgFlags = AuthNoPriv
+	Default.SecurityModel = UserSecurityModel
+	Default.SecurityParameters = &UsmSecurityParameters{UserName: "authSHAOnlyUser",
+		AuthenticationProtocol:   SHA,
+		AuthenticationPassphrase: "testingpass9876543210",
+		PrivacyProtocol:          AES,
+		PrivacyPassphrase:        ""}
+
+	err := Default.Connect()
+	if err == nil {
+		t.Fatalf("Expected validation error for empty PrivacyPassphrase")
+	}
+
+}

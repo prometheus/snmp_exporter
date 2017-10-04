@@ -98,13 +98,13 @@ type Logger interface {
 
 func (x *GoSNMP) logPrint(v ...interface{}) {
 	if x.loggingEnabled {
-		x.Logger.Print(v)
+		x.Logger.Print(v...)
 	}
 }
 
 func (x *GoSNMP) logPrintf(format string, v ...interface{}) {
 	if x.loggingEnabled {
-		x.Logger.Printf(format, v)
+		x.Logger.Printf(format, v...)
 	}
 }
 
@@ -148,6 +148,11 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 			if err != nil {
 				break
 			}
+
+		}
+		x.logPrintf("PACKET SENT: %#+v", *packetOut)
+		if x.loggingEnabled && x.Version == Version3 {
+			packetOut.SecurityParameters.Log()
 		}
 
 		var outBuf []byte
@@ -169,6 +174,7 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 		}
 
 		for {
+			x.logPrint("WAITING RESPONSE...")
 			// Receive response and try receiving again on any decoding error.
 			// Let the deadline abort us if we don't receive a valid response.
 
@@ -178,6 +184,7 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 				// receive error. retrying won't help. abort
 				break
 			}
+			x.logPrint("GET RESPONSE OK : %+v", resp)
 			result = new(SnmpPacket)
 			result.Logger = x.Logger
 
@@ -189,6 +196,7 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 			var cursor int
 			cursor, err = x.unmarshalHeader(resp, result)
 			if err != nil {
+				x.logPrintf("ERROR on unmarshall header: %s", err)
 				err = fmt.Errorf("Unable to decode packet: %s", err.Error())
 				continue
 			}
@@ -196,6 +204,7 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 			if x.Version == Version3 {
 				err = x.testAuthentication(resp, result)
 				if err != nil {
+					x.logPrintf("ERROR on Test Authentication on v3: %s", err)
 					break
 				}
 				resp, cursor, err = x.decryptPacket(resp, cursor, result)
@@ -203,10 +212,12 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 
 			err = x.unmarshalPayload(resp, cursor, result)
 			if err != nil {
+				x.logPrintf("ERROR on UnmarshalPayload on v3: %s", err)
 				err = fmt.Errorf("Unable to decode packet: %s", err.Error())
 				continue
 			}
 			if result == nil || len(result.Variables) < 1 {
+				x.logPrintf("ERROR on UnmarshalPayload on v3: %s", err)
 				err = fmt.Errorf("Unable to decode packet: nil")
 				continue
 			}
@@ -221,6 +232,7 @@ func (x *GoSNMP) sendOneRequest(packetOut *SnmpPacket,
 				validID = true
 			}
 			if !validID {
+				x.logPrint("ERROR  out of order ")
 				if result.Version == Version3 {
 					// detect out-of-time-window error and go out of this function with all data
 					// (outside it will be handled and retransmitted )
@@ -263,26 +275,32 @@ func (x *GoSNMP) send(packetOut *SnmpPacket, wait bool) (result *SnmpPacket, err
 	if x.Retries < 0 {
 		x.Retries = 0
 	}
-
+	x.logPrint("SEND INIT")
 	if packetOut.Version == Version3 {
+		x.logPrint("SEND INIT NEGOTIATE SECURITY PARAMS")
 		if err = x.negotiateInitialSecurityParameters(packetOut, wait); err != nil {
 			return &SnmpPacket{}, err
 		}
+		x.logPrint("SEND END NEGOTIATE SECURITY PARAMS")
 	}
 
 	// perform request
 	result, err = x.sendOneRequest(packetOut, wait)
 	if err != nil {
+		x.logPrintf("SEND Error on the first Request Error: %s", err)
 		return result, err
 	}
 
 	if result.Version == Version3 {
+		x.logPrintf("SEND STORE SECURITY PARAMS from result: %+v", result)
 		err = x.storeSecurityParameters(result)
 
 		// detect out-of-time-window error and retransmit with updated auth engine parameters
 		if len(result.Variables) == 1 && result.Variables[0].Name == ".1.3.6.1.6.3.15.1.1.2.0" {
+			x.logPrintf("WARNING detected out-of-time-window ERROR")
 			err = x.updatePktSecurityParameters(packetOut)
 			if err != nil {
+				x.logPrintf("ERROR  updatePktSecurityParameters error: %s", err)
 				return nil, err
 			}
 			result, err = x.sendOneRequest(packetOut, wait)

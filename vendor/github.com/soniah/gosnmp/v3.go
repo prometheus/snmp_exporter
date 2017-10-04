@@ -35,6 +35,7 @@ const (
 
 // SnmpV3SecurityParameters is a generic interface type to contain various implementations of SnmpV3SecurityParameters
 type SnmpV3SecurityParameters interface {
+	Log()
 	Copy() SnmpV3SecurityParameters
 	validate(flags SnmpV3MsgFlags) error
 	init(log Logger) error

@@ -66,6 +66,10 @@ type UsmSecurityParameters struct {
 	Logger Logger
 }
 
+func (sp *UsmSecurityParameters) Log() {
+	sp.Logger.Printf("SECURITY PARAMETERS:%+v", sp)
+}
+
 // Copy method for UsmSecurityParameters used to copy a SnmpV3SecurityParameters without knowing it's implementation
 func (sp *UsmSecurityParameters) Copy() SnmpV3SecurityParameters {
 	return &UsmSecurityParameters{AuthoritativeEngineID: sp.AuthoritativeEngineID,
@@ -126,16 +130,10 @@ func (sp *UsmSecurityParameters) validate(flags SnmpV3MsgFlags) error {
 		if sp.PrivacyProtocol <= NoPriv {
 			return fmt.Errorf("SecurityParameters.PrivacyProtocol is required")
 		}
-		if sp.PrivacyPassphrase == "" {
-			return fmt.Errorf("SecurityParameters.PrivacyPassphrase is required")
-		}
 		fallthrough
 	case AuthNoPriv:
 		if sp.AuthenticationProtocol <= NoAuth {
 			return fmt.Errorf("SecurityParameters.AuthenticationProtocol is required")
-		}
-		if sp.AuthenticationPassphrase == "" {
-			return fmt.Errorf("SecurityParameters.AuthenticationPassphrase is required")
 		}
 		fallthrough
 	case NoAuthNoPriv:
@@ -144,6 +142,18 @@ func (sp *UsmSecurityParameters) validate(flags SnmpV3MsgFlags) error {
 		}
 	default:
 		return fmt.Errorf("MsgFlags must be populated with an appropriate security level")
+	}
+
+	if sp.PrivacyProtocol > NoPriv {
+		if sp.PrivacyPassphrase == "" {
+			return fmt.Errorf("SecurityParameters.PrivacyPassphrase is required when a privacy protocol is specified.")
+		}
+	}
+
+	if sp.AuthenticationProtocol > NoAuth {
+		if sp.AuthenticationPassphrase == "" {
+			return fmt.Errorf("SecurityParameters.AuthenticationPassphrase is required when an authentication protocol is specified.")
+		}
 	}
 
 	return nil
