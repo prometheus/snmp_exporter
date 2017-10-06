@@ -52,22 +52,15 @@ RequestLoop:
 		}
 
 		if response.Error == NoSuchName {
-			return fmt.Errorf("No Such Name available at this OID")
+			x.Logger.Print("Walk terminated with NoSuchName")
+			break RequestLoop
 		}
 
 		for k, v := range response.Variables {
-			if v.Type == EndOfMibView {
+			if v.Type == EndOfMibView || v.Type == NoSuchObject || v.Type == NoSuchInstance {
 				x.Logger.Printf("BulkWalk terminated with type 0x%x", v.Type)
 				break RequestLoop
 			}
-
-			if v.Type == NoSuchObject {
-				return fmt.Errorf("No Such Object available at this OID")
-			}
-			if v.Type == NoSuchInstance {
-				return fmt.Errorf("No Such Instance available at this OID")
-			}
-
 			if !strings.HasPrefix(v.Name, rootOid+".") {
 				// Not in the requested root range.
 				// if this is the first request, and the first variable in that request

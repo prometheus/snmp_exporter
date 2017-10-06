@@ -401,10 +401,10 @@
 			"revisionTime": "2017-08-21T07:31:01Z"
 		},
 		{
-			"checksumSHA1": "AtaEokt0LDkCwL91k01EY5yX0Ak=",
+			"checksumSHA1": "Dz2Bic+6H0Yg/eeZnDYdCPxTBWg=",
 			"path": "github.com/soniah/gosnmp",
-			"revision": "c8049ff1ecad68b5c464bb12761afb5a538934a4",
-			"revisionTime": "2017-10-04T00:23:44Z"
+			"revision": "9e43ddcdf483fefbf03e30d033510d4c981292ac",
+			"revisionTime": "2017-10-05T16:44:14Z"
 		},
 		{
 			"checksumSHA1": "Y9SmG2U/qez70e6PIe03dts063Y=",
