@@ -8662,3 +8662,702 @@ synology:
       labelname: serviceName
       oid: 1.3.6.1.4.1.6574.6.1.1.2
       type: OctetString
+ubiquiti_unifi:
+  walk:
+  - 1.3.6.1.2.1.1.3
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.41112.1.6
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+    help: The number of network interfaces (regardless of their current state) present
+      on this system. - 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    help: The size of the largest packet which can be sent/received on the interface,
+      specified in octets - 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state - 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast or broadcast address at this sub-layer -
+      1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    help: The number of inbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being deliverable to a higher-layer
+      protocol - 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    help: For packet-oriented interfaces, the number of inbound packets that contained
+      errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    help: For packet-oriented interfaces, the number of packets received via the interface
+      which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    help: The number of outbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    help: For packet-oriented interfaces, the number of outbound packets that could
+      not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    help: Indicates whether linkUp/linkDown traps should be generated for this interface
+      - 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
+      per second - 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    help: This object has a value of false(2) if this interface only accepts packets/frames
+      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    help: This object has the value 'true(1)' if the interface sublayer has a physical
+      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    help: This object is an 'alias' name for the interface as specified by a network
+      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    help: The value of sysUpTime on the most recent occasion at which any one or more
+      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: unifiRadioIndex
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.1'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioName
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.2'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioRadio
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.3
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.3'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioRxPackets
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.4
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.4'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioTxPackets
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.5
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.5'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioCuTotal
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.6
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.6'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioCuSelfRx
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.7
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.7'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioCuSelfTx
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.8'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiRadioOtherBss
+    oid: 1.3.6.1.4.1.41112.1.6.1.1.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.1.1.9'
+    indexes:
+    - labelname: unifiRadioIndex
+      type: gauge
+  - name: unifiVapIndex
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.1'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapBssId
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.2
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.2'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapCcq
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.3
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.3'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapChannel
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.4
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.4'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapExtChannel
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.5
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.5'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapEssId
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.6'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapName
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.7'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapNumStations
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.8'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapRadio
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.9
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.9'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapRxBytes
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.10
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.10'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapRxCrypts
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.11
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.11'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapRxDropped
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.12
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.12'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapRxErrors
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.13
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.13'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapRxFrags
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.14
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.14'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapRxPackets
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.15
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.15'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapTxBytes
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.16
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.16'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapTxDropped
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.17
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.17'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapTxErrors
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.18
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.18'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapTxPackets
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.19
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.19'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapTxRetries
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.20
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.20'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapTxPower
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.21
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.21'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapUp
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.22
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.1.2.1.22'
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiVapUsage
+    oid: 1.3.6.1.4.1.41112.1.6.1.2.1.23
+    type: DisplayString
+    help: guest or regular user - 1.3.6.1.4.1.41112.1.6.1.2.1.23
+    indexes:
+    - labelname: unifiVapIndex
+      type: gauge
+  - name: unifiIfIndex
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.1'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfFullDuplex
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.2
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.2'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfIp
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.3
+    type: IpAddr
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.3'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfMac
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.4
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.4'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfName
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.5
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.5'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfRxBytes
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.6
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.6'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfRxDropped
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.7
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.7'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfRxError
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.8
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.8'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfRxMulticast
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.9
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.9'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfRxPackets
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.10
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.10'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfSpeed
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.11
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.11'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfTxBytes
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.12
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.12'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfTxDropped
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.13
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.13'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfTxError
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.14
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.14'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfTxPackets
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.15
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.15'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiIfUp
+    oid: 1.3.6.1.4.1.41112.1.6.2.1.1.16
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.16'
+    indexes:
+    - labelname: unifiIfIndex
+      type: gauge
+  - name: unifiApSystemIp
+    oid: 1.3.6.1.4.1.41112.1.6.3.1
+    type: IpAddr
+    help: ' - 1.3.6.1.4.1.41112.1.6.3.1'
+  - name: unifiApSystemIsolated
+    oid: 1.3.6.1.4.1.41112.1.6.3.2
+    type: gauge
+    help: ' - 1.3.6.1.4.1.41112.1.6.3.2'
+  - name: unifiApSystemModel
+    oid: 1.3.6.1.4.1.41112.1.6.3.3
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.3.3'
+  - name: unifiApSystemUplink
+    oid: 1.3.6.1.4.1.41112.1.6.3.4
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.3.4'
+  - name: unifiApSystemUptime
+    oid: 1.3.6.1.4.1.41112.1.6.3.5
+    type: counter
+    help: ' - 1.3.6.1.4.1.41112.1.6.3.5'
+  - name: unifiApSystemVersion
+    oid: 1.3.6.1.4.1.41112.1.6.3.6
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.41112.1.6.3.6'
