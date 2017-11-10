@@ -456,6 +456,12 @@ func TestGenerateConfigModule(t *testing.T) {
 								Children: []*Node{
 									{Oid: "1.5.1.1", Access: "ACCESS_READONLY", Label: "physaddress48Index", Type: "OCTETSTR", Hint: "1x:"},
 									{Oid: "1.5.1.2", Access: "ACCESS_READONLY", Label: "physaddress48Foo", Type: "INTEGER"}}}}},
+					{Oid: "1.6", Label: "fixedSize",
+						Children: []*Node{
+							{Oid: "1.6.1", Label: "fixedSizeEntry", Indexes: []string{"fixedSizeIndex"},
+								Children: []*Node{
+									{Oid: "1.6.1.1", Access: "ACCESS_READONLY", Label: "fixedSizeIndex", Type: "OCTETSTR", FixedSize: 8},
+									{Oid: "1.6.1.2", Access: "ACCESS_READONLY", Label: "fixedSizeFoo", Type: "INTEGER"}}}}},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
@@ -580,6 +586,32 @@ func TestGenerateConfigModule(t *testing.T) {
 							{
 								Labelname: "physaddress48Index",
 								Type:      "PhysAddress48",
+							},
+						},
+					},
+					{
+						Name: "fixedSizeIndex",
+						Oid:  "1.6.1.1",
+						Help: " - 1.6.1.1",
+						Type: "OctetString",
+						Indexes: []*config.Index{
+							{
+								Labelname: "fixedSizeIndex",
+								Type:      "OctetString",
+								FixedSize: 8,
+							},
+						},
+					},
+					{
+						Name: "fixedSizeFoo",
+						Oid:  "1.6.1.2",
+						Help: " - 1.6.1.2",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "fixedSizeIndex",
+								Type:      "OctetString",
+								FixedSize: 8,
 							},
 						},
 					},

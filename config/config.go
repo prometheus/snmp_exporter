@@ -180,6 +180,7 @@ func (c *Metric) UnmarshalYAML(unmarshal func(interface{}) error) error {
 type Index struct {
 	Labelname string `yaml:"labelname"`
 	Type      string `yaml:"type"`
+	FixedSize int    `yaml:"fixed_size,omitempty"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }
