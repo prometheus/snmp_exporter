@@ -283,7 +283,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 			// Prepend the length, as it is explicit in an index.
 			parts = append([]int{len(pdu.Value.([]byte))}, parts...)
 		}
-		str, _, _ := indexOidsAsString(parts, typ)
+		str, _, _ := indexOidsAsString(parts, typ, 0)
 		return str
 	case nil:
 		return ""
@@ -298,7 +298,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 // Convert oids to a string index value.
 //
 // Returns the string, the oids that were used and the oids left over.
-func indexOidsAsString(indexOids []int, typ string) (string, []int, []int) {
+func indexOidsAsString(indexOids []int, typ string, fixedSize int) (string, []int, []int) {
 	switch typ {
 	case "Integer32", "Integer", "gauge", "counter":
 		// Extract the oid for this index, and keep the remainder for the next index.
@@ -312,8 +312,14 @@ func indexOidsAsString(indexOids []int, typ string) (string, []int, []int) {
 		}
 		return strings.Join(parts, ":"), subOid, indexOids
 	case "OctetString":
-		subOid, indexOids := splitOid(indexOids, 1)
-		length := subOid[0]
+		var subOid []int
+		// The length of fixed size indexes come from the MIB.
+		// For varying size, we read it from the first oid.
+		length := fixedSize
+		if length == 0 {
+			subOid, indexOids = splitOid(indexOids, 1)
+			length = subOid[0]
+		}
 		content, indexOids := splitOid(indexOids, length)
 		subOid = append(subOid, content...)
 		parts := make([]byte, length)
@@ -326,8 +332,12 @@ func indexOidsAsString(indexOids []int, typ string) (string, []int, []int) {
 			return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
 		}
 	case "DisplayString":
-		subOid, indexOids := splitOid(indexOids, 1)
-		length := subOid[0]
+		var subOid []int
+		length := fixedSize
+		if length == 0 {
+			subOid, indexOids = splitOid(indexOids, 1)
+			length = subOid[0]
+		}
 		content, indexOids := splitOid(indexOids, length)
 		subOid = append(subOid, content...)
 		parts := make([]byte, length)
@@ -398,7 +408,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 
 	// Covert indexes to useful strings.
 	for _, index := range metric.Indexes {
-		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type)
+		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize)
 		// The labelvalue is the text form of the index oids.
 		labels[index.Labelname] = str
 		// Save its oid in case we need it for lookups.
