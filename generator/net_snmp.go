@@ -6,6 +6,32 @@ package main
 #include <net-snmp/net-snmp-config.h>
 #include <net-snmp/mib_api.h>
 #include <unistd.h>
+// From parse.c
+#define MAXTC   4096
+  struct tc {
+  int             type;
+  int             modid;
+  char           *descriptor;
+  char           *hint;
+  struct enum_list *enums;
+  struct range_list *ranges;
+  char           *description;
+} tclist[MAXTC];
+
+// Return the size of a fixed, or 0 if it is not fixed.
+int get_tc_fixed_size(int tc_index) {
+	if (tc_index < 0 || tc_index >= MAXTC) {
+    return 0;
+  }
+  struct range_list *ranges;
+  ranges = tclist[tc_index].ranges;
+  // Look for one range with only one possible value.
+  if (ranges == NULL || ranges->low != ranges->high || ranges->next != NULL) {
+    return 0;
+  }
+  return ranges->low;
+}
+
 */
 import "C"
 
@@ -27,6 +53,7 @@ type Node struct {
 	Type              string
 	Hint              string
 	TextualConvention string
+	FixedSize         int
 	Units             string
 	Access            string
 
@@ -139,6 +166,7 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	n.Description = C.GoString(t.description)
 	n.Hint = C.GoString(t.hint)
 	n.TextualConvention = C.GoString(C.get_tc_descriptor(t.tc_index))
+	n.FixedSize = int(C.get_tc_fixed_size(t.tc_index))
 	n.Units = C.GoString(t.units)
 
 	if t.child_list == nil {

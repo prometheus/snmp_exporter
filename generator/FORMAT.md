@@ -32,6 +32,11 @@ module_name:
      indexes:
       - labelname: ifIndex
         type: gauge
+      - labelname: someString
+        type: OctetString
+        fixed_size: 8   # Only possible for OctetString/DisplayString types.
+                        # If only one length is possible this is it. Otherwise
+                        # this will be 0 or missing.
    - name:  ifSpeed
      oid:   1.3.6.1.2.1.2.2.1.5
      type:  gauge
