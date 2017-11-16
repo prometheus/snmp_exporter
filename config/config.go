@@ -128,6 +128,7 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		g.Version = gosnmp.Version3
 	}
 	g.Community = string(c.Auth.Community)
+	g.ContextName = string(c.Auth.ContextName)
 
 	// v3 security settings.
 	g.SecurityModel = gosnmp.UserSecurityModel
@@ -249,6 +250,7 @@ type Auth struct {
 	AuthProtocol  string `yaml:"auth_protocol,omitempty"`
 	PrivProtocol  string `yaml:"priv_protocol,omitempty"`
 	PrivPassword  Secret `yaml:"priv_password,omitempty"`
+	ContextName   string `yaml:"context_name,omitempty"`
 
 	XXX map[string]interface{} `yaml:",inline"`
 }
