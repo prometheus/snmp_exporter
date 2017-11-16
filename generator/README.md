@@ -48,7 +48,7 @@ modules:
 
       # v3 has different and more complex settings.
       # Which are required depends on the security_level.
-      # The equivilent options on NetSNMP commands like snmpbulkwalk
+      # The equivalent options on NetSNMP commands like snmpbulkwalk
       # and snmpget are also listed. See snmpcmd(1).
       username: user  # Required, no default. -u option to NetSNMP.
       security_level: noAuthNoPriv  # Defaults to noAuthNoPriv. -l option to NetSNMP.
@@ -61,6 +61,8 @@ modules:
                           # Used if security_level is authPriv.
       priv_password: otherPass # Has no default. Also known as privKey, -X option to NetSNMP.
                                # Required if security_level is authPriv.
+      context_name: context # Has no default. -n option to NetSNMP.
+                            # Required if context is configured on the device.
 
     lookups:  # Optional list of lookups to perform.
               # This must only be used when the new index is unique.
