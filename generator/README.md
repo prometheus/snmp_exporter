@@ -104,7 +104,7 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
 * UCD-SNMP-MIB (Net-SNMP): http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 * Ubiquiti Networks: http://dl.ubnt-ut.com/snmp/UBNT-MIB
                      http://dl.ubnt-ut.com/snmp/UBNT-UniFi-MIB
-                     https://community.ubnt.com/ubnt/attachments/ubnt/airMAX_FAQ/84/3/ubnt-mib.04.06.2017.zip
+                     https://www.ubnt.com/downloads/firmwares/airos-ubnt-mib/ubnt-mib.zip
 
 https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
 
