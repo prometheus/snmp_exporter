@@ -198,7 +198,7 @@ modules:
 
 # Ubiquiti / AirMAX
 #
-# https://www.ubnt.com/downloads/firmwares/airos-ubnt-mib/ubnt-mib.zip
+# https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 #
   ubiquiti_airmax:
     walk:
