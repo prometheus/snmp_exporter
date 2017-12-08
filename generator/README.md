@@ -24,6 +24,23 @@ The generator reads in from `generator.yml` and writes to `snmp.yml`.
 
 Additional command are available for debugging, use the `help` command to see them.
 
+## Docker Users
+
+If you would like to run the generator in docker to generate your `snmp.yml` config run the following commands.
+
+```
+# Build the image
+docker build -t snmp-generator .
+
+# Mount the directory containing your MIB files to
+# /root/.snmp/mibs and your generator.yml to /opt/generator.yml inside
+# the running container, run the generator and write the resulting
+# snmp.yml to stdout (which is then written to ./snmp.yml on your
+# host machine with "> snmp.yml")
+
+docker run -ti -v path/to/mibs:/root/.snmp/mibs -v path/to/generator.yml:/opt/generator.yml:ro snmp-generator > snmp.yml
+```
+
 ## File Format
 
 `generator.yml` provides a list of modules. The simplest module is just a name
