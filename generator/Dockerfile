@@ -1,20 +1,22 @@
-FROM golang:1.9.2
+FROM golang:latest
 
-# snmp-mibs-downloader is in the multiverse
-RUN echo "deb http://http.us.debian.org/debian stretch non-free" >> /etc/apt/sources.list
+RUN apt-get update && apt-get install -y libsnmp-dev
 
-RUN apt-get update && apt-get install -y \
-  build-essential \
-  libsnmp-dev \
-  snmp-mibs-downloader
-
+# Pull published snmp_exporter dependency so that we have access to
+# shared code in the snmp_exporter project
 RUN go get github.com/prometheus/snmp_exporter/generator
+
+WORKDIR /go/src/github.com/prometheus/snmp_exporter/generator/
+
+# Copy local generator directory so we can develop locally and test
+COPY . .
+RUN go get -v . && go install
 
 # Move the default generator file to the expected location
 RUN cp /go/src/github.com/prometheus/snmp_exporter/generator/generator.yml /opt/
-RUN cd /go/src/github.com/prometheus/snmp_exporter/generator && go install
 
 WORKDIR "/opt"
 
-# Run in a shell - redirect stdout to /dev/null and spit out the resulting config
-CMD /go/bin/generator generate > /dev/null 2>&1 && cat /opt/snmp.yml
+ENTRYPOINT ["/go/bin/generator"]
+
+CMD ["generate"]
