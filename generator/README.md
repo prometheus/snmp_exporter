@@ -32,13 +32,17 @@ If you would like to run the generator in docker to generate your `snmp.yml` con
 # Build the image
 docker build -t snmp-generator .
 
-# Mount the directory containing your MIB files to
-# /root/.snmp/mibs and your generator.yml to /opt/generator.yml inside
-# the running container, run the generator and write the resulting
-# snmp.yml to stdout (which is then written to ./snmp.yml on your
-# host machine with "> snmp.yml")
+# The following command will:
+# - Mount the directory containing your MIB files to /root/.snmp/mibs \
+# - Mount your generator.yml to working directory \
+# - Mount a directory for the resulting config file \
+# - Run the generator with output directory defined (inside the container) \
 
-docker run -ti -v path/to/mibs:/root/.snmp/mibs -v path/to/generator.yml:/opt/generator.yml:ro snmp-generator > snmp.yml
+docker run -ti \
+  -v $PWD/mibs:/root/.snmp/mibs \
+  -v $PWD/generator.yml:/opt/generator.yml:ro \
+  -v $PWD/out/:/opt/build \
+  snmp-generator generate -o /opt/build
 ```
 
 ## File Format
