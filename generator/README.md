@@ -33,8 +33,8 @@ docker build -t snmp-generator .
 docker run -ti \
   -v $PWD/mibs:/root/.snmp/mibs \
   -v $PWD/generator.yml:/opt/generator.yml:ro \
-  -v $PWD/out/:/opt/build \
-  snmp-generator generate -o /opt/build
+  -v $PWD/out/:/opt/ \
+  snmp-generator generate
 ```
 
 ## File Format
