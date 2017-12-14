@@ -31,7 +31,7 @@ If you would like to run the generator in docker to generate your `snmp.yml` con
 ```
 docker build -t snmp-generator .
 docker run -ti \
-  -v $PWD/mibs:/root/.snmp/mibs \
+  -v $$HOME/.snmp/mibs:/root/.snmp/mibs \
   -v $PWD/generator.yml:/opt/generator.yml:ro \
   -v $PWD/out/:/opt/ \
   snmp-generator generate
