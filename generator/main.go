@@ -16,21 +16,10 @@ import (
 
 // Generate a snmp_exporter config and write it out.
 func generateConfig(nodes *Node, nameToNode map[string]*Node) {
-	if *outputPath == "" {
-		currentDir, err := os.Getwd()
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Infof("No output directory specified writing to %s", currentDir)
-		outputPath = &currentDir
-	}
-
 	outputPath, err := filepath.Abs(*outputPath)
 	if err != nil {
 		log.Fatal("Unable to determine absolute path for output")
 	}
-
-	filePath := fmt.Sprintf("%s/snmp.yml", outputPath)
 
 	content, err := ioutil.ReadFile("generator.yml")
 	if err != nil {
@@ -63,7 +52,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 		log.Fatalf("Error parsing generated config: %s", err)
 	}
 
-	f, err := os.Create(filePath)
+	f, err := os.Create(outputPath)
 	if err != nil {
 		log.Fatalf("Error opening output file: %s", err)
 	}
@@ -71,12 +60,12 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	if err != nil {
 		log.Fatalf("Error writing to output file: %s", err)
 	}
-	log.Infof("Config written to %s", filePath)
+	log.Infof("Config written to %s", outputPath)
 }
 
 var (
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
-	outputPath         = generateCommand.Flag("output-path", "Path to to write resulting config file").Short('o').String()
+	outputPath         = generateCommand.Flag("output-path", "Path to to write resulting config file").Default("snmp.yml").Short('o').String()
 	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")
 	dumpCommand        = kingpin.Command("dump", "Debug: Dump the parsed and prepared MIBs")
 )
