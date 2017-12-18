@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/prometheus/common/log"
@@ -15,6 +16,11 @@ import (
 
 // Generate a snmp_exporter config and write it out.
 func generateConfig(nodes *Node, nameToNode map[string]*Node) {
+	outputPath, err := filepath.Abs(*outputPath)
+	if err != nil {
+		log.Fatal("Unable to determine absolute path for output")
+	}
+
 	content, err := ioutil.ReadFile("generator.yml")
 	if err != nil {
 		log.Fatalf("Error reading yml config: %s", err)
@@ -46,7 +52,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 		log.Fatalf("Error parsing generated config: %s", err)
 	}
 
-	f, err := os.Create("snmp.yml")
+	f, err := os.Create(outputPath)
 	if err != nil {
 		log.Fatalf("Error opening output file: %s", err)
 	}
@@ -54,11 +60,12 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	if err != nil {
 		log.Fatalf("Error writing to output file: %s", err)
 	}
-	log.Infof("Config written to snmp.yml")
+	log.Infof("Config written to %s", outputPath)
 }
 
 var (
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
+	outputPath         = generateCommand.Flag("output-path", "Path to to write resulting config file").Default("snmp.yml").Short('o').String()
 	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")
 	dumpCommand        = kingpin.Command("dump", "Debug: Dump the parsed and prepared MIBs")
 )
