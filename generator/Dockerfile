@@ -1,6 +1,9 @@
 FROM golang:latest
 
-RUN apt-get update && apt-get install -y libsnmp-dev
+# Enable non-free
+RUN sed -i -e 's/$/ contrib non-free/g' /etc/apt/sources.list
+
+RUN apt-get update && apt-get install -y libsnmp-dev snmp-mibs-downloader
 
 RUN go get github.com/prometheus/snmp_exporter/generator
 RUN cd /go/src/github.com/prometheus/snmp_exporter/generator \
