@@ -56,7 +56,7 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 127.0.0.1:9116  # SNMP exporter.
+        replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
 ```
 
 This setup allows Prometheus to provide scheduling and service discovery, as
