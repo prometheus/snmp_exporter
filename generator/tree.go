@@ -303,6 +303,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					if !ok {
 						log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.NewIndex)
 					}
+					if cfg.Overrides[sanitizeLabelName(indexNode.Label)].Type != "" {
+						typ = cfg.Overrides[sanitizeLabelName(indexNode.Label)].Type
+					}
 					metric.Lookups = append(metric.Lookups, &config.Lookup{
 						Labels:    []string{sanitizeLabelName(indexNode.Label)},
 						Labelname: sanitizeLabelName(indexNode.Label),
@@ -327,6 +330,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		for _, metric := range out.Metrics {
 			if name == metric.Name || name == metric.Oid {
 				metric.RegexpExtracts = params.RegexpExtracts
+				metric.Type = params.Type
 			}
 		}
 	}
