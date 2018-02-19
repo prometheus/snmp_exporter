@@ -92,6 +92,15 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Label: "utf8", Hint: "255t"},
 			out: &Node{Oid: "1", Label: "utf8", Hint: "255t", Type: "DisplayString"},
 		},
+		// Opaques converted.
+		{
+			in:  &Node{Oid: "1", Type: "OPAQUE", TextualConvention: "Float"},
+			out: &Node{Oid: "1", Type: "FLOAT", TextualConvention: "Float"},
+		},
+		{
+			in:  &Node{Oid: "1", Type: "OPAQUE", TextualConvention: "Double"},
+			out: &Node{Oid: "1", Type: "DOUBLE", TextualConvention: "Double"},
+		},
 	}
 	for i, c := range cases {
 		// Indexes always end up initilized.
@@ -778,6 +787,42 @@ func TestGenerateConfigModule(t *testing.T) {
 								Oid:       "1.1.1.2",
 							},
 						},
+					},
+				},
+			},
+		},
+		// Opaque Float becomes gauge
+		{
+			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "OPAQUE", TextualConvention: "Float", Label: "root"},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "root",
+						Oid:  "1",
+						Type: "gauge",
+						Help: " - 1",
+					},
+				},
+			},
+		},
+		// Opaque Double becomes gauge
+		{
+			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "OPAQUE", TextualConvention: "Double", Label: "root"},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "root",
+						Oid:  "1",
+						Type: "gauge",
+						Help: " - 1",
 					},
 				},
 			},

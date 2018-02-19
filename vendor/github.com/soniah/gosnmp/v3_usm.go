@@ -1,6 +1,6 @@
 package gosnmp
 
-// Copyright 2012-2016 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012-2018 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -19,6 +19,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"hash"
+	"sync"
 	"sync/atomic"
 )
 
@@ -192,30 +193,22 @@ func castUsmSecParams(secParams SnmpV3SecurityParameters) (*UsmSecurityParameter
 	return s, nil
 }
 
-// MD5 HMAC key calculation algorithm
-func md5HMAC(password string, engineID string) []byte {
-	comp := md5.New()
-	var pi int // password index
-	for i := 0; i < 1048576; i += 64 {
-		var chunk []byte
-		for e := 0; e < 64; e++ {
-			chunk = append(chunk, password[pi%len(password)])
-			pi++
-		}
-		comp.Write(chunk)
-	}
-	compressed := comp.Sum(nil)
-	local := md5.New()
-	local.Write(compressed)
-	local.Write([]byte(engineID))
-	local.Write(compressed)
-	final := local.Sum(nil)
-	return final
-}
+var (
+	passwordKeyHashCache = make(map[string][]byte)
+	passwordKeyHashMutex sync.RWMutex
+)
 
-// SHA HMAC key calculation algorithm
-func shaHMAC(password string, engineID string) []byte {
-	hash := sha1.New()
+// Common passwordToKey algorithm, "caches" the result to avoid extra computation each reuse
+func cachedPasswordToKey(hash hash.Hash, hashType string, password string) []byte {
+	cacheKey := hashType + ":" + password
+
+	passwordKeyHashMutex.RLock()
+	value := passwordKeyHashCache[cacheKey]
+	passwordKeyHashMutex.RUnlock()
+
+	if value != nil {
+		return value
+	}
 	var pi int // password index
 	for i := 0; i < 1048576; i += 64 {
 		var chunk []byte
@@ -226,6 +219,34 @@ func shaHMAC(password string, engineID string) []byte {
 		hash.Write(chunk)
 	}
 	hashed := hash.Sum(nil)
+
+	passwordKeyHashMutex.Lock()
+	passwordKeyHashCache[cacheKey] = hashed
+	passwordKeyHashMutex.Unlock()
+
+	return hashed
+}
+
+// MD5 HMAC key calculation algorithm
+func md5HMAC(password string, engineID string) []byte {
+	var compressed []byte
+
+	compressed = cachedPasswordToKey(md5.New(), "MD5", password)
+
+	local := md5.New()
+	local.Write(compressed)
+	local.Write([]byte(engineID))
+	local.Write(compressed)
+	final := local.Sum(nil)
+	return final
+}
+
+// SHA HMAC key calculation algorithm
+func shaHMAC(password string, engineID string) []byte {
+	var hashed []byte
+
+	hashed = cachedPasswordToKey(sha1.New(), "SHA1", password)
+
 	local := sha1.New()
 	local.Write(hashed)
 	local.Write([]byte(engineID))
@@ -236,12 +257,14 @@ func shaHMAC(password string, engineID string) []byte {
 
 func genlocalkey(authProtocol SnmpV3AuthProtocol, passphrase string, engineID string) []byte {
 	var secretKey []byte
+
 	switch authProtocol {
 	default:
 		secretKey = md5HMAC(passphrase, engineID)
 	case SHA:
 		secretKey = shaHMAC(passphrase, engineID)
 	}
+
 	return secretKey
 }
 

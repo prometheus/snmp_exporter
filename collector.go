@@ -172,6 +172,10 @@ func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 	switch pdu.Type {
 	case gosnmp.Counter64:
 		return float64(gosnmp.ToBigInt(pdu.Value).Uint64())
+	case gosnmp.OpaqueFloat:
+		return float64(pdu.Value.(float32))
+	case gosnmp.OpaqueDouble:
+		return pdu.Value.(float64)
 	default:
 		return float64(gosnmp.ToBigInt(pdu.Value).Int64())
 	}

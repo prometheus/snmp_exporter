@@ -228,6 +228,38 @@ func TestPduToSample(t *testing.T) {
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
 			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"-2" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
 		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.OpaqueFloat,
+				Value: float32(3.0),
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.1.1.1.1",
+				Type: "gauge",
+				Help: "Help string",
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: map[string]string{"gauge:<value:3 > ": `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.OpaqueDouble,
+				Value: float64(3.0),
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.1.1.1.1",
+				Type: "gauge",
+				Help: "Help string",
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: map[string]string{"gauge:<value:3 > ": `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []}`},
+		},
 	}
 
 	for i, c := range cases {

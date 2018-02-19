@@ -1,6 +1,8 @@
-// Copyright 2012-2016 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012-2018 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
+
+// +build all marshal
 
 package gosnmp
 
@@ -622,6 +624,40 @@ var testsUnmarshal = []struct {
 			},
 		},
 	},
+	{opaqueFloatResponse,
+		&SnmpPacket{
+			Version:    Version2c,
+			Community:  "public",
+			PDUType:    GetResponse,
+			RequestID:  601216773,
+			Error:      0,
+			ErrorIndex: 0,
+			Variables: []SnmpPDU{
+				{
+					Name:  ".1.3.6.1.4.1.6574.4.2.12.1.0",
+					Type:  OpaqueFloat,
+					Value: float32(10.0),
+				},
+			},
+		},
+	},
+	{opaqueDoubleResponse,
+		&SnmpPacket{
+			Version:    Version2c,
+			Community:  "public",
+			PDUType:    GetResponse,
+			RequestID:  601216773,
+			Error:      0,
+			ErrorIndex: 0,
+			Variables: []SnmpPDU{
+				{
+					Name:  ".1.3.6.1.4.1.6574.4.2.12.1.0",
+					Type:  OpaqueDouble,
+					Value: float64(10.0),
+				},
+			},
+		},
+	},
 }
 
 func TestUnmarshal(t *testing.T) {
@@ -706,6 +742,14 @@ SANITY:
 				}
 			case Null, NoSuchObject, NoSuchInstance:
 				if (vb.Value != nil) || (vbr.Value != nil) {
+					t.Errorf("#%d:%d Value result: %v, test: %v", i, n, vbr.Value, vb.Value)
+				}
+			case OpaqueFloat:
+				if vb.Value.(float32) != vbr.Value.(float32) {
+					t.Errorf("#%d:%d Value result: %v, test: %v", i, n, vbr.Value, vb.Value)
+				}
+			case OpaqueDouble:
+				if vb.Value.(float64) != vbr.Value.(float64) {
 					t.Errorf("#%d:%d Value result: %v, test: %v", i, n, vbr.Value, vb.Value)
 				}
 			default:
@@ -1205,6 +1249,34 @@ func counter64Response() []byte {
 		0x02, 0x01, 0x00, 0x30, 0x14, 0x30, 0x12, 0x06, 0x0b, 0x2b, 0x06, 0x01,
 		0x02, 0x01, 0x1f, 0x01, 0x01, 0x01, 0x0a, 0x01, 0x46, 0x03, 0x17, 0x50,
 		0x87,
+	}
+}
+
+/*
+Opaque Float, observed from Synology NAS UPS MIB
+ snmpget -v 2c -c public host 1.3.6.1.4.1.6574.4.2.12.1.0
+*/
+func opaqueFloatResponse() []byte {
+	return []byte{
+		0x30, 0x34, 0x02, 0x01, 0x01, 0x04, 0x06, 0x70, 0x75, 0x62, 0x6c, 0x69,
+		0x63, 0xa2, 0x27, 0x02, 0x04, 0x23, 0xd5, 0xd7, 0x05, 0x02, 0x01, 0x00,
+		0x02, 0x01, 0x00, 0x30, 0x19, 0x30, 0x17, 0x06, 0x0c, 0x2b, 0x06, 0x01,
+		0x04, 0x01, 0xb3, 0x2e, 0x04, 0x02, 0x0c, 0x01, 0x00, 0x44, 0x07, 0x9f,
+		0x78, 0x04, 0x41, 0x20, 0x00, 0x00,
+	}
+}
+
+/*
+Opaque Double, not observed, crafted based on description:
+ https://tools.ietf.org/html/draft-perkins-float-00
+*/
+func opaqueDoubleResponse() []byte {
+	return []byte{
+		0x30, 0x38, 0x02, 0x01, 0x01, 0x04, 0x06, 0x70, 0x75, 0x62, 0x6c, 0x69,
+		0x63, 0xa2, 0x2b, 0x02, 0x04, 0x23, 0xd5, 0xd7, 0x05, 0x02, 0x01, 0x00,
+		0x02, 0x01, 0x00, 0x30, 0x1d, 0x30, 0x17, 0x06, 0x0c, 0x2b, 0x06, 0x01,
+		0x04, 0x01, 0xb3, 0x2e, 0x04, 0x02, 0x0c, 0x01, 0x00, 0x44, 0x0b, 0x9f,
+		0x79, 0x08, 0x40, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 }
 
