@@ -98,10 +98,8 @@ func prepareTree(nodes *Node) map[string]*Node {
 	// Promote Opaque Float/Double textual convention to type
 	walkNode(nodes, func(n *Node) {
 		if n.Type == "OPAQUE" {
-			if strings.EqualFold(n.TextualConvention, "float") {
-				n.Type = "FLOAT"
-			} else if strings.EqualFold(n.TextualConvention, "double") {
-				n.Type = "DOUBLE"
+			if n.TextualConvention == "Float" || n.TextualConvention == "Double" {
+				n.Type = n.TextualConvention
 			}
 		}
 	})
@@ -111,8 +109,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 func metricType(t string) (string, bool) {
 	switch t {
-	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32",
-		"FLOAT", "DOUBLE":
+	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
 		return "gauge", true
 	case "COUNTER", "COUNTER64":
 		return "counter", true
@@ -125,6 +122,10 @@ func metricType(t string) (string, bool) {
 		return "InetAddress", true
 	case "PhysAddress48", "DisplayString":
 		return t, true
+	case "Float":
+		return "Float", true
+	case "Double":
+		return "Double", true
 	default:
 		// Unsupported type.
 		return "", false

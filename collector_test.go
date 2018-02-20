@@ -403,6 +403,14 @@ func TestPduValueAsString(t *testing.T) {
 			pdu:    &gosnmp.SnmpPDU{Value: nil},
 			result: "",
 		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: float32(10.1), Type: gosnmp.OpaqueFloat},
+			result: "10.1",
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: 10.1, Type: gosnmp.OpaqueDouble},
+			result: "10.1",
+		},
 	}
 	for _, c := range cases {
 		got := pduValueAsString(c.pdu, c.typ)

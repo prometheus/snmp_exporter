@@ -200,6 +200,8 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t = prometheus.CounterValue
 	case "gauge":
 		t = prometheus.GaugeValue
+	case "Float", "Double":
+		t = prometheus.GaugeValue
 	default:
 		// It's some form of string.
 		t = prometheus.GaugeValue
@@ -267,6 +269,10 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 		return strconv.FormatUint(uint64(pdu.Value.(uint)), 10)
 	case uint64:
 		return strconv.FormatUint(pdu.Value.(uint64), 10)
+	case float32:
+		return strconv.FormatFloat(float64(pdu.Value.(float32)), 'f', -1, 32)
+	case float64:
+		return strconv.FormatFloat(pdu.Value.(float64), 'f', -1, 64)
 	case string:
 		if pdu.Type == gosnmp.ObjectIdentifier {
 			// Trim leading period.
