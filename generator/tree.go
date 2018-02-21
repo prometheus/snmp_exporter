@@ -95,12 +95,10 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 	})
 
-	// Promote Opaque Float/Double textual convention to type
+	// Promote Opaque Float/Double textual convention to type.
 	walkNode(nodes, func(n *Node) {
-		if n.Type == "OPAQUE" {
-			if n.TextualConvention == "Float" || n.TextualConvention == "Double" {
-				n.Type = n.TextualConvention
-			}
+		if n.TextualConvention == "Float" || n.TextualConvention == "Double" {
+			n.Type = n.TextualConvention
 		}
 	})
 
@@ -120,12 +118,8 @@ func metricType(t string) (string, bool) {
 	case "NETADDR":
 		// TODO: Not sure about this one.
 		return "InetAddress", true
-	case "PhysAddress48", "DisplayString":
+	case "PhysAddress48", "DisplayString", "Float", "Double":
 		return t, true
-	case "Float":
-		return "Float", true
-	case "Double":
-		return "Double", true
 	default:
 		// Unsupported type.
 		return "", false
