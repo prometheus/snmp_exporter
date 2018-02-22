@@ -1,4 +1,4 @@
-// Copyright 2012-2016 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012-2018 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -8,6 +8,8 @@
 //
 // Ensure "gosnmp-test-host" is defined in your hosts file, and points to your
 // generic test system.
+
+// +build all end2end
 
 package gosnmp
 

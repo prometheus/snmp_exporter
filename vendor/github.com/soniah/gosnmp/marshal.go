@@ -1,4 +1,4 @@
-// Copyright 2012-2016 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012-2018 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -50,12 +50,22 @@ type SnmpPacket struct {
 	Variables          []SnmpPDU
 	Logger             Logger
 
-	// Trap V1 header
-	Enterprise   []int
-	AgentAddr    string
+	// v1 traps have a very different format from v2c and v3 traps.
+	//
+	// These fields are set via the SnmpTrap parameter to SendTrap().
+	SnmpTrap
+}
+
+// SnmpTrap is used to define a SNMP trap, and is passed into SendTrap
+type SnmpTrap struct {
+	Variables []SnmpPDU
+
+	// These fields are required for SNMPV1 Trap Headers
+	Enterprise   string
+	AgentAddress string
 	GenericTrap  int
 	SpecificTrap int
-	Timestamp    int
+	Timestamp    uint
 }
 
 // VarBind struct represents an SNMP Varbind.
@@ -355,30 +365,83 @@ func (packet *SnmpPacket) marshalMsg() ([]byte, error) {
 	return authenticatedMessage, nil
 }
 
+func (packet *SnmpPacket) marshalSNMPV1TrapHeader() ([]byte, error) {
+	buf := new(bytes.Buffer)
+
+	mOid, err := marshalOID(packet.Enterprise)
+	if err != nil {
+		return nil, fmt.Errorf("Unable to marshal OID: %s\n", err.Error())
+	}
+
+	buf.Write([]byte{ObjectIdentifier, byte(len(mOid))})
+	buf.Write(mOid)
+
+	// write IPAddress type, length and ipAddress value
+	ip := net.ParseIP(packet.AgentAddress)
+	ipAddressBytes := ipv4toBytes(ip)
+	buf.Write([]byte{IPAddress, byte(len(ipAddressBytes))})
+	buf.Write(ipAddressBytes)
+
+	buf.Write([]byte{Integer, 1})
+	buf.WriteByte(byte(packet.GenericTrap))
+
+	buf.Write([]byte{Integer, 1})
+	buf.WriteByte(byte(packet.SpecificTrap))
+
+	timeTicks, e := marshalUint32(uint32(packet.Timestamp))
+	if e != nil {
+		return nil, fmt.Errorf("Unable to Timestamp: %s\n", e.Error())
+	}
+
+	buf.Write([]byte{TimeTicks, byte(len(timeTicks))})
+	buf.Write(timeTicks)
+
+	return buf.Bytes(), nil
+}
+
 // marshal a PDU
 func (packet *SnmpPacket) marshalPDU() ([]byte, error) {
 	buf := new(bytes.Buffer)
 
-	// requestid
-	buf.Write([]byte{2, 4})
-	err := binary.Write(buf, binary.BigEndian, packet.RequestID)
-	if err != nil {
-		return nil, err
-	}
+	switch packet.PDUType {
 
-	if packet.PDUType == GetBulkRequest {
+	case GetBulkRequest:
+		// requestid
+		buf.Write([]byte{2, 4})
+		err := binary.Write(buf, binary.BigEndian, packet.RequestID)
+		if err != nil {
+			return nil, err
+		}
+
 		// non repeaters
 		buf.Write([]byte{2, 1, packet.NonRepeaters})
 
 		// max repetitions
 		buf.Write([]byte{2, 1, packet.MaxRepetitions})
-	} else { // get and getnext have same packet format
+
+	case Trap:
+		// write SNMP V1 Trap Header fields
+		snmpV1TrapHeader, err := packet.marshalSNMPV1TrapHeader()
+		if err != nil {
+			return nil, err
+		}
+
+		buf.Write(snmpV1TrapHeader)
+	default:
+		// requestid
+		buf.Write([]byte{2, 4})
+		err := binary.Write(buf, binary.BigEndian, packet.RequestID)
+
+		if err != nil {
+			return nil, fmt.Errorf("Unable to marshal OID: %s\n", err.Error())
+		}
 
 		// error
 		buf.Write([]byte{2, 1, 0})
 
 		// error index
 		buf.Write([]byte{2, 1, 0})
+
 	}
 
 	// varbind list
@@ -440,18 +503,29 @@ func marshalVarbind(pdu *SnmpPDU) ([]byte, error) {
 	switch pdu.Type {
 
 	case Null:
-		pduBuf.Write([]byte{byte(Sequence), byte(len(oid) + 4)})
-		pduBuf.Write([]byte{byte(ObjectIdentifier), byte(len(oid))})
-		pduBuf.Write(oid)
-		pduBuf.Write([]byte{Null, 0x00})
+		ltmp, err := marshalLength(len(oid))
+		if err != nil {
+			return nil, err
+		}
+		tmpBuf.Write([]byte{byte(ObjectIdentifier)})
+		tmpBuf.Write(ltmp)
+		tmpBuf.Write(oid)
+		tmpBuf.Write([]byte{Null, 0x00})
+
+		ltmp, err = marshalLength(tmpBuf.Len())
+		if err != nil {
+			return nil, err
+		}
+		pduBuf.Write([]byte{byte(Sequence)})
+		pduBuf.Write(ltmp)
+		tmpBuf.WriteTo(pduBuf)
 
 	/*
-		NUMBERS:
-
-		Integer32 and INTEGER:
+		snmp Integer32 and INTEGER:
 		-2^31 and 2^31-1 inclusive (-2147483648 to 2147483647 decimal)
+		(FYI https://groups.google.com/forum/#!topic/comp.protocols.snmp/1xaAMzCe_hE)
 
-		Counter32, Gauge32, TimeTicks, Unsigned32:
+		snmp Counter32, Gauge32, TimeTicks, Unsigned32:
 		non-negative integer, maximum value of 2^32-1 (4294967295 decimal)
 	*/
 
@@ -570,7 +644,7 @@ func marshalVarbind(pdu *SnmpPDU) ([]byte, error) {
 		pduBuf.Write(length)
 		pduBuf.Write(tmpBytes)
 
-	// MrSpock changes. TODO NO tests for this yet - waiting for .pcap
+	// TODO no tests
 	case IPAddress:
 		//Oid
 		tmpBuf.Write([]byte{byte(ObjectIdentifier), byte(len(oid))})
@@ -764,20 +838,20 @@ func (x *GoSNMP) unmarshalTrapV1(packet []byte, response *SnmpPacket) error {
 		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
 	}
 	cursor += count
-	if Enterpise, ok := rawEnterprise.([]int); ok {
-		response.Enterprise = Enterpise
-		x.logPrintf("Enterprise: %+v", Enterpise)
+	if Enterprise, ok := rawEnterprise.([]int); ok {
+		response.Enterprise = oidToString(Enterprise)
+		x.logPrintf("Enterprise: %+v", Enterprise)
 	}
 
-	// Parse AgentAddr
-	rawAgentAddr, count, err := parseRawField(packet[cursor:], "agent-addr")
+	// Parse AgentAddress
+	rawAgentAddress, count, err := parseRawField(packet[cursor:], "agent-address")
 	if err != nil {
 		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
 	}
 	cursor += count
-	if AgentAddr, ok := rawAgentAddr.(string); ok {
-		response.AgentAddr = AgentAddr
-		x.logPrintf("AgentAddr: %s", AgentAddr)
+	if AgentAddress, ok := rawAgentAddress.(string); ok {
+		response.AgentAddress = AgentAddress
+		x.logPrintf("AgentAddress: %s", AgentAddress)
 	}
 
 	// Parse GenericTrap
@@ -808,7 +882,7 @@ func (x *GoSNMP) unmarshalTrapV1(packet []byte, response *SnmpPacket) error {
 		return fmt.Errorf("Error parsing SNMP packet error: %s", err.Error())
 	}
 	cursor += count
-	if Timestamp, ok := rawTimestamp.(int); ok {
+	if Timestamp, ok := rawTimestamp.(uint); ok {
 		response.Timestamp = Timestamp
 		x.logPrintf("Timestamp: %d", Timestamp)
 	}

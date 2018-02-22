@@ -92,6 +92,15 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Label: "utf8", Hint: "255t"},
 			out: &Node{Oid: "1", Label: "utf8", Hint: "255t", Type: "DisplayString"},
 		},
+		// Opaques converted.
+		{
+			in:  &Node{Oid: "1", Type: "OPAQUE", TextualConvention: "Float"},
+			out: &Node{Oid: "1", Type: "Float", TextualConvention: "Float"},
+		},
+		{
+			in:  &Node{Oid: "1", Type: "OPAQUE", TextualConvention: "Double"},
+			out: &Node{Oid: "1", Type: "Double", TextualConvention: "Double"},
+		},
 	}
 	for i, c := range cases {
 		// Indexes always end up initilized.
@@ -242,6 +251,8 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.26", Access: "ACCESS_READONLY", Label: "MODCOMP", Type: "MODCOMP"},
 					{Oid: "1.27", Access: "ACCESS_READONLY", Label: "OBJIDENTITY", Type: "OBJIDENTITY"},
 					{Oid: "1.100", Access: "ACCESS_READONLY", Label: "MacAddress", Type: "OCTETSTR", Hint: "1x:"},
+					{Oid: "1.200", Access: "ACCESS_READONLY", Label: "Float", Type: "OPAQUE", TextualConvention: "Float"},
+					{Oid: "1.201", Access: "ACCESS_READONLY", Label: "Double", Type: "OPAQUE", TextualConvention: "Double"},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"root", "1.3"},
@@ -326,6 +337,18 @@ func TestGenerateConfigModule(t *testing.T) {
 						Oid:  "1.100",
 						Type: "PhysAddress48",
 						Help: " - 1.100",
+					},
+					{
+						Name: "Float",
+						Oid:  "1.200",
+						Type: "Float",
+						Help: " - 1.200",
+					},
+					{
+						Name: "Double",
+						Oid:  "1.201",
+						Type: "Double",
+						Help: " - 1.201",
 					},
 				},
 			},

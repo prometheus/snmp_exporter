@@ -21,6 +21,8 @@ module_name:
      #   OctetString: A bit string, rendered as 0xff34.
      #   DisplayString: An ASCII or UTF-8 string.
      #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
+     #   Float: A 32 bit floating-point value with type gauge.
+     #   Double: A 64 bit floating-point value with type gauge.
      # Non-numeric types are represented as a gauge with value 1, and the rendered value
      # as a label value on that gauge.
 

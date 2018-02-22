@@ -1,4 +1,4 @@
-// Copyright 2012-2016 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012-2018 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -115,7 +115,6 @@ var Default = &GoSNMP{
 
 // SnmpPDU will be used when doing SNMP Set's
 type SnmpPDU struct {
-
 	// Name is an oid in string format eg ".1.3.6.1.4.9.27"
 	Name string
 
@@ -130,15 +129,18 @@ type SnmpPDU struct {
 	Logger Logger
 }
 
+// AsnExtensionID mask to identify types > 30 in subsequent byte
+const AsnExtensionID = 0x1F
+
 // Asn1BER is the type of the SNMP PDU
 type Asn1BER byte
 
 // Asn1BER's - http://www.ietf.org/rfc/rfc1442.txt
 const (
 	EndOfContents     Asn1BER = 0x00
-	UnknownType               = 0x00 // TODO these should all be type Asn1BER, however
-	Boolean                   = 0x01 // tests fail if implemented. See for example
-	Integer                   = 0x02 /// http://stackoverflow.com/questions/5037610/typed-constant-declaration-list.
+	UnknownType               = 0x00
+	Boolean                   = 0x01
+	Integer                   = 0x02
 	BitString                 = 0x03
 	OctetString               = 0x04
 	Null                      = 0x05
@@ -152,6 +154,8 @@ const (
 	NsapAddress               = 0x45
 	Counter64                 = 0x46
 	Uinteger32                = 0x47
+	OpaqueFloat               = 0x78
+	OpaqueDouble              = 0x79
 	NoSuchObject              = 0x80
 	NoSuchInstance            = 0x81
 	EndOfMibView              = 0x82
