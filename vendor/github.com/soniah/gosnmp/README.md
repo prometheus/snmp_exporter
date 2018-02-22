@@ -11,12 +11,10 @@ IPv6, using __SNMPv2c__ or __SNMPv3__.
 About
 -----
 
-**soniah/gosnmp** is based on **alouca/gosnmp** - many thanks to Andreas
-Louca for starting the project, other contributors (AUTHORS.md) and
-these project collaborators:
+**soniah/gosnmp** was originally based on **alouca/gosnmp**, but has been
+completely rewritten. Many thanks to Andreas Louca, other contributors
+(AUTHORS.md) and these project collaborators:
 
-* Chris Dance ([@codedance](https://github.com/codedance/))
-* Nathan Owens ([@virtuallynathan](https://github.com/virtuallynathan/))
 * Whitham Reeve ([@wdreeveii](https://github.com/wdreeveii/))
 
 Sonia Hamilton, sonia@snowfrog.net, http://www.snowfrog.net.
@@ -31,17 +29,17 @@ GoSNMP has the following SNMP functions:
 * **GetBulk**
 * **Walk** - retrieves a subtree of values using GETNEXT.
 * **BulkWalk** - retrieves a subtree of values using GETBULK.
-* **Set** - supports Integers and OctetStrings
-* **SendTrap** - send TRAPs
-* **Listen** - act as an NMS for receiving TRAPs
+* **Set** - supports Integers and OctetStrings.
+* **SendTrap** - send SNMP TRAPs.
+* **Listen** - act as an NMS for receiving TRAPs.
 
 GoSNMP has the following **helper** functions:
 
 * **ToBigInt** - treat returned values as `*big.Int`
 * **Partition** - facilitates dividing up large slices of OIDs
 
-**soniah/gosnmp** has diverged _significantly_ from **alouca/gosnmp**.
-Your code will require modification in these (and other) locations:
+**soniah/gosnmp** has completely diverged from **alouca/gosnmp**, your code
+will require modification in these (and other) locations:
 
 * the **Get** function has a different method signature
 * the **NewGoSNMP** function has been removed, use **Connect** instead
@@ -163,6 +161,7 @@ The following BER types have been implemented:
 * 0x41 Counter32
 * 0x42 Gauge32
 * 0x43 TimeTicks
+* 0x44 Opaque (Float & Double)
 * 0x46 Counter64
 * 0x47 Uinteger32
 * 0x80 NoSuchObject
@@ -176,7 +175,6 @@ time or haven't been able to find example devices to query:
 * 0x01 Boolean
 * 0x03 BitString
 * 0x07 ObjectDescription
-* 0x44 Opaque
 * 0x45 NsapAddress
 
 Packet Captures
@@ -256,5 +254,5 @@ conditions as the Go language. The rest of the code is under a BSD license.
 
 See the LICENSE file for more details.
 
-The remaining code is Copyright 2012-2016 the GoSNMP Authors - see
+The remaining code is Copyright 2012-2018 the GoSNMP Authors - see
 AUTHORS.md for a list of authors.

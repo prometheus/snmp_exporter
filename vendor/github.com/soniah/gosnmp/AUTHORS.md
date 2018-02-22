@@ -2,6 +2,7 @@
 
 * Jon Auer (@jda)
 * Chris Dance (@codedance)
+* Michał Derkacz (michal@Lnet.pl)
 * Jacob Dubinsky (@jdubinsky)
 * Eduardo Ferro (@eferro)
 * Mattias Folke (@msfe)
@@ -12,6 +13,7 @@
 * Marcin Jurczuk (@mrspock)
 * Andreas Louca (@alouca)
 * Toni Moreno (@toni-moreno)
+* Patryk Najda (@patrox)
 * Nathan Owens (@virtuallynathan)
 * Whitham Reeve (@wdreeveii)
 * Benjamin Thomas (@benjamin-thomas)
