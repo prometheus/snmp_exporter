@@ -218,3 +218,40 @@ modules:
       - interfaces
       - ifXTable
       - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
+
+# pfSense
+# http://files.pfsense.org/misc/mibs/
+# http://files.pfsense.org/jimp/mibs/
+#
+  pfsense:
+    walk:
+      - interfaces
+      - ifXTable
+      - sysUpTime
+      - dskPercent
+      - dskPercentNode
+      - laLoadInt
+      - memAvailReal
+      - memAvailSwap
+      - memShared
+      - memBuffer
+      - memCached
+      - hrSystemUptime
+      - hrSystemNumUsers
+      - hrSystemProcesses
+      - hrProcessorLoad
+      - 1.3.6.1.4.1.2021.11 # UCD system stats
+      - 1.3.6.1.4.1.12325.1.200.1.1  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfStatus
+      - 1.3.6.1.4.1.12325.1.200.1.2  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfCounter
+      - 1.3.6.1.4.1.12325.1.200.1.3  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfStateTable
+      # not interesting
+      #- 1.3.6.1.4.1.12325.1.200.1.4  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfSrcNodes
+      #- 1.3.6.1.4.1.12325.1.200.1.5  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfLimits
+      #- 1.3.6.1.4.1.12325.1.200.1.6  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfTimeouts
+      - 1.3.6.1.4.1.12325.1.200.1.7  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfLogInterface
+      - 1.3.6.1.4.1.12325.1.200.1.8  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfInterfaces
+      # too much data, takes too long to scrape
+      #- 1.3.6.1.4.1.12325.1.200.1.9  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfTables
+      # not interesting
+      #- 1.3.6.1.4.1.12325.1.200.1.10  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfAltq
+      #- 1.3.6.1.4.1.12325.1.200.1.11  #SNMPv2-SMI::enterprises::BEGEMOT-PF-MIB::pfLabels
