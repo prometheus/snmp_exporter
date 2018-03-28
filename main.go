@@ -24,6 +24,8 @@ import (
 var (
 	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
 	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
+	defaultTarget = kingpin.Flag("target", "Target IP of the SNMP device to get metrics from").Default("127.0.0.1").String()
+	defaultModule = kingpin.Flag("module", "Which module to use from the config file by default").Default("if_mib").String()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
@@ -54,13 +56,11 @@ func init() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	target := r.URL.Query().Get("target")
 	if target == "" {
-		http.Error(w, "'target' parameter must be specified", 400)
-		snmpRequestErrors.Inc()
-		return
+		target = *defaultTarget
 	}
 	moduleName := r.URL.Query().Get("module")
 	if moduleName == "" {
-		moduleName = "if_mib"
+		moduleName = *defaultModule
 	}
 	sc.RLock()
 	module, ok := (*(sc.C))[moduleName]
