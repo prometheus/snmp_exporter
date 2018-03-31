@@ -114,6 +114,7 @@ Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mi
                    https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
                    https://www.arista.com/assets/data/docs/MIBS/ARISTA-SMI-MIB.txt
 * Synology: https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip
+* MikroTik: http://download2.mikrotik.com/Mikrotik.mib
 * UCD-SNMP-MIB (Net-SNMP): http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 * Ubiquiti Networks: http://dl.ubnt-ut.com/snmp/UBNT-MIB
                      http://dl.ubnt-ut.com/snmp/UBNT-UniFi-MIB
