@@ -218,3 +218,14 @@ modules:
       - interfaces
       - ifXTable
       - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
+
+# MiktoTik
+#
+# http://download2.mikrotik.com/Mikrotik.mib
+#
+  mikrotik:
+    walk:
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - 1.3.6.1.4.1.14988.1.1
