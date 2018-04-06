@@ -11,6 +11,7 @@ import (
 	"io"
 	"os"
 	"reflect"
+	"unsafe"
 )
 
 // "Real" names of basic kinds, used to differentiate type aliases.
@@ -39,6 +40,8 @@ var realKindName = map[reflect.Kind]string{
 	reflect.String:     "string",
 }
 
+var goStringerType = reflect.TypeOf((*fmt.GoStringer)(nil)).Elem()
+
 // Default prints to os.Stdout with two space indentation.
 var Default = New(os.Stdout, Indent("  "))
 
@@ -51,19 +54,39 @@ func Indent(indent string) Option { return func(o *Printer) { o.indent = indent 
 // NoIndent disables indenting.
 func NoIndent() Option { return Indent("") }
 
-// OmitEmpty omits empty field members from output.
-func OmitEmpty() Option { return func(o *Printer) { o.omitEmpty = true } }
+// OmitEmpty sets whether empty field members should be omitted from output.
+func OmitEmpty(omitEmpty bool) Option { return func(o *Printer) { o.omitEmpty = omitEmpty } }
+
+func IgnoreGoStringer() Option { return func(o *Printer) { o.ignoreGoStringer = true } }
+
+// Hide excludes the given types from representation, instead just printing the name of the type.
+func Hide(ts ...interface{}) Option {
+	return func(o *Printer) {
+		for _, t := range ts {
+			rt := reflect.Indirect(reflect.ValueOf(t)).Type()
+			fmt.Println(rt)
+			o.exclude[rt] = true
+		}
+	}
+}
 
 // Printer represents structs in a printable manner.
 type Printer struct {
-	indent    string
-	omitEmpty bool
-	w         io.Writer
+	indent           string
+	omitEmpty        bool
+	ignoreGoStringer bool
+	exclude          map[reflect.Type]bool
+	w                io.Writer
 }
 
 // New creates a new Printer on w with the given Options.
 func New(w io.Writer, options ...Option) *Printer {
-	p := &Printer{w: w}
+	p := &Printer{
+		w:         w,
+		indent:    "  ",
+		omitEmpty: true,
+		exclude:   map[reflect.Type]bool{},
+	}
 	for _, option := range options {
 		option(p)
 	}
@@ -86,20 +109,47 @@ func (p *Printer) thisIndent(indent string) string {
 
 // Print the values.
 func (p *Printer) Print(vs ...interface{}) {
-	for _, v := range vs {
+	for i, v := range vs {
+		if i > 0 {
+			fmt.Fprint(p.w, " ")
+		}
 		p.reprValue(reflect.ValueOf(v), "")
 	}
 }
 
 // Println prints each value on a new line.
 func (p *Printer) Println(vs ...interface{}) {
-	for _, v := range vs {
+	for i, v := range vs {
+		if i > 0 {
+			fmt.Fprint(p.w, " ")
+		}
 		p.reprValue(reflect.ValueOf(v), "")
-		fmt.Fprintln(p.w)
 	}
+	fmt.Fprintln(p.w)
 }
 
-func (p *Printer) reprValue(v reflect.Value, indent string) {
+func (p *Printer) reprValue(v reflect.Value, indent string) { // nolint: gocyclo
+	if (v.Kind() == reflect.Ptr || v.Kind() == reflect.Map || v.Kind() == reflect.Chan || v.Kind() == reflect.Slice || v.Kind() == reflect.Func || v.Kind() == reflect.Interface) && v.IsNil() {
+		fmt.Fprint(p.w, "nil")
+		return
+	}
+	if p.exclude[v.Type()] {
+		fmt.Fprint(p.w, v.Type().Name())
+		return
+	}
+	t := v.Type()
+	// If we can't access a private field directly with reflection, try and do so via unsafe.
+	if !v.CanInterface() && v.CanAddr() {
+		uv := reflect.NewAt(t, unsafe.Pointer(v.UnsafeAddr())).Elem()
+		if uv.CanInterface() {
+			v = uv
+		}
+	}
+	// Attempt to use fmt.GoStringer interface.
+	if t.Implements(goStringerType) {
+		fmt.Fprint(p.w, v.Interface().(fmt.GoStringer).GoString())
+		return
+	}
 	in := p.thisIndent(indent)
 	ni := p.nextIndent(indent)
 	switch v.Kind() {
@@ -126,10 +176,12 @@ func (p *Printer) reprValue(v reflect.Value, indent string) {
 			}
 			fmt.Fprintf(p.w, "%s}", in)
 		}
+
 	case reflect.Chan:
 		fmt.Fprintf(p.w, "make(")
 		fmt.Fprintf(p.w, "%s", v.Type())
 		fmt.Fprintf(p.w, ", %d)", v.Cap())
+
 	case reflect.Map:
 		fmt.Fprintf(p.w, "%s{", v.Type())
 		if p.indent != "" && v.Len() != 0 {
@@ -148,6 +200,7 @@ func (p *Printer) reprValue(v reflect.Value, indent string) {
 			}
 		}
 		fmt.Fprintf(p.w, "%s}", in)
+
 	case reflect.Struct:
 		fmt.Fprintf(p.w, "%s{", v.Type())
 		if p.indent != "" && v.NumField() != 0 {
@@ -168,6 +221,7 @@ func (p *Printer) reprValue(v reflect.Value, indent string) {
 			}
 		}
 		fmt.Fprintf(p.w, "%s}", indent)
+
 	case reflect.Ptr:
 		if v.IsNil() {
 			fmt.Fprintf(p.w, "nil")
@@ -175,21 +229,22 @@ func (p *Printer) reprValue(v reflect.Value, indent string) {
 		}
 		fmt.Fprintf(p.w, "&")
 		p.reprValue(v.Elem(), indent)
+
 	case reflect.String:
-		t := v.Type()
 		if t.Name() != "string" {
 			fmt.Fprintf(p.w, "%s(%q)", t, v.String())
 		} else {
 			fmt.Fprintf(p.w, "%q", v.String())
 		}
+
 	case reflect.Interface:
 		if v.IsNil() {
 			fmt.Fprintf(p.w, "interface {}(nil)")
 		} else {
 			p.reprValue(v.Elem(), indent)
 		}
+
 	default:
-		t := v.Type()
 		if t.Name() != realKindName[t.Kind()] {
 			fmt.Fprintf(p.w, "%s(%v)", t, v)
 		} else {
@@ -201,19 +256,33 @@ func (p *Printer) reprValue(v reflect.Value, indent string) {
 // String returns a string representing v.
 func String(v interface{}, options ...Option) string {
 	w := bytes.NewBuffer(nil)
+	options = append([]Option{NoIndent()}, options...)
 	p := New(w, options...)
 	p.Print(v)
 	return w.String()
 }
 
-// Print v to os.Stdout on one line.
-func Println(v interface{}, options ...Option) {
-	New(os.Stdout, options...).Println(v)
+func extractOptions(vs ...interface{}) (args []interface{}, options []Option) {
+	for _, v := range vs {
+		if o, ok := v.(Option); ok {
+			options = append(options, o)
+		} else {
+			args = append(args, v)
+		}
+	}
+	return
 }
 
-// Print writes a representation of v to w.
-func Print(w io.Writer, v interface{}, options ...Option) {
-	New(w, options...).Print(v)
+// Println prints v to os.Stdout, one per line.
+func Println(vs ...interface{}) {
+	args, options := extractOptions(vs...)
+	New(os.Stdout, options...).Println(args...)
+}
+
+// Print writes a representation of v to os.Stdout, separated by spaces.
+func Print(vs ...interface{}) {
+	args, options := extractOptions(vs...)
+	New(os.Stdout, options...).Print(args...)
 }
 
 func isZero(v reflect.Value) bool {
