@@ -485,10 +485,12 @@
 			"revisionTime": "2018-03-21T23:08:12Z"
 		},
 		{
-			"checksumSHA1": "m7jW9/geqk1flilV96ghdtmyups=",
+			"checksumSHA1": "yWf+7sHjS/4lV1AtW16qTfkZ+cs=",
 			"path": "github.com/sergi/go-diff/diffmatchpatch",
-			"revision": "feef008d51ad2b3778f85d387ccf91735543008d",
-			"revisionTime": "2017-04-09T07:17:39Z"
+			"revision": "1744e2970ca51c86172c8190fadad617561ed6e7",
+			"revisionTime": "2017-11-10T11:01:46Z",
+			"version": "v1.0.0",
+			"versionExact": "v1.0.0"
 		},
 		{
 			"checksumSHA1": "FvtGOzsmFq9a/AVQ4/Y/NTuT2Y0=",
