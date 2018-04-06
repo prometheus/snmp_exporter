@@ -749,10 +749,10 @@
 			"revisionTime": "2016-11-22T14:53:54Z"
 		},
 		{
-			"checksumSHA1": "E6R1JDPJiX6c6Qvo2StxUOrjdPU=",
+			"checksumSHA1": "kYoFzaj74aWr4QqlXH3JIYZb9Lc=",
 			"path": "gopkg.in/alecthomas/kingpin.v2",
-			"revision": "1087e65c9441605df944fb12c33f0fe7072d18ca",
-			"revisionTime": "2017-07-27T04:22:29Z"
+			"revision": "947dcec5ba9c011838740e680966fd7087a71d0d",
+			"revisionTime": "2017-12-17T18:08:21Z"
 		},
 		{
 			"checksumSHA1": "538I8ghUdvZa25NxgMUDpq14Qic=",
