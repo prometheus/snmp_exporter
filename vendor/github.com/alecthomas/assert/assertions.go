@@ -308,7 +308,7 @@ func Nil(t TestingT, object interface{}, msgAndArgs ...interface{}) {
 	if isNil(object) {
 		return
 	}
-	Fail(t, fmt.Sprintf("Expected nil, but got: %s", repr.String(object, repr.OmitEmpty())), msgAndArgs...)
+	Fail(t, fmt.Sprintf("Expected nil, but got: %s", repr.String(object, repr.OmitEmpty(true))), msgAndArgs...)
 }
 
 var numericZeros = []interface{}{
@@ -455,7 +455,7 @@ func False(t TestingT, value bool, msgAndArgs ...interface{}) {
 func NotEqual(t TestingT, expected, actual interface{}, msgAndArgs ...interface{}) {
 
 	if ObjectsAreEqual(expected, actual) {
-		Fail(t, fmt.Sprintf("Should not be: %s\n", repr.String(actual, repr.OmitEmpty())), msgAndArgs...)
+		Fail(t, fmt.Sprintf("Should not be: %s\n", repr.String(actual, repr.OmitEmpty(true))), msgAndArgs...)
 	}
 }
 
