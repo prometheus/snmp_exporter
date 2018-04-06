@@ -329,64 +329,76 @@
 			"revisionTime": "2017-07-05T02:17:15Z"
 		},
 		{
-			"checksumSHA1": "e/TLWmBvsNp6H1eQmfzg+r+blJs=",
+			"checksumSHA1": "7Z1K5tT45a0jIbLdpv4e+NgBtJ8=",
 			"path": "github.com/prometheus/client_golang/prometheus",
-			"revision": "94ff84a9a6ebb5e6eb9172897c221a64df3443bc",
-			"revisionTime": "2017-07-24T08:13:13Z"
+			"revision": "f504d69affe11ec1ccb2e5948127f86878c9fd57",
+			"revisionTime": "2018-03-28T13:04:30Z"
 		},
 		{
-			"checksumSHA1": "YcrFrl9EciyF2JR6mkfLb8uh4kw=",
+			"checksumSHA1": "JZ5qt3aNXRyyLo/tQ2b9jzOCG/o=",
 			"path": "github.com/prometheus/client_golang/prometheus/promhttp",
-			"revision": "94ff84a9a6ebb5e6eb9172897c221a64df3443bc",
-			"revisionTime": "2017-07-24T08:13:13Z"
+			"revision": "f504d69affe11ec1ccb2e5948127f86878c9fd57",
+			"revisionTime": "2018-03-28T13:04:30Z"
 		},
 		{
 			"checksumSHA1": "DvwvOlPNAgRntBzt3b3OSRMS2N4=",
 			"path": "github.com/prometheus/client_model/go",
-			"revision": "6f3806018612930941127f2a7c6c453ba2c527d2",
-			"revisionTime": "2017-02-16T18:52:47Z"
+			"revision": "99fa1f4be8e564e8a6b613da7fa6f46c9edafc6c",
+			"revisionTime": "2017-11-17T10:05:41Z"
 		},
 		{
-			"checksumSHA1": "akf1+pARz65GfJSddnFkfxesB+I=",
+			"checksumSHA1": "vo464ggyoUdwnLIc/ZwnUiI8wn4=",
 			"path": "github.com/prometheus/common/expfmt",
-			"revision": "61f87aac8082fa8c3c5655c7608d7478d46ac2ad",
-			"revisionTime": "2017-07-31T11:42:04Z"
+			"revision": "38c53a9f4bfcd932d1b00bfc65e256a7fba6b37a",
+			"revisionTime": "2018-03-26T16:04:09Z"
 		},
 		{
 			"checksumSHA1": "a1OXFmUUHuE4uYgNLx5U0Sv2reg=",
 			"path": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg",
-			"revision": "61f87aac8082fa8c3c5655c7608d7478d46ac2ad",
-			"revisionTime": "2017-07-31T11:42:04Z"
+			"revision": "38c53a9f4bfcd932d1b00bfc65e256a7fba6b37a",
+			"revisionTime": "2018-03-26T16:04:09Z"
 		},
 		{
-			"checksumSHA1": "DEoTI+WRJ24VYkbNXZ2YWqhlzx4=",
+			"checksumSHA1": "wGAW8/R2EGYVquOGmiTlaDyey4c=",
 			"path": "github.com/prometheus/common/log",
-			"revision": "61f87aac8082fa8c3c5655c7608d7478d46ac2ad",
-			"revisionTime": "2017-07-31T11:42:04Z"
+			"revision": "38c53a9f4bfcd932d1b00bfc65e256a7fba6b37a",
+			"revisionTime": "2018-03-26T16:04:09Z"
 		},
 		{
-			"checksumSHA1": "bRgmST1pb/lQfn6RErUF2TyXvS0=",
+			"checksumSHA1": "EfulBXq8lhaaFT3Ql3KK7wKqknk=",
 			"path": "github.com/prometheus/common/model",
-			"revision": "61f87aac8082fa8c3c5655c7608d7478d46ac2ad",
-			"revisionTime": "2017-07-31T11:42:04Z"
+			"revision": "38c53a9f4bfcd932d1b00bfc65e256a7fba6b37a",
+			"revisionTime": "2018-03-26T16:04:09Z"
 		},
 		{
 			"checksumSHA1": "91KYK0SpvkaMJJA2+BcxbVnyRO0=",
 			"path": "github.com/prometheus/common/version",
-			"revision": "61f87aac8082fa8c3c5655c7608d7478d46ac2ad",
-			"revisionTime": "2017-07-31T11:42:04Z"
+			"revision": "38c53a9f4bfcd932d1b00bfc65e256a7fba6b37a",
+			"revisionTime": "2018-03-26T16:04:09Z"
 		},
 		{
-			"checksumSHA1": "hTncqRYZh29wb0+0p56vT7Ib360=",
+			"checksumSHA1": "9oxnX0ir1N96IqFNupUdAUBf3o8=",
 			"path": "github.com/prometheus/procfs",
-			"revision": "e645f4e5aaa8506fc71d6edbc5c4ff02c04c46f2",
-			"revisionTime": "2017-07-03T10:12:42Z"
+			"revision": "780932d4fbbe0e69b84c34c20f5c8d0981e109ea",
+			"revisionTime": "2018-03-21T23:08:12Z"
 		},
 		{
-			"checksumSHA1": "PSFN2xptsMI+F7mOulD9zqqiLUA=",
+			"checksumSHA1": "lv9rIcjbVEGo8AT1UCUZXhXrfQc=",
+			"path": "github.com/prometheus/procfs/internal/util",
+			"revision": "780932d4fbbe0e69b84c34c20f5c8d0981e109ea",
+			"revisionTime": "2018-03-21T23:08:12Z"
+		},
+		{
+			"checksumSHA1": "ePbuc8umM/cDRZSKfz9IvNjO6Bo=",
+			"path": "github.com/prometheus/procfs/nfs",
+			"revision": "780932d4fbbe0e69b84c34c20f5c8d0981e109ea",
+			"revisionTime": "2018-03-21T23:08:12Z"
+		},
+		{
+			"checksumSHA1": "Eu4Ydg7PapmPw94tJnLGYgC+uok=",
 			"path": "github.com/prometheus/procfs/xfs",
-			"revision": "e645f4e5aaa8506fc71d6edbc5c4ff02c04c46f2",
-			"revisionTime": "2017-07-03T10:12:42Z"
+			"revision": "780932d4fbbe0e69b84c34c20f5c8d0981e109ea",
+			"revisionTime": "2018-03-21T23:08:12Z"
 		},
 		{
 			"checksumSHA1": "m7jW9/geqk1flilV96ghdtmyups=",
