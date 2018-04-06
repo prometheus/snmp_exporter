@@ -3,10 +3,10 @@
 	"ignore": "",
 	"package": [
 		{
-			"checksumSHA1": "NVK14tpLb26kPzIX67+uDXS4/y4=",
+			"checksumSHA1": "EWkNS2RuyT4H4fLa+CHFYVRaauk=",
 			"path": "github.com/alecthomas/assert",
-			"revision": "561411bbb7e98b005e520f4c0f491c2d23782048",
-			"revisionTime": "2016-08-29T03:56:08Z"
+			"revision": "405dbfeb8e38effee6e723317226e93fff912d06",
+			"revisionTime": "2017-09-29T04:30:11Z"
 		},
 		{
 			"checksumSHA1": "8I+BkG7C9re9G+SCa7NR+q6wwyc=",
@@ -15,10 +15,10 @@
 			"revisionTime": "2016-05-24T08:22:31Z"
 		},
 		{
-			"checksumSHA1": "QgdLcw5SRYg14F8LcgOkrr5iTw0=",
+			"checksumSHA1": "hlUAk/0gNG9u3y92RMRby/xfBAo=",
 			"path": "github.com/alecthomas/repr",
-			"revision": "d44565ca483f0ed23c2ac9cda62c966b116e77a3",
-			"revisionTime": "2016-08-29T00:29:23Z"
+			"revision": "07932d32eb40f059e08923e049c47a7d1e1b5ead",
+			"revisionTime": "2018-03-18T09:29:02Z"
 		},
 		{
 			"checksumSHA1": "eL44HknVGyM9pPBY/Lz9t5WUvpw=",
