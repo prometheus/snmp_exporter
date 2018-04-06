@@ -493,10 +493,12 @@
 			"versionExact": "v1.0.0"
 		},
 		{
-			"checksumSHA1": "FvtGOzsmFq9a/AVQ4/Y/NTuT2Y0=",
+			"checksumSHA1": "Y3SM63rTKw8VPLuSkCFP1BTULxI=",
 			"path": "github.com/sirupsen/logrus",
-			"revision": "84573d5f03ab3740f524c7842c3a9bf617961d32",
-			"revisionTime": "2017-08-21T07:31:01Z"
+			"revision": "c155da19408a8799da419ed3eeb0cb5db0ad5dbc",
+			"revisionTime": "2018-03-11T22:51:37Z",
+			"version": "v1.0.5",
+			"versionExact": "v1.0.5"
 		},
 		{
 			"checksumSHA1": "YBv42NkWiFP+5+kiXeEwTQ1oRQo=",
