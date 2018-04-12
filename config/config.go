@@ -16,12 +16,23 @@ func LoadFile(filename string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	cfg := &Config{}
-	err = yaml.Unmarshal(content, cfg)
+	cfg := Config{}
+	err = yaml.Unmarshal(content, &cfg)
 	if err != nil {
 		return nil, err
 	}
-	return cfg, nil
+
+	for _, module := range cfg {
+		if len(module.Include) == 0 {
+			continue
+		}
+
+		for _, moduleName := range module.Include {
+			module.IncludedModules = append(module.IncludedModules, cfg[moduleName])
+		}
+	}
+
+	return &cfg, nil
 }
 
 var (
@@ -66,6 +77,10 @@ type Module struct {
 	WalkParams WalkParams `yaml:",inline"`
 
 	XXX map[string]interface{} `yaml:",inline"`
+
+	IncludedModules []*Module   `yaml:"-"`
+	Include         []string    `yaml:"include"`
+	MetricTree      interface{} `yaml:"-"`
 }
 
 func (c *WalkParams) UnmarshalYAML(unmarshal func(interface{}) error) error {
