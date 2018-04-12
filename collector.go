@@ -66,22 +66,26 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	defer snmp.Conn.Close()
 
 	result := []gosnmp.SnmpPDU{}
-	for _, subtree := range config.Walk {
-		var pdus []gosnmp.SnmpPDU
-		log.Debugf("Walking target %q subtree %q", snmp.Target, subtree)
-		walkStart := time.Now()
-		if snmp.Version == gosnmp.Version1 {
-			pdus, err = snmp.WalkAll(subtree)
-		} else {
-			pdus, err = snmp.BulkWalkAll(subtree)
+	modules := append(config.IncludedModules, config)
+	for _, module := range modules {
+		for _, subtree := range module.Walk {
+			var pdus []gosnmp.SnmpPDU
+			log.Debugf("Walking target %q subtree %q", snmp.Target, subtree)
+			walkStart := time.Now()
+			if snmp.Version == gosnmp.Version1 {
+				pdus, err = snmp.WalkAll(subtree)
+			} else {
+				pdus, err = snmp.BulkWalkAll(subtree)
+			}
+			if err != nil {
+				return nil, fmt.Errorf("Error walking target %s: %s", snmp.Target, err)
+			} else {
+				log.Debugf("Walk of target %q subtree %q completed in %s", snmp.Target, subtree, time.Since(walkStart))
+			}
+			result = append(result, pdus...)
 		}
-		if err != nil {
-			return nil, fmt.Errorf("Error walking target %s: %s", snmp.Target, err)
-		} else {
-			log.Debugf("Walk of target %q subtree %q completed in %s", snmp.Target, subtree, time.Since(walkStart))
-		}
-		result = append(result, pdus...)
 	}
+
 	return result, nil
 }
 
@@ -91,11 +95,10 @@ type MetricNode struct {
 	children map[int]*MetricNode
 }
 
-// Build a tree of metrics from the config, for fast lookup when there's lots of them.
-func buildMetricTree(metrics []*config.Metric) *MetricNode {
-	metricTree := &MetricNode{children: map[int]*MetricNode{}}
+// Build a tree of metrics
+func buildMetricTree(tree *MetricNode, metrics []*config.Metric) {
 	for _, metric := range metrics {
-		head := metricTree
+		head := tree
 		for _, o := range oidToList(metric.Oid) {
 			_, ok := head.children[o]
 			if !ok {
@@ -105,6 +108,23 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 		}
 		head.metric = metric
 	}
+}
+
+// Build a tree of metrics from the config module and its included modules
+func buildModuleMetricTree(module *config.Module) *MetricNode {
+	if module.MetricTree != nil {
+		if tree, ok := module.MetricTree.(*MetricNode); ok {
+			return tree
+		}
+		module.MetricTree = nil
+	}
+
+	metricTree := &MetricNode{children: map[int]*MetricNode{}}
+	buildMetricTree(metricTree, module.Metrics)
+	for _, m := range module.IncludedModules {
+		buildMetricTree(metricTree, m.Metrics)
+	}
+	module.MetricTree = metricTree
 	return metricTree
 }
 
@@ -140,7 +160,7 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 		oidToPdu[pdu.Name[1:]] = pdu
 	}
 
-	metricTree := buildMetricTree(c.module.Metrics)
+	metricTree := buildModuleMetricTree(c.module)
 	// Look for metrics that match each pdu.
 PduLoop:
 	for oid, pdu := range oidToPdu {
