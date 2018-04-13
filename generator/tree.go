@@ -165,16 +165,18 @@ func searchNodeTree(oid string, node *Node) *Node {
 	return node
 }
 
+type oidMetricType uint8
+
 const (
-	OidNotFound = iota
-	OidDirect
-	OidInstance
-	OidSubtree
+	oidNotFound oidMetricType = iota
+	oidDirect
+	oidInstance
+	oidSubtree
 )
 
 func getOid(oid string, node *Node, nameToNode map[string]*Node) string {
 	_, oidNumber, oidType := getMetricNode(oid, node, nameToNode)
-	if oidType == OidNotFound {
+	if oidType == oidNotFound {
 		return ""
 	} else {
 		return oidNumber
@@ -182,35 +184,35 @@ func getOid(oid string, node *Node, nameToNode map[string]*Node) string {
 }
 
 // Find node in SNMP MIB tree that represents the metric.
-func getMetricNode(oid string, nodeHead *Node, nameToNode map[string]*Node) (*Node, string, int) {
+func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, string, oidMetricType) {
 	// Check if is a known OID/name
-	node, ok := nameToNode[oid]
+	n, ok := nameToNode[oid]
 	if ok {
 		// Known node, check if is a direct metric or a subtree.
-		_, ok = metricType(node.Type)
-		if ok && len(node.Indexes) == 0 {
-			return node, node.Oid, OidDirect
+		_, ok = metricType(n.Type)
+		if ok && len(n.Indexes) == 0 {
+			return n, n.Oid, oidDirect
 		} else {
-			return node, node.Oid, OidSubtree
+			return n, n.Oid, oidSubtree
 		}
 	}
 
 	// Unknown OID/name, search Node tree for longest match.
-	node = searchNodeTree(oid, nodeHead)
-	if node == nil {
-		return nil, "", OidNotFound
+	n = searchNodeTree(oid, node)
+	if n == nil {
+		return nil, "", oidNotFound
 	}
 
 	// Table instances must be a valid metric node and have an index.
 	// TODO: Validate index size matches the MIB index type.
-	_, ok = metricType(node.Type)
-	if !ok || len(node.Indexes) == 0 {
-		return nil, "", OidNotFound
+	_, ok = metricType(n.Type)
+	if !ok || len(n.Indexes) == 0 {
+		return nil, "", oidNotFound
 	}
-	return node, oid, OidInstance
+	return n, oid, oidInstance
 }
 
-func generateConfigModule(cfg *ModuleConfig, nodeHead *Node, nameToNode map[string]*Node) *config.Module {
+func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node) *config.Module {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 	tableInstances := map[string][]string{}
@@ -218,7 +220,7 @@ func generateConfigModule(cfg *ModuleConfig, nodeHead *Node, nameToNode map[stri
 	// Remove redundant OIDs to be walked.
 	toWalk := []string{}
 	for _, oid := range cfg.Walk {
-		oidNumber := getOid(oid, nodeHead, nameToNode)
+		oidNumber := getOid(oid, node, nameToNode)
 		if oidNumber == "" {
 			log.Fatalf("Cannot find oid '%s' to walk", oid)
 		}
@@ -228,23 +230,23 @@ func generateConfigModule(cfg *ModuleConfig, nodeHead *Node, nameToNode map[stri
 
 	// Find all the usable metrics.
 	for _, oid := range toWalk {
-		node, _, oidType := getMetricNode(oid, nodeHead, nameToNode)
+		metricNode, _, oidType := getMetricNode(oid, node, nameToNode)
 		switch oidType {
-		case OidDirect:
+		case oidDirect:
 			needToWalk[oid+"."] = struct{}{}
-		case OidSubtree:
+		case oidSubtree:
 			needToWalk[oid] = struct{}{}
-		case OidInstance:
+		case oidInstance:
 			needToWalk[oid+"."] = struct{}{}
 			// Save instance index for lookup.
-			index := strings.Replace(oid, node.Oid, "", 1)
-			tableInstances[node.Oid] = append(tableInstances[node.Oid], index)
+			index := strings.Replace(oid, metricNode.Oid, "", 1)
+			tableInstances[metricNode.Oid] = append(tableInstances[metricNode.Oid], index)
 			// Metric already added in previous OID.
-			if len(tableInstances[node.Oid]) > 1 {
+			if len(tableInstances[metricNode.Oid]) > 1 {
 				continue
 			}
 		}
-		walkNode(node, func(n *Node) {
+		walkNode(metricNode, func(n *Node) {
 			t, ok := metricType(n.Type)
 			if !ok {
 				return // Unsupported type.
