@@ -156,7 +156,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				Overrides: overrides,
 			},
 			out: &config.Module{
-				Walk: []string{"1"},
+				Get: []string{"1"},
 				Metrics: []*config.Metric{
 					{
 						Name:           "root",
@@ -175,7 +175,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"root"},
 			},
 			out: &config.Module{
-				Walk: []string{"1"},
+				Get: []string{"1"},
 				Metrics: []*config.Metric{
 					{
 						Name: "root",
@@ -186,14 +186,35 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Can also provide OIDs to walk.
+		// Simple walk.
+		{
+			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "node"},
+				}},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "node",
+						Oid:  "1.1",
+						Type: "gauge",
+						Help: " - 1.1",
+					},
+				},
+			},
+		},
+		// Can also provide OIDs to get.
 		{
 			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
 			},
 			out: &config.Module{
-				Walk: []string{"1"},
+				Get: []string{"1"},
 				Metrics: []*config.Metric{
 					{
 						Name: "root",
@@ -211,7 +232,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1", "root"},
 			},
 			out: &config.Module{
-				Walk: []string{"1"},
+				Get: []string{"1"},
 				Metrics: []*config.Metric{
 					{
 						Name: "root",
@@ -799,6 +820,253 @@ func TestGenerateConfigModule(t *testing.T) {
 								Labelname: "octet_Desc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.2",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Validate table and instance conflict
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.2.100", "1.1.1.2"},
+			},
+			out: &config.Module{
+				Walk: []string{"1.1.1.2"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableFoo",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Validate table instances
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.2.100", "1.1.1.2.200"},
+			},
+			out: &config.Module{
+				Get: []string{"1.1.1.2.100", "1.1.1.2.200"},
+				// Single metric
+				Metrics: []*config.Metric{
+					{
+						Name: "tableFoo",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Validate multiple rows of table instances
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableDesc", Type: "OCTETSTR"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.2.100", "1.1.1.3.200"},
+			},
+			out: &config.Module{
+				Get: []string{"1.1.1.2.100", "1.1.1.3.200"},
+				// Single metric
+				Metrics: []*config.Metric{
+					{
+						Name: "tableFoo",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+					{
+						Name: "tableDesc",
+						Oid:  "1.1.1.3",
+						Type: "OctetString",
+						Help: " - 1.1.1.3",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Validate table instances with lookup not walked
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableDesc", Type: "OCTETSTR"},
+									{Oid: "1.1.1.4", Access: "ACCESS_READONLY", Label: "tableBar", Type: "INTEGER"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.2.100", "1.1.1.4.100", "1.1.1.2.200"},
+				Lookups: []*Lookup{
+					{
+						OldIndex: "tableIndex",
+						NewIndex: "tableDesc",
+					},
+				},
+			},
+			out: &config.Module{
+				Get: []string{"1.1.1.2.100", "1.1.1.2.200", "1.1.1.3.100", "1.1.1.3.200", "1.1.1.4.100"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableFoo",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableDesc",
+								Type:      "gauge",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"tableDesc"},
+								Labelname: "tableDesc",
+								Type:      "OctetString",
+								Oid:       "1.1.1.3",
+							},
+						},
+					},
+					{
+						Name: "tableBar",
+						Oid:  "1.1.1.4",
+						Type: "gauge",
+						Help: " - 1.1.1.4",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableDesc",
+								Type:      "gauge",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"tableDesc"},
+								Labelname: "tableDesc",
+								Type:      "OctetString",
+								Oid:       "1.1.1.3",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Validate specific table instances with lookup walked
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableDesc", Type: "OCTETSTR"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.2.100", "1.1.1.3"},
+				Lookups: []*Lookup{
+					{
+						OldIndex: "tableIndex",
+						NewIndex: "tableDesc",
+					},
+				},
+			},
+			out: &config.Module{
+				Get:  []string{"1.1.1.2.100"},
+				Walk: []string{"1.1.1.3"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableFoo",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableDesc",
+								Type:      "gauge",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"tableDesc"},
+								Labelname: "tableDesc",
+								Type:      "OctetString",
+								Oid:       "1.1.1.3",
+							},
+						},
+					},
+					{
+						Name: "tableDesc",
+						Oid:  "1.1.1.3",
+						Type: "OctetString",
+						Help: " - 1.1.1.3",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableDesc",
+								Type:      "gauge",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"tableDesc"},
+								Labelname: "tableDesc",
+								Type:      "OctetString",
+								Oid:       "1.1.1.3",
 							},
 						},
 					},

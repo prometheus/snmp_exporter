@@ -66,6 +66,29 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	defer snmp.Conn.Close()
 
 	result := []gosnmp.SnmpPDU{}
+	getOids := config.Get
+	maxOids := int(config.WalkParams.MaxRepetitions)
+	// Max Repetition can be 0, maxOids cannot
+	if maxOids == 0 {
+		maxOids = 1
+	}
+	for len(getOids) > 0 {
+		oids := len(getOids)
+		if oids > maxOids {
+			oids = maxOids
+		}
+
+		getStart := time.Now()
+		packet, err := snmp.Get(getOids[:oids])
+		if err != nil {
+			return nil, fmt.Errorf("Error getting target %s: %s", snmp.Target, err)
+		} else {
+			log.Debugf("Get of %d OIDs completed in %s", oids, time.Since(getStart))
+		}
+		result = append(result, packet.Variables...)
+		getOids = getOids[oids:]
+	}
+
 	for _, subtree := range config.Walk {
 		var pdus []gosnmp.SnmpPDU
 		log.Debugf("Walking target %q subtree %q", snmp.Target, subtree)
