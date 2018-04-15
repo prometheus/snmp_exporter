@@ -55,8 +55,6 @@ type WalkParams struct {
 	Retries        int           `yaml:"retries,omitempty"`
 	Timeout        time.Duration `yaml:"timeout,omitempty"`
 	Auth           Auth          `yaml:"auth,omitempty"`
-
-	XXX map[string]interface{} `yaml:",inline"`
 }
 
 type Module struct {
@@ -64,17 +62,12 @@ type Module struct {
 	Walk       []string   `yaml:"walk"`
 	Metrics    []*Metric  `yaml:"metrics"`
 	WalkParams WalkParams `yaml:",inline"`
-
-	XXX map[string]interface{} `yaml:",inline"`
 }
 
 func (c *WalkParams) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultWalkParams
 	type plain WalkParams
 	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 
@@ -109,9 +102,6 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultModule
 	type plain Module
 	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
@@ -182,16 +172,11 @@ type Index struct {
 	Labelname string `yaml:"labelname"`
 	Type      string `yaml:"type"`
 	FixedSize int    `yaml:"fixed_size,omitempty"`
-
-	XXX map[string]interface{} `yaml:",inline"`
 }
 
 func (c *Index) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	type plain Index
 	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
@@ -202,16 +187,11 @@ type Lookup struct {
 	Labelname string   `yaml:"labelname"`
 	Oid       string   `yaml:"oid"`
 	Type      string   `yaml:"type"`
-
-	XXX map[string]interface{} `yaml:",inline"`
 }
 
 func (c *Lookup) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	type plain Lookup
 	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	if err := CheckOverflow(c.XXX, "module"); err != nil {
 		return err
 	}
 	return nil
@@ -251,8 +231,6 @@ type Auth struct {
 	PrivProtocol  string `yaml:"priv_protocol,omitempty"`
 	PrivPassword  Secret `yaml:"priv_password,omitempty"`
 	ContextName   string `yaml:"context_name,omitempty"`
-
-	XXX map[string]interface{} `yaml:",inline"`
 }
 
 func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -261,26 +239,18 @@ func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
-	if err := CheckOverflow(c.XXX, "module"); err != nil {
-		return err
-	}
 	return nil
 }
 
 type RegexpExtract struct {
 	Value string `yaml:"value"`
 	Regex Regexp `yaml:"regex"`
-
-	XXX map[string]interface{} `yaml:",inline"`
 }
 
 func (c *RegexpExtract) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultRegexpExtract
 	type plain RegexpExtract
 	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	if err := CheckOverflow(c.XXX, "regex_extract"); err != nil {
 		return err
 	}
 	return nil
