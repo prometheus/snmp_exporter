@@ -26,7 +26,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 		log.Fatalf("Error reading yml config: %s", err)
 	}
 	cfg := &Config{}
-	err = yaml.Unmarshal(content, cfg)
+	err = yaml.UnmarshalStrict(content, cfg)
 	if err != nil {
 		log.Fatalf("Error parsing yml config: %s", err)
 	}
@@ -47,7 +47,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	}
 
 	// Check the generated config to catch auth/version issues.
-	err = yaml.Unmarshal(out, &config.Config{})
+	err = yaml.UnmarshalStrict(out, &config.Config{})
 	if err != nil {
 		log.Fatalf("Error parsing generated config: %s", err)
 	}

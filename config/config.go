@@ -17,7 +17,7 @@ func LoadFile(filename string) (*Config, error) {
 		return nil, err
 	}
 	cfg := &Config{}
-	err = yaml.Unmarshal(content, cfg)
+	err = yaml.UnmarshalStrict(content, cfg)
 	if err != nil {
 		return nil, err
 	}
