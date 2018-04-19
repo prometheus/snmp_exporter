@@ -68,7 +68,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	result := []gosnmp.SnmpPDU{}
 	getOids := config.Get
 	maxOids := int(config.WalkParams.MaxRepetitions)
-	// Max Repetition can be 0, maxOids cannot
+	// Max Repetition can be 0, maxOids cannot.
 	if maxOids == 0 {
 		maxOids = 1
 	}

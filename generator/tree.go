@@ -188,7 +188,7 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 	// Check if is a known OID/name
 	n, ok := nameToNode[oid]
 	if ok {
-		// Known node, check if is a direct metric or a subtree.
+		// Known node, check if OID is a valid metric or a subtree.
 		_, ok = metricType(n.Type)
 		if ok && len(n.Indexes) == 0 {
 			return n, n.Oid, oidDirect
@@ -204,7 +204,6 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 	}
 
 	// Table instances must be a valid metric node and have an index.
-	// TODO: Validate index size matches the MIB index type.
 	_, ok = metricType(n.Type)
 	if !ok || len(n.Indexes) == 0 {
 		return nil, "", oidNotFound
@@ -229,23 +228,31 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	toWalk = minimizeOids(toWalk)
 
 	// Find all the usable metrics.
+	metricNodes := []*Node{}
 	for _, oid := range toWalk {
 		metricNode, _, oidType := getMetricNode(oid, node, nameToNode)
 		switch oidType {
 		case oidDirect:
+			// Add a trailing period to the OID to indicate a "Get" instead of a "Walk"
 			needToWalk[oid+"."] = struct{}{}
+			metricNodes = append(metricNodes, metricNode)
 		case oidSubtree:
 			needToWalk[oid] = struct{}{}
+			metricNodes = append(metricNodes, metricNode)
 		case oidInstance:
 			needToWalk[oid+"."] = struct{}{}
 			// Save instance index for lookup.
 			index := strings.Replace(oid, metricNode.Oid, "", 1)
 			tableInstances[metricNode.Oid] = append(tableInstances[metricNode.Oid], index)
-			// Metric already added in previous OID.
-			if len(tableInstances[metricNode.Oid]) > 1 {
-				continue
+			// First instance of that metric
+			if len(tableInstances[metricNode.Oid]) == 1 {
+				metricNodes = append(metricNodes, metricNode)
 			}
 		}
+	}
+
+	//  metrics list for the exporter
+	for _, metricNode := range metricNodes {
 		walkNode(metricNode, func(n *Node) {
 			t, ok := metricType(n.Type)
 			if !ok {

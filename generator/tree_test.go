@@ -908,7 +908,6 @@ func TestGenerateConfigModule(t *testing.T) {
 			},
 			out: &config.Module{
 				Get: []string{"1.1.1.2.100", "1.1.1.3.200"},
-				// Single metric
 				Metrics: []*config.Metric{
 					{
 						Name: "tableFoo",
