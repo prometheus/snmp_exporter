@@ -227,7 +227,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	}
 	toWalk = minimizeOids(toWalk)
 
-	// Find all the usable metrics.
+	// Find all top-level nodes.
 	metricNodes := []*Node{}
 	for _, oid := range toWalk {
 		metricNode, _, oidType := getMetricNode(oid, node, nameToNode)
@@ -251,7 +251,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		}
 	}
 
-	//  metrics list for the exporter
+	// Find all the usable metrics.
 	for _, metricNode := range metricNodes {
 		walkNode(metricNode, func(n *Node) {
 			t, ok := metricType(n.Type)
