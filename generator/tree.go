@@ -240,7 +240,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		}
 		metricNodes[metricNode] = struct{}{}
 	}
-	// Sort the metrics by OID make the output deterministic.
+	// Sort the metrics by OID to make the output deterministic.
 	metrics := make([]*Node, 0, len(metricNodes))
 	for key := range metricNodes {
 		metrics = append(metrics, key)
