@@ -59,7 +59,8 @@ type WalkParams struct {
 
 type Module struct {
 	// A list of OIDs.
-	Walk       []string   `yaml:"walk"`
+	Walk       []string   `yaml:"walk,omitempty"`
+	Get        []string   `yaml:"get,omitempty"`
 	Metrics    []*Metric  `yaml:"metrics"`
 	WalkParams WalkParams `yaml:",inline"`
 }

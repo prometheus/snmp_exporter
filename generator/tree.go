@@ -150,26 +150,108 @@ func minimizeOids(oids []string) []string {
 	return minimized
 }
 
+// Search node tree for the longest OID match.
+func searchNodeTree(oid string, node *Node) *Node {
+	if node == nil || !strings.HasPrefix(oid+".", node.Oid+".") {
+		return nil
+	}
+
+	for _, child := range node.Children {
+		match := searchNodeTree(oid, child)
+		if match != nil {
+			return match
+		}
+	}
+	return node
+}
+
+type oidMetricType uint8
+
+const (
+	oidNotFound oidMetricType = iota
+	oidDirect
+	oidInstance
+	oidSubtree
+)
+
+// Find node in SNMP MIB tree that represents the metric.
+func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, oidMetricType) {
+	// Check if is a known OID/name.
+	n, ok := nameToNode[oid]
+	if ok {
+		// Known node, check if OID is a valid metric or a subtree.
+		_, ok = metricType(n.Type)
+		if ok && len(n.Indexes) == 0 {
+			return n, oidDirect
+		} else {
+			return n, oidSubtree
+		}
+	}
+
+	// Unknown OID/name, search Node tree for longest match.
+	n = searchNodeTree(oid, node)
+	if n == nil {
+		return nil, oidNotFound
+	}
+
+	// Table instances must be a valid metric node and have an index.
+	_, ok = metricType(n.Type)
+	if !ok || len(n.Indexes) == 0 {
+		return nil, oidNotFound
+	}
+	return n, oidInstance
+}
+
 func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node) *config.Module {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
+	tableInstances := map[string][]string{}
 
 	// Remove redundant OIDs to be walked.
 	toWalk := []string{}
 	for _, oid := range cfg.Walk {
-		node, ok := nameToNode[oid]
-		if !ok {
-			log.Fatalf("Cannot find oid '%s' to walk", oid)
+		// Resolve name to OID if possible.
+		n, ok := nameToNode[oid]
+		if ok {
+			toWalk = append(toWalk, n.Oid)
+		} else {
+			toWalk = append(toWalk, oid)
 		}
-		toWalk = append(toWalk, node.Oid)
 	}
 	toWalk = minimizeOids(toWalk)
 
-	// Find all the usable metrics.
+	// Find all top-level nodes.
+	metricNodes := map[*Node]struct{}{}
 	for _, oid := range toWalk {
-		node := nameToNode[oid]
-		needToWalk[node.Oid] = struct{}{}
-		walkNode(node, func(n *Node) {
+		metricNode, oidType := getMetricNode(oid, node, nameToNode)
+		switch oidType {
+		case oidNotFound:
+			log.Fatalf("Cannot find oid '%s' to walk", oid)
+		case oidDirect:
+			// Add a trailing period to the OID to indicate a "Get" instead of a "Walk".
+			needToWalk[oid+"."] = struct{}{}
+		case oidSubtree:
+			needToWalk[oid] = struct{}{}
+		case oidInstance:
+			needToWalk[oid+"."] = struct{}{}
+			// Save instance index for lookup.
+			index := strings.Replace(oid, metricNode.Oid, "", 1)
+			tableInstances[metricNode.Oid] = append(tableInstances[metricNode.Oid], index)
+		}
+		metricNodes[metricNode] = struct{}{}
+	}
+	// Sort the metrics by OID to make the output deterministic.
+	metrics := make([]*Node, 0, len(metricNodes))
+	for key := range metricNodes {
+		metrics = append(metrics, key)
+	}
+	sort.Slice(metrics, func(i, j int) bool {
+		return metrics[i].Oid < metrics[j].Oid
+	})
+
+	// Find all the usable metrics.
+	for _, metricNode := range metrics {
+		walkNode(metricNode, func(n *Node) {
 			t, ok := metricType(n.Type)
 			if !ok {
 				return // Unsupported type.
@@ -227,8 +309,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 						Type:      typ,
 						Oid:       indexNode.Oid,
 					})
-					// Make sure we walk the lookup OID
-					needToWalk[indexNode.Oid] = struct{}{}
+					// Make sure we walk the lookup OID(s).
+					if len(tableInstances[metric.Oid]) > 0 {
+						for _, index := range tableInstances[metric.Oid] {
+							needToWalk[indexNode.Oid+index+"."] = struct{}{}
+						}
+					} else {
+						needToWalk[indexNode.Oid] = struct{}{}
+					}
 				}
 			}
 		}
@@ -247,8 +335,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	for k, _ := range needToWalk {
 		oids = append(oids, k)
 	}
-	// Remove redundant OIDs to be walked.
-	out.Walk = minimizeOids(oids)
+	// Remove redundant OIDs and separate Walk and Get OIDs.
+	for _, k := range minimizeOids(oids) {
+		if k[len(k)-1:] == "." {
+			out.Get = append(out.Get, k[:len(k)-1])
+		} else {
+			out.Walk = append(out.Walk, k)
+		}
+	}
 	return out
 }
 

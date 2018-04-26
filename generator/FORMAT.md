@@ -8,8 +8,11 @@ module_name:
   # There's various auth/version options here too. See the main README.
   walk:
     # List of OID subtrees to walk.
-    - 1.3.6.1.2.1.1.3
     - 1.3.6.1.2.1.2
+    - 1.3.6.1.2.1.31.1.1
+  get:
+    # List of OIDs to get directly.
+    - 1.3.6.1.2.1.1.3
   metrics:      # List of metrics to extract.
      # A simple metric with no labels.
    - name:  sysUpTime
