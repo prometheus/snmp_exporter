@@ -156,7 +156,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				Overrides: overrides,
 			},
 			out: &config.Module{
-				Get: []string{"1"},
+				Get: []string{"1.0"},
 				Metrics: []*config.Metric{
 					{
 						Name:           "root",
@@ -175,7 +175,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"root"},
 			},
 			out: &config.Module{
-				Get: []string{"1"},
+				Get: []string{"1.0"},
 				Metrics: []*config.Metric{
 					{
 						Name: "root",
@@ -214,7 +214,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1"},
 			},
 			out: &config.Module{
-				Get: []string{"1"},
+				Get: []string{"1.0"},
 				Metrics: []*config.Metric{
 					{
 						Name: "root",
@@ -232,7 +232,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1", "root"},
 			},
 			out: &config.Module{
-				Get: []string{"1"},
+				Get: []string{"1.0"},
 				Metrics: []*config.Metric{
 					{
 						Name: "root",
