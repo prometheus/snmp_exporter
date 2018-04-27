@@ -113,11 +113,8 @@ func metricType(t string) (string, bool) {
 		return "counter", true
 	case "OCTETSTR", "BITSTRING":
 		return "OctetString", true
-	case "IPADDR":
+	case "IPADDR", "NETADDR":
 		return "IpAddr", true
-	case "NETADDR":
-		// TODO: Not sure about this one.
-		return "InetAddress", true
 	case "PhysAddress48", "DisplayString", "Float", "Double":
 		return t, true
 	default:
