@@ -45,6 +45,10 @@ const (
 
 // UsmSecurityParameters is an implementation of SnmpV3SecurityParameters for the UserSecurityModel
 type UsmSecurityParameters struct {
+	// localAESSalt must be 64bit aligned to use with atomic operations.
+	localAESSalt uint64
+	localDESSalt uint32
+
 	AuthoritativeEngineID    string
 	AuthoritativeEngineBoots uint32
 	AuthoritativeEngineTime  uint32
@@ -60,9 +64,6 @@ type UsmSecurityParameters struct {
 
 	secretKey  []byte
 	privacyKey []byte
-
-	localDESSalt uint32
-	localAESSalt uint64
 
 	Logger Logger
 }

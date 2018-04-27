@@ -6,7 +6,8 @@ https://github.com/soniah/gosnmp
 
 GoSNMP is an SNMP client library fully written in Go. It provides Get,
 GetNext, GetBulk, Walk, BulkWalk, Set and Traps. It supports IPv4 and
-IPv6, using __SNMPv2c__ or __SNMPv3__.
+IPv6, using __SNMPv2c__ or __SNMPv3__. Builds are tested against
+linux/amd64 and linux/386.
 
 About
 -----
@@ -69,6 +70,29 @@ Install via **go get**:
 
 ```shell
 go get github.com/soniah/gosnmp
+```
+
+Using dependency managers
+-------------------------
+
+By default the `dep` tool uses versioning, which is not implemented by this
+repository. To use this package with `dep`, please add the following to
+`godep.toml` or replace the existing declaration:
+
+Change from:
+
+```toml
+[[constraint]]
+  name = "github.com/soniah/gosnmp"
+  version = "1.0.0"
+```
+
+To:
+
+```toml
+[[constraint]]
+  name = "github.com/soniah/gosnmp"
+  branch = "master"
 ```
 
 Documentation

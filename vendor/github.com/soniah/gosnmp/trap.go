@@ -9,6 +9,7 @@ import (
 	"log"
 	"net"
 	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -96,7 +97,7 @@ type TrapListener struct {
 	// These unexported fields are for letting test cases
 	// know we are ready.
 	conn      *net.UDPConn
-	finish    chan bool
+	finish    int32 // Atomic flag; set to 1 when closing connection
 	done      chan bool
 	listening chan bool
 }
@@ -104,7 +105,7 @@ type TrapListener struct {
 // NewTrapListener returns an initialized TrapListener.
 func NewTrapListener() *TrapListener {
 	tl := &TrapListener{}
-	tl.finish = make(chan bool)
+	tl.finish = 0
 	tl.done = make(chan bool)
 	// Buffered because one doesn't have to block on it.
 	tl.listening = make(chan bool, 1)
@@ -121,9 +122,11 @@ func (t *TrapListener) Listening() <-chan bool {
 
 // Close terminates the listening on TrapListener socket
 func (t *TrapListener) Close() {
-	t.conn.Close()
-	t.finish <- true
-	<-t.done
+	// Prevent concurrent calls to Close
+	if atomic.CompareAndSwapInt32(&t.finish, 0, 1) {
+		t.conn.Close()
+		<-t.done
+	}
 }
 
 // Listen listens on the UDP address addr and calls the OnNewTrap
@@ -153,8 +156,8 @@ func (t *TrapListener) Listen(addr string) (err error) {
 	t.listening <- true
 
 	for {
-		select {
-		case <-t.finish:
+		switch {
+		case atomic.LoadInt32(&t.finish) == 1:
 			t.done <- true
 			return
 
@@ -162,7 +165,12 @@ func (t *TrapListener) Listen(addr string) (err error) {
 			var buf [4096]byte
 			rlen, remote, err := conn.ReadFromUDP(buf[:])
 			if err != nil {
+				if atomic.LoadInt32(&t.finish) == 1 {
+					// err most likely comes from reading from a closed connection
+					continue
+				}
 				t.Params.logPrintf("TrapListener: error in read %s\n", err)
+				continue
 			}
 
 			msg := buf[:rlen]
@@ -171,7 +179,6 @@ func (t *TrapListener) Listen(addr string) (err error) {
 				t.OnNewTrap(traps, remote)
 			}
 		}
-
 	}
 }
 

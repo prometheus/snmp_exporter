@@ -501,10 +501,10 @@
 			"versionExact": "v1.0.5"
 		},
 		{
-			"checksumSHA1": "YBv42NkWiFP+5+kiXeEwTQ1oRQo=",
+			"checksumSHA1": "7MI5mY9AdzMD7PNQy1v2KSWnxEs=",
 			"path": "github.com/soniah/gosnmp",
-			"revision": "f15472a4cd6f6ea7929e4c7d9f163c49f059924f",
-			"revisionTime": "2018-02-19T07:25:37Z"
+			"revision": "bcf840db66be7d64bf96c3c0e075c92e3d98f793",
+			"revisionTime": "2018-04-20T13:00:27Z"
 		},
 		{
 			"checksumSHA1": "Ua5E6ReFBwEnuWLJtVSUfOp/Pqc=",
