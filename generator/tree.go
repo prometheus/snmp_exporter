@@ -18,7 +18,7 @@ func walkNode(n *Node, f func(n *Node)) {
 	}
 }
 
-// Transform the tree
+// Transform the tree.
 func prepareTree(nodes *Node) map[string]*Node {
 	// Build a map from names and oids to nodes.
 	nameToNode := map[string]*Node{}
@@ -34,7 +34,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 	})
 
 	// Fix indexes to "INTEGER" rather than an object name.
-	// Example: snSlotsEntry in LANOPTICS-HUB-MIB
+	// Example: snSlotsEntry in LANOPTICS-HUB-MIB.
 	walkNode(nodes, func(n *Node) {
 		indexes := []string{}
 		for _, i := range n.Indexes {
@@ -237,7 +237,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			index := strings.Replace(oid, metricNode.Oid, "", 1)
 			tableInstances[metricNode.Oid] = append(tableInstances[metricNode.Oid], index)
 		case oidScalar:
-			// Scalar OIDs must be accessed using index 0
+			// Scalar OIDs must be accessed using index 0.
 			needToWalk[oid+".0."] = struct{}{}
 		}
 		metricNodes[metricNode] = struct{}{}

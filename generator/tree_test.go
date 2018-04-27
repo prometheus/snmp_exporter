@@ -243,6 +243,28 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Scalar root with instance child
+		{
+			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root",
+				Children: []*Node{
+					{Oid: "1.0", Type: "OTHER", Label: "rootInstance"},
+				}},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+			},
+			out: &config.Module{
+				Get: []string{"1.0"},
+				Metrics: []*config.Metric{
+					{
+						Name: "root",
+						Oid:  "1",
+						Type: "gauge",
+						Help: " - 1",
+					},
+				},
+			},
+		},
+
 		// Metric types.
 		{
 			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
