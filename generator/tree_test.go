@@ -296,7 +296,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "NETADDR",
 						Oid:  "1.4",
-						Type: "InetAddress",
+						Type: "IpAddr",
 						Help: " - 1.4",
 					},
 					{
@@ -589,11 +589,11 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "netaddrIndex",
 						Oid:  "1.4.1.1",
 						Help: " - 1.4.1.1",
-						Type: "InetAddress",
+						Type: "IpAddr",
 						Indexes: []*config.Index{
 							{
 								Labelname: "netaddrIndex",
-								Type:      "InetAddress",
+								Type:      "IpAddr",
 							},
 						},
 					},
@@ -605,7 +605,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Indexes: []*config.Index{
 							{
 								Labelname: "netaddrIndex",
-								Type:      "InetAddress",
+								Type:      "IpAddr",
 							},
 						},
 					},

@@ -379,31 +379,6 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int) (string, []in
 		}
 		// ASCII, so can convert staight to utf-8.
 		return string(parts), subOid, indexOids
-	case "InetAddress":
-		addressType, indexOids := splitOid(indexOids, 1)
-		octets, indexOids := splitOid(indexOids, 1)
-		address, indexOids := splitOid(indexOids, octets[0])
-		subOid := append(addressType, octets...)
-		subOid = append(subOid, address...)
-		if addressType[0] == 1 { // IPv4.
-			parts := make([]string, 4)
-			for i, o := range address {
-				parts[i] = strconv.Itoa(o)
-			}
-			return strings.Join(parts, "."), subOid, indexOids
-		} else if addressType[0] == 2 { // IPv6.
-			parts := make([]string, 8)
-			for i := 0; i < 8; i++ {
-				parts[i] = fmt.Sprintf("%02X%02X", address[i*2], address[i*2+1])
-			}
-			return strings.Join(parts, ":"), subOid, indexOids
-		} else { // Unknown, treat as OctetString.
-			parts := make([]byte, octets[0])
-			for i, o := range address {
-				parts[i] = byte(o)
-			}
-			return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
-		}
 	case "IpAddr":
 		subOid, indexOids := splitOid(indexOids, 4)
 		parts := make([]string, 4)
