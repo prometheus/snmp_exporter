@@ -243,7 +243,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Scalar root with instance child
+		// Scalar root with instance child.
 		{
 			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root",
 				Children: []*Node{
@@ -848,7 +848,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Validate table and instance conflict
+		// Validate table and instance conflict.
 		{
 			node: &Node{Oid: "1", Label: "root",
 				Children: []*Node{
@@ -880,7 +880,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Validate table instances
+		// Validate table instances.
 		{
 			node: &Node{Oid: "1", Label: "root",
 				Children: []*Node{
@@ -896,7 +896,7 @@ func TestGenerateConfigModule(t *testing.T) {
 			},
 			out: &config.Module{
 				Get: []string{"1.1.1.2.100", "1.1.1.2.200"},
-				// Single metric
+				// Single metric.
 				Metrics: []*config.Metric{
 					{
 						Name: "tableFoo",
@@ -913,7 +913,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Validate multiple rows of table instances
+		// Validate multiple rows of table instances.
 		{
 			node: &Node{Oid: "1", Label: "root",
 				Children: []*Node{
@@ -958,7 +958,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Validate table instances with lookup not walked
+		// Validate table instances with lookup not walked.
 		{
 			node: &Node{Oid: "1", Label: "root",
 				Children: []*Node{
@@ -1026,7 +1026,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Validate specific table instances with lookup walked
+		// Validate specific table instances with lookup walked.
 		{
 			node: &Node{Oid: "1", Label: "root",
 				Children: []*Node{
