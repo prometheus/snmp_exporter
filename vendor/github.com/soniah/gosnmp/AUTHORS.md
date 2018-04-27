@@ -19,4 +19,4 @@
 * Benjamin Thomas (@benjamin-thomas)
 * Ross Wilson (@schotlandzegtja)
 
-In alphabetical order of surname. In vim: highlight, then `!sort -k3`.
+In alphabetical order of surname. In vim highlight lines, then `!sort -k3`.
