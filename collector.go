@@ -78,6 +78,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 			oids = maxOids
 		}
 
+		log.Debugf("Getting %d OIDs from target %q", oids, snmp.Target)
 		getStart := time.Now()
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
@@ -85,7 +86,13 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		} else {
 			log.Debugf("Get of %d OIDs completed in %s", oids, time.Since(getStart))
 		}
-		result = append(result, packet.Variables...)
+		for _, v := range packet.Variables {
+			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
+				log.Debugf("OID %s not supported by target %s", v.Name, snmp.Target)
+				continue
+			}
+			result = append(result, v)
+		}
 		getOids = getOids[oids:]
 	}
 
@@ -301,7 +308,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 			// Trim leading period.
 			return pdu.Value.(string)[1:]
 		}
-		// DisplayString
+		// DisplayString.
 		return pdu.Value.(string)
 	case []byte:
 		if typ == "" {
