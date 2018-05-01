@@ -18,7 +18,7 @@ func walkNode(n *Node, f func(n *Node)) {
 	}
 }
 
-// Transform the tree
+// Transform the tree.
 func prepareTree(nodes *Node) map[string]*Node {
 	// Build a map from names and oids to nodes.
 	nameToNode := map[string]*Node{}
@@ -34,7 +34,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 	})
 
 	// Fix indexes to "INTEGER" rather than an object name.
-	// Example: snSlotsEntry in LANOPTICS-HUB-MIB
+	// Example: snSlotsEntry in LANOPTICS-HUB-MIB.
 	walkNode(nodes, func(n *Node) {
 		indexes := []string{}
 		for _, i := range n.Indexes {
@@ -166,7 +166,7 @@ type oidMetricType uint8
 
 const (
 	oidNotFound oidMetricType = iota
-	oidDirect
+	oidScalar
 	oidInstance
 	oidSubtree
 )
@@ -178,8 +178,8 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 	if ok {
 		// Known node, check if OID is a valid metric or a subtree.
 		_, ok = metricType(n.Type)
-		if ok && len(n.Indexes) == 0 {
-			return n, oidDirect
+		if ok && metricAccess(n.Access) && len(n.Indexes) == 0 {
+			return n, oidScalar
 		} else {
 			return n, oidSubtree
 		}
@@ -193,6 +193,7 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 
 	// Table instances must be a valid metric node and have an index.
 	_, ok = metricType(n.Type)
+	ok = ok && metricAccess(n.Access)
 	if !ok || len(n.Indexes) == 0 {
 		return nil, oidNotFound
 	}
@@ -224,16 +225,17 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		switch oidType {
 		case oidNotFound:
 			log.Fatalf("Cannot find oid '%s' to walk", oid)
-		case oidDirect:
-			// Add a trailing period to the OID to indicate a "Get" instead of a "Walk".
-			needToWalk[oid+"."] = struct{}{}
 		case oidSubtree:
 			needToWalk[oid] = struct{}{}
 		case oidInstance:
+			// Add a trailing period to the OID to indicate a "Get" instead of a "Walk".
 			needToWalk[oid+"."] = struct{}{}
 			// Save instance index for lookup.
 			index := strings.Replace(oid, metricNode.Oid, "", 1)
 			tableInstances[metricNode.Oid] = append(tableInstances[metricNode.Oid], index)
+		case oidScalar:
+			// Scalar OIDs must be accessed using index 0.
+			needToWalk[oid+".0."] = struct{}{}
 		}
 		metricNodes[metricNode] = struct{}{}
 	}
