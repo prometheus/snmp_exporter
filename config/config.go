@@ -28,8 +28,6 @@ var (
 	DefaultAuth = Auth{
 		Community:     "public",
 		SecurityLevel: "noAuthNoPriv",
-		AuthProtocol:  "MD5",
-		PrivProtocol:  "DES",
 	}
 	DefaultWalkParams = WalkParams{
 		Version:        2,
