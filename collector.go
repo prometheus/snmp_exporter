@@ -68,7 +68,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	result := []gosnmp.SnmpPDU{}
 	getOids := config.Get
 	maxOids := int(config.WalkParams.MaxRepetitions)
-	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only tell one OID error per call.
+	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only report one OID error per call.
 	if maxOids == 0 || snmp.Version == gosnmp.Version1 {
 		maxOids = 1
 	}
