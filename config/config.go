@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"regexp"
-	"strings"
 	"time"
 
 	"github.com/soniah/gosnmp"
@@ -105,6 +104,15 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
+	// Workaround WalkParams being decoded by unmarshal but UnmarshalYAML not being called.
+	wp := c.WalkParams
+	err := c.WalkParams.UnmarshalYAML(func(interface{}) error {
+		c.WalkParams = wp
+		return nil
+	})
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -123,30 +131,38 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 
 	// v3 security settings.
 	g.SecurityModel = gosnmp.UserSecurityModel
+	usm := &gosnmp.UsmSecurityParameters{
+		UserName: c.Auth.Username,
+	}
+	auth, priv := false, false
 	switch c.Auth.SecurityLevel {
 	case "noAuthNoPriv":
 		g.MsgFlags = gosnmp.NoAuthNoPriv
 	case "authNoPriv":
 		g.MsgFlags = gosnmp.AuthNoPriv
+		auth = true
 	case "authPriv":
 		g.MsgFlags = gosnmp.AuthPriv
+		auth = true
+		priv = true
 	}
-	usm := &gosnmp.UsmSecurityParameters{
-		UserName:                 c.Auth.Username,
-		AuthenticationPassphrase: string(c.Auth.Password),
-		PrivacyPassphrase:        string(c.Auth.PrivPassword),
+	if auth {
+		usm.AuthenticationPassphrase = string(c.Auth.Password)
+		switch c.Auth.AuthProtocol {
+		case "SHA":
+			usm.AuthenticationProtocol = gosnmp.SHA
+		case "MD5":
+			usm.AuthenticationProtocol = gosnmp.MD5
+		}
 	}
-	switch c.Auth.AuthProtocol {
-	case "SHA":
-		usm.AuthenticationProtocol = gosnmp.SHA
-	case "MD5":
-		usm.AuthenticationProtocol = gosnmp.MD5
-	}
-	switch c.Auth.PrivProtocol {
-	case "DES":
-		usm.PrivacyProtocol = gosnmp.DES
-	case "AES":
-		usm.PrivacyProtocol = gosnmp.AES
+	if priv {
+		usm.PrivacyPassphrase = string(c.Auth.PrivPassword)
+		switch c.Auth.PrivProtocol {
+		case "DES":
+			usm.PrivacyProtocol = gosnmp.DES
+		case "AES":
+			usm.PrivacyProtocol = gosnmp.AES
+		}
 	}
 	g.SecurityParameters = usm
 }
@@ -281,16 +297,5 @@ func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		return err
 	}
 	re.Regexp = regex
-	return nil
-}
-
-func CheckOverflow(m map[string]interface{}, ctx string) error {
-	if len(m) > 0 {
-		var keys []string
-		for k := range m {
-			keys = append(keys, k)
-		}
-		return fmt.Errorf("unknown fields in %s: %s", ctx, strings.Join(keys, ", "))
-	}
 	return nil
 }
