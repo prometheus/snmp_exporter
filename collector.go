@@ -68,8 +68,8 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	result := []gosnmp.SnmpPDU{}
 	getOids := config.Get
 	maxOids := int(config.WalkParams.MaxRepetitions)
-	// Max Repetition can be 0, maxOids cannot.
-	if maxOids == 0 {
+	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only report one OID error per call.
+	if maxOids == 0 || snmp.Version == gosnmp.Version1 {
 		maxOids = 1
 	}
 	for len(getOids) > 0 {
@@ -83,8 +83,18 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
 			return nil, fmt.Errorf("Error getting target %s: %s", snmp.Target, err)
-		} else {
-			log.Debugf("Get of %d OIDs completed in %s", oids, time.Since(getStart))
+		}
+		log.Debugf("Get of %d OIDs completed in %s", oids, time.Since(getStart))
+		// SNMPv1 will return packet error for unsupported OIDs.
+		if packet.Error == gosnmp.NoSuchName && snmp.Version == gosnmp.Version1 {
+			log.Debugf("OID %s not supported by target %s", getOids[0], snmp.Target)
+			getOids = getOids[oids:]
+			continue
+		}
+		// Response received with errors.
+		// TODO: "stringify" gosnmp errors instead of showing error code.
+		if packet.Error != gosnmp.NoError {
+			return nil, fmt.Errorf("Error reported by target %s: Error Status %d", snmp.Target, packet.Error)
 		}
 		for _, v := range packet.Variables {
 			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
@@ -107,9 +117,9 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		}
 		if err != nil {
 			return nil, fmt.Errorf("Error walking target %s: %s", snmp.Target, err)
-		} else {
-			log.Debugf("Walk of target %q subtree %q completed in %s", snmp.Target, subtree, time.Since(walkStart))
 		}
+		log.Debugf("Walk of target %q subtree %q completed in %s", snmp.Target, subtree, time.Since(walkStart))
+
 		result = append(result, pdus...)
 	}
 	return result, nil
