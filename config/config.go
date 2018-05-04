@@ -104,19 +104,16 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
-	// Workaround WalkParams being decoded by unmarshal but UnmarshalYAML not being called.
+	// Workaround: WalkParams decoded by unmarshal but UnmarshalYAML not called.
 	wp := c.WalkParams
 	err := c.WalkParams.UnmarshalYAML(func(interface{}) error {
 		c.WalkParams = wp
 		return nil
 	})
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
-// configureSNMP sets the various version and auth settings.
+// ConfigureSNMP sets the various version and auth settings.
 func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	switch c.Version {
 	case 1:
