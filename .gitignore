@@ -29,5 +29,3 @@ dependencies-stamp
 *.tar.gz
 
 generator/generator
-# IDE
-/.vscode
