@@ -17,6 +17,7 @@ func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 
 type MetricOverrides struct {
 	RegexpExtracts map[string][]config.RegexpExtract `yaml:"regex_extracts,omitempty"`
+	Type           string                            `yaml:"type,omitempty"`
 }
 
 func (c *MetricOverrides) UnmarshalYAML(unmarshal func(interface{}) error) error {

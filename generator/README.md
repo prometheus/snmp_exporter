@@ -100,6 +100,7 @@ modules:
                value: '1'
              - regex: '.*'
                value: '0'
+         type: [counter, gauge, DisplayString, ...] # Override the metric type.
 ```
 
 ## Where to get MIBs
