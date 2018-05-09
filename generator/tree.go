@@ -107,13 +107,13 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 func metricType(t string) (string, bool) {
 	switch t {
-	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
+	case "gauge", "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
 		return "gauge", true
-	case "COUNTER", "COUNTER64":
+	case "counter", "COUNTER", "COUNTER64":
 		return "counter", true
-	case "OCTETSTR", "BITSTRING":
+	case "OctetString", "OCTETSTR", "BITSTRING":
 		return "OctetString", true
-	case "IPADDR", "NETADDR":
+	case "IpAddr", "IPADDR", "NETADDR":
 		return "IpAddr", true
 	case "PhysAddress48", "DisplayString", "Float", "Double":
 		return t, true
@@ -200,10 +200,53 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 	return n, oidInstance
 }
 
+func copyTree(node *Node) *Node {
+	newNode := *node
+	newNode.Children = make([]*Node, 0, len(node.Children))
+	newNode.Indexes = make([]string, len(node.Indexes))
+	copy(newNode.Indexes, node.Indexes)
+	// Deep copy children.
+	for _, child := range node.Children {
+		newNode.Children = append(newNode.Children, copyTree(child))
+	}
+	return &newNode
+}
+
 func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node) *config.Module {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 	tableInstances := map[string][]string{}
+
+	// Gather all type overrides for the current module.
+	typeOverrides := map[string]string{}
+	for name, params := range cfg.Overrides {
+		if params.Type == "" {
+			continue
+		}
+		_, ok := nameToNode[name]
+		if !ok {
+			log.Warnf("Could not find metric '%s' to override type", name)
+			continue
+		}
+		// Type validated at generator configuration.
+		typeOverrides[name], _ = metricType(params.Type)
+	}
+
+	if len(typeOverrides) > 0 {
+		// Duplicate node tree.
+		node = copyTree(node)
+		// Rebuild node mapping.
+		nameToNode = map[string]*Node{}
+		walkNode(node, func(n *Node) {
+			nameToNode[n.Oid] = n
+			nameToNode[n.Label] = n
+		})
+		// Apply overrides.
+		for name, typ := range typeOverrides {
+			n := nameToNode[name]
+			n.Type = typ
+		}
+	}
 
 	// Remove redundant OIDs to be walked.
 	toWalk := []string{}

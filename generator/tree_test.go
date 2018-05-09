@@ -137,23 +137,30 @@ func TestGenerateConfigModule(t *testing.T) {
 		},
 	}
 
-	overrides := make(map[string]MetricOverrides)
-	metricOverrides := MetricOverrides{
+	regexpOverrides := make(map[string]MetricOverrides)
+	regexpOverrides["root"] = MetricOverrides{
 		RegexpExtracts: strMetrics,
 	}
-	overrides["root"] = metricOverrides
+
+	typeOverrides := make(map[string]MetricOverrides)
+	typeOverrides["node1"] = MetricOverrides{
+		Type: "counter",
+	}
+	typeOverrides["node2"] = MetricOverrides{
+		Type: "DisplayString",
+	}
 
 	cases := []struct {
 		node *Node
 		cfg  *ModuleConfig  // SNMP generator config.
 		out  *config.Module // SNMP exporter config.
 	}{
-		// Simple metric with overrides.
+		// Simple metric with Regexp override.
 		{
 			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
 			cfg: &ModuleConfig{
 				Walk:      []string{"root"},
-				Overrides: overrides,
+				Overrides: regexpOverrides,
 			},
 			out: &config.Module{
 				Get: []string{"1.0"},
@@ -264,7 +271,6 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-
 		// Metric types.
 		{
 			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
@@ -392,6 +398,80 @@ func TestGenerateConfigModule(t *testing.T) {
 						Oid:  "1.201",
 						Type: "Double",
 						Help: " - 1.201",
+					},
+				},
+			},
+		},
+		// Simple metric with type override.
+		{
+			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "node1"},
+					{Oid: "1.2", Access: "ACCESS_READONLY", Type: "OCTETSTR", Label: "node2"},
+				}},
+			cfg: &ModuleConfig{
+				Walk:      []string{"root"},
+				Overrides: typeOverrides,
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "node1",
+						Oid:  "1.1",
+						Type: "counter",
+						Help: " - 1.1",
+					},
+					{
+						Name: "node2",
+						Oid:  "1.2",
+						Type: "DisplayString",
+						Help: " - 1.2",
+					},
+				},
+			},
+		},
+		// Table with type override
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"node1"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "node1", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "node2", Type: "OCTETSTR"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk:      []string{"1"},
+				Overrides: typeOverrides,
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "node1",
+						Oid:  "1.1.1.1",
+						Type: "counter",
+						Help: " - 1.1.1.1",
+						Indexes: []*config.Index{
+							{
+								Labelname: "node1",
+								Type:      "counter",
+							},
+						},
+					},
+					{
+						Name: "node2",
+						Oid:  "1.1.1.2",
+						Type: "DisplayString",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "node1",
+								Type:      "counter",
+							},
+						},
 					},
 				},
 			},
