@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"regexp"
-	"strings"
 	"time"
 
 	"github.com/soniah/gosnmp"
@@ -65,50 +64,48 @@ type Module struct {
 	WalkParams WalkParams `yaml:",inline"`
 }
 
-func (c *WalkParams) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	*c = DefaultWalkParams
-	type plain WalkParams
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-
-	if c.Version < 1 || c.Version > 3 {
-		return fmt.Errorf("SNMP version must be 1, 2 or 3. Got: %d", c.Version)
-	}
-	if c.Version == 3 {
-		if c.Auth.Username == "" {
-			return fmt.Errorf("Auth username is missing, required for SNMPv3")
-		}
-		if c.Auth.SecurityLevel != "authPriv" &&
-			c.Auth.SecurityLevel != "authNoPriv" && c.Auth.SecurityLevel != "noAuthNoPriv" {
-			return fmt.Errorf("Security level must be one of authPriv, authNoPriv or noAuthNoPriv")
-		}
-		if c.Auth.Password == "" && c.Auth.SecurityLevel != "noAuthNoPriv" {
-			return fmt.Errorf("Auth password is missing, required for SNMPv3 with auth.")
-		}
-		if c.Auth.AuthProtocol != "MD5" && c.Auth.AuthProtocol != "SHA" {
-			return fmt.Errorf("Auth protocol must be SHA or MD5.")
-		}
-		if c.Auth.PrivProtocol != "DES" && c.Auth.PrivProtocol != "AES" {
-			return fmt.Errorf("Priv protocol must be DES or AES.")
-		}
-		if c.Auth.PrivPassword == "" && c.Auth.SecurityLevel == "authPriv" {
-			return fmt.Errorf("Priv password is missing, required for SNMPv3 with priv.")
-		}
-	}
-	return nil
-}
-
 func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultModule
 	type plain Module
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
 	}
+
+	wp := c.WalkParams
+
+	if wp.Version < 1 || wp.Version > 3 {
+		return fmt.Errorf("SNMP version must be 1, 2 or 3. Got: %d", wp.Version)
+	}
+	if wp.Version == 3 {
+		switch wp.Auth.SecurityLevel {
+		case "authPriv":
+			if wp.Auth.PrivPassword == "" {
+				return fmt.Errorf("Priv password is missing, required for SNMPv3 with priv.")
+			}
+			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" {
+				return fmt.Errorf("Priv protocol must be DES or AES.")
+			}
+			fallthrough
+		case "authNoPriv":
+			if wp.Auth.Password == "" {
+				return fmt.Errorf("Auth password is missing, required for SNMPv3 with auth.")
+			}
+			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA" {
+				return fmt.Errorf("Auth protocol must be SHA or MD5.")
+			}
+			fallthrough
+		case "noAuthNoPriv":
+			if wp.Auth.Username == "" {
+				return fmt.Errorf("Auth username is missing, required for SNMPv3")
+			}
+		default:
+			return fmt.Errorf("Security level must be one of authPriv, authNoPriv or noAuthNoPriv")
+		}
+	}
 	return nil
 }
 
-// configureSNMP sets the various version and auth settings.
+// ConfigureSNMP sets the various version and auth settings.
 func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 	switch c.Version {
 	case 1:
@@ -123,30 +120,38 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 
 	// v3 security settings.
 	g.SecurityModel = gosnmp.UserSecurityModel
+	usm := &gosnmp.UsmSecurityParameters{
+		UserName: c.Auth.Username,
+	}
+	auth, priv := false, false
 	switch c.Auth.SecurityLevel {
 	case "noAuthNoPriv":
 		g.MsgFlags = gosnmp.NoAuthNoPriv
 	case "authNoPriv":
 		g.MsgFlags = gosnmp.AuthNoPriv
+		auth = true
 	case "authPriv":
 		g.MsgFlags = gosnmp.AuthPriv
+		auth = true
+		priv = true
 	}
-	usm := &gosnmp.UsmSecurityParameters{
-		UserName:                 c.Auth.Username,
-		AuthenticationPassphrase: string(c.Auth.Password),
-		PrivacyPassphrase:        string(c.Auth.PrivPassword),
+	if auth {
+		usm.AuthenticationPassphrase = string(c.Auth.Password)
+		switch c.Auth.AuthProtocol {
+		case "SHA":
+			usm.AuthenticationProtocol = gosnmp.SHA
+		case "MD5":
+			usm.AuthenticationProtocol = gosnmp.MD5
+		}
 	}
-	switch c.Auth.AuthProtocol {
-	case "SHA":
-		usm.AuthenticationProtocol = gosnmp.SHA
-	case "MD5":
-		usm.AuthenticationProtocol = gosnmp.MD5
-	}
-	switch c.Auth.PrivProtocol {
-	case "DES":
-		usm.PrivacyProtocol = gosnmp.DES
-	case "AES":
-		usm.PrivacyProtocol = gosnmp.AES
+	if priv {
+		usm.PrivacyPassphrase = string(c.Auth.PrivPassword)
+		switch c.Auth.PrivProtocol {
+		case "DES":
+			usm.PrivacyProtocol = gosnmp.DES
+		case "AES":
+			usm.PrivacyProtocol = gosnmp.AES
+		}
 	}
 	g.SecurityParameters = usm
 }
@@ -161,26 +166,10 @@ type Metric struct {
 	RegexpExtracts map[string][]RegexpExtract `yaml:"regex_extracts,omitempty"`
 }
 
-func (c *Metric) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type plain Metric
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
-}
-
 type Index struct {
 	Labelname string `yaml:"labelname"`
 	Type      string `yaml:"type"`
 	FixedSize int    `yaml:"fixed_size,omitempty"`
-}
-
-func (c *Index) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type plain Index
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
 }
 
 type Lookup struct {
@@ -188,14 +177,6 @@ type Lookup struct {
 	Labelname string   `yaml:"labelname"`
 	Oid       string   `yaml:"oid"`
 	Type      string   `yaml:"type"`
-}
-
-func (c *Lookup) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type plain Lookup
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
 }
 
 // Secret is a string that must not be revealed on marshaling.
@@ -217,12 +198,6 @@ func (s Secret) MarshalYAML() (interface{}, error) {
 	return nil, nil
 }
 
-//UnmarshalYAML implements the yaml.Unmarshaler interface for Secrets.
-func (s *Secret) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type plain Secret
-	return unmarshal((*plain)(s))
-}
-
 type Auth struct {
 	Community     Secret `yaml:"community,omitempty"`
 	SecurityLevel string `yaml:"security_level,omitempty"`
@@ -232,15 +207,6 @@ type Auth struct {
 	PrivProtocol  string `yaml:"priv_protocol,omitempty"`
 	PrivPassword  Secret `yaml:"priv_password,omitempty"`
 	ContextName   string `yaml:"context_name,omitempty"`
-}
-
-func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	*c = DefaultAuth
-	type plain Auth
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
 }
 
 type RegexpExtract struct {
@@ -281,16 +247,5 @@ func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		return err
 	}
 	re.Regexp = regex
-	return nil
-}
-
-func CheckOverflow(m map[string]interface{}, ctx string) error {
-	if len(m) > 0 {
-		var keys []string
-		for k := range m {
-			keys = append(keys, k)
-		}
-		return fmt.Errorf("unknown fields in %s: %s", ctx, strings.Join(keys, ", "))
-	}
 	return nil
 }
