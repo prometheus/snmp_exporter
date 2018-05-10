@@ -137,17 +137,9 @@ func TestGenerateConfigModule(t *testing.T) {
 		},
 	}
 
-	regexpOverrides := make(map[string]MetricOverrides)
-	regexpOverrides["root"] = MetricOverrides{
+	overrides := make(map[string]MetricOverrides)
+	overrides["root"] = MetricOverrides{
 		RegexpExtracts: strMetrics,
-	}
-
-	typeOverrides := make(map[string]MetricOverrides)
-	typeOverrides["node1"] = MetricOverrides{
-		Type: "counter",
-	}
-	typeOverrides["node2"] = MetricOverrides{
-		Type: "DisplayString",
 	}
 
 	cases := []struct {
@@ -160,7 +152,7 @@ func TestGenerateConfigModule(t *testing.T) {
 			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
 			cfg: &ModuleConfig{
 				Walk:      []string{"root"},
-				Overrides: regexpOverrides,
+				Overrides: overrides,
 			},
 			out: &config.Module{
 				Get: []string{"1.0"},
@@ -410,8 +402,10 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.2", Access: "ACCESS_READONLY", Type: "OCTETSTR", Label: "node2"},
 				}},
 			cfg: &ModuleConfig{
-				Walk:      []string{"root"},
-				Overrides: typeOverrides,
+				Walk: []string{"root"},
+				Overrides: map[string]MetricOverrides{
+					"node2": MetricOverrides{Type: "DisplayString"},
+				},
 			},
 			out: &config.Module{
 				Walk: []string{"1"},
@@ -419,7 +413,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "node1",
 						Oid:  "1.1",
-						Type: "counter",
+						Type: "gauge",
 						Help: " - 1.1",
 					},
 					{
@@ -431,7 +425,7 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Table with type override
+		// Table with type override.
 		{
 			node: &Node{Oid: "1", Label: "root",
 				Children: []*Node{
@@ -443,8 +437,11 @@ func TestGenerateConfigModule(t *testing.T) {
 									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "node2", Type: "OCTETSTR"},
 								}}}}}},
 			cfg: &ModuleConfig{
-				Walk:      []string{"1"},
-				Overrides: typeOverrides,
+				Walk: []string{"1"},
+				Overrides: map[string]MetricOverrides{
+					"node1": MetricOverrides{Type: "counter"},
+					"node2": MetricOverrides{Type: "DisplayString"},
+				},
 			},
 			out: &config.Module{
 				Walk: []string{"1"},

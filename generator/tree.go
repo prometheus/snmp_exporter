@@ -200,18 +200,6 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 	return n, oidInstance
 }
 
-func copyTree(node *Node) *Node {
-	newNode := *node
-	newNode.Children = make([]*Node, 0, len(node.Children))
-	newNode.Indexes = make([]string, len(node.Indexes))
-	copy(newNode.Indexes, node.Indexes)
-	// Deep copy children.
-	for _, child := range node.Children {
-		newNode.Children = append(newNode.Children, copyTree(child))
-	}
-	return &newNode
-}
-
 func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node) *config.Module {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
@@ -229,12 +217,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			continue
 		}
 		// Type validated at generator configuration.
-		typeOverrides[name], _ = metricType(params.Type)
+		typeOverrides[name] = params.Type
 	}
 
 	if len(typeOverrides) > 0 {
 		// Duplicate node tree.
-		node = copyTree(node)
+		node = node.Copy()
 		// Rebuild node mapping.
 		nameToNode = map[string]*Node{}
 		walkNode(node, func(n *Node) {
