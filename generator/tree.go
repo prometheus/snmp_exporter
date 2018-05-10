@@ -205,35 +205,32 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	needToWalk := map[string]struct{}{}
 	tableInstances := map[string][]string{}
 
-	// Gather all type overrides for the current module.
-	typeOverrides := map[string]string{}
+	// Apply type overrides for the current module.
+	newTree := false
 	for name, params := range cfg.Overrides {
 		if params.Type == "" {
 			continue
 		}
-		_, ok := nameToNode[name]
+		// Make a copy of the tree if not done yet.
+		if !newTree {
+			// Duplicate node tree.
+			node = node.Copy()
+			// Rebuild node mapping.
+			nameToNode = map[string]*Node{}
+			walkNode(node, func(n *Node) {
+				nameToNode[n.Oid] = n
+				nameToNode[n.Label] = n
+			})
+			newTree = true
+		}
+		// Find node to override.
+		n, ok := nameToNode[name]
 		if !ok {
 			log.Warnf("Could not find metric '%s' to override type", name)
 			continue
 		}
-		// Type validated at generator configuration.
-		typeOverrides[name] = params.Type
-	}
-
-	if len(typeOverrides) > 0 {
-		// Duplicate node tree.
-		node = node.Copy()
-		// Rebuild node mapping.
-		nameToNode = map[string]*Node{}
-		walkNode(node, func(n *Node) {
-			nameToNode[n.Oid] = n
-			nameToNode[n.Label] = n
-		})
-		// Apply overrides.
-		for name, typ := range typeOverrides {
-			n := nameToNode[name]
-			n.Type = typ
-		}
+		// params.Type validated at generator configuration.
+		n.Type = params.Type
 	}
 
 	// Remove redundant OIDs to be walked.
