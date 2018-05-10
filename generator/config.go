@@ -23,10 +23,13 @@ func (c *MetricOverrides) UnmarshalYAML(unmarshal func(interface{}) error) error
 		return err
 	}
 	// Ensure type for override is valid.
-	_, ok := metricType(c.Type)
-	if c.Type != "" && !ok {
+	switch c.Type {
+	case "gauge", "counter", "OctetString", "DisplayString",
+		"PhysAddress48", "Float", "Double", "IpAddr", "":
+	default:
 		return fmt.Errorf("Invalid metric type override '%s'", c.Type)
 	}
+
 	return nil
 }
 

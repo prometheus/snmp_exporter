@@ -60,6 +60,19 @@ type Node struct {
 	Indexes []string
 }
 
+// Copy returns a deep copy of the tree underneath the current Node.
+func (n *Node) Copy() *Node {
+	newNode := *n
+	newNode.Children = make([]*Node, 0, len(n.Children))
+	newNode.Indexes = make([]string, len(n.Indexes))
+	copy(newNode.Indexes, n.Indexes)
+	// Deep copy children.
+	for _, child := range n.Children {
+		newNode.Children = append(newNode.Children, child.Copy())
+	}
+	return &newNode
+}
+
 // Adapted from parse.h.
 var (
 	netSnmptypeMap = map[int]string{

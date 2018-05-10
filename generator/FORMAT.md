@@ -18,15 +18,7 @@ module_name:
    - name:  sysUpTime
      oid:   1.3.6.1.2.1.1.3
      type:  gauge
-     # Possible types are:
-     #   gauge:   An integer with type gauge.
-     #   counter: An integer with type counter.
-     #   OctetString: A bit string, rendered as 0xff34.
-     #   DisplayString: An ASCII or UTF-8 string.
-     #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
-     #   Float: A 32 bit floating-point value with type gauge.
-     #   Double: A 64 bit floating-point value with type gauge.
-     #   IpAddr: An IPv4 address, rendered as '1.2.3.4'.
+     # See README.md type override for a list of valid types
      # Non-numeric types are represented as a gauge with value 1, and the rendered value
      # as a label value on that gauge.
 
