@@ -107,13 +107,13 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 func metricType(t string) (string, bool) {
 	switch t {
-	case "gauge", "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
+	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
 		return "gauge", true
-	case "counter", "COUNTER", "COUNTER64":
+	case "COUNTER", "COUNTER64":
 		return "counter", true
-	case "OctetString", "OCTETSTR", "BITSTRING":
+	case "OCTETSTR", "BITSTRING":
 		return "OctetString", true
-	case "IpAddr", "IPADDR", "NETADDR":
+	case "IPADDR", "NETADDR":
 		return "IpAddr", true
 	case "PhysAddress48", "DisplayString", "Float", "Double":
 		return t, true
