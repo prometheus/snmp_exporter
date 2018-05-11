@@ -107,13 +107,13 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 func metricType(t string) (string, bool) {
 	switch t {
-	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
+	case "gauge", "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
 		return "gauge", true
-	case "COUNTER", "COUNTER64":
+	case "counter", "COUNTER", "COUNTER64":
 		return "counter", true
-	case "OCTETSTR", "BITSTRING":
+	case "OctetString", "OCTETSTR", "BITSTRING":
 		return "OctetString", true
-	case "IPADDR", "NETADDR":
+	case "IpAddr", "IPADDR", "NETADDR":
 		return "IpAddr", true
 	case "PhysAddress48", "DisplayString", "Float", "Double":
 		return t, true
@@ -206,22 +206,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	tableInstances := map[string][]string{}
 
 	// Apply type overrides for the current module.
-	newTree := false
 	for name, params := range cfg.Overrides {
 		if params.Type == "" {
 			continue
-		}
-		// Make a copy of the tree if not done yet.
-		if !newTree {
-			// Duplicate node tree.
-			node = node.Copy()
-			// Rebuild node mapping.
-			nameToNode = map[string]*Node{}
-			walkNode(node, func(n *Node) {
-				nameToNode[n.Oid] = n
-				nameToNode[n.Label] = n
-			})
-			newTree = true
 		}
 		// Find node to override.
 		n, ok := nameToNode[name]
