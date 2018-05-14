@@ -100,6 +100,15 @@ modules:
                value: '1'
              - regex: '.*'
                value: '0'
+         type: DisplayString # Override the metric type, possible types are:
+                             #   gauge:   An integer with type gauge.
+                             #   counter: An integer with type counter.
+                             #   OctetString: A bit string, rendered as 0xff34.
+                             #   DisplayString: An ASCII or UTF-8 string.
+                             #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
+                             #   Float: A 32 bit floating-point value with type gauge.
+                             #   Double: A 64 bit floating-point value with type gauge.
+                             #   IpAddr: An IPv4 address, rendered as '1.2.3.4'.
 ```
 
 ## Where to get MIBs
