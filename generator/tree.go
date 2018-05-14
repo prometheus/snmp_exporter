@@ -107,13 +107,13 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 func metricType(t string) (string, bool) {
 	switch t {
-	case "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
+	case "gauge", "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
 		return "gauge", true
-	case "COUNTER", "COUNTER64":
+	case "counter", "COUNTER", "COUNTER64":
 		return "counter", true
-	case "OCTETSTR", "BITSTRING":
+	case "OctetString", "OCTETSTR", "BITSTRING":
 		return "OctetString", true
-	case "IPADDR", "NETADDR":
+	case "IpAddr", "IPADDR", "NETADDR":
 		return "IpAddr", true
 	case "PhysAddress48", "DisplayString", "Float", "Double":
 		return t, true
@@ -204,6 +204,21 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 	tableInstances := map[string][]string{}
+
+	// Apply type overrides for the current module.
+	for name, params := range cfg.Overrides {
+		if params.Type == "" {
+			continue
+		}
+		// Find node to override.
+		n, ok := nameToNode[name]
+		if !ok {
+			log.Warnf("Could not find metric '%s' to override type", name)
+			continue
+		}
+		// params.Type validated at generator configuration.
+		n.Type = params.Type
+	}
 
 	// Remove redundant OIDs to be walked.
 	toWalk := []string{}

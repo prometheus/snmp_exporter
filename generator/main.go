@@ -34,7 +34,15 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	outputConfig := config.Config{}
 	for name, m := range cfg.Modules {
 		log.Infof("Generating config for module %s", name)
-		outputConfig[name] = generateConfigModule(m, nodes, nameToNode)
+		// Give each module a copy of the tree so that it can be modified.
+		mNodes := nodes.Copy()
+		// Build the map with new pointers.
+		mNameToNode := map[string]*Node{}
+		walkNode(mNodes, func(n *Node) {
+			mNameToNode[n.Oid] = n
+			mNameToNode[n.Label] = n
+		})
+		outputConfig[name] = generateConfigModule(m, mNodes, mNameToNode)
 		outputConfig[name].WalkParams = m.WalkParams
 		log.Infof("Generated %d metrics for module %s", len(outputConfig[name].Metrics), name)
 	}
