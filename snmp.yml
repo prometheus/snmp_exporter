@@ -10219,3 +10219,4 @@ ubiquiti_unifi:
     oid: 1.3.6.1.4.1.41112.1.6.3.6
     type: DisplayString
     help: ' - 1.3.6.1.4.1.41112.1.6.3.6'
+  version: 1
