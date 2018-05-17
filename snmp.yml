@@ -2303,6 +2303,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2319,6 +2320,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     - labelname: bsnAPIfNoiseChannelNo
@@ -2336,6 +2338,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2351,6 +2354,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2366,6 +2370,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2383,6 +2388,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2399,6 +2405,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2415,6 +2422,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2431,6 +2439,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2447,6 +2456,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2463,6 +2473,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2479,6 +2490,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2495,6 +2507,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2511,6 +2524,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2527,6 +2541,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2543,6 +2558,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2558,6 +2574,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2577,6 +2594,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2594,6 +2612,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPName
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -8381,6 +8400,18 @@ synology:
     oid: 1.3.6.1.4.1.6574.4.2.10.2
     type: DisplayString
     help: Auxiliary device firmware - 1.3.6.1.4.1.6574.4.2.10.2
+  - name: upsInfoTemperature
+    oid: 1.3.6.1.4.1.6574.4.2.11
+    type: Float
+    help: UPS temperature (degrees C) - 1.3.6.1.4.1.6574.4.2.11
+  - name: upsInfoLoadValue
+    oid: 1.3.6.1.4.1.6574.4.2.12.1
+    type: Float
+    help: Load on UPS (percent) - 1.3.6.1.4.1.6574.4.2.12.1
+  - name: upsInfoLoadHigh
+    oid: 1.3.6.1.4.1.6574.4.2.12.2
+    type: Float
+    help: Load when UPS switches to overload condition (OVER) (percent) - 1.3.6.1.4.1.6574.4.2.12.2
   - name: upsInfoID
     oid: 1.3.6.1.4.1.6574.4.2.13
     type: DisplayString
@@ -8430,6 +8461,22 @@ synology:
     type: gauge
     help: Efficiency of the UPS (ratio of the output current on the input current)
       (percent) - 1.3.6.1.4.1.6574.4.2.19
+  - name: upsInfoPowerValue
+    oid: 1.3.6.1.4.1.6574.4.2.20.1
+    type: Float
+    help: Current value of apparent power (Volt-Amps) - 1.3.6.1.4.1.6574.4.2.20.1
+  - name: upsInfoPowerNominal
+    oid: 1.3.6.1.4.1.6574.4.2.20.2
+    type: Float
+    help: Nominal value of apparent power (Volt-Amps) - 1.3.6.1.4.1.6574.4.2.20.2
+  - name: upsInfoRealPowerValue
+    oid: 1.3.6.1.4.1.6574.4.2.21.1
+    type: Float
+    help: Current value of real power (Watts) - 1.3.6.1.4.1.6574.4.2.21.1
+  - name: upsInfoRealPowerNominal
+    oid: 1.3.6.1.4.1.6574.4.2.21.2
+    type: Float
+    help: Nominal value of real power (Watts) - 1.3.6.1.4.1.6574.4.2.21.2
   - name: upsInfoBeeperStatus
     oid: 1.3.6.1.4.1.6574.4.2.22
     type: DisplayString
@@ -8454,6 +8501,50 @@ synology:
     oid: 1.3.6.1.4.1.6574.4.2.25.3
     type: DisplayString
     help: UPS coldstarts from battery (enabled or disabled) - 1.3.6.1.4.1.6574.4.2.25.3
+  - name: upsBatteryChargeValue
+    oid: 1.3.6.1.4.1.6574.4.3.1.1
+    type: Float
+    help: Battery charge - 1.3.6.1.4.1.6574.4.3.1.1
+  - name: upsBatteryChargeLow
+    oid: 1.3.6.1.4.1.6574.4.3.1.2
+    type: Float
+    help: Remaining battery level when UPS switches to LB (percent) - 1.3.6.1.4.1.6574.4.3.1.2
+  - name: upsBatteryChargeRestart
+    oid: 1.3.6.1.4.1.6574.4.3.1.3
+    type: Float
+    help: Minimum battery level for UPS restart after power-off - 1.3.6.1.4.1.6574.4.3.1.3
+  - name: upsBatteryChargeWarning
+    oid: 1.3.6.1.4.1.6574.4.3.1.4
+    type: Float
+    help: Battery level when UPS switches to Warning state (percent) - 1.3.6.1.4.1.6574.4.3.1.4
+  - name: upsBatteryVoltageValue
+    oid: 1.3.6.1.4.1.6574.4.3.2.1
+    type: Float
+    help: The magnitude of the present battery voltage. - 1.3.6.1.4.1.6574.4.3.2.1
+  - name: upsBatteryVoltageNominal
+    oid: 1.3.6.1.4.1.6574.4.3.2.2
+    type: Float
+    help: Nominal battery voltage. - 1.3.6.1.4.1.6574.4.3.2.2
+  - name: upsBatteryVoltageLow
+    oid: 1.3.6.1.4.1.6574.4.3.2.3
+    type: Float
+    help: Minimum battery voltage, that triggers FSD status . - 1.3.6.1.4.1.6574.4.3.2.3
+  - name: upsBatteryVoltageHigh
+    oid: 1.3.6.1.4.1.6574.4.3.2.4
+    type: Float
+    help: Maximum battery voltage (Ie battery.charge = 100). - 1.3.6.1.4.1.6574.4.3.2.4
+  - name: upsBatteryCapacity
+    oid: 1.3.6.1.4.1.6574.4.3.3
+    type: Float
+    help: Battery capacity (Ah) - 1.3.6.1.4.1.6574.4.3.3
+  - name: upsBatteryCurrent
+    oid: 1.3.6.1.4.1.6574.4.3.4
+    type: Float
+    help: The present battery current. - 1.3.6.1.4.1.6574.4.3.4
+  - name: upsBatteryTemperature
+    oid: 1.3.6.1.4.1.6574.4.3.5
+    type: Float
+    help: The ambient temperature at or near the UPS Battery casing. - 1.3.6.1.4.1.6574.4.3.5
   - name: upsBatteryRuntimeValue
     oid: 1.3.6.1.4.1.6574.4.3.6.1
     type: gauge
@@ -8498,14 +8589,74 @@ synology:
     oid: 1.3.6.1.4.1.6574.4.3.14
     type: DisplayString
     help: Switch off when running on battery and no/low load - 1.3.6.1.4.1.6574.4.3.14
+  - name: upsInputVoltageValue
+    oid: 1.3.6.1.4.1.6574.4.4.1.1
+    type: Float
+    help: Input voltage - 1.3.6.1.4.1.6574.4.4.1.1
+  - name: upsInputVoltageMax
+    oid: 1.3.6.1.4.1.6574.4.4.1.2
+    type: Float
+    help: Maximum incoming voltage seen - 1.3.6.1.4.1.6574.4.4.1.2
+  - name: upsInputVoltageMin
+    oid: 1.3.6.1.4.1.6574.4.4.1.3
+    type: Float
+    help: Minimum incoming voltage seen - 1.3.6.1.4.1.6574.4.4.1.3
+  - name: upsInputVoltageNominal
+    oid: 1.3.6.1.4.1.6574.4.4.1.4
+    type: Float
+    help: Nominal input voltage - 1.3.6.1.4.1.6574.4.4.1.4
   - name: upsInputVoltageExtend
     oid: 1.3.6.1.4.1.6574.4.4.1.5
     type: DisplayString
     help: Extended input voltage range - 1.3.6.1.4.1.6574.4.4.1.5
+  - name: upsInputVoltageFault
+    oid: 1.3.6.1.4.1.6574.4.4.1.6
+    type: Float
+    help: Input voltage Fault - 1.3.6.1.4.1.6574.4.4.1.6
   - name: upsInputTransferReason
     oid: 1.3.6.1.4.1.6574.4.4.2.1
     type: DisplayString
     help: Reason for last transfer to battery - 1.3.6.1.4.1.6574.4.4.2.1
+  - name: upsInputTransferLow
+    oid: 1.3.6.1.4.1.6574.4.4.2.2
+    type: Float
+    help: Low voltage transfer point - 1.3.6.1.4.1.6574.4.4.2.2
+  - name: upsInputTransferHigh
+    oid: 1.3.6.1.4.1.6574.4.4.2.3
+    type: Float
+    help: High voltage transfer point - 1.3.6.1.4.1.6574.4.4.2.3
+  - name: upsInputTransferLowMin
+    oid: 1.3.6.1.4.1.6574.4.4.2.4
+    type: Float
+    help: smallest settable low voltage transfer point - 1.3.6.1.4.1.6574.4.4.2.4
+  - name: upsInputTransferLowMax
+    oid: 1.3.6.1.4.1.6574.4.4.2.5
+    type: Float
+    help: greatest settable low voltage transfer point - 1.3.6.1.4.1.6574.4.4.2.5
+  - name: upsInputTransferHighMin
+    oid: 1.3.6.1.4.1.6574.4.4.2.6
+    type: Float
+    help: smallest settable high voltage transfer point - 1.3.6.1.4.1.6574.4.4.2.6
+  - name: upsInputTransferHighMax
+    oid: 1.3.6.1.4.1.6574.4.4.2.7
+    type: Float
+    help: greatest settable high voltage transfer point - 1.3.6.1.4.1.6574.4.4.2.7
+  - name: upsInputTransferBoostLow
+    oid: 1.3.6.1.4.1.6574.4.4.2.8
+    type: Float
+    help: Low voltage boosting transfer point - 1.3.6.1.4.1.6574.4.4.2.8
+  - name: upsInputTransferBoostHigh
+    oid: 1.3.6.1.4.1.6574.4.4.2.9
+    type: Float
+    help: High voltage boosting transfer point - 1.3.6.1.4.1.6574.4.4.2.9
+  - name: upsInputTransferTrimLow
+    oid: 1.3.6.1.4.1.6574.4.4.2.10
+    type: Float
+    help: Low voltage trimming transfer point - 1.3.6.1.4.1.6574.4.4.2.10
+  - name: upsInputTransferTrimHigh
+    oid: 1.3.6.1.4.1.6574.4.4.2.11
+    type: Float
+    help: High voltage trimming transfer point - 1.3.6.1.4.1.6574.4.4.2.11
   - name: upsInputSensitivity
     oid: 1.3.6.1.4.1.6574.4.4.3
     type: DisplayString
@@ -8514,18 +8665,106 @@ synology:
     oid: 1.3.6.1.4.1.6574.4.4.4
     type: DisplayString
     help: Input power quality - 1.3.6.1.4.1.6574.4.4.4
+  - name: upsInputCurrentValue
+    oid: 1.3.6.1.4.1.6574.4.4.5.1
+    type: Float
+    help: Input current (A) - 1.3.6.1.4.1.6574.4.4.5.1
+  - name: upsInputCurrentNominal
+    oid: 1.3.6.1.4.1.6574.4.4.5.2
+    type: Float
+    help: Nominal input current (A) - 1.3.6.1.4.1.6574.4.4.5.2
+  - name: upsInputFrequencyValue
+    oid: 1.3.6.1.4.1.6574.4.4.6.1
+    type: Float
+    help: Input line frequency (Hz) - 1.3.6.1.4.1.6574.4.4.6.1
+  - name: upsInputFrequencyNominal
+    oid: 1.3.6.1.4.1.6574.4.4.6.2
+    type: Float
+    help: Nominal input line frequency (Hz) - 1.3.6.1.4.1.6574.4.4.6.2
+  - name: upsInputFrequencyLow
+    oid: 1.3.6.1.4.1.6574.4.4.6.3
+    type: Float
+    help: Input line frequency low (Hz) - 1.3.6.1.4.1.6574.4.4.6.3
+  - name: upsInputFrequencyHigh
+    oid: 1.3.6.1.4.1.6574.4.4.6.4
+    type: Float
+    help: Input line frequency high (Hz) - 1.3.6.1.4.1.6574.4.4.6.4
   - name: upsInputFrequencyExtend
     oid: 1.3.6.1.4.1.6574.4.4.6.5
     type: DisplayString
     help: Extended input frequency range - 1.3.6.1.4.1.6574.4.4.6.5
+  - name: upsOutputVoltageValue
+    oid: 1.3.6.1.4.1.6574.4.5.1.1
+    type: Float
+    help: Output voltage (V) - 1.3.6.1.4.1.6574.4.5.1.1
+  - name: upsOutputVoltageNominal
+    oid: 1.3.6.1.4.1.6574.4.5.1.2
+    type: Float
+    help: Nominal output voltage (V) - 1.3.6.1.4.1.6574.4.5.1.2
+  - name: upsOutputFrequencyValue
+    oid: 1.3.6.1.4.1.6574.4.5.2.1
+    type: Float
+    help: Output frequency (Hz) - 1.3.6.1.4.1.6574.4.5.2.1
+  - name: upsOutputFrequencyNominal
+    oid: 1.3.6.1.4.1.6574.4.5.2.2
+    type: Float
+    help: Nominal output frequency (Hz) - 1.3.6.1.4.1.6574.4.5.2.2
+  - name: upsOutputCurrentValue
+    oid: 1.3.6.1.4.1.6574.4.5.3.1
+    type: Float
+    help: Output current (A) - 1.3.6.1.4.1.6574.4.5.3.1
+  - name: upsOutputCurrentNominal
+    oid: 1.3.6.1.4.1.6574.4.5.3.2
+    type: Float
+    help: Nominal output current (A) - 1.3.6.1.4.1.6574.4.5.3.2
+  - name: upsAmbientTemperatureValue
+    oid: 1.3.6.1.4.1.6574.4.6.1.1
+    type: Float
+    help: Ambient temperature (degrees C) - 1.3.6.1.4.1.6574.4.6.1.1
   - name: upsAmbientTemperatureAlarm
     oid: 1.3.6.1.4.1.6574.4.6.1.2
     type: DisplayString
     help: Temperature alarm (enabled/disabled) - 1.3.6.1.4.1.6574.4.6.1.2
+  - name: upsAmbientTemperatureHigh
+    oid: 1.3.6.1.4.1.6574.4.6.1.3
+    type: Float
+    help: Temperature threshold high (degrees C) - 1.3.6.1.4.1.6574.4.6.1.3
+  - name: upsAmbientTemperatureLow
+    oid: 1.3.6.1.4.1.6574.4.6.1.4
+    type: Float
+    help: Temperature threshold low (degrees C) - 1.3.6.1.4.1.6574.4.6.1.4
+  - name: upsAmbientTemperatureMax
+    oid: 1.3.6.1.4.1.6574.4.6.1.5
+    type: Float
+    help: Maximum temperature seen (degrees C) - 1.3.6.1.4.1.6574.4.6.1.5
+  - name: upsAmbientTemperatureMin
+    oid: 1.3.6.1.4.1.6574.4.6.1.6
+    type: Float
+    help: Minimum temperature seen (degrees C) - 1.3.6.1.4.1.6574.4.6.1.6
+  - name: upsAmbientHumidityValue
+    oid: 1.3.6.1.4.1.6574.4.6.2.1
+    type: Float
+    help: Ambient relative humidity (percent) - 1.3.6.1.4.1.6574.4.6.2.1
   - name: upsAmbientHumidityAlarm
     oid: 1.3.6.1.4.1.6574.4.6.2.2
     type: DisplayString
     help: Relative humidity alarm (enabled/disabled) - 1.3.6.1.4.1.6574.4.6.2.2
+  - name: upsAmbientHumidityHigh
+    oid: 1.3.6.1.4.1.6574.4.6.2.3
+    type: Float
+    help: Relative humidity threshold high (percent) - 1.3.6.1.4.1.6574.4.6.2.3
+  - name: upsAmbientHumidityLow
+    oid: 1.3.6.1.4.1.6574.4.6.2.4
+    type: Float
+    help: Relative humidity threshold low (percent) - 1.3.6.1.4.1.6574.4.6.2.4
+  - name: upsAmbientHumidityMax
+    oid: 1.3.6.1.4.1.6574.4.6.2.5
+    type: Float
+    help: Maximum relative humidity seen (percent) - 1.3.6.1.4.1.6574.4.6.2.5
+  - name: upsAmbientHumidityMin
+    oid: 1.3.6.1.4.1.6574.4.6.2.6
+    type: Float
+    help: Minimum relative humidity seen (percent) - 1.3.6.1.4.1.6574.4.6.2.6
   - name: upsDriverName
     oid: 1.3.6.1.4.1.6574.4.7.1
     type: DisplayString
@@ -9323,6 +9562,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaName
     oid: 1.3.6.1.4.1.41112.1.4.7.1.2
     type: DisplayString
@@ -9332,6 +9572,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaSignal
     oid: 1.3.6.1.4.1.41112.1.4.7.1.3
     type: gauge
@@ -9341,6 +9582,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaNoiseFloor
     oid: 1.3.6.1.4.1.41112.1.4.7.1.4
     type: gauge
@@ -9350,6 +9592,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaDistance
     oid: 1.3.6.1.4.1.41112.1.4.7.1.5
     type: gauge
@@ -9359,6 +9602,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaCcq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.6
     type: gauge
@@ -9368,6 +9612,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.7
     type: gauge
@@ -9377,6 +9622,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.8
     type: gauge
@@ -9386,6 +9632,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmc
     oid: 1.3.6.1.4.1.41112.1.4.7.1.9
     type: gauge
@@ -9395,6 +9642,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaLastIp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.10
     type: IpAddr
@@ -9404,6 +9652,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.11
     type: gauge
@@ -9413,6 +9662,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.12
     type: gauge
@@ -9422,6 +9672,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.13
     type: counter
@@ -9431,6 +9682,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.14
     type: counter
@@ -9440,6 +9692,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaConnTime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.15
     type: gauge
@@ -9449,6 +9702,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaLocalCINR
     oid: 1.3.6.1.4.1.41112.1.4.7.1.16
     type: gauge
@@ -9458,6 +9712,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.17
     type: gauge
@@ -9467,6 +9722,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.18
     type: gauge
@@ -9476,6 +9732,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.19
     type: gauge
@@ -9485,6 +9742,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.20
     type: gauge
@@ -9494,6 +9752,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxLatency
     oid: 1.3.6.1.4.1.41112.1.4.7.1.21
     type: gauge
@@ -9503,6 +9762,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntHostLocaltime
     oid: 1.3.6.1.4.1.41112.1.4.8.1
     type: DisplayString
