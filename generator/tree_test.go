@@ -394,6 +394,31 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Simple metric with ignore override.
+		{
+			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "node1"},
+					{Oid: "1.2", Access: "ACCESS_READONLY", Type: "OCTETSTR", Label: "node2"},
+				}},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+				Overrides: map[string]MetricOverrides{
+					"node2": MetricOverrides{Ignore: true},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "node1",
+						Oid:  "1.1",
+						Type: "gauge",
+						Help: " - 1.1",
+					},
+				},
+			},
+		},
 		// Simple metric with type override.
 		{
 			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
