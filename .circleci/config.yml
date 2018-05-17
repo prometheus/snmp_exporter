@@ -12,7 +12,7 @@ jobs:
     - checkout
     - run: sudo apt-get -y install build-essential libsnmp-dev
     - run: make promu
-    - run: make check_license style unused staticcheck build
+    - run: make check_license style unused staticcheck build test
     - run: rm -v snmp_exporter
 
   build:
