@@ -10,6 +10,7 @@ jobs:
 
     steps:
     - checkout
+    - run: sudo apt-get -y install build-essential libsnmp-dev
     - run: make promu
     - run: make check_license style unused staticcheck build
     - run: rm -v snmp_exporter
