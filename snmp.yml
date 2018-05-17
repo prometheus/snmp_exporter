@@ -6635,16 +6635,6 @@ servertech_sentry3:
       type: gauge
     - labelname: infeedIndex
       type: gauge
-  - name: infeedCapacityUsed
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.20
-    type: gauge
-    help: The used percentage of the input feed line load capacity (infeedLoadValue
-      / infeedCapacity x 100) - 1.3.6.1.4.1.1718.3.2.2.1.20
-    indexes:
-    - labelname: towerIndex
-      type: gauge
-    - labelname: infeedIndex
-      type: gauge
   - name: infeedLineID
     oid: 1.3.6.1.4.1.1718.3.2.2.1.21
     type: DisplayString
@@ -6676,16 +6666,6 @@ servertech_sentry3:
     oid: 1.3.6.1.4.1.1718.3.2.2.1.24
     type: gauge
     help: The apparent power capacity of the input feed circuit - 1.3.6.1.4.1.1718.3.2.2.1.24
-    indexes:
-    - labelname: towerIndex
-      type: gauge
-    - labelname: infeedIndex
-      type: gauge
-  - name: infeedVACapacityUsed
-    oid: 1.3.6.1.4.1.1718.3.2.2.1.25
-    type: gauge
-    help: The used percentage of the input feed circuit apparent power capacity (infeedApparentPower
-      / infeedVACapacity x 100) - 1.3.6.1.4.1.1718.3.2.2.1.25
     indexes:
     - labelname: towerIndex
       type: gauge
