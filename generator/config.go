@@ -12,6 +12,7 @@ type Config struct {
 }
 
 type MetricOverrides struct {
+	Ignore         bool                              `yaml:"ignore,omitempty"`
 	RegexpExtracts map[string][]config.RegexpExtract `yaml:"regex_extracts,omitempty"`
 	Type           string                            `yaml:"type,omitempty"`
 }
@@ -24,7 +25,7 @@ func (c *MetricOverrides) UnmarshalYAML(unmarshal func(interface{}) error) error
 	}
 	// Ensure type for override is valid.
 	typ, ok := metricType(c.Type)
-	if !ok || typ != c.Type {
+	if c.Type != "" && (!ok || typ != c.Type) {
 		return fmt.Errorf("Invalid metric type override '%s'", c.Type)
 	}
 

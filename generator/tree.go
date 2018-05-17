@@ -283,6 +283,11 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				Indexes: []*config.Index{},
 				Lookups: []*config.Lookup{},
 			}
+
+			if cfg.Overrides[metric.Name].Ignore {
+				return // Ignored metric.
+			}
+
 			for _, i := range n.Indexes {
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
