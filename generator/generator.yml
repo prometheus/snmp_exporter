@@ -87,9 +87,9 @@ modules:
       - 1.3.6.1.4.1.1718.3.2.3  # outletTable
     overrides:
       infeedCapacityUsed:
-        ignore: true # Composite metric: infeedLoadValue / infeedCapacity * 100
+        ignore: true  # Composite metric: infeedLoadValue / infeedCapacity * 100
       infeedVACapacityUsed:
-        ignore: true # Composite metric: infeedApparentPower / infeedVACapacity * 100
+        ignore: true  # Composite metric: infeedApparentPower / infeedVACapacity * 100
 
 # Palo Alto Firewalls
 #
