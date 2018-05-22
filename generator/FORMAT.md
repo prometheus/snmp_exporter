@@ -5,7 +5,9 @@ have to care about how this works.
 
 ```
 module_name:
-  # There's various auth/version options here too. See the main README.
+  auth:
+    # There's various auth/version options here too. See the main README.
+    community: public
   walk:
     # List of OID subtrees to walk.
     - 1.3.6.1.2.1.2
