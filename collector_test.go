@@ -32,6 +32,7 @@ func TestPduToSample(t *testing.T) {
 		metric          *config.Metric
 		oidToPdu        map[string]gosnmp.SnmpPDU
 		expectedMetrics map[string]string
+		shouldErr       bool
 	}{
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -273,18 +274,78 @@ func TestPduToSample(t *testing.T) {
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
 			expectedMetrics: map[string]string{"gauge:<value:3 > ": `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []}`},
 		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 3,
+			},
+			indexOids: []int{2, 65, 65},
+			metric: &config.Metric{
+				Name:    "test_metric",
+				Oid:     "1.1.1.1.1",
+				Type:    "gauge",
+				Help:    "Help string",
+				Indexes: []*config.Index{{Labelname: "foo", Type: "DisplayString"}},
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: map[string]string{`label:<name:"foo" value:"AA" > gauge:<value:3 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [foo]}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 3,
+			},
+			indexOids: []int{2, 65, 255},
+			metric: &config.Metric{
+				Name:    "test_metric",
+				Oid:     "1.1.1.1.1",
+				Type:    "gauge",
+				Help:    "Help string",
+				Indexes: []*config.Index{{Labelname: "foo", Type: "DisplayString"}},
+			},
+			oidToPdu:  make(map[string]gosnmp.SnmpPDU),
+			shouldErr: true, // Invalid ASCII/UTF-8 string.
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 3,
+			},
+			indexOids: []int{2, 65, 255},
+			metric: &config.Metric{
+				Name:    "test_metric",
+				Oid:     "1.1.1.1.1",
+				Type:    "gauge",
+				Help:    "Help string",
+				Indexes: []*config.Index{{Labelname: "foo", Type: "DisplayString"}},
+				RegexpExtracts: map[string][]config.RegexpExtract{
+					"": []config.RegexpExtract{{Value: "1", Regex: config.Regexp{regexp.MustCompile(".*")}}},
+				},
+			},
+			oidToPdu:  make(map[string]gosnmp.SnmpPDU),
+			shouldErr: true, // Invalid ASCII/UTF-8 string.
+		},
 	}
 
 	for i, c := range cases {
 		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu)
-		if len(metrics) != len(c.expectedMetrics) {
+		if len(metrics) != len(c.expectedMetrics) && !c.shouldErr {
 			t.Fatalf("Unexpected number of metrics returned for case %v: want %v, got %v", i, len(c.expectedMetrics), len(metrics))
 		}
 		metric := &io_prometheus_client.Metric{}
+		errHappened := false
 		for _, m := range metrics {
 			err := m.Write(metric)
 			if err != nil {
-				t.Fatalf("Error writing metric: %v", err)
+				if c.shouldErr {
+					errHappened = true
+					continue
+				} else {
+					t.Fatalf("Error writing metric: %v", err)
+				}
 			}
 			if _, ok := c.expectedMetrics[metric.String()]; !ok {
 				t.Fatalf("Unexpected metric: got %v", metric.String())
@@ -292,6 +353,9 @@ func TestPduToSample(t *testing.T) {
 			if c.expectedMetrics[metric.String()] != m.Desc().String() {
 				t.Fatalf("Unexpected metric: got %v , want %v", m.Desc().String(), c.expectedMetrics[metric.String()])
 			}
+		}
+		if !errHappened && c.shouldErr {
+			t.Fatalf("Was expecting error, but none returned.")
 		}
 	}
 }
