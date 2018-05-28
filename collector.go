@@ -270,8 +270,14 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		}
 	}
 
-	return []prometheus.Metric{prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
-		t, value, labelvalues...)}
+	sample, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
+		t, value, labelvalues...)
+	if err != nil {
+		sample = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),
+			fmt.Errorf("Error for metric %s with labels %v from indexOids %v: %v", metric.Name, labelvalues, indexOids, err))
+	}
+
+	return []prometheus.Metric{sample}
 }
 
 func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string) []prometheus.Metric {
@@ -289,8 +295,12 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 				log.Debugf("Error parsing float64 from value: %v for metric: %v", res, metric.Name)
 				continue
 			}
-			newMetric := prometheus.MustNewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
+			newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
 				prometheus.GaugeValue, v, labelvalues...)
+			if err != nil {
+				newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for regex_extract", nil, nil),
+					fmt.Errorf("Error for metric %s with labels %v: %v", metric.Name+name, labelvalues, err))
+			}
 			results = append(results, newMetric)
 			break
 		}
