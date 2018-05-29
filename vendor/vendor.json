@@ -266,132 +266,132 @@
 			"versionExact": "v1.5.0"
 		},
 		{
-			"checksumSHA1": "ZVuYR0BGkdoGGghH6War3Z9FNh8=",
+			"checksumSHA1": "NTcyB/n5u9hyvDOyo0eYaIukcpk=",
 			"path": "github.com/onsi/gomega",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "l6/fvZDSO6pfVPvnH461UAce6e4=",
+			"checksumSHA1": "xHjutpjbpxpDWezRgE7DF6wK6VE=",
 			"path": "github.com/onsi/gomega/format",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "o2E6JBtKPkafh352002aNNmVrdE=",
+			"checksumSHA1": "mF5onRlgWdJUvURFCU+5aXUq1UE=",
 			"path": "github.com/onsi/gomega/gbytes",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "7+F7qFjwt5Nj9DvZviE2pl+Qxso=",
+			"checksumSHA1": "uESD7fW/7WGYT9rKjhp7cWCHYeE=",
 			"path": "github.com/onsi/gomega/ghttp",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "1UQfUyHFvuXaIwVQ6rNPqdHrSlc=",
 			"path": "github.com/onsi/gomega/ghttp/protobuf",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "h9+4H+HavCWOy8bRS96MOGU3j9s=",
+			"checksumSHA1": "w1OR2AxFNchVM38MuIh1D5EsIkU=",
 			"path": "github.com/onsi/gomega/internal/assertion",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "nFhUQI9wSpF9n3i9fn2q4wmaBpk=",
+			"checksumSHA1": "78vA6WGXW2Pj7DmOk12273P4RLU=",
 			"path": "github.com/onsi/gomega/internal/asyncassertion",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "CIwteJCVKKQDPoXfqtVTVMHAeEU=",
 			"path": "github.com/onsi/gomega/internal/fakematcher",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "EsgeBqN2S5wj8aWvGsS162ZK7xI=",
 			"path": "github.com/onsi/gomega/internal/oraclematcher",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "L+hrc6XryRlK/va0xVE81DCklGc=",
+			"checksumSHA1": "lE5qlnwZn9djuZw5x+YSF8J9Pvo=",
 			"path": "github.com/onsi/gomega/internal/testingtsupport",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "15q+OhD84A8HoJo/FPPYFSPTodQ=",
+			"checksumSHA1": "KKxvk27+pwo0AwG/GlAJcWfdtYE=",
 			"path": "github.com/onsi/gomega/matchers",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "NMjCfnHie2dgQw0kCObrHRc8S50=",
 			"path": "github.com/onsi/gomega/matchers/support/goraph/bipartitegraph",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "zjTC6ady0bJUwzTFAKtv63T7Fmg=",
 			"path": "github.com/onsi/gomega/matchers/support/goraph/edge",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "o2+IscLOPKOiovl2g0/igkD1R4Q=",
 			"path": "github.com/onsi/gomega/matchers/support/goraph/node",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "yEF1BYQPwS3neYFKiqNQReqnadY=",
 			"path": "github.com/onsi/gomega/matchers/support/goraph/util",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
-			"checksumSHA1": "2Tp37T34lRvZKYpTE6+dUl7GVS4=",
+			"checksumSHA1": "mGI31MBiT3PJ8sgoB/E7NQ+4dJA=",
 			"path": "github.com/onsi/gomega/types",
-			"revision": "003f63b7f4cff3fc95357005358af2de0f5fe152",
-			"revisionTime": "2018-01-05T22:13:10Z",
-			"version": "v1.3.0",
-			"versionExact": "v1.3.0"
+			"revision": "62bff4df71bdbc266561a0caee19f0594b17c240",
+			"revisionTime": "2018-05-14T16:16:30Z",
+			"version": "v1.4.0",
+			"versionExact": "v1.4.0"
 		},
 		{
 			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
