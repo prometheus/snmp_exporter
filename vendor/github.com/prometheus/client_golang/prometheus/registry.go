@@ -38,12 +38,13 @@ const (
 // Registerer and Gatherer interface a number of convenience functions in this
 // package act on. Initially, both variables point to the same Registry, which
 // has a process collector (currently on Linux only, see NewProcessCollector)
-// and a Go collector (see NewGoCollector) already registered. This approach to
-// keep default instances as global state mirrors the approach of other packages
-// in the Go standard library. Note that there are caveats. Change the variables
-// with caution and only if you understand the consequences. Users who want to
-// avoid global state altogether should not use the convenience functions and
-// act on custom instances instead.
+// and a Go collector (see NewGoCollector, in particular the note about
+// stop-the-world implication with Go versions older than 1.9) already
+// registered. This approach to keep default instances as global state mirrors
+// the approach of other packages in the Go standard library. Note that there
+// are caveats. Change the variables with caution and only if you understand the
+// consequences. Users who want to avoid global state altogether should not use
+// the convenience functions and act on custom instances instead.
 var (
 	defaultRegistry              = NewRegistry()
 	DefaultRegisterer Registerer = defaultRegistry
@@ -437,7 +438,7 @@ collectLoop:
 			))
 		default:
 			if goroutineBudget <= 0 || len(collectors) == 0 {
-				// All collectors are aleady being worked on or
+				// All collectors are already being worked on or
 				// we have already as many goroutines started as
 				// there are collectors. Just process metrics
 				// from now on.
