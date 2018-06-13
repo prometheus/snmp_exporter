@@ -16,7 +16,7 @@ go build
 
 ## Running
 
-```
+```sh
 ./generator generate
 ```
 
@@ -28,7 +28,7 @@ Additional command are available for debugging, use the `help` command to see th
 
 If you would like to run the generator in docker to generate your `snmp.yml` config run the following commands.
 
-```
+```sh
 docker build -t snmp-generator .
 docker run -ti \
   -v $HOME/.snmp/mibs:/root/.snmp/mibs \
@@ -42,7 +42,7 @@ docker run -ti \
 `generator.yml` provides a list of modules. The simplest module is just a name
 and a set of OIDs to walk.
 
-```
+```yaml
 modules:
   module_name:  # The module name. You can have as many modules as you want.
     walk:       # List of OIDs to walk. Can also be SNMP object names or specific instances.
