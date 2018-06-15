@@ -14,7 +14,7 @@ releases](https://github.com/prometheus/snmp_exporter/releases) page.
 
 ## Usage
 
-```
+```sh
 ./snmp_exporter
 ```
 
