@@ -88,7 +88,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 
 	// Include both ASCII and UTF-8 in DisplayString, even though DisplayString
 	// is technically only ASCII.
-	displayStringRe := regexp.MustCompile(`\d+[at]`)
+	displayStringRe := regexp.MustCompile(`^\d+[at]$`)
 
 	// Set type on MAC addresses and strings.
 	walkNode(nodes, func(n *Node) {
