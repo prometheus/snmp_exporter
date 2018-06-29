@@ -105,6 +105,11 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Label: "utf8", Hint: "255t"},
 			out: &Node{Oid: "1", Label: "utf8", Hint: "255t", Type: "DisplayString"},
 		},
+		// Mix of number and ASCII string.
+		{
+			in:  &Node{Oid: "1", Label: "notascii", Hint: "2d32a", Type: "OCTETSTR"},
+			out: &Node{Oid: "1", Label: "notascii", Hint: "2d32a", Type: "OCTETSTR"},
+		},
 		// Opaques converted.
 		{
 			in:  &Node{Oid: "1", Type: "OPAQUE", TextualConvention: "Float"},
