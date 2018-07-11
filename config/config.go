@@ -56,6 +56,7 @@ var (
 	DefaultRegexpExtract = RegexpExtract{
 		Value: "$1",
 	}
+	metricNameRE = regexp.MustCompile(`^[a-zA-Z_]([a-zA-Z0-9_])*$`)
 )
 
 // Config for the snmp_exporter.
@@ -82,6 +83,12 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	type plain Module
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
+	}
+
+	for _, m := range c.Metrics {
+		if !metricNameRE.MatchString(m.Name) {
+			return fmt.Errorf("invalid metric name %q", m.Name)
+		}
 	}
 
 	wp := c.WalkParams

@@ -52,3 +52,12 @@ func TestLoadConfigWithOverrides(t *testing.T) {
 		t.Errorf("Error marshalling config: %v", err)
 	}
 }
+
+func TestLoadConfigWithInvalidMetricName(t *testing.T) {
+	testConfig := "testdata/snmp-invalid-metric-name.yml"
+	sc := &SafeConfig{}
+	err := sc.ReloadConfig(testConfig)
+	if err == nil {
+		t.Errorf("Did not get error loading config %v: %v", testConfig, err)
+	}
+}
