@@ -14,6 +14,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"net"
 	"strconv"
@@ -234,7 +235,55 @@ func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 	}
 }
 
+// parseDateAndTime extracts a UNIX timestamp from an RFC 2579 DateAndTime.
+func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
+	var (
+		v   []byte
+		tz  *time.Location
+		err error
+	)
+	// DateAndTime should be a slice of bytes.
+	switch pduType := pdu.Value.(type) {
+	case []byte:
+		v = pdu.Value.([]byte)
+	default:
+		return 0, fmt.Errorf("invalid DateAndTime type %v", pduType)
+	}
+	pduLength := len(v)
+	// DateAndTime can be 8 or 11 bytes depending if the time zone is included.
+	switch pduLength {
+	case 8:
+		// No time zone included, assume UTC.
+		tz = time.UTC
+	case 11:
+		// Extract the timezone from the last 3 bytes.
+		locString := fmt.Sprintf("%s%02d%02d", string(v[8]), uint8(v[9]), uint8(v[10]))
+		loc, err := time.Parse("-0700", locString)
+		if err != nil {
+			return 0, fmt.Errorf("error parsing location string: %q, error: %s", locString, err)
+		}
+		tz = loc.Location()
+	default:
+		return 0, fmt.Errorf("invalid DateAndTime length %v", pduLength)
+	}
+	if err != nil {
+		return 0, fmt.Errorf("unable to parse DateAndTime %q, error: %s", v, err)
+	}
+	// Build the date from the various fields and time zone.
+	t := time.Date(
+		int(binary.BigEndian.Uint16(v[0:2])),
+		time.Month(uint8(v[2])),
+		int(uint8(v[3])),
+		int(uint8(v[4])),
+		int(uint8(v[5])),
+		int(uint8(v[6])),
+		int(uint8(v[7]))*1e+8,
+		tz)
+	return float64(t.Unix()), nil
+}
+
 func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) []prometheus.Metric {
+	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
 
@@ -255,6 +304,13 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t = prometheus.GaugeValue
 	case "Float", "Double":
 		t = prometheus.GaugeValue
+	case "DateAndTime":
+		t = prometheus.GaugeValue
+		value, err = parseDateAndTime(pdu)
+		if err != nil {
+			log.Debugf("error parsing DateAndTime: %s", err)
+			return []prometheus.Metric{}
+		}
 	default:
 		// It's some form of string.
 		t = prometheus.GaugeValue

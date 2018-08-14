@@ -115,6 +115,13 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 	})
 
+	// Convert RFC 2579 DateAndTime textual conversion to type.
+	walkNode(nodes, func(n *Node) {
+		if n.TextualConvention == "DateAndTime" {
+			n.Type = "DateAndTime"
+		}
+	})
+
 	return nameToNode
 }
 
@@ -129,6 +136,8 @@ func metricType(t string) (string, bool) {
 	case "IpAddr", "IPADDR", "NETADDR":
 		return "IpAddr", true
 	case "PhysAddress48", "DisplayString", "Float", "Double":
+		return t, true
+	case "DateAndTime":
 		return t, true
 	default:
 		// Unsupported type.
