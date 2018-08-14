@@ -145,7 +145,7 @@ func TestPduToSample(t *testing.T) {
 					"Blank": []config.RegexpExtract{
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("XXXX"),
+								regexp.MustCompile("^XXXX$"),
 							},
 							Value: "4",
 						},
@@ -161,13 +161,13 @@ func TestPduToSample(t *testing.T) {
 					"MultipleRegexes": []config.RegexpExtract{
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("XXXX"),
+								regexp.MustCompile("^XXXX$"),
 							},
 							Value: "123",
 						},
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("123"),
+								regexp.MustCompile("123.*"),
 							},
 							Value: "999",
 						},
