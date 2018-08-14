@@ -9759,6 +9759,7 @@ ubiquiti_airmax:
     oid: 1.3.6.1.4.1.41112.1.4.8.4
     type: gauge
     help: Host system temperature - 1.3.6.1.4.1.41112.1.4.8.4
+  version: 1
 ubiquiti_unifi:
   walk:
   - 1.3.6.1.2.1.2
