@@ -206,6 +206,7 @@ modules:
 # https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 #
   ubiquiti_airmax:
+    version: 1
     walk:
       - sysUpTime
       - interfaces
