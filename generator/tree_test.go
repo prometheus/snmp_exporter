@@ -119,6 +119,11 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Type: "OPAQUE", TextualConvention: "Double"},
 			out: &Node{Oid: "1", Type: "Double", TextualConvention: "Double"},
 		},
+		// RFC 2579 DateAndTime.
+		{
+			in:  &Node{Oid: "1", Type: "DisplayString", TextualConvention: "DateAndTime"},
+			out: &Node{Oid: "1", Type: "DateAndTime", TextualConvention: "DateAndTime"},
+		},
 	}
 	for i, c := range cases {
 		// Indexes always end up initilized.
@@ -312,6 +317,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.100", Access: "ACCESS_READONLY", Label: "MacAddress", Type: "OCTETSTR", Hint: "1x:"},
 					{Oid: "1.200", Access: "ACCESS_READONLY", Label: "Float", Type: "OPAQUE", TextualConvention: "Float"},
 					{Oid: "1.201", Access: "ACCESS_READONLY", Label: "Double", Type: "OPAQUE", TextualConvention: "Double"},
+					{Oid: "1.202", Access: "ACCESS_READONLY", Label: "DateAndTime", Type: "DisplayString", TextualConvention: "DateAndTime"},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"root", "1.3"},
@@ -408,6 +414,12 @@ func TestGenerateConfigModule(t *testing.T) {
 						Oid:  "1.201",
 						Type: "Double",
 						Help: " - 1.201",
+					},
+					{
+						Name: "DateAndTime",
+						Oid:  "1.202",
+						Type: "DateAndTime",
+						Help: " - 1.202",
 					},
 				},
 			},
