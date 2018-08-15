@@ -90,8 +90,9 @@ func prepareTree(nodes *Node) map[string]*Node {
 	// is technically only ASCII.
 	displayStringRe := regexp.MustCompile(`^\d+[at]$`)
 
-	// Set type on MAC addresses and strings.
+	// Apply various tweaks to the types.
 	walkNode(nodes, func(n *Node) {
+		// Set type on MAC addresses and strings.
 		// RFC 2579
 		switch n.Hint {
 		case "1x:":
@@ -106,12 +107,15 @@ func prepareTree(nodes *Node) map[string]*Node {
 		if n.TextualConvention == "DisplayString" {
 			n.Type = "DisplayString"
 		}
-	})
 
-	// Promote Opaque Float/Double textual convention to type.
-	walkNode(nodes, func(n *Node) {
+		// Promote Opaque Float/Double textual convention to type.
 		if n.TextualConvention == "Float" || n.TextualConvention == "Double" {
 			n.Type = n.TextualConvention
+		}
+
+		// Convert RFC 2579 DateAndTime textual conversion to type.
+		if n.TextualConvention == "DateAndTime" {
+			n.Type = "DateAndTime"
 		}
 	})
 
@@ -129,6 +133,8 @@ func metricType(t string) (string, bool) {
 	case "IpAddr", "IPADDR", "NETADDR":
 		return "IpAddr", true
 	case "PhysAddress48", "DisplayString", "Float", "Double":
+		return t, true
+	case "DateAndTime":
 		return t, true
 	default:
 		// Unsupported type.

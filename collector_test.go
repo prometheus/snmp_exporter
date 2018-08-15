@@ -14,6 +14,7 @@
 package main
 
 import (
+	"errors"
 	"reflect"
 	"regexp"
 	"testing"
@@ -493,6 +494,41 @@ func TestPduValueAsString(t *testing.T) {
 		got := pduValueAsString(c.pdu, c.typ)
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("pduValueAsString(%v, %q): got %q, want %q", c.pdu, c.typ, got, c.result)
+		}
+	}
+}
+
+func TestParseDateAndTime(t *testing.T) {
+	cases := []struct {
+		pdu    *gosnmp.SnmpPDU
+		result float64
+		err    error
+	}{
+		// No timezone, use UTC
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{7, 226, 8, 15, 8, 1, 15, 0}},
+			result: 1534320075,
+			err:    nil,
+		},
+		// +0200
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{7, 226, 8, 15, 8, 1, 15, 0, 43, 2, 0}},
+			result: 1534312875,
+			err:    nil,
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{0}},
+			result: 0,
+			err:    errors.New("invalid DateAndTime length 1"),
+		},
+	}
+	for _, c := range cases {
+		got, err := parseDateAndTime(c.pdu)
+		if !reflect.DeepEqual(err, c.err) {
+			t.Errorf("parseDateAndTime(%v) error: got %v, want %v", c.pdu, err, c.err)
+		}
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("parseDateAndTime(%v) result: got %v, want %v", c.pdu, got, c.result)
 		}
 	}
 }
