@@ -73,8 +73,10 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 		for _, c := range n.Children {
 			c.Indexes = augmented.Indexes
+			c.ImpliedIndex = augmented.ImpliedIndex
 		}
 		n.Indexes = augmented.Indexes
+		n.ImpliedIndex = augmented.ImpliedIndex
 	})
 
 	// Copy indexes from table entries down to the entries.
@@ -82,6 +84,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 		if len(n.Indexes) != 0 {
 			for _, c := range n.Children {
 				c.Indexes = n.Indexes
+				c.ImpliedIndex = n.ImpliedIndex
 			}
 		}
 	})
@@ -307,7 +310,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				return // Ignored metric.
 			}
 
-			for _, i := range n.Indexes {
+			for count, i := range n.Indexes {
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
 				if !ok {
@@ -320,6 +323,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					return
 				}
 				index.FixedSize = indexNode.FixedSize
+				if n.ImpliedIndex && count+1 == len(n.Indexes) {
+					index.Implied = true
+				}
 				metric.Indexes = append(metric.Indexes, index)
 			}
 			out.Metrics = append(out.Metrics, metric)
