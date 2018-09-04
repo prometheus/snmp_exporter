@@ -18,7 +18,7 @@ completely rewritten. Many thanks to Andreas Louca, other contributors
 
 * Whitham Reeve ([@wdreeveii](https://github.com/wdreeveii/))
 
-Sonia Hamilton, sonia@snowfrog.net, http://www.snowfrog.net.
+Sonia Hamilton, sonia@snowfrog.net
 
 Overview
 --------
@@ -57,60 +57,22 @@ type Logger interface {
 }
 ```
 
-GoSNMP is still under development, therefore API's may change and bugs
-will be squashed. Test Driven Development is used - you can help by
-sending packet captures (see Packet Captures below). There may be more
-than one branch on github. **master** is safe to pull from, other
-branches unsafe as history may be rewritten.
-
 Installation
 ------------
-
-Install via **go get**:
 
 ```shell
 go get github.com/soniah/gosnmp
 ```
 
-Using dependency managers
--------------------------
-
-By default the `dep` tool uses versioning, which is not implemented by this
-repository. To use this package with `dep`, please add the following to
-`godep.toml` or replace the existing declaration:
-
-Change from:
-
-```toml
-[[constraint]]
-  name = "github.com/soniah/gosnmp"
-  version = "1.0.0"
-```
-
-To:
-
-```toml
-[[constraint]]
-  name = "github.com/soniah/gosnmp"
-  branch = "master"
-```
-
 Documentation
 -------------
 
-See http://godoc.org/github.com/soniah/gosnmp or your local go doc
-server for full documentation, as well as the examples.
-
-```shell
-cd $GOPATH
-godoc -http=:6060 &
-$preferred_browser http://localhost:6060/pkg &
-```
+http://godoc.org/github.com/soniah/gosnmp
 
 Usage
 -----
 
-Here is code from **examples/example.go**, demonstrating how to use GoSNMP:
+Here is `examples/example.go`, demonstrating how to use GoSNMP:
 
 ```go
 // Default is a pointer to a GoSNMP struct that contains sensible defaults
@@ -154,21 +116,55 @@ Running this example gives the following output (from my printer):
 1: oid: 1.3.6.1.2.1.1.7.0 number: 104
 ```
 
-**examples/example2.go** is similar to example.go, however is uses a custom
-`&GoSNMP` rather than `g.Default`.
+* `examples/example2.go` is similar to `example.go`, however it uses a
+  custom `&GoSNMP` rather than `g.Default`
+* `examples/walkexample.go` demonstrates using `BulkWalk`
+* `examples/example3.go` demonstrates `SNMPv3`
+* `examples/trapserver.go` demonstrates writing an SNMP v2c trap server
 
-**examples/walkexample.go** demonstrates using `BulkWalk`.
+Contributions
+-------------
 
-**examples/example3.go** demonstrates `SNMPv3`
+Contributions are welcome, especially ones that have packet captures (see
+below).
 
-**examples/trapserver.go** demonstrates writing an SNMP v2c trap server
+If you've never contributed to a Go project before, here is an example workflow.
+
+1. [fork this repo on the GitHub webpage](https://github.com/soniah/gosnmp/fork)
+1. `go get github.com/soniah/gosnmp`
+1. `cd $GOPATH/src/github.com/soniah/gosnmp`
+1. `git remote rename origin upstream`
+1. `git remote add origin git@github.com:<your-github-username>/gosnmp.git`
+1. `git checkout -b development`
+1. `git push -u origin development` (setup where you push to, check it works)
+
+Packet Captures
+---------------
+
+Create your packet captures in the following way:
+
+Expected output, obtained via an **snmp** command. For example:
+
+```shell
+% snmpget -On -v2c -c public 203.50.251.17 1.3.6.1.2.1.1.7.0 \
+  1.3.6.1.2.1.2.2.1.2.6 1.3.6.1.2.1.2.2.1.5.3
+.1.3.6.1.2.1.1.7.0 = INTEGER: 78
+.1.3.6.1.2.1.2.2.1.2.6 = STRING: GigabitEthernet0
+.1.3.6.1.2.1.2.2.1.5.3 = Gauge32: 4294967295
+```
+
+A packet capture, obtained while running the snmpget. For example:
+
+```shell
+sudo tcpdump -s 0 -i eth0 -w foo.pcap host 203.50.251.17 and port 161
+```
 
 Bugs
 ----
 
 Rane's document [SNMP: Simple? Network Management
-Protocol](http://www.rane.com/note161.html) was useful for me when
-learning the SNMP protocol.
+Protocol](http://www.rane.com/note161.html) was useful when learning the SNMP
+protocol.
 
 Please create an [issue](https://github.com/soniah/gosnmp/issues) on
 Github with packet captures (upload capture to Google Drive, Dropbox, or
@@ -201,29 +197,19 @@ time or haven't been able to find example devices to query:
 * 0x07 ObjectDescription
 * 0x45 NsapAddress
 
-Packet Captures
----------------
-
-Create your packet captures in the following way:
-
-Expected output, obtained via an **snmp** command. For example:
-
-```shell
-% snmpget -On -v2c -c public 203.50.251.17 1.3.6.1.2.1.1.7.0 \
-  1.3.6.1.2.1.2.2.1.2.6 1.3.6.1.2.1.2.2.1.5.3
-.1.3.6.1.2.1.1.7.0 = INTEGER: 78
-.1.3.6.1.2.1.2.2.1.2.6 = STRING: GigabitEthernet0
-.1.3.6.1.2.1.2.2.1.5.3 = Gauge32: 4294967295
-```
-
-A packet capture, obtained while running the snmpget. For example:
-
-```shell
-sudo tcpdump -s 0 -i eth0 -w foo.pcap host 203.50.251.17 and port 161
-```
-
 Running the Tests
 -----------------
+
+```shell
+export GOSNMP_TARGET=1.2.3.4
+export GOSNMP_PORT=161
+export GOSNMP_TARGET_IPV4=1.2.3.4
+export GOSNMP_PORT_IPV4=161
+export GOSNMP_TARGET_IPV6='0:0:0:0:0:ffff:102:304'
+export GOSNMP_PORT_IPV6=161
+go test -v -tags all        # for example
+go test -v -tags helper     # for example
+```
 
 Tests are grouped as follows:
 
@@ -237,13 +223,6 @@ Tests are grouped as follows:
 
 The generic end-to-end integration test `generic_e2e_test.go` should
 work against any SNMP MIB-2 compliant host (e.g. a router, NAS box, printer).
-To use, set the environment variables `GOSNMP_TARGET` & `GOSNMP_PORT`, for
-example:
-
-```shell
-export GOSNMP_TARGET=1.2.3.4
-export GOSNMP_PORT=161
-```
 
 To profile cpu usage:
 
@@ -272,9 +251,10 @@ gocov test github.com/soniah/gosnmp | gocov-html > gosnmp.html && firefox gosnmp
 License
 -------
 
-Some parts of the code are borrowed by the Golang project (specifically some
-functions for unmarshaling BER responses), which are under the same terms and
-conditions as the Go language. The rest of the code is under a BSD license.
+Parts of the code are taken from the Golang project (specifically some
+functions for unmarshaling BER responses), which are under the same terms
+and conditions as the Go language. The rest of the code is under a BSD
+license.
 
 See the LICENSE file for more details.
 

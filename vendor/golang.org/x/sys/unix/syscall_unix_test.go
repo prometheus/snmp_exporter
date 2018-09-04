@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build darwin dragonfly freebsd linux netbsd openbsd solaris
+// +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
 
 package unix_test
 
@@ -98,6 +98,24 @@ func TestErrnoSignalName(t *testing.T) {
 	}
 }
 
+func TestFcntlInt(t *testing.T) {
+	t.Parallel()
+	file, err := ioutil.TempFile("", "TestFnctlInt")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+	defer file.Close()
+	f := file.Fd()
+	flags, err := unix.FcntlInt(f, unix.F_GETFD, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if flags&unix.FD_CLOEXEC == 0 {
+		t.Errorf("flags %#x do not include FD_CLOEXEC", flags)
+	}
+}
+
 // TestFcntlFlock tests whether the file locking structure matches
 // the calling convention of each kernel.
 func TestFcntlFlock(t *testing.T) {
@@ -127,6 +145,9 @@ func TestFcntlFlock(t *testing.T) {
 func TestPassFD(t *testing.T) {
 	if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
 		t.Skip("cannot exec subprocess on iOS, skipping test")
+	}
+	if runtime.GOOS == "aix" {
+		t.Skip("getsockname issue on AIX 7.2 tl1, skipping test")
 	}
 
 	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
