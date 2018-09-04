@@ -660,6 +660,12 @@ func TestGenerateConfigModule(t *testing.T) {
 								Children: []*Node{
 									{Oid: "1.6.1.1", Access: "ACCESS_READONLY", Label: "fixedSizeIndex", Type: "OCTETSTR", FixedSize: 8},
 									{Oid: "1.6.1.2", Access: "ACCESS_READONLY", Label: "fixedSizeFoo", Type: "INTEGER"}}}}},
+					{Oid: "1.7", Label: "impliedSize",
+						Children: []*Node{
+							{Oid: "1.7.1", Label: "impliedSizeEntry", Indexes: []string{"impliedSizeIndex"}, ImpliedIndex: true,
+								Children: []*Node{
+									{Oid: "1.7.1.1", Access: "ACCESS_READONLY", Label: "impliedSizeIndex", Type: "OCTETSTR"},
+									{Oid: "1.7.1.2", Access: "ACCESS_READONLY", Label: "impliedSizeFoo", Type: "INTEGER"}}}}},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
@@ -810,6 +816,32 @@ func TestGenerateConfigModule(t *testing.T) {
 								Labelname: "fixedSizeIndex",
 								Type:      "OctetString",
 								FixedSize: 8,
+							},
+						},
+					},
+					{
+						Name: "impliedSizeIndex",
+						Oid:  "1.7.1.1",
+						Help: " - 1.7.1.1",
+						Type: "OctetString",
+						Indexes: []*config.Index{
+							{
+								Labelname: "impliedSizeIndex",
+								Type:      "OctetString",
+								Implied:   true,
+							},
+						},
+					},
+					{
+						Name: "impliedSizeFoo",
+						Oid:  "1.7.1.2",
+						Help: " - 1.7.1.2",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "impliedSizeIndex",
+								Type:      "OctetString",
+								Implied:   true,
 							},
 						},
 					},
