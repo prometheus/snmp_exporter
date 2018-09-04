@@ -98,12 +98,12 @@
 			"versionExact": "v1.2.0"
 		},
 		{
-			"checksumSHA1": "StUo3PD2Kls2C4w0EFQhz9Za3Ak=",
+			"checksumSHA1": "qmf2OPIdr1nS6FGwGndELHFXHFU=",
 			"path": "github.com/mattn/go-isatty",
-			"revision": "0360b2af4f38e8d38c7fce2a9f4e702702d73a39",
-			"revisionTime": "2017-09-25T05:34:41Z",
-			"version": "v0.0.3",
-			"versionExact": "v0.0.3"
+			"revision": "6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c",
+			"revisionTime": "2017-11-07T05:05:31Z",
+			"version": "v0.0.4",
+			"versionExact": "v0.0.4"
 		},
 		{
 			"checksumSHA1": "A0zS09FfwTgVp7v0xGDYVwTRzSk=",
