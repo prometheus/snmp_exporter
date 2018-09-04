@@ -27,12 +27,12 @@ func setupConnection(t *testing.T) {
 	envPort := os.Getenv("GOSNMP_PORT")
 
 	if len(envTarget) <= 0 {
-		t.Skip("skipping: environment variable not set: GOSNMP_TARGET")
+		t.Error("environment variable not set: GOSNMP_TARGET")
 	}
 	Default.Target = envTarget
 
 	if len(envPort) <= 0 {
-		t.Skip("skipping: environment variable not set: GOSNMP_PORT")
+		t.Error("environment variable not set: GOSNMP_PORT")
 	}
 	port, _ := strconv.ParseUint(envPort, 10, 16)
 	Default.Port = uint16(port)
@@ -45,6 +45,58 @@ func setupConnection(t *testing.T) {
 		}
 	}
 }
+
+func setupConnectionIPv4(t *testing.T) {
+	envTarget := os.Getenv("GOSNMP_TARGET_IPV4")
+	envPort := os.Getenv("GOSNMP_PORT_IPV4")
+
+	if len(envTarget) <= 0 {
+		t.Error("environment variable not set: GOSNMP_TARGET_IPV4")
+	}
+	Default.Target = envTarget
+
+	if len(envPort) <= 0 {
+		t.Error("environment variable not set: GOSNMP_PORT_IPV4")
+	}
+	port, _ := strconv.ParseUint(envPort, 10, 16)
+	Default.Port = uint16(port)
+
+	err := Default.ConnectIPv4()
+	if err != nil {
+		if len(envTarget) > 0 {
+			t.Fatalf("Connection failed. Is snmpd reachable on %s:%s?\n(err: %v)",
+				envTarget, envPort, err)
+		}
+	}
+}
+
+/*
+TODO work out ipv6 networking, etc
+
+func setupConnectionIPv6(t *testing.T) {
+	envTarget := os.Getenv("GOSNMP_TARGET_IPV6")
+	envPort := os.Getenv("GOSNMP_PORT_IPV6")
+
+	if len(envTarget) <= 0 {
+		t.Error("environment variable not set: GOSNMP_TARGET_IPV6")
+	}
+	Default.Target = envTarget
+
+	if len(envPort) <= 0 {
+		t.Error("environment variable not set: GOSNMP_PORT_IPV6")
+	}
+	port, _ := strconv.ParseUint(envPort, 10, 16)
+	Default.Port = uint16(port)
+
+	err := Default.ConnectIPv6()
+	if err != nil {
+		if len(envTarget) > 0 {
+			t.Fatalf("Connection failed. Is snmpd reachable on %s:%s?\n(err: %v)",
+				envTarget, envPort, err)
+		}
+	}
+}
+*/
 
 func TestGenericBasicGet(t *testing.T) {
 	setupConnection(t)
@@ -65,6 +117,48 @@ func TestGenericBasicGet(t *testing.T) {
 		t.Fatalf("Got a zero length sysDescr")
 	}
 }
+
+func TestGenericBasicGetIPv4Only(t *testing.T) {
+	setupConnectionIPv4(t)
+	defer Default.Conn.Close()
+
+	result, err := Default.Get([]string{".1.3.6.1.2.1.1.1.0"}) // SNMP MIB-2 sysDescr
+	if err != nil {
+		t.Fatalf("Get() failed with error => %v", err)
+	}
+	if len(result.Variables) != 1 {
+		t.Fatalf("Expected result of size 1")
+	}
+	if result.Variables[0].Type != OctetString {
+		t.Fatalf("Expected sysDescr to be OctetString")
+	}
+	sysDescr := result.Variables[0].Value.([]byte)
+	if len(sysDescr) == 0 {
+		t.Fatalf("Got a zero length sysDescr")
+	}
+}
+
+/*
+func TestGenericBasicGetIPv6Only(t *testing.T) {
+	setupConnectionIPv6(t)
+	defer Default.Conn.Close()
+
+	result, err := Default.Get([]string{".1.3.6.1.2.1.1.1.0"}) // SNMP MIB-2 sysDescr
+	if err != nil {
+		t.Fatalf("Get() failed with error => %v", err)
+	}
+	if len(result.Variables) != 1 {
+		t.Fatalf("Expected result of size 1")
+	}
+	if result.Variables[0].Type != OctetString {
+		t.Fatalf("Expected sysDescr to be OctetString")
+	}
+	sysDescr := result.Variables[0].Value.([]byte)
+	if len(sysDescr) == 0 {
+		t.Fatalf("Got a zero length sysDescr")
+	}
+}
+*/
 
 func TestGenericMultiGet(t *testing.T) {
 	setupConnection(t)
