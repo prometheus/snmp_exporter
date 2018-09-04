@@ -37,6 +37,10 @@ module_name:
         fixed_size: 8   # Only possible for OctetString/DisplayString types.
                         # If only one length is possible this is it. Otherwise
                         # this will be 0 or missing.
+      - labelname: someOtherString
+        type: OctetString
+        implied: true   # Only possible for OctetString/DisplayString types.
+                        # Must be the last index. See RFC2578 section 7.7.
    - name:  ifSpeed
      oid:   1.3.6.1.2.1.2.2.1.5
      type:  gauge

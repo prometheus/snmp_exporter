@@ -113,7 +113,12 @@ func main() {
 			if n.FixedSize != 0 {
 				t = fmt.Sprintf("%s(%d)", n.Type, n.FixedSize)
 			}
-			fmt.Printf("%s %s %s %q %q %s %s\n", n.Oid, n.Label, t, n.TextualConvention, n.Hint, n.Indexes, n.Description)
+			implied := ""
+			if n.ImpliedIndex {
+				implied = "(implied)"
+			}
+			fmt.Printf("%s %s %s %q %q %s%s %s\n",
+				n.Oid, n.Label, t, n.TextualConvention, n.Hint, n.Indexes, implied, n.Description)
 		})
 	}
 }

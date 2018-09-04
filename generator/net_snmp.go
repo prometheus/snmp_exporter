@@ -70,7 +70,8 @@ type Node struct {
 	Units             string
 	Access            string
 
-	Indexes []string
+	Indexes      []string
+	ImpliedIndex bool
 }
 
 // Copy returns a deep copy of the tree underneath the current Node.
@@ -215,6 +216,9 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	indexes := []string{}
 	for index != nil {
 		indexes = append(indexes, C.GoString(index.ilabel))
+		if index.isimplied != 0 {
+			n.ImpliedIndex = true
+		}
 		index = index.next
 	}
 	n.Indexes = indexes
