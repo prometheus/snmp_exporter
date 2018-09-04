@@ -27,11 +27,13 @@
 			"revisionTime": "2018-03-21T16:47:47Z"
 		},
 		{
-			"checksumSHA1": "dvabztWVQX8f6oMLRyv4dLH+TGY=",
+			"checksumSHA1": "jqSVRDK7dGg6E/NikVq1Kw6gdbA=",
 			"origin": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
 			"path": "github.com/davecgh/go-spew/spew",
-			"revision": "c679ae2cc0cb27ec3293fea7e254e47386f05d69",
-			"revisionTime": "2018-03-14T08:05:35Z"
+			"revision": "38b5d653e3cad9252e69070a3fe23377ab380557",
+			"revisionTime": "2016-01-08T11:58:29Z",
+			"version": "v1.1.1",
+			"versionExact": "v1.1.1"
 		},
 		{
 			"checksumSHA1": "YqagqqA4ZrPEytIv7nyGZYLkm9U=",
