@@ -581,12 +581,12 @@
 			"versionExact": "v1.14"
 		},
 		{
-			"checksumSHA1": "Ua5E6ReFBwEnuWLJtVSUfOp/Pqc=",
+			"checksumSHA1": "oZq21ofaXa5OMcpehkD32Bv/C9s=",
 			"path": "github.com/stretchr/testify/assert",
-			"revision": "12b6f73e6084dad08a7c6e575284b177ecafbc71",
-			"revisionTime": "2018-01-31T22:23:50Z",
-			"version": "v1.2.1",
-			"versionExact": "v1.2.1"
+			"revision": "f35b8ab0b5a2cef36673838d662e249dd9c94686",
+			"revisionTime": "2018-05-06T18:05:49Z",
+			"version": "v1.2.2",
+			"versionExact": "v1.2.2"
 		},
 		{
 			"checksumSHA1": "4nPV7YdyHiVRSWaxpy6jHt/MTq4=",
