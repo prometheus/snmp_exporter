@@ -43,6 +43,7 @@ type SnmpPacket struct {
 	PDUType            PDUType
 	MsgID              uint32
 	RequestID          uint32
+	MsgMaxSize         uint32
 	Error              SNMPError
 	ErrorIndex         uint8
 	NonRepeaters       uint8

@@ -17,3 +17,6 @@ rouser   authSHAPrivDESUser authPriv
 rouser   authMD5PrivAESUser authPriv
 rouser   authSHAPrivAESUser authPriv
 EOF
+
+# enable ipv6 TODO restart fails - need to enable ipv6 on interface; spin up a Linux instance to check this
+# sed -i -e '/agentAddress/ s/^/#/' -e '/agentAddress/ s/^##//' /etc/snmp/snmpd.conf

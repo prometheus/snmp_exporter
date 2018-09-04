@@ -78,6 +78,18 @@
 			"revisionTime": "2018-08-30T16:04:56Z"
 		},
 		{
+			"checksumSHA1": "Xd0VNaW0wehTnp0K6LR5YhM/iA4=",
+			"path": "github.com/golang/mock/gomock",
+			"revision": "600781dde9cca80734169b9e969d9054ccc57937",
+			"revisionTime": "2018-08-20T16:13:58Z"
+		},
+		{
+			"checksumSHA1": "QhIHhfnn7V9c2CUxuYLF4QzsKL0=",
+			"path": "github.com/golang/mock/gomock/mock_matcher",
+			"revision": "600781dde9cca80734169b9e969d9054ccc57937",
+			"revisionTime": "2018-08-20T16:13:58Z"
+		},
+		{
 			"checksumSHA1": "YqagqqA4ZrPEytIv7nyGZYLkm9U=",
 			"path": "github.com/golang/protobuf/proto",
 			"revision": "aa810b61a9c79d51363740d207bb46cf8e620ed5",
@@ -561,10 +573,12 @@
 			"versionExact": "v1.0.6"
 		},
 		{
-			"checksumSHA1": "7MI5mY9AdzMD7PNQy1v2KSWnxEs=",
+			"checksumSHA1": "JdDaX1VamjxxAwVt2ntv8G9k8rM=",
 			"path": "github.com/soniah/gosnmp",
-			"revision": "bcf840db66be7d64bf96c3c0e075c92e3d98f793",
-			"revisionTime": "2018-04-20T13:00:27Z"
+			"revision": "3651b0e1a5302d5d5f6d47a2af02658f8bb36311",
+			"revisionTime": "2018-08-08T13:35:41Z",
+			"version": "v1.14",
+			"versionExact": "v1.14"
 		},
 		{
 			"checksumSHA1": "Ua5E6ReFBwEnuWLJtVSUfOp/Pqc=",

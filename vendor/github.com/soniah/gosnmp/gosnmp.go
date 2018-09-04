@@ -16,6 +16,7 @@ import (
 	"math/rand"
 	"net"
 	"strconv"
+	"sync/atomic"
 	"time"
 )
 
@@ -90,7 +91,7 @@ type GoSNMP struct {
 	// SecurityModel is an SNMPV3 Security Model
 	SecurityModel SnmpV3SecurityModel
 
-	// SecurityParameters is an SNMPV3 Security Model paramaters struct
+	// SecurityParameters is an SNMPV3 Security Model parameters struct
 	SecurityParameters SnmpV3SecurityParameters
 
 	// ContextEngineID is SNMPV3 ContextEngineID in ScopedPDU
@@ -193,12 +194,30 @@ const (
 
 // Connect creates and opens a socket. Because UDP is a connectionless
 // protocol, you won't know if the remote host is responding until you send
-// packets. And if the host is regularly disappearing and reappearing, you won't
-// know if you've only done a Connect().
+// packets. Neither will you know if the host is regularly disappearing and reappearing.
 //
 // For historical reasons (ie this is part of the public API), the method won't
-// be renamed.
+// be renamed to Dial().
 func (x *GoSNMP) Connect() error {
+	return x.connect("udp")
+}
+
+// ConnectIPv4 forces an IPv4-only connection
+func (x *GoSNMP) ConnectIPv4() error {
+	return x.connect("udp4")
+}
+
+// ConnectIPv6 forces an IPv6-only connection
+func (x *GoSNMP) ConnectIPv6() error {
+	return x.connect("udp6")
+}
+
+// connect to address addr on the given network
+//
+// https://golang.org/pkg/net/#Dial gives acceptable network values as:
+//   "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only), "udp", "udp4" (IPv4-only),"udp6" (IPv6-only), "ip",
+//   "ip4" (IPv4-only), "ip6" (IPv6-only), "unix", "unixgram" and "unixpacket"
+func (x *GoSNMP) connect(network string) error {
 	var err error
 	err = x.validateParameters()
 	if err != nil {
@@ -206,7 +225,7 @@ func (x *GoSNMP) Connect() error {
 	}
 
 	addr := net.JoinHostPort(x.Target, strconv.Itoa(int(x.Port)))
-	x.Conn, err = net.DialTimeout("udp", addr, x.Timeout)
+	x.Conn, err = net.DialTimeout(network, addr, x.Timeout)
 	if err != nil {
 		return fmt.Errorf("Error establishing connection to host: %s\n", err.Error())
 	}
@@ -345,6 +364,95 @@ func (x *GoSNMP) GetBulk(oids []string, nonRepeaters uint8, maxRepetitions uint8
 	// Marshal and send the packet
 	packetOut := x.mkSnmpPacket(GetBulkRequest, pdus, nonRepeaters, maxRepetitions)
 	return x.send(packetOut, true)
+}
+
+// SnmpEncodePacket exposes SNMP packet generation to external callers.
+// This is useful for generating traffic for use over separate transport
+// stacks and creating traffic samples for test purposes.
+func (x *GoSNMP) SnmpEncodePacket(pdutype PDUType, pdus []SnmpPDU, nonRepeaters uint8, maxRepetitions uint8) ([]byte, error) {
+	var err error = nil
+
+	err = x.validateParameters()
+	if err != nil {
+		return []byte{}, err
+	}
+
+	pkt := x.mkSnmpPacket(pdutype, pdus, nonRepeaters, maxRepetitions)
+
+	// Request ID is an atomic counter (started at a random value)
+	reqID := atomic.AddUint32(&(x.requestID), 1) // TODO: fix overflows
+	pkt.RequestID = reqID
+
+	if x.Version == Version3 {
+		msgID := atomic.AddUint32(&(x.msgID), 1) // TODO: fix overflows
+		pkt.MsgID = msgID
+
+		err = x.initPacket(pkt)
+		if err != nil {
+			return []byte{}, err
+		}
+	}
+
+	var out []byte
+	out, err = pkt.marshalMsg()
+	if err != nil {
+		return []byte{}, err
+	}
+
+	return out, nil
+}
+
+// SnmpDecodePacket exposes SNMP packet parsing to external callers.
+// This is useful for processing traffic from other sources and
+// building test harnesses.
+func (x *GoSNMP) SnmpDecodePacket(resp []byte) (*SnmpPacket, error) {
+	var err error = nil
+
+	result := new(SnmpPacket)
+
+	err = x.validateParameters()
+	if err != nil {
+		return result, err
+	}
+
+	result.Logger = x.Logger
+	result.SecurityParameters = x.SecurityParameters.Copy()
+
+	var cursor int
+	cursor, err = x.unmarshalHeader(resp, result)
+	if err != nil {
+		err = fmt.Errorf("Unable to decode packet header: %s", err.Error())
+		return result, err
+	}
+
+	if result.Version == Version3 {
+		resp, cursor, err = x.decryptPacket(resp, cursor, result)
+		if err != nil {
+			return result, err
+		}
+	}
+
+	err = x.unmarshalPayload(resp, cursor, result)
+	if err != nil {
+		err = fmt.Errorf("Unable to decode packet body: %s", err.Error())
+		return result, err
+	}
+
+	if result == nil || len(result.Variables) < 1 {
+		err = fmt.Errorf("Unable to decode packet: no variables")
+		return result, err
+	}
+	return result, nil
+}
+
+// SetRequestID sets the base ID value for future requests
+func (x *GoSNMP) SetRequestID(reqID uint32) {
+	x.requestID = reqID
+}
+
+// SetMsgID sets the base ID value for future messages
+func (x *GoSNMP) SetMsgID(msgID uint32) {
+	x.msgID = msgID & 0x7fffffff
 }
 
 //
