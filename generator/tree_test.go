@@ -124,6 +124,15 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Type: "DisplayString", TextualConvention: "DateAndTime"},
 			out: &Node{Oid: "1", Type: "DateAndTime", TextualConvention: "DateAndTime"},
 		},
+		// RFC 4100 InetAddress conventions.
+		{
+			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddressIPv4"},
+			out: &Node{Oid: "1", Type: "InetAddressIPv4", TextualConvention: "InetAddressIPv4"},
+		},
+		{
+			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddressIPv6"},
+			out: &Node{Oid: "1", Type: "InetAddressIPv6", TextualConvention: "InetAddressIPv6"},
+		},
 	}
 	for i, c := range cases {
 		// Indexes always end up initilized.
@@ -318,6 +327,8 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.200", Access: "ACCESS_READONLY", Label: "Float", Type: "OPAQUE", TextualConvention: "Float"},
 					{Oid: "1.201", Access: "ACCESS_READONLY", Label: "Double", Type: "OPAQUE", TextualConvention: "Double"},
 					{Oid: "1.202", Access: "ACCESS_READONLY", Label: "DateAndTime", Type: "DisplayString", TextualConvention: "DateAndTime"},
+					{Oid: "1.203", Access: "ACCESS_READONLY", Label: "InetAddressIPv4", Type: "OCTETSTR", TextualConvention: "InetAddressIPv4"},
+					{Oid: "1.204", Access: "ACCESS_READONLY", Label: "InetAddressIPv6", Type: "OCTETSTR", TextualConvention: "InetAddressIPv6"},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"root", "1.3"},
@@ -340,13 +351,13 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "NETADDR",
 						Oid:  "1.4",
-						Type: "IpAddr",
+						Type: "InetAddressIPv4",
 						Help: " - 1.4",
 					},
 					{
 						Name: "IPADDR",
 						Oid:  "1.5",
-						Type: "IpAddr",
+						Type: "InetAddressIPv4",
 						Help: " - 1.5",
 					},
 					{
@@ -420,6 +431,18 @@ func TestGenerateConfigModule(t *testing.T) {
 						Oid:  "1.202",
 						Type: "DateAndTime",
 						Help: " - 1.202",
+					},
+					{
+						Name: "InetAddressIPv4",
+						Oid:  "1.203",
+						Type: "InetAddressIPv4",
+						Help: " - 1.203",
+					},
+					{
+						Name: "InetAddressIPv6",
+						Oid:  "1.204",
+						Type: "InetAddressIPv6",
+						Help: " - 1.204",
 					},
 				},
 			},
@@ -666,6 +689,18 @@ func TestGenerateConfigModule(t *testing.T) {
 								Children: []*Node{
 									{Oid: "1.7.1.1", Access: "ACCESS_READONLY", Label: "impliedSizeIndex", Type: "OCTETSTR"},
 									{Oid: "1.7.1.2", Access: "ACCESS_READONLY", Label: "impliedSizeFoo", Type: "INTEGER"}}}}},
+					{Oid: "1.8", Label: "ipv4",
+						Children: []*Node{
+							{Oid: "1.8.1", Label: "ipv4Entry", Indexes: []string{"ipv4Index"},
+								Children: []*Node{
+									{Oid: "1.8.1.1", Access: "ACCESS_READONLY", Label: "ipv4Index", Type: "OCTETSTR", TextualConvention: "InetAddressIPv4"},
+									{Oid: "1.8.1.2", Access: "ACCESS_READONLY", Label: "ipv4Foo", Type: "INTEGER"}}}}},
+					{Oid: "1.9", Label: "ipv6",
+						Children: []*Node{
+							{Oid: "1.9.1", Label: "ipv6Entry", Indexes: []string{"ipv6Index"},
+								Children: []*Node{
+									{Oid: "1.9.1.1", Access: "ACCESS_READONLY", Label: "ipv6Index", Type: "OCTETSTR", TextualConvention: "InetAddressIPv6"},
+									{Oid: "1.9.1.2", Access: "ACCESS_READONLY", Label: "ipv6Foo", Type: "INTEGER"}}}}},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"1"},
@@ -725,11 +760,11 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "ipaddrIndex",
 						Oid:  "1.3.1.1",
 						Help: " - 1.3.1.1",
-						Type: "IpAddr",
+						Type: "InetAddressIPv4",
 						Indexes: []*config.Index{
 							{
 								Labelname: "ipaddrIndex",
-								Type:      "IpAddr",
+								Type:      "InetAddressIPv4",
 							},
 						},
 					},
@@ -741,7 +776,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Indexes: []*config.Index{
 							{
 								Labelname: "ipaddrIndex",
-								Type:      "IpAddr",
+								Type:      "InetAddressIPv4",
 							},
 						},
 					},
@@ -749,11 +784,11 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "netaddrIndex",
 						Oid:  "1.4.1.1",
 						Help: " - 1.4.1.1",
-						Type: "IpAddr",
+						Type: "InetAddressIPv4",
 						Indexes: []*config.Index{
 							{
 								Labelname: "netaddrIndex",
-								Type:      "IpAddr",
+								Type:      "InetAddressIPv4",
 							},
 						},
 					},
@@ -765,7 +800,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Indexes: []*config.Index{
 							{
 								Labelname: "netaddrIndex",
-								Type:      "IpAddr",
+								Type:      "InetAddressIPv4",
 							},
 						},
 					},
@@ -842,6 +877,54 @@ func TestGenerateConfigModule(t *testing.T) {
 								Labelname: "impliedSizeIndex",
 								Type:      "OctetString",
 								Implied:   true,
+							},
+						},
+					},
+					{
+						Name: "ipv4Index",
+						Oid:  "1.8.1.1",
+						Help: " - 1.8.1.1",
+						Type: "InetAddressIPv4",
+						Indexes: []*config.Index{
+							{
+								Labelname: "ipv4Index",
+								Type:      "InetAddressIPv4",
+							},
+						},
+					},
+					{
+						Name: "ipv4Foo",
+						Oid:  "1.8.1.2",
+						Help: " - 1.8.1.2",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "ipv4Index",
+								Type:      "InetAddressIPv4",
+							},
+						},
+					},
+					{
+						Name: "ipv6Index",
+						Oid:  "1.9.1.1",
+						Help: " - 1.9.1.1",
+						Type: "InetAddressIPv6",
+						Indexes: []*config.Index{
+							{
+								Labelname: "ipv6Index",
+								Type:      "InetAddressIPv6",
+							},
+						},
+					},
+					{
+						Name: "ipv6Foo",
+						Oid:  "1.9.1.2",
+						Help: " - 1.9.1.2",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "ipv6Index",
+								Type:      "InetAddressIPv6",
 							},
 						},
 					},

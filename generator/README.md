@@ -110,7 +110,8 @@ modules:
                              #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
                              #   Float: A 32 bit floating-point value with type gauge.
                              #   Double: A 64 bit floating-point value with type gauge.
-                             #   IpAddr: An IPv4 address, rendered as '1.2.3.4'.
+                             #   InetAddressIPv4: An IPv4 address, rendered as 1.2.3.4.
+                             #   InetAddressIPv6: An IPv6 address, rendered as 0102:0304:0506:0708:090A:0B0C:0D0E:0F10.
 ```
 
 ## Where to get MIBs
