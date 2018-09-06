@@ -50,6 +50,14 @@ func oidToList(oid string) []int {
 	return result
 }
 
+func listToOid(l []int) string {
+	var result []string
+	for _, o := range l {
+		result = append(result, strconv.Itoa(o))
+	}
+	return strings.Join(result, ".")
+}
+
 func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error) {
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
@@ -315,14 +323,40 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		// It's some form of string.
 		t = prometheus.GaugeValue
 		value = 1.0
+		metricType := metric.Type
+
+		// For InetAddress, lookup the type and substitute it in.
+		if metricType == "InetAddress" {
+			// Lookup associated InetAddressType.
+			oids := strings.Split(metric.Oid, ".")
+			i, _ := strconv.Atoi(oids[len(oids)-1])
+			oids[len(oids)-1] = strconv.Itoa(i - 1)
+			prevOid := fmt.Sprintf("%s.%s", strings.Join(oids, "."), listToOid(indexOids))
+			if prevPdu, ok := oidToPdu[prevOid]; ok {
+				val := getPduValue(&prevPdu)
+				switch val {
+				case 1:
+					metricType = "InetAddressIPv4"
+				case 2:
+					metricType = "InetAddressIPv6"
+				default:
+					metricType = "OctetString"
+					log.Debugf("Unable to handle InetAddressType value %g at %s for %s", val, prevOid, metric.Name)
+				}
+			} else {
+				metricType = "OctetString"
+				log.Debugf("Unable to find InetAddressType at %s for %s", prevOid, metric.Name)
+			}
+		}
+
 		if len(metric.RegexpExtracts) > 0 {
-			return applyRegexExtracts(metric, pduValueAsString(pdu, metric.Type), labelnames, labelvalues)
+			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType), labelnames, labelvalues)
 		}
 		// For strings we put the value as a label with the same name as the metric.
 		// If the name is already an index, we do not need to set it again.
 		if _, ok := labels[metric.Name]; !ok {
 			labelnames = append(labelnames, metric.Name)
-			labelvalues = append(labelvalues, pduValueAsString(pdu, metric.Type))
+			labelvalues = append(labelvalues, pduValueAsString(pdu, metricType))
 		}
 	}
 
@@ -538,9 +572,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 	for _, lookup := range metric.Lookups {
 		oid := lookup.Oid
 		for _, label := range lookup.Labels {
-			for _, o := range labelOids[label] {
-				oid = fmt.Sprintf("%s.%d", oid, o)
-			}
+			oid = fmt.Sprintf("%s.%s", oid, listToOid(labelOids[label]))
 		}
 		if pdu, ok := oidToPdu[oid]; ok {
 			labels[lookup.Labelname] = pduValueAsString(&pdu, lookup.Type)

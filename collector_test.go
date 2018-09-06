@@ -329,6 +329,66 @@ func TestPduToSample(t *testing.T) {
 			oidToPdu:  make(map[string]gosnmp.SnmpPDU),
 			shouldErr: true, // Invalid ASCII/UTF-8 string.
 		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{4, 5, 6, 7},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddress",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 1}},
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"4.5.6.7" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddress",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 2}},
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"0405:0607:0809:0A0B:0C0D:0E0F:1011:1213" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{4, 5, 6, 7, 8},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddress",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 3}},
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"0x0405060708" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{4, 5, 6, 7},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddress",
+				Help: "Help string",
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"0x04050607" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
+		},
 	}
 
 	for i, c := range cases {
@@ -708,7 +768,7 @@ func TestIndexesToLabels(t *testing.T) {
 	for _, c := range cases {
 		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu)
 		if !reflect.DeepEqual(got, c.result) {
-			t.Errorf("oidToList(%v, %v, %v): got %v, want %v", c.oid, c.metric, c.oidToPdu, got, c.result)
+			t.Errorf("indexesToLabels(%v, %v, %v): got %v, want %v", c.oid, c.metric, c.oidToPdu, got, c.result)
 		}
 	}
 }

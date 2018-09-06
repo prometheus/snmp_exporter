@@ -133,6 +133,10 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddressIPv6"},
 			out: &Node{Oid: "1", Type: "InetAddressIPv6", TextualConvention: "InetAddressIPv6"},
 		},
+		{
+			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddress"},
+			out: &Node{Oid: "1", Type: "InetAddress", TextualConvention: "InetAddress"},
+		},
 	}
 	for i, c := range cases {
 		// Indexes always end up initilized.
@@ -1335,6 +1339,108 @@ func TestGenerateConfigModule(t *testing.T) {
 								Labelname: "tableDesc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.3",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Table with InetAddressType and valid InetAddress.
+		// InetAddressType is added to walk.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.3"},
+			},
+			out: &config.Module{
+				Walk: []string{"1.1.1.2", "1.1.1.3"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddr",
+						Oid:  "1.1.1.3",
+						Type: "InetAddress",
+						Help: " - 1.1.1.3",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Table with InetAddressType and valid InetAddress instance.
+		// InetAddressType is added to walk.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.3.42"},
+			},
+			out: &config.Module{
+				Get: []string{"1.1.1.2.42", "1.1.1.3.42"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddr",
+						Oid:  "1.1.1.3",
+						Type: "InetAddress",
+						Help: " - 1.1.1.3",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Table with InetAddressType and InetAddress in the wrong order.
+		// InetAddress becomes OctetString.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.2"},
+			},
+			out: &config.Module{
+				Walk: []string{"1.1.1.2"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddr",
+						Oid:  "1.1.1.2",
+						Type: "OctetString",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
 							},
 						},
 					},

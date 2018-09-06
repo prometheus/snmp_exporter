@@ -16,6 +16,7 @@ package main
 import (
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/prometheus/common/log"
@@ -120,8 +121,8 @@ func prepareTree(nodes *Node) map[string]*Node {
 		if n.TextualConvention == "DateAndTime" {
 			n.Type = "DateAndTime"
 		}
-		// Convert RFC 4001 InetAddress subtypes textual convention to type.
-		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" {
+		// Convert RFC 4001 InetAddress types textual convention to type.
+		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" || n.TextualConvention == "InetAddress" {
 			n.Type = n.TextualConvention
 		}
 	})
@@ -139,7 +140,7 @@ func metricType(t string) (string, bool) {
 		return "OctetString", true
 	case "InetAddressIPv4", "IpAddr", "IPADDR", "NETADDR":
 		return "InetAddressIPv4", true
-	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6":
+	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6", "InetAddress":
 		return t, true
 	case "DateAndTime":
 		return t, true
@@ -365,6 +366,30 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					} else {
 						needToWalk[indexNode.Oid] = struct{}{}
 					}
+				}
+			}
+		}
+	}
+
+	// Check that the object before an InetAddress is an InetAddressType,
+	// if not, change it to an OctetString.
+	for _, metric := range out.Metrics {
+		if metric.Type == "InetAddress" {
+			// Get previous oid.
+			oids := strings.Split(metric.Oid, ".")
+			i, _ := strconv.Atoi(oids[len(oids)-1])
+			oids[len(oids)-1] = strconv.Itoa(i - 1)
+			prevOid := strings.Join(oids, ".")
+			if prevObj, ok := nameToNode[prevOid]; !ok || prevObj.TextualConvention != "InetAddressType" {
+				metric.Type = "OctetString"
+			} else {
+				// Make sure the InetAddressType is included.
+				if len(tableInstances[metric.Oid]) > 0 {
+					for _, index := range tableInstances[metric.Oid] {
+						needToWalk[prevOid+index+"."] = struct{}{}
+					}
+				} else {
+					needToWalk[prevOid] = struct{}{}
 				}
 			}
 		}
