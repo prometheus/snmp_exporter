@@ -116,9 +116,13 @@ func prepareTree(nodes *Node) map[string]*Node {
 			n.Type = n.TextualConvention
 		}
 
-		// Convert RFC 2579 DateAndTime textual conversion to type.
+		// Convert RFC 2579 DateAndTime textual convention to type.
 		if n.TextualConvention == "DateAndTime" {
 			n.Type = "DateAndTime"
+		}
+		// Convert RFC 4001 InetAddress subtypes textual convention to type.
+		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" {
+			n.Type = n.TextualConvention
 		}
 	})
 
@@ -133,9 +137,9 @@ func metricType(t string) (string, bool) {
 		return "counter", true
 	case "OctetString", "OCTETSTR", "BITSTRING":
 		return "OctetString", true
-	case "IpAddr", "IPADDR", "NETADDR":
-		return "IpAddr", true
-	case "PhysAddress48", "DisplayString", "Float", "Double":
+	case "InetAddressIPv4", "IpAddr", "IPADDR", "NETADDR":
+		return "InetAddressIPv4", true
+	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6":
 		return t, true
 	case "DateAndTime":
 		return t, true

@@ -9625,7 +9625,7 @@ ubiquiti_airmax:
       fixed_size: 6
   - name: ubntStaLastIp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.10
-    type: IpAddr
+    type: InetAddressIPv4
     help: Last known IP address - 1.3.6.1.4.1.41112.1.4.7.1.10
     indexes:
     - labelname: ubntWlStatIndex
@@ -10340,7 +10340,7 @@ ubiquiti_unifi:
       type: gauge
   - name: unifiIfIp
     oid: 1.3.6.1.4.1.41112.1.6.2.1.1.3
-    type: IpAddr
+    type: InetAddressIPv4
     help: ' - 1.3.6.1.4.1.41112.1.6.2.1.1.3'
     indexes:
     - labelname: unifiIfIndex
@@ -10438,7 +10438,7 @@ ubiquiti_unifi:
       type: gauge
   - name: unifiApSystemIp
     oid: 1.3.6.1.4.1.41112.1.6.3.1
-    type: IpAddr
+    type: InetAddressIPv4
     help: ' - 1.3.6.1.4.1.41112.1.6.3.1'
   - name: unifiApSystemIsolated
     oid: 1.3.6.1.4.1.41112.1.6.3.2
