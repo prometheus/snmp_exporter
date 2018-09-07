@@ -111,6 +111,9 @@ func prepareTree(nodes *Node) map[string]*Node {
 		if n.TextualConvention == "DisplayString" {
 			n.Type = "DisplayString"
 		}
+		if n.TextualConvention == "PhysAddress" {
+			n.Type = "PhysAddress48"
+		}
 
 		// Promote Opaque Float/Double textual convention to type.
 		if n.TextualConvention == "Float" || n.TextualConvention == "Double" {
