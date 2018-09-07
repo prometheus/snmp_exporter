@@ -764,30 +764,6 @@ func TestIndexesToLabels(t *testing.T) {
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "0x0305C0A8010205"},
 		},
-		{
-			oid: []int{0, 1, 2, 3, 4, 16, 42},
-			metric: config.Metric{
-				Indexes: []*config.Index{
-					{Labelname: "a", Type: "InetAddressType"},
-					{Labelname: "b", Type: "InetAddressType"},
-					{Labelname: "c", Type: "InetAddressType"},
-					{Labelname: "d", Type: "InetAddressType"},
-					{Labelname: "e", Type: "InetAddressType"},
-					{Labelname: "f", Type: "InetAddressType"},
-					{Labelname: "g", Type: "InetAddressType"},
-				},
-			},
-			oidToPdu: map[string]gosnmp.SnmpPDU{},
-			result: map[string]string{
-				"a": "unknown",
-				"b": "ipv4",
-				"c": "ipv6",
-				"d": "ipv4z",
-				"e": "ipv6z",
-				"f": "dns",
-				"g": "42",
-			},
-		},
 	}
 	for _, c := range cases {
 		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu)
