@@ -315,6 +315,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				return // Ignored metric.
 			}
 
+			prevAddrType := false
 			for count, i := range n.Indexes {
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
@@ -331,6 +332,17 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if n.ImpliedIndex && count+1 == len(n.Indexes) {
 					index.Implied = true
 				}
+
+				// Convert (InetAddressType,InetAddress) to (InetAddress)
+				if index.Type == "InetAddress" {
+					if prevAddrType {
+						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
+					} else {
+						log.Warnf("Error, can't handle index for node %s: InetAddress without preceding InetAddressType", n.Label)
+						return
+					}
+				}
+				prevAddrType = (indexNode.TextualConvention == "InetAddressType")
 				metric.Indexes = append(metric.Indexes, index)
 			}
 			out.Metrics = append(out.Metrics, metric)
