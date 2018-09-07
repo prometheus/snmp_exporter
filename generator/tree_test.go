@@ -100,6 +100,11 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Label: "ascii", TextualConvention: "DisplayString"},
 			out: &Node{Oid: "1", Label: "ascii", TextualConvention: "DisplayString", Type: "DisplayString"},
 		},
+		// PhysAddress referencing RFC1213.
+		{
+			in:  &Node{Oid: "1", Label: "mac", TextualConvention: "PhysAddress"},
+			out: &Node{Oid: "1", Label: "mac", TextualConvention: "PhysAddress", Type: "PhysAddress48"},
+		},
 		// UTF-8 string.
 		{
 			in:  &Node{Oid: "1", Label: "utf8", Hint: "255t"},
