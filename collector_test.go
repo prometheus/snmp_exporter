@@ -741,6 +741,30 @@ func TestIndexesToLabels(t *testing.T) {
 			result:   map[string]string{"l": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10"},
 		},
 		{
+			oid:      []int{1, 4, 192, 168, 1, 2},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.168.1.2"},
+		},
+		{
+			oid:      []int{2, 16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10"},
+		},
+		{
+			oid:      []int{1, 4, 192, 168, 1, 2, 2, 16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "a", Type: "InetAddress"}, {Labelname: "b", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"a": "192.168.1.2", "b": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10"},
+		},
+		{
+			oid:      []int{3, 5, 192, 168, 1, 2, 5},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0x0305C0A8010205"},
+		},
+		{
 			oid: []int{0, 1, 2, 3, 4, 16, 42},
 			metric: config.Metric{
 				Indexes: []*config.Index{

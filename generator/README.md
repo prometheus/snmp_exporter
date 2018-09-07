@@ -112,6 +112,7 @@ modules:
                              #   Double: A 64 bit floating-point value with type gauge.
                              #   InetAddressIPv4: An IPv4 address, rendered as 1.2.3.4.
                              #   InetAddressIPv6: An IPv6 address, rendered as 0102:0304:0506:0708:090A:0B0C:0D0E:0F10.
+                             #   InetAddress: An InetAddress per RFC 4001. Must be preceded by an InetAddressType.
 ```
 
 ## Where to get MIBs

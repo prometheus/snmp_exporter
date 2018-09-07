@@ -515,6 +515,20 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool)
 		}
 		// ASCII, so can convert staight to utf-8.
 		return string(parts), subOid, indexOids
+	case "InetAddress":
+		subOid, valueOids := splitOid(indexOids, 2)
+		var str string
+		var used, remaining []int
+		switch subOid[0] {
+		case 1:
+			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv4", 0, false)
+		case 2:
+			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv6", 0, false)
+		default:
+			// Treat all the remaining index oids as one string. The 2nd oid is the length.
+			return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false)
+		}
+		return str, append(subOid, used...), remaining
 	case "InetAddressIPv4":
 		subOid, indexOids := splitOid(indexOids, 4)
 		parts := make([]string, 4)
