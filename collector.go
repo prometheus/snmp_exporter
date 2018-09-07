@@ -543,24 +543,6 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool)
 			parts[i] = o
 		}
 		return fmt.Sprintf("%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X", parts...), subOid, indexOids
-	case "InetAddressType":
-		subOid, indexOids := splitOid(indexOids, 1)
-		switch subOid[0] {
-		case 0:
-			return "unknown", subOid, indexOids
-		case 1:
-			return "ipv4", subOid, indexOids
-		case 2:
-			return "ipv6", subOid, indexOids
-		case 3:
-			return "ipv4z", subOid, indexOids
-		case 4:
-			return "ipv6z", subOid, indexOids
-		case 16:
-			return "dns", subOid, indexOids
-		default:
-			return strconv.Itoa(subOid[0]), subOid, indexOids
-		}
 	default:
 		log.Fatalf("Unknown index type %s", typ)
 		return "", nil, nil
