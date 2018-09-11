@@ -1515,6 +1515,149 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1"},
 			},
 		},
+		// Table with InetAddressType and valid InetAddressMissingSize.
+		// InetAddressType is added to walk.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.3"},
+				Overrides: map[string]MetricOverrides{
+					"tableAddr": MetricOverrides{Type: "InetAddressMissingSize"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1.1.1.2", "1.1.1.3"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddr",
+						Oid:  "1.1.1.3",
+						Type: "InetAddressMissingSize",
+						Help: " - 1.1.1.3",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Table with InetAddressType and InetAddressMissingSize in the wrong order.
+		// InetAddressMissingSize becomes OctetString.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.2"},
+				Overrides: map[string]MetricOverrides{
+					"tableAddr": MetricOverrides{Type: "InetAddressMissingSize"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1.1.1.2"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddr",
+						Oid:  "1.1.1.2",
+						Type: "OctetString",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableIndex",
+								Type:      "gauge",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Table with InetAddressType and InetAddressMissingSize index.
+		// Index becomes just InetAddressMissingSize.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableAddrType", "tableAddr"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+				Overrides: map[string]MetricOverrides{
+					"tableAddr": MetricOverrides{Type: "InetAddressMissingSize"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddrType",
+						Oid:  "1.1.1.1",
+						Type: "gauge",
+						Help: " - 1.1.1.1",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableAddr",
+								Type:      "InetAddressMissingSize",
+							},
+						},
+					},
+					{
+						Name: "tableAddr",
+						Oid:  "1.1.1.2",
+						Type: "InetAddressMissingSize",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableAddr",
+								Type:      "InetAddressMissingSize",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Table with InetAddressType and InetAddressMissingSize index in wrong order gets dropped.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableAddr", "tableAddrType"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+				Overrides: map[string]MetricOverrides{
+					"tableAddr": MetricOverrides{Type: "InetAddressMissingSize"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+			},
+		},
 	}
 	for i, c := range cases {
 		// Indexes and lookups always end up initilized.

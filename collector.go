@@ -326,7 +326,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		metricType := metric.Type
 
 		// For InetAddress, lookup the type and substitute it in.
-		if metricType == "InetAddress" {
+		if metricType == "InetAddress" || metricType == "InetAddressMissingSize" {
 			// Lookup associated InetAddressType.
 			oids := strings.Split(metric.Oid, ".")
 			i, _ := strconv.Atoi(oids[len(oids)-1])
@@ -525,8 +525,22 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool)
 		case 2:
 			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv6", 0, false)
 		default:
-			// Treat all the remaining index oids as one string. The 2nd oid is the length.
+			// The 2nd oid is the length.
 			return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false)
+		}
+		return str, append(subOid, used...), remaining
+	case "InetAddressMissingSize":
+		subOid, valueOids := splitOid(indexOids, 1)
+		var str string
+		var used, remaining []int
+		switch subOid[0] {
+		case 1:
+			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv4", 0, false)
+		case 2:
+			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv6", 0, false)
+		default:
+			// We don't know the size, so pass everything remaining.
+			return indexOidsAsString(indexOids, "OctetString", 0, true)
 		}
 		return str, append(subOid, used...), remaining
 	case "InetAddressIPv4":

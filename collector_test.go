@@ -347,6 +347,21 @@ func TestPduToSample(t *testing.T) {
 		{
 			pdu: &gosnmp.SnmpPDU{
 				Name:  "1.42.2",
+				Value: []byte{4, 5, 6, 7},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddressMissingSize",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 1}},
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"4.5.6.7" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
 				Value: []byte{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19},
 			},
 			indexOids: []int{2},
@@ -763,6 +778,30 @@ func TestIndexesToLabels(t *testing.T) {
 			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "0x0305C0A8010205"},
+		},
+		{
+			oid:      []int{1, 192, 168, 1, 2},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressMissingSize"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.168.1.2"},
+		},
+		{
+			oid:      []int{2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressMissingSize"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10"},
+		},
+		{
+			oid:      []int{1, 192, 168, 1, 2, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "a", Type: "InetAddressMissingSize"}, {Labelname: "b", Type: "InetAddressMissingSize"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"a": "192.168.1.2", "b": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10"},
+		},
+		{
+			oid:      []int{3, 192, 168, 1, 2, 5},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressMissingSize"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0x03C0A8010205"},
 		},
 	}
 	for _, c := range cases {
