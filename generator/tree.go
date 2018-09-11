@@ -143,7 +143,7 @@ func metricType(t string) (string, bool) {
 		return "OctetString", true
 	case "InetAddressIPv4", "IpAddr", "IPADDR", "NETADDR":
 		return "InetAddressIPv4", true
-	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6", "InetAddress":
+	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6", "InetAddress", "InetAddressMissingSize":
 		return t, true
 	case "DateAndTime":
 		return t, true
@@ -337,7 +337,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				}
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
-				if index.Type == "InetAddress" {
+				if index.Type == "InetAddress" || index.Type == "InetAddressMissingSize" {
 					if prevAddrType {
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
 					} else {
@@ -389,7 +389,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Check that the object before an InetAddress is an InetAddressType,
 	// if not, change it to an OctetString.
 	for _, metric := range out.Metrics {
-		if metric.Type == "InetAddress" {
+		if metric.Type == "InetAddress" || metric.Type == "InetAddressMissingSize" {
 			// Get previous oid.
 			oids := strings.Split(metric.Oid, ".")
 			i, _ := strconv.Atoi(oids[len(oids)-1])
