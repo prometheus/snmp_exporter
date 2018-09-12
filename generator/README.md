@@ -12,11 +12,13 @@ sudo apt-get install build-essential libsnmp-dev snmp-mibs-downloader  # Debian-
 go get github.com/prometheus/snmp_exporter/generator
 cd ${GOPATH-$HOME/go}/src/github.com/prometheus/snmp_exporter/generator
 go build
+make mibs
 ```
 
 ## Running
 
 ```sh
+export MIBDIRS=$HOME/.snmp/mibs:mibs:/usr/share/snmp/mibs
 ./generator generate
 ```
 

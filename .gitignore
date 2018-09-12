@@ -29,3 +29,4 @@ dependencies-stamp
 *.tar.gz
 
 generator/generator
+generator/mibs
