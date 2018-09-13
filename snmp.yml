@@ -582,6 +582,11 @@ apcups:
     type: DisplayString
     help: The recommended replacement date for the battery based on the UPS internal
       battery life algorithm. - 1.3.6.1.4.1.318.1.1.1.2.2.21
+  - name: upsAdvBatteryNominalBackupTime
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.22
+    type: gauge
+    help: Defines the runtime of the user supplied battery in minutes, when battery
+      is new. - 1.3.6.1.4.1.318.1.1.1.2.2.22
   - name: upsHighPrecBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
     type: gauge
@@ -1036,6 +1041,11 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.12
     type: gauge
     help: The output energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.4.2.12
+  - name: upsAdvOutputSourceSynchronization
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.13
+    type: gauge
+    help: Indicates the synchronization source for the inverter output frequency -
+      1.3.6.1.4.1.318.1.1.1.4.2.13
   - name: upsHighPrecOutputVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
     type: gauge
@@ -1102,6 +1112,10 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
     type: gauge
     help: The day of the week to perform automatic battery test. - 1.3.6.1.4.1.318.1.1.1.7.2.9
+  - name: upsAdvTestBatteryInterval
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.10
+    type: DisplayString
+    help: The UPS system's automatic battery test period. - 1.3.6.1.4.1.318.1.1.1.7.2.10
   - name: upsCommStatus
     oid: 1.3.6.1.4.1.318.1.1.1.8.1
     type: gauge
@@ -8296,6 +8310,32 @@ synology:
       labelname: raidName
       oid: 1.3.6.1.4.1.6574.3.1.1.2
       type: OctetString
+  - name: raidFreeSize
+    oid: 1.3.6.1.4.1.6574.3.1.1.4
+    type: counter
+    help: Synology raid freesize Free space in bytes. - 1.3.6.1.4.1.6574.3.1.1.4
+    indexes:
+    - labelname: raidName
+      type: gauge
+    lookups:
+    - labels:
+      - raidName
+      labelname: raidName
+      oid: 1.3.6.1.4.1.6574.3.1.1.2
+      type: OctetString
+  - name: raidTotalSize
+    oid: 1.3.6.1.4.1.6574.3.1.1.5
+    type: counter
+    help: Synology raid totalsize Total space in bytes. - 1.3.6.1.4.1.6574.3.1.1.5
+    indexes:
+    - labelname: raidName
+      type: gauge
+    lookups:
+    - labels:
+      - raidName
+      labelname: raidName
+      oid: 1.3.6.1.4.1.6574.3.1.1.2
+      type: OctetString
   - name: upsDeviceModel
     oid: 1.3.6.1.4.1.6574.4.1.1
     type: DisplayString
@@ -9372,6 +9412,27 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirMaxIfIndex
       type: gauge
+  - name: ubntAirMaxAirtime
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.7
+    type: gauge
+    help: airMAX Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.6.1.7
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+  - name: ubntAirMaxGpsSync
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.8
+    type: gauge
+    help: airMAX GPS sync - on/off - 1.3.6.1.4.1.41112.1.4.6.1.8
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+  - name: ubntAirMaxTdd
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.9
+    type: gauge
+    help: airMAX TDD framing - on/off - 1.3.6.1.4.1.41112.1.4.6.1.9
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
   - name: ubntAirSyncIfIndex
     oid: 1.3.6.1.4.1.41112.1.4.3.1.1
     type: gauge
@@ -9759,6 +9820,42 @@ ubiquiti_airmax:
     oid: 1.3.6.1.4.1.41112.1.4.8.4
     type: gauge
     help: Host system temperature - 1.3.6.1.4.1.41112.1.4.8.4
+  - name: ubntGpsStatus
+    oid: 1.3.6.1.4.1.41112.1.4.9.1
+    type: gauge
+    help: GPS status - 1.3.6.1.4.1.41112.1.4.9.1
+  - name: ubntGpsFix
+    oid: 1.3.6.1.4.1.41112.1.4.9.2
+    type: gauge
+    help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.4.9.2
+  - name: ubntGpsLat
+    oid: 1.3.6.1.4.1.41112.1.4.9.3
+    type: DisplayString
+    help: GPS Latitude - 1.3.6.1.4.1.41112.1.4.9.3
+  - name: ubntGpsLon
+    oid: 1.3.6.1.4.1.41112.1.4.9.4
+    type: DisplayString
+    help: GPS Longitude - 1.3.6.1.4.1.41112.1.4.9.4
+  - name: ubntGpsAltMeters
+    oid: 1.3.6.1.4.1.41112.1.4.9.5
+    type: DisplayString
+    help: GPS Altitude (m) - 1.3.6.1.4.1.41112.1.4.9.5
+  - name: ubntGpsAltFeet
+    oid: 1.3.6.1.4.1.41112.1.4.9.6
+    type: DisplayString
+    help: GPS Altitude (ft) - 1.3.6.1.4.1.41112.1.4.9.6
+  - name: ubntGpsSatsVisible
+    oid: 1.3.6.1.4.1.41112.1.4.9.7
+    type: gauge
+    help: GPS Satellites Visible - 1.3.6.1.4.1.41112.1.4.9.7
+  - name: ubntGpsSatsTracked
+    oid: 1.3.6.1.4.1.41112.1.4.9.8
+    type: gauge
+    help: GPS Satellites Tracked - 1.3.6.1.4.1.41112.1.4.9.8
+  - name: ubntGpsHDOP
+    oid: 1.3.6.1.4.1.41112.1.4.9.9
+    type: DisplayString
+    help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.4.9.9
   version: 1
 ubiquiti_unifi:
   walk:
