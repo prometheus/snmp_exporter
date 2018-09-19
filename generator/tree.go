@@ -24,6 +24,14 @@ import (
 	"github.com/prometheus/snmp_exporter/config"
 )
 
+// These types have one following the other.
+// We need to check indexes and sequences have them
+// in the right order, so the exporter can handle them.
+var combinedTypes = map[string]string{
+	"InetAddress":            "InetAddressType",
+	"InetAddressMissingSize": "InetAddressType",
+}
+
 // Helper to walk MIB nodes.
 func walkNode(n *Node, f func(n *Node)) {
 	f(n)
@@ -134,6 +142,9 @@ func prepareTree(nodes *Node) map[string]*Node {
 }
 
 func metricType(t string) (string, bool) {
+	if _, ok := combinedTypes[t]; ok {
+		return t, true
+	}
 	switch t {
 	case "gauge", "INTEGER", "GAUGE", "TIMETICKS", "UINTEGER", "UNSIGNED32", "INTEGER32":
 		return "gauge", true
@@ -143,7 +154,7 @@ func metricType(t string) (string, bool) {
 		return "OctetString", true
 	case "InetAddressIPv4", "IpAddr", "IPADDR", "NETADDR":
 		return "InetAddressIPv4", true
-	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6", "InetAddress", "InetAddressMissingSize":
+	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6":
 		return t, true
 	case "DateAndTime":
 		return t, true
@@ -318,7 +329,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				return // Ignored metric.
 			}
 
-			prevAddrType := false
+			prevType := ""
 			for count, i := range n.Indexes {
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
@@ -337,15 +348,15 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				}
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
-				if index.Type == "InetAddress" || index.Type == "InetAddressMissingSize" {
-					if prevAddrType {
+				if subtype, ok := combinedTypes[index.Type]; ok {
+					if prevType == subtype {
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
 					} else {
-						log.Warnf("Error, can't handle index for node %s: InetAddress without preceding InetAddressType", n.Label)
+						log.Warnf("Error, can't handle index for node %s: %s without preceding %s", index.Type, subtype, n.Label)
 						return
 					}
 				}
-				prevAddrType = (indexNode.TextualConvention == "InetAddressType")
+				prevType = indexNode.TextualConvention
 				metric.Indexes = append(metric.Indexes, index)
 			}
 			out.Metrics = append(out.Metrics, metric)
