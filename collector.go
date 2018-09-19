@@ -41,6 +41,17 @@ func init() {
 	prometheus.MustRegister(snmpUnexpectedPduType)
 }
 
+var combinedTypeMapping = map[string]map[int]string{
+	"InetAddress": {
+		1: "InetAddressIPv4",
+		2: "InetAddressIPv6",
+	},
+	"InetAddressMissingSize": {
+		1: "InetAddressIPv4",
+		2: "InetAddressIPv6",
+	},
+}
+
 func oidToList(oid string) []int {
 	result := []int{}
 	for _, x := range strings.Split(oid, ".") {
@@ -325,27 +336,23 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		value = 1.0
 		metricType := metric.Type
 
-		// For InetAddress, lookup the type and substitute it in.
-		if metricType == "InetAddress" || metricType == "InetAddressMissingSize" {
-			// Lookup associated InetAddressType.
+		if typeMapping, ok := combinedTypeMapping[metricType]; ok {
+			// Lookup associated sub type in previous object.
 			oids := strings.Split(metric.Oid, ".")
 			i, _ := strconv.Atoi(oids[len(oids)-1])
 			oids[len(oids)-1] = strconv.Itoa(i - 1)
 			prevOid := fmt.Sprintf("%s.%s", strings.Join(oids, "."), listToOid(indexOids))
 			if prevPdu, ok := oidToPdu[prevOid]; ok {
-				val := getPduValue(&prevPdu)
-				switch val {
-				case 1:
-					metricType = "InetAddressIPv4"
-				case 2:
-					metricType = "InetAddressIPv6"
-				default:
+				val := int(getPduValue(&prevPdu))
+				if t, ok := typeMapping[val]; ok {
+					metricType = t
+				} else {
 					metricType = "OctetString"
-					log.Debugf("Unable to handle InetAddressType value %g at %s for %s", val, prevOid, metric.Name)
+					log.Debugf("Unable to handle type value %g at %s for %s", val, prevOid, metric.Name)
 				}
 			} else {
 				metricType = "OctetString"
-				log.Debugf("Unable to find InetAddressType at %s for %s", prevOid, metric.Name)
+				log.Debugf("Unable to find type at %s for %s", prevOid, metric.Name)
 			}
 		}
 
@@ -462,6 +469,26 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 //
 // Returns the string, the oids that were used and the oids left over.
 func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool) (string, []int, []int) {
+	if typeMapping, ok := combinedTypeMapping[typ]; ok {
+		subOid, valueOids := splitOid(indexOids, 2)
+		if typ == "InetAddressMissingSize" {
+			// The size of the main index value is missing.
+			subOid, valueOids = splitOid(indexOids, 1)
+		}
+		var str string
+		var used, remaining []int
+		if t, ok := typeMapping[subOid[0]]; ok {
+			str, used, remaining = indexOidsAsString(valueOids, t, 0, false)
+			return str, append(subOid, used...), remaining
+		}
+		if typ == "InetAddressMissingSize" {
+			// We don't know the size, so pass everything remaining.
+			return indexOidsAsString(indexOids, "OctetString", 0, true)
+		}
+		// The 2nd oid is the length.
+		return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false)
+	}
+
 	switch typ {
 	case "Integer32", "Integer", "gauge", "counter":
 		// Extract the oid for this index, and keep the remainder for the next index.
@@ -515,34 +542,6 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool)
 		}
 		// ASCII, so can convert staight to utf-8.
 		return string(parts), subOid, indexOids
-	case "InetAddress":
-		subOid, valueOids := splitOid(indexOids, 2)
-		var str string
-		var used, remaining []int
-		switch subOid[0] {
-		case 1:
-			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv4", 0, false)
-		case 2:
-			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv6", 0, false)
-		default:
-			// The 2nd oid is the length.
-			return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false)
-		}
-		return str, append(subOid, used...), remaining
-	case "InetAddressMissingSize":
-		subOid, valueOids := splitOid(indexOids, 1)
-		var str string
-		var used, remaining []int
-		switch subOid[0] {
-		case 1:
-			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv4", 0, false)
-		case 2:
-			str, used, remaining = indexOidsAsString(valueOids, "InetAddressIPv6", 0, false)
-		default:
-			// We don't know the size, so pass everything remaining.
-			return indexOidsAsString(indexOids, "OctetString", 0, true)
-		}
-		return str, append(subOid, used...), remaining
 	case "InetAddressIPv4":
 		subOid, indexOids := splitOid(indexOids, 4)
 		parts := make([]string, 4)
