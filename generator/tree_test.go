@@ -1658,6 +1658,51 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1"},
 			},
 		},
+		// Table with LldpPortIdSubtype and LldpPortId index.
+		// Index becomes just LldpPortId.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableAddrType", "tableAddr"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "LldpPortIdSubtype"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddr", Type: "OCTETSTR", TextualConvention: "LldpPortId"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddrType",
+						Oid:  "1.1.1.1",
+						Type: "gauge",
+						Help: " - 1.1.1.1",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableAddr",
+								Type:      "LldpPortId",
+							},
+						},
+					},
+					{
+						Name: "tableAddr",
+						Oid:  "1.1.1.2",
+						Type: "LldpPortId",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableAddr",
+								Type:      "LldpPortId",
+							},
+						},
+					},
+				},
+			},
+		},
 	}
 	for i, c := range cases {
 		// Indexes and lookups always end up initilized.

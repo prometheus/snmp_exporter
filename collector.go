@@ -41,6 +41,7 @@ func init() {
 	prometheus.MustRegister(snmpUnexpectedPduType)
 }
 
+// Types preceded by an enum with their actual type.
 var combinedTypeMapping = map[string]map[int]string{
 	"InetAddress": {
 		1: "InetAddressIPv4",
@@ -49,6 +50,13 @@ var combinedTypeMapping = map[string]map[int]string{
 	"InetAddressMissingSize": {
 		1: "InetAddressIPv4",
 		2: "InetAddressIPv6",
+	},
+	"LldpPortId": {
+		1: "DisplayString",
+		2: "DisplayString",
+		3: "PhysAddress48",
+		5: "DisplayString",
+		7: "DisplayString",
 	},
 }
 

@@ -30,6 +30,7 @@ import (
 var combinedTypes = map[string]string{
 	"InetAddress":            "InetAddressType",
 	"InetAddressMissingSize": "InetAddressType",
+	"LldpPortId":             "LldpPortIdSubtype",
 }
 
 // Helper to walk MIB nodes.
@@ -134,6 +135,10 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 		// Convert RFC 4001 InetAddress types textual convention to type.
 		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" || n.TextualConvention == "InetAddress" {
+			n.Type = n.TextualConvention
+		}
+		// Convert LLDP-MIB LldpPortId type textual convention to type.
+		if n.TextualConvention == "LldpPortId" {
 			n.Type = n.TextualConvention
 		}
 	})
