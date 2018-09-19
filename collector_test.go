@@ -404,6 +404,21 @@ func TestPduToSample(t *testing.T) {
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
 			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"0x04050607" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
 		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{4, 5, 6, 7, 8, 9},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "LldpPortId",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 3}},
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"04:05:06:07:08:09" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
+		},
 	}
 
 	for i, c := range cases {
