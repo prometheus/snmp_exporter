@@ -369,42 +369,52 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	}
 
 	// Apply lookups.
-	for _, lookup := range cfg.Lookups {
-		for _, metric := range out.Metrics {
-			toDelete := []string{}
+	for _, metric := range out.Metrics {
+		toDelete := []string{}
+		for _, lookup := range cfg.Lookups {
+			foundIndexes := 0
+			// See if all lookup indexes are present.
 			for _, index := range metric.Indexes {
-				if index.Labelname == lookup.OldIndex {
-					if _, ok := nameToNode[lookup.NewIndex]; !ok {
-						log.Fatalf("Unknown index '%s'", lookup.NewIndex)
-					}
-					indexNode := nameToNode[lookup.NewIndex]
-					// Avoid leaving the old labelname around.
-					toDelete = append(toDelete, lookup.OldIndex)
-					typ, ok := metricType(indexNode.Type)
-					if !ok {
-						log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.NewIndex)
-					}
-					metric.Lookups = append(metric.Lookups, &config.Lookup{
-						Labels:    []string{sanitizeLabelName(index.Labelname)},
-						Labelname: sanitizeLabelName(indexNode.Label),
-						Type:      typ,
-						Oid:       indexNode.Oid,
-					})
-					// Make sure we walk the lookup OID(s).
-					if len(tableInstances[metric.Oid]) > 0 {
-						for _, index := range tableInstances[metric.Oid] {
-							needToWalk[indexNode.Oid+index+"."] = struct{}{}
-						}
-					} else {
-						needToWalk[indexNode.Oid] = struct{}{}
+				for _, lookupIndex := range lookup.OldIndexes {
+					if index.Labelname == lookupIndex {
+						foundIndexes++
 					}
 				}
 			}
-			for _, l := range toDelete {
-				metric.Lookups = append(metric.Lookups, &config.Lookup{
-					Labelname: sanitizeLabelName(l),
-				})
+			if foundIndexes == len(lookup.OldIndexes) {
+				if _, ok := nameToNode[lookup.NewIndex]; !ok {
+					log.Fatalf("Unknown index '%s'", lookup.NewIndex)
+				}
+				indexNode := nameToNode[lookup.NewIndex]
+				typ, ok := metricType(indexNode.Type)
+				if !ok {
+					log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.NewIndex)
+				}
+				l := &config.Lookup{
+					Labelname: sanitizeLabelName(indexNode.Label),
+					Type:      typ,
+					Oid:       indexNode.Oid,
+				}
+				for _, oldIndex := range lookup.OldIndexes {
+					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
+				}
+				metric.Lookups = append(metric.Lookups, l)
+				// Make sure we walk the lookup OID(s).
+				if len(tableInstances[metric.Oid]) > 0 {
+					for _, index := range tableInstances[metric.Oid] {
+						needToWalk[indexNode.Oid+index+"."] = struct{}{}
+					}
+				} else {
+					needToWalk[indexNode.Oid] = struct{}{}
+				}
+				// Avoid leaving the old labelname around.
+				toDelete = append(toDelete, lookup.OldIndexes...)
 			}
+		}
+		for _, l := range toDelete {
+			metric.Lookups = append(metric.Lookups, &config.Lookup{
+				Labelname: sanitizeLabelName(l),
+			})
 		}
 	}
 
