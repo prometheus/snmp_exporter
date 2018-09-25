@@ -55,4 +55,5 @@ type ModuleConfig struct {
 type Lookup struct {
 	OldIndexes []string `yaml:"old_indexes"`
 	NewIndex   string   `yaml:"new_index"`
+	KeepOld    bool     `yaml:"keep_old,omitempty"`
 }
