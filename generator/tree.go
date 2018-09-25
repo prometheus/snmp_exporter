@@ -407,8 +407,10 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				} else {
 					needToWalk[indexNode.Oid] = struct{}{}
 				}
-				// Avoid leaving the old labelname around.
-				toDelete = append(toDelete, lookup.OldIndexes...)
+				if !lookup.KeepOld {
+					// Avoid leaving the old labelname around.
+					toDelete = append(toDelete, lookup.OldIndexes...)
+				}
 			}
 		}
 		for _, l := range toDelete {

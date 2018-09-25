@@ -86,7 +86,7 @@ modules:
                             # Required if context is configured on the device.
 
     lookups:  # Optional list of lookups to perform.
-              # This must only be used when the new index is unique.
+              # If keep_old is the default of false, this must only be used when the new index is unique.
 
       # If the index of a table is bsnDot11EssIndex, usually that'd be the label
       # on the resulting metrics from that table. Instead, use the index to
@@ -94,6 +94,7 @@ modules:
       # with that value.
       - old_indexes: [bsnDot11EssIndex]
         new_index: bsnDot11EssSsid
+        keep_old: false  # If true, don't delete old index label for this lookup.
 
      overrides: # Allows for per-module overrides of bits of MIBs
        metricName:
