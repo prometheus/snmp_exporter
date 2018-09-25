@@ -371,6 +371,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Apply lookups.
 	for _, lookup := range cfg.Lookups {
 		for _, metric := range out.Metrics {
+			toDelete := []string{}
 			for _, index := range metric.Indexes {
 				if index.Labelname == lookup.OldIndex {
 					if _, ok := nameToNode[lookup.NewIndex]; !ok {
@@ -378,13 +379,13 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					}
 					indexNode := nameToNode[lookup.NewIndex]
 					// Avoid leaving the old labelname around.
-					index.Labelname = sanitizeLabelName(indexNode.Label)
+					toDelete = append(toDelete, lookup.OldIndex)
 					typ, ok := metricType(indexNode.Type)
 					if !ok {
 						log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.NewIndex)
 					}
 					metric.Lookups = append(metric.Lookups, &config.Lookup{
-						Labels:    []string{sanitizeLabelName(indexNode.Label)},
+						Labels:    []string{sanitizeLabelName(index.Labelname)},
 						Labelname: sanitizeLabelName(indexNode.Label),
 						Type:      typ,
 						Oid:       indexNode.Oid,
@@ -399,6 +400,18 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					}
 				}
 			}
+			for _, l := range toDelete {
+				metric.Lookups = append(metric.Lookups, &config.Lookup{
+					Labelname: sanitizeLabelName(l),
+				})
+			}
+		}
+	}
+
+	// Ensure index label names are sane.
+	for _, metric := range out.Metrics {
+		for _, index := range metric.Indexes {
+			index.Labelname = sanitizeLabelName(index.Labelname)
 		}
 	}
 
