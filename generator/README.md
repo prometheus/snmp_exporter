@@ -92,7 +92,7 @@ modules:
       # on the resulting metrics from that table. Instead, use the index to
       # lookup the bsnDot11EssSsid table entry and create a bsnDot11EssSsid label
       # with that value.
-      - old_index: bsnDot11EssIndex
+      - old_indexes: [bsnDot11EssIndex]
         new_index: bsnDot11EssSsid
 
      overrides: # Allows for per-module overrides of bits of MIBs

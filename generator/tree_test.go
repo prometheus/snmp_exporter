@@ -955,8 +955,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						OldIndex: "octetIndex",
-						NewIndex: "octetDesc",
+						OldIndexes: []string{"octetIndex"},
+						NewIndex:   "octetDesc",
 					},
 				},
 			},
@@ -1005,8 +1005,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						OldIndex: "octetIndex",
-						NewIndex: "1.1.1.2",
+						OldIndexes: []string{"octetIndex"},
+						NewIndex:   "1.1.1.2",
 					},
 				},
 			},
@@ -1034,6 +1034,64 @@ func TestGenerateConfigModule(t *testing.T) {
 							},
 							{
 								Labelname: "octetIndex",
+							},
+						},
+					},
+				},
+			},
+		},
+		// Multi-index table lookup, lookup not walked.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "octet",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "octetEntry", Indexes: []string{"octetIndex", "octetIndex2"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "octetIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "octetIndex2", Type: "INTEGER"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "octetDesc", Type: "OCTETSTR"},
+									{Oid: "1.1.1.4", Access: "ACCESS_READONLY", Label: "octetFoo", Type: "INTEGER"}}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"octetFoo"},
+				Lookups: []*Lookup{
+					{
+						OldIndexes: []string{"octetIndex", "octetIndex2"},
+						NewIndex:   "octetDesc",
+					},
+				},
+			},
+			out: &config.Module{
+				// Walk is expanded to include the lookup OID.
+				Walk: []string{"1.1.1.3", "1.1.1.4"},
+				Metrics: []*config.Metric{
+					{
+						Name: "octetFoo",
+						Oid:  "1.1.1.4",
+						Help: " - 1.1.1.4",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "octetIndex",
+								Type:      "gauge",
+							},
+							{
+								Labelname: "octetIndex2",
+								Type:      "gauge",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"octetIndex", "octetIndex2"},
+								Labelname: "octetDesc",
+								Type:      "OctetString",
+								Oid:       "1.1.1.3",
+							},
+							{
+								Labelname: "octetIndex",
+							},
+							{
+								Labelname: "octetIndex2",
 							},
 						},
 					},
@@ -1078,8 +1136,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octet^Foo"},
 				Lookups: []*Lookup{
 					{
-						OldIndex: "octet&Index",
-						NewIndex: "1.1.1.2",
+						OldIndexes: []string{"octet&Index"},
+						NewIndex:   "1.1.1.2",
 					},
 				},
 			},
@@ -1240,8 +1298,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1.1.1.2.100", "1.1.1.4.100", "1.1.1.2.200"},
 				Lookups: []*Lookup{
 					{
-						OldIndex: "tableIndex",
-						NewIndex: "tableDesc",
+						OldIndexes: []string{"tableIndex"},
+						NewIndex:   "tableDesc",
 					},
 				},
 			},
@@ -1313,8 +1371,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1.1.1.2.100", "1.1.1.3"},
 				Lookups: []*Lookup{
 					{
-						OldIndex: "tableIndex",
-						NewIndex: "tableDesc",
+						OldIndexes: []string{"tableIndex"},
+						NewIndex:   "tableDesc",
 					},
 				},
 			},

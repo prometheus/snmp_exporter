@@ -53,6 +53,6 @@ type ModuleConfig struct {
 }
 
 type Lookup struct {
-	OldIndex string `yaml:"old_index"`
-	NewIndex string `yaml:"new_index"`
+	OldIndexes []string `yaml:"old_indexes"`
+	NewIndex   string   `yaml:"new_index"`
 }

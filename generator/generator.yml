@@ -6,19 +6,19 @@ modules:
   if_mib_ifalias:
     walk: [sysUpTime, interfaces, ifXTable]
     lookups:
-      - old_index: ifIndex
+      - old_indexes: [ifIndex]
         new_index: ifAlias
   # Interfaces if ifDescr is unique.
   if_mib_ifdescr:
     walk: [sysUpTime, interfaces, ifXTable]
     lookups:
-      - old_index: ifIndex
+      - old_indexes: [ifIndex]
         new_index: ifDescr
   # Interfaces if ifName is unique.
   if_mib_ifname:
     walk: [sysUpTime, interfaces, ifXTable]
     lookups:
-      - old_index: ifIndex
+      - old_indexes: [ifIndex]
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
         new_index: 1.3.6.1.2.1.31.1.1.1.1 # ifName
 
@@ -35,9 +35,9 @@ modules:
       - 1.3.6.1.4.1.14179.2.2.13.1.3   # bsnAPIfLoadChannelUtilization
       - 1.3.6.1.4.1.14179.2.2.15.1.21  # bsnAPIfDBNoisePower
     lookups:
-      - old_index: bsnDot11EssIndex
+      - old_indexes: [bsnDot11EssIndex]
         new_index: bsnDot11EssSsid
-      - old_index: bsnAPDot3MacAddress
+      - old_indexes: [bsnAPDot3MacAddress]
         new_index: bsnAPName
 
 # APC/Schneider UPS Network Management Cards
@@ -68,9 +68,9 @@ modules:
       - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
       - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
     lookups:
-      - old_index: upsOutletGroupStatusIndex
+      - old_indexes: [upsOutletGroupStatusIndex]
         new_index: upsOutletGroupStatusName
-      - old_index: iemStatusProbeIndex
+      - old_indexes: [iemStatusProbeIndex]
         new_index: iemStatusProbeName
 
 # ServerTech Sentry 3 MIB
@@ -159,22 +159,22 @@ modules:
       - 1.3.6.1.4.1.6574.102     # spaceIO
       - 1.3.6.1.4.1.6574.104     # synologyiSCSILUN
     lookups:
-      - old_index: spaceIOIndex
+      - old_indexes: [spaceIOIndex]
         new_index: spaceIODevice
-      - old_index: storageIOIndex
+      - old_indexes: [storageIOIndex]
         new_index: storageIODevice
-      - old_index: serviceInfoIndex
+      - old_indexes: [serviceInfoIndex]
         new_index: serviceName
-      - old_index: ifIndex
+      - old_indexes: [ifIndex]
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
         new_index: 1.3.6.1.2.1.31.1.1.1.1 # ifName
-      - old_index: diskIndex
+      - old_indexes: [diskIndex]
         new_index: diskID
-      - old_index: raidIndex
+      - old_indexes: [raidIndex]
         new_index: raidName
-      - old_index: laIndex
+      - old_indexes: [laIndex]
         new_index: laNames
-      - old_index: hrStorageIndex
+      - old_indexes: [hrStorageIndex]
         new_index: hrStorageDescr
 
 # DD-WRT
@@ -195,9 +195,9 @@ modules:
       - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
       - 1.3.6.1.4.1.2021.11 # systemStats
     lookups:
-    - old_index: ifIndex
+    - old_indexes: [ifIndex]
       new_index: ifDescr
-    - old_index: laIndex
+    - old_indexes: [laIndex]
       new_index: laNames
 
 # Ubiquiti / AirMAX
