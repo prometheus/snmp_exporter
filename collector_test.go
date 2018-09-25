@@ -730,6 +730,15 @@ func TestIndexesToLabels(t *testing.T) {
 			oid: []int{4},
 			metric: config.Metric{
 				Indexes: []*config.Index{{Labelname: "l", Type: "gauge"}},
+				Lookups: []*config.Lookup{{Labelname: "l"}},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{},
+		},
+		{
+			oid: []int{4},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "gauge"}},
 				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},

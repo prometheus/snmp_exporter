@@ -971,16 +971,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
-								Labelname: "octetDesc",
+								Labelname: "octetIndex",
 								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
-								Labels:    []string{"octetDesc"},
+								Labels:    []string{"octetIndex"},
 								Labelname: "octetDesc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.2",
+							},
+							{
+								Labelname: "octetIndex",
 							},
 						},
 					},
@@ -1018,16 +1021,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
-								Labelname: "octetDesc",
+								Labelname: "octetIndex",
 								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
-								Labels:    []string{"octetDesc"},
+								Labels:    []string{"octetIndex"},
 								Labelname: "octetDesc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.2",
+							},
+							{
+								Labelname: "octetIndex",
 							},
 						},
 					},
@@ -1088,16 +1094,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Help: " - 1.1.1.3",
 						Indexes: []*config.Index{
 							{
-								Labelname: "octet_Desc",
+								Labelname: "octet_Index",
 								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
-								Labels:    []string{"octet_Desc"},
+								Labels:    []string{"octet_Index"},
 								Labelname: "octet_Desc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.2",
+							},
+							{
+								Labelname: "octet_Index",
 							},
 						},
 					},
@@ -1246,16 +1255,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Help: " - 1.1.1.2",
 						Indexes: []*config.Index{
 							{
-								Labelname: "tableDesc",
+								Labelname: "tableIndex",
 								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
-								Labels:    []string{"tableDesc"},
+								Labels:    []string{"tableIndex"},
 								Labelname: "tableDesc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.3",
+							},
+							{
+								Labelname: "tableIndex",
 							},
 						},
 					},
@@ -1266,16 +1278,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Help: " - 1.1.1.4",
 						Indexes: []*config.Index{
 							{
-								Labelname: "tableDesc",
+								Labelname: "tableIndex",
 								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
-								Labels:    []string{"tableDesc"},
+								Labels:    []string{"tableIndex"},
 								Labelname: "tableDesc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.3",
+							},
+							{
+								Labelname: "tableIndex",
 							},
 						},
 					},
@@ -1314,16 +1329,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Help: " - 1.1.1.2",
 						Indexes: []*config.Index{
 							{
-								Labelname: "tableDesc",
+								Labelname: "tableIndex",
 								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
-								Labels:    []string{"tableDesc"},
+								Labels:    []string{"tableIndex"},
 								Labelname: "tableDesc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.3",
+							},
+							{
+								Labelname: "tableIndex",
 							},
 						},
 					},
@@ -1334,16 +1352,19 @@ func TestGenerateConfigModule(t *testing.T) {
 						Help: " - 1.1.1.3",
 						Indexes: []*config.Index{
 							{
-								Labelname: "tableDesc",
+								Labelname: "tableIndex",
 								Type:      "gauge",
 							},
 						},
 						Lookups: []*config.Lookup{
 							{
-								Labels:    []string{"tableDesc"},
+								Labels:    []string{"tableIndex"},
 								Labelname: "tableDesc",
 								Type:      "OctetString",
 								Oid:       "1.1.1.3",
+							},
+							{
+								Labelname: "tableIndex",
 							},
 						},
 					},

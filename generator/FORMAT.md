@@ -50,7 +50,7 @@ module_name:
      # Lookups take original indexes, look them up in another part of the
      # oid tree and overwrite the given output label.
      lookups:
-       - labels: [ifDescr]         # Input label name(s).
+       - labels: [ifDescr]         # Input label name(s). Empty means delete the output label.
          oid: 1.3.6.1.2.1.2.2.1.2  # OID to look under.
          labelname: ifDescr        # Output label name.
          type: OctetString         # Type of output object.
