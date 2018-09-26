@@ -955,9 +955,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						OldIndexes: []string{"octetIndex"},
-						NewIndex:   "octetDesc",
-						KeepOld:    true,
+						SourceIndexes:     []string{"octetIndex"},
+						Lookup:            "octetDesc",
+						KeepSourceIndexes: true,
 					},
 				},
 			},
@@ -1003,8 +1003,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						OldIndexes: []string{"octetIndex"},
-						NewIndex:   "octetDesc",
+						SourceIndexes: []string{"octetIndex"},
+						Lookup:        "octetDesc",
 					},
 				},
 			},
@@ -1053,8 +1053,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						OldIndexes: []string{"octetIndex"},
-						NewIndex:   "1.1.1.2",
+						SourceIndexes: []string{"octetIndex"},
+						Lookup:        "1.1.1.2",
 					},
 				},
 			},
@@ -1104,8 +1104,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						OldIndexes: []string{"octetIndex", "octetIndex2"},
-						NewIndex:   "octetDesc",
+						SourceIndexes: []string{"octetIndex", "octetIndex2"},
+						Lookup:        "octetDesc",
 					},
 				},
 			},
@@ -1184,8 +1184,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octet^Foo"},
 				Lookups: []*Lookup{
 					{
-						OldIndexes: []string{"octet&Index"},
-						NewIndex:   "1.1.1.2",
+						SourceIndexes: []string{"octet&Index"},
+						Lookup:        "1.1.1.2",
 					},
 				},
 			},
@@ -1346,8 +1346,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1.1.1.2.100", "1.1.1.4.100", "1.1.1.2.200"},
 				Lookups: []*Lookup{
 					{
-						OldIndexes: []string{"tableIndex"},
-						NewIndex:   "tableDesc",
+						SourceIndexes: []string{"tableIndex"},
+						Lookup:        "tableDesc",
 					},
 				},
 			},
@@ -1419,8 +1419,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1.1.1.2.100", "1.1.1.3"},
 				Lookups: []*Lookup{
 					{
-						OldIndexes: []string{"tableIndex"},
-						NewIndex:   "tableDesc",
+						SourceIndexes: []string{"tableIndex"},
+						Lookup:        "tableDesc",
 					},
 				},
 			},
