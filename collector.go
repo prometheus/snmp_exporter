@@ -356,7 +356,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 					metricType = t
 				} else {
 					metricType = "OctetString"
-					log.Debugf("Unable to handle type value %g at %s for %s", val, prevOid, metric.Name)
+					log.Debugf("Unable to handle type value %d at %s for %s", val, prevOid, metric.Name)
 				}
 			} else {
 				metricType = "OctetString"
@@ -467,7 +467,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 		return ""
 	default:
 		// This shouldn't happen.
-		log.Infof("Got PDU with unexpected type: Name: %s Value: '%s', Go Type: %T SNMP Type: %s", pdu.Name, pdu.Value, pdu.Value, pdu.Type)
+		log.Infof("Got PDU with unexpected type: Name: %s Value: '%s', Go Type: %T SNMP Type: %v", pdu.Name, pdu.Value, pdu.Value, pdu.Type)
 		snmpUnexpectedPduType.Inc()
 		return fmt.Sprintf("%s", pdu.Value)
 	}
