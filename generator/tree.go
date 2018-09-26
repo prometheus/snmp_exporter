@@ -375,27 +375,27 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			foundIndexes := 0
 			// See if all lookup indexes are present.
 			for _, index := range metric.Indexes {
-				for _, lookupIndex := range lookup.OldIndexes {
+				for _, lookupIndex := range lookup.SourceIndexes {
 					if index.Labelname == lookupIndex {
 						foundIndexes++
 					}
 				}
 			}
-			if foundIndexes == len(lookup.OldIndexes) {
-				if _, ok := nameToNode[lookup.NewIndex]; !ok {
-					log.Fatalf("Unknown index '%s'", lookup.NewIndex)
+			if foundIndexes == len(lookup.SourceIndexes) {
+				if _, ok := nameToNode[lookup.Lookup]; !ok {
+					log.Fatalf("Unknown index '%s'", lookup.Lookup)
 				}
-				indexNode := nameToNode[lookup.NewIndex]
+				indexNode := nameToNode[lookup.Lookup]
 				typ, ok := metricType(indexNode.Type)
 				if !ok {
-					log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.NewIndex)
+					log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.Lookup)
 				}
 				l := &config.Lookup{
 					Labelname: sanitizeLabelName(indexNode.Label),
 					Type:      typ,
 					Oid:       indexNode.Oid,
 				}
-				for _, oldIndex := range lookup.OldIndexes {
+				for _, oldIndex := range lookup.SourceIndexes {
 					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
 				}
 				metric.Lookups = append(metric.Lookups, l)
@@ -407,9 +407,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				} else {
 					needToWalk[indexNode.Oid] = struct{}{}
 				}
-				if !lookup.KeepOld {
+				if !lookup.KeepSourceIndexes {
 					// Avoid leaving the old labelname around.
-					toDelete = append(toDelete, lookup.OldIndexes...)
+					toDelete = append(toDelete, lookup.SourceIndexes...)
 				}
 			}
 		}
