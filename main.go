@@ -89,7 +89,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	registry := prometheus.NewRegistry()
 	collector := collector{target: target, module: module}
 	registry.MustRegister(collector)
-	// Delegate http serving to Promethues client library, which will call collector.Collect.
+	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
 	duration := float64(time.Since(start).Seconds())
