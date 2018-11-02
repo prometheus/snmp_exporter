@@ -24,6 +24,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/log"
 	"github.com/soniah/gosnmp"
+	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
@@ -35,6 +36,9 @@ var (
 			Help: "Unexpected Go types in a PDU.",
 		},
 	)
+	// 64-bit float mantissa: https://en.wikipedia.org/wiki/Double-precision_floating-point_format
+	float64Mantissa uint64 = 9007199254740992
+	wrapCounters           = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
 )
 
 func init() {
@@ -252,7 +256,12 @@ PduLoop:
 func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 	switch pdu.Type {
 	case gosnmp.Counter64:
-		return float64(gosnmp.ToBigInt(pdu.Value).Uint64())
+		if *wrapCounters {
+			// Wrap by 2^53.
+			return float64(gosnmp.ToBigInt(pdu.Value).Uint64() % float64Mantissa)
+		} else {
+			return float64(gosnmp.ToBigInt(pdu.Value).Uint64())
+		}
 	case gosnmp.OpaqueFloat:
 		return float64(pdu.Value.(float32))
 	case gosnmp.OpaqueDouble:

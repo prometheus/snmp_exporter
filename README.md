@@ -62,3 +62,10 @@ scrape_configs:
 This setup allows Prometheus to provide scheduling and service discovery, as
 unlike all other exporters running an exporter on the machine from which we are
 getting the metrics from is not possible.
+
+## Large counter value handling
+
+In order to provide accurate counters for large Counter64 values, the exporter will automatically
+wrap the value every 2^53 to avoid 64-bit float rounding.
+
+To disable this feature, use the command line flag `--no-snmp.wrap-large-counters`.
