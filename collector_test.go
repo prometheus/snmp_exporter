@@ -20,7 +20,9 @@ import (
 	"testing"
 
 	"github.com/prometheus/client_model/go"
+	"github.com/prometheus/common/log"
 	"github.com/soniah/gosnmp"
+	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
@@ -459,6 +461,38 @@ func TestGetPduValue(t *testing.T) {
 	value := getPduValue(pdu)
 	if value <= 0 {
 		t.Fatalf("Got negative value for PDU value type Counter64: %v", value)
+	}
+}
+
+func TestGetPduLargeValue(t *testing.T) {
+	// Setup default flags and suppress logging.
+	log.AddFlags(kingpin.CommandLine)
+	_, err := kingpin.CommandLine.Parse([]string{"--log.level", "fatal"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pdu := &gosnmp.SnmpPDU{
+		Value: uint64(19007199254740992),
+		Type:  gosnmp.Counter64,
+	}
+	value := getPduValue(pdu)
+	if value != 992800745259008.0 {
+		t.Fatalf("Got incorrect counter wrapping for Counter64: %v", value)
+	}
+
+	_, err = kingpin.CommandLine.Parse([]string{"--log.level", "fatal", "--no-snmp.wrap-large-counters"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pdu = &gosnmp.SnmpPDU{
+		Value: uint64(19007199254740992),
+		Type:  gosnmp.Counter64,
+	}
+	value = getPduValue(pdu)
+	if value != 19007199254740990.0 {
+		t.Fatalf("Got incorrect rounded float for Counter64: %v", value)
 	}
 }
 
