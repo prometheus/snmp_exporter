@@ -16,6 +16,7 @@ MIBDIR := mibs
 APC_URL        := 'https://download.schneider-electric.com/files?p_File_Name=powernet426.mib'
 ARISTA_URL     := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL      := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
+KEEPALIVED_URL := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL   := 'http://download2.mikrotik.com/Mikrotik.mib'
 PALOALTO_URL   := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
 SERVERTECH_URL := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
@@ -43,6 +44,7 @@ mibs: mib-dir \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/.cisco_v2 \
+  $(MIBDIR)/KEEPALIVED-MIB.txt \
   $(MIBDIR)/.paloalto_panos \
   $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/.synology \
@@ -74,6 +76,10 @@ $(MIBDIR)/.cisco_v2:
 	@curl -s -L $(CISCO_URL) \
 		| tar -C $(MIBDIR) --strip-components=3 -zxv
 	@touch $(MIBDIR)/.cisco_v2
+
+$(MIBDIR)/KEEPALIVED-MIB.txt:
+	@echo ">> Downloading keepalived"
+	@curl -s -o $(MIBDIR)/KEEPALIVED-MIB.txt -L $(KEEPALIVED_URL)
 
 $(MIBDIR)/mikrotik.mib:
 	@echo ">> Downloading mikrotik"
