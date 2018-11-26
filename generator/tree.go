@@ -436,7 +436,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	}
 
 	oids := []string{}
-	for k, _ := range needToWalk {
+	for k := range needToWalk {
 		oids = append(oids, k)
 	}
 	// Remove redundant OIDs and separate Walk and Get OIDs.

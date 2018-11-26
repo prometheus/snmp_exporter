@@ -145,7 +145,7 @@ func main() {
 		log.Fatalf("Error parsing config file: %s", err)
 	}
 	// Initilise metrics.
-	for module, _ := range *sc.C {
+	for module := range *sc.C {
 		snmpDuration.WithLabelValues(module)
 	}
 
