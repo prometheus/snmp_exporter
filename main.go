@@ -79,7 +79,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	module, ok := (*(sc.C))[moduleName]
 	sc.RUnlock()
 	if !ok {
-		http.Error(w, fmt.Sprintf("Unkown module '%s'", moduleName), 400)
+		http.Error(w, fmt.Sprintf("Unknown module '%s'", moduleName), 400)
 		snmpRequestErrors.Inc()
 		return
 	}
