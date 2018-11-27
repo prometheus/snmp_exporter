@@ -29,8 +29,8 @@ func TestTreePrepare(t *testing.T) {
 	}{
 		// Descriptions trimmed.
 		{
-			in:  &Node{Oid: "1", Description: "A long   sentance.      Even more detail!"},
-			out: &Node{Oid: "1", Description: "A long sentance"},
+			in:  &Node{Oid: "1", Description: "A long   sentence.      Even more detail!"},
+			out: &Node{Oid: "1", Description: "A long sentence"},
 		},
 		// Indexes copied down.
 		{
@@ -144,7 +144,7 @@ func TestTreePrepare(t *testing.T) {
 		},
 	}
 	for i, c := range cases {
-		// Indexes always end up initilized.
+		// Indexes always end up initialized.
 		walkNode(c.out, func(n *Node) {
 			if n.Indexes == nil {
 				n.Indexes = []string{}
@@ -1705,7 +1705,7 @@ func TestGenerateConfigModule(t *testing.T) {
 		},
 	}
 	for i, c := range cases {
-		// Indexes and lookups always end up initilized.
+		// Indexes and lookups always end up initialized.
 		for _, m := range c.out.Metrics {
 			if m.Indexes == nil {
 				m.Indexes = []*config.Index{}

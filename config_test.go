@@ -32,7 +32,7 @@ func TestHideConfigSecrets(t *testing.T) {
 	c, err := yaml.Marshal(sc.C)
 	sc.RUnlock()
 	if err != nil {
-		t.Errorf("Error marshalling config: %v", err)
+		t.Errorf("Error marshaling config: %v", err)
 	}
 	if strings.Contains(string(c), "mysecret") {
 		t.Fatal("config's String method reveals authentication credentials.")
@@ -49,6 +49,6 @@ func TestLoadConfigWithOverrides(t *testing.T) {
 	_, err = yaml.Marshal(sc.C)
 	sc.RUnlock()
 	if err != nil {
-		t.Errorf("Error marshalling config: %v", err)
+		t.Errorf("Error marshaling config: %v", err)
 	}
 }
