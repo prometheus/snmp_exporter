@@ -79,7 +79,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	module, ok := (*(sc.C))[moduleName]
 	sc.RUnlock()
 	if !ok {
-		http.Error(w, fmt.Sprintf("Unkown module '%s'", moduleName), 400)
+		http.Error(w, fmt.Sprintf("Unknown module '%s'", moduleName), 400)
 		snmpRequestErrors.Inc()
 		return
 	}
@@ -92,7 +92,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
-	duration := float64(time.Since(start).Seconds())
+	duration := time.Since(start).Seconds()
 	snmpDuration.WithLabelValues(moduleName).Observe(duration)
 	log.Debugf("Scrape of target '%s' with module '%s' took %f seconds", target, moduleName, duration)
 }
@@ -145,7 +145,7 @@ func main() {
 		log.Fatalf("Error parsing config file: %s", err)
 	}
 	// Initilise metrics.
-	for module, _ := range *sc.C {
+	for module := range *sc.C {
 		snmpDuration.WithLabelValues(module)
 	}
 

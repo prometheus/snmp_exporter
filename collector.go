@@ -85,7 +85,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
 	snmp.MaxRepetitions = config.WalkParams.MaxRepetitions
-	// User specifies timeout of each retry attempt but GoSNMP expects total timeout for all attemtps.
+	// User specifies timeout of each retry attempt but GoSNMP expects total timeout for all attempts.
 	snmp.Retries = config.WalkParams.Retries
 	snmp.Timeout = config.WalkParams.Timeout * time.Duration(snmp.Retries)
 
@@ -215,7 +215,7 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, nil),
 		prometheus.GaugeValue,
-		float64(time.Since(start).Seconds()))
+		time.Since(start).Seconds())
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from walk.", nil, nil),
 		prometheus.GaugeValue,
@@ -250,7 +250,7 @@ PduLoop:
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, nil),
 		prometheus.GaugeValue,
-		float64(time.Since(start).Seconds()))
+		time.Since(start).Seconds())
 }
 
 func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
@@ -293,7 +293,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 		tz = time.UTC
 	case 11:
 		// Extract the timezone from the last 3 bytes.
-		locString := fmt.Sprintf("%s%02d%02d", string(v[8]), uint8(v[9]), uint8(v[10]))
+		locString := fmt.Sprintf("%s%02d%02d", string(v[8]), v[9], v[10])
 		loc, err := time.Parse("-0700", locString)
 		if err != nil {
 			return 0, fmt.Errorf("error parsing location string: %q, error: %s", locString, err)
@@ -308,12 +308,12 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 	// Build the date from the various fields and time zone.
 	t := time.Date(
 		int(binary.BigEndian.Uint16(v[0:2])),
-		time.Month(uint8(v[2])),
-		int(uint8(v[3])),
-		int(uint8(v[4])),
-		int(uint8(v[5])),
-		int(uint8(v[6])),
-		int(uint8(v[7]))*1e+8,
+		time.Month(v[2]),
+		int(v[3]),
+		int(v[4]),
+		int(v[5]),
+		int(v[6]),
+		int(v[7])*1e+8,
 		tz)
 	return float64(t.Unix()), nil
 }
