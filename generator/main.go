@@ -64,7 +64,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 	out, err := yaml.Marshal(outputConfig)
 	config.DoNotHideSecrets = false
 	if err != nil {
-		log.Fatalf("Error marshalling yml: %s", err)
+		log.Fatalf("Error marshaling yml: %s", err)
 	}
 
 	// Check the generated config to catch auth/version issues.

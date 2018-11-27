@@ -144,7 +144,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
 	}
-	// Initialise metrics.
+	// Initialize metrics.
 	for module := range *sc.C {
 		snmpDuration.WithLabelValues(module)
 	}
@@ -208,7 +208,7 @@ func main() {
 		c, err := yaml.Marshal(sc.C)
 		sc.RUnlock()
 		if err != nil {
-			log.Warnf("Error marshalling configuration: %v", err)
+			log.Warnf("Error marshaling configuration: %v", err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
