@@ -126,7 +126,7 @@ var (
 	}
 )
 
-// Initilise NetSNMP. Returns MIB parse errors.
+// Initialise NetSNMP. Returns MIB parse errors.
 //
 // Warning: This function plays with the stderr file descriptor.
 func initSNMP() string {
@@ -158,7 +158,7 @@ func initSNMP() string {
 		ch <- string(data)
 	}()
 
-	// Do the initilization.
+	// Do the initialization.
 	C.netsnmp_init_mib()
 
 	// Restore stderr to normal.

@@ -50,7 +50,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 		nameToNode[n.Label] = n
 	})
 
-	// Trim down description to first sentance, removing extra whitespace.
+	// Trim down description to first sentence, removing extra whitespace.
 	walkNode(nodes, func(n *Node) {
 		s := strings.Join(strings.Fields(n.Description), " ")
 		n.Description = strings.Split(s, ". ")[0]
