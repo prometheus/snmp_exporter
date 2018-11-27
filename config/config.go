@@ -129,7 +129,7 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		g.Version = gosnmp.Version3
 	}
 	g.Community = string(c.Auth.Community)
-	g.ContextName = string(c.Auth.ContextName)
+	g.ContextName = c.Auth.ContextName
 
 	// v3 security settings.
 	g.SecurityModel = gosnmp.UserSecurityModel
