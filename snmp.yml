@@ -5610,6 +5610,1112 @@ if_mib_ifname:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+keepalived:
+  walk:
+  - 1.3.6.1.4.1.9586.100.5.2.1
+  - 1.3.6.1.4.1.9586.100.5.2.3
+  - 1.3.6.1.4.1.9586.100.5.3.1
+  - 1.3.6.1.4.1.9586.100.5.3.3
+  - 1.3.6.1.4.1.9586.100.5.3.4
+  metrics:
+  - name: vrrpSyncGroupIndex
+    oid: 1.3.6.1.4.1.9586.100.5.2.1.1.1
+    type: gauge
+    help: Index of the synchronisation group. - 1.3.6.1.4.1.9586.100.5.2.1.1.1
+    indexes:
+    - labelname: vrrpSyncGroupIndex
+      type: gauge
+  - name: vrrpSyncGroupName
+    oid: 1.3.6.1.4.1.9586.100.5.2.1.1.2
+    type: DisplayString
+    help: Name of the synchronisation group. - 1.3.6.1.4.1.9586.100.5.2.1.1.2
+    indexes:
+    - labelname: vrrpSyncGroupIndex
+      type: gauge
+  - name: vrrpSyncGroupState
+    oid: 1.3.6.1.4.1.9586.100.5.2.1.1.3
+    type: gauge
+    help: Current state of the synchronisation group. - 1.3.6.1.4.1.9586.100.5.2.1.1.3
+    indexes:
+    - labelname: vrrpSyncGroupIndex
+      type: gauge
+  - name: vrrpSyncGroupSmtpAlert
+    oid: 1.3.6.1.4.1.9586.100.5.2.1.1.4
+    type: gauge
+    help: Will SMTP alert be sent for this synchronisation group? - 1.3.6.1.4.1.9586.100.5.2.1.1.4
+    indexes:
+    - labelname: vrrpSyncGroupIndex
+      type: gauge
+  - name: vrrpSyncGroupNotifyExec
+    oid: 1.3.6.1.4.1.9586.100.5.2.1.1.5
+    type: gauge
+    help: Will we execute notification script for this group? - 1.3.6.1.4.1.9586.100.5.2.1.1.5
+    indexes:
+    - labelname: vrrpSyncGroupIndex
+      type: gauge
+  - name: vrrpSyncGroupTrackingWeight
+    oid: 1.3.6.1.4.1.9586.100.5.2.1.1.10
+    type: gauge
+    help: Allow differing tracking weights for sync group members - 1.3.6.1.4.1.9586.100.5.2.1.1.10
+    indexes:
+    - labelname: vrrpSyncGroupIndex
+      type: gauge
+  - name: vrrpInstanceIndex
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.1
+    type: gauge
+    help: Index of the VRRP instance - 1.3.6.1.4.1.9586.100.5.2.3.1.1
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceName
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.2
+    type: DisplayString
+    help: Name of the VRRP instance. - 1.3.6.1.4.1.9586.100.5.2.3.1.2
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceVirtualRouterId
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.3
+    type: gauge
+    help: Virtual Router ID (VRID) for this VRRP instance. - 1.3.6.1.4.1.9586.100.5.2.3.1.3
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceState
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.4
+    type: gauge
+    help: Current state of this VRRP instance. - 1.3.6.1.4.1.9586.100.5.2.3.1.4
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceInitialState
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.5
+    type: gauge
+    help: Initial state of this VRRP instance. - 1.3.6.1.4.1.9586.100.5.2.3.1.5
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceWantedState
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.6
+    type: gauge
+    help: State wanted by the operator for this VRRP instance. - 1.3.6.1.4.1.9586.100.5.2.3.1.6
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceBasePriority
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.7
+    type: gauge
+    help: Base priority (as defined in the configuration file) for this VRRP instance
+      - 1.3.6.1.4.1.9586.100.5.2.3.1.7
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceEffectivePriority
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.8
+    type: gauge
+    help: Effective priority for this VRRP instance - 1.3.6.1.4.1.9586.100.5.2.3.1.8
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceVipsStatus
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.9
+    type: gauge
+    help: Are all VIP of this VRRP instance enabled? - 1.3.6.1.4.1.9586.100.5.2.3.1.9
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstancePrimaryInterface
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.10
+    type: DisplayString
+    help: Primary interface of this VRRP instance. - 1.3.6.1.4.1.9586.100.5.2.3.1.10
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceTrackPrimaryIf
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.11
+    type: gauge
+    help: Do we track the status of the primary interface? - 1.3.6.1.4.1.9586.100.5.2.3.1.11
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceAdvertisementsInt
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.12
+    type: gauge
+    help: Delay in seconds between two VRRP advertisements and it is in centiseconds
+      between two VRRPV3 advertisements - 1.3.6.1.4.1.9586.100.5.2.3.1.12
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstancePreempt
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.13
+    type: gauge
+    help: Will a higher priority advertisement preempt a lower instance? - 1.3.6.1.4.1.9586.100.5.2.3.1.13
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstancePreemptDelay
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.14
+    type: gauge
+    help: Delay after startup or lower priority advert received until preemption can
+      happen - 1.3.6.1.4.1.9586.100.5.2.3.1.14
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceAuthType
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.15
+    type: gauge
+    help: VRRPv2 supports authentication method to authenticate other peers - 1.3.6.1.4.1.9586.100.5.2.3.1.15
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceSyncGroup
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.18
+    type: DisplayString
+    help: Name of the synchronisation group this VRRP instance belongs, if any. -
+      1.3.6.1.4.1.9586.100.5.2.3.1.18
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceGarpDelay
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.19
+    type: gauge
+    help: Delay to launch gratuitous ARP (GARP). - 1.3.6.1.4.1.9586.100.5.2.3.1.19
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceSmtpAlert
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.20
+    type: gauge
+    help: Will SMTP alert be sent for this VRRP instance? - 1.3.6.1.4.1.9586.100.5.2.3.1.20
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceNotifyExec
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.21
+    type: gauge
+    help: Will we execute notification script for this instance? - 1.3.6.1.4.1.9586.100.5.2.3.1.21
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceAccept
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.27
+    type: gauge
+    help: Accept allow the non-master owner to process the packets destined to VIP
+      and it is supported for only VRRPv3. - 1.3.6.1.4.1.9586.100.5.2.3.1.27
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstancePromoteSecondaries
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.28
+    type: gauge
+    help: Set promote_secondaries on interface. - 1.3.6.1.4.1.9586.100.5.2.3.1.28
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceUseLinkbeat
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.29
+    type: gauge
+    help: Use linkbeat for interface status. - 1.3.6.1.4.1.9586.100.5.2.3.1.29
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceVrrpVersion
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.30
+    type: gauge
+    help: VRRP protocol version. - 1.3.6.1.4.1.9586.100.5.2.3.1.30
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: virtualServerGroupIndex
+    oid: 1.3.6.1.4.1.9586.100.5.3.1.1.1
+    type: gauge
+    help: Index of the virtual server group. - 1.3.6.1.4.1.9586.100.5.3.1.1.1
+    indexes:
+    - labelname: virtualServerGroupIndex
+      type: gauge
+  - name: virtualServerGroupName
+    oid: 1.3.6.1.4.1.9586.100.5.3.1.1.2
+    type: DisplayString
+    help: Name of the virtual server group. - 1.3.6.1.4.1.9586.100.5.3.1.1.2
+    indexes:
+    - labelname: virtualServerGroupIndex
+      type: gauge
+  - name: virtualServerIndex
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.1
+    type: gauge
+    help: Index of the virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.1
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerType
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.2
+    type: gauge
+    help: Type of virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.2
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerNameOfGroup
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.3
+    type: DisplayString
+    help: If the virtual is defined from a group, this is the name of the group. -
+      1.3.6.1.4.1.9586.100.5.3.3.1.3
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerFwMark
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.4
+    type: gauge
+    help: If the virtual server is defined from a firewall mark, this is the value
+      of the mark - 1.3.6.1.4.1.9586.100.5.3.3.1.4
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerAddrType
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.5
+    type: gauge
+    help: If the virtual server is defined from an IP, this is the address family
+      - 1.3.6.1.4.1.9586.100.5.3.3.1.5
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerAddress
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.6
+    type: InetAddress
+    help: If the virtual server is defined from an IP address, this is the value of
+      the IP - 1.3.6.1.4.1.9586.100.5.3.3.1.6
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerPort
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.7
+    type: gauge
+    help: If the virtual server is defined from an IP, this is the value of the port
+      to listen for requests - 1.3.6.1.4.1.9586.100.5.3.3.1.7
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerProtocol
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.8
+    type: gauge
+    help: Which transport protocol should be used for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.8
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerLoadBalancingAlgo
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.9
+    type: gauge
+    help: Which load balancing algorithm (or scheduler) should be used for this virtual
+      server. - 1.3.6.1.4.1.9586.100.5.3.3.1.9
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerLoadBalancingKind
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.10
+    type: gauge
+    help: Default forwarding method to use for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.10
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatus
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.11
+    type: gauge
+    help: Current status of this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.11
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerVirtualHost
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.12
+    type: DisplayString
+    help: Virtualhost of this server for HTTP like requests. - 1.3.6.1.4.1.9586.100.5.3.3.1.12
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerPersist
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.13
+    type: gauge
+    help: Is the virtual service persistence enabled? - 1.3.6.1.4.1.9586.100.5.3.3.1.13
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerPersistTimeout
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.14
+    type: gauge
+    help: If this virtual service is persistence, what is the timeout. - 1.3.6.1.4.1.9586.100.5.3.3.1.14
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerPersistGranularity
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.15
+    type: OctetString
+    help: Netmask specifying the granularity of the IPv4 persistence mechanism. -
+      1.3.6.1.4.1.9586.100.5.3.3.1.15
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerDelayLoop
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.16
+    type: gauge
+    help: Delay in seconds between two checks. - 1.3.6.1.4.1.9586.100.5.3.3.1.16
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerHaSuspend
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.17
+    type: gauge
+    help: If set to true(1), checks will be suspended if the IP of the virtual server
+      is currently not set. - 1.3.6.1.4.1.9586.100.5.3.3.1.17
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerAlpha
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.18
+    type: gauge
+    help: Is alpha mode enabled? - 1.3.6.1.4.1.9586.100.5.3.3.1.18
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerOmega
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.19
+    type: gauge
+    help: Is omega mode enabled? - 1.3.6.1.4.1.9586.100.5.3.3.1.19
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRealServersTotal
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.20
+    type: gauge
+    help: Total number of real servers for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.20
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRealServersUp
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.21
+    type: gauge
+    help: Real servers actually up for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.21
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerQuorum
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.22
+    type: gauge
+    help: Quorum to get amond real servers to consider this virtual server up. - 1.3.6.1.4.1.9586.100.5.3.3.1.22
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerQuorumStatus
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.23
+    type: gauge
+    help: Current status of the quorum for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.23
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerQuorumUp
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.24
+    type: DisplayString
+    help: Command to execute when the quorum is met. - 1.3.6.1.4.1.9586.100.5.3.3.1.24
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerQuorumDown
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.25
+    type: DisplayString
+    help: Command to execute when the quorum is not met. - 1.3.6.1.4.1.9586.100.5.3.3.1.25
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerHysteresis
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.26
+    type: gauge
+    help: Hysteresis with respect to quorum count. - 1.3.6.1.4.1.9586.100.5.3.3.1.26
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsConns
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.27
+    type: gauge
+    help: Total number of connections scheduled for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.27
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsInPkts
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.28
+    type: counter
+    help: Total number of incoming packets for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.28
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsOutPkts
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.29
+    type: counter
+    help: Total number of outgoing packets for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.29
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsInBytes
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.30
+    type: counter
+    help: Total number of incoming bytes for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.30
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsOutBytes
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.31
+    type: counter
+    help: Total number of outgoing bytes for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.31
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateCps
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.32
+    type: gauge
+    help: Current connection rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.32
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateInPPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.33
+    type: gauge
+    help: Current in packet rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.33
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateOutPPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.34
+    type: gauge
+    help: Current out packet rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.34
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateInBPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.35
+    type: gauge
+    help: Current incoming rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.35
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateOutBPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.36
+    type: gauge
+    help: Current outgoing rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.36
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerOPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.37
+    type: gauge
+    help: If set to true(1), One-Packet-Scheduling will be applied. - 1.3.6.1.4.1.9586.100.5.3.3.1.37
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsConns64
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.38
+    type: counter
+    help: Total number of connections scheduled for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.38
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsInPkts64
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.39
+    type: counter
+    help: Total number of incoming packets for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.39
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerStatsOutPkts64
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.40
+    type: counter
+    help: Total number of outgoing packets for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.40
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateCpsLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.41
+    type: gauge
+    help: Current connection rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.41
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateCpsHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.42
+    type: gauge
+    help: Current connection rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.42
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateInPPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.43
+    type: gauge
+    help: Current in packet rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.43
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateInPPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.44
+    type: gauge
+    help: Current in packet rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.44
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateOutPPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.45
+    type: gauge
+    help: Current out packet rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.45
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateOutPPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.46
+    type: gauge
+    help: Current out packet rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.46
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateInBPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.47
+    type: gauge
+    help: Current incoming rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.47
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateInBPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.48
+    type: gauge
+    help: Current incoming rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.48
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateOutBPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.49
+    type: gauge
+    help: Current outgoing rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.49
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRateOutBPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.50
+    type: gauge
+    help: Current outgoing rate for this virtual server - 1.3.6.1.4.1.9586.100.5.3.3.1.50
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerPersistGranularity6
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.51
+    type: gauge
+    help: Netmask specifying the granularity of the IPv6 persistence mechanism. -
+      1.3.6.1.4.1.9586.100.5.3.3.1.51
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerHashed
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.52
+    type: gauge
+    help: If set to true(1), entries will be hashed. - 1.3.6.1.4.1.9586.100.5.3.3.1.52
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerSHFallback
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.53
+    type: gauge
+    help: If set to true(1), SH scheduler fallback. - 1.3.6.1.4.1.9586.100.5.3.3.1.53
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerSHPort
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.54
+    type: gauge
+    help: If set to true(1), SH scheduler use port. - 1.3.6.1.4.1.9586.100.5.3.3.1.54
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerSched3
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.55
+    type: gauge
+    help: If set to true(1), scheduler flag 3 set. - 1.3.6.1.4.1.9586.100.5.3.3.1.55
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerActionWhenDown
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.56
+    type: gauge
+    help: What action is performed when the real servers are down - 1.3.6.1.4.1.9586.100.5.3.3.1.56
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerRetry
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.57
+    type: gauge
+    help: Default number of retries of checker before marking failed. - 1.3.6.1.4.1.9586.100.5.3.3.1.57
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerDelayBeforeRetry
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.58
+    type: gauge
+    help: Default number of seconds between retrying a checker ofter it has failed.
+      - 1.3.6.1.4.1.9586.100.5.3.3.1.58
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerWarmup
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.59
+    type: gauge
+    help: Maximum number of seconds to delay before running checker. - 1.3.6.1.4.1.9586.100.5.3.3.1.59
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerWeight
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.60
+    type: gauge
+    help: Default wieght for each real server. - 1.3.6.1.4.1.9586.100.5.3.3.1.60
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerSmtpAlert
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.61
+    type: gauge
+    help: Will SMTP alert be sent for this virtual server? - 1.3.6.1.4.1.9586.100.5.3.3.1.61
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerMHFallback
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.62
+    type: gauge
+    help: If set to true(1), MH scheduler fallback. - 1.3.6.1.4.1.9586.100.5.3.3.1.62
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerMHPort
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.63
+    type: gauge
+    help: If set to true(1), MH scheduler use port. - 1.3.6.1.4.1.9586.100.5.3.3.1.63
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: realServerIndex
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.1
+    type: gauge
+    help: Index of the real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.1
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerType
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.2
+    type: gauge
+    help: 'Type of real server: either a regular real server or a sorry server. -
+      1.3.6.1.4.1.9586.100.5.3.4.1.2'
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerAddrType
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.3
+    type: gauge
+    help: Address family for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.3
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerAddress
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.4
+    type: InetAddress
+    help: IP address of this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.4
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerPort
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.5
+    type: gauge
+    help: Port of the service. - 1.3.6.1.4.1.9586.100.5.3.4.1.5
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatus
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.6
+    type: gauge
+    help: Status of this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.6
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerWeight
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.7
+    type: gauge
+    help: Weight of this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.7
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerUpperConnectionLimit
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.8
+    type: gauge
+    help: Maximum number of connections for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.8
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerLowerConnectionLimit
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.9
+    type: gauge
+    help: Minimum number of connections for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.9
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerActionWhenDown
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.10
+    type: gauge
+    help: What action is performed when this server is down - 1.3.6.1.4.1.9586.100.5.3.4.1.10
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerNotifyUp
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.11
+    type: DisplayString
+    help: Command to execute when this server becomes alive. - 1.3.6.1.4.1.9586.100.5.3.4.1.11
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerNotifyDown
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.12
+    type: DisplayString
+    help: Command to execute when this server becomes dead. - 1.3.6.1.4.1.9586.100.5.3.4.1.12
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerFailedChecks
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.13
+    type: gauge
+    help: How many failed checks for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.13
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsConns
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.14
+    type: gauge
+    help: Total number of connections scheduled for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.14
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsActiveConns
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.15
+    type: gauge
+    help: Current active connections for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.15
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsInactiveConns
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.16
+    type: gauge
+    help: Current inactive connections for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.16
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsPersistentConns
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.17
+    type: gauge
+    help: Current persistent connections for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.17
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsInPkts
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.18
+    type: counter
+    help: Total number of incoming packets for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.18
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsOutPkts
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.19
+    type: counter
+    help: Total number of outgoing packets for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.19
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsInBytes
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.20
+    type: counter
+    help: Total number of incoming bytes for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.20
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsOutBytes
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.21
+    type: counter
+    help: Total number of outgoing bytes for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.21
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateCps
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.22
+    type: gauge
+    help: Current connection rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.22
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateInPPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.23
+    type: gauge
+    help: Current in packet rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.23
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateOutPPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.24
+    type: gauge
+    help: Current out packet rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.24
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateInBPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.25
+    type: gauge
+    help: Current incoming rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.25
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateOutBPS
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.26
+    type: gauge
+    help: Current outgoing rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.26
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsConns64
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.27
+    type: counter
+    help: Total number of connections scheduled for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.27
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsInPkts64
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.28
+    type: counter
+    help: Total number of incoming packets for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.28
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerStatsOutPkts64
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.29
+    type: counter
+    help: Total number of outgoing packets for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.29
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateCpsLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.30
+    type: gauge
+    help: Current connection rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.30
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateCpsHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.31
+    type: gauge
+    help: Current connection rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.31
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateInPPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.32
+    type: gauge
+    help: Current in packet rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.32
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateInPPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.33
+    type: gauge
+    help: Current in packet rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.33
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateOutPPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.34
+    type: gauge
+    help: Current out packet rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.34
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateOutPPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.35
+    type: gauge
+    help: Current out packet rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.35
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateInBPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.36
+    type: gauge
+    help: Current incoming rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.36
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateInBPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.37
+    type: gauge
+    help: Current incoming rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.37
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateOutBPSLow
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.38
+    type: gauge
+    help: Current outgoing rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.38
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRateOutBPSHigh
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.39
+    type: gauge
+    help: Current outgoing rate for this real server - 1.3.6.1.4.1.9586.100.5.3.4.1.39
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerForwardingMethod
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.40
+    type: gauge
+    help: Forwarding method to use for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.40
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerVirtualHost
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.41
+    type: DisplayString
+    help: Virtualhost of this real server for HTTP like requests. - 1.3.6.1.4.1.9586.100.5.3.4.1.41
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerAlpha
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.42
+    type: gauge
+    help: Is alpha mode enabled? - 1.3.6.1.4.1.9586.100.5.3.4.1.42
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerRetry
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.43
+    type: gauge
+    help: Default number of retries of checker before marking failed. - 1.3.6.1.4.1.9586.100.5.3.4.1.43
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerDelayBeforeRetry
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.44
+    type: gauge
+    help: Default number of seconds between retrying a checker ofter it has failed.
+      - 1.3.6.1.4.1.9586.100.5.3.4.1.44
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerWarmup
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.45
+    type: gauge
+    help: Maximum number of seconds to delay before running checker. - 1.3.6.1.4.1.9586.100.5.3.4.1.45
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerDelayLoop
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.46
+    type: gauge
+    help: Delay in seconds between two checks. - 1.3.6.1.4.1.9586.100.5.3.4.1.46
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerSmtpAlert
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.47
+    type: gauge
+    help: Will SMTP alert be sent for this real server? - 1.3.6.1.4.1.9586.100.5.3.4.1.47
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
 paloalto_fw:
   walk:
   - 1.3.6.1.2.1.2
