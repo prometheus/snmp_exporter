@@ -223,3 +223,41 @@ modules:
       - interfaces
       - ifXTable
       - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
+
+# keepalived
+#
+# https://github.com/acassen/keepalived/blob/master/doc/KEEPALIVED-MIB.txt
+  keepalived:
+    walk:
+      - vrrpInstanceTable # Table of VRRP instances.
+      - vrrpSyncGroupTable # Table of sync groups.
+      - virtualServerGroupTable # Table of virtual server groups.
+      - virtualServerTable # Table of virtual servers.
+      - realServerTable # Table of real servers. This includes regular real servers and sorry servers.
+    overrides:
+      vrrpSyncGroupScriptMaster:
+        ignore: true # Non-metric display string.
+      vrrpSyncGroupScriptBackup:
+        ignore: true # Non-metric display string.
+      vrrpSyncGroupScriptFault:
+        ignore: true # Non-metric display string.
+      vrrpSyncGroupScript:
+        ignore: true # Non-metric display string.
+      vrrpSyncGroupScriptStop:
+        ignore: true # Non-metric display string.
+      vrrpInstanceLvsSyncDaemon:
+        ignore: true # Deprecated.
+      vrrpInstanceLvsSyncInterface:
+        ignore: true # Deprecated.
+      vrrpInstanceScriptMaster:
+        ignore: true # Non-metric display string.
+      vrrpInstanceScriptBackup:
+        ignore: true # Non-metric display string.
+      vrrpInstanceScriptFault:
+        ignore: true # Non-metric display string.
+      vrrpInstanceScriptStop:
+        ignore: true # Non-metric display string.
+      vrrpInstanceScript:
+        ignore: true # Non-metric display string.
+      vrrpInstanceScriptMstrRxLowerPri:
+        ignore: true # Non-metric display string.
