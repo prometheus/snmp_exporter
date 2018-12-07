@@ -1,5 +1,5 @@
 FROM        quay.io/prometheus/busybox:latest
-MAINTAINER  The Prometheus Authors <prometheus-developers@googlegroups.com>
+LABEL       maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
 
 COPY snmp_exporter  /bin/snmp_exporter
 COPY snmp.yml       /etc/snmp_exporter/snmp.yml
