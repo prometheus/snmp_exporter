@@ -22,7 +22,7 @@ modules:
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
         new_index: 1.3.6.1.2.1.31.1.1.1.1 # ifName
 
-# Cicso Wireless LAN Controller
+# Cisco Wireless LAN Controller
   cisco_wlc:
     walk:
       - interfaces
