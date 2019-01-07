@@ -95,7 +95,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		snmp.Target = host
 		p, err := strconv.Atoi(port)
 		if err != nil {
-			return nil, fmt.Errorf("Error converting port number to int for target %s: %s", target, err)
+			return nil, fmt.Errorf("error converting port number to int for target %s: %s", target, err)
 		}
 		snmp.Port = uint16(p)
 	}
@@ -106,7 +106,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 	// Do the actual walk.
 	err := snmp.Connect()
 	if err != nil {
-		return nil, fmt.Errorf("Error connecting to target %s: %s", target, err)
+		return nil, fmt.Errorf("error connecting to target %s: %s", target, err)
 	}
 	defer snmp.Conn.Close()
 
@@ -127,7 +127,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		getStart := time.Now()
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
-			return nil, fmt.Errorf("Error getting target %s: %s", snmp.Target, err)
+			return nil, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
 		}
 		log.Debugf("Get of %d OIDs completed in %s", oids, time.Since(getStart))
 		// SNMPv1 will return packet error for unsupported OIDs.
@@ -139,7 +139,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		// Response received with errors.
 		// TODO: "stringify" gosnmp errors instead of showing error code.
 		if packet.Error != gosnmp.NoError {
-			return nil, fmt.Errorf("Error reported by target %s: Error Status %d", snmp.Target, packet.Error)
+			return nil, fmt.Errorf("error reported by target %s: Error Status %d", snmp.Target, packet.Error)
 		}
 		for _, v := range packet.Variables {
 			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
@@ -161,7 +161,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 			pdus, err = snmp.BulkWalkAll(subtree)
 		}
 		if err != nil {
-			return nil, fmt.Errorf("Error walking target %s: %s", snmp.Target, err)
+			return nil, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
 		}
 		log.Debugf("Walk of target %q subtree %q completed in %s", snmp.Target, subtree, time.Since(walkStart))
 
@@ -388,7 +388,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t, value, labelvalues...)
 	if err != nil {
 		sample = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),
-			fmt.Errorf("Error for metric %s with labels %v from indexOids %v: %v", metric.Name, labelvalues, indexOids, err))
+			fmt.Errorf("error for metric %s with labels %v from indexOids %v: %v", metric.Name, labelvalues, indexOids, err))
 	}
 
 	return []prometheus.Metric{sample}
@@ -413,7 +413,7 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 				prometheus.GaugeValue, v, labelvalues...)
 			if err != nil {
 				newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for regex_extract", nil, nil),
-					fmt.Errorf("Error for metric %s with labels %v: %v", metric.Name+name, labelvalues, err))
+					fmt.Errorf("error for metric %s with labels %v: %v", metric.Name+name, labelvalues, err))
 			}
 			results = append(results, newMetric)
 			break
