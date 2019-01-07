@@ -39,7 +39,7 @@ func (c *MetricOverrides) UnmarshalYAML(unmarshal func(interface{}) error) error
 	// Ensure type for override is valid if one is defined.
 	typ, ok := metricType(c.Type)
 	if c.Type != "" && (!ok || typ != c.Type) {
-		return fmt.Errorf("Invalid metric type override '%s'", c.Type)
+		return fmt.Errorf("invalid metric type override '%s'", c.Type)
 	}
 
 	return nil
