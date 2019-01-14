@@ -10967,7 +10967,13 @@ ubiquiti_airmax:
 ubiquiti_unifi:
   walk:
   - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.25.2
   - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.2021.10.1.1
+  - 1.3.6.1.4.1.2021.10.1.2
+  - 1.3.6.1.4.1.2021.10.1.5
+  - 1.3.6.1.4.1.2021.11
+  - 1.3.6.1.4.1.2021.4
   - 1.3.6.1.4.1.41112.1.6
   get:
   - 1.3.6.1.2.1.1.3.0
@@ -11147,6 +11153,57 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+  - name: hrMemorySize
+    oid: 1.3.6.1.2.1.25.2.2
+    type: gauge
+    help: The amount of physical read-write main memory, typically RAM, contained
+      by the host. - 1.3.6.1.2.1.25.2.2
+  - name: hrStorageIndex
+    oid: 1.3.6.1.2.1.25.2.3.1.1
+    type: gauge
+    help: A unique value for each logical storage area contained by the host. - 1.3.6.1.2.1.25.2.3.1.1
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageDescr
+    oid: 1.3.6.1.2.1.25.2.3.1.3
+    type: DisplayString
+    help: A description of the type and instance of the storage described by this
+      entry. - 1.3.6.1.2.1.25.2.3.1.3
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageAllocationUnits
+    oid: 1.3.6.1.2.1.25.2.3.1.4
+    type: gauge
+    help: The size, in bytes, of the data objects allocated from this pool - 1.3.6.1.2.1.25.2.3.1.4
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageSize
+    oid: 1.3.6.1.2.1.25.2.3.1.5
+    type: gauge
+    help: The size of the storage represented by this entry, in units of hrStorageAllocationUnits
+      - 1.3.6.1.2.1.25.2.3.1.5
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageUsed
+    oid: 1.3.6.1.2.1.25.2.3.1.6
+    type: gauge
+    help: The amount of the storage represented by this entry that is allocated, in
+      units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageAllocationFailures
+    oid: 1.3.6.1.2.1.25.2.3.1.7
+    type: counter
+    help: The number of requests for storage represented by this entry that could
+      not be honored due to not enough storage - 1.3.6.1.2.1.25.2.3.1.7
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
     type: DisplayString
@@ -11304,6 +11361,250 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+  - name: laIndex
+    oid: 1.3.6.1.4.1.2021.10.1.1
+    type: gauge
+    help: reference index/row number for each observed loadave. - 1.3.6.1.4.1.2021.10.1.1
+    indexes:
+    - labelname: laIndex
+      type: gauge
+  - name: laNames
+    oid: 1.3.6.1.4.1.2021.10.1.2
+    type: DisplayString
+    help: The list of loadave names we're watching. - 1.3.6.1.4.1.2021.10.1.2
+    indexes:
+    - labelname: laIndex
+      type: gauge
+  - name: laLoadInt
+    oid: 1.3.6.1.4.1.2021.10.1.5
+    type: gauge
+    help: The 1,5 and 15 minute load averages as an integer - 1.3.6.1.4.1.2021.10.1.5
+    indexes:
+    - labelname: laIndex
+      type: gauge
+  - name: ssIndex
+    oid: 1.3.6.1.4.1.2021.11.1
+    type: gauge
+    help: Bogus Index - 1.3.6.1.4.1.2021.11.1
+  - name: ssErrorName
+    oid: 1.3.6.1.4.1.2021.11.2
+    type: DisplayString
+    help: Bogus Name - 1.3.6.1.4.1.2021.11.2
+  - name: ssSwapIn
+    oid: 1.3.6.1.4.1.2021.11.3
+    type: gauge
+    help: The average amount of memory swapped in from disk, calculated over the last
+      minute. - 1.3.6.1.4.1.2021.11.3
+  - name: ssSwapOut
+    oid: 1.3.6.1.4.1.2021.11.4
+    type: gauge
+    help: The average amount of memory swapped out to disk, calculated over the last
+      minute. - 1.3.6.1.4.1.2021.11.4
+  - name: ssIOSent
+    oid: 1.3.6.1.4.1.2021.11.5
+    type: gauge
+    help: The average amount of data written to disk or other block device, calculated
+      over the last minute - 1.3.6.1.4.1.2021.11.5
+  - name: ssIOReceive
+    oid: 1.3.6.1.4.1.2021.11.6
+    type: gauge
+    help: The average amount of data read from disk or other block device, calculated
+      over the last minute - 1.3.6.1.4.1.2021.11.6
+  - name: ssSysInterrupts
+    oid: 1.3.6.1.4.1.2021.11.7
+    type: gauge
+    help: The average rate of interrupts processed (including the clock) calculated
+      over the last minute - 1.3.6.1.4.1.2021.11.7
+  - name: ssSysContext
+    oid: 1.3.6.1.4.1.2021.11.8
+    type: gauge
+    help: The average rate of context switches, calculated over the last minute -
+      1.3.6.1.4.1.2021.11.8
+  - name: ssCpuUser
+    oid: 1.3.6.1.4.1.2021.11.9
+    type: gauge
+    help: The percentage of CPU time spent processing user-level code, calculated
+      over the last minute - 1.3.6.1.4.1.2021.11.9
+  - name: ssCpuSystem
+    oid: 1.3.6.1.4.1.2021.11.10
+    type: gauge
+    help: The percentage of CPU time spent processing system-level code, calculated
+      over the last minute - 1.3.6.1.4.1.2021.11.10
+  - name: ssCpuIdle
+    oid: 1.3.6.1.4.1.2021.11.11
+    type: gauge
+    help: The percentage of processor time spent idle, calculated over the last minute
+      - 1.3.6.1.4.1.2021.11.11
+  - name: ssCpuRawUser
+    oid: 1.3.6.1.4.1.2021.11.50
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent processing user-level code
+      - 1.3.6.1.4.1.2021.11.50
+  - name: ssCpuRawNice
+    oid: 1.3.6.1.4.1.2021.11.51
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent processing reduced-priority
+      code - 1.3.6.1.4.1.2021.11.51
+  - name: ssCpuRawSystem
+    oid: 1.3.6.1.4.1.2021.11.52
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent processing system-level code
+      - 1.3.6.1.4.1.2021.11.52
+  - name: ssCpuRawIdle
+    oid: 1.3.6.1.4.1.2021.11.53
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent idle - 1.3.6.1.4.1.2021.11.53
+  - name: ssCpuRawWait
+    oid: 1.3.6.1.4.1.2021.11.54
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent waiting for IO - 1.3.6.1.4.1.2021.11.54
+  - name: ssCpuRawKernel
+    oid: 1.3.6.1.4.1.2021.11.55
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent processing kernel-level code
+      - 1.3.6.1.4.1.2021.11.55
+  - name: ssCpuRawInterrupt
+    oid: 1.3.6.1.4.1.2021.11.56
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent processing hardware interrupts
+      - 1.3.6.1.4.1.2021.11.56
+  - name: ssIORawSent
+    oid: 1.3.6.1.4.1.2021.11.57
+    type: counter
+    help: Number of blocks sent to a block device - 1.3.6.1.4.1.2021.11.57
+  - name: ssIORawReceived
+    oid: 1.3.6.1.4.1.2021.11.58
+    type: counter
+    help: Number of blocks received from a block device - 1.3.6.1.4.1.2021.11.58
+  - name: ssRawInterrupts
+    oid: 1.3.6.1.4.1.2021.11.59
+    type: counter
+    help: Number of interrupts processed - 1.3.6.1.4.1.2021.11.59
+  - name: ssRawContexts
+    oid: 1.3.6.1.4.1.2021.11.60
+    type: counter
+    help: Number of context switches - 1.3.6.1.4.1.2021.11.60
+  - name: ssCpuRawSoftIRQ
+    oid: 1.3.6.1.4.1.2021.11.61
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent processing software interrupts
+      - 1.3.6.1.4.1.2021.11.61
+  - name: ssRawSwapIn
+    oid: 1.3.6.1.4.1.2021.11.62
+    type: counter
+    help: Number of blocks swapped in - 1.3.6.1.4.1.2021.11.62
+  - name: ssRawSwapOut
+    oid: 1.3.6.1.4.1.2021.11.63
+    type: counter
+    help: Number of blocks swapped out - 1.3.6.1.4.1.2021.11.63
+  - name: ssCpuRawSteal
+    oid: 1.3.6.1.4.1.2021.11.64
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent by the hypervisor code to
+      run other VMs even though the CPU in the current VM had something runnable -
+      1.3.6.1.4.1.2021.11.64
+  - name: ssCpuRawGuest
+    oid: 1.3.6.1.4.1.2021.11.65
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent by the CPU to run a virtual
+      CPU (guest) - 1.3.6.1.4.1.2021.11.65
+  - name: ssCpuRawGuestNice
+    oid: 1.3.6.1.4.1.2021.11.66
+    type: counter
+    help: The number of 'ticks' (typically 1/100s) spent by the CPU to run a niced
+      virtual CPU (guest) - 1.3.6.1.4.1.2021.11.66
+  - name: ssCpuNumCpus
+    oid: 1.3.6.1.4.1.2021.11.67
+    type: gauge
+    help: The number of processors, as counted by the agent - 1.3.6.1.4.1.2021.11.67
+  - name: memIndex
+    oid: 1.3.6.1.4.1.2021.4.1
+    type: gauge
+    help: Bogus Index - 1.3.6.1.4.1.2021.4.1
+  - name: memErrorName
+    oid: 1.3.6.1.4.1.2021.4.2
+    type: DisplayString
+    help: Bogus Name - 1.3.6.1.4.1.2021.4.2
+  - name: memTotalSwap
+    oid: 1.3.6.1.4.1.2021.4.3
+    type: gauge
+    help: The total amount of swap space configured for this host. - 1.3.6.1.4.1.2021.4.3
+  - name: memAvailSwap
+    oid: 1.3.6.1.4.1.2021.4.4
+    type: gauge
+    help: The amount of swap space currently unused or available. - 1.3.6.1.4.1.2021.4.4
+  - name: memTotalReal
+    oid: 1.3.6.1.4.1.2021.4.5
+    type: gauge
+    help: The total amount of real/physical memory installed on this host. - 1.3.6.1.4.1.2021.4.5
+  - name: memAvailReal
+    oid: 1.3.6.1.4.1.2021.4.6
+    type: gauge
+    help: The amount of real/physical memory currently unused or available. - 1.3.6.1.4.1.2021.4.6
+  - name: memTotalSwapTXT
+    oid: 1.3.6.1.4.1.2021.4.7
+    type: gauge
+    help: The total amount of swap space or virtual memory allocated for text pages
+      on this host - 1.3.6.1.4.1.2021.4.7
+  - name: memAvailSwapTXT
+    oid: 1.3.6.1.4.1.2021.4.8
+    type: gauge
+    help: The amount of swap space or virtual memory currently being used by text
+      pages on this host - 1.3.6.1.4.1.2021.4.8
+  - name: memTotalRealTXT
+    oid: 1.3.6.1.4.1.2021.4.9
+    type: gauge
+    help: The total amount of real/physical memory allocated for text pages on this
+      host - 1.3.6.1.4.1.2021.4.9
+  - name: memAvailRealTXT
+    oid: 1.3.6.1.4.1.2021.4.10
+    type: gauge
+    help: The amount of real/physical memory currently being used by text pages on
+      this host - 1.3.6.1.4.1.2021.4.10
+  - name: memTotalFree
+    oid: 1.3.6.1.4.1.2021.4.11
+    type: gauge
+    help: The total amount of memory free or available for use on this host - 1.3.6.1.4.1.2021.4.11
+  - name: memMinimumSwap
+    oid: 1.3.6.1.4.1.2021.4.12
+    type: gauge
+    help: The minimum amount of swap space expected to be kept free or available during
+      normal operation of this host - 1.3.6.1.4.1.2021.4.12
+  - name: memShared
+    oid: 1.3.6.1.4.1.2021.4.13
+    type: gauge
+    help: The total amount of real or virtual memory currently allocated for use as
+      shared memory - 1.3.6.1.4.1.2021.4.13
+  - name: memBuffer
+    oid: 1.3.6.1.4.1.2021.4.14
+    type: gauge
+    help: The total amount of real or virtual memory currently allocated for use as
+      memory buffers - 1.3.6.1.4.1.2021.4.14
+  - name: memCached
+    oid: 1.3.6.1.4.1.2021.4.15
+    type: gauge
+    help: The total amount of real or virtual memory currently allocated for use as
+      cached memory - 1.3.6.1.4.1.2021.4.15
+  - name: memUsedSwapTXT
+    oid: 1.3.6.1.4.1.2021.4.16
+    type: gauge
+    help: The amount of swap space or virtual memory currently being used by text
+      pages on this host - 1.3.6.1.4.1.2021.4.16
+  - name: memUsedRealTXT
+    oid: 1.3.6.1.4.1.2021.4.17
+    type: gauge
+    help: The amount of real/physical memory currently being used by text pages on
+      this host - 1.3.6.1.4.1.2021.4.17
+  - name: memSwapError
+    oid: 1.3.6.1.4.1.2021.4.100
+    type: gauge
+    help: Indicates whether the amount of available swap space (as reported by 'memAvailSwap(4)'),
+      is less than the desired minimum (specified by 'memMinimumSwap(12)'). - 1.3.6.1.4.1.2021.4.100
+  - name: memSwapErrorMsg
+    oid: 1.3.6.1.4.1.2021.4.101
+    type: DisplayString
+    help: Describes whether the amount of available swap space (as reported by 'memAvailSwap(4)'),
+      is less than the desired minimum (specified by 'memMinimumSwap(12)'). - 1.3.6.1.4.1.2021.4.101
   - name: unifiRadioIndex
     oid: 1.3.6.1.4.1.41112.1.6.1.1.1.1
     type: gauge
