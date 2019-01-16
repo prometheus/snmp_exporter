@@ -344,7 +344,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				}
 				index.Type, ok = metricType(indexNode.Type)
 				if !ok {
-					log.Warnf("Error, can't handle index type %s for node %s", indexNode.Type, n.Label)
+					log.Warnf("Error, can't handle index type %s for index %s on node %s", indexNode.Type, i, n.Label)
 					return
 				}
 				index.FixedSize = indexNode.FixedSize
