@@ -16,7 +16,7 @@ sudo yum install gcc gcc-g++ make net-snmp net-snmp-utils net-snmp-libs net-snmp
 go get github.com/prometheus/snmp_exporter/generator
 cd ${GOPATH-$HOME/go}/src/github.com/prometheus/snmp_exporter/generator
 go build
-make mibs
+make && make mibs
 ```
 
 ## Running
