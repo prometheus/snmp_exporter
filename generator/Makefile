@@ -23,6 +23,7 @@ SERVERTECH_URL := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
 SYNOLOGY_URL   := 'https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip'
 UBNT_DL_URL    := http://dl.ubnt-ut.com/snmp
 UBNT_AIROS_URL := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+UCD_URL        := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 
 
 .DEFAULT: all
@@ -50,7 +51,8 @@ mibs: mib-dir \
   $(MIBDIR)/.synology \
   $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
-  $(MIBDIR)/UBNT-AirMAX-MIB.txt
+  $(MIBDIR)/UBNT-AirMAX-MIB.txt \
+  $(MIBDIR)/UCD-SNMP-MIB.txt
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -119,3 +121,7 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	@curl -s -o $(TMP) -L $(UBNT_AIROS_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) UBNT-AirMAX-MIB.txt
 	@rm -v $(TMP)
+
+$(MIBDIR)/UCD-SNMP-MIB.txt:
+	@echo ">> Downloading UCD-SNMP-MIB.txt"
+	@curl -s -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
