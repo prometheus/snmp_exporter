@@ -407,7 +407,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				} else {
 					needToWalk[indexNode.Oid] = struct{}{}
 				}
-				if !lookup.KeepSourceIndexes {
+				if lookup.DropSourceIndexes {
 					// Avoid leaving the old labelname around.
 					toDelete = append(toDelete, lookup.SourceIndexes...)
 				}

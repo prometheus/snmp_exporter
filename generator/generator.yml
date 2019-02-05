@@ -2,22 +2,11 @@ modules:
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
     walk: [sysUpTime, interfaces, ifXTable]
-  # Interfaces if ifAlias is unique.
-  if_mib_ifalias:
-    walk: [sysUpTime, interfaces, ifXTable]
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifAlias
-  # Interfaces if ifDescr is unique.
-  if_mib_ifdescr:
-    walk: [sysUpTime, interfaces, ifXTable]
-    lookups:
       - source_indexes: [ifIndex]
         lookup: ifDescr
-  # Interfaces if ifName is unique.
-  if_mib_ifname:
-    walk: [sysUpTime, interfaces, ifXTable]
-    lookups:
       - source_indexes: [ifIndex]
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
         lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
@@ -37,8 +26,10 @@ modules:
     lookups:
       - source_indexes: [bsnDot11EssIndex]
         lookup: bsnDot11EssSsid
+        drop_source_indexes: true
       - source_indexes: [bsnAPDot3MacAddress]
         lookup: bsnAPName
+        drop_source_indexes: true
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -70,8 +61,10 @@ modules:
     lookups:
       - source_indexes: [upsOutletGroupStatusIndex]
         lookup: upsOutletGroupStatusName
+        drop_source_indexes: true
       - source_indexes: [iemStatusProbeIndex]
         lookup: iemStatusProbeName
+        drop_source_indexes: true
 
 # ServerTech Sentry 3 MIB
 #
@@ -161,21 +154,29 @@ modules:
     lookups:
       - source_indexes: [spaceIOIndex]
         lookup: spaceIODevice
+        drop_source_indexes: true
       - source_indexes: [storageIOIndex]
         lookup: storageIODevice
+        drop_source_indexes: true
       - source_indexes: [serviceInfoIndex]
         lookup: serviceName
+        drop_source_indexes: true
       - source_indexes: [ifIndex]
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
         lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        drop_source_indexes: true
       - source_indexes: [diskIndex]
         lookup: diskID
+        drop_source_indexes: true
       - source_indexes: [raidIndex]
         lookup: raidName
+        drop_source_indexes: true
       - source_indexes: [laIndex]
         lookup: laNames
+        drop_source_indexes: true
       - source_indexes: [hrStorageIndex]
         lookup: hrStorageDescr
+        drop_source_indexes: true
 
 # DD-WRT
 #
@@ -197,8 +198,10 @@ modules:
     lookups:
     - source_indexes: [ifIndex]
       lookup: ifDescr
+      drop_source_indexes: true
     - source_indexes: [laIndex]
       lookup: laNames
+      drop_source_indexes: true
 
 # Ubiquiti / AirMAX
 #
