@@ -955,9 +955,8 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						SourceIndexes:     []string{"octetIndex"},
-						Lookup:            "octetDesc",
-						KeepSourceIndexes: true,
+						SourceIndexes: []string{"octetIndex"},
+						Lookup:        "octetDesc",
 					},
 				},
 			},
@@ -1003,8 +1002,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						SourceIndexes: []string{"octetIndex"},
-						Lookup:        "octetDesc",
+						SourceIndexes:     []string{"octetIndex"},
+						Lookup:            "octetDesc",
+						DropSourceIndexes: true,
 					},
 				},
 			},
@@ -1053,8 +1053,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						SourceIndexes: []string{"octetIndex"},
-						Lookup:        "1.1.1.2",
+						SourceIndexes:     []string{"octetIndex"},
+						Lookup:            "1.1.1.2",
+						DropSourceIndexes: true,
 					},
 				},
 			},
@@ -1104,8 +1105,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octetFoo"},
 				Lookups: []*Lookup{
 					{
-						SourceIndexes: []string{"octetIndex", "octetIndex2"},
-						Lookup:        "octetDesc",
+						SourceIndexes:     []string{"octetIndex", "octetIndex2"},
+						Lookup:            "octetDesc",
+						DropSourceIndexes: true,
 					},
 				},
 			},
@@ -1184,8 +1186,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"octet^Foo"},
 				Lookups: []*Lookup{
 					{
-						SourceIndexes: []string{"octet&Index"},
-						Lookup:        "1.1.1.2",
+						SourceIndexes:     []string{"octet&Index"},
+						Lookup:            "1.1.1.2",
+						DropSourceIndexes: true,
 					},
 				},
 			},
@@ -1346,8 +1349,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1.1.1.2.100", "1.1.1.4.100", "1.1.1.2.200"},
 				Lookups: []*Lookup{
 					{
-						SourceIndexes: []string{"tableIndex"},
-						Lookup:        "tableDesc",
+						SourceIndexes:     []string{"tableIndex"},
+						Lookup:            "tableDesc",
+						DropSourceIndexes: true,
 					},
 				},
 			},
@@ -1419,8 +1423,9 @@ func TestGenerateConfigModule(t *testing.T) {
 				Walk: []string{"1.1.1.2.100", "1.1.1.3"},
 				Lookups: []*Lookup{
 					{
-						SourceIndexes: []string{"tableIndex"},
-						Lookup:        "tableDesc",
+						SourceIndexes:     []string{"tableIndex"},
+						Lookup:            "tableDesc",
+						DropSourceIndexes: true,
 					},
 				},
 			},

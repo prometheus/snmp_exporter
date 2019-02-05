@@ -50,7 +50,7 @@ jobs:
       working_dir: ~/project/generator
 
     environment:
-      MIBDIRS: mibs:/usr/share/snmp/mibs
+      MIBDIRS: mibs
     steps:
     - checkout:
         path: ~/project

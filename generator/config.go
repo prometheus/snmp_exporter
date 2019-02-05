@@ -55,5 +55,5 @@ type ModuleConfig struct {
 type Lookup struct {
 	SourceIndexes     []string `yaml:"source_indexes"`
 	Lookup            string   `yaml:"lookup"`
-	KeepSourceIndexes bool     `yaml:"keep_source_indexes,omitempty"`
+	DropSourceIndexes bool     `yaml:"drop_source_indexes,omitempty"`
 }

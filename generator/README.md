@@ -94,8 +94,8 @@ modules:
       # with that value.
       - source_indexes: [bsnDot11EssIndex]
         lookup: bsnDot11EssSsid
-        keep_source_indexes: false  # If true, don't delete source index labels for this lookup.
-                                    # This is useful when the new index has duplicates.
+        drop_source_indexes: false  # If true, delete source index labels for this lookup.
+                                    # This avoids label clutter when the new index is unique.
 
      overrides: # Allows for per-module overrides of bits of MIBs
        metricName:
