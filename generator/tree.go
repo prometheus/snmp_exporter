@@ -163,6 +163,8 @@ func metricType(t string) (string, bool) {
 		return t, true
 	case "DateAndTime":
 		return t, true
+	case "EnumAsInfo", "EnumAsStateSet":
+		return t, true
 	default:
 		// Unsupported type.
 		return "", false
@@ -322,12 +324,13 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 
 			metric := &config.Metric{
-				Name:    sanitizeLabelName(n.Label),
-				Oid:     n.Oid,
-				Type:    t,
-				Help:    n.Description + " - " + n.Oid,
-				Indexes: []*config.Index{},
-				Lookups: []*config.Lookup{},
+				Name:       sanitizeLabelName(n.Label),
+				Oid:        n.Oid,
+				Type:       t,
+				Help:       n.Description + " - " + n.Oid,
+				Indexes:    []*config.Index{},
+				Lookups:    []*config.Lookup{},
+				EnumValues: n.EnumValues,
 			}
 
 			if cfg.Overrides[metric.Name].Ignore {
