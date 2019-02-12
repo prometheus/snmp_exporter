@@ -38,11 +38,246 @@ apcups:
       type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -72,6 +307,10 @@ apcups:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -79,6 +318,14 @@ apcups:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -236,6 +483,10 @@ apcups:
       type: DisplayString
     - labels: []
       labelname: upsOutletGroupStatusIndex
+    enum_values:
+      1: upsOutletGroupStatusOn
+      2: upsOutletGroupStatusOff
+      3: upsOutletGroupStatusUnknown
   - name: upsOutletGroupStatusCommandPending
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.4
     type: gauge
@@ -252,6 +503,9 @@ apcups:
       type: DisplayString
     - labels: []
       labelname: upsOutletGroupStatusIndex
+    enum_values:
+      1: upsOutletGroupCommandPending
+      2: upsOutletGroupNoCommandPending
   - name: upsOutletGroupStatusOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.5
     type: gauge
@@ -267,6 +521,9 @@ apcups:
       type: DisplayString
     - labels: []
       labelname: upsOutletGroupStatusIndex
+    enum_values:
+      1: upsSwitchedOutletGroup
+      2: upsMainOutletGroup
   - name: upsOutletGroupStatusGroupFullState
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.2.1.6
     type: DisplayString
@@ -339,6 +596,9 @@ apcups:
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: gauge
+    enum_values:
+      1: upsSwitchedOutletGroup
+      2: upsMainOutletGroup
   - name: upsOutletGroupConfigLoadShedControlSkipOffDelay
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.8
     type: gauge
@@ -347,6 +607,9 @@ apcups:
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: gauge
+    enum_values:
+      1: upsOutletGroupConfigSkipOffDelay
+      2: upsOutletGroupConfigUseOffDelay
   - name: upsOutletGroupConfigLoadShedControlAutoRestart
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.9
     type: gauge
@@ -355,6 +618,9 @@ apcups:
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: gauge
+    enum_values:
+      1: upsOutletGroupConfigAutoRestart
+      2: upsOutletGroupConfigManualRestart
   - name: upsOutletGroupConfigLoadShedControlTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.10
     type: gauge
@@ -364,6 +630,9 @@ apcups:
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: gauge
+    enum_values:
+      1: upsOutletGroupConfigDisableTimeOnBatteryLoadShed
+      2: upsOutletGroupConfigEnableTimeOnBatteryLoadShed
   - name: upsOutletGroupConfigLoadShedControlRuntimeRemaining
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.11
     type: gauge
@@ -373,6 +642,9 @@ apcups:
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: gauge
+    enum_values:
+      1: upsOutletGroupConfigDisableRuntimeRemainingLoadShed
+      2: upsOutletGroupConfigEnableRuntimeRemainingLoadShed
   - name: upsOutletGroupConfigLoadShedControlInOverload
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.12
     type: gauge
@@ -381,6 +653,9 @@ apcups:
     indexes:
     - labelname: upsOutletGroupConfigIndex
       type: gauge
+    enum_values:
+      1: upsOutletGroupConfigDisableInOverloadLoadShed
+      2: upsOutletGroupConfigEnableInOverloadLoadShed
   - name: upsOutletGroupConfigLoadShedTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.13
     type: gauge
@@ -424,6 +699,17 @@ apcups:
     indexes:
     - labelname: upsOutletGroupControlIndex
       type: gauge
+    enum_values:
+      1: upsOutletGroupImmediateOn
+      2: upsOutletGroupImmediateOff
+      3: upsOutletGroupImmediateRebootWithOrWithoutAC
+      4: upsOutletGroupDelayedOn
+      5: upsOutletGroupDelayedOff
+      6: upsOutletGroupDelayedRebootWithOrWithoutAC
+      7: upsOutletGroupCancelPendingCommand
+      8: upsOutletGroupControlUnknown
+      9: upsOutletGroupImmediateRebootShutdown
+      10: upsOutletGroupDelayedRebootShutdown
   - name: upsOutletGroupControlOutletType
     oid: 1.3.6.1.4.1.318.1.1.1.12.3.2.1.4
     type: gauge
@@ -431,10 +717,18 @@ apcups:
     indexes:
     - labelname: upsOutletGroupControlIndex
       type: gauge
+    enum_values:
+      1: upsSwitchedOutletGroup
+      2: upsMainOutletGroup
   - name: upsBasicBatteryStatus
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.1
     type: gauge
     help: The status of the UPS batteries - 1.3.6.1.4.1.318.1.1.1.2.1.1
+    enum_values:
+      1: unknown
+      2: batteryNormal
+      3: batteryLow
+      4: batteryInFaultCondition
   - name: upsBasicBatteryTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.2
     type: gauge
@@ -461,6 +755,9 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.4
     type: gauge
     help: Indicates whether the UPS batteries need replacing. - 1.3.6.1.4.1.318.1.1.1.2.2.4
+    enum_values:
+      1: noBatteryNeedsReplacing
+      2: batteryNeedsReplacing
   - name: upsAdvBatteryNumOfBattPacks
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.5
     type: gauge
@@ -505,6 +802,9 @@ apcups:
     indexes:
     - labelname: upsAdvBatteryActualVoltageTableIndex
       type: gauge
+    enum_values:
+      0: positive
+      1: negative
   - name: upsAdvBatteryFrameActualVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.12.1.3
     type: gauge
@@ -526,6 +826,9 @@ apcups:
     indexes:
     - labelname: upsAdvTotalDCCurrentTableIndex
       type: gauge
+    enum_values:
+      0: positive
+      1: negative
   - name: upsAdvTotalFrameDCCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.13.1.3
     type: gauge
@@ -560,6 +863,9 @@ apcups:
       type: gauge
     - labelname: upsAdvBatteryCurrentIndex
       type: gauge
+    enum_values:
+      0: positive
+      1: negative
   - name: upsAdvBatteryFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.14.1.4
     type: gauge
@@ -582,6 +888,10 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.17
     type: gauge
     help: The status of the battery charger - 1.3.6.1.4.1.318.1.1.1.2.2.17
+    enum_values:
+      1: unknown
+      2: ok
+      3: inFaultCondition
   - name: upsAdvBatteryInternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.19
     type: DisplayString
@@ -640,6 +950,9 @@ apcups:
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
       type: gauge
+    enum_values:
+      0: positive
+      1: negative
   - name: upsHighPrecBatteryVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
     type: gauge
@@ -661,6 +974,9 @@ apcups:
     indexes:
     - labelname: upsHighPrecTotalDCCurrentTableIndex
       type: gauge
+    enum_values:
+      0: positive
+      1: negative
   - name: upsHighPrecTotalDCFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
     type: gauge
@@ -695,6 +1011,9 @@ apcups:
       type: gauge
     - labelname: upsHighPrecBatteryCurrentIndex
       type: gauge
+    enum_values:
+      0: positive
+      1: negative
   - name: upsHighPrecBatteryFrameCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
     type: gauge
@@ -829,6 +1148,17 @@ apcups:
     type: gauge
     help: The reason for the occurrence of the last transfer to UPS battery power
       - 1.3.6.1.4.1.318.1.1.1.3.2.5
+    enum_values:
+      1: noTransfer
+      2: highLineVoltage
+      3: brownout
+      4: blackout
+      5: smallMomentarySag
+      6: deepMomentarySag
+      7: smallMomentarySpike
+      8: largeMomentarySpike
+      9: selfTest
+      10: rateOfVoltageChange
   - name: upsAdvInputNominalFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.6
     type: gauge
@@ -954,6 +1284,29 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.1
     type: gauge
     help: The current state of the UPS - 1.3.6.1.4.1.318.1.1.1.4.1.1
+    enum_values:
+      1: unknown
+      2: onLine
+      3: onBattery
+      4: onSmartBoost
+      5: timedSleeping
+      6: softwareBypass
+      7: "off"
+      8: rebooting
+      9: switchedBypass
+      10: hardwareFailureBypass
+      11: sleepingUntilPowerReturn
+      12: onSmartTrim
+      13: ecoMode
+      14: hotStandby
+      15: onBatteryTest
+      16: emergencyStaticBypass
+      17: staticBypassStandby
+      18: powerSavingMode
+      19: spotMode
+      20: eConversion
+      21: chargerSpotmode
+      22: inverterSpotmode
   - name: upsBasicOutputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
     type: gauge
@@ -962,6 +1315,23 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.3
     type: gauge
     help: Current state for the whole system (UPS and surrounding breakers) - 1.3.6.1.4.1.318.1.1.1.4.1.3
+    enum_values:
+      1: unknown
+      2: onLine
+      3: onBattery
+      4: onSmartBoost
+      5: timedSleeping
+      6: softwareBypass
+      7: "off"
+      8: rebooting
+      9: switchedBypass
+      10: hardwareFailureBypass
+      11: sleepingUntilPowerReturn
+      12: onSmartTrim
+      13: ecoMode
+      14: inverter
+      15: eConversion
+      16: staticBypassStandby
   - name: upsBasicSystemInternalTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.4
     type: gauge
@@ -970,16 +1340,28 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.5
     type: gauge
     help: The current state of the UPS inverter - 1.3.6.1.4.1.318.1.1.1.4.1.5
+    enum_values:
+      1: unknown
+      2: ok
+      3: inFaultCondition
   - name: upsBasicSystemPFCStatus
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.6
     type: gauge
     help: The general status of the power factor correction (AC input stage of the
       UPS) - 1.3.6.1.4.1.318.1.1.1.4.1.6
+    enum_values:
+      1: unknown
+      2: ok
+      3: inFaultCondition
   - name: upsBasicOutputACwiringConfiguration
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.7
     type: gauge
     help: Indicates if neutral wire on output side of the UPS is used (load wired
       line to neutral) - 1.3.6.1.4.1.318.1.1.1.4.1.7
+    enum_values:
+      1: unknown
+      2: noNeutralWiredonSystem
+      3: neutralUsedforSupplyingLoad
   - name: upsAdvOutputVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.1
     type: gauge
@@ -1089,15 +1471,36 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.1
     type: gauge
     help: The UPS system's automatic battery test schedule. - 1.3.6.1.4.1.318.1.1.1.7.2.1
+    enum_values:
+      1: unknown
+      2: biweekly
+      3: weekly
+      4: atTurnOn
+      5: never
+      6: fourWeeks
+      7: twelveWeeks
+      8: biweeklySinceLastTest
+      9: weeklySinceLastTest
+      10: eightWeeks
+      11: twentysixWeeks
+      12: fiftytwoWeeks
   - name: upsAdvTestDiagnostics
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.2
     type: gauge
     help: Setting this variable to testDiagnostics(2) causes the UPS to perform a
       diagnostic self test - 1.3.6.1.4.1.318.1.1.1.7.2.2
+    enum_values:
+      1: noTestDiagnostics
+      2: testDiagnostics
   - name: upsAdvTestDiagnosticsResults
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.3
     type: gauge
     help: The results of the last UPS diagnostics test performed. - 1.3.6.1.4.1.318.1.1.1.7.2.3
+    enum_values:
+      1: ok
+      2: failed
+      3: invalidTest
+      4: testInProgress
   - name: upsAdvTestLastDiagnosticsDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.4
     type: DisplayString
@@ -1108,10 +1511,21 @@ apcups:
     type: gauge
     help: Setting this variable to performCalibration(2) causes the UPS to discharge
       to calibrate the UPS - 1.3.6.1.4.1.318.1.1.1.7.2.5
+    enum_values:
+      1: noPerformCalibration
+      2: performCalibration
+      3: cancelCurrentCalibration
   - name: upsAdvTestCalibrationResults
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.6
     type: gauge
     help: The results of the last runtime calibration - 1.3.6.1.4.1.318.1.1.1.7.2.6
+    enum_values:
+      1: ok
+      2: invalidCalibration
+      3: calibrationInProgress
+      4: refused
+      5: aborted
+      6: pending
   - name: upsAdvTestCalibrationDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.7
     type: DisplayString
@@ -1125,6 +1539,14 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
     type: gauge
     help: The day of the week to perform automatic battery test. - 1.3.6.1.4.1.318.1.1.1.7.2.9
+    enum_values:
+      1: monday
+      2: tuesday
+      3: wednesday
+      4: thursday
+      5: friday
+      6: saturday
+      7: sunday
   - name: upsAdvTestBatteryInterval
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.10
     type: DisplayString
@@ -1133,6 +1555,9 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.8.1
     type: gauge
     help: The status of agent's communication with UPS. - 1.3.6.1.4.1.318.1.1.1.8.1
+    enum_values:
+      1: ok
+      2: noComm
   - name: iemStatusProbeNumber
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.1
     type: gauge
@@ -1155,6 +1580,9 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: disconnected
+      2: connected
   - name: iemStatusProbeCurrentTemp
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.4
     type: gauge
@@ -1171,6 +1599,9 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: celsius
+      2: fahrenheit
   - name: iemStatusProbeCurrentHumid
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.6
     type: gauge
@@ -1187,6 +1618,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: highTempViolation
+      3: disabled
   - name: iemStatusProbeLowTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.8
     type: gauge
@@ -1195,6 +1630,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: lowTempViolation
+      3: disabled
   - name: iemStatusProbeHighHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.9
     type: gauge
@@ -1202,6 +1641,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: highHumidViolation
+      3: disabled
   - name: iemStatusProbeLowHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.10
     type: gauge
@@ -1209,6 +1652,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: lowHumidViolation
+      3: disabled
   - name: iemStatusProbeMaxTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.11
     type: gauge
@@ -1217,6 +1664,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: maxTempViolation
+      3: disabled
   - name: iemStatusProbeMinTempViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.12
     type: gauge
@@ -1225,6 +1676,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: minTempViolation
+      3: disabled
   - name: iemStatusProbeMaxHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.13
     type: gauge
@@ -1232,6 +1687,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: maxHumidViolation
+      3: disabled
   - name: iemStatusProbeMinHumidViolation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.14
     type: gauge
@@ -1239,6 +1698,10 @@ apcups:
     indexes:
     - labelname: iemStatusProbeNumber
       type: gauge
+    enum_values:
+      1: noViolation
+      2: minHumidViolation
+      3: disabled
   - name: iemStatusProbeLocation
     oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
     type: DisplayString
@@ -1283,11 +1746,246 @@ arista_sw:
       type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -1317,6 +2015,10 @@ arista_sw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -1324,6 +2026,14 @@ arista_sw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -1565,6 +2275,9 @@ arista_sw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -1581,6 +2294,9 @@ arista_sw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -1589,6 +2305,9 @@ arista_sw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
@@ -1612,6 +2331,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
   - name: aristaSwFwdIpStatsInReceives
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.3
     type: counter
@@ -2004,11 +2727,246 @@ cisco_wlc:
       type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -2038,6 +2996,10 @@ cisco_wlc:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -2045,6 +3007,14 @@ cisco_wlc:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -2270,6 +3240,9 @@ cisco_wlc:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -2286,6 +3259,9 @@ cisco_wlc:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -2294,6 +3270,9 @@ cisco_wlc:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
@@ -2400,6 +3379,10 @@ cisco_wlc:
       type: OctetString
     - labels: []
       labelname: bsnAPDot3MacAddress
+    enum_values:
+      1: dot11b
+      2: dot11a
+      4: uwb
   - name: bsnAPIfPhyChannelNumber
     oid: 1.3.6.1.4.1.14179.2.2.2.1.4
     type: gauge
@@ -2418,6 +3401,57 @@ cisco_wlc:
       type: OctetString
     - labels: []
       labelname: bsnAPDot3MacAddress
+    enum_values:
+      1: ch1
+      2: ch2
+      3: ch3
+      4: ch4
+      5: ch5
+      6: ch6
+      7: ch7
+      8: ch8
+      9: ch9
+      10: ch10
+      11: ch11
+      12: ch12
+      13: ch13
+      14: ch14
+      20: ch20
+      21: ch21
+      22: ch22
+      23: ch23
+      24: ch24
+      25: ch25
+      26: ch26
+      34: ch34
+      36: ch36
+      38: ch38
+      40: ch40
+      42: ch42
+      44: ch44
+      46: ch46
+      48: ch48
+      52: ch52
+      56: ch56
+      60: ch60
+      64: ch64
+      100: ch100
+      104: ch104
+      108: ch108
+      112: ch112
+      116: ch116
+      120: ch120
+      124: ch124
+      128: ch128
+      132: ch132
+      136: ch136
+      140: ch140
+      149: ch149
+      153: ch153
+      157: ch157
+      161: ch161
+      165: ch165
+      169: ch169
   - name: bsnAPIfDot11TransmittedFragmentCount
     oid: 1.3.6.1.4.1.14179.2.2.6.1.1
     type: counter
@@ -2743,7 +3777,7 @@ ddwrt:
       labelname: ifIndex
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
@@ -2756,6 +3790,241 @@ ddwrt:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -2817,6 +4086,10 @@ ddwrt:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -2832,6 +4105,14 @@ ddwrt:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -3324,6 +4605,9 @@ ddwrt:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: enabled
+      2: disabled
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -3356,6 +4640,9 @@ ddwrt:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -3372,6 +4659,9 @@ ddwrt:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
@@ -3663,6 +4953,9 @@ ddwrt:
     type: gauge
     help: Indicates whether the amount of available swap space (as reported by 'memAvailSwap(4)'),
       is less than the desired minimum (specified by 'memMinimumSwap(12)'). - 1.3.6.1.4.1.2021.4.100
+    enum_values:
+      0: noError
+      1: error
   - name: memSwapErrorMsg
     oid: 1.3.6.1.4.1.2021.4.101
     type: DisplayString
@@ -3733,7 +5026,7 @@ if_mib:
       type: DisplayString
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
@@ -3754,6 +5047,241 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -3847,6 +5375,10 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -3870,6 +5402,14 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -4527,6 +6067,9 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+    enum_values:
+      1: enabled
+      2: disabled
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -4575,6 +6118,9 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -4599,6 +6145,9 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
@@ -4676,6 +6225,13 @@ keepalived:
     indexes:
     - labelname: vrrpSyncGroupIndex
       type: gauge
+    enum_values:
+      0: init
+      1: backup
+      2: master
+      3: fault
+      4: unknown
+      5: shutdown
   - name: vrrpSyncGroupSmtpAlert
     oid: 1.3.6.1.4.1.9586.100.5.2.1.1.4
     type: gauge
@@ -4683,6 +6239,9 @@ keepalived:
     indexes:
     - labelname: vrrpSyncGroupIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: vrrpSyncGroupNotifyExec
     oid: 1.3.6.1.4.1.9586.100.5.2.1.1.5
     type: gauge
@@ -4690,6 +6249,9 @@ keepalived:
     indexes:
     - labelname: vrrpSyncGroupIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: vrrpSyncGroupTrackingWeight
     oid: 1.3.6.1.4.1.9586.100.5.2.1.1.10
     type: gauge
@@ -4697,6 +6259,9 @@ keepalived:
     indexes:
     - labelname: vrrpSyncGroupIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: vrrpInstanceIndex
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.1
     type: gauge
@@ -4704,6 +6269,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      0: static
   - name: vrrpInstanceName
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.2
     type: DisplayString
@@ -4725,6 +6292,13 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      0: init
+      1: backup
+      2: master
+      3: fault
+      4: unknown
+      5: shutdown
   - name: vrrpInstanceInitialState
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.5
     type: gauge
@@ -4732,6 +6306,13 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      0: init
+      1: backup
+      2: master
+      3: fault
+      4: unknown
+      5: shutdown
   - name: vrrpInstanceWantedState
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.6
     type: gauge
@@ -4739,6 +6320,13 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      0: init
+      1: backup
+      2: master
+      3: fault
+      4: unknown
+      5: shutdown
   - name: vrrpInstanceBasePriority
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.7
     type: gauge
@@ -4761,6 +6349,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: allSet
+      2: notAllSet
   - name: vrrpInstancePrimaryInterface
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.10
     type: DisplayString
@@ -4775,6 +6366,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: tracked
+      2: notTracked
   - name: vrrpInstanceAdvertisementsInt
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.12
     type: gauge
@@ -4790,6 +6384,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: preempt
+      2: noPreempt
   - name: vrrpInstancePreemptDelay
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.14
     type: gauge
@@ -4805,6 +6402,10 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      0: none
+      1: password
+      2: ah
   - name: vrrpInstanceSyncGroup
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.18
     type: DisplayString
@@ -4827,6 +6428,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: vrrpInstanceNotifyExec
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.21
     type: gauge
@@ -4834,6 +6438,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: vrrpInstanceAccept
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.27
     type: gauge
@@ -4842,6 +6449,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: vrrpInstancePromoteSecondaries
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.28
     type: gauge
@@ -4849,6 +6459,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: vrrpInstanceUseLinkbeat
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.29
     type: gauge
@@ -4856,6 +6469,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: vrrpInstanceVrrpVersion
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.30
     type: gauge
@@ -4863,6 +6479,9 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+    enum_values:
+      2: vrrpv2
+      3: vrrpv3
   - name: virtualServerGroupIndex
     oid: 1.3.6.1.4.1.9586.100.5.3.1.1.1
     type: gauge
@@ -4891,6 +6510,10 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: fwmark
+      2: ip
+      3: group
   - name: virtualServerNameOfGroup
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.3
     type: DisplayString
@@ -4915,6 +6538,13 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
   - name: virtualServerAddress
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.6
     type: InetAddress
@@ -4938,6 +6568,11 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: tcp
+      2: udp
+      3: sctp
+      4: none
   - name: virtualServerLoadBalancingAlgo
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.9
     type: gauge
@@ -4946,6 +6581,21 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: rr
+      2: wrr
+      3: lc
+      4: wlc
+      5: lblc
+      6: lblcr
+      7: dh
+      8: sh
+      9: sed
+      10: nq
+      11: fo
+      12: ovf
+      13: mh
+      99: unknown
   - name: virtualServerLoadBalancingKind
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.10
     type: gauge
@@ -4953,6 +6603,10 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: nat
+      2: dr
+      3: tun
   - name: virtualServerStatus
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.11
     type: gauge
@@ -4960,6 +6614,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: alive
+      2: dead
   - name: virtualServerVirtualHost
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.12
     type: DisplayString
@@ -4974,6 +6631,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: virtualServerPersistTimeout
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.14
     type: gauge
@@ -5004,6 +6664,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerAlpha
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.18
     type: gauge
@@ -5011,6 +6674,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: virtualServerOmega
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.19
     type: gauge
@@ -5018,6 +6684,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: virtualServerRealServersTotal
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.20
     type: gauge
@@ -5046,6 +6715,10 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: met
+      2: notMet
+      3: shutdown
   - name: virtualServerQuorumUp
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.24
     type: DisplayString
@@ -5144,6 +6817,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerStatsConns64
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.38
     type: counter
@@ -5250,6 +6926,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerSHFallback
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.53
     type: gauge
@@ -5257,6 +6936,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerSHPort
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.54
     type: gauge
@@ -5264,6 +6946,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerSched3
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.55
     type: gauge
@@ -5271,6 +6956,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerActionWhenDown
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.56
     type: gauge
@@ -5278,6 +6966,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: remove
+      2: inhibit
   - name: virtualServerRetry
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.57
     type: gauge
@@ -5314,6 +7005,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: virtualServerMHFallback
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.62
     type: gauge
@@ -5321,6 +7015,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerMHPort
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.63
     type: gauge
@@ -5328,6 +7025,9 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: realServerIndex
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.1
     type: gauge
@@ -5347,6 +7047,9 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+    enum_values:
+      1: regular
+      2: sorry
   - name: realServerAddrType
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.3
     type: gauge
@@ -5356,6 +7059,13 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
   - name: realServerAddress
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.4
     type: InetAddress
@@ -5383,6 +7093,9 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+    enum_values:
+      1: alive
+      2: dead
   - name: realServerWeight
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.7
     type: gauge
@@ -5419,6 +7132,9 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+    enum_values:
+      1: remove
+      2: inhibit
   - name: realServerNotifyUp
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.11
     type: DisplayString
@@ -5689,6 +7405,10 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+    enum_values:
+      1: nat
+      2: dr
+      3: tun
   - name: realServerVirtualHost
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.41
     type: DisplayString
@@ -5707,6 +7427,9 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: realServerRetry
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.43
     type: gauge
@@ -5753,6 +7476,9 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
 paloalto_fw:
   walk:
   - 1.3.6.1.2.1.2
@@ -5796,6 +7522,241 @@ paloalto_fw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -5825,6 +7786,10 @@ paloalto_fw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -5832,6 +7797,14 @@ paloalto_fw:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -6046,6 +8019,12 @@ paloalto_fw:
     indexes:
     - labelname: hrDeviceIndex
       type: gauge
+    enum_values:
+      1: unknown
+      2: running
+      3: warning
+      4: testing
+      5: down
   - name: hrDeviceErrors
     oid: 1.3.6.1.2.1.25.3.2.1.6
     type: counter
@@ -6075,6 +8054,12 @@ paloalto_fw:
     indexes:
     - labelname: hrDeviceIndex
       type: gauge
+    enum_values:
+      1: other
+      2: unknown
+      3: idle
+      4: printing
+      5: warmup
   - name: hrPrinterDetectedErrorState
     oid: 1.3.6.1.2.1.25.3.5.1.2
     type: OctetString
@@ -6090,6 +8075,9 @@ paloalto_fw:
     indexes:
     - labelname: hrDeviceIndex
       type: gauge
+    enum_values:
+      1: readWrite
+      2: readOnly
   - name: hrDiskStorageMedia
     oid: 1.3.6.1.2.1.25.3.6.1.2
     type: gauge
@@ -6098,6 +8086,15 @@ paloalto_fw:
     indexes:
     - labelname: hrDeviceIndex
       type: gauge
+    enum_values:
+      1: other
+      2: unknown
+      3: hardDisk
+      4: floppyDisk
+      5: opticalDiskROM
+      6: opticalDiskWORM
+      7: opticalDiskRW
+      8: ramDisk
   - name: hrDiskStorageRemoveble
     oid: 1.3.6.1.2.1.25.3.6.1.3
     type: gauge
@@ -6105,6 +8102,9 @@ paloalto_fw:
     indexes:
     - labelname: hrDeviceIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: hrDiskStorageCapacity
     oid: 1.3.6.1.2.1.25.3.6.1.4
     type: gauge
@@ -6188,6 +8188,9 @@ paloalto_fw:
     indexes:
     - labelname: hrFSIndex
       type: gauge
+    enum_values:
+      1: readWrite
+      2: readOnly
   - name: hrFSBootable
     oid: 1.3.6.1.2.1.25.3.8.1.6
     type: gauge
@@ -6195,6 +8198,9 @@ paloalto_fw:
     indexes:
     - labelname: hrFSIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: hrFSStorageIndex
     oid: 1.3.6.1.2.1.25.3.8.1.7
     type: gauge
@@ -6476,6 +8482,9 @@ paloalto_fw:
     type: gauge
     help: Whether daylight savings are in currently in effect for the system's time
       zone. - 1.3.6.1.4.1.25461.2.1.2.1.5
+    enum_values:
+      1: "true"
+      2: "false"
   - name: panSysVpnClientVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.6
     type: DisplayString
@@ -6657,6 +8666,16 @@ servertech_sentry3:
       type: gauge
     - labelname: infeedIndex
       type: gauge
+    enum_values:
+      0: onSense
+      1: loadSense
+      2: powerControl
+      3: failSafe
+      4: defaultOff
+      5: voltageSense
+      6: powerSense
+      7: branchOnSense
+      8: branchLoadSense
   - name: infeedStatus
     oid: 1.3.6.1.4.1.1718.3.2.2.1.5
     type: gauge
@@ -6666,6 +8685,17 @@ servertech_sentry3:
       type: gauge
     - labelname: infeedIndex
       type: gauge
+    enum_values:
+      0: "off"
+      1: "on"
+      2: offWait
+      3: onWait
+      4: offError
+      5: onError
+      6: noComm
+      7: reading
+      8: offFuse
+      9: onFuse
   - name: infeedLoadStatus
     oid: 1.3.6.1.4.1.1718.3.2.2.1.6
     type: gauge
@@ -6675,6 +8705,15 @@ servertech_sentry3:
       type: gauge
     - labelname: infeedIndex
       type: gauge
+    enum_values:
+      0: normal
+      1: notOn
+      2: reading
+      3: loadLow
+      4: loadHigh
+      5: overLoad
+      6: readError
+      7: noComm
   - name: infeedLoadValue
     oid: 1.3.6.1.4.1.1718.3.2.2.1.7
     type: gauge
@@ -6775,6 +8814,11 @@ servertech_sentry3:
       type: gauge
     - labelname: infeedIndex
       type: gauge
+    enum_values:
+      0: unknown
+      1: capacitive
+      2: inductive
+      3: resistive
   - name: infeedPhaseVoltage
     oid: 1.3.6.1.4.1.1718.3.2.2.1.18
     type: gauge
@@ -6873,6 +8917,16 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+    enum_values:
+      0: onSense
+      1: loadSense
+      2: powerControl
+      3: shutdown
+      4: defaultOn
+      5: ownInfeed
+      6: fusedBranch
+      7: voltageSense
+      8: powerSense
   - name: outletStatus
     oid: 1.3.6.1.4.1.1718.3.2.3.1.5
     type: gauge
@@ -6884,6 +8938,17 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+    enum_values:
+      0: "off"
+      1: "on"
+      2: offWait
+      3: onWait
+      4: offError
+      5: onError
+      6: noComm
+      7: reading
+      8: offFuse
+      9: onFuse
   - name: outletLoadStatus
     oid: 1.3.6.1.4.1.1718.3.2.3.1.6
     type: gauge
@@ -6895,6 +8960,15 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+    enum_values:
+      0: normal
+      1: notOn
+      2: reading
+      3: loadLow
+      4: loadHigh
+      5: overLoad
+      6: readError
+      7: noComm
   - name: outletLoadValue
     oid: 1.3.6.1.4.1.1718.3.2.3.1.7
     type: gauge
@@ -6939,6 +9013,25 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+    enum_values:
+      0: idleOff
+      1: idleOn
+      2: wakeOff
+      3: wakeOn
+      4: "off"
+      5: "on"
+      6: lockedOff
+      7: lockedOn
+      8: reboot
+      9: shutdown
+      10: pendOn
+      11: pendOff
+      12: minimumOff
+      13: minimumOn
+      14: eventOff
+      15: eventOn
+      16: eventReboot
+      17: eventShutdown
   - name: outletControlAction
     oid: 1.3.6.1.4.1.1718.3.2.3.1.11
     type: gauge
@@ -6950,6 +9043,11 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+    enum_values:
+      0: none
+      1: "on"
+      2: "off"
+      3: reboot
   - name: outletCapacity
     oid: 1.3.6.1.4.1.1718.3.2.3.1.12
     type: gauge
@@ -7038,6 +9136,10 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+    enum_values:
+      1: last
+      2: "off"
+      3: "on"
   - name: outletPostOnDelay
     oid: 1.3.6.1.4.1.1718.3.2.3.1.20
     type: gauge
@@ -7114,7 +9216,7 @@ synology:
       labelname: ifIndex
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
@@ -7127,6 +9229,241 @@ synology:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -7188,6 +9525,10 @@ synology:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -7203,6 +9544,14 @@ synology:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -7743,6 +10092,9 @@ synology:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: enabled
+      2: disabled
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -7775,6 +10127,9 @@ synology:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -7791,6 +10146,9 @@ synology:
       type: DisplayString
     - labels: []
       labelname: ifIndex
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
@@ -7951,6 +10309,9 @@ synology:
     type: gauge
     help: Indicates whether the amount of available swap space (as reported by 'memAvailSwap(4)'),
       is less than the desired minimum (specified by 'memMinimumSwap(12)'). - 1.3.6.1.4.1.2021.4.100
+    enum_values:
+      0: noError
+      1: error
   - name: memSwapErrorMsg
     oid: 1.3.6.1.4.1.2021.4.101
     type: DisplayString
@@ -9061,11 +11422,246 @@ ubiquiti_airmax:
       type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -9095,6 +11691,10 @@ ubiquiti_airmax:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -9102,6 +11702,14 @@ ubiquiti_airmax:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -9327,6 +11935,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -9343,6 +11954,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -9351,6 +11965,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
@@ -9381,6 +11998,11 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntRadioIndex
       type: gauge
+    enum_values:
+      1: sta
+      2: ap
+      3: aprepeater
+      4: apwds
   - name: ubntRadioCCode
     oid: 1.3.6.1.4.1.41112.1.4.1.1.3
     type: gauge
@@ -9402,6 +12024,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntRadioIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntRadioTxPower
     oid: 1.3.6.1.4.1.41112.1.4.1.1.6
     type: gauge
@@ -9480,6 +12105,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirMaxIfIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntAirMaxQuality
     oid: 1.3.6.1.4.1.41112.1.4.6.1.3
     type: gauge
@@ -9501,6 +12129,11 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirMaxIfIndex
       type: gauge
+    enum_values:
+      0: high
+      1: medium
+      2: low
+      3: none
   - name: ubntAirMaxNoAck
     oid: 1.3.6.1.4.1.41112.1.4.6.1.6
     type: gauge
@@ -9508,6 +12141,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirMaxIfIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntAirMaxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.6.1.7
     type: gauge
@@ -9522,6 +12158,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirMaxIfIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntAirMaxTdd
     oid: 1.3.6.1.4.1.41112.1.4.6.1.9
     type: gauge
@@ -9529,6 +12168,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirMaxIfIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntAirSyncIfIndex
     oid: 1.3.6.1.4.1.41112.1.4.3.1.1
     type: gauge
@@ -9543,6 +12185,10 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirSyncIfIndex
       type: gauge
+    enum_values:
+      0: disabled
+      1: master
+      2: slave
   - name: ubntAirSyncCount
     oid: 1.3.6.1.4.1.41112.1.4.3.1.3
     type: gauge
@@ -9578,6 +12224,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntAirSelIfIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntAirSelInterval
     oid: 1.3.6.1.4.1.41112.1.4.4.1.3
     type: gauge
@@ -9606,6 +12255,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntWlStatIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntWlStatApMac
     oid: 1.3.6.1.4.1.41112.1.4.5.1.4
     type: PhysAddress48
@@ -9669,6 +12321,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntWlStatIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntWlStatApRepeater
     oid: 1.3.6.1.4.1.41112.1.4.5.1.13
     type: gauge
@@ -9676,6 +12331,9 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntWlStatIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntWlStatChanWidth
     oid: 1.3.6.1.4.1.41112.1.4.5.1.14
     type: gauge
@@ -9908,6 +12566,11 @@ ubiquiti_airmax:
     oid: 1.3.6.1.4.1.41112.1.4.8.2
     type: gauge
     help: Radio mode - 1.3.6.1.4.1.41112.1.4.8.2
+    enum_values:
+      0: unknown
+      1: bridge
+      2: router
+      3: soho
   - name: ubntHostCpuLoad
     oid: 1.3.6.1.4.1.41112.1.4.8.3
     type: gauge
@@ -9920,10 +12583,19 @@ ubiquiti_airmax:
     oid: 1.3.6.1.4.1.41112.1.4.9.1
     type: gauge
     help: GPS status - 1.3.6.1.4.1.41112.1.4.9.1
+    enum_values:
+      0: absent
+      1: "off"
+      2: "on"
   - name: ubntGpsFix
     oid: 1.3.6.1.4.1.41112.1.4.9.2
     type: gauge
     help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.4.9.2
+    enum_values:
+      0: unknown
+      1: nofix
+      2: fix2d
+      3: fix3d
   - name: ubntGpsLat
     oid: 1.3.6.1.4.1.41112.1.4.9.3
     type: DisplayString
@@ -9987,11 +12659,246 @@ ubiquiti_unifi:
       type: gauge
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
-    type: gauge
+    type: EnumAsInfo
     help: The type of interface - 1.3.6.1.2.1.2.2.1.3
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: trasnpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -10021,6 +12928,10 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
   - name: ifOperStatus
     oid: 1.3.6.1.2.1.2.2.1.8
     type: gauge
@@ -10028,6 +12939,14 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
   - name: ifLastChange
     oid: 1.3.6.1.2.1.2.2.1.9
     type: gauge
@@ -10253,6 +13172,9 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
   - name: ifHighSpeed
     oid: 1.3.6.1.2.1.31.1.1.1.15
     type: gauge
@@ -10269,6 +13191,9 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifConnectorPresent
     oid: 1.3.6.1.2.1.31.1.1.1.17
     type: gauge
@@ -10277,6 +13202,9 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ifAlias
     oid: 1.3.6.1.2.1.31.1.1.1.18
     type: DisplayString
@@ -10510,6 +13438,9 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: unifiVapUsage
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.23
     type: DisplayString
@@ -10531,6 +13462,9 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiIfIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: unifiIfIp
     oid: 1.3.6.1.4.1.41112.1.6.2.1.1.3
     type: InetAddressIPv4
@@ -10629,6 +13563,9 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiIfIndex
       type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: unifiApSystemIp
     oid: 1.3.6.1.4.1.41112.1.6.3.1
     type: InetAddressIPv4
@@ -10637,6 +13574,9 @@ ubiquiti_unifi:
     oid: 1.3.6.1.4.1.41112.1.6.3.2
     type: gauge
     help: ' - 1.3.6.1.4.1.41112.1.6.3.2'
+    enum_values:
+      1: "true"
+      2: "false"
   - name: unifiApSystemModel
     oid: 1.3.6.1.4.1.41112.1.6.3.3
     type: DisplayString

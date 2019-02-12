@@ -120,8 +120,8 @@ func main() {
 			if n.ImpliedIndex {
 				implied = "(implied)"
 			}
-			fmt.Printf("%s %s %s %q %q %s%s %s\n",
-				n.Oid, n.Label, t, n.TextualConvention, n.Hint, n.Indexes, implied, n.Description)
+			fmt.Printf("%s %s %s %q %q %s%s %v %s\n",
+				n.Oid, n.Label, t, n.TextualConvention, n.Hint, n.Indexes, implied, n.EnumValues, n.Description)
 		})
 	}
 }
