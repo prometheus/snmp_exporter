@@ -512,6 +512,40 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Enums
+		{
+			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "node1", EnumValues: map[int]string{0: "a"}},
+					{Oid: "1.2", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "node2", EnumValues: map[int]string{0: "b"}},
+				}},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+				Overrides: map[string]MetricOverrides{
+					"node1": MetricOverrides{Type: "EnumAsInfo"},
+					"node2": MetricOverrides{Type: "EnumAsStateSet"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name:       "node1",
+						Oid:        "1.1",
+						Type:       "EnumAsInfo",
+						Help:       " - 1.1",
+						EnumValues: map[int]string{0: "a"},
+					},
+					{
+						Name:       "node2",
+						Oid:        "1.2",
+						Type:       "EnumAsStateSet",
+						Help:       " - 1.2",
+						EnumValues: map[int]string{0: "b"},
+					},
+				},
+			},
+		},
 		// Table with type override.
 		{
 			node: &Node{Oid: "1", Label: "root",

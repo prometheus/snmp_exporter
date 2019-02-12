@@ -59,4 +59,7 @@ module_name:
        Temp: # A new metric will be created appending this to the metricName to become metricNameTemp.
          - regex: '(.*)' # Regex to extract a value from the returned SNMP walks's value.
            value: '$1' # Parsed as float64, defaults to $1.
+     enum_values: # Enum for this metric. Only used with the enum types.
+        0: true
+        1: false
 ```

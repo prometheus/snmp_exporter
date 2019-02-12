@@ -123,6 +123,8 @@ modules:
                              #   InetAddress: An InetAddress per RFC 4001. Must be preceded by an InetAddressType.
                              #   InetAddressMissingSize: An InetAddress that violates section 4.1 of RFC 4001 by
                              #       not having the size in the index. Must be preceded by an InetAddressType.
+                             #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
+                             #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
 ```
 
 ## Where to get MIBs

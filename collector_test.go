@@ -421,6 +421,75 @@ func TestPduToSample(t *testing.T) {
 			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 3}},
 			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"04:05:06:07:08:09" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]}`},
 		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 2,
+			},
+			metric: &config.Metric{
+				Name:       "test_metric",
+				Oid:        "1.1",
+				Type:       "EnumAsInfo",
+				Help:       "Help string",
+				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
+			},
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"baz" > gauge:<value:1 > `: `Desc{fqName: "test_metric_info", help: "Help string (EnumAsInfo)", constLabels: {}, variableLabels: [test_metric]}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 3,
+			},
+			metric: &config.Metric{
+				Name:       "test_metric",
+				Oid:        "1.1",
+				Type:       "EnumAsInfo",
+				Help:       "Help string",
+				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
+			},
+			expectedMetrics: map[string]string{`label:<name:"test_metric" value:"3" > gauge:<value:1 > `: `Desc{fqName: "test_metric_info", help: "Help string (EnumAsInfo)", constLabels: {}, variableLabels: [test_metric]}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 2,
+			},
+			metric: &config.Metric{
+				Name:       "test_metric",
+				Oid:        "1.1",
+				Type:       "EnumAsStateSet",
+				Help:       "Help string",
+				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
+			},
+			expectedMetrics: map[string]string{
+				`label:<name:"test_metric" value:"foo" > gauge:<value:0 > `: `Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [test_metric]}`,
+				`label:<name:"test_metric" value:"bar" > gauge:<value:0 > `: `Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [test_metric]}`,
+				`label:<name:"test_metric" value:"baz" > gauge:<value:1 > `: `Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [test_metric]}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 3,
+			},
+			metric: &config.Metric{
+				Name:       "test_metric",
+				Oid:        "1.1",
+				Type:       "EnumAsStateSet",
+				Help:       "Help string",
+				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
+			},
+			expectedMetrics: map[string]string{
+				`label:<name:"test_metric" value:"foo" > gauge:<value:0 > `: `Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [test_metric]}`,
+				`label:<name:"test_metric" value:"bar" > gauge:<value:0 > `: `Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [test_metric]}`,
+				`label:<name:"test_metric" value:"baz" > gauge:<value:0 > `: `Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [test_metric]}`,
+				`label:<name:"test_metric" value:"3" > gauge:<value:1 > `:   `Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [test_metric]}`,
+			},
+		},
 	}
 
 	for i, c := range cases {

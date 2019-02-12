@@ -69,6 +69,7 @@ type Node struct {
 	FixedSize         int
 	Units             string
 	Access            string
+	EnumValues        map[int]string
 
 	Indexes      []string
 	ImpliedIndex bool
@@ -78,11 +79,15 @@ type Node struct {
 func (n *Node) Copy() *Node {
 	newNode := *n
 	newNode.Children = make([]*Node, 0, len(n.Children))
+	newNode.EnumValues = make(map[int]string, len(n.EnumValues))
 	newNode.Indexes = make([]string, len(n.Indexes))
 	copy(newNode.Indexes, n.Indexes)
-	// Deep copy children.
+	// Deep copy children and enums.
 	for _, child := range n.Children {
 		newNode.Children = append(newNode.Children, child.Copy())
+	}
+	for k, v := range n.EnumValues {
+		newNode.EnumValues[k] = v
 	}
 	return &newNode
 }
@@ -195,6 +200,13 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 	n.TextualConvention = C.GoString(C.get_tc_descriptor(t.tc_index))
 	n.FixedSize = int(C.get_tc_fixed_size(t.tc_index))
 	n.Units = C.GoString(t.units)
+
+	n.EnumValues = map[int]string{}
+	enum := t.enums
+	for enum != nil {
+		n.EnumValues[int(enum.value)] = C.GoString(enum.label)
+		enum = enum.next
+	}
 
 	if t.child_list == nil {
 		return

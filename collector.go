@@ -347,6 +347,10 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 			log.Debugf("error parsing DateAndTime: %s", err)
 			return []prometheus.Metric{}
 		}
+	case "EnumAsInfo":
+		return enumAsInfo(metric, int(value), labelnames, labelvalues)
+	case "EnumAsStateSet":
+		return enumAsStateSet(metric, int(value), labelnames, labelvalues)
 	default:
 		// It's some form of string.
 		t = prometheus.GaugeValue
@@ -418,6 +422,56 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 			results = append(results, newMetric)
 			break
 		}
+	}
+	return results
+}
+
+func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []string) []prometheus.Metric {
+	// Lookup enum, default to the value.
+	state, ok := metric.EnumValues[int(value)]
+	if !ok {
+		state = strconv.Itoa(int(value))
+	}
+	labelnames = append(labelnames, metric.Name)
+	labelvalues = append(labelvalues, state)
+
+	newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+"_info", metric.Help+" (EnumAsInfo)", labelnames, nil),
+		prometheus.GaugeValue, 1.0, labelvalues...)
+	if err != nil {
+		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsInfo", nil, nil),
+			fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+	}
+	return []prometheus.Metric{newMetric}
+}
+
+func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []string) []prometheus.Metric {
+	labelnames = append(labelnames, metric.Name)
+	results := []prometheus.Metric{}
+
+	state, ok := metric.EnumValues[value]
+	if !ok {
+		// Fallback to using the value.
+		state = strconv.Itoa(value)
+	}
+	newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (EnumAsStateSet)", labelnames, nil),
+		prometheus.GaugeValue, 1.0, append(labelvalues, state)...)
+	if err != nil {
+		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
+			fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+	}
+	results = append(results, newMetric)
+
+	for k, v := range metric.EnumValues {
+		if k == value {
+			continue
+		}
+		newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (EnumAsStateSet)", labelnames, nil),
+			prometheus.GaugeValue, 0.0, append(labelvalues, v)...)
+		if err != nil {
+			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
+				fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+		}
+		results = append(results, newMetric)
 	}
 	return results
 }
