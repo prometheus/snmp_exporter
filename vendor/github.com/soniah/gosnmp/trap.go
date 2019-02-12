@@ -210,6 +210,10 @@ func (x *GoSNMP) UnmarshalTrap(trap []byte) (result *SnmpPacket) {
 			}
 		}
 		trap, cursor, err = x.decryptPacket(trap, cursor, result)
+		if err != nil {
+			x.logPrintf("UnmarshalTrap v3 decrypt: %s\n", err)
+			return nil
+		}
 	}
 	err = x.unmarshalPayload(trap, cursor, result)
 	if err != nil {
