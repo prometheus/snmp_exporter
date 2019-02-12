@@ -2,25 +2,14 @@ modules:
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
     walk: [sysUpTime, interfaces, ifXTable]
-  # Interfaces if ifAlias is unique.
-  if_mib_ifalias:
-    walk: [sysUpTime, interfaces, ifXTable]
     lookups:
-      - old_index: ifIndex
-        new_index: ifAlias
-  # Interfaces if ifDescr is unique.
-  if_mib_ifdescr:
-    walk: [sysUpTime, interfaces, ifXTable]
-    lookups:
-      - old_index: ifIndex
-        new_index: ifDescr
-  # Interfaces if ifName is unique.
-  if_mib_ifname:
-    walk: [sysUpTime, interfaces, ifXTable]
-    lookups:
-      - old_index: ifIndex
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        lookup: ifDescr
+      - source_indexes: [ifIndex]
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        new_index: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
 
 # Cisco Wireless LAN Controller
   cisco_wlc:
@@ -35,10 +24,12 @@ modules:
       - 1.3.6.1.4.1.14179.2.2.13.1.3   # bsnAPIfLoadChannelUtilization
       - 1.3.6.1.4.1.14179.2.2.15.1.21  # bsnAPIfDBNoisePower
     lookups:
-      - old_index: bsnDot11EssIndex
-        new_index: bsnDot11EssSsid
-      - old_index: bsnAPDot3MacAddress
-        new_index: bsnAPName
+      - source_indexes: [bsnDot11EssIndex]
+        lookup: bsnDot11EssSsid
+        drop_source_indexes: true
+      - source_indexes: [bsnAPDot3MacAddress]
+        lookup: bsnAPName
+        drop_source_indexes: true
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -68,10 +59,12 @@ modules:
       - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
       - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
     lookups:
-      - old_index: upsOutletGroupStatusIndex
-        new_index: upsOutletGroupStatusName
-      - old_index: iemStatusProbeIndex
-        new_index: iemStatusProbeName
+      - source_indexes: [upsOutletGroupStatusIndex]
+        lookup: upsOutletGroupStatusName
+        drop_source_indexes: true
+      - source_indexes: [iemStatusProbeIndex]
+        lookup: iemStatusProbeName
+        drop_source_indexes: true
 
 # ServerTech Sentry 3 MIB
 #
@@ -159,23 +152,31 @@ modules:
       - 1.3.6.1.4.1.6574.102     # spaceIO
       - 1.3.6.1.4.1.6574.104     # synologyiSCSILUN
     lookups:
-      - old_index: spaceIOIndex
-        new_index: spaceIODevice
-      - old_index: storageIOIndex
-        new_index: storageIODevice
-      - old_index: serviceInfoIndex
-        new_index: serviceName
-      - old_index: ifIndex
+      - source_indexes: [spaceIOIndex]
+        lookup: spaceIODevice
+        drop_source_indexes: true
+      - source_indexes: [storageIOIndex]
+        lookup: storageIODevice
+        drop_source_indexes: true
+      - source_indexes: [serviceInfoIndex]
+        lookup: serviceName
+        drop_source_indexes: true
+      - source_indexes: [ifIndex]
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        new_index: 1.3.6.1.2.1.31.1.1.1.1 # ifName
-      - old_index: diskIndex
-        new_index: diskID
-      - old_index: raidIndex
-        new_index: raidName
-      - old_index: laIndex
-        new_index: laNames
-      - old_index: hrStorageIndex
-        new_index: hrStorageDescr
+        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        drop_source_indexes: true
+      - source_indexes: [diskIndex]
+        lookup: diskID
+        drop_source_indexes: true
+      - source_indexes: [raidIndex]
+        lookup: raidName
+        drop_source_indexes: true
+      - source_indexes: [laIndex]
+        lookup: laNames
+        drop_source_indexes: true
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+        drop_source_indexes: true
 
 # DD-WRT
 #
@@ -195,10 +196,12 @@ modules:
       - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
       - 1.3.6.1.4.1.2021.11 # systemStats
     lookups:
-    - old_index: ifIndex
-      new_index: ifDescr
-    - old_index: laIndex
-      new_index: laNames
+    - source_indexes: [ifIndex]
+      lookup: ifDescr
+      drop_source_indexes: true
+    - source_indexes: [laIndex]
+      lookup: laNames
+      drop_source_indexes: true
 
 # Ubiquiti / AirMAX
 #

@@ -596,6 +596,10 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 
 	// Perform lookups.
 	for _, lookup := range metric.Lookups {
+		if len(lookup.Labels) == 0 {
+			delete(labels, lookup.Labelname)
+			continue
+		}
 		oid := lookup.Oid
 		for _, label := range lookup.Labels {
 			oid = fmt.Sprintf("%s.%s", oid, listToOid(labelOids[label]))

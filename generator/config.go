@@ -53,6 +53,7 @@ type ModuleConfig struct {
 }
 
 type Lookup struct {
-	OldIndex string `yaml:"old_index"`
-	NewIndex string `yaml:"new_index"`
+	SourceIndexes     []string `yaml:"source_indexes"`
+	Lookup            string   `yaml:"lookup"`
+	DropSourceIndexes bool     `yaml:"drop_source_indexes,omitempty"`
 }
