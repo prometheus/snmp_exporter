@@ -57,6 +57,9 @@ type GoSNMP struct {
 	// Set the number of retries to attempt within timeout.
 	Retries int
 
+	// Double timeout in each retry
+	ExponentialTimeout bool
+
 	// Logger is the GoSNMP.Logger to use for debugging. If nil, debugging
 	// output will be discarded (/dev/null). For verbose logging to stdout:
 	// x.Logger = log.New(os.Stdout, "", 0)
@@ -106,12 +109,13 @@ type GoSNMP struct {
 
 // Default connection settings
 var Default = &GoSNMP{
-	Port:      161,
-	Community: "public",
-	Version:   Version2c,
-	Timeout:   time.Duration(2) * time.Second,
-	Retries:   3,
-	MaxOids:   MaxOids,
+	Port:               161,
+	Community:          "public",
+	Version:            Version2c,
+	Timeout:            time.Duration(2) * time.Second,
+	Retries:            3,
+	ExponentialTimeout: true,
+	MaxOids:            MaxOids,
 }
 
 // SnmpPDU will be used when doing SNMP Set's

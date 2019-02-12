@@ -3,9 +3,9 @@ version: "= 0"
 language: go
 
 go:
-- 1.8
 - 1.9
 - "1.10"
+- "1.11"
 
 # $TRAVIS_GOARCH hack - see https://github.com/travis-ci/travis-ci/issues/6126
 
@@ -28,6 +28,7 @@ before_install:
 
 install:
  - go get github.com/soniah/gosnmp
+ - go get github.com/stretchr/testify/assert
  - sudo ./snmp_users.sh
  - sudo /etc/init.d/snmpd restart
 

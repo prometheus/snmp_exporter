@@ -347,18 +347,43 @@ func marshalBase128Int(out *bytes.Buffer, n int64) (err error) {
 	return nil
 }
 
-// marshalInt16 builds a byte representation of
-// a 16 bit int in BigEndian form.
-func marshalInt16(value int) (rs []byte, err error) {
-	if value <= 0xff {
-		rs = []byte{byte(value)}
+/*
+	snmp Integer32 and INTEGER:
+	-2^31 and 2^31-1 inclusive (-2147483648 to 2147483647 decimal)
+	(FYI https://groups.google.com/forum/#!topic/comp.protocols.snmp/1xaAMzCe_hE)
+
+	versus:
+
+	snmp Counter32, Gauge32, TimeTicks, Unsigned32: (below)
+	non-negative integer, maximum value of 2^32-1 (4294967295 decimal)
+*/
+
+// marshalInt32 builds a byte representation of a signed 32 bit int in BigEndian form
+// ie -2^31 and 2^31-1 inclusive (-2147483648 to 2147483647 decimal)
+func marshalInt32(value int) (rs []byte, err error) {
+	rs = make([]byte, 4)
+	if 0 <= value && value <= 2147483647 {
+		binary.BigEndian.PutUint32(rs, uint32(value))
+		if value <= 0x80 {
+			return rs[3:], nil
+		}
+		if value <= 0x8000 {
+			return rs[2:], nil
+		}
+		if value <= 0x800000 {
+			return rs[1:], nil
+		}
 		return rs, nil
 	}
-	if value > 0xff && value <= 0xffff {
-		rs = []byte{byte(((value >> 8) & 0xff)), byte((value & 0xff))}
+	if -2147483648 <= value && value < 0 {
+		value = ^value
+		binary.BigEndian.PutUint32(rs, uint32(value))
+		for k,v := range rs {
+			rs[k] = ^v
+		}
 		return rs, nil
 	}
-	return nil, fmt.Errorf("Unable to marshal %v", rs)
+	return nil, fmt.Errorf("unable to marshal %d", value)
 }
 
 // Counter32, Gauge32, TimeTicks, Unsigned32
@@ -367,13 +392,13 @@ func marshalUint32(v interface{}) ([]byte, error) {
 	source := v.(uint32)
 	binary.BigEndian.PutUint32(bs, source) // will panic on failure
 	// truncate leading zeros. Cleaner technique?
-	if source <= 0xff {
+	if source <= 0x80 {
 		return bs[3:], nil
 	}
-	if source <= 0xffff {
+	if source <= 0x8000 {
 		return bs[2:], nil
 	}
-	if source <= 0xffffff {
+	if source <= 0x800000 {
 		return bs[1:], nil
 	}
 	return bs, nil
