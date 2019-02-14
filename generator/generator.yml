@@ -64,6 +64,7 @@ modules:
       - 1.3.6.1.4.1.318.1.1.1.8.1     # upsCommStatus
       - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
       - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
+      - 1.3.6.1.4.1.318.1.1.26.8.3    # rPDU2BankStatusTable
     lookups:
       - source_indexes: [upsOutletGroupStatusIndex]
         lookup: upsOutletGroupStatusName
@@ -74,6 +75,8 @@ modules:
     overrides:
       ifType:
         type: EnumAsInfo
+      rPDU2BankStatusLoadState:
+        type: EnumAsStateSet
 
 # ServerTech Sentry 3 MIB
 #
