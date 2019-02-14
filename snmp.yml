@@ -8,6 +8,7 @@ apcups:
   - 1.3.6.1.4.1.318.1.1.1.4
   - 1.3.6.1.4.1.318.1.1.1.7.2
   - 1.3.6.1.4.1.318.1.1.10.2.3.2
+  - 1.3.6.1.4.1.318.1.1.26.8.3
   get:
   - 1.3.6.1.2.1.1.3.0
   - 1.3.6.1.4.1.318.1.1.1.8.1.0
@@ -1708,6 +1709,68 @@ apcups:
     help: A descriptive location for the probe set by the user. - 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
     indexes:
     - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: rPDU2BankStatusIndex
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.1
+    type: gauge
+    help: The index to the Rack PDU bank status table entry - 1.3.6.1.4.1.318.1.1.26.8.3.1.1
+    indexes:
+    - labelname: rPDU2BankStatusIndex
+      type: gauge
+  - name: rPDU2BankStatusModule
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.2
+    type: gauge
+    help: The user-defined Rack PDU numeric ID - 1.3.6.1.4.1.318.1.1.26.8.3.1.2
+    indexes:
+    - labelname: rPDU2BankStatusIndex
+      type: gauge
+  - name: rPDU2BankStatusNumber
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.3
+    type: gauge
+    help: The numeric bank ID - 1.3.6.1.4.1.318.1.1.26.8.3.1.3
+    indexes:
+    - labelname: rPDU2BankStatusIndex
+      type: gauge
+  - name: rPDU2BankStatusLoadState
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.4
+    type: EnumAsStateSet
+    help: Indicates the present load status of the Rack PDU bank being queried - 1.3.6.1.4.1.318.1.1.26.8.3.1.4
+    indexes:
+    - labelname: rPDU2BankStatusIndex
+      type: gauge
+    enum_values:
+      1: lowLoad
+      2: normal
+      3: nearOverload
+      4: overload
+  - name: rPDU2BankStatusCurrent
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.5
+    type: gauge
+    help: Indicates the current draw, in tenths of Amps, of the load on the Rack PDU
+      bank being queried - 1.3.6.1.4.1.318.1.1.26.8.3.1.5
+    indexes:
+    - labelname: rPDU2BankStatusIndex
+      type: gauge
+  - name: rPDU2BankStatusPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.6
+    type: gauge
+    help: The peak current of the Rack PDU bank load in tenths of Amps - 1.3.6.1.4.1.318.1.1.26.8.3.1.6
+    indexes:
+    - labelname: rPDU2BankStatusIndex
+      type: gauge
+  - name: rPDU2BankStatusPeakCurrentTimestamp
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.7
+    type: DisplayString
+    help: Indicates the date and time the bank peak current occurred - 1.3.6.1.4.1.318.1.1.26.8.3.1.7
+    indexes:
+    - labelname: rPDU2BankStatusIndex
+      type: gauge
+  - name: rPDU2BankStatusPeakCurrentStartTime
+    oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.8
+    type: DisplayString
+    help: Indicates the date and time of the last bank peak current reset - 1.3.6.1.4.1.318.1.1.26.8.3.1.8
+    indexes:
+    - labelname: rPDU2BankStatusIndex
       type: gauge
   version: 1
 arista_sw:
@@ -7028,6 +7091,35 @@ keepalived:
     enum_values:
       1: "true"
       2: "false"
+  - name: virtualServerDelayLoopUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.64
+    type: gauge
+    help: Delay in micro-seconds between two checks. - 1.3.6.1.4.1.9586.100.5.3.3.1.64
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerDelayBeforeRetrUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.65
+    type: gauge
+    help: Default number of micro-seconds between retrying a checker ofter it has
+      failed. - 1.3.6.1.4.1.9586.100.5.3.3.1.65
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerWarmupUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.66
+    type: gauge
+    help: Maximum number of micro-seconds to delay before running checker. - 1.3.6.1.4.1.9586.100.5.3.3.1.66
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerConnTimeoutUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.67
+    type: gauge
+    help: Maximum number of micro-seconds for checker to establish connection. - 1.3.6.1.4.1.9586.100.5.3.3.1.67
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
   - name: realServerIndex
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.1
     type: gauge
@@ -7442,7 +7534,7 @@ keepalived:
   - name: realServerDelayBeforeRetry
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.44
     type: gauge
-    help: Default number of seconds between retrying a checker ofter it has failed.
+    help: Default number of seconds between retrying a checker after it has failed.
       - 1.3.6.1.4.1.9586.100.5.3.4.1.44
     indexes:
     - labelname: virtualServerIndex
@@ -7479,6 +7571,43 @@ keepalived:
     enum_values:
       1: enabled
       2: disabled
+  - name: realServerDelayBeforeRetryUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.48
+    type: gauge
+    help: Default number of micro-seconds between retrying a checker after it has
+      failed. - 1.3.6.1.4.1.9586.100.5.3.4.1.48
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerWarmupUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.49
+    type: gauge
+    help: Maximum number of micro-seconds to delay before running checker. - 1.3.6.1.4.1.9586.100.5.3.4.1.49
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerDelayLoopUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.50
+    type: gauge
+    help: Delay in micro-seconds between two checks. - 1.3.6.1.4.1.9586.100.5.3.4.1.50
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerConnTimeoutUsec
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.51
+    type: gauge
+    help: Maximum number of micro-seconds for checker to establish connection. - 1.3.6.1.4.1.9586.100.5.3.4.1.51
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
 paloalto_fw:
   walk:
   - 1.3.6.1.2.1.2
