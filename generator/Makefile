@@ -11,20 +11,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-MIBDIR := mibs
+MIBDIR   := mibs
+MIB_PATH := 'mibs'
 
 APC_URL        := 'https://download.schneider-electric.com/files?p_File_Name=powernet426.mib'
 ARISTA_URL     := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL      := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
+FRAMEWORK_URL  := http://www.net-snmp.org/docs/mibs/SNMP-FRAMEWORK-MIB.txt
 KEEPALIVED_URL := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL   := 'http://download2.mikrotik.com/Mikrotik.mib'
+NET_SNMP_URL   := http://www.net-snmp.org/docs/mibs/NET-SNMP-MIB.txt
+NET_TC_URL     := http://www.net-snmp.org/docs/mibs/NET-SNMP-TC.txt
 PALOALTO_URL   := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
 SERVERTECH_URL := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
 SYNOLOGY_URL   := 'https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip'
 UBNT_DL_URL    := http://dl.ubnt-ut.com/snmp
 UBNT_AIROS_URL := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UCD_URL        := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
-
 
 .DEFAULT: all
 
@@ -34,9 +37,18 @@ all: mibs
 clean:
 	rm -v \
 		$(MIBDIR)/* \
-		$(MIBDIR)/.cisco_v2 \
+		$(MIBDIR)/cisco_v2 \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology
+
+generator:
+	go build
+
+generate: generator mibs
+	MIBDIRS=$(MIB_PATH) ./generator generate
+
+parse_errors: generator mibs
+	MIBDIRS=$(MIB_PATH) ./generator parse_errors
 
 .PHONY: mibs
 mibs: mib-dir \
@@ -44,8 +56,12 @@ mibs: mib-dir \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/.cisco_v2 \
-  $(MIBDIR)/KEEPALIVED-MIB.txt \
+  $(MIBDIR)/cisco_v2 \
+  $(MIBDIR)/SNMP-FRAMEWORK-MIB \
+  $(MIBDIR)/KEEPALIVED-MIB \
+  $(MIBDIR)/MIKROTIK-MIB \
+  $(MIBDIR)/NET-SNMP-MIB \
+  $(MIBDIR)/NET-SNMP-TC \
   $(MIBDIR)/.paloalto_panos \
   $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/.synology \
@@ -73,19 +89,45 @@ $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB:
 	@echo ">> Downloading ARISTA-SW-IP-FORWARDING-MIB"
 	@curl -s -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB -L "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
 
-$(MIBDIR)/.cisco_v2:
+$(MIBDIR)/cisco_v2:
 	@echo ">> Downloading cisco_v2"
+	@mkdir $(MIBDIR)/cisco_v2
 	@curl -s -L $(CISCO_URL) \
-		| tar -C $(MIBDIR) --strip-components=3 -zxv
-	@touch $(MIBDIR)/.cisco_v2
+		| tar -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxv
+	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
+	cp mibs/cisco_v2/AIRESPACE-WIRELESS-MIB.my mibs/AIRESPACE-WIRELESS-MIB
+	cp mibs/cisco_v2/ENTITY-MIB.my mibs/ENTITY-MIB
+	cp mibs/cisco_v2/ENTITY-SENSOR-MIB.my mibs/ENTITY-SENSOR-MIB
+	cp mibs/cisco_v2/ENTITY-STATE-MIB.my mibs/ENTITY-STATE-MIB
+	cp mibs/cisco_v2/ENTITY-STATE-TC-MIB.my mibs/ENTITY-STATE-TC-MIB
+	cp mibs/cisco_v2/HOST-RESOURCES-MIB.my mibs/HOST-RESOURCES-MIB
+	cp mibs/cisco_v2/IANAifType-MIB.my mibs/IANAifType-MIB
+	cp mibs/cisco_v2/IF-MIB.my mibs/IF-MIB
+	cp mibs/cisco_v2/INET-ADDRESS-MIB.my mibs/INET-ADDRESS-MIB
+	cp mibs/cisco_v2/SNMPv2-MIB.my mibs/SNMPv2-MIB
+	cp mibs/cisco_v2/SNMPv2-SMI.my mibs/SNMPv2-SMI
+	cp mibs/cisco_v2/SNMPv2-TC.my mibs/SNMPv2-TC
 
-$(MIBDIR)/KEEPALIVED-MIB.txt:
-	@echo ">> Downloading keepalived"
-	@curl -s -o $(MIBDIR)/KEEPALIVED-MIB.txt -L $(KEEPALIVED_URL)
 
-$(MIBDIR)/mikrotik.mib:
-	@echo ">> Downloading mikrotik"
-	@curl -s -o $(MIBDIR)/mikrotik.mib -L $(MIKROTIK_URL)
+$(MIBDIR)/SNMP-FRAMEWORK-MIB:
+	@echo ">> Downloading SNMP-FRAMEWORK-MIB"
+	@curl -s -o $(MIBDIR)/SNMP-FRAMEWORK-MIB -L $(FRAMEWORK_URL)
+
+$(MIBDIR)/KEEPALIVED-MIB:
+	@echo ">> Downloading KEEPALIVED-MIB"
+	@curl -s -o $(MIBDIR)/KEEPALIVED-MIB -L $(KEEPALIVED_URL)
+
+$(MIBDIR)/MIKROTIK-MIB:
+	@echo ">> Downloading MIKROTIK-MIB"
+	@curl -s -o $(MIBDIR)/MIKROTIK-MIB -L $(MIKROTIK_URL)
+
+$(MIBDIR)/NET-SNMP-MIB:
+	@echo ">> Downloading NET-SNMP-MIB"
+	@curl -s -o $(MIBDIR)/NET-SNMP-MIB -L $(NET_SNMP_URL)
+
+$(MIBDIR)/NET-SNMP-TC:
+	@echo ">> Downloading NET-SNMP-TC"
+	@curl -s -o $(MIBDIR)/NET-SNMP-TC -L $(NET_TC_URL)
 
 $(MIBDIR)/.paloalto_panos:
 	$(eval TMP := $(shell mktemp))
