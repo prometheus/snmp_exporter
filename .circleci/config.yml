@@ -55,9 +55,10 @@ jobs:
     - checkout:
         path: ~/project
     - run: sudo apt-get -y install build-essential diffutils libsnmp-dev
-    - run: go build
     - run: make mibs
-    - run: ./generator generate
+    - run: make generator
+    - run: make parse_errors
+    - run: make generate
     - run: diff -u ../snmp.yml snmp.yml
 
   docker_hub_master:
