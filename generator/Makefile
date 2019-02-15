@@ -41,14 +41,14 @@ clean:
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology
 
-generator:
+generator: *.go
 	go build
 
 generate: generator mibs
-	MIBDIRS=$(MIB_PATH) ./generator generate
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate
 
 parse_errors: generator mibs
-	MIBDIRS=$(MIB_PATH) ./generator parse_errors
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors parse_errors
 
 .PHONY: mibs
 mibs: mib-dir \
