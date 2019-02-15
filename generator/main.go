@@ -86,6 +86,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 }
 
 var (
+	failOnParseErrors  = kingpin.Flag("fail-on-parse-errors", "Exit with a non-zero status if there are MIB parsing errors").Default("false").Bool()
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
 	outputPath         = generateCommand.Flag("output-path", "Path to to write resulting config file").Default("snmp.yml").Short('o').String()
 	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")
@@ -98,10 +99,12 @@ func main() {
 	command := kingpin.Parse()
 
 	parseErrors := initSNMP()
+	parseErrorCount := len(parseErrors)
 
-	if len(parseErrors) != 0 {
+	if parseErrorCount != 0 {
 		log.Warnf("NetSNMP reported %d parse errors", len(strings.Split(parseErrors, "\n")))
 	}
+
 	nodes := getMIBTree()
 	nameToNode := prepareTree(nodes)
 
@@ -123,5 +126,8 @@ func main() {
 			fmt.Printf("%s %s %s %q %q %s%s %v %s\n",
 				n.Oid, n.Label, t, n.TextualConvention, n.Hint, n.Indexes, implied, n.EnumValues, n.Description)
 		})
+	}
+	if *failOnParseErrors && parseErrorCount != 0 {
+		os.Exit(1)
 	}
 }
