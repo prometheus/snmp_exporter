@@ -291,3 +291,35 @@ modules:
         ignore: true # Non-metric display string.
       vrrpInstanceScriptMstrRxLowerPri:
         ignore: true # Non-metric display string.
+
+# Printer: RFC 3805
+#
+# https://tools.ietf.org/html/rfc3805
+# https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib.xhtml
+  printer_mib:
+    walk:
+      - sysUpTime
+      - hrPrinterStatus
+      - prtGeneralReset
+      - prtConsoleDisable
+      - prtGeneralPrinterName
+      - prtGeneralSerialNumber
+      - prtAlertCriticalEvents
+      - prtAlertAllEvents
+      - prtCoverStatus
+      - prtMarkerSuppliesLevel
+      - prtMarkerSuppliesMaxCapacity
+    overrides:
+      hrPrinterStatus:
+        type: EnumAsStateSet
+      prtGeneralReset:
+        type: EnumAsStateSet
+      prtConsoleDisable:
+        type: EnumAsStateSet
+      prtGeneralPrinterName:
+        type: DisplayString
+      prtGeneralSerialNumber:
+        type: DisplayString
+      prtCoverStatus:
+        type: EnumAsStateSet
+

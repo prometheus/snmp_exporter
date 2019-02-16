@@ -14,20 +14,23 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-APC_URL        := 'https://download.schneider-electric.com/files?p_File_Name=powernet426.mib'
-ARISTA_URL     := https://www.arista.com/assets/data/docs/MIBS
-CISCO_URL      := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
-FRAMEWORK_URL  := http://www.net-snmp.org/docs/mibs/SNMP-FRAMEWORK-MIB.txt
-KEEPALIVED_URL := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
-MIKROTIK_URL   := 'http://download2.mikrotik.com/Mikrotik.mib'
-NET_SNMP_URL   := http://www.net-snmp.org/docs/mibs/NET-SNMP-MIB.txt
-NET_TC_URL     := http://www.net-snmp.org/docs/mibs/NET-SNMP-TC.txt
-PALOALTO_URL   := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
-SERVERTECH_URL := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
-SYNOLOGY_URL   := 'https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip'
-UBNT_DL_URL    := http://dl.ubnt-ut.com/snmp
-UBNT_AIROS_URL := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
-UCD_URL        := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
+APC_URL          := 'https://download.schneider-electric.com/files?p_File_Name=powernet426.mib'
+ARISTA_URL       := https://www.arista.com/assets/data/docs/MIBS
+CISCO_URL        := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
+FRAMEWORK_URL    := http://www.net-snmp.org/docs/mibs/SNMP-FRAMEWORK-MIB.txt
+IANA_CHARSET_URL := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
+IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
+KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
+MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
+NET_SNMP_URL     := http://www.net-snmp.org/docs/mibs/NET-SNMP-MIB.txt
+NET_TC_URL       := http://www.net-snmp.org/docs/mibs/NET-SNMP-TC.txt
+PALOALTO_URL     := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
+PRINTER_URL      := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
+SERVERTECH_URL   := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
+SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip'
+UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
+UBNT_AIROS_URL   := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+UCD_URL          := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 
 .DEFAULT: all
 
@@ -57,13 +60,16 @@ mibs: mib-dir \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/cisco_v2 \
-  $(MIBDIR)/SNMP-FRAMEWORK-MIB \
+  $(MIBDIR)/IANA-CHARSET-MIB.txt \
+  $(MIBDIR)/IANA-PRINTER-MIB.txt \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/NET-SNMP-MIB \
   $(MIBDIR)/NET-SNMP-TC \
   $(MIBDIR)/.paloalto_panos \
+  $(MIBDIR)/PRINTER-MIB-V2.txt \
   $(MIBDIR)/servertech-sentry3-mib \
+  $(MIBDIR)/SNMP-FRAMEWORK-MIB \
   $(MIBDIR)/.synology \
   $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
@@ -108,10 +114,13 @@ $(MIBDIR)/cisco_v2:
 	cp mibs/cisco_v2/SNMPv2-SMI.my mibs/SNMPv2-SMI
 	cp mibs/cisco_v2/SNMPv2-TC.my mibs/SNMPv2-TC
 
+$(MIBDIR)/IANA-CHARSET-MIB.txt:
+	@echo ">> Donwloading IANA charset MIB"
+	@curl -s -o $(MIBDIR)/IANA-CHARSET-MIB.txt -L $(IANA_CHARSET_URL)
 
-$(MIBDIR)/SNMP-FRAMEWORK-MIB:
-	@echo ">> Downloading SNMP-FRAMEWORK-MIB"
-	@curl -s -o $(MIBDIR)/SNMP-FRAMEWORK-MIB -L $(FRAMEWORK_URL)
+$(MIBDIR)/IANA-PRINTER-MIB.txt:
+	@echo ">> Donwloading IANA printer MIB"
+	@curl -s -o $(MIBDIR)/IANA-PRINTER-MIB.txt -L $(IANA_PRINTER_URL)
 
 $(MIBDIR)/KEEPALIVED-MIB:
 	@echo ">> Downloading KEEPALIVED-MIB"
@@ -137,9 +146,17 @@ $(MIBDIR)/.paloalto_panos:
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.paloalto_panos
 
+$(MIBDIR)/PRINTER-MIB-V2.txt:
+	@echo ">> Downloading Printer MIB v2"
+	@curl -s -o $(MIBDIR)/PRINTER-MIB-V2.txt -L $(PRINTER_URL)
+
 $(MIBDIR)/servertech-sentry3-mib:
 	@echo ">> Downloading servertech-sentry3-mib"
 	@curl -s -o $(MIBDIR)/servertech-sentry3-mib -L $(SERVERTECH_URL)
+
+$(MIBDIR)/SNMP-FRAMEWORK-MIB:
+	@echo ">> Downloading SNMP-FRAMEWORK-MIB"
+	@curl -s -o $(MIBDIR)/SNMP-FRAMEWORK-MIB -L $(FRAMEWORK_URL)
 
 $(MIBDIR)/.synology:
 	$(eval TMP := $(shell mktemp))
