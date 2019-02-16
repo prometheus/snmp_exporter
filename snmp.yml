@@ -8747,6 +8747,130 @@ paloalto_fw:
     oid: 1.3.6.1.4.1.25461.2.1.2.5.1.3
     type: gauge
     help: Number of active tunnels - 1.3.6.1.4.1.25461.2.1.2.5.1.3
+printer_mib:
+  walk:
+  - 1.3.6.1.2.1.25.3.5.1.1
+  - 1.3.6.1.2.1.43.11.1.1.8
+  - 1.3.6.1.2.1.43.11.1.1.9
+  - 1.3.6.1.2.1.43.5.1.1.13
+  - 1.3.6.1.2.1.43.5.1.1.16
+  - 1.3.6.1.2.1.43.5.1.1.17
+  - 1.3.6.1.2.1.43.5.1.1.18
+  - 1.3.6.1.2.1.43.5.1.1.19
+  - 1.3.6.1.2.1.43.5.1.1.3
+  - 1.3.6.1.2.1.43.6.1.1.3
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: hrPrinterStatus
+    oid: 1.3.6.1.2.1.25.3.5.1.1
+    type: EnumAsStateSet
+    help: The current status of this printer device. - 1.3.6.1.2.1.25.3.5.1.1
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    enum_values:
+      1: other
+      2: unknown
+      3: idle
+      4: printing
+      5: warmup
+  - name: prtMarkerSuppliesMaxCapacity
+    oid: 1.3.6.1.2.1.43.11.1.1.8
+    type: gauge
+    help: The maximum capacity of this supply container/receptacle expressed in prtMarkerSuppliesSupplyUnit
+      - 1.3.6.1.2.1.43.11.1.1.8
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: prtMarkerSuppliesIndex
+      type: gauge
+  - name: prtMarkerSuppliesLevel
+    oid: 1.3.6.1.2.1.43.11.1.1.9
+    type: gauge
+    help: The current level if this supply is a container; the remaining space if
+      this supply is a receptacle - 1.3.6.1.2.1.43.11.1.1.9
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: prtMarkerSuppliesIndex
+      type: gauge
+  - name: prtConsoleDisable
+    oid: 1.3.6.1.2.1.43.5.1.1.13
+    type: EnumAsStateSet
+    help: This value indicates how input is (or is not) accepted from the operator
+      console - 1.3.6.1.2.1.43.5.1.1.13
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    enum_values:
+      3: enabled
+      4: disabled
+  - name: prtGeneralPrinterName
+    oid: 1.3.6.1.2.1.43.5.1.1.16
+    type: DisplayString
+    help: An administrator-specified name for this printer - 1.3.6.1.2.1.43.5.1.1.16
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: prtGeneralSerialNumber
+    oid: 1.3.6.1.2.1.43.5.1.1.17
+    type: DisplayString
+    help: A recorded serial number for this device that indexes some type device catalog
+      or inventory - 1.3.6.1.2.1.43.5.1.1.17
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: prtAlertCriticalEvents
+    oid: 1.3.6.1.2.1.43.5.1.1.18
+    type: counter
+    help: A running counter of the number of critical alert events that have been
+      recorded in the alert table - 1.3.6.1.2.1.43.5.1.1.18
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: prtAlertAllEvents
+    oid: 1.3.6.1.2.1.43.5.1.1.19
+    type: counter
+    help: A running counter of the total number of alert event entries (critical and
+      non-critical) that have been recorded in the alert table - 1.3.6.1.2.1.43.5.1.1.19
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: prtGeneralReset
+    oid: 1.3.6.1.2.1.43.5.1.1.3
+    type: EnumAsStateSet
+    help: Setting this value to 'powerCycleReset', 'resetToNVRAM', or 'resetToFactoryDefaults'
+      will result in the resetting of the printer - 1.3.6.1.2.1.43.5.1.1.3
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    enum_values:
+      3: notResetting
+      4: powerCycleReset
+      5: resetToNVRAM
+      6: resetToFactoryDefaults
+  - name: prtCoverStatus
+    oid: 1.3.6.1.2.1.43.6.1.1.3
+    type: EnumAsStateSet
+    help: The status of this cover sub-unit. - 1.3.6.1.2.1.43.6.1.1.3
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: prtCoverIndex
+      type: gauge
+    enum_values:
+      1: other
+      2: unknown
+      3: coverOpen
+      4: coverClosed
+      5: interlockOpen
+      6: interlockClosed
 servertech_sentry3:
   walk:
   - 1.3.6.1.4.1.1718.3.2.2
