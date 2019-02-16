@@ -8750,6 +8750,7 @@ paloalto_fw:
 printer_mib:
   walk:
   - 1.3.6.1.2.1.25.3.5.1.1
+  - 1.3.6.1.2.1.43.11.1.1.5
   - 1.3.6.1.2.1.43.11.1.1.8
   - 1.3.6.1.2.1.43.11.1.1.9
   - 1.3.6.1.2.1.43.5.1.1.13
@@ -8780,6 +8781,59 @@ printer_mib:
       3: idle
       4: printing
       5: warmup
+  - name: prtMarkerSuppliesType
+    oid: 1.3.6.1.2.1.43.11.1.1.5
+    type: gauge
+    help: The type of this supply. - 1.3.6.1.2.1.43.11.1.1.5
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: prtMarkerSuppliesIndex
+      type: gauge
+    lookups:
+    - labels:
+      - hrDeviceIndex
+      - prtMarkerSuppliesIndex
+      labelname: prtMarkerSuppliesType
+      oid: 1.3.6.1.2.1.43.11.1.1.5
+      type: gauge
+    enum_values:
+      1: other
+      2: unknown
+      3: toner
+      4: wasteToner
+      5: ink
+      6: inkCartridge
+      7: inkRibbon
+      8: wasteInk
+      9: opc
+      10: developer
+      11: fuserOil
+      12: solidWax
+      13: ribbonWax
+      14: wasteWax
+      15: fuser
+      16: coronaWire
+      17: fuserOilWick
+      18: cleanerUnit
+      19: fuserCleaningPad
+      20: transferUnit
+      21: tonerCartridge
+      22: fuserOiler
+      23: water
+      24: wasteWater
+      25: glueWaterAdditive
+      26: wastePaper
+      27: bindingSupply
+      28: bandingSupply
+      29: stitchingWire
+      30: shrinkWrap
+      31: paperWrap
+      32: staples
+      33: inserts
+      34: covers
+      35: matteToner
+      36: matteInk
   - name: prtMarkerSuppliesMaxCapacity
     oid: 1.3.6.1.2.1.43.11.1.1.8
     type: gauge
@@ -8790,6 +8844,13 @@ printer_mib:
       type: gauge
     - labelname: prtMarkerSuppliesIndex
       type: gauge
+    lookups:
+    - labels:
+      - hrDeviceIndex
+      - prtMarkerSuppliesIndex
+      labelname: prtMarkerSuppliesType
+      oid: 1.3.6.1.2.1.43.11.1.1.5
+      type: gauge
   - name: prtMarkerSuppliesLevel
     oid: 1.3.6.1.2.1.43.11.1.1.9
     type: gauge
@@ -8799,6 +8860,13 @@ printer_mib:
     - labelname: hrDeviceIndex
       type: gauge
     - labelname: prtMarkerSuppliesIndex
+      type: gauge
+    lookups:
+    - labels:
+      - hrDeviceIndex
+      - prtMarkerSuppliesIndex
+      labelname: prtMarkerSuppliesType
+      oid: 1.3.6.1.2.1.43.11.1.1.5
       type: gauge
   - name: prtConsoleDisable
     oid: 1.3.6.1.2.1.43.5.1.1.13
