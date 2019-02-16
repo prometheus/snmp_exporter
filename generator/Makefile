@@ -14,7 +14,7 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-APC_URL          := 'https://download.schneider-electric.com/files?p_File_Name=powernet426.mib'
+APC_URL          := 'https://download.schneider-electric.com/files?p_File_Name=powernet428.mib'
 ARISTA_URL       := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL        := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
 FRAMEWORK_URL    := http://www.net-snmp.org/docs/mibs/SNMP-FRAMEWORK-MIB.txt
