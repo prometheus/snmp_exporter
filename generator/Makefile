@@ -19,6 +19,7 @@ ARISTA_URL       := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL        := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
 FRAMEWORK_URL    := http://www.net-snmp.org/docs/mibs/SNMP-FRAMEWORK-MIB.txt
 IANA_CHARSET_URL := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
+IANA_IFTYPE_URL  := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
 KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
@@ -61,6 +62,7 @@ mibs: mib-dir \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/cisco_v2 \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
+  $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
@@ -107,7 +109,6 @@ $(MIBDIR)/cisco_v2:
 	cp mibs/cisco_v2/ENTITY-STATE-MIB.my mibs/ENTITY-STATE-MIB
 	cp mibs/cisco_v2/ENTITY-STATE-TC-MIB.my mibs/ENTITY-STATE-TC-MIB
 	cp mibs/cisco_v2/HOST-RESOURCES-MIB.my mibs/HOST-RESOURCES-MIB
-	cp mibs/cisco_v2/IANAifType-MIB.my mibs/IANAifType-MIB
 	cp mibs/cisco_v2/IF-MIB.my mibs/IF-MIB
 	cp mibs/cisco_v2/INET-ADDRESS-MIB.my mibs/INET-ADDRESS-MIB
 	cp mibs/cisco_v2/SNMPv2-MIB.my mibs/SNMPv2-MIB
@@ -117,6 +118,10 @@ $(MIBDIR)/cisco_v2:
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Donwloading IANA charset MIB"
 	@curl -s -o $(MIBDIR)/IANA-CHARSET-MIB.txt -L $(IANA_CHARSET_URL)
+
+$(MIBDIR)/IANA-IFTYPE-MIB.txt:
+	@echo ">> Donwloading IANA ifType MIB"
+	@curl -s -o $(MIBDIR)/IANA-IFTYPE-MIB.txt -L $(IANA_IFTYPE_URL)
 
 $(MIBDIR)/IANA-PRINTER-MIB.txt:
 	@echo ">> Donwloading IANA printer MIB"
