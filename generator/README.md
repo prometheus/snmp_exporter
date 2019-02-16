@@ -129,6 +129,23 @@ modules:
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
 ```
 
+### EnumAsInfo and EnumAsStateSet
+
+SNMP contains the concept of integer indexed enumerations (enums). There are two ways
+to represent these strings in Prometheus. They can be "info" metrics, or they can be
+"state sets". SNMP does not specify which should be used, and it's up to the use case
+of the data. Some users may also prefer the raw integer value, rather than the string.
+
+In order to set enum integer to string mapping, you must use one of the two overrides.
+
+`EnumAsInfo` should be used for properties that provide inventory-like data. For example
+a device type, the name of a colour etc. It is important that this value is constant.
+
+`EnumAsStateSet` should be used for things that represent state or that you might want
+to alert on. For example the link state, is it up or down, is it in an error state,
+whether a panel is open or closed etc. Please be careful to not use this for high
+cardinality values as it will generate 1 time series per possible value.
+
 ## Where to get MIBs
 
 Some of these are quite sluggish, so use wget to download.
