@@ -14,6 +14,10 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
+DOCKER_IMAGE_NAME ?= snmp-generator
+DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
+DOCKER_REPO       ?= prom
+
 APC_URL          := 'https://download.schneider-electric.com/files?p_File_Name=powernet426.mib'
 ARISTA_URL       := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL        := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
@@ -52,6 +56,18 @@ generate: generator mibs
 
 parse_errors: generator mibs
 	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors parse_errors
+
+.PHONY: docker
+docker:
+	docker build -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" .
+
+.PHONY: docker-publish
+docker-publish:
+	docker push "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME)"
+
+.PHONY: docker-tag-latest
+docker-tag-latest:
+	docker tag "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):latest"
 
 .PHONY: mibs
 mibs: mib-dir \
