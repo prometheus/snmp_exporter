@@ -315,6 +315,10 @@ modules:
       - prtCoverStatus
       - prtMarkerSuppliesLevel
       - prtMarkerSuppliesMaxCapacity
+      - prtMarkerSuppliesType
+    lookups:
+      - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
+        lookup: prtMarkerSuppliesType
     overrides:
       hrPrinterStatus:
         type: EnumAsStateSet

@@ -167,7 +167,7 @@ apcups:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -279,6 +279,64 @@ apcups:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -2027,7 +2085,7 @@ arista_sw:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -2139,6 +2197,64 @@ arista_sw:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -3008,7 +3124,7 @@ cisco_wlc:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -3120,6 +3236,64 @@ cisco_wlc:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -4066,7 +4240,7 @@ ddwrt:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -4178,6 +4352,64 @@ ddwrt:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -5323,7 +5555,7 @@ if_mib:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -5435,6 +5667,64 @@ if_mib:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -7864,7 +8154,7 @@ paloalto_fw:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -7976,6 +8266,64 @@ paloalto_fw:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -8840,6 +9188,7 @@ paloalto_fw:
 printer_mib:
   walk:
   - 1.3.6.1.2.1.25.3.5.1.1
+  - 1.3.6.1.2.1.43.11.1.1.5
   - 1.3.6.1.2.1.43.11.1.1.8
   - 1.3.6.1.2.1.43.11.1.1.9
   - 1.3.6.1.2.1.43.5.1.1.13
@@ -8870,6 +9219,59 @@ printer_mib:
       3: idle
       4: printing
       5: warmup
+  - name: prtMarkerSuppliesType
+    oid: 1.3.6.1.2.1.43.11.1.1.5
+    type: gauge
+    help: The type of this supply. - 1.3.6.1.2.1.43.11.1.1.5
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: prtMarkerSuppliesIndex
+      type: gauge
+    lookups:
+    - labels:
+      - hrDeviceIndex
+      - prtMarkerSuppliesIndex
+      labelname: prtMarkerSuppliesType
+      oid: 1.3.6.1.2.1.43.11.1.1.5
+      type: gauge
+    enum_values:
+      1: other
+      2: unknown
+      3: toner
+      4: wasteToner
+      5: ink
+      6: inkCartridge
+      7: inkRibbon
+      8: wasteInk
+      9: opc
+      10: developer
+      11: fuserOil
+      12: solidWax
+      13: ribbonWax
+      14: wasteWax
+      15: fuser
+      16: coronaWire
+      17: fuserOilWick
+      18: cleanerUnit
+      19: fuserCleaningPad
+      20: transferUnit
+      21: tonerCartridge
+      22: fuserOiler
+      23: water
+      24: wasteWater
+      25: glueWaterAdditive
+      26: wastePaper
+      27: bindingSupply
+      28: bandingSupply
+      29: stitchingWire
+      30: shrinkWrap
+      31: paperWrap
+      32: staples
+      33: inserts
+      34: covers
+      35: matteToner
+      36: matteInk
   - name: prtMarkerSuppliesMaxCapacity
     oid: 1.3.6.1.2.1.43.11.1.1.8
     type: gauge
@@ -8880,6 +9282,13 @@ printer_mib:
       type: gauge
     - labelname: prtMarkerSuppliesIndex
       type: gauge
+    lookups:
+    - labels:
+      - hrDeviceIndex
+      - prtMarkerSuppliesIndex
+      labelname: prtMarkerSuppliesType
+      oid: 1.3.6.1.2.1.43.11.1.1.5
+      type: gauge
   - name: prtMarkerSuppliesLevel
     oid: 1.3.6.1.2.1.43.11.1.1.9
     type: gauge
@@ -8889,6 +9298,13 @@ printer_mib:
     - labelname: hrDeviceIndex
       type: gauge
     - labelname: prtMarkerSuppliesIndex
+      type: gauge
+    lookups:
+    - labels:
+      - hrDeviceIndex
+      - prtMarkerSuppliesIndex
+      labelname: prtMarkerSuppliesType
+      oid: 1.3.6.1.2.1.43.11.1.1.5
       type: gauge
   - name: prtConsoleDisable
     oid: 1.3.6.1.2.1.43.5.1.1.13
@@ -9695,7 +10111,7 @@ synology:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -9807,6 +10223,64 @@ synology:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -12113,7 +12587,7 @@ ubiquiti_airmax:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -12225,6 +12699,64 @@ ubiquiti_airmax:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -13350,7 +13882,7 @@ ubiquiti_unifi:
       120: v37
       121: x25mlp
       122: x25huntGroup
-      123: trasnpHdlc
+      123: transpHdlc
       124: interleave
       125: fast
       126: ip
@@ -13462,6 +13994,64 @@ ubiquiti_unifi:
       232: macSecUncontrolledIF
       233: aviciOpticalEther
       234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge

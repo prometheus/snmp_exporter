@@ -34,12 +34,14 @@ Additional command are available for debugging, use the `help` command to see th
 
 If you would like to run the generator in docker to generate your `snmp.yml` config run the following commands.
 
+The Docker image expects a directory containing the `generator.yml` and a directory called `mibs` that contains all MIBs you wish to use.
+
+This example will generate the example `snmp.yml`:
 ```sh
+make mibs
 docker build -t snmp-generator .
 docker run -ti \
-  -v $HOME/.snmp/mibs:/root/.snmp/mibs \
-  -v $PWD/generator.yml:/opt/generator.yml:ro \
-  -v $PWD/out/:/opt/ \
+  -v "${PWD}:/opt/" \
   snmp-generator generate
 ```
 
@@ -126,6 +128,23 @@ modules:
                              #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
 ```
+
+### EnumAsInfo and EnumAsStateSet
+
+SNMP contains the concept of integer indexed enumerations (enums). There are two ways
+to represent these strings in Prometheus. They can be "info" metrics, or they can be
+"state sets". SNMP does not specify which should be used, and it's up to the use case
+of the data. Some users may also prefer the raw integer value, rather than the string.
+
+In order to set enum integer to string mapping, you must use one of the two overrides.
+
+`EnumAsInfo` should be used for properties that provide inventory-like data. For example
+a device type, the name of a colour etc. It is important that this value is constant.
+
+`EnumAsStateSet` should be used for things that represent state or that you might want
+to alert on. For example the link state, is it up or down, is it in an error state,
+whether a panel is open or closed etc. Please be careful to not use this for high
+cardinality values as it will generate 1 time series per possible value.
 
 ## Where to get MIBs
 
