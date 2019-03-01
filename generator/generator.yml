@@ -77,6 +77,12 @@ modules:
         type: EnumAsInfo
       rPDU2BankStatusLoadState:
         type: EnumAsStateSet
+      upsAdvBatteryCondition:
+        type: EnumAsStateSet
+      upsAdvBatteryChargingCurrentRestricted:
+        type: EnumAsStateSet
+      upsAdvBatteryChargerStatus:
+        type: EnumAsStateSet
 
 # ServerTech Sentry 3 MIB
 #

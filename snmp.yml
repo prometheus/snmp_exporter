@@ -945,12 +945,19 @@ apcups:
     help: The measured battery power in kW. - 1.3.6.1.4.1.318.1.1.1.2.2.16
   - name: upsAdvBatteryChargerStatus
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.17
-    type: gauge
+    type: EnumAsStateSet
     help: The status of the battery charger - 1.3.6.1.4.1.318.1.1.1.2.2.17
     enum_values:
       1: unknown
       2: ok
       3: inFaultCondition
+      4: floatCharging
+      5: boostCharging
+      6: resting
+      7: notCharging
+      8: equalizationCharging
+      9: testInProgress
+      10: cyclicFloatCharging
   - name: upsAdvBatteryInternalSKU
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.19
     type: DisplayString
@@ -969,6 +976,22 @@ apcups:
     type: gauge
     help: Defines the runtime of the user supplied battery in minutes, when battery
       is new. - 1.3.6.1.4.1.318.1.1.1.2.2.22
+  - name: upsAdvBatteryCondition
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.23
+    type: EnumAsStateSet
+    help: Health of the battries based on the battery test. - 1.3.6.1.4.1.318.1.1.1.2.2.23
+    enum_values:
+      1: unknown
+      2: ok
+      3: weak
+      4: poor
+  - name: upsAdvBatteryChargingCurrentRestricted
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.24
+    type: EnumAsStateSet
+    help: Indicates whether battery charging current is restricted or not - 1.3.6.1.4.1.318.1.1.1.2.2.24
+    enum_values:
+      1: "yes"
+      2: "no"
   - name: upsHighPrecBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
     type: gauge
@@ -1176,6 +1199,66 @@ apcups:
       type: gauge
     - labelname: upsHighPrecBatteryCartridgeIndex
       type: gauge
+  - name: upsHighPrecBatteryPackOnlyTableSize
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.3
+    type: gauge
+    help: The number of entries in the upsHighPrecBatteryPacks. - 1.3.6.1.4.1.318.1.1.1.2.3.10.3
+  - name: upsHighPrecBatteryPackOnlyIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.1
+    type: gauge
+    help: The battery pack identifier. - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.1
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlyFirmwareRevision
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.2
+    type: DisplayString
+    help: The battery pack firmware revision. - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.2
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlySerialNumber
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.3
+    type: DisplayString
+    help: The battery pack serial number. - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.3
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlyTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.4
+    type: gauge
+    help: The battery pack temperature measured in 10ths of degree Celcius - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.4
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlyStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.5
+    type: OctetString
+    help: The battery status for the pack only - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.5
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlyHealth
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.6
+    type: OctetString
+    help: The battery pack health - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.6
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlyReplaceDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.7
+    type: DisplayString
+    help: The battery pack estimated battery replace date. - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.7
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlyInstallDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.8
+    type: DisplayString
+    help: The battery pack install date. - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.8
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
   - name: upsHighPrecBatteryHealth
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.11
     type: OctetString
@@ -1366,6 +1449,8 @@ apcups:
       20: eConversion
       21: chargerSpotmode
       22: inverterSpotmode
+      23: activeLoad
+      24: batteryDischargeSpotmode
   - name: upsBasicOutputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
     type: gauge
@@ -1391,6 +1476,7 @@ apcups:
       14: inverter
       15: eConversion
       16: staticBypassStandby
+      17: efficiencyBoosterMode
   - name: upsBasicSystemInternalTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.4
     type: gauge
@@ -1500,6 +1586,10 @@ apcups:
     type: gauge
     help: Indicates the synchronization source for the inverter output frequency -
       1.3.6.1.4.1.318.1.1.1.4.2.13
+  - name: upsAdvOutputInverterFrequency
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.14
+    type: gauge
+    help: Output frequency in Hz measured at the output of inverter. - 1.3.6.1.4.1.318.1.1.1.4.2.14
   - name: upsHighPrecOutputVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
     type: gauge
