@@ -31,7 +31,6 @@ NET_SNMP_URL     := http://www.net-snmp.org/docs/mibs/NET-SNMP-MIB.txt
 NET_TC_URL       := http://www.net-snmp.org/docs/mibs/NET-SNMP-TC.txt
 PALOALTO_URL     := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
 PRINTER_URL      := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
-SERVERTECH_URL   := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
 SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip'
 UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
 UBNT_AIROS_URL   := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
@@ -86,7 +85,6 @@ mibs: mib-dir \
   $(MIBDIR)/NET-SNMP-TC \
   $(MIBDIR)/.paloalto_panos \
   $(MIBDIR)/PRINTER-MIB-V2.txt \
-  $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/SNMP-FRAMEWORK-MIB \
   $(MIBDIR)/.synology \
   $(MIBDIR)/UBNT-MIB \
@@ -170,10 +168,6 @@ $(MIBDIR)/.paloalto_panos:
 $(MIBDIR)/PRINTER-MIB-V2.txt:
 	@echo ">> Downloading Printer MIB v2"
 	@curl -s -o $(MIBDIR)/PRINTER-MIB-V2.txt -L $(PRINTER_URL)
-
-$(MIBDIR)/servertech-sentry3-mib:
-	@echo ">> Downloading servertech-sentry3-mib"
-	@curl -s -o $(MIBDIR)/servertech-sentry3-mib -L $(SERVERTECH_URL)
 
 $(MIBDIR)/SNMP-FRAMEWORK-MIB:
 	@echo ">> Downloading SNMP-FRAMEWORK-MIB"

@@ -84,23 +84,6 @@ modules:
       upsAdvBatteryChargerStatus:
         type: EnumAsStateSet
 
-# ServerTech Sentry 3 MIB
-#
-# Used by ServerTech PDUs
-#
-# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3OIDTree.txt
-# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
-  servertech_sentry3:
-    walk:
-      - sysUpTime
-      - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
-      - 1.3.6.1.4.1.1718.3.2.3  # outletTable
-    overrides:
-      infeedCapacityUsed:
-        ignore: true  # Composite metric: infeedLoadValue / infeedCapacity * 100
-      infeedVACapacityUsed:
-        ignore: true  # Composite metric: infeedApparentPower / infeedVACapacity * 100
-
 # Palo Alto Firewalls
 #
 # Palo Alto MIBs can be found here:
