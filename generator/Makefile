@@ -118,7 +118,7 @@ $(MIBDIR)/.cisco_v2:
 	@echo ">> Downloading cisco_v2"
 	@mkdir -p $(MIBDIR)/cisco_v2
 	@curl -s -L $(CISCO_URL) \
-		| tar -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxv
+		| tar --no-same-owner -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxv
 	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
 	cp mibs/cisco_v2/AIRESPACE-WIRELESS-MIB.my mibs/AIRESPACE-WIRELESS-MIB
 	cp mibs/cisco_v2/ENTITY-MIB.my mibs/ENTITY-MIB
