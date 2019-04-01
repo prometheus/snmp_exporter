@@ -46,6 +46,7 @@ clean:
 	rm -v \
 		$(MIBDIR)/* \
 		$(MIBDIR)/cisco_v2 \
+		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology
 
@@ -76,7 +77,7 @@ mibs: mib-dir \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/cisco_v2 \
+  $(MIBDIR)/.cisco_v2 \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
@@ -113,9 +114,9 @@ $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB:
 	@echo ">> Downloading ARISTA-SW-IP-FORWARDING-MIB"
 	@curl -s -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB -L "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
 
-$(MIBDIR)/cisco_v2:
+$(MIBDIR)/.cisco_v2:
 	@echo ">> Downloading cisco_v2"
-	@mkdir $(MIBDIR)/cisco_v2
+	@mkdir -p $(MIBDIR)/cisco_v2
 	@curl -s -L $(CISCO_URL) \
 		| tar -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxv
 	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
@@ -130,6 +131,7 @@ $(MIBDIR)/cisco_v2:
 	cp mibs/cisco_v2/SNMPv2-MIB.my mibs/SNMPv2-MIB
 	cp mibs/cisco_v2/SNMPv2-SMI.my mibs/SNMPv2-SMI
 	cp mibs/cisco_v2/SNMPv2-TC.my mibs/SNMPv2-TC
+	@touch $(MIBDIR)/.cisco_v2
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Donwloading IANA charset MIB"
