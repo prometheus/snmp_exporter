@@ -134,15 +134,15 @@ $(MIBDIR)/.cisco_v2:
 	@touch $(MIBDIR)/.cisco_v2
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
-	@echo ">> Donwloading IANA charset MIB"
+	@echo ">> Downloading IANA charset MIB"
 	@curl -s -o $(MIBDIR)/IANA-CHARSET-MIB.txt -L $(IANA_CHARSET_URL)
 
 $(MIBDIR)/IANA-IFTYPE-MIB.txt:
-	@echo ">> Donwloading IANA ifType MIB"
+	@echo ">> Downloading IANA ifType MIB"
 	@curl -s -o $(MIBDIR)/IANA-IFTYPE-MIB.txt -L $(IANA_IFTYPE_URL)
 
 $(MIBDIR)/IANA-PRINTER-MIB.txt:
-	@echo ">> Donwloading IANA printer MIB"
+	@echo ">> Downloading IANA printer MIB"
 	@curl -s -o $(MIBDIR)/IANA-PRINTER-MIB.txt -L $(IANA_PRINTER_URL)
 
 $(MIBDIR)/KEEPALIVED-MIB:
