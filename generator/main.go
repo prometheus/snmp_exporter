@@ -98,11 +98,11 @@ func main() {
 	kingpin.HelpFlag.Short('h')
 	command := kingpin.Parse()
 
-	parseErrors := initSNMP()
+	parseErrors := strings.TrimSpace(initSNMP())
 	parseErrorCount := len(parseErrors)
 
 	if parseErrorCount != 0 {
-		log.Warnf("NetSNMP reported %d parse errors", len(strings.Split(parseErrors, "\n")))
+		log.Warnf("NetSNMP reported %d parse error(s)", len(strings.Split(parseErrors, "\n")))
 	}
 
 	nodes := getMIBTree()
