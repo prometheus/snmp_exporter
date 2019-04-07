@@ -98,11 +98,10 @@ func main() {
 	kingpin.HelpFlag.Short('h')
 	command := kingpin.Parse()
 
-	parseErrors := strings.TrimSpace(initSNMP())
-	parseErrorCount := len(parseErrors)
-
-	if parseErrorCount != 0 {
-		log.Warnf("NetSNMP reported %d parse error(s)", len(strings.Split(parseErrors, "\n")))
+	parseOutput := strings.TrimSpace(initSNMP())
+	parseErrors := len(parseOutput) != 0
+	if parseErrors {
+		log.Warnf("NetSNMP reported %d parse error(s)", len(strings.Split(parseOutput, "\n")))
 	}
 
 	nodes := getMIBTree()
@@ -112,7 +111,7 @@ func main() {
 	case generateCommand.FullCommand():
 		generateConfig(nodes, nameToNode)
 	case parseErrorsCommand.FullCommand():
-		fmt.Println(parseErrors)
+		fmt.Println(parseOutput)
 	case dumpCommand.FullCommand():
 		walkNode(nodes, func(n *Node) {
 			t := n.Type
@@ -127,7 +126,7 @@ func main() {
 				n.Oid, n.Label, t, n.TextualConvention, n.Hint, n.Indexes, implied, n.EnumValues, n.Description)
 		})
 	}
-	if *failOnParseErrors && parseErrorCount != 0 {
+	if *failOnParseErrors && parseErrors {
 		os.Exit(1)
 	}
 }
