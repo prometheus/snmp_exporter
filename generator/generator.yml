@@ -313,6 +313,7 @@ modules:
       - prtAlertCriticalEvents
       - prtAlertAllEvents
       - prtCoverStatus
+      - prtMarkerSuppliesDescription
       - prtMarkerSuppliesLevel
       - prtMarkerSuppliesMaxCapacity
       - prtMarkerSuppliesType
@@ -332,4 +333,6 @@ modules:
         type: DisplayString
       prtCoverStatus:
         type: EnumAsStateSet
+      prtMarkerSuppliesDescription:
+        type: DisplayString
 
