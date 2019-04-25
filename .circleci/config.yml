@@ -21,7 +21,7 @@ jobs:
     - checkout
     - run: sudo apt-get -y install build-essential libsnmp-dev
     - run: make promu
-    - run: make check_license style unused staticcheck build test
+    - run: make
     - run: git diff --exit-code
     - store_artifacts:
         path: snmp_exporter
