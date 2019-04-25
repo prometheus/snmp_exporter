@@ -637,6 +637,9 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 	labels := map[string]string{}
 	labelOids := map[string][]int{}
 
+	for k, v := range metric.ExternalLabels {
+		labels[k] = v
+	}
 	// Covert indexes to useful strings.
 	for _, index := range metric.Indexes {
 		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize, index.Implied)

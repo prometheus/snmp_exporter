@@ -176,6 +176,7 @@ type Metric struct {
 	Help           string                     `yaml:"help"`
 	Indexes        []*Index                   `yaml:"indexes,omitempty"`
 	Lookups        []*Lookup                  `yaml:"lookups,omitempty"`
+	ExternalLabels map[string]string          `yaml:"external_labels,omitempty"`
 	RegexpExtracts map[string][]RegexpExtract `yaml:"regex_extracts,omitempty"`
 	EnumValues     map[int]string             `yaml:"enum_values,omitempty"`
 }
