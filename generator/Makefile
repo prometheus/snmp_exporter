@@ -14,6 +14,8 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
+CURL_OPTS ?= -s --retry 3 --retry-delay 3
+
 DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 DOCKER_REPO       ?= prom
@@ -100,25 +102,26 @@ mib-dir:
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib"
-	@curl -s -o $(MIBDIR)/apc-powernet-mib -L $(APC_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib -L $(APC_URL)
 
 $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB:
 	@echo ">> Downloading ARISTA-ENTITY-SENSOR-MIB"
-	@curl -s -o $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB -L "$(ARISTA_URL)/ARISTA-ENTITY-SENSOR-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB -L "$(ARISTA_URL)/ARISTA-ENTITY-SENSOR-MIB.txt"
 
 $(MIBDIR)/ARISTA-SMI-MIB:
 	@echo ">> Downloading ARISTA-SMI-MIB"
-	@curl -s -o $(MIBDIR)/ARISTA-SMI-MIB -L "$(ARISTA_URL)/ARISTA-SMI-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-SMI-MIB -L "$(ARISTA_URL)/ARISTA-SMI-MIB.txt"
 
 $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB:
 	@echo ">> Downloading ARISTA-SW-IP-FORWARDING-MIB"
-	@curl -s -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB -L "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB -L "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
 
 $(MIBDIR)/.cisco_v2:
+	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading cisco_v2"
 	@mkdir -p $(MIBDIR)/cisco_v2
-	@curl -s -L $(CISCO_URL) \
-		| tar --no-same-owner -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxv
+	@curl $(CURL_OPTS) -o $(TMP) -L $(CISCO_URL)
+	tar --no-same-owner -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxvf $(TMP)
 	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
 	cp mibs/cisco_v2/AIRESPACE-WIRELESS-MIB.my mibs/AIRESPACE-WIRELESS-MIB
 	cp mibs/cisco_v2/ENTITY-MIB.my mibs/ENTITY-MIB
@@ -131,79 +134,80 @@ $(MIBDIR)/.cisco_v2:
 	cp mibs/cisco_v2/SNMPv2-MIB.my mibs/SNMPv2-MIB
 	cp mibs/cisco_v2/SNMPv2-SMI.my mibs/SNMPv2-SMI
 	cp mibs/cisco_v2/SNMPv2-TC.my mibs/SNMPv2-TC
+	@rm -v $(TMP)
 	@touch $(MIBDIR)/.cisco_v2
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Downloading IANA charset MIB"
-	@curl -s -o $(MIBDIR)/IANA-CHARSET-MIB.txt -L $(IANA_CHARSET_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-CHARSET-MIB.txt -L $(IANA_CHARSET_URL)
 
 $(MIBDIR)/IANA-IFTYPE-MIB.txt:
 	@echo ">> Downloading IANA ifType MIB"
-	@curl -s -o $(MIBDIR)/IANA-IFTYPE-MIB.txt -L $(IANA_IFTYPE_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-IFTYPE-MIB.txt -L $(IANA_IFTYPE_URL)
 
 $(MIBDIR)/IANA-PRINTER-MIB.txt:
 	@echo ">> Downloading IANA printer MIB"
-	@curl -s -o $(MIBDIR)/IANA-PRINTER-MIB.txt -L $(IANA_PRINTER_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-PRINTER-MIB.txt -L $(IANA_PRINTER_URL)
 
 $(MIBDIR)/KEEPALIVED-MIB:
 	@echo ">> Downloading KEEPALIVED-MIB"
-	@curl -s -o $(MIBDIR)/KEEPALIVED-MIB -L $(KEEPALIVED_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/KEEPALIVED-MIB -L $(KEEPALIVED_URL)
 
 $(MIBDIR)/MIKROTIK-MIB:
 	@echo ">> Downloading MIKROTIK-MIB"
-	@curl -s -o $(MIBDIR)/MIKROTIK-MIB -L $(MIKROTIK_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/MIKROTIK-MIB -L $(MIKROTIK_URL)
 
 $(MIBDIR)/NET-SNMP-MIB:
 	@echo ">> Downloading NET-SNMP-MIB"
-	@curl -s -o $(MIBDIR)/NET-SNMP-MIB -L $(NET_SNMP_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/NET-SNMP-MIB -L $(NET_SNMP_URL)
 
 $(MIBDIR)/NET-SNMP-TC:
 	@echo ">> Downloading NET-SNMP-TC"
-	@curl -s -o $(MIBDIR)/NET-SNMP-TC -L $(NET_TC_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/NET-SNMP-TC -L $(NET_TC_URL)
 
 $(MIBDIR)/.paloalto_panos:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading paloalto_pano to $(TMP)"
-	@curl -s -o $(TMP) -L $(PALOALTO_URL)
+	@curl $(CURL_OPTS) -o $(TMP) -L $(PALOALTO_URL)
 	@unzip -j -d $(MIBDIR) $(TMP)
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.paloalto_panos
 
 $(MIBDIR)/PRINTER-MIB-V2.txt:
 	@echo ">> Downloading Printer MIB v2"
-	@curl -s -o $(MIBDIR)/PRINTER-MIB-V2.txt -L $(PRINTER_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PRINTER-MIB-V2.txt -L $(PRINTER_URL)
 
 $(MIBDIR)/servertech-sentry3-mib:
 	@echo ">> Downloading servertech-sentry3-mib"
-	@curl -s -o $(MIBDIR)/servertech-sentry3-mib -L $(SERVERTECH_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/servertech-sentry3-mib -L $(SERVERTECH_URL)
 
 $(MIBDIR)/SNMP-FRAMEWORK-MIB:
 	@echo ">> Downloading SNMP-FRAMEWORK-MIB"
-	@curl -s -o $(MIBDIR)/SNMP-FRAMEWORK-MIB -L $(FRAMEWORK_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-FRAMEWORK-MIB -L $(FRAMEWORK_URL)
 
 $(MIBDIR)/.synology:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading synology to $(TMP)"
-	@curl -s -o $(TMP) -L $(SYNOLOGY_URL)
+	@curl $(CURL_OPTS) -o $(TMP) -L $(SYNOLOGY_URL)
 	@unzip -j -d $(MIBDIR) $(TMP)
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.synology
 
 $(MIBDIR)/UBNT-MIB:
 	@echo ">> Downloading UBNT-MIB"
-	@curl -s -o $(MIBDIR)/UBNT-MIB -L "$(UBNT_DL_URL)/UBNT-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-MIB -L "$(UBNT_DL_URL)/UBNT-MIB"
 
 $(MIBDIR)/UBNT-UniFi-MIB:
 	@echo ">> Downloading UBNT-UniFi-MIB"
-	@curl -s -o $(MIBDIR)/UBNT-UniFi-MIB -L "$(UBNT_DL_URL)/UBNT-UniFi-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-UniFi-MIB -L "$(UBNT_DL_URL)/UBNT-UniFi-MIB"
 
 $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading ubnt-airos to $(TMP)"
-	@curl -s -o $(TMP) -L $(UBNT_AIROS_URL)
+	@curl $(CURL_OPTS) -o $(TMP) -L $(UBNT_AIROS_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) UBNT-AirMAX-MIB.txt
 	@rm -v $(TMP)
 
 $(MIBDIR)/UCD-SNMP-MIB.txt:
 	@echo ">> Downloading UCD-SNMP-MIB.txt"
-	@curl -s -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
