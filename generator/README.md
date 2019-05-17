@@ -9,7 +9,7 @@ Due to the dynamic dependency on NetSNMP, you must build the generator yourself.
 
 ```
 # Debian-based distributions.
-sudo apt-get install unzip build-essential libsnmp-dev snmp libsnmp-base snmp-mibs-downloader golang git curl # Debian-based distros
+sudo apt-get install unzip build-essential libsnmp-dev snmp libsnmp-base golang git curl # Debian-based distros
 # Redhat-based distributions.
 sudo yum install gcc gcc-g++ make net-snmp net-snmp-utils net-snmp-libs net-snmp-devel # RHEL-based distros
 
