@@ -5386,29 +5386,6 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
-  - name: ifDescr
-    oid: 1.3.6.1.2.1.2.2.1.2
-    type: DisplayString
-    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifAlias
-      oid: 1.3.6.1.2.1.31.1.1.1.18
-      type: DisplayString
-    - labels:
-      - ifIndex
-      labelname: ifDescr
-      oid: 1.3.6.1.2.1.2.2.1.2
-      type: DisplayString
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: EnumAsInfo
@@ -6169,29 +6146,6 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
-  - name: ifName
-    oid: 1.3.6.1.2.1.31.1.1.1.1
-    type: DisplayString
-    help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifAlias
-      oid: 1.3.6.1.2.1.31.1.1.1.18
-      type: DisplayString
-    - labels:
-      - ifIndex
-      labelname: ifDescr
-      oid: 1.3.6.1.2.1.2.2.1.2
-      type: DisplayString
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
     type: counter
@@ -6591,30 +6545,6 @@ if_mib:
     enum_values:
       1: "true"
       2: "false"
-  - name: ifAlias
-    oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: DisplayString
-    help: This object is an 'alias' name for the interface as specified by a network
-      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifAlias
-      oid: 1.3.6.1.2.1.31.1.1.1.18
-      type: DisplayString
-    - labels:
-      - ifIndex
-      labelname: ifDescr
-      oid: 1.3.6.1.2.1.2.2.1.2
-      type: DisplayString
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
     type: gauge
