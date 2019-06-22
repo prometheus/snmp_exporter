@@ -31,6 +31,8 @@ KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master
 MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
 NET_SNMP_URL     := http://www.net-snmp.org/docs/mibs/NET-SNMP-MIB.txt
 NET_TC_URL       := http://www.net-snmp.org/docs/mibs/NET-SNMP-TC.txt
+IPV6_TC_URL      := http://www.net-snmp.org/docs/mibs/IPV6-TC.txt
+ISDN_URL         := https://raw.githubusercontent.com/librenms/librenms/master/mibs/ISDN-MIB
 PALOALTO_URL     := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
 PRINTER_URL      := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
 SERVERTECH_URL   := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
@@ -88,6 +90,8 @@ mibs: mib-dir \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/NET-SNMP-MIB \
   $(MIBDIR)/NET-SNMP-TC \
+  $(MIBDIR)/IPV6-TC \
+  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/.paloalto_panos \
   $(MIBDIR)/PRINTER-MIB-V2.txt \
   $(MIBDIR)/servertech-sentry3-mib \
@@ -168,6 +172,14 @@ $(MIBDIR)/NET-SNMP-MIB:
 $(MIBDIR)/NET-SNMP-TC:
 	@echo ">> Downloading NET-SNMP-TC"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/NET-SNMP-TC -L $(NET_TC_URL)
+
+$(MIBDIR)/IPV6-TC:
+	@echo ">> Downloading IPV6-TC"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IPV6-TC -L $(IPV6_TC_URL)
+
+$(MIBDIR)/ISDN-MIB:
+	@echo ">> Downloading ISDN-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB -L $(ISDN_URL)
 
 $(MIBDIR)/.paloalto_panos:
 	$(eval TMP := $(shell mktemp))

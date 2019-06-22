@@ -9674,6 +9674,13 @@ nec_ix:
     indexes:
     - labelname: picoLoginSessionIndex
       type: gauge
+  - name: picoLoginSessionPeerIpv6Address
+    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.7
+    type: OctetString
+    help: Peer ipv6 address of a login session. - 1.3.6.1.4.1.119.2.3.84.4.1.1.7
+    indexes:
+    - labelname: picoLoginSessionIndex
+      type: gauge
   - name: picoConfigType
     oid: 1.3.6.1.4.1.119.2.3.84.5.1
     type: gauge
