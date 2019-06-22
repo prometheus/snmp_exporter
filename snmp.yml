@@ -7920,8 +7920,206 @@ keepalived:
       type: gauge
 nec_ix:
   walk:
-  - 1.3.6.1.4.1.119.2.3.84
+  - 1.3.6.1.4.1.119.2.3.84.11
+  - 1.3.6.1.4.1.119.2.3.84.12
+  - 1.3.6.1.4.1.119.2.3.84.13
+  - 1.3.6.1.4.1.119.2.3.84.2
+  - 1.3.6.1.4.1.119.2.3.84.3
+  - 1.3.6.1.4.1.119.2.3.84.6
+  - 1.3.6.1.4.1.119.2.3.84.7
+  - 1.3.6.1.4.1.119.2.3.84.8
+  - 1.3.6.1.4.1.119.2.3.84.9
   metrics:
+  - name: picoMobileDeviceIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.1
+    type: gauge
+    help: The unique index for each Mobile module. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.1
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceVendorName
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.2
+    type: DisplayString
+    help: The object of the vendor name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.2
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceName
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.3
+    type: DisplayString
+    help: The object of the device name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.3
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceProductID
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.4
+    type: DisplayString
+    help: The object of the product ID. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.4
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSoftwareVersion
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.5
+    type: DisplayString
+    help: The object of the software version. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.5
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSignalBar
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.6
+    type: gauge
+    help: The object of the signal bar. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.6
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSignalStrength
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.7
+    type: gauge
+    help: 'The signal strength can be: unknown(-1) :signal strength is unknown out-range(0):signal
+      strength is 0 weak(1) :signal strength is 1 low(2) :signal strength is 2 high(3)
+      :signal strength is 3 - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.7'
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+    enum_values:
+      -1: unknown
+      0: out-range
+      1: weak
+      2: low
+      3: high
+  - name: picoMobileDeviceSignalQuality
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.8
+    type: DisplayString
+    help: The object of the signal quality. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.8
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSignalElapsedTime
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.9
+    type: gauge
+    help: The object of the elapsed time after signal acquiring. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.9
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceRadioInterface
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.10
+    type: DisplayString
+    help: The object of the radio interface. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.10
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceCarrier
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.11
+    type: DisplayString
+    help: The object of the carrier name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.11
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceDialerString
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.12
+    type: DisplayString
+    help: The object of the dialer string. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.12
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceDialStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.13
+    type: gauge
+    help: 'The dial status can be: disconnected(0):dial status is disconnected - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.13'
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+    enum_values:
+      0: disconnected
+      1: connect
+      2: cancel
+      3: connected
+      4: postprocess
+  - name: picoMobileDeviceInRangeCounts
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.14
+    type: gauge
+    help: The in-range statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.14
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceOutRangeCounts
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.15
+    type: gauge
+    help: The out-range statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.15
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceResetCounts
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.16
+    type: gauge
+    help: The reset device statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.16
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoIPv4CacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.1
+    type: gauge
+    help: The number of current IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.1
+  - name: picoIPv4CachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.2
+    type: gauge
+    help: The peak value of IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.2
+  - name: picoIPv4CacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.3
+    type: counter
+    help: The total count of created IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.3
+  - name: picoIPv4CacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.4
+    type: counter
+    help: The total count of IPv4 cache overflow. - 1.3.6.1.4.1.119.2.3.84.12.1.4
+  - name: picoIPv4UFSCacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.1
+    type: gauge
+    help: The number of current IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.1
+  - name: picoIPv4UFSCachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.2
+    type: gauge
+    help: The peak value of IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.2
+  - name: picoIPv4UFSCacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.3
+    type: counter
+    help: The total count of created IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.3
+  - name: picoIPv4UFSCacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.4
+    type: counter
+    help: The total count of IPv4 UFS cache overflow - 1.3.6.1.4.1.119.2.3.84.12.2.4
+  - name: picoIPv6CacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.1
+    type: gauge
+    help: The number of current IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.1
+  - name: picoIPv6CachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.2
+    type: gauge
+    help: The peak value of IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.2
+  - name: picoIPv6CacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.3
+    type: counter
+    help: The total count of created IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.3
+  - name: picoIPv6CacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.4
+    type: counter
+    help: The total count of IPv6 cache overflow. - 1.3.6.1.4.1.119.2.3.84.13.1.4
+  - name: picoIPv6UFSCacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.1
+    type: gauge
+    help: The number of current IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.1
+  - name: picoIPv6UFSCachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.2
+    type: gauge
+    help: The peak value of IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.2
+  - name: picoIPv6UFSCacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.3
+    type: counter
+    help: The total count of created IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.3
+  - name: picoIPv6UFSCacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.4
+    type: counter
+    help: The total count of IPv6 UFS cache overflow - 1.3.6.1.4.1.119.2.3.84.13.2.4
   - name: picoCelsius
     oid: 1.3.6.1.4.1.119.2.3.84.2.1.1
     type: gauge
@@ -9616,86 +9814,6 @@ nec_ix:
     indexes:
     - labelname: pipSecTunHistIndex
       type: gauge
-  - name: picoLoginSessionIndex
-    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.1
-    type: gauge
-    help: Unique index for each login. - 1.3.6.1.4.1.119.2.3.84.4.1.1.1
-    indexes:
-    - labelname: picoLoginSessionIndex
-      type: gauge
-  - name: picoLoginSessionStatus
-    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.2
-    type: gauge
-    help: Status of a login session. - 1.3.6.1.4.1.119.2.3.84.4.1.1.2
-    indexes:
-    - labelname: picoLoginSessionIndex
-      type: gauge
-    enum_values:
-      1: login
-      2: logout
-      3: fail
-  - name: picoLoginSessionPrivilege
-    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.3
-    type: gauge
-    help: User privilege of a login session. - 1.3.6.1.4.1.119.2.3.84.4.1.1.3
-    indexes:
-    - labelname: picoLoginSessionIndex
-      type: gauge
-    enum_values:
-      1: administrator
-      2: monitor
-      3: operator
-      4: unknown
-  - name: picoLoginSessionProcessMode
-    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.4
-    type: gauge
-    help: User process status of a login session. - 1.3.6.1.4.1.119.2.3.84.4.1.1.4
-    indexes:
-    - labelname: picoLoginSessionIndex
-      type: gauge
-    enum_values:
-      1: operation
-      2: configure
-  - name: picoLoginSessionTerminalType
-    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.5
-    type: gauge
-    help: Terminal type of a login session. - 1.3.6.1.4.1.119.2.3.84.4.1.1.5
-    indexes:
-    - labelname: picoLoginSessionIndex
-      type: gauge
-    enum_values:
-      1: unknown
-      2: local
-      3: remote
-  - name: picoLoginSessionPeerIpAddress
-    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.6
-    type: InetAddressIPv4
-    help: Peer ipv4 address of a login session. - 1.3.6.1.4.1.119.2.3.84.4.1.1.6
-    indexes:
-    - labelname: picoLoginSessionIndex
-      type: gauge
-  - name: picoLoginSessionPeerIpv6Address
-    oid: 1.3.6.1.4.1.119.2.3.84.4.1.1.7
-    type: OctetString
-    help: Peer ipv6 address of a login session. - 1.3.6.1.4.1.119.2.3.84.4.1.1.7
-    indexes:
-    - labelname: picoLoginSessionIndex
-      type: gauge
-  - name: picoConfigType
-    oid: 1.3.6.1.4.1.119.2.3.84.5.1
-    type: gauge
-    help: Configuration type. - 1.3.6.1.4.1.119.2.3.84.5.1
-    enum_values:
-      1: default-config
-      2: startup-config
-      3: license
-  - name: picoConfigEventType
-    oid: 1.3.6.1.4.1.119.2.3.84.5.2
-    type: gauge
-    help: Event type of configuration modified. - 1.3.6.1.4.1.119.2.3.84.5.2
-    enum_values:
-      1: write
-      2: erase
   - name: picoExtIfInstalledSlot
     oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.1
     type: gauge
@@ -9979,210 +10097,6 @@ nec_ix:
     indexes:
     - labelname: picoNgnVpnIfIndex
       type: gauge
-  - name: picoPostIndex
-    oid: 1.3.6.1.4.1.119.2.3.84.10.1.1.1.1
-    type: gauge
-    help: Unique index for each POST. - 1.3.6.1.4.1.119.2.3.84.10.1.1.1.1
-    indexes:
-    - labelname: picoPostIndex
-      type: gauge
-  - name: picoPostFail
-    oid: 1.3.6.1.4.1.119.2.3.84.10.1.1.1.2
-    type: DisplayString
-    help: POST fail information - 1.3.6.1.4.1.119.2.3.84.10.1.1.1.2
-    indexes:
-    - labelname: picoPostIndex
-      type: gauge
-  - name: picoMobileDeviceIndex
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.1
-    type: gauge
-    help: The unique index for each Mobile module. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.1
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceVendorName
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.2
-    type: DisplayString
-    help: The object of the vendor name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.2
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceName
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.3
-    type: DisplayString
-    help: The object of the device name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.3
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceProductID
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.4
-    type: DisplayString
-    help: The object of the product ID. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.4
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceSoftwareVersion
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.5
-    type: DisplayString
-    help: The object of the software version. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.5
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceSignalBar
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.6
-    type: gauge
-    help: The object of the signal bar. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.6
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceSignalStrength
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.7
-    type: gauge
-    help: 'The signal strength can be: unknown(-1) :signal strength is unknown out-range(0):signal
-      strength is 0 weak(1) :signal strength is 1 low(2) :signal strength is 2 high(3)
-      :signal strength is 3 - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.7'
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-    enum_values:
-      -1: unknown
-      0: out-range
-      1: weak
-      2: low
-      3: high
-  - name: picoMobileDeviceSignalQuality
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.8
-    type: DisplayString
-    help: The object of the signal quality. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.8
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceSignalElapsedTime
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.9
-    type: gauge
-    help: The object of the elapsed time after signal acquiring. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.9
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceRadioInterface
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.10
-    type: DisplayString
-    help: The object of the radio interface. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.10
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceCarrier
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.11
-    type: DisplayString
-    help: The object of the carrier name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.11
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceDialerString
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.12
-    type: DisplayString
-    help: The object of the dialer string. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.12
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceDialStatus
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.13
-    type: gauge
-    help: 'The dial status can be: disconnected(0):dial status is disconnected - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.13'
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-    enum_values:
-      0: disconnected
-      1: connect
-      2: cancel
-      3: connected
-      4: postprocess
-  - name: picoMobileDeviceInRangeCounts
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.14
-    type: gauge
-    help: The in-range statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.14
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceOutRangeCounts
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.15
-    type: gauge
-    help: The out-range statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.15
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoMobileDeviceResetCounts
-    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.16
-    type: gauge
-    help: The reset device statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.16
-    indexes:
-    - labelname: picoMobileDeviceIndex
-      type: gauge
-  - name: picoIPv4CacheEntries
-    oid: 1.3.6.1.4.1.119.2.3.84.12.1.1
-    type: gauge
-    help: The number of current IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.1
-  - name: picoIPv4CachePeaks
-    oid: 1.3.6.1.4.1.119.2.3.84.12.1.2
-    type: gauge
-    help: The peak value of IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.2
-  - name: picoIPv4CacheCreates
-    oid: 1.3.6.1.4.1.119.2.3.84.12.1.3
-    type: counter
-    help: The total count of created IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.3
-  - name: picoIPv4CacheOverflows
-    oid: 1.3.6.1.4.1.119.2.3.84.12.1.4
-    type: counter
-    help: The total count of IPv4 cache overflow. - 1.3.6.1.4.1.119.2.3.84.12.1.4
-  - name: picoIPv4UFSCacheEntries
-    oid: 1.3.6.1.4.1.119.2.3.84.12.2.1
-    type: gauge
-    help: The number of current IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.1
-  - name: picoIPv4UFSCachePeaks
-    oid: 1.3.6.1.4.1.119.2.3.84.12.2.2
-    type: gauge
-    help: The peak value of IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.2
-  - name: picoIPv4UFSCacheCreates
-    oid: 1.3.6.1.4.1.119.2.3.84.12.2.3
-    type: counter
-    help: The total count of created IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.3
-  - name: picoIPv4UFSCacheOverflows
-    oid: 1.3.6.1.4.1.119.2.3.84.12.2.4
-    type: counter
-    help: The total count of IPv4 UFS cache overflow - 1.3.6.1.4.1.119.2.3.84.12.2.4
-  - name: picoIPv6CacheEntries
-    oid: 1.3.6.1.4.1.119.2.3.84.13.1.1
-    type: gauge
-    help: The number of current IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.1
-  - name: picoIPv6CachePeaks
-    oid: 1.3.6.1.4.1.119.2.3.84.13.1.2
-    type: gauge
-    help: The peak value of IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.2
-  - name: picoIPv6CacheCreates
-    oid: 1.3.6.1.4.1.119.2.3.84.13.1.3
-    type: counter
-    help: The total count of created IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.3
-  - name: picoIPv6CacheOverflows
-    oid: 1.3.6.1.4.1.119.2.3.84.13.1.4
-    type: counter
-    help: The total count of IPv6 cache overflow. - 1.3.6.1.4.1.119.2.3.84.13.1.4
-  - name: picoIPv6UFSCacheEntries
-    oid: 1.3.6.1.4.1.119.2.3.84.13.2.1
-    type: gauge
-    help: The number of current IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.1
-  - name: picoIPv6UFSCachePeaks
-    oid: 1.3.6.1.4.1.119.2.3.84.13.2.2
-    type: gauge
-    help: The peak value of IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.2
-  - name: picoIPv6UFSCacheCreates
-    oid: 1.3.6.1.4.1.119.2.3.84.13.2.3
-    type: counter
-    help: The total count of created IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.3
-  - name: picoIPv6UFSCacheOverflows
-    oid: 1.3.6.1.4.1.119.2.3.84.13.2.4
-    type: counter
-    help: The total count of IPv6 UFS cache overflow - 1.3.6.1.4.1.119.2.3.84.13.2.4
 paloalto_fw:
   walk:
   - 1.3.6.1.2.1.2
