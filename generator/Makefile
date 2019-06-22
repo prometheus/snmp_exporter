@@ -27,20 +27,20 @@ FRAMEWORK_URL    := http://www.net-snmp.org/docs/mibs/SNMP-FRAMEWORK-MIB.txt
 IANA_CHARSET_URL := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL  := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
-KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
-MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
-NET_SNMP_URL     := http://www.net-snmp.org/docs/mibs/NET-SNMP-MIB.txt
-NET_TC_URL       := http://www.net-snmp.org/docs/mibs/NET-SNMP-TC.txt
 IPV6_TC_URL      := http://www.net-snmp.org/docs/mibs/IPV6-TC.txt
 ISDN_URL         := https://raw.githubusercontent.com/librenms/librenms/master/mibs/ISDN-MIB
+KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
+MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
+NEC_URL          := https://jpn.nec.com/univerge/ix/Manual/MIB
+NET_SNMP_URL     := http://www.net-snmp.org/docs/mibs/NET-SNMP-MIB.txt
+NET_TC_URL       := http://www.net-snmp.org/docs/mibs/NET-SNMP-TC.txt
 PALOALTO_URL     := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
 PRINTER_URL      := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
 SERVERTECH_URL   := 'ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib'
 SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip'
-UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
 UBNT_AIROS_URL   := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
 UCD_URL          := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
-NEC_URL          := https://jpn.nec.com/univerge/ix/Manual/MIB
 
 .DEFAULT: all
 
@@ -86,13 +86,16 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
+  $(MIBDIR)/IPV6-TC \
+  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/NET-SNMP-MIB \
   $(MIBDIR)/NET-SNMP-TC \
-  $(MIBDIR)/IPV6-TC \
-  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/.paloalto_panos \
+  $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt \
+  $(MIBDIR)/PICO-SMI-ID-MIB.txt \
+  $(MIBDIR)/PICO-SMI-MIB.txt \
   $(MIBDIR)/PRINTER-MIB-V2.txt \
   $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/SNMP-FRAMEWORK-MIB \
@@ -100,10 +103,7 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  $(MIBDIR)/UCD-SNMP-MIB.txt \
-  $(MIBDIR)/PICO-SMI-MIB.txt \
-  $(MIBDIR)/PICO-SMI-ID-MIB.txt \
-  $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt
+  $(MIBDIR)/UCD-SNMP-MIB.txt
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -157,6 +157,14 @@ $(MIBDIR)/IANA-PRINTER-MIB.txt:
 	@echo ">> Downloading IANA printer MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-PRINTER-MIB.txt -L $(IANA_PRINTER_URL)
 
+$(MIBDIR)/IPV6-TC:
+	@echo ">> Downloading IPV6-TC"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IPV6-TC -L $(IPV6_TC_URL)
+
+$(MIBDIR)/ISDN-MIB:
+	@echo ">> Downloading ISDN-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB -L $(ISDN_URL)
+
 $(MIBDIR)/KEEPALIVED-MIB:
 	@echo ">> Downloading KEEPALIVED-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/KEEPALIVED-MIB -L $(KEEPALIVED_URL)
@@ -173,13 +181,17 @@ $(MIBDIR)/NET-SNMP-TC:
 	@echo ">> Downloading NET-SNMP-TC"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/NET-SNMP-TC -L $(NET_TC_URL)
 
-$(MIBDIR)/IPV6-TC:
-	@echo ">> Downloading IPV6-TC"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/IPV6-TC -L $(IPV6_TC_URL)
+$(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
+	@echo ">> Downloading PICO-IPSEC-FLOW-MONITOR-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt -L "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
 
-$(MIBDIR)/ISDN-MIB:
-	@echo ">> Downloading ISDN-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB -L $(ISDN_URL)
+$(MIBDIR)/PICO-SMI-MIB.txt:
+	@echo ">> Downloading PICO-SMI-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-MIB.txt -L "$(NEC_URL)/PICO-SMI-MIB.txt"
+
+$(MIBDIR)/PICO-SMI-ID-MIB.txt:
+	@echo ">> Downloading PICO-SMI-ID-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-ID-MIB.txt -L "$(NEC_URL)/PICO-SMI-ID-MIB.txt"
 
 $(MIBDIR)/.paloalto_panos:
 	$(eval TMP := $(shell mktemp))
@@ -227,16 +239,4 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 $(MIBDIR)/UCD-SNMP-MIB.txt:
 	@echo ">> Downloading UCD-SNMP-MIB.txt"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
-
-$(MIBDIR)/PICO-SMI-MIB.txt:
-	@echo ">> Downloading PICO-SMI-MIB.txt"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-MIB.txt -L "$(NEC_URL)/PICO-SMI-MIB.txt"
-
-$(MIBDIR)/PICO-SMI-ID-MIB.txt:
-	@echo ">> Downloading PICO-SMI-ID-MIB.txt"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-ID-MIB.txt -L "$(NEC_URL)/PICO-SMI-ID-MIB.txt"
-
-$(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
-	@echo ">> Downloading PICO-IPSEC-FLOW-MONITOR-MIB.txt"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt -L "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
 
