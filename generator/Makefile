@@ -38,6 +38,7 @@ SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/MIBG
 UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
 UBNT_AIROS_URL   := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UCD_URL          := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
+NEC_URL          := https://jpn.nec.com/univerge/ix/Manual/MIB
 
 .DEFAULT: all
 
@@ -95,7 +96,10 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  $(MIBDIR)/UCD-SNMP-MIB.txt
+  $(MIBDIR)/UCD-SNMP-MIB.txt \
+  $(MIBDIR)/PICO-SMI-MIB.txt \
+  $(MIBDIR)/PICO-SMI-ID-MIB.txt \
+  $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -211,3 +215,16 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 $(MIBDIR)/UCD-SNMP-MIB.txt:
 	@echo ">> Downloading UCD-SNMP-MIB.txt"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
+
+$(MIBDIR)/PICO-SMI-MIB.txt:
+	@echo ">> Downloading PICO-SMI-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-MIB.txt -L "$(NEC_URL)/PICO-SMI-MIB.txt"
+
+$(MIBDIR)/PICO-SMI-ID-MIB.txt:
+	@echo ">> Downloading PICO-SMI-ID-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-ID-MIB.txt -L "$(NEC_URL)/PICO-SMI-ID-MIB.txt"
+
+$(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
+	@echo ">> Downloading PICO-IPSEC-FLOW-MONITOR-MIB.txt"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt -L "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
+
