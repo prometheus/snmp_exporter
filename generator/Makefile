@@ -234,4 +234,3 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 $(MIBDIR)/UCD-SNMP-MIB.txt:
 	@echo ">> Downloading UCD-SNMP-MIB.txt"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
-
