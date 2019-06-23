@@ -28,7 +28,6 @@ IANA_CHARSET_URL := https://www.iana.org/assignments/ianacharset-mib/ianacharset
 IANA_IFTYPE_URL  := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
 IPV6_TC_URL      := http://www.net-snmp.org/docs/mibs/IPV6-TC.txt
-ISDN_URL         := https://raw.githubusercontent.com/librenms/librenms/master/mibs/ISDN-MIB
 KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
 NEC_URL          := https://jpn.nec.com/univerge/ix/Manual/MIB
@@ -87,7 +86,6 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
   $(MIBDIR)/IPV6-TC \
-  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/NET-SNMP-MIB \
@@ -139,6 +137,7 @@ $(MIBDIR)/.cisco_v2:
 	cp mibs/cisco_v2/HOST-RESOURCES-MIB.my mibs/HOST-RESOURCES-MIB
 	cp mibs/cisco_v2/IF-MIB.my mibs/IF-MIB
 	cp mibs/cisco_v2/INET-ADDRESS-MIB.my mibs/INET-ADDRESS-MIB
+	cp mibs/cisco_v2/ISDN-MIB.my mibs/ISDN-MIB
 	cp mibs/cisco_v2/SNMPv2-MIB.my mibs/SNMPv2-MIB
 	cp mibs/cisco_v2/SNMPv2-SMI.my mibs/SNMPv2-SMI
 	cp mibs/cisco_v2/SNMPv2-TC.my mibs/SNMPv2-TC
@@ -160,10 +159,6 @@ $(MIBDIR)/IANA-PRINTER-MIB.txt:
 $(MIBDIR)/IPV6-TC:
 	@echo ">> Downloading IPV6-TC"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IPV6-TC -L $(IPV6_TC_URL)
-
-$(MIBDIR)/ISDN-MIB:
-	@echo ">> Downloading ISDN-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB -L $(ISDN_URL)
 
 $(MIBDIR)/KEEPALIVED-MIB:
 	@echo ">> Downloading KEEPALIVED-MIB"
