@@ -7918,6 +7918,2185 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+nec_ix:
+  walk:
+  - 1.3.6.1.4.1.119.2.3.84.11
+  - 1.3.6.1.4.1.119.2.3.84.12
+  - 1.3.6.1.4.1.119.2.3.84.13
+  - 1.3.6.1.4.1.119.2.3.84.2
+  - 1.3.6.1.4.1.119.2.3.84.3
+  - 1.3.6.1.4.1.119.2.3.84.6
+  - 1.3.6.1.4.1.119.2.3.84.7
+  - 1.3.6.1.4.1.119.2.3.84.8
+  - 1.3.6.1.4.1.119.2.3.84.9
+  metrics:
+  - name: picoMobileDeviceIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.1
+    type: gauge
+    help: The unique index for each Mobile module. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.1
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceVendorName
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.2
+    type: DisplayString
+    help: The object of the vendor name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.2
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceName
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.3
+    type: DisplayString
+    help: The object of the device name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.3
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceProductID
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.4
+    type: DisplayString
+    help: The object of the product ID. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.4
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSoftwareVersion
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.5
+    type: DisplayString
+    help: The object of the software version. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.5
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSignalBar
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.6
+    type: gauge
+    help: The object of the signal bar. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.6
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSignalStrength
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.7
+    type: gauge
+    help: 'The signal strength can be: unknown(-1) :signal strength is unknown out-range(0):signal
+      strength is 0 weak(1) :signal strength is 1 low(2) :signal strength is 2 high(3)
+      :signal strength is 3 - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.7'
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+    enum_values:
+      -1: unknown
+      0: out-range
+      1: weak
+      2: low
+      3: high
+  - name: picoMobileDeviceSignalQuality
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.8
+    type: DisplayString
+    help: The object of the signal quality. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.8
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceSignalElapsedTime
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.9
+    type: gauge
+    help: The object of the elapsed time after signal acquiring. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.9
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceRadioInterface
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.10
+    type: DisplayString
+    help: The object of the radio interface. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.10
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceCarrier
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.11
+    type: DisplayString
+    help: The object of the carrier name. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.11
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceDialerString
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.12
+    type: DisplayString
+    help: The object of the dialer string. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.12
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceDialStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.13
+    type: gauge
+    help: 'The dial status can be: disconnected(0):dial status is disconnected - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.13'
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+    enum_values:
+      0: disconnected
+      1: connect
+      2: cancel
+      3: connected
+      4: postprocess
+  - name: picoMobileDeviceInRangeCounts
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.14
+    type: gauge
+    help: The in-range statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.14
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceOutRangeCounts
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.15
+    type: gauge
+    help: The out-range statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.15
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoMobileDeviceResetCounts
+    oid: 1.3.6.1.4.1.119.2.3.84.11.1.1.1.16
+    type: gauge
+    help: The reset device statistics. - 1.3.6.1.4.1.119.2.3.84.11.1.1.1.16
+    indexes:
+    - labelname: picoMobileDeviceIndex
+      type: gauge
+  - name: picoIPv4CacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.1
+    type: gauge
+    help: The number of current IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.1
+  - name: picoIPv4CachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.2
+    type: gauge
+    help: The peak value of IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.2
+  - name: picoIPv4CacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.3
+    type: counter
+    help: The total count of created IPv4 cache. - 1.3.6.1.4.1.119.2.3.84.12.1.3
+  - name: picoIPv4CacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.12.1.4
+    type: counter
+    help: The total count of IPv4 cache overflow. - 1.3.6.1.4.1.119.2.3.84.12.1.4
+  - name: picoIPv4UFSCacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.1
+    type: gauge
+    help: The number of current IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.1
+  - name: picoIPv4UFSCachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.2
+    type: gauge
+    help: The peak value of IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.2
+  - name: picoIPv4UFSCacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.3
+    type: counter
+    help: The total count of created IPv4 UFS cache - 1.3.6.1.4.1.119.2.3.84.12.2.3
+  - name: picoIPv4UFSCacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.12.2.4
+    type: counter
+    help: The total count of IPv4 UFS cache overflow - 1.3.6.1.4.1.119.2.3.84.12.2.4
+  - name: picoIPv6CacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.1
+    type: gauge
+    help: The number of current IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.1
+  - name: picoIPv6CachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.2
+    type: gauge
+    help: The peak value of IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.2
+  - name: picoIPv6CacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.3
+    type: counter
+    help: The total count of created IPv6 cache. - 1.3.6.1.4.1.119.2.3.84.13.1.3
+  - name: picoIPv6CacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.13.1.4
+    type: counter
+    help: The total count of IPv6 cache overflow. - 1.3.6.1.4.1.119.2.3.84.13.1.4
+  - name: picoIPv6UFSCacheEntries
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.1
+    type: gauge
+    help: The number of current IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.1
+  - name: picoIPv6UFSCachePeaks
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.2
+    type: gauge
+    help: The peak value of IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.2
+  - name: picoIPv6UFSCacheCreates
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.3
+    type: counter
+    help: The total count of created IPv6 UFS cache - 1.3.6.1.4.1.119.2.3.84.13.2.3
+  - name: picoIPv6UFSCacheOverflows
+    oid: 1.3.6.1.4.1.119.2.3.84.13.2.4
+    type: counter
+    help: The total count of IPv6 UFS cache overflow - 1.3.6.1.4.1.119.2.3.84.13.2.4
+  - name: picoCelsius
+    oid: 1.3.6.1.4.1.119.2.3.84.2.1.1
+    type: gauge
+    help: Indicates the temperature of the equipment inside, in degree (Celsius).
+      - 1.3.6.1.4.1.119.2.3.84.2.1.1
+  - name: picoFahrenheit
+    oid: 1.3.6.1.4.1.119.2.3.84.2.1.2
+    type: gauge
+    help: Indicates the temperature of the equipment inside, in degree (Fahrenheit).
+      - 1.3.6.1.4.1.119.2.3.84.2.1.2
+  - name: picoVoltage
+    oid: 1.3.6.1.4.1.119.2.3.84.2.2
+    type: gauge
+    help: Indicates the observed voltage, in milli-volt (mV). - 1.3.6.1.4.1.119.2.3.84.2.2
+  - name: picoFanIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.2.3.1.1
+    type: gauge
+    help: Unique index for each fan module. - 1.3.6.1.4.1.119.2.3.84.2.3.1.1
+    indexes:
+    - labelname: picoFanIndex
+      type: gauge
+  - name: picoFanStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.2.3.1.2
+    type: gauge
+    help: Status of a fan module - 1.3.6.1.4.1.119.2.3.84.2.3.1.2
+    indexes:
+    - labelname: picoFanIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: failure
+  - name: picoFanRpm
+    oid: 1.3.6.1.4.1.119.2.3.84.2.3.1.3
+    type: gauge
+    help: Fan speed (Revolution Per Minutes) - 1.3.6.1.4.1.119.2.3.84.2.3.1.3
+    indexes:
+    - labelname: picoFanIndex
+      type: gauge
+  - name: picoPowerSupplyIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.2.4.1.1
+    type: gauge
+    help: Unique index for each power supply module. - 1.3.6.1.4.1.119.2.3.84.2.4.1.1
+    indexes:
+    - labelname: picoPowerSupplyIndex
+      type: gauge
+  - name: picoPowerSupplyType
+    oid: 1.3.6.1.4.1.119.2.3.84.2.4.1.2
+    type: gauge
+    help: Power supply module type. - 1.3.6.1.4.1.119.2.3.84.2.4.1.2
+    indexes:
+    - labelname: picoPowerSupplyIndex
+      type: gauge
+    enum_values:
+      0: notInstalled
+      1: systemACPS
+      2: ieee802dot3af-PoE-ACPS
+  - name: picoPowerSupplyStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.2.4.1.3
+    type: gauge
+    help: Status of a Power Supply module. - 1.3.6.1.4.1.119.2.3.84.2.4.1.3
+    indexes:
+    - labelname: picoPowerSupplyIndex
+      type: gauge
+    enum_values:
+      0: notInstalled
+      1: normal
+      2: failure
+  - name: picoSchedRtUtl1Sec
+    oid: 1.3.6.1.4.1.119.2.3.84.2.5.1
+    type: gauge
+    help: Indicates the observed system utilization for last 1 second, in percent
+      (%). - 1.3.6.1.4.1.119.2.3.84.2.5.1
+  - name: picoSchedRtUtl5Sec
+    oid: 1.3.6.1.4.1.119.2.3.84.2.5.2
+    type: gauge
+    help: Indicates the observed system utilization for last 5 seconds, in percent
+      (%). - 1.3.6.1.4.1.119.2.3.84.2.5.2
+  - name: picoSchedRtUtl1Min
+    oid: 1.3.6.1.4.1.119.2.3.84.2.5.3
+    type: gauge
+    help: Indicates the observed system utilization for last 1 minute, in percent
+      (%). - 1.3.6.1.4.1.119.2.3.84.2.5.3
+  - name: picoSchedRtUtl1Hour
+    oid: 1.3.6.1.4.1.119.2.3.84.2.5.4
+    type: gauge
+    help: Indicates the observed system utilization for last 1 hour, in percent (%).
+      - 1.3.6.1.4.1.119.2.3.84.2.5.4
+  - name: picoHeapSize
+    oid: 1.3.6.1.4.1.119.2.3.84.2.6.1
+    type: gauge
+    help: Indicates the observed total heap size, in bytes. - 1.3.6.1.4.1.119.2.3.84.2.6.1
+  - name: picoHeapUtil
+    oid: 1.3.6.1.4.1.119.2.3.84.2.6.2
+    type: gauge
+    help: Indicates the observed current heap utilization, in percent (%). - 1.3.6.1.4.1.119.2.3.84.2.6.2
+  - name: pipSecMibLevel
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.1.1
+    type: gauge
+    help: The version of the IPsec MIB. - 1.3.6.1.4.1.119.2.3.84.3.1.1.1
+  - name: pikeGlobalActiveTunnels
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.1
+    type: gauge
+    help: The number of currently active IPsec Phase-1 IKE Tunnels - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.1
+  - name: pikeGlobalInNotifys
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.6
+    type: counter
+    help: The total number of notifys received by all currently and previously active
+      IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.6
+  - name: pikeGlobalInP2Exchgs
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.7
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges received by all currently and
+      previously active IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.7
+  - name: pikeGlobalInP2ExchgInvalids
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.8
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges which were received and found
+      to be contain references to unrecognized security parameters - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.8
+  - name: pikeGlobalInP2ExchgRejects
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.9
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges which were received and validated
+      but were rejected by the local policy - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.9
+  - name: pikeGlobalInP2SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.10
+    type: counter
+    help: The total number of IPsec Phase-2 security association delete requests received
+      by all currently and previously active and IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.10
+  - name: pikeGlobalOutNotifys
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.14
+    type: counter
+    help: The total number of notifys sent by all currently and previously active
+      IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.14
+  - name: pikeGlobalOutP2Exchgs
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.15
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges which were sent by all currently
+      and previously active IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.15
+  - name: pikeGlobalOutP2ExchgInvalids
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.16
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges which were sent and were flagged
+      by the peer to contain references to unrecognized security parameters - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.16
+  - name: pikeGlobalOutP2ExchgRejects
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.17
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges which were sent, validated by
+      the peer but were rejected by the peer's policy - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.17
+  - name: pikeGlobalOutP2SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.18
+    type: counter
+    help: The total number of IPsec Phase-2 SA delete requests sent by all currently
+      and previously active IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.18
+  - name: pikeGlobalInitTunnels
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.19
+    type: counter
+    help: The total number of IPsec Phase-1 IKE Tunnels which were locally initiated.
+      - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.19
+  - name: pikeGlobalInitTunnelFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.20
+    type: counter
+    help: The total number of IPsec Phase-1 IKE Tunnels which were locally initiated
+      and failed to activate. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.20
+  - name: pikeGlobalRespTunnelFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.21
+    type: counter
+    help: The total number of IPsec Phase-1 IKE Tunnels which were remotely initiated
+      and failed to activate. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.21
+  - name: pikeGlobalAuthFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.23
+    type: counter
+    help: The total number of authentications which ended in failure by all current
+      and previous IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.23
+  - name: pikeGlobalDecryptFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.24
+    type: counter
+    help: The total number of decryptions which ended in failure by all current and
+      previous IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.24
+  - name: pikeGlobalHashValidFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.25
+    type: counter
+    help: The total number of hash validations which ended in failure by all current
+      and previous IPsec Phase-1 IKE Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.25
+  - name: pikeGlobalRespTunnels
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.27
+    type: counter
+    help: The total number of IPsec Phase-1 IKE Tunnels which were remotely initiated.
+      - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.27
+  - name: pikeGlobalInP1SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.30
+    type: counter
+    help: The total number of ISAKMP security association delete requests received
+      by all currently and previously active and ISAKMP security associations. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.30
+  - name: pikeGlobalOutP1SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.1.31
+    type: counter
+    help: The total number of ISAKMP security association delete requests sent by
+      all currently and previously active and ISAKMP security associations. - 1.3.6.1.4.1.119.2.3.84.3.1.2.1.31
+  - name: pikePeerLocalType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.1
+    type: gauge
+    help: The type of local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.1
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+    enum_values:
+      1: idIpv4Addr
+      2: idFqdn
+      3: idDn
+      4: idIpv6Addr
+  - name: pikePeerLocalValue
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.2
+    type: DisplayString
+    help: The value of the local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.2
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+  - name: pikePeerRemoteType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.3
+    type: gauge
+    help: The type of remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.3
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+    enum_values:
+      1: idIpv4Addr
+      2: idFqdn
+      3: idDn
+      4: idIpv6Addr
+  - name: pikePeerRemoteValue
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.4
+    type: DisplayString
+    help: The value of the remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.4
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+  - name: pikePeerIntIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.5
+    type: gauge
+    help: The internal index of the local-remote peer association - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.5
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+  - name: pikePeerLocalAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.6
+    type: OctetString
+    help: The IP address of the local peer. - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.6
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+  - name: pikePeerRemoteAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.7
+    type: OctetString
+    help: The IP address of the remote peer. - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.7
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+  - name: pikePeerActiveTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.8
+    type: gauge
+    help: The length of time that the peer association has existed in hundredths of
+      a second. - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.8
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+  - name: pikePeerActiveTunnelIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.9
+    type: gauge
+    help: The index of the active IPsec Phase-1 IKE Tunnel (pikeTunIndex in the pikeTunnelTable)
+      for this peer association - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.9
+    indexes:
+    - labelname: pikePeerLocalType
+      type: gauge
+    - labelname: pikePeerLocalValue
+      type: DisplayString
+    - labelname: pikePeerRemoteType
+      type: gauge
+    - labelname: pikePeerRemoteValue
+      type: DisplayString
+    - labelname: pikePeerIntIndex
+      type: gauge
+  - name: pikeTunIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.1
+    type: gauge
+    help: The index of the IPsec Phase-1 IKE Tunnel Table - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.1
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunLocalType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.2
+    type: gauge
+    help: The type of local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.2
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: idIpv4Addr
+      2: idFqdn
+      3: idDn
+      4: idIpv6Addr
+  - name: pikeTunLocalValue
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.3
+    type: DisplayString
+    help: The value of the local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.3
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunLocalAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.4
+    type: OctetString
+    help: The IP address of the local endpoint for the IPsec Phase-1 IKE Tunnel. -
+      1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.4
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunRemoteType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.6
+    type: gauge
+    help: The type of remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.6
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: idIpv4Addr
+      2: idFqdn
+      3: idDn
+      4: idIpv6Addr
+  - name: pikeTunRemoteValue
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.7
+    type: DisplayString
+    help: The value of the remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.7
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunRemoteAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.8
+    type: OctetString
+    help: The IP address of the remote endpoint for the IPsec Phase-1 IKE Tunnel.
+      - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.8
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunNegoMode
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.10
+    type: gauge
+    help: The negotiation mode of the IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.10
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: main
+      2: aggressive
+  - name: pikeTunDiffHellmanGrp
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.11
+    type: gauge
+    help: The Diffie Hellman Group used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.11
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: modp768
+      3: modp1024
+      4: modp1536
+      5: modp2048
+  - name: pikeTunEncryptAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.12
+    type: gauge
+    help: The encryption algorithm used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.12
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: des
+      3: des3
+      4: aes
+      9: "null"
+  - name: pikeTunHashAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.13
+    type: gauge
+    help: The hash algorithm used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.13
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: md5
+      3: sha
+      4: sha2-256
+      5: sha2-384
+      6: sha2-512
+  - name: pikeTunAuthMethod
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.14
+    type: gauge
+    help: The authentication method used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.14
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: preSharedKey
+      3: rsaSig
+      4: rsaEncrypt
+      5: revPublicKey
+  - name: pikeTunLifeTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.15
+    type: gauge
+    help: The negotiated LifeTime of the IPsec Phase-1 IKE Tunnel in seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.15
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunActiveTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.16
+    type: gauge
+    help: The length of time the IPsec Phase-1 IKE tunnel has been active in hundredths
+      of seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.16
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunSaRefreshThreshold
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.17
+    type: gauge
+    help: The security assoication refresh threshold in seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.17
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunInNotifys
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.22
+    type: counter
+    help: The total number of notifys received by this IPsec Phase-1 IKE Tunnel. -
+      1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.22
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunInP2Exchgs
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.23
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges received by this IPsec Phase-1
+      IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.23
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunInP2ExchgInvalids
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.24
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges received on this tunnel that
+      were found to contain references to unrecognized security parameters. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.24
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunInP2ExchgRejects
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.25
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges received on this tunnel that
+      were validated but were rejected by the local policy. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.25
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunInP2SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.26
+    type: counter
+    help: The total number of IPsec Phase-2 security association delete requests received
+      by this IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.26
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunOutNotifys
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.30
+    type: counter
+    help: The total number of notifys sent by this IPsec Phase-1 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.30
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunOutP2Exchgs
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.31
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges sent by this IPsec Phase-1 IKE
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.31
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunOutP2ExchgInvalids
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.32
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges sent on this tunnel that were
+      found by the peer to contain references to security parameters not recognized
+      by the peer. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.32
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunOutP2ExchgRejects
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.33
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges sent on this tunnel that were
+      validated by the peer but were rejected by the peer's policy. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.33
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunOutP2SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.34
+    type: counter
+    help: The total number of IPsec Phase-2 security association delete requests sent
+      by this IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.34
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+  - name: pikeTunStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.35
+    type: gauge
+    help: The status of the MIB table row - 1.3.6.1.4.1.119.2.3.84.3.1.2.3.1.35
+    indexes:
+    - labelname: pikeTunIndex
+      type: gauge
+    enum_values:
+      1: active
+      2: destroy
+  - name: pipSecGlobalActiveTunnels
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.1
+    type: gauge
+    help: The total number of currently active IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.1
+  - name: pipSecGlobalInOctets
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.3
+    type: counter
+    help: The total number of octets received by all current and previous IPsec Phase-2
+      Tunnels - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.3
+  - name: pipSecGlobalInPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.9
+    type: counter
+    help: The total number of packets received by all current and previous IPsec Phase-2
+      Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.9
+  - name: pipSecGlobalInDrops
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.10
+    type: counter
+    help: The total number of packets dropped during receive processing by all current
+      and previous IPsec Phase-2 Tunnels - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.10
+  - name: pipSecGlobalInReplayDrops
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.11
+    type: counter
+    help: The total number of packets dropped during receive processing due to Anti-Replay
+      processing by all current and previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.11
+  - name: pipSecGlobalInAuths
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.12
+    type: counter
+    help: The total number of inbound authentication's performed by all current and
+      previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.12
+  - name: pipSecGlobalInAuthFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.13
+    type: counter
+    help: The total number of inbound authentication's which ended in failure by all
+      current and previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.13
+  - name: pipSecGlobalInDecrypts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.14
+    type: counter
+    help: The total number of inbound decryption's performed by all current and previous
+      IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.14
+  - name: pipSecGlobalInDecryptFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.15
+    type: counter
+    help: The total number of inbound decryption's which ended in failure by all current
+      and previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.15
+  - name: pipSecGlobalOutOctets
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.16
+    type: counter
+    help: The total number of octets sent by all current and previous IPsec Phase-2
+      Tunnels - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.16
+  - name: pipSecGlobalOutPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.22
+    type: counter
+    help: The total number of packets sent by all current and previous IPsec Phase-2
+      Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.22
+  - name: pipSecGlobalOutDrops
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.23
+    type: counter
+    help: The total number of packets dropped during send processing by all current
+      and previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.23
+  - name: pipSecGlobalOutAuths
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.24
+    type: counter
+    help: The total number of outbound authentication's performed by all current and
+      previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.24
+  - name: pipSecGlobalOutAuthFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.25
+    type: counter
+    help: The total number of outbound authentication's which ended in failure by
+      all current and previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.25
+  - name: pipSecGlobalOutEncrypts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.26
+    type: counter
+    help: The total number of outbound encryption's performed by all current and previous
+      IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.26
+  - name: pipSecGlobalOutEncryptFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.27
+    type: counter
+    help: The total number of outbound encryption's which ended in failure by all
+      current and previous IPsec Phase-2 Tunnels. - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.27
+  - name: pipSecGlobalNoSaFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.1.33
+    type: counter
+    help: The total number of non-existent Security Assocication in failures which
+      occurred during processing of all current and previous IPsec Phase-2 Tunnels.
+      - 1.3.6.1.4.1.119.2.3.84.3.1.3.1.33
+  - name: pipSecTunIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.1
+    type: gauge
+    help: The index of the IPsec Phase-2 Tunnel Table - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.1
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunIkeTunnelIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.2
+    type: gauge
+    help: The index of the associated IPsec Phase-1 IKE Tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.2
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunIkeTunnelAlive
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.3
+    type: gauge
+    help: An indicator which specifies whether or not the IPsec Phase-1 IKE Tunnel
+      currently exists. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.3
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: pipSecTunLocalAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.4
+    type: OctetString
+    help: The IP address of the local endpoint for the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.4
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunRemoteAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.5
+    type: OctetString
+    help: The IP address of the remote endpoint for the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.5
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunKeyType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.6
+    type: gauge
+    help: The type of key used by the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.6
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: ike
+      2: manual
+  - name: pipSecTunEncapMode
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.7
+    type: gauge
+    help: The encapsulation mode used by the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.7
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: tunnel
+      2: transport
+  - name: pipSecTunLifeSize
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.8
+    type: gauge
+    help: The negotiated LifeSize of the IPsec Phase-2 Tunnel in kilobytes. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.8
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunLifeTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.9
+    type: gauge
+    help: The negotiated LifeTime of the IPsec Phase-2 Tunnel in seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.9
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunActiveTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.10
+    type: gauge
+    help: The length of time the IPsec Phase-2 Tunnel has been active in hundredths
+      of seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.10
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunSaLifeSizeThreshold
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.11
+    type: gauge
+    help: The security association LifeSize refresh threshold in kilobytes. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.11
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunSaLifeTimeThreshold
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.12
+    type: gauge
+    help: The security association LifeTime refresh threshold in seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.12
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunTotalRefreshes
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.13
+    type: counter
+    help: The total number of security association refreshes performed. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.13
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunExpiredSaInstances
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.14
+    type: counter
+    help: The total number of security associations which have expired. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.14
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunCurrentSaInstances
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.15
+    type: gauge
+    help: The number of security associations which are currently active or expiring.
+      - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.15
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInSaDiffHellmanGrp
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.16
+    type: gauge
+    help: The Diffie Hellman Group used by the inbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.16
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: modp768
+      3: modp1024
+      4: modp1536
+      5: modp2048
+  - name: pipSecTunInSaEncryptAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.17
+    type: gauge
+    help: The encryption algorithm used by the inbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.17
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: des
+      3: des3
+      4: aes
+      9: "null"
+  - name: pipSecTunInSaAhAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.18
+    type: gauge
+    help: The authentication algorithm used by the inbound authentication header (AH)
+      security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.18
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunInSaEspAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.19
+    type: gauge
+    help: The authentication algorithm used by the inbound ecapsulation security protocol
+      (ESP) security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.19
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunOutSaDiffHellmanGrp
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.21
+    type: gauge
+    help: The Diffie Hellman Group used by the outbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.21
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: modp768
+      3: modp1024
+      4: modp1536
+      5: modp2048
+  - name: pipSecTunOutSaEncryptAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.22
+    type: gauge
+    help: The encryption algorithm used by the outbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.22
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: des
+      3: des3
+      4: aes
+      9: "null"
+  - name: pipSecTunOutSaAhAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.23
+    type: gauge
+    help: The authentication algorithm used by the outbound authentication header
+      (AH) security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.23
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunOutSaEspAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.24
+    type: gauge
+    help: The authentication algorithm used by the inbound encapsulation security
+      protocol (ESP) security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.24
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunPmtu
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.26
+    type: gauge
+    help: The Path MTU that has been determined for this IPsec Phase-2 tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.26
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInOctets
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.27
+    type: counter
+    help: The total number of octets received by this IPsec Phase-2 Tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.27
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.33
+    type: counter
+    help: The total number of packets received by this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.33
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInDropPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.34
+    type: counter
+    help: The total number of packets dropped during receive processing by this IPsec
+      Phase-2 Tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.34
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInReplayDropPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.35
+    type: counter
+    help: The total number of packets dropped during receive processing due to Anti-Replay
+      processing by this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.35
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInAuths
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.36
+    type: counter
+    help: The total number of inbound authentication's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.36
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInAuthFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.37
+    type: counter
+    help: The total number of inbound authentication's which ended in failure by this
+      IPsec Phase-2 Tunnel . - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.37
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInDecrypts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.38
+    type: counter
+    help: The total number of inbound decryption's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.38
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunInDecryptFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.39
+    type: counter
+    help: The total number of inbound decryption's which ended in failure by this
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.39
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunOutOctets
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.40
+    type: counter
+    help: The total number of octets sent by this IPsec Phase-2 Tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.40
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunOutPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.46
+    type: counter
+    help: The total number of packets sent by this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.46
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunOutDropPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.47
+    type: counter
+    help: The total number of packets dropped during send processing by this IPsec
+      Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.47
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunOutAuths
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.48
+    type: counter
+    help: The total number of outbound authentication's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.48
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunOutAuthFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.49
+    type: counter
+    help: The total number of outbound authentication's which ended in failure by
+      this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.49
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunOutEncrypts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.50
+    type: counter
+    help: The total number of outbound encryption's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.50
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunOutEncryptFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.51
+    type: counter
+    help: The total number of outbound encryption's which ended in failure by this
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.51
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+  - name: pipSecTunStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.56
+    type: gauge
+    help: The status of the MIB table row - 1.3.6.1.4.1.119.2.3.84.3.1.3.2.1.56
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    enum_values:
+      1: active
+      2: destroy
+  - name: pipSecSpiIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.1
+    type: gauge
+    help: The number of the SPI associated with the Phase-2 Tunnel Table - 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.1
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    - labelname: pipSecSpiIndex
+      type: gauge
+  - name: pipSecSpiDirection
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.2
+    type: gauge
+    help: The direction of the SPI. - 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.2
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    - labelname: pipSecSpiIndex
+      type: gauge
+    enum_values:
+      1: in
+      2: out
+  - name: pipSecSpiValue
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.3
+    type: gauge
+    help: The value of the SPI. - 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.3
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    - labelname: pipSecSpiIndex
+      type: gauge
+  - name: pipSecSpiProtocol
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.4
+    type: gauge
+    help: The protocol of the SPI. - 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.4
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    - labelname: pipSecSpiIndex
+      type: gauge
+    enum_values:
+      1: ah
+      2: esp
+      3: ipcomp
+  - name: pipSecSpiStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.5
+    type: gauge
+    help: The status of the SPI. - 1.3.6.1.4.1.119.2.3.84.3.1.3.4.1.5
+    indexes:
+    - labelname: pipSecTunIndex
+      type: gauge
+    - labelname: pipSecSpiIndex
+      type: gauge
+    enum_values:
+      1: active
+      2: expiring
+  - name: pikeTunHistIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.1
+    type: gauge
+    help: The index of the IPsec Phase-1 IKE Tunnel History Table - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.1
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistTermReason
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.2
+    type: gauge
+    help: The reason the IPsec Phase-1 IKE Tunnel was terminated - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.2
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: other
+      2: normal
+      3: operRequest
+      4: peerDelRequest
+      5: peerLost
+      6: applicationInitiated
+      7: xauthFailure
+      8: localFailure
+      9: checkPointReg
+  - name: pikeTunHistActiveIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.3
+    type: gauge
+    help: The index of the previously active IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.3
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistPeerLocalType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.4
+    type: gauge
+    help: The type of local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.4
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: idIpv4Addr
+      2: idFqdn
+      3: idDn
+      4: idIpv6Addr
+  - name: pikeTunHistPeerLocalValue
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.5
+    type: DisplayString
+    help: The value of the local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.5
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistPeerIntIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.6
+    type: gauge
+    help: The internal index of the local-remote peer association - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.6
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistPeerRemoteType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.7
+    type: gauge
+    help: The type of remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.7
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: idIpv4Addr
+      2: idFqdn
+      3: idDn
+      4: idIpv6Addr
+  - name: pikeTunHistPeerRemoteValue
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.8
+    type: DisplayString
+    help: The value of the remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.8
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistLocalAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.9
+    type: OctetString
+    help: The IP address of the local endpoint for the IPsec Phase-1 IKE Tunnel. -
+      1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.9
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistRemoteAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.11
+    type: OctetString
+    help: The IP address of the remote endpoint for the IPsec Phase-1 IKE Tunnel.
+      - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.11
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistNegoMode
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.13
+    type: gauge
+    help: The negotiation mode of the IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.13
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: main
+      2: aggressive
+  - name: pikeTunHistDiffHellmanGrp
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.14
+    type: gauge
+    help: The Diffie Hellman Group used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.14
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: modp768
+      3: modp1024
+      4: modp1536
+      5: modp2048
+  - name: pikeTunHistEncryptAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.15
+    type: gauge
+    help: The encryption algorithm used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.15
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: des
+      3: des3
+      4: aes
+      9: "null"
+  - name: pikeTunHistHashAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.16
+    type: gauge
+    help: The hash algorithm used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.16
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: md5
+      3: sha
+      4: sha2-256
+      5: sha2-384
+      6: sha2-512
+  - name: pikeTunHistAuthMethod
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.17
+    type: gauge
+    help: The authentication method used in IPsec Phase-1 IKE negotiations. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.17
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: preSharedKey
+      3: rsaSig
+      4: rsaEncrypt
+      5: revPublicKey
+  - name: pikeTunHistLifeTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.18
+    type: gauge
+    help: The negotiated LifeTime of the IPsec Phase-1 IKE Tunnel in seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.18
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistStartTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.19
+    type: gauge
+    help: The value of sysUpTime in hundredths of seconds when the IPsec Phase-1 IKE
+      tunnel was started. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.19
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistActiveTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.20
+    type: gauge
+    help: The length of time the IPsec Phase-1 IKE tunnel was been active in hundredths
+      of seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.20
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistInNotifys
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.26
+    type: counter
+    help: The total number of notifys received by this IPsec Phase-1 IKE Tunnel. -
+      1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.26
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistInP2Exchgs
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.27
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges received by this IPsec Phase-1
+      IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.27
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistInP2ExchgInvalids
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.28
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges received on this tunnel that
+      were found to contain references to unrecognized security parameters. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.28
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistInP2ExchgRejects
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.29
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges received on this tunnel that
+      were validated but were rejected by the local policy. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.29
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistInP2SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.30
+    type: counter
+    help: The total number of IPsec Phase-2 security association delete requests received
+      by this IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.30
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistOutNotifys
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.34
+    type: counter
+    help: The total number of notifys sent by this IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.34
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistOutP2Exchgs
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.35
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges sent by this IPsec Phase-1 IKE
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.35
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistOutP2ExchgInvalids
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.36
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges sent on this tunnel that were
+      found by the peer to contain references to security parameters not recognized
+      by the peer. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.36
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistOutP2ExchgRejects
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.37
+    type: counter
+    help: The total number of IPsec Phase-2 exchanges sent on this tunnel that were
+      validated by the peer but were rejected by the peer's policy. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.37
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pikeTunHistOutP2SaDelRequests
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.38
+    type: counter
+    help: The total number of IPsec Phase-2 security association delete requests sent
+      by this IPsec Phase-1 IKE Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.2.1.1.38
+    indexes:
+    - labelname: pikeTunHistIndex
+      type: gauge
+  - name: pipSecTunHistIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.1
+    type: gauge
+    help: The index of the IPsec Phase-2 Tunnel History Table - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.1
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistTermReason
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.2
+    type: gauge
+    help: The reason the IPsec Phase-2 Tunnel was terminated - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.2
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: other
+      2: normal
+      3: operRequest
+      4: peerDelRequest
+      5: peerLost
+      6: applicationInitiated
+      7: xauthFailure
+      8: seqNumRollOver
+      9: checkPointReq
+  - name: pipSecTunHistActiveIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.3
+    type: gauge
+    help: The index of the previously active IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.3
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistIkeTunnelIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.4
+    type: gauge
+    help: The index of the associated IPsec Phase-1 Tunnel (pikeTunIndex in the pikeTunnelTable).
+      - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.4
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistLocalAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.5
+    type: OctetString
+    help: The IP address of the local endpoint for the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.5
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistRemoteAddr
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.6
+    type: OctetString
+    help: The IP address of the remote endpoint for the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.6
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistKeyType
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.7
+    type: gauge
+    help: The type of key used by the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.7
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: ike
+      2: manual
+  - name: pipSecTunHistEncapMode
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.8
+    type: gauge
+    help: The encapsulation mode used by the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.8
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: tunnel
+      2: transport
+  - name: pipSecTunHistLifeSize
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.9
+    type: gauge
+    help: The negotiated LifeSize of the IPsec Phase-2 Tunnel in kilobytes. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.9
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistLifeTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.10
+    type: gauge
+    help: The negotiated LifeTime of the IPsec Phase-2 Tunnel in seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.10
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistStartTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.11
+    type: gauge
+    help: The value of sysUpTime in hundredths of seconds when the IPsec Phase-2 Tunnel
+      was started. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.11
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistActiveTime
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.12
+    type: gauge
+    help: The length of time the IPsec Phase-2 Tunnel has been active in hundredths
+      of seconds. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.12
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistTotalRefreshes
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.13
+    type: counter
+    help: The total number of security association refreshes performed. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.13
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInSaDiffHellmanGrp
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.15
+    type: gauge
+    help: The Diffie Hellman Group used by the inbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.15
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: modp768
+      3: modp1024
+      4: modp1536
+      5: modp2048
+  - name: pipSecTunHistInSaEncryptAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.16
+    type: gauge
+    help: The encryption algorithm used by the inbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.16
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: des
+      3: des3
+      4: aes
+      9: "null"
+  - name: pipSecTunHistInSaAhAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.17
+    type: gauge
+    help: The authentication algorithm used by the inbound authentication header (AH)
+      security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.17
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunHistInSaEspAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.18
+    type: gauge
+    help: The authentication algorithm used by the inbound encapsulation security
+      protocol (ESP) security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.18
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunHistOutSaDiffHellmanGrp
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.20
+    type: gauge
+    help: The Diffie Hellman Group used by the outbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.20
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: modp768
+      3: modp1024
+      4: modp1536
+      5: modp2048
+  - name: pipSecTunHistOutSaEncryptAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.21
+    type: gauge
+    help: The encryption algorithm used by the outbound security association of the
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.21
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: des
+      3: des3
+      4: aes
+      9: "null"
+  - name: pipSecTunHistOutSaAhAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.22
+    type: gauge
+    help: The authentication algorithm used by the outbound authentication header
+      (AH) security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.22
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunHistOutSaEspAuthAlgo
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.23
+    type: gauge
+    help: The authentication algorithm used by the inbound ecapsulation security protocol
+      (ESP) security association of the IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.23
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: hmacMd5
+      3: hmacSha
+      4: hmacSha2-256
+      5: hmacSha2-384
+      6: hmacSha2-512
+  - name: pipSecTunHistPmtu
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.25
+    type: gauge
+    help: The Path MTU that was determined for this IPsec Phase-2 tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.25
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInOctets
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.26
+    type: counter
+    help: The total number of octets received by this IPsec Phase-2 Tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.26
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.32
+    type: counter
+    help: The total number of packets received by this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.32
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInDropPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.33
+    type: counter
+    help: The total number of packets dropped during receive processing by this IPsec
+      Phase-2 Tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.33
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInReplayDropPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.34
+    type: counter
+    help: The total number of packets dropped during receive processing due to Anti-Replay
+      processing by this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.34
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInAuths
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.35
+    type: counter
+    help: The total number of inbound authentication's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.35
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInAuthFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.36
+    type: counter
+    help: The total number of inbound authentication's which ended in failure by this
+      IPsec Phase-2 Tunnel . - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.36
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInDecrypts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.37
+    type: counter
+    help: The total number of inbound decryption's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.37
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistInDecryptFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.38
+    type: counter
+    help: The total number of inbound decryption's which ended in failure by this
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.38
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistOutOctets
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.39
+    type: counter
+    help: The total number of octets sent by this IPsec Phase-2 Tunnel - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.39
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistOutPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.45
+    type: counter
+    help: The total number of packets sent by this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.45
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistOutDropPkts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.46
+    type: counter
+    help: The total number of packets dropped during send processing by this IPsec
+      Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.46
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistOutAuths
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.47
+    type: counter
+    help: The total number of outbound authentication's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.47
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistOutAuthFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.48
+    type: counter
+    help: The total number of outbound authentication's which ended in failure by
+      this IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.48
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistOutEncrypts
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.49
+    type: counter
+    help: The total number of outbound encryption's performed by this IPsec Phase-2
+      Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.49
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: pipSecTunHistOutEncryptFails
+    oid: 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.50
+    type: counter
+    help: The total number of outbound encryption's which ended in failure by this
+      IPsec Phase-2 Tunnel. - 1.3.6.1.4.1.119.2.3.84.3.1.4.3.1.1.50
+    indexes:
+    - labelname: pipSecTunHistIndex
+      type: gauge
+  - name: picoExtIfInstalledSlot
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.1
+    type: gauge
+    help: The slot number in which the extension card was installed. - 1.3.6.1.4.1.119.2.3.84.6.1.1.1
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoExtIfIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.2
+    type: gauge
+    help: A unique value for each extension card. - 1.3.6.1.4.1.119.2.3.84.6.1.1.2
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoExtIfDescr
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+    type: DisplayString
+    help: A textual string containing information about the interface. - 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoExtIfUpperLayer
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.4
+    type: gauge
+    help: Index of interface to upper layers. - 1.3.6.1.4.1.119.2.3.84.6.1.1.4
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoExtIfType
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.5
+    type: gauge
+    help: The type of interface,, distinguished according to the physical/link protocol(s)
+      immediately `below' the network layer in the protocol stack. - 1.3.6.1.4.1.119.2.3.84.6.1.1.5
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+    enum_values:
+      6: ethernet-csmacd
+      62: fastEther
+  - name: picoExtIfSpeed
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.6
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second. - 1.3.6.1.4.1.119.2.3.84.6.1.1.6
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoExtIfDuplex
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.7
+    type: gauge
+    help: The current mode of this link. - 1.3.6.1.4.1.119.2.3.84.6.1.1.7
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+    enum_values:
+      1: halfduplex
+      2: fullduplex
+  - name: picoExtIfEffectiveMtu
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.8
+    type: gauge
+    help: The size of the largest datagram which can be sent/received on the interface,
+      specified in octets. - 1.3.6.1.4.1.119.2.3.84.6.1.1.8
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoExtIfPhysicalAddress
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.9
+    type: PhysAddress48
+    help: The interface's address at the protocol layer immediately `below' the network
+      layer in the protocol stack. - 1.3.6.1.4.1.119.2.3.84.6.1.1.9
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoExtIfAdminStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.10
+    type: gauge
+    help: The desired state of the interface. - 1.3.6.1.4.1.119.2.3.84.6.1.1.10
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+  - name: picoExtIfOperStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.11
+    type: gauge
+    help: The current operational state of the interface. - 1.3.6.1.4.1.119.2.3.84.6.1.1.11
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+  - name: picoExtIfLastChange
+    oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.12
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state. - 1.3.6.1.4.1.119.2.3.84.6.1.1.12
+    indexes:
+    - labelname: picoExtIfInstalledSlot
+      type: gauge
+    - labelname: picoExtIfIndex
+      type: gauge
+  - name: picoNetmonWatchgroupIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.7.1.1.1.1
+    type: gauge
+    help: Unique index for each Netmon Watchgroup. - 1.3.6.1.4.1.119.2.3.84.7.1.1.1.1
+    indexes:
+    - labelname: picoNetmonWatchgroupIndex
+      type: gauge
+  - name: picoNetmonWatchgroupName
+    oid: 1.3.6.1.4.1.119.2.3.84.7.1.1.1.2
+    type: DisplayString
+    help: Netmon Watchgroup Name. - 1.3.6.1.4.1.119.2.3.84.7.1.1.1.2
+    indexes:
+    - labelname: picoNetmonWatchgroupIndex
+      type: gauge
+  - name: picoNetmonWatchgroupSequenceNumber
+    oid: 1.3.6.1.4.1.119.2.3.84.7.1.1.1.3
+    type: gauge
+    help: Netmon Watchgroup sequence number. - 1.3.6.1.4.1.119.2.3.84.7.1.1.1.3
+    indexes:
+    - labelname: picoNetmonWatchgroupIndex
+      type: gauge
+  - name: picoNetmonWatchgroupStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.7.1.1.1.4
+    type: gauge
+    help: Status of a Netmon Watchgroup. - 1.3.6.1.4.1.119.2.3.84.7.1.1.1.4
+    indexes:
+    - labelname: picoNetmonWatchgroupIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: stand
+      3: disable
+  - name: picoNetmonWatchgroupVarianceCounts
+    oid: 1.3.6.1.4.1.119.2.3.84.7.1.1.1.5
+    type: gauge
+    help: Netmon Watchgroup variance statistics. - 1.3.6.1.4.1.119.2.3.84.7.1.1.1.5
+    indexes:
+    - labelname: picoNetmonWatchgroupIndex
+      type: gauge
+  - name: picoNgnIfIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.1
+    type: gauge
+    help: The interface index value of the interface for which NGN is enabled. - 1.3.6.1.4.1.119.2.3.84.9.1.1.1.1
+    indexes:
+    - labelname: picoNgnIfIndex
+      type: gauge
+  - name: picoNgnType
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.2
+    type: gauge
+    help: 'The mode of the NGN service can be: standard(1) :NGN service is standard
+      - 1.3.6.1.4.1.119.2.3.84.9.1.1.1.2'
+    indexes:
+    - labelname: picoNgnIfIndex
+      type: gauge
+    enum_values:
+      1: standard
+      2: numbergate
+  - name: picoNgnIfType
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.3
+    type: gauge
+    help: 'The type of the NGN interface can be: global(1) :NGN interface type is
+      global - 1.3.6.1.4.1.119.2.3.84.9.1.1.1.3'
+    indexes:
+    - labelname: picoNgnIfIndex
+      type: gauge
+    enum_values:
+      1: global
+      2: private
+  - name: picoNgnStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.4
+    type: gauge
+    help: 'The state of the NGN SIP-UA register can be: notReady(1) :NGN service is
+      not Ready - 1.3.6.1.4.1.119.2.3.84.9.1.1.1.4'
+    indexes:
+    - labelname: picoNgnIfIndex
+      type: gauge
+    enum_values:
+      1: notReady
+      2: initializing
+      3: registering
+      4: registered
+  - name: picoNgnSipServerIpAddress
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.5
+    type: InetAddressIPv4
+    help: The object of the SIP server address. - 1.3.6.1.4.1.119.2.3.84.9.1.1.1.5
+    indexes:
+    - labelname: picoNgnIfIndex
+      type: gauge
+  - name: picoNgnSipUri
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.6
+    type: DisplayString
+    help: The object of the SIP URI. - 1.3.6.1.4.1.119.2.3.84.9.1.1.1.6
+    indexes:
+    - labelname: picoNgnIfIndex
+      type: gauge
+  - name: picoNgnUpTime
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.7
+    type: gauge
+    help: The time elapsed since registered. - 1.3.6.1.4.1.119.2.3.84.9.1.1.1.7
+    indexes:
+    - labelname: picoNgnIfIndex
+      type: gauge
+  - name: picoNgnVpnIfIndex
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.1
+    type: gauge
+    help: The interface index value of the interface for which NGN binding is enabled.
+      - 1.3.6.1.4.1.119.2.3.84.9.1.2.1.1
+    indexes:
+    - labelname: picoNgnVpnIfIndex
+      type: gauge
+  - name: picoNgnVpnStatus
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.2
+    type: gauge
+    help: 'The state of the NGN SIP-UA session can be: disconnected(1):SIP session
+      is disconnected - 1.3.6.1.4.1.119.2.3.84.9.1.2.1.2'
+    indexes:
+    - labelname: picoNgnVpnIfIndex
+      type: gauge
+    enum_values:
+      1: disconnected
+      2: connecting
+      3: connected
+  - name: picoNgnVpnPeerAddress
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.3
+    type: DisplayString
+    help: The object of the NGN peer address. - 1.3.6.1.4.1.119.2.3.84.9.1.2.1.3
+    indexes:
+    - labelname: picoNgnVpnIfIndex
+      type: gauge
+  - name: picoNgnVpnBandwidth
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.4
+    type: gauge
+    help: The object of the NGN session bandwidth. - 1.3.6.1.4.1.119.2.3.84.9.1.2.1.4
+    indexes:
+    - labelname: picoNgnVpnIfIndex
+      type: gauge
+  - name: picoNgnVpnUsedTime
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.5
+    type: gauge
+    help: The time elapsed since this connected NGN session. - 1.3.6.1.4.1.119.2.3.84.9.1.2.1.5
+    indexes:
+    - labelname: picoNgnVpnIfIndex
+      type: gauge
+  - name: picoNgnVpnSbcIpAddress
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.6
+    type: InetAddressIPv4
+    help: The object of the NGN session SBC address. - 1.3.6.1.4.1.119.2.3.84.9.1.2.1.6
+    indexes:
+    - labelname: picoNgnVpnIfIndex
+      type: gauge
+  - name: picoNgnVpnSbcPort
+    oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.7
+    type: gauge
+    help: The object of the NGN session SBC port. - 1.3.6.1.4.1.119.2.3.84.9.1.2.1.7
+    indexes:
+    - labelname: picoNgnVpnIfIndex
+      type: gauge
 paloalto_fw:
   walk:
   - 1.3.6.1.2.1.2
