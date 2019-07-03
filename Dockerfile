@@ -1,7 +1,11 @@
-FROM        quay.io/prometheus/busybox:latest
-LABEL       maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
+ARG ARCH="amd64"
+ARG OS="linux"
+FROM quay.io/prometheus/busybox-${OS}-${ARCH}:latest
+LABEL maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
 
-COPY snmp_exporter  /bin/snmp_exporter
+ARG ARCH="amd64"
+ARG OS="linux"
+COPY .build/${OS}-${ARCH}/snmp_exporter  /bin/snmp_exporter
 COPY snmp.yml       /etc/snmp_exporter/snmp.yml
 
 EXPOSE      9116
