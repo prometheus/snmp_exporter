@@ -7430,6 +7430,35 @@ keepalived:
     indexes:
     - labelname: virtualServerIndex
       type: gauge
+  - name: virtualServerTunnelType
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.68
+    type: gauge
+    help: Default forwarding tunnel type use for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.68
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    enum_values:
+      1: ipip
+      2: gue
+      3: gre
+  - name: virtualServerTunnelPort
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.69
+    type: gauge
+    help: Default forwarding tunnel GUE port use for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.69
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+  - name: virtualServerTunnelCsum
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.70
+    type: gauge
+    help: Default forwarding tunnel checksum type use for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.70
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    enum_values:
+      1: nocsum
+      2: csum
+      3: remcsum
   - name: realServerIndex
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.1
     type: gauge
@@ -7918,6 +7947,41 @@ keepalived:
       type: gauge
     - labelname: realServerIndex
       type: gauge
+  - name: realServerTunnelType
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.52
+    type: gauge
+    help: Forwarding tunnel type use for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.52
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+    enum_values:
+      1: ipip
+      2: gue
+      3: gre
+  - name: realServerTunnelPort
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.53
+    type: gauge
+    help: Forwarding tunnel GUE port use for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.53
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+  - name: realServerTunnelCsum
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.54
+    type: gauge
+    help: Forwarding tunnel checksum type use for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.54
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
+    enum_values:
+      1: nocsum
+      2: csum
+      3: remcsum
 nec_ix:
   walk:
   - 1.3.6.1.4.1.119.2.3.84.11
