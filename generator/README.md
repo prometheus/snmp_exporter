@@ -78,7 +78,7 @@ modules:
                                     # Can be noAuthNoPriv, authNoPriv or authPriv.
       password: pass  # Has no default. Also known as authKey, -A option to NetSNMP.
                       # Required if security_level is authNoPriv or authPriv.
-      auth_protocol: SHA  # MD5 or SHA, defaults to SHA. -a option to NetSNMP.
+      auth_protocol: MD5  # MD5 or SHA, defaults to MD5. -a option to NetSNMP.
                           # Used if security_level is authNoPriv or authPriv.
       priv_protocol: DES  # DES or AES, defaults to DES. -x option to NetSNMP.
                           # Used if security_level is authPriv.
