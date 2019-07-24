@@ -20,7 +20,8 @@ releases](https://github.com/prometheus/snmp_exporter/releases) page.
 
 Visit http://localhost:9116/snmp?target=1.2.3.4 where 1.2.3.4 is the IP of the
 SNMP device to get metrics from. You can also specify a `module` parameter, to
-choose which module to use from the config file.
+choose which module to use from the config file. You can also specify a
+'community' paramter, to override the community string from the config file.
 
 ## Configuration
 
@@ -47,21 +48,48 @@ scrape_configs:
     static_configs:
       - targets:
         - 192.168.1.2  # SNMP device.
+    file_sd_configs:
+      - files:
+        - '/data/*.json'
     metrics_path: /snmp
     params:
       module: [if_mib]
+      community: [public]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
+      - source_labels: [community]
+        target_label: __param_community
+      - source_labels: [module]
+        target_label: __param_module
       - target_label: __address__
         replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
+```
+
+Optionally, provide a json file as a file based service discovery. Only
+community and module are needed. Other labels are optional for snmp_exporter
+purposes.
+
+```JSON
+[
+  {
+    "targets": [ "192.168.1.2" ],
+    "labels": {
+      "name": "router",
+      "community": "publicCommunity",
+      "module": "ddwrt"
+    }
+  }
+]
 ```
 
 This setup allows Prometheus to provide scheduling and service discovery, as
 unlike all other exporters running an exporter on the machine from which we are
 getting the metrics from is not possible.
+
+
 
 ## Large counter value handling
 

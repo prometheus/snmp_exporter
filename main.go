@@ -76,6 +76,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if moduleName == "" {
 		moduleName = "if_mib"
 	}
+	communityString := r.URL.Query().Get("community")
 	sc.RLock()
 	module, ok := (*(sc.C))[moduleName]
 	sc.RUnlock()
@@ -88,7 +89,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	collector := collector{target: target, module: module}
+	collector := collector{target: target, module: module, community: communityString}
 	registry.MustRegister(collector)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
@@ -204,6 +205,7 @@ func main() {
             <form action="/snmp">
             <label>Target:</label> <input type="text" name="target" placeholder="X.X.X.X" value="1.2.3.4"><br>
             <label>Module:</label> <input type="text" name="module" placeholder="module" value="if_mib"><br>
+            <label>Community:</label> <input type="text" name="community" placeholder="community" value="public"><br>
             <input type="submit" value="Submit">
             </form>
 						<p><a href="/config">Config</a></p>
