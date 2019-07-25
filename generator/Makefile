@@ -241,12 +241,12 @@ $(MIBDIR)/UCD-SNMP-MIB.txt:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
 
 $(MIBDIR)/raritan-pdu2-mib:
-        @echo ">> Downloading raritan-pdu2-mib "
-        @curl $(CURL_OPTS) -o $(MIBDIR)/raritan-pdu2-mib -L $(RARITAN_URL)
+	@echo ">> Downloading raritan-pdu2-mib "
+	@curl $(CURL_OPTS) -o $(MIBDIR)/raritan-pdu2-mib -L $(RARITAN_URL)
 
 $(MIBDIR)/.rittal_sensors:
-        $(eval TMP := $(shell mktemp))
-        @echo ">> Download rittal to $(TMP)"
-        @curl $(CURL_OPTS) -o $(TMP) -L $(RITTAL_URL)
-        @unzip -j -d $(MIBDIR) $(TMP) mibs/SMIv2/RITTAL*
-        @rm -v $(TMP)
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Download rittal to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) -L $(RITTAL_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) mibs/SMIv2/RITTAL*
+	@rm -v $(TMP)
