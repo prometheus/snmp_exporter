@@ -104,9 +104,9 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  $(MIBDIR)/UCD-SNMP-MIB.txt
+  $(MIBDIR)/UCD-SNMP-MIB.txt \
   $(MIBDIR)/raritan-pdu2-mib \
-  $(MIBDIR)/.rittal_sensors \
+  $(MIBDIR)/.rittal_sensors
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
