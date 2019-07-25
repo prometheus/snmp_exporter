@@ -40,6 +40,9 @@ SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/MIBG
 UBNT_AIROS_URL   := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
 UCD_URL          := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
+RARITAN_URL      := 'http://support.raritan.com/px2/version-2.4.1/mibs/pdu2-mib-020400-39592.txt'
+RITTAL_URL       := 'http://www.rittal.de/downloads/rimatrix5/security/CMCIII/RITTAL_CMC-III_MIB_V_3_15_20.zip'
+
 
 .DEFAULT: all
 
@@ -102,6 +105,8 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/UCD-SNMP-MIB.txt
+  $(MIBDIR)/raritan-pdu2-mib \
+  $(MIBDIR)/.rittal_sensors \
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -234,3 +239,14 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 $(MIBDIR)/UCD-SNMP-MIB.txt:
 	@echo ">> Downloading UCD-SNMP-MIB.txt"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB.txt -L "$(UCD_URL)"
+
+$(MIBDIR)/raritan-pdu2-mib:
+        @echo ">> Downloading raritan-pdu2-mib "
+        @curl $(CURL_OPTS) -o $(MIBDIR)/raritan-pdu2-mib -L $(RARITAN_URL)
+
+$(MIBDIR)/.rittal_sensors:
+        $(eval TMP := $(shell mktemp))
+        @echo ">> Download rittal to $(TMP)"
+        @curl $(CURL_OPTS) -o $(TMP) -L $(RITTAL_URL)
+        @unzip -j -d $(MIBDIR) $(TMP) mibs/SMIv2/RITTAL*
+        @rm -v $(TMP)
