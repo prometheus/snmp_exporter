@@ -251,4 +251,6 @@ $(MIBDIR)/.rittal_sensors:
 	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/RITTAL*
 	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/IP*
 	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/NOTIFI*
+	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/PTOPO*
+	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/SNMPv2*
 	@rm -v $(TMP)
