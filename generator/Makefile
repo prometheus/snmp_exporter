@@ -52,7 +52,6 @@ UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
 UCD_URL          := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 RARITAN_URL      := 'http://support.raritan.com/px2/version-2.4.1/mibs/pdu2-mib-020400-39592.txt'
 RITTAL_URL       := 'http://www.rittal.de/downloads/rimatrix5/security/CMCIII/RITTAL_CMC-III_MIB_V_3_15_20.zip'
-SNMP_COMMUNITY_URL := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/SNMP-COMMUNITY-MIB
 
 
 .DEFAULT: all
@@ -102,7 +101,6 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-RTPROTO-MIB.txt \
   $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt \
   $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt \
-  $(MIBDIR)/SNMP-COMMUNITY-MIB.txt \
   $(MIBDIR)/RMON-MIB.txt \
   $(MIBDIR)/RMON2-MIB.txt \
   $(MIBDIR)/TOKEN-RING-RMON-MIB.txt \
@@ -194,10 +192,6 @@ $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt:
 $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org SNMP-NOTIFICATION-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt -L $(SNMP_NOTIFICATION_URL)
-
-$(MIBDIR)/SNMP-COMMUNITY-MIB.txt:
-	@echo ">> Download www.simpleweb.org SNMP-COMMUNITY-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-COMMUNITY-MIB.txt -L $(SNMP_COMMUNITY_URL)
 
 $(MIBDIR)/RMON-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org RMON-MIB"
