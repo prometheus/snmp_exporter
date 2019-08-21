@@ -29,6 +29,7 @@ IANA_IFTYPE_URL  := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-m
 IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
 IANA_RTPROTO_URL := https://www.iana.org/assignments/ianaiprouteprotocol-mib/ianaiprouteprotocol-mib
 IANA_ADDRESS_URL := https://www.iana.org/assignments/ianaaddressfamilynumbers-mib/ianaaddressfamilynumbers-mib
+RMON_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/RMON-MIB
 RMON2_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/RMON2-MIB
 Q_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/Q-BRIDGE-MIB
 P_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/P-BRIDGE-MIB
@@ -95,6 +96,7 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
   $(MIBDIR)/IANA-RTPROTO-MIB.txt \
   $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt \
+  $(MIBDIR)/RMON-MIB.txt \
   $(MIBDIR)/RMON2-MIB.txt \
   $(MIBDIR)/Q-BRIDGE-MIB.txt \
   $(MIBDIR)/P-BRIDGE-MIB.txt \
@@ -178,6 +180,10 @@ $(MIBDIR)/IANA-RTPROTO-MIB.txt:
 $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt:
 	@echo ">> Dowbloading IANA IANA-ADDRESS-FAMILY-NUMBERS-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt -L $(IANA_ADDRESS_URL)
+
+$(MIBDIR)/RMON-MIB.txt:
+	@echo ">> Dowbloading www.simplyweb.org RMON-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/RMON-MIB.txt -L $(RMON_URL)
 
 $(MIBDIR)/RMON2-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org RMON2-MIB"
