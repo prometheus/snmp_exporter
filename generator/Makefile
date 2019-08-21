@@ -31,6 +31,7 @@ IANA_RTPROTO_URL := https://www.iana.org/assignments/ianaiprouteprotocol-mib/ian
 IANA_ADDRESS_URL := https://www.iana.org/assignments/ianaaddressfamilynumbers-mib/ianaaddressfamilynumbers-mib
 RMON_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/RMON-MIB
 RMON2_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/RMON2-MIB
+TOKEN_RING_RMON_URL := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/TOKEN-RING-RMON-MIB
 Q_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/Q-BRIDGE-MIB
 P_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/P-BRIDGE-MIB
 IPV6_TC_URL      := http://www.net-snmp.org/docs/mibs/IPV6-TC.txt
@@ -98,6 +99,7 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt \
   $(MIBDIR)/RMON-MIB.txt \
   $(MIBDIR)/RMON2-MIB.txt \
+  $(MIBDIR)/TOKEN-RING-RMON-MIB.txt \
   $(MIBDIR)/Q-BRIDGE-MIB.txt \
   $(MIBDIR)/P-BRIDGE-MIB.txt \
   $(MIBDIR)/IPV6-TC \
@@ -188,6 +190,10 @@ $(MIBDIR)/RMON-MIB.txt:
 $(MIBDIR)/RMON2-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org RMON2-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/RMON2-MIB.txt -L $(RMON2_URL)
+
+$(MIBDIR)/TOKEN-RING-RMON-MIB.txt:
+	@echo ">> Downloading www.simplyweb.org TOKEN-RING-RMON-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/TOKEN-RING-RMON-MIB.txt -L $(TOKEN_RING_RMON_URL)
 
 $(MIBDIR)/Q-BRIDGE-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org Q-BRIDGE-MIB"
