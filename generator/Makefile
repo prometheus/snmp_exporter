@@ -27,6 +27,11 @@ FRAMEWORK_URL    := http://www.net-snmp.org/docs/mibs/SNMP-FRAMEWORK-MIB.txt
 IANA_CHARSET_URL := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL  := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
+IANA_RTPROTO_URL := https://www.iana.org/assignments/ianaiprouteprotocol-mib/ianaiprouteprotocol-mib
+IANA_ADDRESS_URL := https://www.iana.org/assignments/ianaaddressfamilynumbers-mib/ianaaddressfamilynumbers-mib
+RMON2_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/RMON2-MIB
+Q_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/Q-BRIDGE-MIB
+P_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/P-BRIDGE-MIB
 IPV6_TC_URL      := http://www.net-snmp.org/docs/mibs/IPV6-TC.txt
 KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
@@ -88,6 +93,11 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
+  $(MIBDIR)/IANA-RTPROTO-MIB.txt \
+  $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt \
+  $(MIBDIR)/RMON2-MIB.txt \
+  $(MIBDIR)/Q-BRIDGE-MIB.txt \
+  $(MIBDIR)/P-BRIDGE-MIB.txt \
   $(MIBDIR)/IPV6-TC \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
@@ -160,6 +170,26 @@ $(MIBDIR)/IANA-IFTYPE-MIB.txt:
 $(MIBDIR)/IANA-PRINTER-MIB.txt:
 	@echo ">> Downloading IANA printer MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-PRINTER-MIB.txt -L $(IANA_PRINTER_URL)
+
+$(MIBDIR)/IANA-RTPROTO-MIB.txt:
+	@echo ">> Dowbloading IANA rtproto MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-RTPROTO-MIB.txt -L $(IANA_RTPROTO_URL)
+
+$(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt:
+	@echo ">> Dowbloading IANA IANA-ADDRESS-FAMILY-NUMBERS-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt -L $(IANA_ADDRESS_URL)
+
+$(MIBDIR)/RMON2-MIB.txt:
+	@echo ">> Dowbloading www.simplyweb.org RMON2-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/RMON2-MIB.txt -L $(RMON2_URL)
+
+$(MIBDIR)/Q-BRIDGE-MIB.txt:
+	@echo ">> Dowbloading www.simplyweb.org Q-BRIDGE-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/Q-BRIDGE-MIB.txt -L $(Q_BRIDGE_URL)
+
+$(MIBDIR)/P-BRIDGE-MIB.txt:
+	@echo ">> Dowbloading www.simplyweb.org P-BRIDGE-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/P-BRIDGE-MIB.txt -L $(P_BRIDGE_URL)
 
 $(MIBDIR)/IPV6-TC:
 	@echo ">> Downloading IPV6-TC"
