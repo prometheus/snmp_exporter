@@ -312,6 +312,6 @@ $(MIBDIR)/.rittal_sensors:
 	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/*
 	@rm -v $(TMP)
 
-$$(MIBDIR)/SNMP-COMMUNITY-MIB.txt:
+$(MIBDIR)/SNMP-COMMUNITY-MIB.txt:
 	@echo ">> Download www.simpleweb.org SNMP-COMMUNITY-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-COMMUNITY-MIB.txt -L $(SNMP_COMMUNITY_URL)
