@@ -373,12 +373,12 @@ modules:
 #
   raritan_pdu:
     walk:
-      - PDU2-MIB::measurementsInletPoleSensorValue # input voltage/current etc...  mono/tri phase(s)
-      - PDU2-MIB::inletPoleSensorDecimalDigits # input voltage/current decimal for each precedents entrys
-      - PDU2-MIB::measurementsInletSensorValue   # input statistic
-      - PDU2-MIB::inletSensorDecimalDigits   # input statistic decimal
-      - PDU2-MIB::measurementsOutletSensorValue     # outlet voltage/current etc...
-      - PDU2-MIB::outletSensorDecimalDigits   # outlet decimal
+      - 1.3.6.1.4.1.13742.6.5.2.4.1.4.1.1 # input voltage/current etc...  mono/tri phase(s)
+      - 1.3.6.1.4.1.13742.6.3.3.6.1.7.1.1 # input voltage/current decimal for each precedents entrys
+      - 1.3.6.1.4.1.13742.6.5.2.3.1.4.1   # input statistic
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.7.1   # input statistic decimal
+      - 1.3.6.1.4.1.13742.6.5.4.3.1.4     # outlet voltage/current etc...
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.7.1   # outlet decimal
 
     version: 2
     auth:
@@ -412,8 +412,8 @@ modules:
 #
   rittal_sensors:
     walk:
-      - RITTAL-CMC-III-MIB::cmcIIIVarValueInt #value in INT pay attention you need scale value has is value/if[ scale < 1] then /-1*(scale value) else /scale value fi
-      - RITTAL-CMC-III-MIB::cmcIIIVarScale  #scale value himself
+      - 1.3.6.1.4.1.2606.7.4.2.2.1.11 #value in INT pay attention you need scale value has is value/if[ scale < 1] then /-1*(scale value) else /scale value fi
+      - 1.3.6.1.4.1.2606.7.4.2.2.1.7  #scale value himself
     version: 2
     auth:
       community: public
