@@ -410,7 +410,6 @@ modules:
 # 2 LCPs the first is 2 se second is 3 and the other sensor
 # connected to the CANBUS are device number 3, and more...
 #
-    walk:
   rittal_sensors:
     walk:
       - RITTAL-CMC-III-MIB::cmcIIIVarValueInt #value in INT pay attention you need scale value has is value/if[ scale < 1] then /-1*(scale value) else /scale value fi
