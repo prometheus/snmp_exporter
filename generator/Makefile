@@ -248,5 +248,5 @@ $(MIBDIR)/.rittal_sensors:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Download rittal to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) -L $(RITTAL_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) mibs/SMIv2/RITTAL*
+	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/RITTAL*
 	@rm -v $(TMP)
