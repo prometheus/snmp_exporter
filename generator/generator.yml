@@ -385,10 +385,25 @@ modules:
 #
 # attention! YOU NEED firmware 3.13.003 on your CMC III Processing Unit (PU)
 #            or for firmware v3.15 you need v3.15.70_3!!!
+# this OID without MIB:
+#      - 1.3.6.1.4.1.2606.7.4.2.2.1.11 #value in INT pay attention you need scale value has is value/if[ scale < 1] then /-1*(scale value) else /scale value fi
+#      - 1.3.6.1.4.1.2606.7.4.2.2.1.7  #scale value himself
+# FOR know value correspondance you can use this
+# RITTAL-CMC-III-MIB::cmcIIIVarName
+# there are after this name .[number_device].[value]
+# in CMC-III each device connected to the CANBUS has
+# a number. 1 is CMC-III himself
+# 2 and more is the device connected to the CMC-III
+# BUT if you have a LCP (liquide Cooling Package)
+# the device number of LCP is always 2 if you have
+# 2 LCPs the first is 2 se second is 3 and the other sensor
+# connected to the CANBUS are device number 3, and more...
+#
+    walk:
   rittal_sensors:
     walk:
-      - 1.3.6.1.4.1.2606.7.4.2.2.1.11 #value in INT pay attention you need scale value has is value/if[ scale < 1] then /-1*(scale value) else /scale value fi
-      - 1.3.6.1.4.1.2606.7.4.2.2.1.7  #scale value himself
+      - RITTAL-CMC-III-MIB::cmcIIIVarValueInt #value in INT pay attention you need scale value has is value/if[ scale < 1] then /-1*(scale value) else /scale value fi
+      - RITTAL-CMC-III-MIB::cmcIIIVarScale  #scale value himself
     version: 2
     auth:
       community: public
