@@ -29,6 +29,7 @@ IANA_IFTYPE_URL  := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-m
 IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
 IANA_RTPROTO_URL := https://www.iana.org/assignments/ianaiprouteprotocol-mib/ianaiprouteprotocol-mib
 IANA_ADDRESS_URL := https://www.iana.org/assignments/ianaaddressfamilynumbers-mib/ianaaddressfamilynumbers-mib
+SNMP_NOTIFICATION_URL 	:= https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/SNMP-NOTIFICATION-MIB
 RMON_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/RMON-MIB
 RMON2_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/RMON2-MIB
 TOKEN_RING_RMON_URL := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/TOKEN-RING-RMON-MIB
@@ -98,6 +99,7 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
   $(MIBDIR)/IANA-RTPROTO-MIB.txt \
   $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt \
+  $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt \
   $(MIBDIR)/RMON-MIB.txt \
   $(MIBDIR)/RMON2-MIB.txt \
   $(MIBDIR)/TOKEN-RING-RMON-MIB.txt \
@@ -184,6 +186,10 @@ $(MIBDIR)/IANA-RTPROTO-MIB.txt:
 $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt:
 	@echo ">> Dowbloading IANA IANA-ADDRESS-FAMILY-NUMBERS-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt -L $(IANA_ADDRESS_URL)
+
+$(MIBDIR)/SNMP-NOTIFICATION-MIB.txt:
+	@echo ">> Dowbloading www.simplyweb.org SNMP-NOTIFICATION-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt -L $(SNMP_NOTIFICATION_URL)
 
 $(MIBDIR)/RMON-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org RMON-MIB"
