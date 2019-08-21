@@ -37,6 +37,7 @@ BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/BRIDGE-MIB
 Q_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/Q-BRIDGE-MIB
 P_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/P-BRIDGE-MIB
 DIFFSERV_TC_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/DIFFSERV-DSCP-TC
+SNMPV2_URL := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/SNMPv2-MIB
 IPV6_TC_URL      := http://www.net-snmp.org/docs/mibs/IPV6-TC.txt
 KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
@@ -108,6 +109,7 @@ mibs: mib-dir \
   $(MIBDIR)/Q-BRIDGE-MIB.txt \
   $(MIBDIR)/P-BRIDGE-MIB.txt \
   $(MIBDIR)/DIFFSERV-DSCP-TC.txt \
+  $(MIBDIR)/SNMPv2-MIB \
   $(MIBDIR)/IPV6-TC \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
@@ -163,7 +165,6 @@ $(MIBDIR)/.cisco_v2:
 	cp mibs/cisco_v2/IF-MIB.my mibs/IF-MIB
 	cp mibs/cisco_v2/INET-ADDRESS-MIB.my mibs/INET-ADDRESS-MIB
 	cp mibs/cisco_v2/ISDN-MIB.my mibs/ISDN-MIB
-	cp mibs/cisco_v2/SNMPv2-MIB.my mibs/SNMPv2-MIB
 	cp mibs/cisco_v2/SNMPv2-SMI.my mibs/SNMPv2-SMI
 	cp mibs/cisco_v2/SNMPv2-TC.my mibs/SNMPv2-TC
 	@rm -v $(TMP)
@@ -220,6 +221,10 @@ $(MIBDIR)/P-BRIDGE-MIB.txt:
 $(MIBDIR)/DIFFSERV-DSCP-TC.txt:
 	@echo ">> Dowbloading www.simplyweb.org DIFFSERV-DSCP-TC"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/DIFFSERV-DSCP-TC.txt -L $(DIFFSERV_TC_URL)
+
+$(MIBDIR)/SNMPv2-MIB:
+	@echo ">> Dowbloading www.simplyweb.org SNMPv2-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMPv2-MIB  -L $(SNMPV2_URL)
 
 $(MIBDIR)/IPV6-TC:
 	@echo ">> Downloading IPV6-TC"
