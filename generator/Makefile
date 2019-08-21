@@ -102,6 +102,7 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-RTPROTO-MIB.txt \
   $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt \
   $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt \
+  $(MIBDIR)/SNMP-COMMUNITY-MIB.txt \
   $(MIBDIR)/RMON-MIB.txt \
   $(MIBDIR)/RMON2-MIB.txt \
   $(MIBDIR)/TOKEN-RING-RMON-MIB.txt \
@@ -193,6 +194,10 @@ $(MIBDIR)/IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt:
 $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org SNMP-NOTIFICATION-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-NOTIFICATION-MIB.txt -L $(SNMP_NOTIFICATION_URL)
+
+$(MIBDIR)/SNMP-COMMUNITY-MIB.txt:
+	@echo ">> Download www.simpleweb.org SNMP-COMMUNITY-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-COMMUNITY-MIB.txt -L $(SNMP_COMMUNITY_URL)
 
 $(MIBDIR)/RMON-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org RMON-MIB"
@@ -311,7 +316,3 @@ $(MIBDIR)/.rittal_sensors:
 	@curl $(CURL_OPTS) -o $(TMP) -L $(RITTAL_URL)
 	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/*
 	@rm -v $(TMP)
-
-$(MIBDIR)/SNMP-COMMUNITY-MIB.txt:
-	@echo ">> Download www.simpleweb.org SNMP-COMMUNITY-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMP-COMMUNITY-MIB.txt -L $(SNMP_COMMUNITY_URL)
