@@ -36,6 +36,7 @@ TOKEN_RING_RMON_URL := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/TOKE
 BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/BRIDGE-MIB
 Q_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/Q-BRIDGE-MIB
 P_BRIDGE_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/P-BRIDGE-MIB
+DIFFSERV_TC_URL	 := https://www.simpleweb.org/ietf/mibs/modules/IETF/txt/DIFFSERV-DSCP-TC
 IPV6_TC_URL      := http://www.net-snmp.org/docs/mibs/IPV6-TC.txt
 KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
@@ -106,6 +107,7 @@ mibs: mib-dir \
   $(MIBDIR)/BRIDGE-MIB.txt \
   $(MIBDIR)/Q-BRIDGE-MIB.txt \
   $(MIBDIR)/P-BRIDGE-MIB.txt \
+  $(MIBDIR)/DIFFSERV-DSCP-TC.txt \
   $(MIBDIR)/IPV6-TC \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
@@ -214,6 +216,10 @@ $(MIBDIR)/Q-BRIDGE-MIB.txt:
 $(MIBDIR)/P-BRIDGE-MIB.txt:
 	@echo ">> Dowbloading www.simplyweb.org P-BRIDGE-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/P-BRIDGE-MIB.txt -L $(P_BRIDGE_URL)
+
+$(MIBDIR)/DIFFSERV-DSCP-TC.txt:
+	@echo ">> Dowbloading www.simplyweb.org DIFFSERV-DSCP-TC"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/DIFFSERV-DSCP-TC.txt -L $(DIFFSERV_TC_URL)
 
 $(MIBDIR)/IPV6-TC:
 	@echo ">> Downloading IPV6-TC"
