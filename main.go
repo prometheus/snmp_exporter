@@ -14,6 +14,12 @@
 package main
 
 import (
+	"bufio"
+	"crypto/aes"
+	"crypto/cipher"
+	"crypto/sha256"
+	"encoding/base64"
+	"errors"
 	"fmt"
 	"net/http"
 	_ "net/http/pprof"
@@ -35,9 +41,13 @@ import (
 )
 
 var (
-	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
-	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
-	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	encryptionAesGcm     = kingpin.Flag("encryption.aesgcm", "AES-GCM passphrase for community encryption.").Default("").String()
+	encryptionAesGcmFile = kingpin.Flag("encryption.aesgcm.file", "File containing AES-GCM passphrase for community encryption.").Default("").String()
+	configFile           = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	listenAddress        = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
+	dryRun               = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+
+	encryptionAesGcmKey [32]byte
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
@@ -77,6 +87,23 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		moduleName = "if_mib"
 	}
 	communityString := r.URL.Query().Get("community")
+	if communityString != "" && len(encryptionAesGcmKey) == 32 {
+		ciphertext, err := base64.StdEncoding.DecodeString(communityString)
+		if err != nil {
+			http.Error(w, "'community' parameter must be base64 encoded AES-GCM string", 400)
+			snmpRequestErrors.Inc()
+			return
+		}
+		plaintext, err := decryptStringAesGcm(ciphertext, encryptionAesGcmKey)
+		if err != nil {
+			http.Error(w, "'community' parameter must be valid AES-GCM ciphertext", 400)
+			snmpRequestErrors.Inc()
+			return
+		}
+		communityString = string(plaintext)
+	} else {
+		communityString = "" // We only support encrypted communityStrings !
+	}
 	sc.RLock()
 	module, ok := (*(sc.C))[moduleName]
 	sc.RUnlock()
@@ -131,6 +158,42 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	return nil
 }
 
+func decryptStringAesGcm(data []byte, key [32]byte) ([]byte, error) {
+	block, _ := aes.NewCipher(key[:])
+	gcm, _ := cipher.NewGCM(block)
+	nonceSize := gcm.NonceSize()
+	if len(data) < nonceSize {
+		return nil, errors.New(fmt.Sprintf("AesGcm cipher size of %0d too short (Should be at least %0d)\n", len(data), nonceSize))
+	}
+	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
+	plaintext, err := gcm.Open(nil, nonce, ciphertext, nil)
+	if err != nil {
+		return nil, err
+	}
+	return plaintext, nil
+}
+
+func getFirstLineFromFile(filename string) (line string, err error) {
+	if _, err := os.Stat(filename); err == nil {
+		file, err := os.Open(filename)
+		if err != nil {
+			return "", err
+		}
+		defer file.Close()
+		scanner := bufio.NewScanner(file)
+		if scanner.Scan() {
+			return scanner.Text(), nil
+		} else {
+			if err := scanner.Err(); err != nil {
+				return "", err
+			}
+		}
+		return "", nil
+	} else {
+		return "", errors.New(fmt.Sprintf("File %s does not exist", filename))
+	}
+}
+
 func main() {
 	log.AddFlags(kingpin.CommandLine)
 	kingpin.Version(version.Print("snmp_exporter"))
@@ -145,6 +208,19 @@ func main() {
 	sc.C, err = config.LoadFile(*configFile)
 	if err != nil {
 		log.Fatalf("Error parsing config file: %s", err)
+	}
+
+	if *encryptionAesGcmFile != "" {
+		firstLine, err := getFirstLineFromFile(*encryptionAesGcmFile)
+		if err == nil {
+			*encryptionAesGcm = firstLine
+		} else {
+			log.Infof("Failed to load encryption passphrase from %s: %s", *encryptionAesGcmFile, err)
+		}
+	}
+	if *encryptionAesGcm != "" {
+		// We cache the 32 byte AES key from the SHA256 hash of the passphrase
+		encryptionAesGcmKey = sha256.Sum256([]byte(*encryptionAesGcm))
 	}
 
 	// Exit if in dry-run mode.
@@ -205,10 +281,10 @@ func main() {
             <form action="/snmp">
             <label>Target:</label> <input type="text" name="target" placeholder="X.X.X.X" value="1.2.3.4"><br>
             <label>Module:</label> <input type="text" name="module" placeholder="module" value="if_mib"><br>
-            <label>Community:</label> <input type="text" name="community" placeholder="community" value="public"><br>
+            <label>Community</label> <input type="text" name="community" placeholder="community" value="public"><br>
             <input type="submit" value="Submit">
             </form>
-						<p><a href="/config">Config</a></p>
+            <p><a href="/config">Config</a></p>
             </body>
             </html>`))
 	})
