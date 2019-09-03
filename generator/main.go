@@ -20,7 +20,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/common/log"
+	"github.com/go-kit/kit/log"
+	"github.com/go-kit/kit/log/level"
+	"github.com/prometheus/common/promlog"
+	"github.com/prometheus/common/promlog/flag"
 	"gopkg.in/alecthomas/kingpin.v2"
 	"gopkg.in/yaml.v2"
 
@@ -28,25 +31,25 @@ import (
 )
 
 // Generate a snmp_exporter config and write it out.
-func generateConfig(nodes *Node, nameToNode map[string]*Node) {
+func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger) error {
 	outputPath, err := filepath.Abs(*outputPath)
 	if err != nil {
-		log.Fatal("Unable to determine absolute path for output")
+		return fmt.Errorf("unable to determine absolute path for output")
 	}
 
 	content, err := ioutil.ReadFile("generator.yml")
 	if err != nil {
-		log.Fatalf("Error reading yml config: %s", err)
+		return fmt.Errorf("error reading yml config: %s", err)
 	}
 	cfg := &Config{}
 	err = yaml.UnmarshalStrict(content, cfg)
 	if err != nil {
-		log.Fatalf("Error parsing yml config: %s", err)
+		return fmt.Errorf("error parsing yml config: %s", err)
 	}
 
 	outputConfig := config.Config{}
 	for name, m := range cfg.Modules {
-		log.Infof("Generating config for module %s", name)
+		level.Info(logger).Log("msg", "Generating config for module", "module", name)
 		// Give each module a copy of the tree so that it can be modified.
 		mNodes := nodes.Copy()
 		// Build the map with new pointers.
@@ -55,34 +58,39 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node) {
 			mNameToNode[n.Oid] = n
 			mNameToNode[n.Label] = n
 		})
-		outputConfig[name] = generateConfigModule(m, mNodes, mNameToNode)
+		out, err := generateConfigModule(m, mNodes, mNameToNode, logger)
+		if err != nil {
+			return err
+		}
+		outputConfig[name] = out
 		outputConfig[name].WalkParams = m.WalkParams
-		log.Infof("Generated %d metrics for module %s", len(outputConfig[name].Metrics), name)
+		level.Info(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig[name].Metrics))
 	}
 
 	config.DoNotHideSecrets = true
 	out, err := yaml.Marshal(outputConfig)
 	config.DoNotHideSecrets = false
 	if err != nil {
-		log.Fatalf("Error marshaling yml: %s", err)
+		return fmt.Errorf("error marshaling yml: %s", err)
 	}
 
 	// Check the generated config to catch auth/version issues.
 	err = yaml.UnmarshalStrict(out, &config.Config{})
 	if err != nil {
-		log.Fatalf("Error parsing generated config: %s", err)
+		return fmt.Errorf("error parsing generated config: %s", err)
 	}
 
 	f, err := os.Create(outputPath)
 	if err != nil {
-		log.Fatalf("Error opening output file: %s", err)
+		return fmt.Errorf("error opening output file: %s", err)
 	}
 	out = append([]byte("# WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.\n"), out...)
 	_, err = f.Write(out)
 	if err != nil {
-		log.Fatalf("Error writing to output file: %s", err)
+		return fmt.Errorf("error writing to output file: %s", err)
 	}
-	log.Infof("Config written to %s", outputPath)
+	level.Info(logger).Log("msg", "Config written", "file", outputPath)
+	return nil
 }
 
 var (
@@ -94,22 +102,34 @@ var (
 )
 
 func main() {
-	log.AddFlags(kingpin.CommandLine)
+	promlogConfig := &promlog.Config{}
+	flag.AddFlags(kingpin.CommandLine, promlogConfig)
 	kingpin.HelpFlag.Short('h')
 	command := kingpin.Parse()
+	logger := promlog.New(promlogConfig)
 
-	parseOutput := strings.TrimSpace(initSNMP())
+	parseOutput, err := initSNMP(logger)
+	if err != nil {
+		level.Error(logger).Log("msg", "Error initializing netsnmp", "err", err)
+		os.Exit(1)
+	}
+
+	parseOutput = strings.TrimSpace(parseOutput)
 	parseErrors := len(parseOutput) != 0
 	if parseErrors {
-		log.Warnf("NetSNMP reported %d parse error(s)", len(strings.Split(parseOutput, "\n")))
+		level.Warn(logger).Log("msg", "NetSNMP reported parse error(s)", "errors", len(strings.Split(parseOutput, "\n")))
 	}
 
 	nodes := getMIBTree()
-	nameToNode := prepareTree(nodes)
+	nameToNode := prepareTree(nodes, logger)
 
 	switch command {
 	case generateCommand.FullCommand():
-		generateConfig(nodes, nameToNode)
+		err := generateConfig(nodes, nameToNode, logger)
+		if err != nil {
+			level.Error(logger).Log("msg", "Error generating config netsnmp", "err", err)
+			os.Exit(1)
+		}
 	case parseErrorsCommand.FullCommand():
 		fmt.Println(parseOutput)
 	case dumpCommand.FullCommand():

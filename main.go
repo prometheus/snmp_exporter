@@ -23,13 +23,15 @@ import (
 	"syscall"
 	"time"
 
-	"gopkg.in/alecthomas/kingpin.v2"
-	yaml "gopkg.in/yaml.v2"
-
+	"github.com/go-kit/kit/log"
+	"github.com/go-kit/kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/prometheus/common/log"
+	"github.com/prometheus/common/promlog"
+	"github.com/prometheus/common/promlog/flag"
 	"github.com/prometheus/common/version"
+	"gopkg.in/alecthomas/kingpin.v2"
+	yaml "gopkg.in/yaml.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
@@ -65,7 +67,7 @@ func init() {
 	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	target := r.URL.Query().Get("target")
 	if target == "" {
 		http.Error(w, "'target' parameter must be specified", 400)
@@ -84,18 +86,20 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		snmpRequestErrors.Inc()
 		return
 	}
-	log.Debugf("Scraping target '%s' with module '%s'", target, moduleName)
+
+	logger = log.With(logger, "module", moduleName, "target", target)
+	level.Debug(logger).Log("msg", "Starting scrape", "module")
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	collector := collector{target: target, module: module}
+	collector := collector{target: target, module: module, logger: logger}
 	registry.MustRegister(collector)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
 	duration := time.Since(start).Seconds()
 	snmpDuration.WithLabelValues(moduleName).Observe(duration)
-	log.Debugf("Scrape of target '%s' with module '%s' took %f seconds", target, moduleName, duration)
+	level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
 }
 
 func updateConfiguration(w http.ResponseWriter, r *http.Request) {
@@ -107,7 +111,6 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
 		}
 	default:
-		log.Errorf("POST method expected")
 		http.Error(w, "POST method expected", 400)
 	}
 }
@@ -120,35 +123,35 @@ type SafeConfig struct {
 func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	conf, err := config.LoadFile(configFile)
 	if err != nil {
-		log.Errorf("Error parsing config file: %s", err)
 		return err
 	}
 	sc.Lock()
 	sc.C = conf
 	sc.Unlock()
-	log.Infoln("Loaded config file")
 	return nil
 }
 
 func main() {
-	log.AddFlags(kingpin.CommandLine)
-	kingpin.Version(version.Print("snmp_exporter"))
+	promlogConfig := &promlog.Config{}
+	flag.AddFlags(kingpin.CommandLine, promlogConfig)
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
+	logger := promlog.New(promlogConfig)
 
-	log.Infoln("Starting snmp exporter", version.Info())
-	log.Infoln("Build context", version.BuildContext())
+	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info())
+	level.Info(logger).Log("msg", "Build context", version.BuildContext())
 
 	// Bail early if the config is bad.
 	var err error
 	sc.C, err = config.LoadFile(*configFile)
 	if err != nil {
-		log.Fatalf("Error parsing config file: %s", err)
+		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
+		os.Exit(1)
 	}
 
 	// Exit if in dry-run mode.
 	if *dryRun {
-		log.Infoln("Configuration parsed successfully.")
+		level.Info(logger).Log("msg", "Configuration parsed successfully")
 		return
 	}
 
@@ -165,21 +168,27 @@ func main() {
 			select {
 			case <-hup:
 				if err := sc.ReloadConfig(*configFile); err != nil {
-					log.Errorf("Error reloading config: %s", err)
+					level.Error(logger).Log("msg", "Error reloading config", "err", err)
+				} else {
+					level.Info(logger).Log("msg", "Loaded config file")
 				}
 			case rc := <-reloadCh:
 				if err := sc.ReloadConfig(*configFile); err != nil {
-					log.Errorf("Error reloading config: %s", err)
+					level.Error(logger).Log("msg", "Error reloading config", "err", err)
 					rc <- err
 				} else {
+					level.Info(logger).Log("msg", "Loaded config file")
 					rc <- nil
 				}
 			}
 		}
 	}()
 
-	http.Handle("/metrics", promhttp.Handler())       // Normal metrics endpoint for SNMP exporter itself.
-	http.HandleFunc("/snmp", handler)                 // Endpoint to do SNMP scrapes.
+	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
+	// Endpoint to do SNMP scrapes.
+	http.HandleFunc("/snmp", func(w http.ResponseWriter, r *http.Request) {
+		handler(w, r, logger)
+	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -216,13 +225,16 @@ func main() {
 		c, err := yaml.Marshal(sc.C)
 		sc.RUnlock()
 		if err != nil {
-			log.Warnf("Error marshaling configuration: %v", err)
+			level.Error(logger).Log("msg", "Error marshaling configuration", "err", err)
 			http.Error(w, err.Error(), 500)
 			return
 		}
 		w.Write(c)
 	})
 
-	log.Infof("Listening on %s", *listenAddress)
-	log.Fatal(http.ListenAndServe(*listenAddress, nil))
+	level.Info(logger).Log("msg", "Listening on address", "address", *listenAddress)
+	if err := http.ListenAndServe(*listenAddress, nil); err != nil {
+		level.Error(logger).Log("msg", "Error starting HTTP server", "err", err)
+		os.Exit(1)
+	}
 }
