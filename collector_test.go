@@ -19,8 +19,8 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/go-kit/kit/log"
 	"github.com/prometheus/client_model/go"
-	"github.com/prometheus/common/log"
 	"github.com/soniah/gosnmp"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
@@ -493,7 +493,7 @@ func TestPduToSample(t *testing.T) {
 	}
 
 	for i, c := range cases {
-		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu)
+		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger())
 		if len(metrics) != len(c.expectedMetrics) && !c.shouldErr {
 			t.Fatalf("Unexpected number of metrics returned for case %v: want %v, got %v", i, len(c.expectedMetrics), len(metrics))
 		}
@@ -534,9 +534,7 @@ func TestGetPduValue(t *testing.T) {
 }
 
 func TestGetPduLargeValue(t *testing.T) {
-	// Setup default flags and suppress logging.
-	log.AddFlags(kingpin.CommandLine)
-	_, err := kingpin.CommandLine.Parse([]string{"--log.level", "fatal"})
+	_, err := kingpin.CommandLine.Parse([]string{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -550,7 +548,7 @@ func TestGetPduLargeValue(t *testing.T) {
 		t.Fatalf("Got incorrect counter wrapping for Counter64: %v", value)
 	}
 
-	_, err = kingpin.CommandLine.Parse([]string{"--log.level", "fatal", "--no-snmp.wrap-large-counters"})
+	_, err = kingpin.CommandLine.Parse([]string{"--no-snmp.wrap-large-counters"})
 	if err != nil {
 		t.Fatal(err)
 	}

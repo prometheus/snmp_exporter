@@ -21,8 +21,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-kit/kit/log"
+	"github.com/go-kit/kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/log"
 	"github.com/soniah/gosnmp"
 	"gopkg.in/alecthomas/kingpin.v2"
 
@@ -81,7 +82,7 @@ func listToOid(l []int) string {
 	return strings.Join(result, ".")
 }
 
-func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error) {
+func ScrapeTarget(target string, config *config.Module, logger log.Logger) ([]gosnmp.SnmpPDU, error) {
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
 	snmp.MaxRepetitions = config.WalkParams.MaxRepetitions
@@ -123,16 +124,16 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 			oids = maxOids
 		}
 
-		log.Debugf("Getting %d OIDs from target %q", oids, snmp.Target)
+		level.Debug(logger).Log("msg", "Getting OIDs", "oids", oids)
 		getStart := time.Now()
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
 			return nil, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
 		}
-		log.Debugf("Get of %d OIDs completed in %s", oids, time.Since(getStart))
+		level.Debug(logger).Log("msg", "Get of OIDs completed", "oids", oids, "duration_seconds", time.Since(getStart))
 		// SNMPv1 will return packet error for unsupported OIDs.
 		if packet.Error == gosnmp.NoSuchName && snmp.Version == gosnmp.Version1 {
-			log.Debugf("OID %s not supported by target %s", getOids[0], snmp.Target)
+			level.Debug(logger).Log("msg", "OID not supported by target", "oids", getOids[0])
 			getOids = getOids[oids:]
 			continue
 		}
@@ -143,7 +144,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		}
 		for _, v := range packet.Variables {
 			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
-				log.Debugf("OID %s not supported by target %s", v.Name, snmp.Target)
+				level.Debug(logger).Log("msg", "OID not supported by target", "oids", v.Name)
 				continue
 			}
 			result = append(result, v)
@@ -153,7 +154,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 
 	for _, subtree := range config.Walk {
 		var pdus []gosnmp.SnmpPDU
-		log.Debugf("Walking target %q subtree %q", snmp.Target, subtree)
+		level.Debug(logger).Log("msg", "Walking subtree", "oid", subtree)
 		walkStart := time.Now()
 		if snmp.Version == gosnmp.Version1 {
 			pdus, err = snmp.WalkAll(subtree)
@@ -163,7 +164,7 @@ func ScrapeTarget(target string, config *config.Module) ([]gosnmp.SnmpPDU, error
 		if err != nil {
 			return nil, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
 		}
-		log.Debugf("Walk of target %q subtree %q completed in %s", snmp.Target, subtree, time.Since(walkStart))
+		level.Debug(logger).Log("msg", "Walk of subtree completed", "oid", subtree, "duration_seconds", time.Since(walkStart))
 
 		result = append(result, pdus...)
 	}
@@ -196,6 +197,7 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 type collector struct {
 	target string
 	module *config.Module
+	logger log.Logger
 }
 
 // Describe implements Prometheus.Collector.
@@ -206,9 +208,9 @@ func (c collector) Describe(ch chan<- *prometheus.Desc) {
 // Collect implements Prometheus.Collector.
 func (c collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
-	pdus, err := ScrapeTarget(c.target, c.module)
+	pdus, err := ScrapeTarget(c.target, c.module, c.logger)
 	if err != nil {
-		log.Infof("Error scraping target %s: %s", c.target, err)
+		level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
 		return
 	}
@@ -239,7 +241,7 @@ PduLoop:
 			}
 			if head.metric != nil {
 				// Found a match.
-				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu)
+				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, c.logger)
 				for _, sample := range samples {
 					ch <- sample
 				}
@@ -318,7 +320,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 	return float64(t.Unix()), nil
 }
 
-func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU) []prometheus.Metric {
+func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger) []prometheus.Metric {
 	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
@@ -344,7 +346,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t = prometheus.GaugeValue
 		value, err = parseDateAndTime(pdu)
 		if err != nil {
-			log.Debugf("error parsing DateAndTime: %s", err)
+			level.Debug(logger).Log("msg", "Error parsing DateAndTime", "err", err)
 			return []prometheus.Metric{}
 		}
 	case "EnumAsInfo":
@@ -369,16 +371,16 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 					metricType = t
 				} else {
 					metricType = "OctetString"
-					log.Debugf("Unable to handle type value %d at %s for %s", val, prevOid, metric.Name)
+					level.Debug(logger).Log("msg", "Unable to handle type value", "value", val, "oid", prevOid, "metric", metric.Name)
 				}
 			} else {
 				metricType = "OctetString"
-				log.Debugf("Unable to find type at %s for %s", prevOid, metric.Name)
+				level.Debug(logger).Log("msg", "Unable to find type at oid for metric", "oid", prevOid, "metric", metric.Name)
 			}
 		}
 
 		if len(metric.RegexpExtracts) > 0 {
-			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType), labelnames, labelvalues)
+			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType), labelnames, labelvalues, logger)
 		}
 		// For strings we put the value as a label with the same name as the metric.
 		// If the name is already an index, we do not need to set it again.
@@ -398,19 +400,19 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 	return []prometheus.Metric{sample}
 }
 
-func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string) []prometheus.Metric {
+func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string, logger log.Logger) []prometheus.Metric {
 	results := []prometheus.Metric{}
 	for name, strMetricSlice := range metric.RegexpExtracts {
 		for _, strMetric := range strMetricSlice {
 			indexes := strMetric.Regex.FindStringSubmatchIndex(pduValue)
 			if indexes == nil {
-				log.Debugf("No match found for regexp: %v against value: %v for metric %v", strMetric.Regex.String(), pduValue, metric.Name)
+				level.Debug(logger).Log("msg", "No match found for regexp", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String())
 				continue
 			}
 			res := strMetric.Regex.ExpandString([]byte{}, strMetric.Value, pduValue, indexes)
 			v, err := strconv.ParseFloat(string(res), 64)
 			if err != nil {
-				log.Debugf("Error parsing float64 from value: %v for metric: %v", res, metric.Name)
+				level.Debug(logger).Log("msg", "Error parsing float64 from value", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String(), "extracted_value", res)
 				continue
 			}
 			newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
@@ -530,7 +532,6 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 		return ""
 	default:
 		// This shouldn't happen.
-		log.Infof("Got PDU with unexpected type: Name: %s Value: '%s', Go Type: %T SNMP Type: %v", pdu.Name, pdu.Value, pdu.Value, pdu.Type)
 		snmpUnexpectedPduType.Inc()
 		return fmt.Sprintf("%s", pdu.Value)
 	}
@@ -628,7 +629,7 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool)
 		}
 		return fmt.Sprintf("%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X", parts...), subOid, indexOids
 	default:
-		log.Fatalf("Unknown index type %s", typ)
+		panic(fmt.Sprintf("Unknown index type %s", typ))
 		return "", nil, nil
 	}
 }

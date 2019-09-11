@@ -14,12 +14,14 @@
 package main
 
 import (
+	"fmt"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/common/log"
+	"github.com/go-kit/kit/log"
+	"github.com/go-kit/kit/log/level"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
@@ -42,7 +44,7 @@ func walkNode(n *Node, f func(n *Node)) {
 }
 
 // Transform the tree.
-func prepareTree(nodes *Node) map[string]*Node {
+func prepareTree(nodes *Node, logger log.Logger) map[string]*Node {
 	// Build a map from names and oids to nodes.
 	nameToNode := map[string]*Node{}
 	walkNode(nodes, func(n *Node) {
@@ -78,7 +80,7 @@ func prepareTree(nodes *Node) map[string]*Node {
 		}
 		augmented, ok := nameToNode[n.Augments]
 		if !ok {
-			log.Warnf("Can't find augmenting oid %s for %s", n.Augments, n.Label)
+			level.Warn(logger).Log("msg", "Can't find augmenting node", "augments", n.Augments, "node", n.Label)
 			return
 		}
 		for _, c := range n.Children {
@@ -248,7 +250,7 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 	return n, oidInstance
 }
 
-func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node) *config.Module {
+func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node, logger log.Logger) (*config.Module, error) {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 	tableInstances := map[string][]string{}
@@ -261,7 +263,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		// Find node to override.
 		n, ok := nameToNode[name]
 		if !ok {
-			log.Warnf("Could not find metric '%s' to override type", name)
+			level.Warn(logger).Log("msg", "Could not find node to override type", "node", name)
 			continue
 		}
 		// params.Type validated at generator configuration.
@@ -287,7 +289,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		metricNode, oidType := getMetricNode(oid, node, nameToNode)
 		switch oidType {
 		case oidNotFound:
-			log.Fatalf("Cannot find oid '%s' to walk", oid)
+			return nil, fmt.Errorf("cannot find oid '%s' to walk", oid)
 		case oidSubtree:
 			needToWalk[oid] = struct{}{}
 		case oidInstance:
@@ -342,12 +344,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
 				if !ok {
-					log.Warnf("Error, can't find index %s for node %s", i, n.Label)
+					level.Warn(logger).Log("msg", "Could not find index for node", "node", n.Label, "index", i)
 					return
 				}
 				index.Type, ok = metricType(indexNode.Type)
 				if !ok {
-					log.Warnf("Error, can't handle index type %s for index %s on node %s", indexNode.Type, i, n.Label)
+					level.Warn(logger).Log("msg", "Can't handle index type on node", "node", n.Label, "index", i, "type", indexNode.Type)
 					return
 				}
 				index.FixedSize = indexNode.FixedSize
@@ -360,7 +362,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					if prevType == subtype {
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
 					} else {
-						log.Warnf("Error, can't handle index for node %s: %s without preceding %s", index.Type, subtype, n.Label)
+						level.Warn(logger).Log("msg", "Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
 						return
 					}
 				}
@@ -386,12 +388,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 			if foundIndexes == len(lookup.SourceIndexes) {
 				if _, ok := nameToNode[lookup.Lookup]; !ok {
-					log.Fatalf("Unknown index '%s'", lookup.Lookup)
+					return nil, fmt.Errorf("unknown index '%s'", lookup.Lookup)
 				}
 				indexNode := nameToNode[lookup.Lookup]
 				typ, ok := metricType(indexNode.Type)
 				if !ok {
-					log.Fatalf("Unknown index type %s for %s", indexNode.Type, lookup.Lookup)
+					return nil, fmt.Errorf("unknown index type %s for %s", indexNode.Type, lookup.Lookup)
 				}
 				l := &config.Lookup{
 					Labelname: sanitizeLabelName(indexNode.Label),
@@ -475,7 +477,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			out.Walk = append(out.Walk, k)
 		}
 	}
-	return out
+	return out, nil
 }
 
 var (
