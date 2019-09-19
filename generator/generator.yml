@@ -417,3 +417,14 @@ modules:
     version: 2
     auth:
       community: public
+
+#
+# OLD RITTAL WIthout MIB!!!
+#
+#
+  rittal_old_sensors:
+    walk:
+      - unit2SensorValue
+    version: 1
+    auth:
+      community: public

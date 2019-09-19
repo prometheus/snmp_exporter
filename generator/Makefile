@@ -1,5 +1,4 @@
-# Copyright 2018 The Prometheus Authors
-# Licensed under the Apache License, Version 2.0 (the "License");
+# Copyright 2018 The Prometheus Authors # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -53,6 +52,7 @@ UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
 UCD_URL          := http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
 RARITAN_URL      := 'http://support.raritan.com/px2/version-2.4.1/mibs/pdu2-mib-020400-39592.txt'
 RITTAL_URL       := 'http://www.rittal.de/downloads/rimatrix5/security/CMCIII/RITTAL_CMC-III_MIB_V_3_15_20.zip'
+RITTALOLD_URL    := http://www.circitor.fr/Mibs/Mib/R/RITTAL-CMC-TC-MIB.mib
 
 
 .DEFAULT: all
@@ -128,7 +128,8 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/UCD-SNMP-MIB.txt \
   $(MIBDIR)/raritan-pdu2-mib \
-  $(MIBDIR)/.rittal_sensors
+  $(MIBDIR)/.rittal_sensors \
+  $(MIBDIR)/RITTAL-CMC-TC-MIB.mib \
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -315,3 +316,7 @@ $(MIBDIR)/.rittal_sensors:
 	@curl $(CURL_OPTS) -o $(TMP) -L $(RITTAL_URL)
 	@unzip -j -o -d $(MIBDIR) $(TMP) mibs/SMIv2/*
 	@rm -v $(TMP)
+
+$(MIBDIR)/RITTAL-CMC-TC-MIB.mib:
+	@echo ">> Downloading rittal CMC-TC mib file "
+	@curl $(CURL_OPTS) -o $(MIBDIR)/RITTAL-CMC-TC-MIB.mib -L $(RITTALOLD_URL)
