@@ -232,6 +232,9 @@ modules:
     - source_indexes: [laIndex]
       lookup: laNames
       drop_source_indexes: true
+    - source_indexes: [hrStorageIndex]
+      lookup: hrStorageDescr
+      drop_source_indexes: true
     overrides:
       ifType:
         type: EnumAsInfo
