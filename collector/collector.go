@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package collector
 
 import (
 	"encoding/binary"
@@ -198,6 +198,10 @@ type collector struct {
 	target string
 	module *config.Module
 	logger log.Logger
+}
+
+func New(target string, module *config.Module, logger log.Logger) *collector {
+	return &collector{target: target, module: module, logger: logger}
 }
 
 // Describe implements Prometheus.Collector.
