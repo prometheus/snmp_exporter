@@ -337,6 +337,8 @@ apcups:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -2255,6 +2257,8 @@ arista_sw:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -3294,6 +3298,8 @@ cisco_wlc:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -4410,6 +4416,8 @@ ddwrt:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -5750,6 +5758,8 @@ if_mib:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -10545,6 +10555,8 @@ paloalto_fw:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -12520,6 +12532,8 @@ synology:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -14996,6 +15010,8 @@ ubiquiti_airmax:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -16291,6 +16307,8 @@ ubiquiti_unifi:
       294: otnOtsig
       295: microwaveCarrierTermination
       296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
