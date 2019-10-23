@@ -124,18 +124,28 @@ func (t *TrapListener) Listening() <-chan bool {
 func (t *TrapListener) Close() {
 	// Prevent concurrent calls to Close
 	if atomic.CompareAndSwapInt32(&t.finish, 0, 1) {
-		t.conn.Close()
+		if t.conn != nil {
+			t.conn.Close()
+		}
 		<-t.done
 	}
 }
 
 // Listen listens on the UDP address addr and calls the OnNewTrap
 // function specified in *TrapListener for every trap received.
-func (t *TrapListener) Listen(addr string) (err error) {
+func (t *TrapListener) Listen(addr string) error {
 	if t.Params == nil {
 		t.Params = Default
 	}
+
 	t.Params.validateParameters()
+	/*
+		TODO returning an error causes TestSendTrapBasic() (and others) to hang
+		err := t.Params.validateParameters()
+		if err != nil {
+			return err
+		}
+	*/
 
 	if t.OnNewTrap == nil {
 		t.OnNewTrap = debugTrapHandler
@@ -159,7 +169,7 @@ func (t *TrapListener) Listen(addr string) (err error) {
 		switch {
 		case atomic.LoadInt32(&t.finish) == 1:
 			t.done <- true
-			return
+			return nil
 
 		default:
 			var buf [4096]byte

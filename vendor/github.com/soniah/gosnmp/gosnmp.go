@@ -42,8 +42,11 @@ type GoSNMP struct {
 	// Target is an ipv4 address
 	Target string
 
-	// Port is a udp port
+	// Port is a port
 	Port uint16
+
+	// Transport is the transport protocol to use ("udp" or "tcp"); if unset "udp" will be used.
+	Transport string
 
 	// Community is an SNMP Community string
 	Community string
@@ -82,6 +85,13 @@ type GoSNMP struct {
 	// (default: 0 as per RFC 1905)
 	NonRepeaters int
 
+	// netsnmp has '-C APPOPTS - set various application specific behaviours'
+	//
+	// - 'c: do not check returned OIDs are increasing' - use AppOpts = map[string]interface{"c":true} with
+	//   Walk() or BulkWalk(). The library user needs to implement their own policy for terminating walks.
+	// - 'p,i,I,t,E' -> pull requests welcome
+	AppOpts map[string]interface{}
+
 	// Internal - used to sync requests to responses
 	requestID uint32
 	random    *rand.Rand
@@ -110,6 +120,7 @@ type GoSNMP struct {
 // Default connection settings
 var Default = &GoSNMP{
 	Port:               161,
+	Transport:          "udp",
 	Community:          "public",
 	Version:            Version2c,
 	Timeout:            time.Duration(2) * time.Second,
@@ -137,34 +148,38 @@ type SnmpPDU struct {
 // AsnExtensionID mask to identify types > 30 in subsequent byte
 const AsnExtensionID = 0x1F
 
+//go:generate stringer -type Asn1BER
+
 // Asn1BER is the type of the SNMP PDU
 type Asn1BER byte
 
 // Asn1BER's - http://www.ietf.org/rfc/rfc1442.txt
 const (
 	EndOfContents     Asn1BER = 0x00
-	UnknownType               = 0x00
-	Boolean                   = 0x01
-	Integer                   = 0x02
-	BitString                 = 0x03
-	OctetString               = 0x04
-	Null                      = 0x05
-	ObjectIdentifier          = 0x06
-	ObjectDescription         = 0x07
-	IPAddress                 = 0x40
-	Counter32                 = 0x41
-	Gauge32                   = 0x42
-	TimeTicks                 = 0x43
-	Opaque                    = 0x44
-	NsapAddress               = 0x45
-	Counter64                 = 0x46
-	Uinteger32                = 0x47
-	OpaqueFloat               = 0x78
-	OpaqueDouble              = 0x79
-	NoSuchObject              = 0x80
-	NoSuchInstance            = 0x81
-	EndOfMibView              = 0x82
+	UnknownType       Asn1BER = 0x00
+	Boolean           Asn1BER = 0x01
+	Integer           Asn1BER = 0x02
+	BitString         Asn1BER = 0x03
+	OctetString       Asn1BER = 0x04
+	Null              Asn1BER = 0x05
+	ObjectIdentifier  Asn1BER = 0x06
+	ObjectDescription Asn1BER = 0x07
+	IPAddress         Asn1BER = 0x40
+	Counter32         Asn1BER = 0x41
+	Gauge32           Asn1BER = 0x42
+	TimeTicks         Asn1BER = 0x43
+	Opaque            Asn1BER = 0x44
+	NsapAddress       Asn1BER = 0x45
+	Counter64         Asn1BER = 0x46
+	Uinteger32        Asn1BER = 0x47
+	OpaqueFloat       Asn1BER = 0x78
+	OpaqueDouble      Asn1BER = 0x79
+	NoSuchObject      Asn1BER = 0x80
+	NoSuchInstance    Asn1BER = 0x81
+	EndOfMibView      Asn1BER = 0x82
 )
+
+//go:generate stringer -type SNMPError
 
 // SNMPError is the type for standard SNMP errors.
 type SNMPError uint8
@@ -203,17 +218,17 @@ const (
 // For historical reasons (ie this is part of the public API), the method won't
 // be renamed to Dial().
 func (x *GoSNMP) Connect() error {
-	return x.connect("udp")
+	return x.connect("")
 }
 
 // ConnectIPv4 forces an IPv4-only connection
 func (x *GoSNMP) ConnectIPv4() error {
-	return x.connect("udp4")
+	return x.connect("4")
 }
 
 // ConnectIPv6 forces an IPv6-only connection
 func (x *GoSNMP) ConnectIPv6() error {
-	return x.connect("udp6")
+	return x.connect("6")
 }
 
 // connect to address addr on the given network
@@ -221,18 +236,18 @@ func (x *GoSNMP) ConnectIPv6() error {
 // https://golang.org/pkg/net/#Dial gives acceptable network values as:
 //   "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only), "udp", "udp4" (IPv4-only),"udp6" (IPv6-only), "ip",
 //   "ip4" (IPv4-only), "ip6" (IPv6-only), "unix", "unixgram" and "unixpacket"
-func (x *GoSNMP) connect(network string) error {
-	var err error
-	err = x.validateParameters()
+func (x *GoSNMP) connect(networkSuffix string) error {
+	err := x.validateParameters()
 	if err != nil {
 		return err
 	}
 
-	addr := net.JoinHostPort(x.Target, strconv.Itoa(int(x.Port)))
-	x.Conn, err = net.DialTimeout(network, addr, x.Timeout)
+	x.Transport = x.Transport + networkSuffix
+	err = x.netConnect()
 	if err != nil {
-		return fmt.Errorf("Error establishing connection to host: %s\n", err.Error())
+		return fmt.Errorf("error establishing connection to host: %s", err.Error())
 	}
+
 	if x.random == nil {
 		x.random = rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
 	}
@@ -248,11 +263,24 @@ func (x *GoSNMP) connect(network string) error {
 	return nil
 }
 
+// Performs the real socket opening network operation. This can be used to do a
+// reconnect (needed for TCP)
+func (x *GoSNMP) netConnect() error {
+	var err error
+	addr := net.JoinHostPort(x.Target, strconv.Itoa(int(x.Port)))
+	x.Conn, err = net.DialTimeout(x.Transport, addr, x.Timeout)
+	return err
+}
+
 func (x *GoSNMP) validateParameters() error {
 	if x.Logger == nil {
 		x.Logger = log.New(ioutil.Discard, "", 0)
 	} else {
 		x.loggingEnabled = true
+	}
+
+	if x.Transport == "" {
+		x.Transport = "udp"
 	}
 
 	if x.MaxOids == 0 {
@@ -321,10 +349,10 @@ func (x *GoSNMP) Set(pdus []SnmpPDU) (result *SnmpPacket, err error) {
 	var packetOut *SnmpPacket
 	switch pdus[0].Type {
 	// TODO test Gauge32
-	case Integer, OctetString, Gauge32:
+	case Integer, OctetString, Gauge32, IPAddress:
 		packetOut = x.mkSnmpPacket(SetRequest, pdus, 0, 0)
 	default:
-		return nil, fmt.Errorf("ERR:gosnmp currently only supports SNMP SETs for Integers and OctetStrings")
+		return nil, fmt.Errorf("ERR:gosnmp currently only supports SNMP SETs for Integers, IPAddress and OctetStrings")
 	}
 	return x.send(packetOut, true)
 }
@@ -374,9 +402,7 @@ func (x *GoSNMP) GetBulk(oids []string, nonRepeaters uint8, maxRepetitions uint8
 // This is useful for generating traffic for use over separate transport
 // stacks and creating traffic samples for test purposes.
 func (x *GoSNMP) SnmpEncodePacket(pdutype PDUType, pdus []SnmpPDU, nonRepeaters uint8, maxRepetitions uint8) ([]byte, error) {
-	var err error = nil
-
-	err = x.validateParameters()
+	err := x.validateParameters()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -410,7 +436,7 @@ func (x *GoSNMP) SnmpEncodePacket(pdutype PDUType, pdus []SnmpPDU, nonRepeaters 
 // This is useful for processing traffic from other sources and
 // building test harnesses.
 func (x *GoSNMP) SnmpDecodePacket(resp []byte) (*SnmpPacket, error) {
-	var err error = nil
+	var err error
 
 	result := new(SnmpPacket)
 
@@ -420,7 +446,9 @@ func (x *GoSNMP) SnmpDecodePacket(resp []byte) (*SnmpPacket, error) {
 	}
 
 	result.Logger = x.Logger
-	result.SecurityParameters = x.SecurityParameters.Copy()
+	if x.SecurityParameters != nil {
+		result.SecurityParameters = x.SecurityParameters.Copy()
+	}
 
 	var cursor int
 	cursor, err = x.unmarshalHeader(resp, result)
@@ -476,7 +504,9 @@ func (x *GoSNMP) BulkWalk(rootOid string, walkFn WalkFunc) error {
 }
 
 // BulkWalkAll is similar to BulkWalk but returns a filled array of all values
-// rather than using a callback function to stream results.
+// rather than using a callback function to stream results. Caution: if you
+// have set x.AppOpts to 'c', BulkWalkAll may loop indefinitely and cause an
+// Out Of Memory - use BulkWalk instead.
 func (x *GoSNMP) BulkWalkAll(rootOid string) (results []SnmpPDU, err error) {
 	return x.walkAll(GetBulkRequest, rootOid)
 }
@@ -491,7 +521,9 @@ func (x *GoSNMP) Walk(rootOid string, walkFn WalkFunc) error {
 }
 
 // WalkAll is similar to Walk but returns a filled array of all values rather
-// than using a callback function to stream results.
+// than using a callback function to stream results. Caution: if you have set
+// x.AppOpts to 'c', WalkAll may loop indefinitely and cause an Out Of Memory -
+// use Walk instead.
 func (x *GoSNMP) WalkAll(rootOid string) (results []SnmpPDU, err error) {
 	return x.walkAll(GetNextRequest, rootOid)
 }
