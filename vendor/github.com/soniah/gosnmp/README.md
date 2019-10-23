@@ -224,6 +224,10 @@ Tests are grouped as follows:
 The generic end-to-end integration test `generic_e2e_test.go` should
 work against any SNMP MIB-2 compliant host (e.g. a router, NAS box, printer).
 
+Mocks were generated using:
+
+`mockgen -source=interface.go -package gosnmp > gosnmp_mock.go`
+
 To profile cpu usage:
 
 ```shell
