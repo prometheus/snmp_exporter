@@ -12,7 +12,6 @@ import (
 	// "bytes"
 	"bytes"
 	"encoding/binary"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"log"
@@ -221,89 +220,6 @@ func (x *GoSNMP) decodeValue(data []byte, msg string) (retVal *variable, err err
 	return
 }
 
-// dump bytes in a format similar to Wireshark
-func dumpBytes1(data []byte, msg string, maxlength int) {
-	var buffer bytes.Buffer
-	buffer.WriteString(msg)
-	length := maxlength
-	if len(data) < maxlength {
-		length = len(data)
-	}
-	length *= 2 //One Byte Symobls Two Hex
-	hexStr := hex.EncodeToString(data)
-	for i := 0; length >= i+16; i += 16 {
-		buffer.WriteString("\n")
-		buffer.WriteString(strconv.Itoa(i / 2))
-		buffer.WriteString("\t")
-		buffer.WriteString(hexStr[i : i+2])
-		buffer.WriteString(" ")
-		buffer.WriteString(hexStr[i+2 : i+4])
-		buffer.WriteString(" ")
-		buffer.WriteString(hexStr[i+4 : i+6])
-		buffer.WriteString(" ")
-		buffer.WriteString(hexStr[i+6 : i+8])
-		buffer.WriteString(" ")
-		buffer.WriteString(hexStr[i+8 : i+10])
-		buffer.WriteString(" ")
-		buffer.WriteString(hexStr[i+10 : i+12])
-		buffer.WriteString(" ")
-		buffer.WriteString(hexStr[i+12 : i+14])
-		buffer.WriteString(" ")
-		buffer.WriteString(hexStr[i+14 : i+16])
-	}
-	leftOver := length % 16
-	if leftOver != 0 {
-		buffer.WriteString("\n")
-		buffer.WriteString(strconv.Itoa((length - leftOver) / 2))
-		buffer.WriteString("\t")
-		for i := 0; leftOver >= i+2; i += 2 {
-			buffer.WriteString(hexStr[i : i+2])
-			buffer.WriteString(" ")
-		}
-	}
-	buffer.WriteString("\n")
-}
-
-// dump bytes in one row, up to about screen width. Returns a string
-// rather than (dumpBytes1) writing to debugging log.
-func dumpBytes2(desc string, bb []byte, cursor int) string {
-	cursor = cursor - 4 // give some context to dump
-	if cursor < 0 {
-		cursor = 0
-	}
-	result := desc
-	for i, b := range bb[cursor:] {
-		if i > 30 { // about screen width...
-			break
-		}
-		result += fmt.Sprintf(" %02x", b)
-	}
-	return result
-}
-
-func checkByteEquality2(a, b []byte) bool {
-
-	if a == nil && b == nil {
-		return true
-	}
-
-	if a == nil || b == nil {
-		return false
-	}
-
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-
-	return true
-}
-
 func marshalUvarInt(x uint32) []byte {
 	buf := make([]byte, 4)
 	binary.BigEndian.PutUint32(buf, x)
@@ -378,7 +294,7 @@ func marshalInt32(value int) (rs []byte, err error) {
 	if -2147483648 <= value && value < 0 {
 		value = ^value
 		binary.BigEndian.PutUint32(rs, uint32(value))
-		for k,v := range rs {
+		for k, v := range rs {
 			rs[k] = ^v
 		}
 		return rs, nil
@@ -433,7 +349,7 @@ func marshalLength(length int) ([]byte, error) {
 	// strip leading zeros
 	for idx, octect := range bufBytes {
 		if octect != 00 {
-			bufBytes = bufBytes[idx:len(bufBytes)]
+			bufBytes = bufBytes[idx:]
 			break
 		}
 	}
@@ -475,14 +391,14 @@ func marshalOID(oid string) ([]byte, error) {
 	for i := 0; i < len(oidParts); i++ {
 		oidBytes[i], err = strconv.Atoi(oidParts[i])
 		if err != nil {
-			return nil, fmt.Errorf("Unable to parse OID: %s\n", err.Error())
+			return nil, fmt.Errorf("unable to parse OID: %s", err.Error())
 		}
 	}
 
 	mOid, err := marshalObjectIdentifier(oidBytes)
 
 	if err != nil {
-		return nil, fmt.Errorf("Unable to marshal OID: %s\n", err.Error())
+		return nil, fmt.Errorf("unable to marshal OID: %s", err.Error())
 	}
 
 	return mOid, err
@@ -523,24 +439,6 @@ func parseBase128Int(bytes []byte, initOffset int) (ret, offset int, err error) 
 		}
 	}
 	err = fmt.Errorf("Syntax Error: truncated base 128 integer")
-	return
-}
-
-// parseBitString parses an ASN.1 bit string from the given byte slice and returns it.
-func parseBitString(bytes []byte) (ret BitStringValue, err error) {
-	if len(bytes) == 0 {
-		err = errors.New("zero length BIT STRING")
-		return
-	}
-	paddingBits := int(bytes[0])
-	if paddingBits > 7 ||
-		len(bytes) == 1 && paddingBits > 0 ||
-		bytes[len(bytes)-1]&((1<<bytes[0])-1) != 0 {
-		err = errors.New("invalid padding bits in BIT STRING")
-		return
-	}
-	ret.BitLength = (len(bytes)-1)*8 - paddingBits
-	ret.Bytes = bytes[1:]
 	return
 }
 
@@ -613,8 +511,7 @@ func parseLength(bytes []byte) (length int, cursor int) {
 // that are assigned in a hierarchy.
 func parseObjectIdentifier(bytes []byte) (s []int, err error) {
 	if len(bytes) == 0 {
-		err = fmt.Errorf("zero length OBJECT IDENTIFIER")
-		return
+		return []int{0}, nil
 	}
 
 	// In the worst case, we get two elements from the first byte (which is
@@ -675,7 +572,7 @@ func parseRawField(data []byte, msg string) (interface{}, int, error) {
 		return ret, length, nil
 	}
 
-	return nil, 0, fmt.Errorf("Unknown field type: %x\n", data[0])
+	return nil, 0, fmt.Errorf("unknown field type: %x", data[0])
 }
 
 // parseUint64 treats the given bytes as a big-endian, unsigned integer and returns

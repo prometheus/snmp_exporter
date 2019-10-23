@@ -1,10 +1,6 @@
-version: "= 0"
-
 language: go
 
 go:
-- 1.9
-- "1.10"
 - "1.11"
 
 # $TRAVIS_GOARCH hack - see https://github.com/travis-ci/travis-ci/issues/6126
@@ -29,15 +25,12 @@ before_install:
 install:
  - go get github.com/soniah/gosnmp
  - go get github.com/stretchr/testify/assert
+ - go get -u golang.org/x/tools/cmd/goimports
  - sudo ./snmp_users.sh
  - sudo /etc/init.d/snmpd restart
 
-# confirm GOARCH 386 is actually being set
-before_script:
- - echo "~~ go env ~~"
- - go env
-
 script:
+ - ./linters.sh
  - go test -v -tags helper
  - go test -v -tags marshal
  - go test -v -tags misc
