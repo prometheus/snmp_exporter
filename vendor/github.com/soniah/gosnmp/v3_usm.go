@@ -62,12 +62,13 @@ type UsmSecurityParameters struct {
 	AuthenticationPassphrase string
 	PrivacyPassphrase        string
 
-	secretKey  []byte
-	privacyKey []byte
+	SecretKey  []byte
+	PrivacyKey []byte
 
 	Logger Logger
 }
 
+// Log logs security paramater information to the provided GoSNMP Logger
 func (sp *UsmSecurityParameters) Log() {
 	sp.Logger.Printf("SECURITY PARAMETERS:%+v", sp)
 }
@@ -84,8 +85,8 @@ func (sp *UsmSecurityParameters) Copy() SnmpV3SecurityParameters {
 		PrivacyProtocol:          sp.PrivacyProtocol,
 		AuthenticationPassphrase: sp.AuthenticationPassphrase,
 		PrivacyPassphrase:        sp.PrivacyPassphrase,
-		secretKey:                sp.secretKey,
-		privacyKey:               sp.privacyKey,
+		SecretKey:                sp.SecretKey,
+		PrivacyKey:               sp.PrivacyKey,
 		localDESSalt:             sp.localDESSalt,
 		localAESSalt:             sp.localAESSalt,
 		Logger:                   sp.Logger,
@@ -106,15 +107,21 @@ func (sp *UsmSecurityParameters) setSecurityParameters(in SnmpV3SecurityParamete
 
 	if sp.AuthoritativeEngineID != insp.AuthoritativeEngineID {
 		sp.AuthoritativeEngineID = insp.AuthoritativeEngineID
-		if sp.AuthenticationProtocol > NoAuth {
-			sp.secretKey = genlocalkey(sp.AuthenticationProtocol,
+		if sp.AuthenticationProtocol > NoAuth && len(sp.SecretKey) == 0 {
+			sp.SecretKey, err = genlocalkey(sp.AuthenticationProtocol,
 				sp.AuthenticationPassphrase,
 				sp.AuthoritativeEngineID)
+			if err != nil {
+				return err
+			}
 		}
-		if sp.PrivacyProtocol > NoPriv {
-			sp.privacyKey = genlocalkey(sp.AuthenticationProtocol,
+		if sp.PrivacyProtocol > NoPriv && len(sp.PrivacyKey) == 0 {
+			sp.PrivacyKey, err = genlocalkey(sp.AuthenticationProtocol,
 				sp.PrivacyPassphrase,
 				sp.AuthoritativeEngineID)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	sp.AuthoritativeEngineBoots = insp.AuthoritativeEngineBoots
@@ -146,15 +153,15 @@ func (sp *UsmSecurityParameters) validate(flags SnmpV3MsgFlags) error {
 		return fmt.Errorf("MsgFlags must be populated with an appropriate security level")
 	}
 
-	if sp.PrivacyProtocol > NoPriv {
+	if sp.PrivacyProtocol > NoPriv && len(sp.PrivacyKey) == 0 {
 		if sp.PrivacyPassphrase == "" {
-			return fmt.Errorf("SecurityParameters.PrivacyPassphrase is required when a privacy protocol is specified.")
+			return fmt.Errorf("securityParameters.PrivacyPassphrase is required when a privacy protocol is specified")
 		}
 	}
 
-	if sp.AuthenticationProtocol > NoAuth {
+	if sp.AuthenticationProtocol > NoAuth && len(sp.SecretKey) == 0 {
 		if sp.AuthenticationPassphrase == "" {
-			return fmt.Errorf("SecurityParameters.AuthenticationPassphrase is required when an authentication protocol is specified.")
+			return fmt.Errorf("securityParameters.AuthenticationPassphrase is required when an authentication protocol is specified")
 		}
 	}
 
@@ -171,14 +178,14 @@ func (sp *UsmSecurityParameters) init(log Logger) error {
 		salt := make([]byte, 8)
 		_, err = crand.Read(salt)
 		if err != nil {
-			return fmt.Errorf("Error creating a cryptographically secure salt: %s\n", err.Error())
+			return fmt.Errorf("error creating a cryptographically secure salt: %s", err.Error())
 		}
 		sp.localAESSalt = binary.BigEndian.Uint64(salt)
 	case DES:
 		salt := make([]byte, 4)
 		_, err = crand.Read(salt)
 		if err != nil {
-			return fmt.Errorf("Error creating a cryptographically secure salt: %s\n", err.Error())
+			return fmt.Errorf("error creating a cryptographically secure salt: %s", err.Error())
 		}
 		sp.localDESSalt = binary.BigEndian.Uint32(salt)
 	}
@@ -200,7 +207,7 @@ var (
 )
 
 // Common passwordToKey algorithm, "caches" the result to avoid extra computation each reuse
-func cachedPasswordToKey(hash hash.Hash, hashType string, password string) []byte {
+func cachedPasswordToKey(hash hash.Hash, hashType string, password string) ([]byte, error) {
 	cacheKey := hashType + ":" + password
 
 	passwordKeyHashMutex.RLock()
@@ -208,7 +215,7 @@ func cachedPasswordToKey(hash hash.Hash, hashType string, password string) []byt
 	passwordKeyHashMutex.RUnlock()
 
 	if value != nil {
-		return value
+		return value, nil
 	}
 	var pi int // password index
 	for i := 0; i < 1048576; i += 64 {
@@ -217,7 +224,9 @@ func cachedPasswordToKey(hash hash.Hash, hashType string, password string) []byt
 			chunk = append(chunk, password[pi%len(password)])
 			pi++
 		}
-		hash.Write(chunk)
+		if _, err := hash.Write(chunk); err != nil {
+			return []byte{}, err
+		}
 	}
 	hashed := hash.Sum(nil)
 
@@ -225,48 +234,81 @@ func cachedPasswordToKey(hash hash.Hash, hashType string, password string) []byt
 	passwordKeyHashCache[cacheKey] = hashed
 	passwordKeyHashMutex.Unlock()
 
-	return hashed
+	return hashed, nil
 }
 
 // MD5 HMAC key calculation algorithm
-func md5HMAC(password string, engineID string) []byte {
-	var compressed []byte
-
-	compressed = cachedPasswordToKey(md5.New(), "MD5", password)
+func md5HMAC(password string, engineID string) ([]byte, error) {
+	compressed, err := cachedPasswordToKey(md5.New(), "MD5", password)
+	if err != nil {
+		return []byte{}, nil
+	}
 
 	local := md5.New()
-	local.Write(compressed)
-	local.Write([]byte(engineID))
-	local.Write(compressed)
+	_, err = local.Write(compressed)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	_, err = local.Write([]byte(engineID))
+	if err != nil {
+		return []byte{}, err
+	}
+
+	_, err = local.Write(compressed)
+	if err != nil {
+		return []byte{}, err
+	}
+
 	final := local.Sum(nil)
-	return final
+	return final, nil
 }
 
 // SHA HMAC key calculation algorithm
-func shaHMAC(password string, engineID string) []byte {
-	var hashed []byte
-
-	hashed = cachedPasswordToKey(sha1.New(), "SHA1", password)
+func shaHMAC(password string, engineID string) ([]byte, error) {
+	hashed, err := cachedPasswordToKey(sha1.New(), "SHA1", password)
+	if err != nil {
+		return []byte{}, nil
+	}
 
 	local := sha1.New()
-	local.Write(hashed)
-	local.Write([]byte(engineID))
-	local.Write(hashed)
+	_, err = local.Write(hashed)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	_, err = local.Write([]byte(engineID))
+	if err != nil {
+		return []byte{}, err
+	}
+
+	_, err = local.Write(hashed)
+	if err != nil {
+		return []byte{}, err
+	}
+
 	final := local.Sum(nil)
-	return final
+	return final, nil
 }
 
-func genlocalkey(authProtocol SnmpV3AuthProtocol, passphrase string, engineID string) []byte {
+func genlocalkey(authProtocol SnmpV3AuthProtocol, passphrase string, engineID string) ([]byte, error) {
 	var secretKey []byte
+	var err error
 
 	switch authProtocol {
 	default:
-		secretKey = md5HMAC(passphrase, engineID)
+		secretKey, err = md5HMAC(passphrase, engineID)
+		if err != nil {
+			return []byte{}, err
+		}
 	case SHA:
-		secretKey = shaHMAC(passphrase, engineID)
+		secretKey, err = shaHMAC(passphrase, engineID)
+		if err != nil {
+			return []byte{}, err
+		}
 	}
 
-	return secretKey
+	return secretKey, nil
 }
 
 // http://tools.ietf.org/html/rfc2574#section-8.1.1.1
@@ -360,10 +402,10 @@ func usmFindAuthParamStart(packet []byte) (uint32, error) {
 }
 
 func (sp *UsmSecurityParameters) authenticate(packet []byte) error {
-
 	var extkey [64]byte
+	var err error
 
-	copy(extkey[:], sp.secretKey)
+	copy(extkey[:], sp.SecretKey)
 
 	var k1, k2 [64]byte
 
@@ -383,11 +425,27 @@ func (sp *UsmSecurityParameters) authenticate(packet []byte) error {
 		h2 = sha1.New()
 	}
 
-	h.Write(k1[:])
-	h.Write(packet)
+	_, err = h.Write(k1[:])
+	if err != nil {
+		return err
+	}
+
+	_, err = h.Write(packet)
+	if err != nil {
+		return err
+	}
+
 	d1 := h.Sum(nil)
-	h2.Write(k2[:])
-	h2.Write(d1)
+	_, err = h2.Write(k2[:])
+	if err != nil {
+		return err
+	}
+
+	_, err = h2.Write(d1)
+	if err != nil {
+		return err
+	}
+
 	authParamStart, err := usmFindAuthParamStart(packet)
 	if err != nil {
 		return err
@@ -411,7 +469,7 @@ func (sp *UsmSecurityParameters) isAuthentic(packetBytes []byte, packet *SnmpPac
 
 	var extkey [64]byte
 
-	copy(extkey[:], sp.secretKey)
+	copy(extkey[:], packetSecParams.SecretKey)
 
 	var k1, k2 [64]byte
 
@@ -431,11 +489,27 @@ func (sp *UsmSecurityParameters) isAuthentic(packetBytes []byte, packet *SnmpPac
 		h2 = sha1.New()
 	}
 
-	h.Write(k1[:])
-	h.Write(packetBytes)
+	_, err = h.Write(k1[:])
+	if err != nil {
+		return false, err
+	}
+
+	_, err = h.Write(packetBytes)
+	if err != nil {
+		return false, err
+	}
+
 	d1 := h.Sum(nil)
-	h2.Write(k2[:])
-	h2.Write(d1)
+
+	_, err = h2.Write(k2[:])
+	if err != nil {
+		return false, err
+	}
+
+	_, err = h2.Write(d1)
+	if err != nil {
+		return false, err
+	}
 
 	result := h2.Sum(nil)[:12]
 	for k, v := range []byte(packetSecParams.AuthenticationParameters) {
@@ -456,7 +530,7 @@ func (sp *UsmSecurityParameters) encryptPacket(scopedPdu []byte) ([]byte, error)
 		binary.BigEndian.PutUint32(iv[4:], sp.AuthoritativeEngineTime)
 		copy(iv[8:], sp.PrivacyParameters)
 
-		block, err := aes.NewCipher(sp.privacyKey[:16])
+		block, err := aes.NewCipher(sp.PrivacyKey[:16])
 		if err != nil {
 			return nil, err
 		}
@@ -470,12 +544,12 @@ func (sp *UsmSecurityParameters) encryptPacket(scopedPdu []byte) ([]byte, error)
 		b = append([]byte{byte(OctetString)}, pduLen...)
 		scopedPdu = append(b, ciphertext...)
 	default:
-		preiv := sp.privacyKey[8:]
+		preiv := sp.PrivacyKey[8:]
 		var iv [8]byte
 		for i := 0; i < len(iv); i++ {
 			iv[i] = preiv[i] ^ sp.PrivacyParameters[i]
 		}
-		block, err := des.NewCipher(sp.privacyKey[:8])
+		block, err := des.NewCipher(sp.PrivacyKey[:8])
 		if err != nil {
 			return nil, err
 		}
@@ -508,7 +582,7 @@ func (sp *UsmSecurityParameters) decryptPacket(packet []byte, cursor int) ([]byt
 		binary.BigEndian.PutUint32(iv[4:], sp.AuthoritativeEngineTime)
 		copy(iv[8:], sp.PrivacyParameters)
 
-		block, err := aes.NewCipher(sp.privacyKey[:16])
+		block, err := aes.NewCipher(sp.PrivacyKey[:16])
 		if err != nil {
 			return nil, err
 		}
@@ -519,14 +593,14 @@ func (sp *UsmSecurityParameters) decryptPacket(packet []byte, cursor int) ([]byt
 		packet = packet[:cursor+len(plaintext)]
 	default:
 		if len(packet[cursorTmp:])%des.BlockSize != 0 {
-			return nil, fmt.Errorf("Error decrypting ScopedPDU: not multiple of des block size.")
+			return nil, fmt.Errorf("error decrypting ScopedPDU: not multiple of des block size")
 		}
-		preiv := sp.privacyKey[8:]
+		preiv := sp.PrivacyKey[8:]
 		var iv [8]byte
 		for i := 0; i < len(iv); i++ {
 			iv[i] = preiv[i] ^ sp.PrivacyParameters[i]
 		}
-		block, err := des.NewCipher(sp.privacyKey[:8])
+		block, err := des.NewCipher(sp.PrivacyKey[:8])
 		if err != nil {
 			return nil, err
 		}
@@ -603,7 +677,7 @@ func (sp *UsmSecurityParameters) unmarshal(flags SnmpV3MsgFlags, packet []byte, 
 	var err error
 
 	if PDUType(packet[cursor]) != Sequence {
-		return 0, fmt.Errorf("Error parsing SNMPV3 User Security Model parameters\n")
+		return 0, fmt.Errorf("error parsing SNMPV3 User Security Model parameters")
 	}
 	_, cursorTmp := parseLength(packet[cursor:])
 	cursor += cursorTmp
@@ -617,15 +691,21 @@ func (sp *UsmSecurityParameters) unmarshal(flags SnmpV3MsgFlags, packet []byte, 
 		if sp.AuthoritativeEngineID != AuthoritativeEngineID {
 			sp.AuthoritativeEngineID = AuthoritativeEngineID
 			sp.Logger.Printf("Parsed authoritativeEngineID %s", AuthoritativeEngineID)
-			if sp.AuthenticationProtocol > NoAuth {
-				sp.secretKey = genlocalkey(sp.AuthenticationProtocol,
+			if sp.AuthenticationProtocol > NoAuth && len(sp.SecretKey) == 0 {
+				sp.SecretKey, err = genlocalkey(sp.AuthenticationProtocol,
 					sp.AuthenticationPassphrase,
 					sp.AuthoritativeEngineID)
+				if err != nil {
+					return 0, err
+				}
 			}
-			if sp.PrivacyProtocol > NoPriv {
-				sp.privacyKey = genlocalkey(sp.AuthenticationProtocol,
+			if sp.PrivacyProtocol > NoPriv && len(sp.PrivacyKey) == 0 {
+				sp.PrivacyKey, err = genlocalkey(sp.AuthenticationProtocol,
 					sp.PrivacyPassphrase,
 					sp.AuthoritativeEngineID)
+				if err != nil {
+					return 0, err
+				}
 			}
 		}
 	}
