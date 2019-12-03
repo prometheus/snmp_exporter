@@ -353,6 +353,8 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		return enumAsInfo(metric, int(value), labelnames, labelvalues)
 	case "EnumAsStateSet":
 		return enumAsStateSet(metric, int(value), labelnames, labelvalues)
+	case "Bits":
+		return bits(metric, pdu.Value, labelnames, labelvalues)
 	default:
 		// It's some form of string.
 		t = prometheus.GaugeValue
@@ -471,6 +473,34 @@ func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []
 			prometheus.GaugeValue, 0.0, append(labelvalues, v)...)
 		if err != nil {
 			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
+				fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+		}
+		results = append(results, newMetric)
+	}
+	return results
+}
+
+func bits(metric *config.Metric, value interface{}, labelnames, labelvalues []string) []prometheus.Metric {
+	bytes, ok := value.([]byte)
+	if !ok {
+		return []prometheus.Metric{prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "BITS type was not a BISTRING on the wire.", nil, nil),
+			fmt.Errorf("error for metric %s with labels %v: %T", metric.Name, labelvalues, value))}
+	}
+	labelnames = append(labelnames, metric.Name)
+	results := []prometheus.Metric{}
+
+	for k, v := range metric.EnumValues {
+		bit := 0.0
+		// Most significant byte most significant bit, then most significant byte 2nd most significant bit etc.
+		if k < len(bytes)*8 {
+			if (bytes[k/8] & (128 >> (k % 8))) != 0 {
+				bit = 1.0
+			}
+		}
+		newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (Bits)", labelnames, nil),
+			prometheus.GaugeValue, bit, append(labelvalues, v)...)
+		if err != nil {
+			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for Bits", nil, nil),
 				fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
 		}
 		results = append(results, newMetric)

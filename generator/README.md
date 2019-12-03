@@ -127,6 +127,7 @@ modules:
                              #       not having the size in the index. Must be preceded by an InetAddressType.
                              #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
+                             #   Bits: An RFC 2578 BITS construct, which produces a StateSet with a time series per bit.
 ```
 
 ### EnumAsInfo and EnumAsStateSet
