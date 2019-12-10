@@ -68,13 +68,21 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
-	target := r.URL.Query().Get("target")
-	if target == "" {
-		http.Error(w, "'target' parameter must be specified", 400)
+	query := r.URL.Query()
+
+	target := query.Get("target")
+	if len(query["target"]) != 1 || target == "" {
+		http.Error(w, "'target' parameter must be specified once", 400)
 		snmpRequestErrors.Inc()
 		return
 	}
-	moduleName := r.URL.Query().Get("module")
+
+	moduleName := query.Get("module")
+	if len(query["module"]) > 1 {
+		http.Error(w, "'module' parameter must only be specified once", 400)
+		snmpRequestErrors.Inc()
+		return
+	}
 	if moduleName == "" {
 		moduleName = "if_mib"
 	}
