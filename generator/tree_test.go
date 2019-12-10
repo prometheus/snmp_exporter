@@ -397,7 +397,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{
 						Name: "BITSTRING",
 						Oid:  "1.12",
-						Type: "OctetString",
+						Type: "Bits",
 						Help: " - 1.12",
 					},
 					{
@@ -780,11 +780,11 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name: "bitstringIndex",
 						Oid:  "1.2.1.1",
 						Help: " - 1.2.1.1",
-						Type: "OctetString",
+						Type: "Bits",
 						Indexes: []*config.Index{
 							{
 								Labelname: "bitstringIndex",
-								Type:      "OctetString",
+								Type:      "Bits",
 							},
 						},
 					},
@@ -796,7 +796,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Indexes: []*config.Index{
 							{
 								Labelname: "bitstringIndex",
-								Type:      "OctetString",
+								Type:      "Bits",
 							},
 						},
 					},
