@@ -96,7 +96,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	}
 
 	logger = log.With(logger, "module", moduleName, "target", target)
-	level.Debug(logger).Log("msg", "Starting scrape", "module")
+	level.Debug(logger).Log("msg", "Starting scrape")
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
@@ -147,7 +147,7 @@ func main() {
 	logger := promlog.New(promlogConfig)
 
 	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info())
-	level.Info(logger).Log("msg", "Build context", version.BuildContext())
+	level.Info(logger).Log("build_context", version.BuildContext())
 
 	// Bail early if the config is bad.
 	var err error
