@@ -11672,6 +11672,141 @@ printer_mib:
       4: coverClosed
       5: interlockOpen
       6: interlockClosed
+raritan:
+  walk:
+  - 1.3.6.1.4.1.13742.4.1.2.2.1.2
+  - 1.3.6.1.4.1.13742.4.1.2.2.1.3
+  - 1.3.6.1.4.1.13742.4.1.2.2.1.31
+  - 1.3.6.1.4.1.13742.4.1.2.2.1.4
+  - 1.3.6.1.4.1.13742.4.1.2.2.1.5
+  - 1.3.6.1.4.1.13742.4.1.2.2.1.6
+  - 1.3.6.1.4.1.13742.4.1.2.2.1.7
+  - 1.3.6.1.4.1.13742.4.1.20.2.1.7
+  - 1.3.6.1.4.1.13742.4.1.20.2.1.8
+  - 1.3.6.1.4.1.13742.4.1.20.2.1.9
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  - 1.3.6.1.4.1.13742.4.1.3.1.5.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: outletOperationalState
+    oid: 1.3.6.1.4.1.13742.4.1.2.2.1.3
+    type: EnumAsStateSet
+    help: A value for each outlet which describes the operational state of the outlet
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.3
+    indexes:
+    - labelname: outletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - outletIndex
+      labelname: outletLabel
+      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      type: DisplayString
+    enum_values:
+      -1: error
+      0: "off"
+      1: "on"
+      2: cycling
+  - name: outletWattHours
+    oid: 1.3.6.1.4.1.13742.4.1.2.2.1.31
+    type: gauge
+    help: The value of the cumulative active energy for this outlet - 1.3.6.1.4.1.13742.4.1.2.2.1.31
+    indexes:
+    - labelname: outletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - outletIndex
+      labelname: outletLabel
+      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      type: DisplayString
+  - name: outletCurrent
+    oid: 1.3.6.1.4.1.13742.4.1.2.2.1.4
+    type: gauge
+    help: A unique value for the current sensor attached to the outlet - 1.3.6.1.4.1.13742.4.1.2.2.1.4
+    indexes:
+    - labelname: outletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - outletIndex
+      labelname: outletLabel
+      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      type: DisplayString
+  - name: outletMaxCurrent
+    oid: 1.3.6.1.4.1.13742.4.1.2.2.1.5
+    type: gauge
+    help: A unique value for the max - 1.3.6.1.4.1.13742.4.1.2.2.1.5
+    indexes:
+    - labelname: outletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - outletIndex
+      labelname: outletLabel
+      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      type: DisplayString
+  - name: outletVoltage
+    oid: 1.3.6.1.4.1.13742.4.1.2.2.1.6
+    type: gauge
+    help: A unique value for the voltage sensor attached to the outlet.This value
+      is reported in millivolts (1/1000th of a volt) - 1.3.6.1.4.1.13742.4.1.2.2.1.6
+    indexes:
+    - labelname: outletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - outletIndex
+      labelname: outletLabel
+      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      type: DisplayString
+  - name: outletActivePower
+    oid: 1.3.6.1.4.1.13742.4.1.2.2.1.7
+    type: gauge
+    help: A unique value for the active power sensor attached to the outlet - 1.3.6.1.4.1.13742.4.1.2.2.1.7
+    indexes:
+    - labelname: outletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - outletIndex
+      labelname: outletLabel
+      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      type: DisplayString
+  - name: inletCurrent
+    oid: 1.3.6.1.4.1.13742.4.1.20.2.1.7
+    type: gauge
+    help: A unique value for the current sensor attached to the inlet - 1.3.6.1.4.1.13742.4.1.20.2.1.7
+    indexes:
+    - labelname: inletIndex
+      type: gauge
+  - name: inletVoltage
+    oid: 1.3.6.1.4.1.13742.4.1.20.2.1.8
+    type: gauge
+    help: A unique value for the voltage sensor attached to the intlet.This value
+      is reported in millivolts (1/1000th of a volt) - 1.3.6.1.4.1.13742.4.1.20.2.1.8
+    indexes:
+    - labelname: inletIndex
+      type: gauge
+  - name: inletActivePower
+    oid: 1.3.6.1.4.1.13742.4.1.20.2.1.9
+    type: gauge
+    help: The active power for the inlet This value is reported in Watts. - 1.3.6.1.4.1.13742.4.1.20.2.1.9
+    indexes:
+    - labelname: inletIndex
+      type: gauge
+  - name: unitCpuTemp
+    oid: 1.3.6.1.4.1.13742.4.1.3.1.5
+    type: gauge
+    help: The value for the unit's CPU temperature sensor in tenth degrees celsius.
+      - 1.3.6.1.4.1.13742.4.1.3.1.5
+  auth:
+    community: raritan_public
 servertech_sentry3:
   walk:
   - 1.3.6.1.4.1.1718.3.2.2
