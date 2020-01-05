@@ -36,6 +36,7 @@ SERVERTECH_URL   := 'https://cdn10.servertech.com/assets/documents/documents/817
 SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip'
 UBNT_AIROS_URL   := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
+RARITAN_URL      := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 
 .DEFAULT: all
 
@@ -94,7 +95,8 @@ mibs: mib-dir \
   $(MIBDIR)/.synology \
   $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
-  $(MIBDIR)/UBNT-AirMAX-MIB.txt
+  $(MIBDIR)/UBNT-AirMAX-MIB.txt \
+  ${MIBDIR}/PDU-MIB.txt
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -217,3 +219,7 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	@curl $(CURL_OPTS) -o $(TMP) $(UBNT_AIROS_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) UBNT-AirMAX-MIB.txt
 	@rm -v $(TMP)
+
+$(MIBDIR)/PDU-MIB.txt:
+	@echo ">> Downloading PDU-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
