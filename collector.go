@@ -14,6 +14,7 @@
 package main
 
 import (
+	"context"
 	"encoding/binary"
 	"fmt"
 	"net"
@@ -82,9 +83,10 @@ func listToOid(l []int) string {
 	return strings.Join(result, ".")
 }
 
-func ScrapeTarget(target string, config *config.Module, logger log.Logger) ([]gosnmp.SnmpPDU, error) {
+func ScrapeTarget(ctx context.Context, target string, config *config.Module, logger log.Logger) ([]gosnmp.SnmpPDU, error) {
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
+	snmp.Context = ctx
 	snmp.MaxRepetitions = config.WalkParams.MaxRepetitions
 	// User specifies timeout of each retry attempt but GoSNMP expects total timeout for all attempts.
 	snmp.Retries = config.WalkParams.Retries
@@ -195,6 +197,7 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 }
 
 type collector struct {
+	ctx    context.Context
 	target string
 	module *config.Module
 	logger log.Logger
@@ -208,7 +211,7 @@ func (c collector) Describe(ch chan<- *prometheus.Desc) {
 // Collect implements Prometheus.Collector.
 func (c collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
-	pdus, err := ScrapeTarget(c.target, c.module, c.logger)
+	pdus, err := ScrapeTarget(c.ctx, c.target, c.module, c.logger)
 	if err != nil {
 		level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)

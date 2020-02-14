@@ -12,8 +12,6 @@ github.com/go-kit/kit/log
 github.com/go-kit/kit/log/level
 # github.com/go-logfmt/logfmt v0.4.0
 github.com/go-logfmt/logfmt
-# github.com/golang/mock v1.3.1
-github.com/golang/mock/gomock
 # github.com/golang/protobuf v1.3.2
 github.com/golang/protobuf/proto
 # github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515
@@ -39,7 +37,7 @@ github.com/prometheus/common/version
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
-# github.com/soniah/gosnmp v1.22.0
+# github.com/soniah/gosnmp v1.23.1-0.20200214014533-6d3944030084
 github.com/soniah/gosnmp
 # golang.org/x/sys v0.0.0-20191022100944-742c48ecaeb7
 golang.org/x/sys/windows
