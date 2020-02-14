@@ -339,6 +339,7 @@ apcups:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -994,6 +995,10 @@ apcups:
     enum_values:
       1: "yes"
       2: "no"
+  - name: upsAdvBatteryTotalCapacity
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.25
+    type: gauge
+    help: Total battery capacity in Ampere Hour (Ah) - 1.3.6.1.4.1.318.1.1.1.2.2.25
   - name: upsHighPrecBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
     type: gauge
@@ -1265,6 +1270,10 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.11
     type: OctetString
     help: The battery health - 1.3.6.1.4.1.318.1.1.1.2.3.11
+  - name: upsHighPrecActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.12
+    type: gauge
+    help: Active Power of Battery in tenths of kW - 1.3.6.1.4.1.318.1.1.1.2.3.12
   - name: upsBasicInputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
     type: gauge
@@ -1393,6 +1402,14 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.15
     type: gauge
     help: The input energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.3.2.15
+  - name: upsAdvInputDCVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.16
+    type: gauge
+    help: The DC input voltage in Volts. - 1.3.6.1.4.1.318.1.1.1.3.2.16
+  - name: upsAdvInputDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.17
+    type: gauge
+    help: The DC input current in Amps. - 1.3.6.1.4.1.318.1.1.1.3.2.17
   - name: upsHighPrecInputLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.1
     type: gauge
@@ -1453,6 +1470,8 @@ apcups:
       22: inverterSpotmode
       23: activeLoad
       24: batteryDischargeSpotmode
+      25: inverterStandby
+      26: chargerOnly
   - name: upsBasicOutputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
     type: gauge
@@ -2259,6 +2278,7 @@ arista_sw:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -3300,6 +3320,7 @@ cisco_wlc:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -4418,6 +4439,7 @@ ddwrt:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -5804,6 +5826,7 @@ if_mib:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -10601,6 +10624,7 @@ paloalto_fw:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -11235,6 +11259,188 @@ paloalto_fw:
     oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.32
     type: counter
     help: 'Packets dropped: Maximal zone RED threshold reached - 1.3.6.1.4.1.25461.2.1.2.1.19.8.32'
+  - name: panFlowDosBlkSwEntries
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.33
+    type: counter
+    help: Number of entries in DOS Software block table - 1.3.6.1.4.1.25461.2.1.2.1.19.8.33
+  - name: panFlowDosBlkHwEntries
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.34
+    type: counter
+    help: Number of entries in DOS Hardware block table - 1.3.6.1.4.1.25461.2.1.2.1.19.8.34
+  - name: panFlowDosSyncookieNotTcpSyn
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.35
+    type: counter
+    help: TCP SYN cookies:TCP SYN cookie not SYN - 1.3.6.1.4.1.25461.2.1.2.1.19.8.35
+  - name: panFlowDosSyncookieNotTcpSynAck
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.36
+    type: counter
+    help: TCP SYN cookies:TCP SYN cookie not SYN-ACK - 1.3.6.1.4.1.25461.2.1.2.1.19.8.36
+  - name: panFlowDosPfIpspoof
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.37
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-ip-spoof' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.37
+  - name: panFlowDosPfIpfrag
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.38
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-ip-frag' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.38
+  - name: panFlowDosPfPing0
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.39
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-icmp-ping-zero-id' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.39
+  - name: panFlowDosPfIcmpfrag
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.40
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-icmp-frag' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.40
+  - name: panFlowDosPfIcmplpkt
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.41
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-icmp-large-packet' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.41
+  - name: panFlowDosPfIcmperr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.42
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-icmp-error' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.42
+  - name: panFlowDosPfNoreplyttl
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.43
+    type: counter
+    help: Packets dropped:Zone protection option 'suppress-icmp-timeexceeded' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.43
+  - name: panFlowDosPfNoreplyneedfrag
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.44
+    type: counter
+    help: Packets dropped:Zone protection option 'suppress-icmp-needfrag' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.44
+  - name: panFlowDosPfStrictsource
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.45
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-strict-source-routing' -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.45
+  - name: panFlowDosPfLoosesource
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.46
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-loose-source-routing' -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.46
+  - name: panFlowDosPfTimestamp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.47
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-timestamp' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.47
+  - name: panFlowDosPfRecordroute
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.48
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-record-route' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.48
+  - name: panFlowDosPfSecurity
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.49
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-security' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.49
+  - name: panFlowDosPfSatnetid
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.50
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-stream-id' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.50
+  - name: panFlowDosPfUnknown
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.51
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-unknown-option' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.51
+  - name: panFlowDosPfBadoption
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.52
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-malformed-option' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.52
+  - name: panFlowDosPfTcpoverlappingmismatch
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.53
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-overlapping-tcp-segment-mismatch'
+      - 1.3.6.1.4.1.25461.2.1.2.1.19.8.53
+  - name: panFlowDosPfStrictip
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.54
+    type: counter
+    help: Packets dropped:Zone protection option 'strict-ip-check' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.54
+  - name: panFlowDosPfTcpsplithandshake
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.55
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-tcp-split-handshake' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.55
+  - name: panFlowDosPfTcpsyndata
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.56
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-tcp-syn-with-data' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.56
+  - name: panFlowDosPfTcpsynackdata
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.57
+    type: counter
+    help: Packets dropped:Zone protection option 'discard-tcp-synack-with-data' -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.57
+  - name: panFlowDosIp6Route0
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.58
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-header-0' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.58
+  - name: panFlowDosIp6Route1
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.59
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-header-1' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.59
+  - name: panFlowDosIp6Route3
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.60
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-header-3' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.60
+  - name: panFlowDosIp6Route4to252
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.61
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-header-4-252' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.61
+  - name: panFlowDosIp6Route253
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.62
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-header-253' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.62
+  - name: panFlowDosIp6Route254
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.63
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-header-254' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.63
+  - name: panFlowDosIp6Route255
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.64
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-header-255' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.64
+  - name: panFlowDosIp6Ip4cmpt
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.65
+    type: counter
+    help: Packets dropped:Zone protection option 'ipv4-compatible-address' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.65
+  - name: panFlowDosIp6Acast
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.66
+    type: counter
+    help: Packets dropped:Zone protection option 'anycast-source' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.66
+  - name: panFlowDosIp6OptionsInvalidIPv6
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.67
+    type: counter
+    help: Packets dropped:Zone protection option 'options-invalid-ipv6-discard' -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.67
+  - name: panFlowDosIp6Icmpv6ErrorInvalid
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.68
+    type: counter
+    help: Packets dropped:Zone protection option 'icmpv6-too-big-small-mtu-discard'
+      - 1.3.6.1.4.1.25461.2.1.2.1.19.8.68
+  - name: panFlowDosIp6NeedlessIpv6FragHdr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.69
+    type: counter
+    help: Packets dropped:Zone protection option 'needless-fragment-hdr' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.69
+  - name: panFlowDosIp6RsvdSet
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.70
+    type: counter
+    help: Packets dropped:Zone protection option 'reserved-field-set-discard' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.70
+  - name: panFlowDosIPv6ExtHdrHopByHop
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.71
+    type: counter
+    help: Packets dropped:Zone protection option 'hop-by-hop-hdr' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.71
+  - name: panFlowDosip6IPv6ExtHdrRouting
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.72
+    type: counter
+    help: Packets dropped:Zone protection option 'routing-hdr' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.72
+  - name: panFlowDosIp6IPv6ExtHdrDestOpt
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.73
+    type: counter
+    help: Packets dropped:Zone protection option 'dest-option-hdr' - 1.3.6.1.4.1.25461.2.1.2.1.19.8.73
+  - name: panFlowDosPbpDrop
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.74
+    type: counter
+    help: Packets dropped:Dropped by packet buffer protection RED - 1.3.6.1.4.1.25461.2.1.2.1.19.8.74
+  - name: panFlowDosCurrSessIncrFailed
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.75
+    type: counter
+    help: Unable to increment current session count on session create - 1.3.6.1.4.1.25461.2.1.2.1.19.8.75
+  - name: panFlowDosCurrSessDecrFailed
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.76
+    type: counter
+    help: Unable to decrement current session count on session delete - 1.3.6.1.4.1.25461.2.1.2.1.19.8.76
   - name: panFlowFwdL3TtlZero
     oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.1
     type: counter
@@ -11305,6 +11511,45 @@ paloalto_fw:
     type: counter
     help: packets dropped due to the limitation on global tcp out-of-order pack -
       1.3.6.1.4.1.25461.2.1.2.1.19.11.8
+  - name: panFlowTciGreDecapSuccess
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.1
+    type: counter
+    help: Total GRE sessions tunnel inspected - 1.3.6.1.4.1.25461.2.1.2.1.19.12.1
+  - name: panFlowTciGreDecapFailed
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.2
+    type: counter
+    help: Total GRE sessions for failed tunnel inspected - 1.3.6.1.4.1.25461.2.1.2.1.19.12.2
+  - name: panFlowTciGreDecapUnknown
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.3
+    type: counter
+    help: Total unknown tunnel inspection packets in GRE tunnel [passed|dropped] -
+      1.3.6.1.4.1.25461.2.1.2.1.19.12.3
+  - name: panFlowTciIpsecDecapSuccess
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.4
+    type: counter
+    help: Total Ipsec sessions tunnel inspected - 1.3.6.1.4.1.25461.2.1.2.1.19.12.4
+  - name: panFlowTciIpsecDecapFailed
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.5
+    type: counter
+    help: Total IPSEC sessions for failed tunnel inspected - 1.3.6.1.4.1.25461.2.1.2.1.19.12.5
+  - name: panFlowTciIpsecDecapUnknown
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.6
+    type: counter
+    help: Total unknown tunnel inspection packets in IPSEC tunnel [passed|dropped]
+      - 1.3.6.1.4.1.25461.2.1.2.1.19.12.6
+  - name: panFlowTciGtpDecapSuccess
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.7
+    type: counter
+    help: Total GTP sessions tunnel inspected - 1.3.6.1.4.1.25461.2.1.2.1.19.12.7
+  - name: panFlowTciGtpDecapFailed
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.8
+    type: counter
+    help: Total GTP sessions for failed tunnel inspected - 1.3.6.1.4.1.25461.2.1.2.1.19.12.8
+  - name: panFlowTciGtpDecapUnknown
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.9
+    type: counter
+    help: Total unknown tunnel inspection packets in GTP tunnel[passed|dropped] -
+      1.3.6.1.4.1.25461.2.1.2.1.19.12.9
   - name: panSysSwVersion
     oid: 1.3.6.1.4.1.25461.2.1.2.1.1
     type: DisplayString
@@ -11383,6 +11628,22 @@ paloalto_fw:
     oid: 1.3.6.1.4.1.25461.2.1.2.1.18
     type: DisplayString
     help: Currently installed wildfire private cloud content version - 1.3.6.1.4.1.25461.2.1.2.1.18
+  - name: panSysAppReleaseDate
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.20
+    type: DisplayString
+    help: Currently installed application definition release date - 1.3.6.1.4.1.25461.2.1.2.1.20
+  - name: panSysThreatReleaseDate
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.21
+    type: DisplayString
+    help: Currently installed threat release date - 1.3.6.1.4.1.25461.2.1.2.1.21
+  - name: panSysAvReleaseDate
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.22
+    type: DisplayString
+    help: Currently installed antivirus release date - 1.3.6.1.4.1.25461.2.1.2.1.22
+  - name: panSysWfReleaseDate
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.23
+    type: DisplayString
+    help: Currently installed WildFire release date - 1.3.6.1.4.1.25461.2.1.2.1.23
   - name: panSessionUtilization
     oid: 1.3.6.1.4.1.25461.2.1.2.3.1
     type: gauge
@@ -11449,6 +11710,90 @@ paloalto_fw:
     help: Max sessions on this Vsys, if session limit is configured - 1.3.6.1.4.1.25461.2.1.2.3.9.1.5
     indexes:
     - labelname: panVsysId
+      type: gauge
+  - name: panVsysActiveTcpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.6
+    type: gauge
+    help: Number of active Tcp Connections per second for thie vSys. - 1.3.6.1.4.1.25461.2.1.2.3.9.1.6
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panVsysActiveUdpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.7
+    type: gauge
+    help: Number of active Udp Connections per second for thie vSys. - 1.3.6.1.4.1.25461.2.1.2.3.9.1.7
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panVsysActiveOtherIpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.8
+    type: gauge
+    help: Number of active Other IP Connections per second for thie vSys. - 1.3.6.1.4.1.25461.2.1.2.3.9.1.8
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panZoneName
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.10.1.1
+    type: DisplayString
+    help: Zone name for the interface - 1.3.6.1.4.1.25461.2.1.2.3.10.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: panZoneActiveTcpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.10.1.2
+    type: gauge
+    help: Number of active TCP connections per second for this zone. - 1.3.6.1.4.1.25461.2.1.2.3.10.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: panZoneActiveUdpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.10.1.3
+    type: gauge
+    help: Number of active UDP connections per second for this zone. - 1.3.6.1.4.1.25461.2.1.2.3.10.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: panZoneActiveOtherIpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.10.1.4
+    type: gauge
+    help: Number of active Other IP connections per second for this zone. - 1.3.6.1.4.1.25461.2.1.2.3.10.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifIndex
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.11.1.1
+    type: gauge
+    help: Index of the interface - 1.3.6.1.4.1.25461.2.1.2.3.11.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifDescr
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.11.1.2
+    type: DisplayString
+    help: Description (name) of the interface - 1.3.6.1.4.1.25461.2.1.2.3.11.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: panIfActiveTcpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.11.1.3
+    type: gauge
+    help: Number of active TCP connections per second for this interface. - 1.3.6.1.4.1.25461.2.1.2.3.11.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: panIfActiveUdpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.11.1.4
+    type: gauge
+    help: Number of active UDP connections per second for this interface. - 1.3.6.1.4.1.25461.2.1.2.3.11.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: panIfActiveOtherIpCps
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.11.1.5
+    type: gauge
+    help: Number of active Other IP connections per second for this interface. - 1.3.6.1.4.1.25461.2.1.2.3.11.1.5
+    indexes:
+    - labelname: ifIndex
       type: gauge
   - name: panGPGWUtilizationPct
     oid: 1.3.6.1.4.1.25461.2.1.2.5.1.1
@@ -12713,6 +13058,7 @@ synology:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -15231,6 +15577,7 @@ ubiquiti_airmax:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -16528,6 +16875,7 @@ ubiquiti_unifi:
       296: microwaveRadioLinkTerminal
       297: ieee8021axDrni
       298: ax25
+      299: ieee19061nanocom
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge

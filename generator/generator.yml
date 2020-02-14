@@ -6,7 +6,8 @@ modules:
       - source_indexes: [ifIndex]
         lookup: ifAlias
       - source_indexes: [ifIndex]
-        lookup: ifDescr
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
       - source_indexes: [ifIndex]
         # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
         lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
@@ -227,7 +228,8 @@ modules:
       - 1.3.6.1.4.1.2021.11 # systemStats
     lookups:
     - source_indexes: [ifIndex]
-      lookup: ifDescr
+      # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+      lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
       drop_source_indexes: true
     - source_indexes: [laIndex]
       lookup: laNames
