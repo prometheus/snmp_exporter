@@ -20,7 +20,7 @@ DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 DOCKER_REPO       ?= prom
 
-APC_URL          := 'https://download.schneider-electric.com/files?p_File_Name=powernet428.mib'
+APC_URL          := 'https://download.schneider-electric.com/files?p_File_Name=powernet431.mib'
 ARISTA_URL       := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL        := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
 IANA_CHARSET_URL := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
@@ -30,7 +30,7 @@ KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master
 MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
 NEC_URL          := https://jpn.nec.com/univerge/ix/Manual/MIB
 NET_SNMP_URL     := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.8/mibs
-PALOALTO_URL     := 'https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip'
+PALOALTO_URL     := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-91-snmp-mib-modules.zip
 PRINTER_URL      := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
 SERVERTECH_URL   := 'https://cdn10.servertech.com/assets/documents/documents/817/original/Sentry3.mib'
 SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
