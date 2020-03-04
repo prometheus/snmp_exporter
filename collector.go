@@ -109,6 +109,9 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	// Do the actual walk.
 	err := snmp.Connect()
 	if err != nil {
+		if err == context.Canceled {
+			return nil, fmt.Errorf("scrape canceled (possible timeout) connecting to target %s", snmp.Target)
+		}
 		return nil, fmt.Errorf("error connecting to target %s: %s", target, err)
 	}
 	defer snmp.Conn.Close()
@@ -130,6 +133,9 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		getStart := time.Now()
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
+			if err == context.Canceled {
+				return nil, fmt.Errorf("scrape canceled (possible timeout) getting target %s", snmp.Target)
+			}
 			return nil, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Get of OIDs completed", "oids", oids, "duration_seconds", time.Since(getStart))
@@ -164,6 +170,9 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 			pdus, err = snmp.BulkWalkAll(subtree)
 		}
 		if err != nil {
+			if err == context.Canceled {
+				return nil, fmt.Errorf("scrape canceled (possible timeout) walking target %s", snmp.Target)
+			}
 			return nil, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Walk of subtree completed", "oid", subtree, "duration_seconds", time.Since(walkStart))
