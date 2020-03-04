@@ -694,6 +694,9 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 		}
 		if pdu, ok := oidToPdu[oid]; ok {
 			labels[lookup.Labelname] = pduValueAsString(&pdu, lookup.Type)
+			if _, ok := pdu.Value.(int); ok {
+				labelOids[lookup.Labelname] = []int{pdu.Value.(int)}
+			}
 		} else {
 			labels[lookup.Labelname] = ""
 		}
