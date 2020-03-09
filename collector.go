@@ -361,6 +361,8 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 			level.Debug(logger).Log("msg", "Error parsing DateAndTime", "err", err)
 			return []prometheus.Metric{}
 		}
+	case "EnumAsHumanReadableLabel":
+		return enumAsHumanReadableLabel(metric, value, labelnames, labelvalues)
 	case "EnumAsInfo":
 		return enumAsInfo(metric, int(value), labelnames, labelvalues)
 	case "EnumAsStateSet":
@@ -440,6 +442,23 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 		}
 	}
 	return results
+}
+
+func enumAsHumanReadableLabel(metric *config.Metric, pduValue float64, labelnames, labelvalues []string) []prometheus.Metric {
+	// Lookup enum, default to the value.
+	state, ok := metric.EnumValues[int(pduValue)]
+	if !ok {
+		state = strconv.Itoa(int(pduValue))
+	}
+	labelnames = append(labelnames, "human_readable")
+	labelvalues = append(labelvalues, state)
+
+	newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (EnumAsHumanReadableLabel)", labelnames, nil), prometheus.GaugeValue, pduValue, labelvalues...)
+	if err != nil {
+		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsHumanReadableLabel", nil, nil),
+			fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+	}
+	return []prometheus.Metric{newMetric}
 }
 
 func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []string) []prometheus.Metric {

@@ -430,6 +430,21 @@ func TestPduToSample(t *testing.T) {
 			metric: &config.Metric{
 				Name:       "test_metric",
 				Oid:        "1.1",
+				Type:       "EnumAsHumanReadableLabel",
+				Help:       "Help string",
+				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
+			},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string (EnumAsHumanReadableLabel)", constLabels: {}, variableLabels: [human_readable]} label:<name:"human_readable" value:"baz" > gauge:<value:2 > `},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 2,
+			},
+			metric: &config.Metric{
+				Name:       "test_metric",
+				Oid:        "1.1",
 				Type:       "EnumAsInfo",
 				Help:       "Help string",
 				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},

@@ -125,6 +125,7 @@ modules:
                              #   InetAddress: An InetAddress per RFC 4001. Must be preceded by an InetAddressType.
                              #   InetAddressMissingSize: An InetAddress that violates section 4.1 of RFC 4001 by
                              #       not having the size in the index. Must be preceded by an InetAddressType.
+                             #   EnumAsHumanReadableLabel: An enum which does not change the metric exept for adding a `human_readable` label. Similar to EnumAsInfo, but preserves the metrics value.
                              #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
                              #   Bits: An RFC 2578 BITS construct, which produces a StateSet with a time series per bit.
