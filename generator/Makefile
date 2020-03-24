@@ -20,23 +20,24 @@ DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 DOCKER_REPO       ?= prom
 
-APC_URL          := 'https://download.schneider-electric.com/files?p_File_Name=powernet431.mib'
-ARISTA_URL       := https://www.arista.com/assets/data/docs/MIBS
-CISCO_URL        := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
-IANA_CHARSET_URL := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
-IANA_IFTYPE_URL  := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
-IANA_PRINTER_URL := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
-KEEPALIVED_URL   := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
-MIKROTIK_URL     := 'http://download2.mikrotik.com/Mikrotik.mib'
-NEC_URL          := https://jpn.nec.com/univerge/ix/Manual/MIB
-NET_SNMP_URL     := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.8/mibs
-PALOALTO_URL     := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-91-snmp-mib-modules.zip
-PRINTER_URL      := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
-SERVERTECH_URL   := 'https://cdn10.servertech.com/assets/documents/documents/817/original/Sentry3.mib'
-SYNOLOGY_URL     := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
-UBNT_AIROS_URL   := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
-UBNT_DL_URL      := http://dl.ubnt-ut.com/snmp
-RARITAN_URL      := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
+APC_URL           := 'https://download.schneider-electric.com/files?p_File_Name=powernet431.mib'
+ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
+CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
+IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
+IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
+IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
+KEEPALIVED_URL    := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
+MIKROTIK_URL      := 'http://download2.mikrotik.com/Mikrotik.mib'
+NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
+NET_SNMP_URL      := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.8/mibs
+PALOALTO_URL      := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-91-snmp-mib-modules.zip
+PRINTER_URL       := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
+SERVERTECH_URL    := 'https://cdn10.servertech.com/assets/documents/documents/817/original/Sentry3.mib'
+SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
+UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+UBNT_AIRFIBER_URL := https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
+UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
+RARITAN_URL       := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 
 .DEFAULT: all
 
@@ -95,6 +96,7 @@ mibs: mib-dir \
   $(MIBDIR)/.synology \
   $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
+  $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   ${MIBDIR}/PDU-MIB.txt
 
@@ -212,6 +214,10 @@ $(MIBDIR)/UBNT-MIB:
 $(MIBDIR)/UBNT-UniFi-MIB:
 	@echo ">> Downloading UBNT-UniFi-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-UniFi-MIB "$(UBNT_DL_URL)/UBNT-UniFi-MIB"
+
+$(MIBDIR)/UBNT-AirFiber-MIB:
+	@echo ">> Downloading UBNT-AirFiber-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-AirFiber-MIB $(UBNT_AIRFIBER_URL)
 
 $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	$(eval TMP := $(shell mktemp))
