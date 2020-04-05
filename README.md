@@ -69,3 +69,12 @@ In order to provide accurate counters for large Counter64 values, the exporter w
 wrap the value every 2^53 to avoid 64-bit float rounding.
 
 To disable this feature, use the command line flag `--no-snmp.wrap-large-counters`.
+
+## Upload dynamic config
+
+Snmp exporter allow to upload config file and reload it.
+
+To enable this feature, use the command line flag `--upload.config`.
+
+If the uploaded file is desired to be permanent, use the command line flag `--upload.persistent`.
+It will overwrite current config file.

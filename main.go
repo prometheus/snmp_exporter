@@ -15,6 +15,8 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
@@ -37,9 +39,11 @@ import (
 )
 
 var (
-	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
-	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
-	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	configFile       = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	listenAddress    = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
+	dryRun           = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	uploadPersistent = kingpin.Flag("upload.persistent", "Change current config file with uploaded config file.").Default("false").Bool()
+	uploadConfig 	 = kingpin.Flag("upload.config", "Config could be changeable via upload api.").Default("false").Bool()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
@@ -118,8 +122,65 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 		if err := <-rc; err != nil {
 			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
 		}
+		w.Write([]byte("OK"))
 	default:
 		http.Error(w, "POST method expected", 400)
+	}
+}
+
+func uploadConfiguration(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "POST":
+		defer func() {
+			err := recover()
+			if err != nil {
+				http.Error(w, fmt.Sprintf("Error: %s", err), http.StatusInternalServerError)
+			}
+			return
+		}()
+
+		if *uploadConfig != true {
+			http.Error(w, "Upload api not enabled. Please use with --upload.config flag. Ex: ./snmp_exporter --upload.config", http.StatusNotImplemented)
+			return
+		}
+
+		r.ParseMultipartForm(32 << 20)
+
+		file, _, err := r.FormFile("configfile")
+		if err != nil {
+			http.Error(w, fmt.Sprintf("failed to read uploaded config file: %s", err), http.StatusInternalServerError)
+		}
+		defer file.Close()
+
+		tmpFile, err := ioutil.TempFile(os.TempDir(), "snmp-tmp-conf-")
+
+		defer os.Remove(tmpFile.Name())
+		io.Copy(tmpFile, file)
+
+		if err := sc.ReloadConfig(tmpFile.Name()); err != nil {
+			panic(err)
+		} else {
+			if *uploadPersistent {
+				persistentFile, err := os.OpenFile(*configFile, os.O_WRONLY|os.O_CREATE, 0666)
+				if err != nil {
+					w.Write([]byte(fmt.Sprintf("config loaded but it could not write persist config file: %s", err)))
+					w.WriteHeader(http.StatusOK)
+					return
+				}
+				defer persistentFile.Close()
+				tmpContent, err := ioutil.ReadFile(tmpFile.Name())
+				err = ioutil.WriteFile(*configFile, tmpContent, 200)
+				if err != nil {
+					w.Write([]byte(fmt.Sprintf("config loaded but it could not write persist config file: %s", err)))
+					w.WriteHeader(http.StatusOK)
+					return
+				}
+				w.WriteHeader(http.StatusCreated)
+				w.Write([]byte("OK"))
+			}
+		}
+	default:
+		http.Error(w, "POST method expected", http.StatusMethodNotAllowed)
 	}
 }
 
@@ -198,6 +259,7 @@ func main() {
 		handler(w, r, logger)
 	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
+	http.HandleFunc("/-/upload", uploadConfiguration)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
@@ -218,12 +280,27 @@ func main() {
             </head>
             <body>
             <h1>SNMP Exporter</h1>
+			<div>
             <form action="/snmp">
             <label>Target:</label> <input type="text" name="target" placeholder="X.X.X.X" value="1.2.3.4"><br>
             <label>Module:</label> <input type="text" name="module" placeholder="module" value="if_mib"><br>
             <input type="submit" value="Submit">
+			</div>
             </form>
-						<p><a href="/config">Config</a></p>
+			<div>
+			<form action="/-/upload" method="POST" enctype="multipart/form-data">
+            <label>Config File:</label> <input type="file" name="configfile"><br>
+            <input type="submit" value="Upload and reload">
+            </form>
+			</div>
+			<div>
+			<form action="/-/reload" method="POST">
+            <input type="submit" value="Reload">
+            </form>
+			</div>
+			<div>
+			<p><a href="/config">Config</a></p>
+			</div>
             </body>
             </html>`))
 	})
