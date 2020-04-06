@@ -18,7 +18,7 @@ import (
 	"io/ioutil"
 	"regexp"
 	"time"
-
+	"github.com/prometheus/common/model"
 	"github.com/soniah/gosnmp"
 	"gopkg.in/yaml.v2"
 )
@@ -178,6 +178,7 @@ type Metric struct {
 	Lookups        []*Lookup                  `yaml:"lookups,omitempty"`
 	RegexpExtracts map[string][]RegexpExtract `yaml:"regex_extracts,omitempty"`
 	EnumValues     map[int]string             `yaml:"enum_values,omitempty"`
+	Labels    	   model.LabelSet             `yaml:"const_labels,omitempty"`
 }
 
 type Index struct {

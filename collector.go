@@ -327,12 +327,30 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 
 	value := getPduValue(pdu)
 	t := prometheus.UntypedValue
+	
+	labels_length := len(labels) + len(metric.Labels) + 1
 
-	labelnames := make([]string, 0, len(labels)+1)
-	labelvalues := make([]string, 0, len(labels)+1)
+	labelnames := make([]string, 0, labels_length)
+	labelvalues := make([]string, 0, labels_length)
+
+	// Add labels returned from "indexes to labels"
 	for k, v := range labels {
 		labelnames = append(labelnames, k)
 		labelvalues = append(labelvalues, v)
+	}
+
+	// Add constant labels if any
+	if len(metric.Labels) > 0 {
+		level.Debug(logger).Log("msg", "Metric:", "Name", metric.Name, "OID", metric.Oid)
+
+		for ln, lv := range metric.Labels {
+			tmp_label_name := string(ln)
+			tmp_label_value := string(lv)
+			level.Debug(logger).Log("msg", "Constant Label", "name", tmp_label_name, "value", tmp_label_value)
+
+			labelnames = append(labelnames, tmp_label_name)
+			labelvalues = append(labelvalues, tmp_label_value)
+		}
 	}
 
 	switch metric.Type {
