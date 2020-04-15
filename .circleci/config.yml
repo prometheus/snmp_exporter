@@ -38,7 +38,7 @@ jobs:
     steps:
     - checkout:
         path: ~/project
-    - run: sudo apt-get -y install build-essential diffutils libsnmp-dev
+    - run: sudo apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
     - run: make mibs
     - run: make generator
     - run: make parse_errors

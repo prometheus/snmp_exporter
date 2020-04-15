@@ -38,6 +38,7 @@ UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_AIRFIBER_URL := https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 RARITAN_URL       := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
+INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
 
 .DEFAULT: all
 
@@ -98,7 +99,8 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  ${MIBDIR}/PDU-MIB.txt
+  $(MIBDIR)/PDU-MIB.txt \
+  $(MIBDIR)/IPD-MIB_Q419V9.mib
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -229,3 +231,10 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 $(MIBDIR)/PDU-MIB.txt:
 	@echo ">> Downloading PDU-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
+
+$(MIBDIR)/IPD-MIB_Q419V9.mib:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading IPD-MIB_Q419V9 to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(INFRAPOWER_URL)
+	@7z e -o$(MIBDIR) $(TMP)
+	@rm -v $(TMP)
