@@ -400,3 +400,46 @@ modules:
         type: EnumAsStateSet
     auth:
       community: raritan_public
+
+# InfraPower PDU's
+#
+# https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
+# The circuit table in the infrapower MIB is invalid as it has a table (circuitTable) nested inside another table (pduTable), and this invalid setup then confuses the generator.
+  infrapower_pdu:
+    walk:
+      - sysUpTime
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.1 # pduIndex
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.6 # pduName
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.7 # pduLocation
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.13 # pduMainLoadVoltage
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.14 # pduMainLoadAmp
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.17 # pduMainActivePower
+    lookups:
+      - source_indexes: [pduIndex]
+        lookup: pduName
+      - source_indexes: [pduIndex]
+        lookup: pduLocation
+    overrides:
+      pduIndex:
+        ignore: true # Lookup metric
+      pduName:
+        ignore: true # Lookup metric
+      pduLocation:
+        ignore: true # Lookup metric
+      pduMainLoadAmp:
+        regex_extracts:
+          '':
+            - regex: '(.*)(.)'
+              value: '$1.$2'
+      pduMainLoadVoltage:
+        regex_extracts:
+          '':
+            - regex: '(.*)(.)'
+              value: '$1.$2'
+      pduMainActivePower:
+        regex_extracts:
+          '':
+            - regex: '(\d*?)(\d{2})'
+              value: '0$1.$2'
+            - regex: '^(\d)'
+              value: '0.0$1'
