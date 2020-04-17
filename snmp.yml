@@ -6694,6 +6694,90 @@ if_mib:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+infrapower_pdu:
+  walk:
+  - 1.3.6.1.4.1.34550.20.2.1.1.1.1
+  - 1.3.6.1.4.1.34550.20.2.1.1.1.13
+  - 1.3.6.1.4.1.34550.20.2.1.1.1.14
+  - 1.3.6.1.4.1.34550.20.2.1.1.1.17
+  - 1.3.6.1.4.1.34550.20.2.1.1.1.6
+  - 1.3.6.1.4.1.34550.20.2.1.1.1.7
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: pduMainLoadVoltage
+    oid: 1.3.6.1.4.1.34550.20.2.1.1.1.13
+    type: DisplayString
+    help: The voltage measured on this PDU in tenth of Volts - 1.3.6.1.4.1.34550.20.2.1.1.1.13
+    indexes:
+    - labelname: pduIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduIndex
+      labelname: pduName
+      oid: 1.3.6.1.4.1.34550.20.2.1.1.1.6
+      type: DisplayString
+    - labels:
+      - pduIndex
+      labelname: pduLocation
+      oid: 1.3.6.1.4.1.34550.20.2.1.1.1.7
+      type: DisplayString
+    regex_extracts:
+      "":
+      - value: $1.$2
+        regex: ^(?:(.*)(.))$
+  - name: pduMainLoadAmp
+    oid: 1.3.6.1.4.1.34550.20.2.1.1.1.14
+    type: DisplayString
+    help: The current load measured on this PDU in tenth of Amps - 1.3.6.1.4.1.34550.20.2.1.1.1.14
+    indexes:
+    - labelname: pduIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduIndex
+      labelname: pduName
+      oid: 1.3.6.1.4.1.34550.20.2.1.1.1.6
+      type: DisplayString
+    - labels:
+      - pduIndex
+      labelname: pduLocation
+      oid: 1.3.6.1.4.1.34550.20.2.1.1.1.7
+      type: DisplayString
+    regex_extracts:
+      "":
+      - value: $1.$2
+        regex: ^(?:(.*)(.))$
+  - name: pduMainActivePower
+    oid: 1.3.6.1.4.1.34550.20.2.1.1.1.17
+    type: DisplayString
+    help: The active power consumption of this PDU in hundred-thousandth of kW - 1.3.6.1.4.1.34550.20.2.1.1.1.17
+    indexes:
+    - labelname: pduIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduIndex
+      labelname: pduName
+      oid: 1.3.6.1.4.1.34550.20.2.1.1.1.6
+      type: DisplayString
+    - labels:
+      - pduIndex
+      labelname: pduLocation
+      oid: 1.3.6.1.4.1.34550.20.2.1.1.1.7
+      type: DisplayString
+    regex_extracts:
+      "":
+      - value: 0$1.$2
+        regex: ^(?:(\d*?)(\d{2}))$
+      - value: 0.0$1
+        regex: ^(?:^(\d))$
 keepalived:
   walk:
   - 1.3.6.1.4.1.9586.100.5.2.1
@@ -15900,1148 +15984,6 @@ ubiquiti_airfiber:
     indexes:
     - labelname: ifIndex
       type: gauge
-  - name: airFiberConfigIndex
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.1
-    type: gauge
-    help: Index for the airFiberConfig - 1.3.6.1.4.1.41112.1.3.1.1.1
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: radioEnable
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.2
-    type: gauge
-    help: Radio Enabled State (Enabled/Disabled) - 1.3.6.1.4.1.41112.1.3.1.1.2
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: enabled
-      2: disabled
-  - name: radioLinkMode
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.3
-    type: gauge
-    help: Radio Operating Mode - 1.3.6.1.4.1.41112.1.3.1.1.3
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: master
-      2: slave
-      3: spectral
-  - name: radioDuplex
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.4
-    type: gauge
-    help: Radio Duplex Mode - 1.3.6.1.4.1.41112.1.3.1.1.4
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: halfDuplex
-      2: fullDuplex
-  - name: txFrequency
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.5
-    type: gauge
-    help: TX Operating frequency (MHz) - 1.3.6.1.4.1.41112.1.3.1.1.5
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: rxFrequency
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.6
-    type: gauge
-    help: RX Operating frequency (MHz) - 1.3.6.1.4.1.41112.1.3.1.1.6
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: regDomain
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.7
-    type: DisplayString
-    help: Regulatory Domain - 1.3.6.1.4.1.41112.1.3.1.1.7
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: gpsSync
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.8
-    type: gauge
-    help: GPS Synchronization state (OFF, ON) - 1.3.6.1.4.1.41112.1.3.1.1.8
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: "off"
-      2: "on"
-  - name: txPower
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.9
-    type: gauge
-    help: Radio Transmit Power Setting (dBm) - 1.3.6.1.4.1.41112.1.3.1.1.9
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: rxGain
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.10
-    type: gauge
-    help: Radio Receiver Gain Setting - 1.3.6.1.4.1.41112.1.3.1.1.10
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: low
-      2: high
-  - name: maxTxModRate
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.11
-    type: gauge
-    help: Maximum TX Modulation Rate - 1.3.6.1.4.1.41112.1.3.1.1.11
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      0: qPSK-SISO-1-4x
-      1: qPSK-SISO-1x
-      2: qPSK-MIMO-2x
-      4: qAM16-MIMO-4x
-      6: qAM64-MIMO-6x
-      8: qAM256-MIMO-8x
-  - name: modRateControl
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.12
-    type: gauge
-    help: Transmit Modulation Rate Control - 1.3.6.1.4.1.41112.1.3.1.1.12
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: manual
-      2: automatic
-  - name: ethDPortLinkSpeed
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.13
-    type: gauge
-    help: Ethernet Data Port Configuration - 1.3.6.1.4.1.41112.1.3.1.1.13
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: auto
-      2: half-10Mbps
-      3: half-100Mbps
-      4: full-10Mbps
-      5: full-100Mbps
-      6: full-1000Mbps
-  - name: linkName
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.14
-    type: DisplayString
-    help: Radio Link Name - 1.3.6.1.4.1.41112.1.3.1.1.14
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: encryptKey
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.15
-    type: DisplayString
-    help: Radio Link Encryption Key - 1.3.6.1.4.1.41112.1.3.1.1.15
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: ethFlowControl
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.16
-    type: gauge
-    help: Ethernet DATA port Flow Control (OFF, ON) - 1.3.6.1.4.1.41112.1.3.1.1.16
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: "off"
-      2: "on"
-  - name: ethMcastFilter
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.17
-    type: gauge
-    help: Ethernet DATA port Multicast Filter - 1.3.6.1.4.1.41112.1.3.1.1.17
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      1: "off"
-      2: "on"
-  - name: ethTrackRFLink
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.18
-    type: gauge
-    help: Enable Ethernet DATA port state to track RF Link - 1.3.6.1.4.1.41112.1.3.1.1.18
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-    enum_values:
-      0: disabled
-      1: use-Timers
-      2: enabled
-  - name: ethLinkOffDuration
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.19
-    type: gauge
-    help: Duration (seconds) of Ethernet Link Drop when ethTrackRFLink is set to Use-Timers
-      - 1.3.6.1.4.1.41112.1.3.1.1.19
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: ethLinkOffSpacing
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.20
-    type: gauge
-    help: Spacing (seconds) of consecutive Etherenet Link Drops when ethTrackLink
-      is set to Use-Timers - 1.3.6.1.4.1.41112.1.3.1.1.20
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: txFrequency1
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.21
-    type: gauge
-    help: First configured TX Frequency (MHz) of radio. - 1.3.6.1.4.1.41112.1.3.1.1.21
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: rxFrequency1
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.22
-    type: gauge
-    help: First configured RX Frequency (MHz) of radio. - 1.3.6.1.4.1.41112.1.3.1.1.22
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: txFrequency2
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.23
-    type: gauge
-    help: Second configured TX Frequency (MHz) of radio - 1.3.6.1.4.1.41112.1.3.1.1.23
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: rxFrequency2
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.24
-    type: gauge
-    help: Second configured RX Frequency (MHz) of radio - 1.3.6.1.4.1.41112.1.3.1.1.24
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: txFrequency3
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.25
-    type: gauge
-    help: Third configured TX Frequency (MHz) of radio - 1.3.6.1.4.1.41112.1.3.1.1.25
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: rxFrequency3
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.26
-    type: gauge
-    help: Third configured RX Frequency (MHz) of radio - 1.3.6.1.4.1.41112.1.3.1.1.26
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: channelWidth
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.27
-    type: gauge
-    help: Current RF Channel Bandwidth - 1.3.6.1.4.1.41112.1.3.1.1.27
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: txChannelWidth
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.28
-    type: gauge
-    help: Current TX RF Channel Bandwidth (MHz) - 1.3.6.1.4.1.41112.1.3.1.1.28
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: rxChannelWidth
-    oid: 1.3.6.1.4.1.41112.1.3.1.1.29
-    type: gauge
-    help: Current RX RF Channel Bandwidth (MHz) - 1.3.6.1.4.1.41112.1.3.1.1.29
-    indexes:
-    - labelname: airFiberConfigIndex
-      type: gauge
-  - name: airFiberStatusIndex
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.1
-    type: gauge
-    help: Index for the air0 interface - 1.3.6.1.4.1.41112.1.3.2.1.1
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: curTXModRate
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.2
-    type: gauge
-    help: Current Transmit Modulation Rate - 1.3.6.1.4.1.41112.1.3.2.1.2
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      0: qPSK-SISO-1-4x
-      1: qPSK-SISO-1x
-      2: qPSK-MIMO-2x
-      4: qAM16-MIMO-4x
-      6: qAM64-MIMO-6x
-      8: qAM256-MIMO-8x
-  - name: radioLinkDistFt
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.3
-    type: gauge
-    help: Radio Link Distance (Feet) - 1.3.6.1.4.1.41112.1.3.2.1.3
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: radioLinkDistM
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.4
-    type: gauge
-    help: Radio Link Distance (Meters) - 1.3.6.1.4.1.41112.1.3.2.1.4
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: rxCapacity
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.5
-    type: gauge
-    help: Radio Receive Throughput Capacity (bits/sec) - 1.3.6.1.4.1.41112.1.3.2.1.5
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: txCapacity
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.6
-    type: gauge
-    help: Radio Transmit Throughput Capacity (bits/sec) - 1.3.6.1.4.1.41112.1.3.2.1.6
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: radio0TempF
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.7
-    type: gauge
-    help: Radio Chain 0 DAC Temperature (F) - 1.3.6.1.4.1.41112.1.3.2.1.7
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: radio0TempC
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.8
-    type: gauge
-    help: Radio Chain 0 DAC Temperature (C) - 1.3.6.1.4.1.41112.1.3.2.1.8
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: radio1TempF
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.9
-    type: gauge
-    help: Radio Chain 1 DAC Temperature (F) - 1.3.6.1.4.1.41112.1.3.2.1.9
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: radio1TempC
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.10
-    type: gauge
-    help: Radio Chain 0 DAC Temperature (C) - 1.3.6.1.4.1.41112.1.3.2.1.10
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: rxPower0
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.11
-    type: gauge
-    help: Radio Chain 0 RX Power Level (dBm) - 1.3.6.1.4.1.41112.1.3.2.1.11
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: rxPower0Valid
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.12
-    type: gauge
-    help: Radio Chain 0 RX Power Valid - 1.3.6.1.4.1.41112.1.3.2.1.12
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: rxOverload0
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.13
-    type: gauge
-    help: Radio Chain 0 RX Overloaded - 1.3.6.1.4.1.41112.1.3.2.1.13
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: rxPower1
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.14
-    type: gauge
-    help: Radio Chain 1 RX Power Level (dBm) - 1.3.6.1.4.1.41112.1.3.2.1.14
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: rxPower1Valid
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.15
-    type: gauge
-    help: Radio Chain 1 RX Power Valid - 1.3.6.1.4.1.41112.1.3.2.1.15
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: rxOverload1
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.16
-    type: gauge
-    help: Radio Chain 1 RX Overloaded - 1.3.6.1.4.1.41112.1.3.2.1.16
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: remoteTXPower
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.17
-    type: gauge
-    help: Remote Radio Transmit Power Level (dBm) - 1.3.6.1.4.1.41112.1.3.2.1.17
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: remoteTXModRate
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.18
-    type: gauge
-    help: Remote Transmit Modulation Rate - 1.3.6.1.4.1.41112.1.3.2.1.18
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      0: qPSK-SISO-1-4x
-      1: qPSK-SISO-1x
-      2: qPSK-MIMO-2x
-      4: qAM16-MIMO-4x
-      6: qAM64-MIMO-6x
-      8: qAM256-MIMO-8x
-  - name: remoteRXPower0
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.19
-    type: gauge
-    help: Remote Radio Chain 0 RX Power Level (dBm) - 1.3.6.1.4.1.41112.1.3.2.1.19
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: remoteRXPower0Valid
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.20
-    type: gauge
-    help: Remote Radio Chain 0 RX Power Valid - 1.3.6.1.4.1.41112.1.3.2.1.20
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: remoteRXPower0Overload
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.21
-    type: gauge
-    help: Remote Radio Chain 0 RX Overloaded - 1.3.6.1.4.1.41112.1.3.2.1.21
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: remoteRXPower1
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.22
-    type: gauge
-    help: Remote Radio Chain 1 RX Power Level (dBm) - 1.3.6.1.4.1.41112.1.3.2.1.22
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: remoteRXPower1Valid
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.23
-    type: gauge
-    help: Remote Radio Chain 1 RX Power Valid - 1.3.6.1.4.1.41112.1.3.2.1.23
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: remoteRXPower1Overload
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.24
-    type: gauge
-    help: Remote Radio Chain 1 RX Overloaded - 1.3.6.1.4.1.41112.1.3.2.1.24
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: countryCode
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.25
-    type: gauge
-    help: Configured Country Code - 1.3.6.1.4.1.41112.1.3.2.1.25
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: radioLinkState
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.26
-    type: gauge
-    help: Radio Link State - 1.3.6.1.4.1.41112.1.3.2.1.26
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      0: down
-      1: up
-  - name: ethDataPortState
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.27
-    type: gauge
-    help: Ethernet Data Port State - 1.3.6.1.4.1.41112.1.3.2.1.27
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-    enum_values:
-      0: down
-      1: up
-  - name: gpsPulse
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.28
-    type: DisplayString
-    help: GPS Pulse Detected - 1.3.6.1.4.1.41112.1.3.2.1.28
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsFix
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.29
-    type: DisplayString
-    help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.3.2.1.29
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsLat
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.30
-    type: DisplayString
-    help: GPS Latitude - 1.3.6.1.4.1.41112.1.3.2.1.30
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsLong
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.31
-    type: DisplayString
-    help: GPS Longitude - 1.3.6.1.4.1.41112.1.3.2.1.31
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsAltMeters
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.32
-    type: DisplayString
-    help: GPS Altitude (m) - 1.3.6.1.4.1.41112.1.3.2.1.32
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsAltFeet
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.33
-    type: DisplayString
-    help: GPS Altitude (ft) - 1.3.6.1.4.1.41112.1.3.2.1.33
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsSatsVisible
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.34
-    type: gauge
-    help: GPS Satellites Visible - 1.3.6.1.4.1.41112.1.3.2.1.34
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsSatsTracked
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.35
-    type: gauge
-    help: GPS Satellites Tracked - 1.3.6.1.4.1.41112.1.3.2.1.35
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: gpsHDOP
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.36
-    type: OctetString
-    help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.3.2.1.36
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsState
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.37
-    type: DisplayString
-    help: Radio DFS State - 1.3.6.1.4.1.41112.1.3.2.1.37
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: upTime
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.38
-    type: gauge
-    help: Board uptime (seconds) - 1.3.6.1.4.1.41112.1.3.2.1.38
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dateTime
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.39
-    type: DisplayString
-    help: Board date and time - 1.3.6.1.4.1.41112.1.3.2.1.39
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: fwVersion
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.40
-    type: DisplayString
-    help: Board Firmware Revision - 1.3.6.1.4.1.41112.1.3.2.1.40
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: remoteRXGain
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.41
-    type: DisplayString
-    help: Remote radio Receiver Gain - 1.3.6.1.4.1.41112.1.3.2.1.41
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: radioLinkInfo
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.42
-    type: DisplayString
-    help: Radio Link Connection Information - 1.3.6.1.4.1.41112.1.3.2.1.42
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: ethDataPortInfo
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.43
-    type: DisplayString
-    help: Ethernet Data Port Link Connection Speed - 1.3.6.1.4.1.41112.1.3.2.1.43
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: linkUpTime
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.44
-    type: gauge
-    help: Radio Link uptime (seconds) - 1.3.6.1.4.1.41112.1.3.2.1.44
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: remoteMAC
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.45
-    type: DisplayString
-    help: Remote radio MAC Address - 1.3.6.1.4.1.41112.1.3.2.1.45
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: remoteIP
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.46
-    type: DisplayString
-    help: Remote radio IP Address - 1.3.6.1.4.1.41112.1.3.2.1.46
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsDetections
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.47
-    type: gauge
-    help: Number of DFS Detections since boot - 1.3.6.1.4.1.41112.1.3.2.1.47
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsDomain
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.48
-    type: DisplayString
-    help: DFS Regulatory Domain for current TX Frequency - 1.3.6.1.4.1.41112.1.3.2.1.48
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsStateTxFreq1
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.49
-    type: DisplayString
-    help: State of first TX Frequency - 1.3.6.1.4.1.41112.1.3.2.1.49
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsStateTxFreq2
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.50
-    type: DisplayString
-    help: State of second TX Frequency - 1.3.6.1.4.1.41112.1.3.2.1.50
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsStateTxFreq3
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.51
-    type: DisplayString
-    help: State of third TX Frequency - 1.3.6.1.4.1.41112.1.3.2.1.51
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsTimerTxFreq1
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.52
-    type: gauge
-    help: Seconds remaining before first TX Frequency can advance to next operating
-      state - 1.3.6.1.4.1.41112.1.3.2.1.52
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsTimerTxFreq2
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.53
-    type: gauge
-    help: Seconds remaining before second TX Frequency can advance to next operating
-      state - 1.3.6.1.4.1.41112.1.3.2.1.53
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: dfsTimerTxFreq3
-    oid: 1.3.6.1.4.1.41112.1.3.2.1.54
-    type: gauge
-    help: Seconds remaining before third TX Frequency can advance to next operating
-      state - 1.3.6.1.4.1.41112.1.3.2.1.54
-    indexes:
-    - labelname: airFiberStatusIndex
-      type: gauge
-  - name: airFiberStatisticsIndex
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.1
-    type: gauge
-    help: Index for the airFiberStatus - 1.3.6.1.4.1.41112.1.3.3.1.1
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txFramesOK
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.2
-    type: counter
-    help: Eth Data Port TX Frames - 1.3.6.1.4.1.41112.1.3.3.1.2
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxFramesOK
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.3
-    type: counter
-    help: Eth Data Port RX Frames - 1.3.6.1.4.1.41112.1.3.3.1.3
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxFrameCrcErr
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.4
-    type: counter
-    help: Eth Data Port CRC Errors - 1.3.6.1.4.1.41112.1.3.3.1.4
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxAlignErr
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.5
-    type: counter
-    help: Eth Data Port Receive Alignment Errors - 1.3.6.1.4.1.41112.1.3.3.1.5
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txOctetsOK
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.6
-    type: counter
-    help: Eth Data Port TX Octets - 1.3.6.1.4.1.41112.1.3.3.1.6
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxOctetsOK
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.7
-    type: counter
-    help: Eth Data Port RX Octets - 1.3.6.1.4.1.41112.1.3.3.1.7
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txPauseFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.8
-    type: counter
-    help: Eth Data Port Pause Frames Transmitted - 1.3.6.1.4.1.41112.1.3.3.1.8
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxPauseFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.9
-    type: counter
-    help: Eth Data Port Pause Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.9
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxErroredFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.10
-    type: counter
-    help: Eth Data Port Bad Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.10
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txErroredFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.11
-    type: counter
-    help: Eth Data Port Bad Frames Transmitted - 1.3.6.1.4.1.41112.1.3.3.1.11
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxValidUnicastFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.12
-    type: counter
-    help: Eth Data Port Unicast Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.12
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxValidMulticastFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.13
-    type: counter
-    help: Eth Data Port Multicast Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.13
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxValidBroadcastFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.14
-    type: counter
-    help: Eth Data Port Broadcast Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.14
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txValidUnicastFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.15
-    type: counter
-    help: Eth Data Port Unicast Frames Transmitted - 1.3.6.1.4.1.41112.1.3.3.1.15
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txValidMulticastFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.16
-    type: counter
-    help: Eth Data Port Multicast Frames Transmitted - 1.3.6.1.4.1.41112.1.3.3.1.16
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txValidBroadcastFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.17
-    type: counter
-    help: Eth Data Port Broadcast Frames Transmitted - 1.3.6.1.4.1.41112.1.3.3.1.17
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxDroppedMacErrFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.18
-    type: counter
-    help: Eth Data Port Dropped MAC Receive Errors - 1.3.6.1.4.1.41112.1.3.3.1.18
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxTotalOctets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.19
-    type: counter
-    help: Eth Data Port Total Octets Received - 1.3.6.1.4.1.41112.1.3.3.1.19
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxTotalFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.20
-    type: counter
-    help: Eth Data Port Total Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.20
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxLess64ByteFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.21
-    type: counter
-    help: Eth Data Port Undersized Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.21
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxOverLengthFrames
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.22
-    type: counter
-    help: Eth Data Port Over Max Length Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.22
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rx64BytePackets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.23
-    type: counter
-    help: Eth Data Port 64 Byte Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.23
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rx65_127BytePackets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.24
-    type: counter
-    help: Eth Data Port 65-127 Byte Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.24
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rx128_255BytePackets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.25
-    type: counter
-    help: Eth Data Port 128-256 Byte Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.25
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rx256_511BytePackets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.26
-    type: counter
-    help: Eth Data Port 256-511 Byte Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.26
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rx512_1023BytePackets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.27
-    type: counter
-    help: Eth Data Port 512-1023 Byte Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.27
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rx1024_1518BytesPackets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.28
-    type: counter
-    help: Eth Data Port 1024-1518 Byte Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.28
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rx1519PlusBytePackets
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.29
-    type: counter
-    help: Eth Data Port Greater Than 1518 Byte Frames Received - 1.3.6.1.4.1.41112.1.3.3.1.29
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxTooLongFrameCrcErr
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.30
-    type: counter
-    help: Eth Data Port Too Long Frame CRC Errors Received - 1.3.6.1.4.1.41112.1.3.3.1.30
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxTooShortFrameCrcErr
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.31
-    type: counter
-    help: Eth Data Port Too Short Frame CRC Errors Received - 1.3.6.1.4.1.41112.1.3.3.1.31
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct0
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.32
-    type: counter
-    help: RF TX Octets QOS 0 - 1.3.6.1.4.1.41112.1.3.3.1.32
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct1
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.33
-    type: counter
-    help: RF TX Octets QOS 1 - 1.3.6.1.4.1.41112.1.3.3.1.33
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct2
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.34
-    type: counter
-    help: RF TX Octets QOS 2 - 1.3.6.1.4.1.41112.1.3.3.1.34
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct3
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.35
-    type: counter
-    help: RF TX Octets QOS 3 - 1.3.6.1.4.1.41112.1.3.3.1.35
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct4
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.36
-    type: counter
-    help: RF TX Octets QOS 4 - 1.3.6.1.4.1.41112.1.3.3.1.36
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct5
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.37
-    type: counter
-    help: RF TX Octets QOS 5 - 1.3.6.1.4.1.41112.1.3.3.1.37
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct6
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.38
-    type: counter
-    help: RF TX Octets QOS 6 - 1.3.6.1.4.1.41112.1.3.3.1.38
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqosoct7
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.39
-    type: counter
-    help: RF TX Octets QOS 7 - 1.3.6.1.4.1.41112.1.3.3.1.39
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt0
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.40
-    type: counter
-    help: RF TX Packets QOS 0 - 1.3.6.1.4.1.41112.1.3.3.1.40
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt1
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.41
-    type: counter
-    help: RF TX Packets QOS 1 - 1.3.6.1.4.1.41112.1.3.3.1.41
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt2
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.42
-    type: counter
-    help: RF TX Packets QOS 2 - 1.3.6.1.4.1.41112.1.3.3.1.42
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt3
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.43
-    type: counter
-    help: RF TX Packets QOS 3 - 1.3.6.1.4.1.41112.1.3.3.1.43
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt4
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.44
-    type: counter
-    help: RF TX Packets QOS 4 - 1.3.6.1.4.1.41112.1.3.3.1.44
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt5
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.45
-    type: counter
-    help: RF TX Packets QOS 5 - 1.3.6.1.4.1.41112.1.3.3.1.45
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt6
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.46
-    type: counter
-    help: RF TX Packets QOS 6 - 1.3.6.1.4.1.41112.1.3.3.1.46
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txqospkt7
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.47
-    type: counter
-    help: RF TX Packets QOS 7 - 1.3.6.1.4.1.41112.1.3.3.1.47
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct0
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.48
-    type: counter
-    help: RF RX Octets QOS 0 - 1.3.6.1.4.1.41112.1.3.3.1.48
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct1
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.49
-    type: counter
-    help: RF RX Octets QOS 1 - 1.3.6.1.4.1.41112.1.3.3.1.49
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct2
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.50
-    type: counter
-    help: RF RX Octets QOS 2 - 1.3.6.1.4.1.41112.1.3.3.1.50
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct3
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.51
-    type: counter
-    help: RF RX Octets QOS 3 - 1.3.6.1.4.1.41112.1.3.3.1.51
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct4
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.52
-    type: counter
-    help: RF RX Octets QOS 4 - 1.3.6.1.4.1.41112.1.3.3.1.52
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct5
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.53
-    type: counter
-    help: RF RX Octets QOS 5 - 1.3.6.1.4.1.41112.1.3.3.1.53
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct6
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.54
-    type: counter
-    help: RF RX Octets QOS 6 - 1.3.6.1.4.1.41112.1.3.3.1.54
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqosoct7
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.55
-    type: counter
-    help: RF RX Octets QOS 7 - 1.3.6.1.4.1.41112.1.3.3.1.55
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt0
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.56
-    type: counter
-    help: RF RX Packets QOS 0 - 1.3.6.1.4.1.41112.1.3.3.1.56
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt1
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.57
-    type: counter
-    help: RF RX Packets QOS 1 - 1.3.6.1.4.1.41112.1.3.3.1.57
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt2
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.58
-    type: counter
-    help: RF RX Packets QOS 2 - 1.3.6.1.4.1.41112.1.3.3.1.58
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt3
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.59
-    type: counter
-    help: RF RX Packets QOS 3 - 1.3.6.1.4.1.41112.1.3.3.1.59
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt4
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.60
-    type: counter
-    help: RF RX Packets QOS 4 - 1.3.6.1.4.1.41112.1.3.3.1.60
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt5
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.61
-    type: counter
-    help: RF RX Packets QOS 5 - 1.3.6.1.4.1.41112.1.3.3.1.61
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt6
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.62
-    type: counter
-    help: RF RX Packets QOS 6 - 1.3.6.1.4.1.41112.1.3.3.1.62
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxqospkt7
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.63
-    type: counter
-    help: RF RX Packets QOS 7 - 1.3.6.1.4.1.41112.1.3.3.1.63
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txoctetsAll
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.64
-    type: counter
-    help: RF Total Octets Transmitted - 1.3.6.1.4.1.41112.1.3.3.1.64
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: txpktsAll
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.65
-    type: counter
-    help: RF Total Packets Transmitted - 1.3.6.1.4.1.41112.1.3.3.1.65
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxoctetsAll
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.66
-    type: counter
-    help: RF Total Octets Received - 1.3.6.1.4.1.41112.1.3.3.1.66
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
-  - name: rxpktsAll
-    oid: 1.3.6.1.4.1.41112.1.3.3.1.67
-    type: counter
-    help: RF Total Packets Received - 1.3.6.1.4.1.41112.1.3.3.1.67
-    indexes:
-    - labelname: airFiberStatisticsIndex
-      type: gauge
   version: 1
 ubiquiti_airmax:
   walk:
@@ -17700,72 +16642,6 @@ ubiquiti_airmax:
     indexes:
     - labelname: ifIndex
       type: gauge
-  - name: ubntHostLocaltime
-    oid: 1.3.6.1.4.1.41112.1.4.8.1
-    type: DisplayString
-    help: Host local time - 1.3.6.1.4.1.41112.1.4.8.1
-  - name: ubntHostNetrole
-    oid: 1.3.6.1.4.1.41112.1.4.8.2
-    type: gauge
-    help: Radio mode - 1.3.6.1.4.1.41112.1.4.8.2
-    enum_values:
-      0: unknown
-      1: bridge
-      2: router
-      3: soho
-  - name: ubntHostCpuLoad
-    oid: 1.3.6.1.4.1.41112.1.4.8.3
-    type: gauge
-    help: Host CPU load - 1.3.6.1.4.1.41112.1.4.8.3
-  - name: ubntHostTemperature
-    oid: 1.3.6.1.4.1.41112.1.4.8.4
-    type: gauge
-    help: Host system temperature - 1.3.6.1.4.1.41112.1.4.8.4
-  - name: ubntGpsStatus
-    oid: 1.3.6.1.4.1.41112.1.4.9.1
-    type: gauge
-    help: GPS status - 1.3.6.1.4.1.41112.1.4.9.1
-    enum_values:
-      0: absent
-      1: "off"
-      2: "on"
-  - name: ubntGpsFix
-    oid: 1.3.6.1.4.1.41112.1.4.9.2
-    type: gauge
-    help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.4.9.2
-    enum_values:
-      0: unknown
-      1: nofix
-      2: fix2d
-      3: fix3d
-  - name: ubntGpsLat
-    oid: 1.3.6.1.4.1.41112.1.4.9.3
-    type: DisplayString
-    help: GPS Latitude - 1.3.6.1.4.1.41112.1.4.9.3
-  - name: ubntGpsLon
-    oid: 1.3.6.1.4.1.41112.1.4.9.4
-    type: DisplayString
-    help: GPS Longitude - 1.3.6.1.4.1.41112.1.4.9.4
-  - name: ubntGpsAltMeters
-    oid: 1.3.6.1.4.1.41112.1.4.9.5
-    type: DisplayString
-    help: GPS Altitude (m) - 1.3.6.1.4.1.41112.1.4.9.5
-  - name: ubntGpsAltFeet
-    oid: 1.3.6.1.4.1.41112.1.4.9.6
-    type: DisplayString
-    help: GPS Altitude (ft) - 1.3.6.1.4.1.41112.1.4.9.6
-  - name: ubntGpsSatsVisible
-    oid: 1.3.6.1.4.1.41112.1.4.9.7
-    type: gauge
-    help: GPS Satellites Visible - 1.3.6.1.4.1.41112.1.4.9.7
-  - name: ubntGpsSatsTracked
-    oid: 1.3.6.1.4.1.41112.1.4.9.8
-    type: gauge
-    help: GPS Satellites Tracked - 1.3.6.1.4.1.41112.1.4.9.8
-  - name: ubntGpsHDOP
-    oid: 1.3.6.1.4.1.41112.1.4.9.9
-    type: DisplayString
-    help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.4.9.9
   - name: ubntRadioIndex
     oid: 1.3.6.1.4.1.41112.1.4.1.1.1
     type: gauge
@@ -17873,33 +16749,6 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntRadioRssiIndex
       type: gauge
-  - name: ubntAirMaxAirtime
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.7
-    type: gauge
-    help: airMAX Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.6.1.7
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-  - name: ubntAirMaxGpsSync
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.8
-    type: gauge
-    help: airMAX GPS sync - on/off - 1.3.6.1.4.1.41112.1.4.6.1.8
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: ubntAirMaxTdd
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.9
-    type: gauge
-    help: airMAX TDD framing - on/off - 1.3.6.1.4.1.41112.1.4.6.1.9
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
   - name: ubntAirMaxIfIndex
     oid: 1.3.6.1.4.1.41112.1.4.6.1.1
     type: gauge
@@ -17947,6 +16796,33 @@ ubiquiti_airmax:
     oid: 1.3.6.1.4.1.41112.1.4.6.1.6
     type: gauge
     help: airMAX NoACK mode - on/off - 1.3.6.1.4.1.41112.1.4.6.1.6
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ubntAirMaxAirtime
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.7
+    type: gauge
+    help: airMAX Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.6.1.7
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+  - name: ubntAirMaxGpsSync
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.8
+    type: gauge
+    help: airMAX GPS sync - on/off - 1.3.6.1.4.1.41112.1.4.6.1.8
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ubntAirMaxTdd
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.9
+    type: gauge
+    help: airMAX TDD framing - on/off - 1.3.6.1.4.1.41112.1.4.6.1.9
     indexes:
     - labelname: ubntAirMaxIfIndex
       type: gauge
@@ -18130,66 +17006,6 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntWlStatIndex
       type: gauge
-  - name: ubntStaLocalCINR
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.16
-    type: gauge
-    help: Local CINR - 1.3.6.1.4.1.41112.1.4.7.1.16
-    indexes:
-    - labelname: ubntWlStatIndex
-      type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaTxCapacity
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.17
-    type: gauge
-    help: Uplink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.17
-    indexes:
-    - labelname: ubntWlStatIndex
-      type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaRxCapacity
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.18
-    type: gauge
-    help: Downlink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.18
-    indexes:
-    - labelname: ubntWlStatIndex
-      type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaTxAirtime
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.19
-    type: gauge
-    help: Uplink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.19
-    indexes:
-    - labelname: ubntWlStatIndex
-      type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaRxAirtime
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.20
-    type: gauge
-    help: Downlink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.20
-    indexes:
-    - labelname: ubntWlStatIndex
-      type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaTxLatency
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.21
-    type: gauge
-    help: Uplink Latency in milliseconds - 1.3.6.1.4.1.41112.1.4.7.1.21
-    indexes:
-    - labelname: ubntWlStatIndex
-      type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
   - name: ubntStaMac
     oid: 1.3.6.1.4.1.41112.1.4.7.1.1
     type: PhysAddress48
@@ -18340,6 +17156,132 @@ ubiquiti_airmax:
     - labelname: ubntStaMac
       type: PhysAddress48
       fixed_size: 6
+  - name: ubntStaLocalCINR
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.16
+    type: gauge
+    help: Local CINR - 1.3.6.1.4.1.41112.1.4.7.1.16
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaTxCapacity
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.17
+    type: gauge
+    help: Uplink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.17
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaRxCapacity
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.18
+    type: gauge
+    help: Downlink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.18
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaTxAirtime
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.19
+    type: gauge
+    help: Uplink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.19
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaRxAirtime
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.20
+    type: gauge
+    help: Downlink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.20
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaTxLatency
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.21
+    type: gauge
+    help: Uplink Latency in milliseconds - 1.3.6.1.4.1.41112.1.4.7.1.21
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntHostLocaltime
+    oid: 1.3.6.1.4.1.41112.1.4.8.1
+    type: DisplayString
+    help: Host local time - 1.3.6.1.4.1.41112.1.4.8.1
+  - name: ubntHostNetrole
+    oid: 1.3.6.1.4.1.41112.1.4.8.2
+    type: gauge
+    help: Radio mode - 1.3.6.1.4.1.41112.1.4.8.2
+    enum_values:
+      0: unknown
+      1: bridge
+      2: router
+      3: soho
+  - name: ubntHostCpuLoad
+    oid: 1.3.6.1.4.1.41112.1.4.8.3
+    type: gauge
+    help: Host CPU load - 1.3.6.1.4.1.41112.1.4.8.3
+  - name: ubntHostTemperature
+    oid: 1.3.6.1.4.1.41112.1.4.8.4
+    type: gauge
+    help: Host system temperature - 1.3.6.1.4.1.41112.1.4.8.4
+  - name: ubntGpsStatus
+    oid: 1.3.6.1.4.1.41112.1.4.9.1
+    type: gauge
+    help: GPS status - 1.3.6.1.4.1.41112.1.4.9.1
+    enum_values:
+      0: absent
+      1: "off"
+      2: "on"
+  - name: ubntGpsFix
+    oid: 1.3.6.1.4.1.41112.1.4.9.2
+    type: gauge
+    help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.4.9.2
+    enum_values:
+      0: unknown
+      1: nofix
+      2: fix2d
+      3: fix3d
+  - name: ubntGpsLat
+    oid: 1.3.6.1.4.1.41112.1.4.9.3
+    type: DisplayString
+    help: GPS Latitude - 1.3.6.1.4.1.41112.1.4.9.3
+  - name: ubntGpsLon
+    oid: 1.3.6.1.4.1.41112.1.4.9.4
+    type: DisplayString
+    help: GPS Longitude - 1.3.6.1.4.1.41112.1.4.9.4
+  - name: ubntGpsAltMeters
+    oid: 1.3.6.1.4.1.41112.1.4.9.5
+    type: DisplayString
+    help: GPS Altitude (m) - 1.3.6.1.4.1.41112.1.4.9.5
+  - name: ubntGpsAltFeet
+    oid: 1.3.6.1.4.1.41112.1.4.9.6
+    type: DisplayString
+    help: GPS Altitude (ft) - 1.3.6.1.4.1.41112.1.4.9.6
+  - name: ubntGpsSatsVisible
+    oid: 1.3.6.1.4.1.41112.1.4.9.7
+    type: gauge
+    help: GPS Satellites Visible - 1.3.6.1.4.1.41112.1.4.9.7
+  - name: ubntGpsSatsTracked
+    oid: 1.3.6.1.4.1.41112.1.4.9.8
+    type: gauge
+    help: GPS Satellites Tracked - 1.3.6.1.4.1.41112.1.4.9.8
+  - name: ubntGpsHDOP
+    oid: 1.3.6.1.4.1.41112.1.4.9.9
+    type: DisplayString
+    help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.4.9.9
   version: 1
 ubiquiti_unifi:
   walk:
