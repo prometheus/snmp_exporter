@@ -88,9 +88,8 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	snmp := gosnmp.GoSNMP{}
 	snmp.Context = ctx
 	snmp.MaxRepetitions = config.WalkParams.MaxRepetitions
-	// User specifies timeout of each retry attempt but GoSNMP expects total timeout for all attempts.
 	snmp.Retries = config.WalkParams.Retries
-	snmp.Timeout = config.WalkParams.Timeout * time.Duration(snmp.Retries)
+	snmp.Timeout = config.WalkParams.Timeout
 
 	snmp.Target = target
 	snmp.Port = 161

@@ -63,7 +63,7 @@ modules:
     max_repetitions: 25  # How many objects to request with GET/GETBULK, defaults to 25.
                          # May need to be reduced for buggy devices.
     retries: 3   # How many times to retry a failed request, defaults to 3.
-    timeout: 10s # Timeout for each walk, defaults to 10s.
+    timeout: 5s  # Timeout for each individual SNMP request, defaults to 5s.
 
     auth:
       # Community string is used with SNMP v1 and v2. Defaults to "public".
