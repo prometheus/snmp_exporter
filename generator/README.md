@@ -108,7 +108,7 @@ modules:
                value: '$1' # The result will be parsed as a float64, defaults to $1.
            Status:
              - regex: '.*Example'
-               value: '1'
+               value: '1' # The first entry whose regex matches and whose value parses wins.
              - regex: '.*'
                value: '0'
          type: DisplayString # Override the metric type, possible types are:
