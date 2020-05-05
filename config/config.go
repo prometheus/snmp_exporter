@@ -49,6 +49,7 @@ var (
 		Retries:        3,
 		Timeout:        time.Second * 20,
 		Auth:           DefaultAuth,
+		Port:           161,
 	}
 	DefaultModule = Module{
 		WalkParams: DefaultWalkParams,
@@ -67,6 +68,7 @@ type WalkParams struct {
 	Retries        int           `yaml:"retries,omitempty"`
 	Timeout        time.Duration `yaml:"timeout,omitempty"`
 	Auth           Auth          `yaml:"auth,omitempty"`
+	Port           uint16        `yaml:"port,omitempty"`
 }
 
 type Module struct {

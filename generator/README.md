@@ -64,6 +64,7 @@ modules:
                          # May need to be reduced for buggy devices.
     retries: 3   # How many times to retry a failed request, defaults to 3.
     timeout: 10s # Timeout for each walk, defaults to 10s.
+    port: 161    # Port for each walk, defaults to 161.
 
     auth:
       # Community string is used with SNMP v1 and v2. Defaults to "public".

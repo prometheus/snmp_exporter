@@ -93,7 +93,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	snmp.Timeout = config.WalkParams.Timeout * time.Duration(snmp.Retries)
 
 	snmp.Target = target
-	snmp.Port = 161
+	snmp.Port = config.WalkParams.Port
 	if host, port, err := net.SplitHostPort(target); err == nil {
 		snmp.Target = host
 		p, err := strconv.Atoi(port)
