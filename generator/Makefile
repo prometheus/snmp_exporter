@@ -26,6 +26,7 @@ CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
+IANA_IPROUTEPROTOCOL_URL  := https://www.iana.org/assignments/ianaiprouteprotocol-mib/ianaiprouteprotocol-mib
 KEEPALIVED_URL    := 'https://raw.githubusercontent.com/acassen/keepalived/master/doc/KEEPALIVED-MIB.txt'
 MIKROTIK_URL      := 'http://download2.mikrotik.com/Mikrotik.mib'
 NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
@@ -85,6 +86,7 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
+  $(MIBDIR)/IANA-IPROUTEPROTOCOL-MIB.txt \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/.net-snmp \
@@ -149,6 +151,10 @@ $(MIBDIR)/IANA-PRINTER-MIB.txt:
 	@echo ">> Downloading IANA printer MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-PRINTER-MIB.txt $(IANA_PRINTER_URL)
 
+$(MIBDIR)/IANA-IPROUTEPROTOCOL-MIB.txt:
+	@echo ">> Downloading IANA iprouteprotocol MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-IPROUTEPROTOCOL-MIB.txt $(IANA_IPROUTEPROTOCOL_URL)
+
 $(MIBDIR)/KEEPALIVED-MIB:
 	@echo ">> Downloading KEEPALIVED-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/KEEPALIVED-MIB $(KEEPALIVED_URL)
@@ -163,6 +169,8 @@ $(MIBDIR)/.net-snmp:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/HOST-RESOURCES-MIB $(NET_SNMP_URL)/HOST-RESOURCES-MIB.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IF-MIB $(NET_SNMP_URL)/IF-MIB.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/INET-ADDRESS-MIB $(NET_SNMP_URL)/INET-ADDRESS-MIB.txt
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IP-MIB $(NET_SNMP_URL)/IP-MIB.txt
+	@curl $(CURL_OPTS) -o $(MIBDIR)/IP-FORWARD-MIB $(NET_SNMP_URL)/IP-FORWARD-MIB.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IPV6-TC $(NET_SNMP_URL)/IPV6-TC.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/NET-SNMP-MIB $(NET_SNMP_URL)/NET-SNMP-MIB.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/NET-SNMP-TC $(NET_SNMP_URL)/NET-SNMP-TC.txt
@@ -170,7 +178,10 @@ $(MIBDIR)/.net-snmp:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMPv2-MIB $(NET_SNMP_URL)/SNMPv2-MIB.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMPv2-SMI $(NET_SNMP_URL)/SNMPv2-SMI.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/SNMPv2-TC $(NET_SNMP_URL)/SNMPv2-TC.txt
+	@curl $(CURL_OPTS) -o $(MIBDIR)/TCP-MIB $(NET_SNMP_URL)/TCP-MIB.txt
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-DISKIO-MIB $(NET_SNMP_URL)/UCD-DISKIO-MIB.txt
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB $(NET_SNMP_URL)/UCD-SNMP-MIB.txt
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UDP-MIB $(NET_SNMP_URL)/UDP-MIB.txt
 	@touch $(MIBDIR)/.net-snmp
 
 $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
