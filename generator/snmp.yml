@@ -19068,21 +19068,21 @@ ubiquiti_edgerouter:
   - name: udpInDatagrams
     oid: 1.3.6.1.2.1.7.1
     type: counter
-    help: The total number of UDP datagrams delivered to UDP users. - 1.3.6.1.2.1.7.1
+    help: The total number of UDP datagrams delivered to UDP users - 1.3.6.1.2.1.7.1
   - name: udpNoPorts
     oid: 1.3.6.1.2.1.7.2
     type: counter
     help: The total number of received UDP datagrams for which there was no application
-      at the destination port. - 1.3.6.1.2.1.7.2
+      at the destination port - 1.3.6.1.2.1.7.2
   - name: udpInErrors
     oid: 1.3.6.1.2.1.7.3
     type: counter
     help: The number of received UDP datagrams that could not be delivered for reasons
-      other than the lack of an application at the destination port. - 1.3.6.1.2.1.7.3
+      other than the lack of an application at the destination port - 1.3.6.1.2.1.7.3
   - name: udpOutDatagrams
     oid: 1.3.6.1.2.1.7.4
     type: counter
-    help: The total number of UDP datagrams sent from this entity. - 1.3.6.1.2.1.7.4
+    help: The total number of UDP datagrams sent from this entity - 1.3.6.1.2.1.7.4
   - name: laIndex
     oid: 1.3.6.1.4.1.2021.10.1.1
     type: gauge
