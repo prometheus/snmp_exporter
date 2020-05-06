@@ -286,6 +286,134 @@ modules:
       ifType:
         type: EnumAsInfo
 
+# Ubiquiti / EdgeRouter
+#
+  ubiquiti_edgerouter:
+    walk:
+      # System details
+      #===================
+      - sysName                #  System name (hostname)
+      - sysObjectID            #  System vendor OID
+      - sysDescr               #  System description
+      - sysContact             #  System contact
+      - sysLocation            #  System location
+      # Host/System Resources
+      #===================
+      - hrSystemUptime         #  System uptime
+      - hrSystemNumUsers       #  Number of user sessions
+      - hrSystemProcesses      #  Number of process contexts
+      - hrDeviceTable          #  Device Listing
+      # Context Switches & Interrupts
+      #===================
+      - ssRawInterrupts        #  Number of interrupts processed
+      - ssRawContexts          #  Number of context switches
+      # Host performance metrics
+      #===================
+      - laTable                #  System Load Average
+      # CPU inventory
+      #===================
+      - hrProcessorTable       #  Processor listing
+      # CPU utilization
+      #===================
+      - ssCpuRawUser           #  Number of 'ticks' spent on user-level
+      - ssCpuRawNice           #  Number of 'ticks' spent on reduced-priority
+      - ssCpuRawSystem         #  Number of 'ticks' spent on system-level
+      - ssCpuRawIdle           #  Number of 'ticks' spent idle
+      - ssCpuRawWait           #  Number of 'ticks' spent waiting on I/O
+      - ssCpuRawKernel         #  Number of 'ticks' spent in kernel
+      - ssCpuRawInterrupt      #  Number of 'ticks' spent on hardware interrupts
+      - ssCpuRawSoftIRQ        #  Number of 'ticks' spent on software interrupts
+      - ssCpuRawSteal          #  Number of 'ticks' spent on steal
+      - ssCpuRawGuest          #  Number of 'ticks' spent on guest
+      - ssCpuRawGuestNice      # Number of 'ticks' spend on guest nice
+      # System Memory (physical/virtual)
+      #===================
+      - hrMemorySize           # Size of physical memory (RAM)
+      - memTotalReal           # Size of real/phys mem installed
+      - memAvailReal           # Size of real/phys mem unused/avail
+      - memTotalFree           # Total amount of mem unused/avail
+      - memShared              # Size of mem used as shared memory
+      - memBuffer              # Size of mem used for buffers
+      - memCached              # Size of mem used for cache
+      # Block (Disk) performance
+      #===================
+      - ssIORawSent            # System-wide blocks written
+      - ssIORawReceived        # Number of blocks read
+      - diskIOTable            # Per-device (disk) performance
+      # Disk/Partition/Filesystem inventory & usage
+      #===================
+      - hrStorageTable         # Storage listing
+      # Interface metrics
+      #===================
+      - ifTable                # Per-interface traffic, errors, drops
+      - ifXTable               # Per-interface high-capacity (HC) counters
+      # IP metrics
+      #===================
+      - ipSystemStatsTable     # System-wide IP metrics
+      # ICMP Metrics
+      #===================
+      - icmpStatsTable         # ICMP statistics
+      - icmpMsgStatsTable      # ICMP per-type statistics
+      # UDP statistics
+      #===================
+      - udpInDatagrams         # Datagrams delivered to app
+      - udpNoPorts             # Datagrams received with no app
+      - udpInErrors            # Datagrams received with error
+      - udpOutDatagrams        # Datagrams sent
+      # TCP statistics
+      #===================
+      - tcpActiveOpens         # Number of CLOSED -> SYN-SENT transitions
+      - tcpPassiveOpens        # Number of SYN-RCVD -> LISTEN transitions
+      - tcpAttemptFails        # Number of SYN-SENT/RCVD -> CLOSED transitions
+      - tcpEstabResets         # Number of ESTABLISHED/CLOSE-WAIT -> CLOSED transitions
+      - tcpCurrEstab           # Number of ESTABLISHED or CLOSE-WAIT
+      - tcpInSegs              # Number of segments received
+      - tcpOutSegs             # Number of segments sent
+      - tcpRetransSegs         # Number of segments retransmitted
+      - tcpInErrs              # Number of segments received with error
+      - tcpOutRsts             # Number of segments sent w/RST
+      # IP routing statistics
+      #===================
+      - inetCidrRouteNumber    # Number of valid routing entries
+      - inetCidrRouteDiscards  # Number of valid entries discarded
+      - ipForwardNumber        # Number of valid forwarding entries
+      # IP routing statistics
+      #===================
+      - ipRoutingDiscards      # Number of valid routes discarded
+      # SNMP metrics
+      #===================
+      - snmpInPkts             # Number of SNMP messages received
+      - snmpInGetRequests      # Number of SNMP Get-Request received
+      - snmpInGetNexts         # Number of SNMP Get-Next received
+      - snmpInTotalReqVars     # Number of SNMP objects requested
+      - snmpInGetResponses     # Number of SNMP Get-Response received
+      - snmpOutPkts            # Number of SNMP messages sent
+      - snmpOutGetRequests     # Number of SNMP Get-Request sent
+      - snmpOutGetNexts        # Number of SNMP Get-Next sent
+      - snmpOutGetResponses    # Number of SNMP Get-Response sent
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+        drop_source_indexes: true
+      - source_indexes: [laIndex]
+        lookup: laNames
+        drop_source_indexes: true
+      - source_indexes: [diskIOIndex]
+        lookup: diskIODevice
+        drop_source_indexes: true
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+        drop_source_indexes: true
+    overrides:
+      laErrorFlag:
+        ignore: true
+      laErrMessage:
+        ignore: true
+      ifType:
+        type: EnumAsInfo
+      hrStorageType:
+        type: EnumAsInfo
+
 # keepalived
 #
 # https://github.com/acassen/keepalived/blob/master/doc/KEEPALIVED-MIB.txt
