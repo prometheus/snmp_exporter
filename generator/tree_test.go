@@ -309,7 +309,7 @@ func TestGenerateConfigModule(t *testing.T) {
 		{
 			node: &Node{Oid: "1", Type: "OTHER", Label: "root",
 				Children: []*Node{
-					{Oid: "1.1", Access: "ACCESS_READONLY", Label: "OBJID", Type: "OBJID"},
+					{Oid: "1.1", Access: "ACCESS_READONLY", Label: "OBJID", Type: "OCTETSTR"},
 					{Oid: "1.2", Access: "ACCESS_READONLY", Label: "OCTETSTR", Type: "OCTETSTR"},
 					{Oid: "1.3", Access: "ACCESS_READONLY", Label: "INTEGER", Type: "INTEGER"},
 					{Oid: "1.4", Access: "ACCESS_READONLY", Label: "NETADDR", Type: "NETADDR"},
@@ -346,6 +346,12 @@ func TestGenerateConfigModule(t *testing.T) {
 			out: &config.Module{
 				Walk: []string{"1"},
 				Metrics: []*config.Metric{
+					{
+						Name: "OBJID",
+						Oid:  "1.1",
+						Type: "OctetString",
+						Help: " - 1.1",
+					},
 					{
 						Name: "OCTETSTR",
 						Oid:  "1.2",

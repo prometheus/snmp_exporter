@@ -157,7 +157,7 @@ func metricType(t string) (string, bool) {
 		return "gauge", true
 	case "counter", "COUNTER", "COUNTER64":
 		return "counter", true
-	case "OctetString", "OCTETSTR":
+	case "OctetString", "OCTETSTR", "OBJID":
 		return "OctetString", true
 	case "BITSTRING":
 		return "Bits", true
