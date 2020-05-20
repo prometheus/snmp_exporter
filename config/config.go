@@ -47,7 +47,7 @@ var (
 		Version:        2,
 		MaxRepetitions: 25,
 		Retries:        3,
-		Timeout:        time.Second * 20,
+		Timeout:        time.Second * 5,
 		Auth:           DefaultAuth,
 	}
 	DefaultModule = Module{
