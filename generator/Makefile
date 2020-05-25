@@ -46,9 +46,8 @@ INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/I
 all: mibs
 
 clean:
-	rm -v \
+	rm -rvf \
 		$(MIBDIR)/* \
-		$(MIBDIR)/cisco_v2 \
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
@@ -95,7 +94,6 @@ mibs: mib-dir \
   $(MIBDIR)/PRINTER-MIB-V2.txt \
   $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/.synology \
-  $(MIBDIR)/UBNT-MIB \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
@@ -208,10 +206,6 @@ $(MIBDIR)/.synology:
 	@unzip -j -d $(MIBDIR) $(TMP)
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.synology
-
-$(MIBDIR)/UBNT-MIB:
-	@echo ">> Downloading UBNT-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-MIB "$(UBNT_DL_URL)/UBNT-MIB"
 
 $(MIBDIR)/UBNT-UniFi-MIB:
 	@echo ">> Downloading UBNT-UniFi-MIB"
