@@ -4059,6 +4059,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4077,6 +4078,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     - labelname: bsnAPIfNoiseChannelNo
@@ -4096,6 +4098,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4113,6 +4116,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4134,6 +4138,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4204,6 +4209,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4222,6 +4228,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4240,6 +4247,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4258,6 +4266,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4276,6 +4285,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4294,6 +4304,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4312,6 +4323,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4330,6 +4342,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4348,6 +4361,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4366,6 +4380,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4384,6 +4399,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4401,6 +4417,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4422,6 +4439,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4441,6 +4459,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -18743,6 +18762,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.17
     type: gauge
@@ -18752,6 +18772,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.18
     type: gauge
@@ -18761,6 +18782,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.19
     type: gauge
@@ -18770,6 +18792,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.20
     type: gauge
@@ -18779,6 +18802,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxLatency
     oid: 1.3.6.1.4.1.41112.1.4.7.1.21
     type: gauge
@@ -18788,6 +18812,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaMac
     oid: 1.3.6.1.4.1.41112.1.4.7.1.1
     type: PhysAddress48
@@ -18797,6 +18822,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaName
     oid: 1.3.6.1.4.1.41112.1.4.7.1.2
     type: DisplayString
@@ -18806,6 +18832,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaSignal
     oid: 1.3.6.1.4.1.41112.1.4.7.1.3
     type: gauge
@@ -18815,6 +18842,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaNoiseFloor
     oid: 1.3.6.1.4.1.41112.1.4.7.1.4
     type: gauge
@@ -18824,6 +18852,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaDistance
     oid: 1.3.6.1.4.1.41112.1.4.7.1.5
     type: gauge
@@ -18833,6 +18862,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaCcq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.6
     type: gauge
@@ -18842,6 +18872,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.7
     type: gauge
@@ -18851,6 +18882,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.8
     type: gauge
@@ -18860,6 +18892,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmc
     oid: 1.3.6.1.4.1.41112.1.4.7.1.9
     type: gauge
@@ -18869,6 +18902,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaLastIp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.10
     type: InetAddressIPv4
@@ -18878,6 +18912,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.11
     type: gauge
@@ -18887,6 +18922,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.12
     type: gauge
@@ -18896,6 +18932,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.13
     type: counter
@@ -18905,6 +18942,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.14
     type: counter
@@ -18914,6 +18952,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaConnTime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.15
     type: gauge
@@ -18923,6 +18962,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   version: 1
 ubiquiti_unifi:
   walk:
