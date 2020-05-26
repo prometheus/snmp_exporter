@@ -816,7 +816,7 @@ apcups:
   - name: upsAdvBatteryTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.2
     type: gauge
-    help: The current internal UPS temperature expressed in Celsius. - 1.3.6.1.4.1.318.1.1.1.2.2.2
+    help: The current internal UPS temperature expressed in Celsius - 1.3.6.1.4.1.318.1.1.1.2.2.2
   - name: upsAdvBatteryRunTimeRemaining
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.3
     type: gauge
@@ -1006,7 +1006,34 @@ apcups:
   - name: upsAdvBatteryTotalCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.25
     type: gauge
-    help: Total battery capacity in Ampere Hour (Ah) - 1.3.6.1.4.1.318.1.1.1.2.2.25
+    help: The actual available battery capacity of the system expressed in ampere
+      hours (Ah) - 1.3.6.1.4.1.318.1.1.1.2.2.25
+  - name: upsAdvBatteryFuseStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.26
+    type: gauge
+    help: If battery system has one common fuse for the battery system, the status
+      is given by this value - 1.3.6.1.4.1.318.1.1.1.2.2.26
+    enum_values:
+      1: fuseOpen
+      2: fuseOk
+      3: notPresent
+  - name: upsAdvBatteryBreakerStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.27
+    type: gauge
+    help: The value indicates the aggregated status of the battery breakers in the
+      system - 1.3.6.1.4.1.318.1.1.1.2.2.27
+    enum_values:
+      1: disconnected
+      2: closed
+      3: notPresent
+  - name: upsAdvBatteryWiringConfiguration
+    oid: 1.3.6.1.4.1.318.1.1.1.2.2.28
+    type: gauge
+    help: The value indicates the wiring configuration, whether the battery is 2-wire
+      or 3-wire - 1.3.6.1.4.1.318.1.1.1.2.2.28
+    enum_values:
+      1: twoWire
+      2: threeWire
   - name: upsHighPrecBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
     type: gauge
@@ -1015,7 +1042,7 @@ apcups:
   - name: upsHighPrecBatteryTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.2
     type: gauge
-    help: The current internal UPS temperature expressed in tenths of degrees Celsius.
+    help: The current internal UPS temperature expressed in tenths of degrees Celsius
       - 1.3.6.1.4.1.318.1.1.1.2.3.2
   - name: upsHighPrecBatteryNominalVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.3
@@ -1282,6 +1309,349 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.12
     type: gauge
     help: Active Power of Battery in tenths of kW - 1.3.6.1.4.1.318.1.1.1.2.3.12
+  - name: upsHighPrecExtdBatteryTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.13
+    type: gauge
+    help: The current internal UPS temperature expressed in tenths of degrees Celsius
+      - 1.3.6.1.4.1.318.1.1.1.2.3.13
+  - name: upsBatteryNumberOfCabinets
+    oid: 1.3.6.1.4.1.318.1.1.1.2.4
+    type: gauge
+    help: The value indicates the number of battery cabinets in total, internal and
+      external - 1.3.6.1.4.1.318.1.1.1.2.4
+  - name: upsBatteryCabinetIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.1
+    type: gauge
+    help: The Battery Cabinet identifier - 1.3.6.1.4.1.318.1.1.1.2.5.1.1
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetLocalIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.2
+    type: gauge
+    help: The identification number for the actual battery cabinet in the system -
+      1.3.6.1.4.1.318.1.1.1.2.5.1.2
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetWiringConfiguration
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.3
+    type: gauge
+    help: The value indicates the wiring configuration, whether the battery is 2-wire
+      or 3-wire - 1.3.6.1.4.1.318.1.1.1.2.5.1.3
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+    enum_values:
+      1: twoWire
+      2: threeWire
+  - name: upsBatteryCabinetVoltagePolarity1
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.4
+    type: gauge
+    help: The battery voltage - 1.3.6.1.4.1.318.1.1.1.2.5.1.4
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetVoltagePolarity2
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.5
+    type: gauge
+    help: The voltage for the second side/half of the battery in a split battery system
+      - 1.3.6.1.4.1.318.1.1.1.2.5.1.5
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetCurrentPolarity1
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.6
+    type: gauge
+    help: The battery current - 1.3.6.1.4.1.318.1.1.1.2.5.1.6
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetCurrentPolarity2
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.7
+    type: gauge
+    help: The current for the second side/half of the battery in a split battery system
+      - 1.3.6.1.4.1.318.1.1.1.2.5.1.7
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.8
+    type: gauge
+    help: The measured temperature of the battery cabinet in tenths of degrees Celcius
+      - 1.3.6.1.4.1.318.1.1.1.2.5.1.8
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetMaxTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.9
+    type: gauge
+    help: The highest temperature measured for the battery in the battery cabinet
+      in tenths of degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.9
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetMinTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.10
+    type: gauge
+    help: The lowest temperature measured for the battery in the battery cabinet in
+      tenths of degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.10
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetAverageTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.11
+    type: gauge
+    help: The average temperature for all the battery sensors in the battery cabinet
+      and for the battery strings, if battery strings are present - 1.3.6.1.4.1.318.1.1.1.2.5.1.11
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetFuse
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.12
+    type: gauge
+    help: If the battery cabinet has a common fuse, the status is given by this value
+      - 1.3.6.1.4.1.318.1.1.1.2.5.1.12
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+    enum_values:
+      1: fuseOpen
+      2: fuseOk
+      3: notPresent
+  - name: upsBatteryCabinetBreaker
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.13
+    type: gauge
+    help: The value indicates the battery cabinet breaker status - 1.3.6.1.4.1.318.1.1.1.2.5.1.13
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+    enum_values:
+      1: noBreaker
+      2: unknown
+      3: breakerOpen
+      4: breakerClosed
+  - name: upsBatteryCabinetNumberOfStrings
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.14
+    type: gauge
+    help: The number of battery strings in the battery cabinet - 1.3.6.1.4.1.318.1.1.1.2.5.1.14
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetNumberOfVerticalPositions
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.15
+    type: gauge
+    help: The number of vertical levels or shelves for battery blocks/modules - 1.3.6.1.4.1.318.1.1.1.2.5.1.15
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabinetNumberOfHorizontalPositions
+    oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.16
+    type: gauge
+    help: The number of horizontal positions for battery blocks/modules - 1.3.6.1.4.1.318.1.1.1.2.5.1.16
+    indexes:
+    - labelname: upsBatteryCabinetIndex
+      type: gauge
+  - name: upsBatteryCabStringIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.1
+    type: gauge
+    help: The battery cabinet string identifier - 1.3.6.1.4.1.318.1.1.1.2.6.1.1
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabStringCabReference
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.2
+    type: gauge
+    help: Reference to the global battery cabinet index where the battery string is
+      placed. - 1.3.6.1.4.1.318.1.1.1.2.6.1.2
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabStringLocalIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.3
+    type: gauge
+    help: Local battery string identification index in the actual battery cabinet
+      (E.g - 1.3.6.1.4.1.318.1.1.1.2.6.1.3
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabStringCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.4
+    type: gauge
+    help: The current in a battery string or battery halfstring, in tenths of Amps.
+      - 1.3.6.1.4.1.318.1.1.1.2.6.1.4
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabStringAverageTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.5
+    type: gauge
+    help: Temperature of the battery string or the average of the aggregated temperature
+      of each battery block/module (in tenths of degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.5
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabStringMaxTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.6
+    type: gauge
+    help: The actual highest battery temperature measurement for the battery blocks/modules
+      (in tenths of degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.6
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabStringMinTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.7
+    type: gauge
+    help: The actual lowest battery temperature measurement for the battery blocks/modules
+      (in tenths of degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.7
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabStringFuseStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.8
+    type: gauge
+    help: If the battery string has a common fuse, the status is given by this value
+      - 1.3.6.1.4.1.318.1.1.1.2.6.1.8
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+    enum_values:
+      1: fuseOpen
+      2: fuseOk
+      3: notPresent
+  - name: upsBatteryCabStringNumberOfBlocks
+    oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.9
+    type: gauge
+    help: The number of battery blocks/modules in a battery string - 1.3.6.1.4.1.318.1.1.1.2.6.1.9
+    indexes:
+    - labelname: upsBatteryCabStringIndex
+      type: gauge
+  - name: upsBatteryCabBlockIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.1
+    type: gauge
+    help: The battery cabinet block identifier - 1.3.6.1.4.1.318.1.1.1.2.7.1.1
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockStringReference
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.2
+    type: gauge
+    help: Reference to the specific global battery string index - 1.3.6.1.4.1.318.1.1.1.2.7.1.2
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockLocalIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.3
+    type: gauge
+    help: Local battery block/module identification index in the actual battery string
+      (E.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.3
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockPresent
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.4
+    type: gauge
+    help: Value indicates if battery block/module is present in the system - 1.3.6.1.4.1.318.1.1.1.2.7.1.4
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+    enum_values:
+      1: present
+      2: notPresent
+      3: notAvailable
+  - name: upsBatteryCabBlockType
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.5
+    type: DisplayString
+    help: Text string value, showing the vendor and model of the battery in the battery
+      block/module - 1.3.6.1.4.1.318.1.1.1.2.7.1.5
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.6
+    type: gauge
+    help: The temperature for the battery block/module in tenths of degrees Celcius
+      - 1.3.6.1.4.1.318.1.1.1.2.7.1.6
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockFuseStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.7
+    type: gauge
+    help: If the battery module has a fuse, the status is given by this value - 1.3.6.1.4.1.318.1.1.1.2.7.1.7
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+    enum_values:
+      1: fuseOpen
+      2: fuseOk
+      3: notPresent
+  - name: upsBatteryCabBlockVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.8
+    type: gauge
+    help: The voltage of the battery block/module - 1.3.6.1.4.1.318.1.1.1.2.7.1.8
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockNumberOfCells
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.9
+    type: gauge
+    help: The number of cells in the battery block/module - 1.3.6.1.4.1.318.1.1.1.2.7.1.9
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockVerticalPosition
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.10
+    type: gauge
+    help: The vertical position of the battery block/module in the actual battery
+      cabinet (E.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.10
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockHorizontalPosition
+    oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.11
+    type: gauge
+    help: The horizontal position of the battery block/module in the actual battery
+      cabinet (E.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.11
+    indexes:
+    - labelname: upsBatteryCabBlockIndex
+      type: gauge
+  - name: upsBatteryCabBlockCellIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.8.1.1
+    type: gauge
+    help: The battery block cell identifier - 1.3.6.1.4.1.318.1.1.1.2.8.1.1
+    indexes:
+    - labelname: upsBatteryCabBlockCellIndex
+      type: gauge
+  - name: upsBatteryCabBlockCellReference
+    oid: 1.3.6.1.4.1.318.1.1.1.2.8.1.2
+    type: gauge
+    help: Reference to the specific global battery block/module index. - 1.3.6.1.4.1.318.1.1.1.2.8.1.2
+    indexes:
+    - labelname: upsBatteryCabBlockCellIndex
+      type: gauge
+  - name: upsBatteryCabBlockCellLocalIndex
+    oid: 1.3.6.1.4.1.318.1.1.1.2.8.1.3
+    type: gauge
+    help: Local battery block/module identification index in the actual battery block
+      (E.g - 1.3.6.1.4.1.318.1.1.1.2.8.1.3
+    indexes:
+    - labelname: upsBatteryCabBlockCellIndex
+      type: gauge
+  - name: upsBatteryCabBlockCellVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.8.1.4
+    type: gauge
+    help: The measured battery cell voltage - 1.3.6.1.4.1.318.1.1.1.2.8.1.4
+    indexes:
+    - labelname: upsBatteryCabBlockCellIndex
+      type: gauge
+  - name: upsBatteryCabBlockCellTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.8.1.5
+    type: gauge
+    help: The temperature for the battery cell in tenths of degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.8.1.5
+    indexes:
+    - labelname: upsBatteryCabBlockCellIndex
+      type: gauge
   - name: upsBasicInputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
     type: gauge
@@ -1483,7 +1853,7 @@ apcups:
   - name: upsBasicOutputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
     type: gauge
-    help: The current output phase. - 1.3.6.1.4.1.318.1.1.1.4.1.2
+    help: The actual number of output phases in a UPS - 1.3.6.1.4.1.318.1.1.1.4.1.2
   - name: upsBasicSystemStatus
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.3
     type: gauge
@@ -1560,7 +1930,7 @@ apcups:
   - name: upsAdvOutputKVACapacity
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.6
     type: gauge
-    help: The maximum load that this UPS can support. - 1.3.6.1.4.1.318.1.1.1.4.2.6
+    help: The maximum load that this UPS can support - 1.3.6.1.4.1.318.1.1.1.4.2.6
   - name: upsAdvOutputNominalFrequency
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.7
     type: gauge
