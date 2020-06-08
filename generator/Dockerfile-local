@@ -1,0 +1,14 @@
+FROM golang:latest
+
+RUN apt-get update && \
+    apt-get install -y libsnmp-dev p7zip-full
+
+COPY ./generator  /bin/generator
+
+WORKDIR "/opt"
+
+ENTRYPOINT ["/bin/generator"]
+
+ENV MIBDIRS mibs
+
+CMD ["generate"]
