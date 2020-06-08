@@ -972,6 +972,22 @@ func TestIndexesToLabels(t *testing.T) {
 			},
 			result: map[string]string{"a": "1", "chainable_id": "42", "targetlabel": "targetvalue"},
 		},
+		{
+			oid: []int{1, 1, 1, 1},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "a", Type: "gauge"}},
+				Lookups: []*config.Lookup{
+					{Labels: []string{"a"}, Labelname: "chainable_id", Oid: "1.1.1.2"},
+					{Labels: []string{"chainable_id"}, Labelname: "targetlabel", Oid: "2.2.2"},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{
+				"1.1.1.1.1": gosnmp.SnmpPDU{Value: "source_obj0"},
+				"1.1.1.2.1": gosnmp.SnmpPDU{Value: uint(42)},
+				"2.2.2.42":  gosnmp.SnmpPDU{Value: "targetvalue"},
+			},
+			result: map[string]string{"a": "1", "chainable_id": "42", "targetlabel": "targetvalue"},
+		},
 	}
 	for _, c := range cases {
 		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu)
