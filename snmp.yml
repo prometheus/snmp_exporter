@@ -7263,6 +7263,7 @@ keepalived:
       3: fault
       4: unknown
       5: shutdown
+      6: deleted
   - name: vrrpSyncGroupSmtpAlert
     oid: 1.3.6.1.4.1.9586.100.5.2.1.1.4
     type: gauge
@@ -7330,6 +7331,7 @@ keepalived:
       3: fault
       4: unknown
       5: shutdown
+      6: deleted
   - name: vrrpInstanceInitialState
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.5
     type: gauge
@@ -7344,6 +7346,7 @@ keepalived:
       3: fault
       4: unknown
       5: shutdown
+      6: deleted
   - name: vrrpInstanceWantedState
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.6
     type: gauge
@@ -7358,6 +7361,7 @@ keepalived:
       3: fault
       4: unknown
       5: shutdown
+      6: deleted
   - name: vrrpInstanceBasePriority
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.7
     type: gauge
@@ -7513,6 +7517,24 @@ keepalived:
     enum_values:
       2: vrrpv2
       3: vrrpv3
+  - name: vrrpInstanceScriptDeleted
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.32
+    type: DisplayString
+    help: Script to execute when the instance is deleted on reload. - 1.3.6.1.4.1.9586.100.5.2.3.1.32
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+  - name: vrrpInstanceNotifyDeleted
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.33
+    type: gauge
+    help: Send Deleted rather than Fault notifications if instance is deleted on config
+      reload. - 1.3.6.1.4.1.9586.100.5.2.3.1.33
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: virtualServerGroupIndex
     oid: 1.3.6.1.4.1.9586.100.5.3.1.1.1
     type: gauge
@@ -16612,9 +16634,22 @@ ubiquiti_airfiber:
       0: qPSK-SISO-1-4x
       1: qPSK-SISO-1x
       2: qPSK-MIMO-2x
+      3: qAM8-MIMO-3x
       4: qAM16-MIMO-4x
+      5: qAM32-MIMO-5x
       6: qAM64-MIMO-6x
+      7: qAM128-MIMO-7x
       8: qAM256-MIMO-8x
+      9: qAM512-MIMO-9x
+      10: qAM1024-MIMO-10x
+      11: qAM8-SISO-1p5x
+      12: qAM16-SISO-2x
+      13: qAM32-SISO-2p5x
+      14: qAM64-SISO-3x
+      15: qAM128-SISO-3p5x
+      16: qAM256-SISO-4x
+      17: qAM512-SISO-4p5x
+      18: qAM1024-SISO-5x
   - name: modRateControl
     oid: 1.3.6.1.4.1.41112.1.3.1.1.12
     type: gauge
@@ -16781,9 +16816,22 @@ ubiquiti_airfiber:
       0: qPSK-SISO-1-4x
       1: qPSK-SISO-1x
       2: qPSK-MIMO-2x
+      3: qAM8-MIMO-3x
       4: qAM16-MIMO-4x
+      5: qAM32-MIMO-5x
       6: qAM64-MIMO-6x
+      7: qAM128-MIMO-7x
       8: qAM256-MIMO-8x
+      9: qAM512-MIMO-9x
+      10: qAM1024-MIMO-10x
+      11: qAM8-SISO-1p5x
+      12: qAM16-SISO-2x
+      13: qAM32-SISO-2p5x
+      14: qAM64-SISO-3x
+      15: qAM128-SISO-3p5x
+      16: qAM256-SISO-4x
+      17: qAM512-SISO-4p5x
+      18: qAM1024-SISO-5x
   - name: radioLinkDistFt
     oid: 1.3.6.1.4.1.41112.1.3.2.1.3
     type: gauge
@@ -16912,9 +16960,22 @@ ubiquiti_airfiber:
       0: qPSK-SISO-1-4x
       1: qPSK-SISO-1x
       2: qPSK-MIMO-2x
+      3: qAM8-MIMO-3x
       4: qAM16-MIMO-4x
+      5: qAM32-MIMO-5x
       6: qAM64-MIMO-6x
+      7: qAM128-MIMO-7x
       8: qAM256-MIMO-8x
+      9: qAM512-MIMO-9x
+      10: qAM1024-MIMO-10x
+      11: qAM8-SISO-1p5x
+      12: qAM16-SISO-2x
+      13: qAM32-SISO-2p5x
+      14: qAM64-SISO-3x
+      15: qAM128-SISO-3p5x
+      16: qAM256-SISO-4x
+      17: qAM512-SISO-4p5x
+      18: qAM1024-SISO-5x
   - name: remoteRXPower0
     oid: 1.3.6.1.4.1.41112.1.3.2.1.19
     type: gauge
