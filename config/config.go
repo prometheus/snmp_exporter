@@ -81,6 +81,7 @@ type Module struct {
 	Get        []string   `yaml:"get,omitempty"`
 	Metrics    []*Metric  `yaml:"metrics"`
 	WalkParams WalkParams `yaml:",inline"`
+	Filters    []DynamicFilter  `yaml:"filters,omitempty"`
 }
 
 func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -189,6 +190,21 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		}
 	}
 	g.SecurityParameters = usm
+}
+
+type Filters struct {
+	Static []StaticFilter `yaml:"static,omitempty"`
+	Dynamic []DynamicFilter `yaml:"dynamic,omitempty"`
+}
+
+type StaticFilter struct {
+	Targets []string `yaml:"targets,omitempty"`
+	Instances []string `yaml:"instances,omitempty"`
+}
+type DynamicFilter struct {
+	Oid string `yaml:"oid"`
+	Targets []string `yaml:"targets,omitempty"`
+	Values []string `yaml:"values,omitempty"`
 }
 
 type Metric struct {

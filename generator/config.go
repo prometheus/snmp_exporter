@@ -50,6 +50,7 @@ type ModuleConfig struct {
 	Lookups    []*Lookup                  `yaml:"lookups"`
 	WalkParams config.WalkParams          `yaml:",inline"`
 	Overrides  map[string]MetricOverrides `yaml:"overrides"`
+	Filters    config.Filters           `yaml:"filters,omitempty"`
 }
 
 type Lookup struct {
