@@ -241,6 +241,25 @@ modules:
       ifType:
         type: EnumAsInfo
 
+# mini_snmpd / OpenWRT
+#
+# Small SNMP daemon included in OpenWRT (among others).
+# The list of SNMP OIDs to care about can be found here: https://openwrt.org/docs/guide-user/services/snmp/mini_snmpd
+#
+# Tested on TP-LINK TL-WR703N v1 with OpenWRT 17.01.7.
+#
+  mini_snmpd:
+    walk: [hrSystemUptime, sysUpTime, interfaces]
+    lookups:
+      - source_indexes: [ifIndex]
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+    overrides:
+      ifDescr:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
+
 # Ubiquiti / AirFiber
 #
 # https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
