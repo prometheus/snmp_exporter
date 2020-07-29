@@ -39,6 +39,16 @@ UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.tx
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 RARITAN_URL       := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
+HH3C_URL		  := http://www.circitor.fr/Mibs/Mib/H/HH3C-OID-MIB.mib
+RFC1155_SMI_URL	  := http://www.circitor.fr/Mibs/Mib/R/RFC1155-SMI.mib
+HH3C_ENTITY_URL	  := http://www.circitor.fr/Mibs/Mib/H/HH3C-ENTITY-EXT-MIB.mib
+NETSWITCH_URL	  := http://www.circitor.fr/Mibs/Mib/N/NETSWITCH-MIB.mib
+HP_ICF_OID_URL	  := http://www.circitor.fr/Mibs/Mib/H/HP-ICF-OID.mib
+STATISTICS_URL	  := http://www.circitor.fr/Mibs/Mib/S/STATISTICS-MIB.mib
+RFC_1212_URL	  := http://www.circitor.fr/Mibs/Mib/R/RFC-1212.mib
+RFC_1213_URL	  := http://www.circitor.fr/Mibs/Mib/R/RFC1213-MIB.mib
+HP_ICF_TC_URL	  := http://www.circitor.fr/Mibs/Mib/H/HP-ICF-TC.mib
+
 
 .DEFAULT: all
 
@@ -98,7 +108,16 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/PDU-MIB.txt \
-  $(MIBDIR)/IPD-MIB_Q419V9.mib
+  $(MIBDIR)/IPD-MIB_Q419V9.mib \
+  $(MIBDIR)/HH3C-OID-MIB \
+  $(MIBDIR)/RFC1155-SMI \
+  $(MIBDIR)/HH3C-ENTITY-EXT-MIB \
+  $(MIBDIR)/NETSWITCH-MIB \
+  $(MIBDIR)/HP-ICF-OID \
+  $(MIBDIR)/STATISTICS-MIB \
+  $(MIBDIR)/RFC-1212 \
+  $(MIBDIR)/RFC1213-MIB \
+  $(MIBDIR)/HP-ICF-TC
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -225,6 +244,42 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 $(MIBDIR)/PDU-MIB.txt:
 	@echo ">> Downloading PDU-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
+
+$(MIBDIR)/HH3C-OID-MIB:
+	@echo ">> Downloading HH3C-OID-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/HH3C-OID-MIB "$(HH3C_URL)"
+
+$(MIBDIR)/RFC1155-SMI:
+	@echo ">> Downloading RFC1155-SMI"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/RFC1155-SMI "$(RFC1155_SMI_URL)"
+
+$(MIBDIR)/HH3C-ENTITY-EXT-MIB:
+	@echo ">> Downloading HH3C-ENTITY-EXT-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/HH3C-ENTITY-EXT-MIB "$(HH3C_ENTITY_URL)"
+
+$(MIBDIR)/NETSWITCH-MIB:
+	@echo ">> Downloading NETSWITCH-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/NETSWITCH-MIB "$(NETSWITCH_URL)"
+
+$(MIBDIR)/HP-ICF-OID:
+	@echo ">> Downloading HP-ICF-OID"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/HP-ICF-OID "$(HP_ICF_OID_URL)"
+
+$(MIBDIR)/STATISTICS-MIB:
+	@echo ">> Downloading STATISTICS-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/STATISTICS-MIB "$(STATISTICS_URL)"
+
+$(MIBDIR)/RFC-1212:
+	@echo ">> Downloading RFC-1212"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/RFC-1212 "$(RFC_1212_URL)"	
+
+$(MIBDIR)/RFC1213-MIB:
+	@echo ">> Downloading RFC1213-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/RFC1213-MIB "$(RFC_1213_URL)"
+
+$(MIBDIR)/HP-ICF-TC:
+	@echo ">> Downloading HP-ICF-TC"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/HP-ICF-TC "$(HP_ICF_TC_URL)"
 
 $(MIBDIR)/IPD-MIB_Q419V9.mib:
 	$(eval TMP := $(shell mktemp))
