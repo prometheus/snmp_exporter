@@ -244,8 +244,32 @@ modules:
         lookup: hrStorageDescr
         drop_source_indexes: true
     overrides:
+      diskModel:
+        type: DisplayString
+      diskSMARTAttrName:
+        type: DisplayString
+      diskSMARTAttrStatus:
+        type: DisplayString
+      diskSMARTInfoDevName:
+        type: DisplayString
+      diskType:
+        type: DisplayString
       ifType:
         type: EnumAsInfo
+      modelName:
+        type: DisplayString
+      raidFreeSize:
+        type: gauge
+      raidName:
+        type: DisplayString
+      raidTotalSize:
+        type: gauge
+      serialNumber:
+        type: DisplayString
+      serviceName:
+        type: DisplayString
+      version:
+        type: DisplayString
 
 # DD-WRT
 #
