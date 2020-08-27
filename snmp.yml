@@ -19999,15 +19999,15 @@ synology:
     help: Synology cpu fan status Each meanings of status represented describe below - 1.3.6.1.4.1.6574.1.4.2
   - name: modelName
     oid: 1.3.6.1.4.1.6574.1.5.1
-    type: OctetString
+    type: DisplayString
     help: The Model name of this NAS - 1.3.6.1.4.1.6574.1.5.1
   - name: serialNumber
     oid: 1.3.6.1.4.1.6574.1.5.2
-    type: OctetString
+    type: DisplayString
     help: The serial number of this NAS - 1.3.6.1.4.1.6574.1.5.2
   - name: version
     oid: 1.3.6.1.4.1.6574.1.5.3
-    type: OctetString
+    type: DisplayString
     help: The version of this DSM - 1.3.6.1.4.1.6574.1.5.3
   - name: upgradeAvailable
     oid: 1.3.6.1.4.1.6574.1.5.4
@@ -20524,7 +20524,7 @@ synology:
       labelname: diskIndex
   - name: diskModel
     oid: 1.3.6.1.4.1.6574.2.1.1.3
-    type: OctetString
+    type: DisplayString
     help: Synology disk model name The disk model name will be showed here. - 1.3.6.1.4.1.6574.2.1.1.3
     indexes:
     - labelname: diskIndex
@@ -20539,7 +20539,7 @@ synology:
       labelname: diskIndex
   - name: diskType
     oid: 1.3.6.1.4.1.6574.2.1.1.4
-    type: OctetString
+    type: DisplayString
     help: Synology disk type The type of disk will be showed here, including SATA, SSD and so on. - 1.3.6.1.4.1.6574.2.1.1.4
     indexes:
     - labelname: diskIndex
@@ -20594,12 +20594,12 @@ synology:
       - raidIndex
       labelname: raidName
       oid: 1.3.6.1.4.1.6574.3.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: raidIndex
   - name: raidName
     oid: 1.3.6.1.4.1.6574.3.1.1.2
-    type: OctetString
+    type: DisplayString
     help: Synology raid name The name of each raid will be showed here. - 1.3.6.1.4.1.6574.3.1.1.2
     indexes:
     - labelname: raidIndex
@@ -20609,7 +20609,7 @@ synology:
       - raidIndex
       labelname: raidName
       oid: 1.3.6.1.4.1.6574.3.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: raidIndex
   - name: raidStatus
@@ -20624,12 +20624,12 @@ synology:
       - raidIndex
       labelname: raidName
       oid: 1.3.6.1.4.1.6574.3.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: raidIndex
   - name: raidFreeSize
     oid: 1.3.6.1.4.1.6574.3.1.1.4
-    type: counter
+    type: gauge
     help: Synology raid freesize Free space in bytes. - 1.3.6.1.4.1.6574.3.1.1.4
     indexes:
     - labelname: raidIndex
@@ -20639,12 +20639,12 @@ synology:
       - raidIndex
       labelname: raidName
       oid: 1.3.6.1.4.1.6574.3.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: raidIndex
   - name: raidTotalSize
     oid: 1.3.6.1.4.1.6574.3.1.1.5
-    type: counter
+    type: gauge
     help: Synology raid totalsize Total space in bytes. - 1.3.6.1.4.1.6574.3.1.1.5
     indexes:
     - labelname: raidIndex
@@ -20654,7 +20654,7 @@ synology:
       - raidIndex
       labelname: raidName
       oid: 1.3.6.1.4.1.6574.3.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: raidIndex
   - name: upsDeviceModel
@@ -21158,14 +21158,14 @@ synology:
       type: gauge
   - name: diskSMARTInfoDevName
     oid: 1.3.6.1.4.1.6574.5.1.1.2
-    type: OctetString
+    type: DisplayString
     help: SMART info device name - 1.3.6.1.4.1.6574.5.1.1.2
     indexes:
     - labelname: diskSMARTInfoIndex
       type: gauge
   - name: diskSMARTAttrName
     oid: 1.3.6.1.4.1.6574.5.1.1.3
-    type: OctetString
+    type: DisplayString
     help: SMART attribute name - 1.3.6.1.4.1.6574.5.1.1.3
     indexes:
     - labelname: diskSMARTInfoIndex
@@ -21207,7 +21207,7 @@ synology:
       type: gauge
   - name: diskSMARTAttrStatus
     oid: 1.3.6.1.4.1.6574.5.1.1.9
-    type: OctetString
+    type: DisplayString
     help: SMART attribute status - 1.3.6.1.4.1.6574.5.1.1.9
     indexes:
     - labelname: diskSMARTInfoIndex
@@ -21224,12 +21224,12 @@ synology:
       - serviceInfoIndex
       labelname: serviceName
       oid: 1.3.6.1.4.1.6574.6.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: serviceInfoIndex
   - name: serviceName
     oid: 1.3.6.1.4.1.6574.6.1.1.2
-    type: OctetString
+    type: DisplayString
     help: Service name - 1.3.6.1.4.1.6574.6.1.1.2
     indexes:
     - labelname: serviceInfoIndex
@@ -21239,7 +21239,7 @@ synology:
       - serviceInfoIndex
       labelname: serviceName
       oid: 1.3.6.1.4.1.6574.6.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: serviceInfoIndex
   - name: serviceUsers
@@ -21254,7 +21254,7 @@ synology:
       - serviceInfoIndex
       labelname: serviceName
       oid: 1.3.6.1.4.1.6574.6.1.1.2
-      type: OctetString
+      type: DisplayString
     - labels: []
       labelname: serviceInfoIndex
 ubiquiti_airfiber:
