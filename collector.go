@@ -567,7 +567,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 			// Prepend the length, as it is explicit in an index.
 			parts = append([]int{len(pdu.Value.([]byte))}, parts...)
 		}
-		str, _, _ := indexOidsAsString(parts, typ, 0, false)
+		str, _, _ := indexOidsAsString(parts, typ, 0, false, nil)
 		return str
 	case nil:
 		return ""
@@ -581,7 +581,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 // Convert oids to a string index value.
 //
 // Returns the string, the oids that were used and the oids left over.
-func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool) (string, []int, []int) {
+func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool, enumValues map[int]string) (string, []int, []int) {
 	if typeMapping, ok := combinedTypeMapping[typ]; ok {
 		subOid, valueOids := splitOid(indexOids, 2)
 		if typ == "InetAddressMissingSize" {
@@ -591,15 +591,15 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool)
 		var str string
 		var used, remaining []int
 		if t, ok := typeMapping[subOid[0]]; ok {
-			str, used, remaining = indexOidsAsString(valueOids, t, 0, false)
+			str, used, remaining = indexOidsAsString(valueOids, t, 0, false, enumValues)
 			return str, append(subOid, used...), remaining
 		}
 		if typ == "InetAddressMissingSize" {
 			// We don't know the size, so pass everything remaining.
-			return indexOidsAsString(indexOids, "OctetString", 0, true)
+			return indexOidsAsString(indexOids, "OctetString", 0, true, enumValues)
 		}
 		// The 2nd oid is the length.
-		return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false)
+		return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false, enumValues)
 	}
 
 	switch typ {
@@ -669,6 +669,10 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool)
 			parts[i] = o
 		}
 		return fmt.Sprintf("%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X", parts...), subOid, indexOids
+	case "EnumAsInfo":
+		subOid, indexOids := splitOid(indexOids, 1)
+		return enumValues[subOid[0]], subOid, indexOids
+
 	default:
 		panic(fmt.Sprintf("Unknown index type %s", typ))
 		return "", nil, nil
@@ -681,7 +685,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 
 	// Covert indexes to useful strings.
 	for _, index := range metric.Indexes {
-		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize, index.Implied)
+		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize, index.Implied, index.EnumValues)
 		// The labelvalue is the text form of the index oids.
 		labels[index.Labelname] = str
 		// Save its oid in case we need it for lookups.
