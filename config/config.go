@@ -181,10 +181,11 @@ type Metric struct {
 }
 
 type Index struct {
-	Labelname string `yaml:"labelname"`
-	Type      string `yaml:"type"`
-	FixedSize int    `yaml:"fixed_size,omitempty"`
-	Implied   bool   `yaml:"implied,omitempty"`
+	Labelname  string         `yaml:"labelname"`
+	Type       string         `yaml:"type"`
+	FixedSize  int            `yaml:"fixed_size,omitempty"`
+	Implied    bool           `yaml:"implied,omitempty"`
+	EnumValues map[int]string `yaml:"enum_values,omitempty"`
 }
 
 type Lookup struct {

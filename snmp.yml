@@ -3012,6 +3012,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
     enum_values:
       0: unknown
       1: ipv4
@@ -3024,6 +3028,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCInReceives
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.4
     type: counter
@@ -3032,6 +3040,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.5
     type: counter
@@ -3040,6 +3052,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCInOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.6
     type: counter
@@ -3048,6 +3064,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInHdrErrors
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.7
     type: counter
@@ -3057,6 +3077,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInNoRoutes
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.8
     type: counter
@@ -3065,6 +3089,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInAddrErrors
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.9
     type: counter
@@ -3074,6 +3102,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInUnknownProtos
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.10
     type: counter
@@ -3082,6 +3114,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInTruncatedPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.11
     type: counter
@@ -3090,6 +3126,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInForwDatagrams
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.12
     type: counter
@@ -3099,6 +3139,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCInForwDatagrams
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.13
     type: counter
@@ -3108,6 +3152,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsReasmReqds
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.14
     type: counter
@@ -3116,6 +3164,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsReasmOKs
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.15
     type: counter
@@ -3123,6 +3175,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsReasmFails
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.16
     type: counter
@@ -3131,6 +3187,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInDiscards
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.17
     type: counter
@@ -3140,6 +3200,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInDelivers
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.18
     type: counter
@@ -3148,6 +3212,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCInDelivers
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.19
     type: counter
@@ -3156,6 +3224,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutRequests
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.20
     type: counter
@@ -3164,6 +3236,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCOutRequests
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.21
     type: counter
@@ -3172,6 +3248,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutNoRoutes
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.22
     type: counter
@@ -3180,6 +3260,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutForwDatagrams
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.23
     type: counter
@@ -3189,6 +3273,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCOutForwDatagrams
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.24
     type: counter
@@ -3198,6 +3286,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutDiscards
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.25
     type: counter
@@ -3207,6 +3299,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutFragReqds
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.26
     type: counter
@@ -3215,6 +3311,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutFragOKs
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.27
     type: counter
@@ -3222,6 +3322,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutFragFails
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.28
     type: counter
@@ -3230,6 +3334,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutFragCreates
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.29
     type: counter
@@ -3238,6 +3346,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutTransmits
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.30
     type: counter
@@ -3246,6 +3358,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCOutTransmits
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.31
     type: counter
@@ -3254,6 +3370,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.32
     type: counter
@@ -3262,6 +3382,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCOutOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.33
     type: counter
@@ -3270,6 +3394,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInMcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.34
     type: counter
@@ -3277,6 +3405,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCInMcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.35
     type: counter
@@ -3284,6 +3416,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInMcastOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.36
     type: counter
@@ -3292,6 +3428,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCInMcastOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.37
     type: counter
@@ -3300,6 +3440,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutMcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.38
     type: counter
@@ -3307,6 +3451,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCOutMcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.39
     type: counter
@@ -3314,6 +3462,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutMcastOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.40
     type: counter
@@ -3322,6 +3474,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCOutMcastOctets
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.41
     type: counter
@@ -3330,6 +3486,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsInBcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.42
     type: counter
@@ -3337,6 +3497,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCInBcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.43
     type: counter
@@ -3344,6 +3508,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsOutBcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.44
     type: counter
@@ -3351,6 +3519,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsHCOutBcastPkts
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.45
     type: counter
@@ -3358,6 +3530,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsDiscontinuityTime
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.46
     type: gauge
@@ -3366,6 +3542,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
   - name: aristaSwFwdIpStatsRefreshRate
     oid: 1.3.6.1.4.1.30065.3.1.1.1.1.47
     type: gauge
@@ -3373,6 +3553,10 @@ arista_sw:
     indexes:
     - labelname: aristaSwFwdIpStatsIPVersion
       type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
 cisco_wlc:
   walk:
   - 1.3.6.1.2.1.2
@@ -7306,6 +7490,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       0: static
   - name: vrrpInstanceName
@@ -7315,6 +7501,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceVirtualRouterId
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.3
     type: gauge
@@ -7322,6 +7510,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceState
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.4
     type: gauge
@@ -7329,6 +7519,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       0: init
       1: backup
@@ -7344,6 +7536,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       0: init
       1: backup
@@ -7359,6 +7553,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       0: init
       1: backup
@@ -7375,6 +7571,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceEffectivePriority
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.8
     type: gauge
@@ -7382,6 +7580,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceVipsStatus
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.9
     type: gauge
@@ -7389,6 +7589,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: allSet
       2: notAllSet
@@ -7399,6 +7601,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceTrackPrimaryIf
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.11
     type: gauge
@@ -7406,6 +7610,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: tracked
       2: notTracked
@@ -7417,6 +7623,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstancePreempt
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.13
     type: gauge
@@ -7424,6 +7632,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: preempt
       2: noPreempt
@@ -7435,6 +7645,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceAuthType
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.15
     type: gauge
@@ -7442,6 +7654,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       0: none
       1: password
@@ -7454,6 +7668,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceGarpDelay
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.19
     type: gauge
@@ -7461,6 +7677,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceSmtpAlert
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.20
     type: gauge
@@ -7468,6 +7686,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: enabled
       2: disabled
@@ -7478,6 +7698,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: enabled
       2: disabled
@@ -7489,6 +7711,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: "true"
       2: "false"
@@ -7499,6 +7723,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: "true"
       2: "false"
@@ -7509,6 +7735,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: "true"
       2: "false"
@@ -7519,6 +7747,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       2: vrrpv2
       3: vrrpv3
@@ -7529,6 +7759,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
   - name: vrrpInstanceNotifyDeleted
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.33
     type: gauge
@@ -7537,6 +7769,8 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
+      enum_values:
+        0: static
     enum_values:
       1: "true"
       2: "false"
@@ -9074,10 +9308,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9094,10 +9338,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9109,10 +9363,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9129,10 +9393,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9144,10 +9418,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9159,10 +9443,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9174,10 +9468,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9190,10 +9494,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
@@ -9206,10 +9520,20 @@ nec_ix:
     indexes:
     - labelname: pikePeerLocalType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerLocalValue
       type: DisplayString
     - labelname: pikePeerRemoteType
       type: gauge
+      enum_values:
+        1: idIpv4Addr
+        2: idFqdn
+        3: idDn
+        4: idIpv6Addr
     - labelname: pikePeerRemoteValue
       type: DisplayString
     - labelname: pikePeerIntIndex
