@@ -981,6 +981,57 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Basic table with integer index and enum_values, overridden as EnumAsInfo.
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER", EnumValues: map[int]string{0: "a"}},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+								}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+				Overrides: map[string]MetricOverrides{
+					"tableIndex": MetricOverrides{Type: "EnumAsInfo"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableIndex",
+						Oid:  "1.1.1.1",
+						Type: "EnumAsInfo",
+						Help: " - 1.1.1.1",
+						Indexes: []*config.Index{
+							{
+								Labelname:  "tableIndex",
+								Type:       "EnumAsInfo",
+								EnumValues: map[int]string{0: "a"},
+							},
+						},
+						EnumValues: map[int]string{0: "a"},
+					},
+					{
+						Name: "tableFoo",
+						Oid:  "1.1.1.2",
+						Type: "gauge",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname:  "tableIndex",
+								Type:       "EnumAsInfo",
+								EnumValues: map[int]string{0: "a"},
+							},
+						},
+					},
+				},
+			},
+		},
+
 		// One table lookup, lookup not walked, labels kept.
 		{
 			node: &Node{Oid: "1", Label: "root",

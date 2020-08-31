@@ -888,6 +888,18 @@ func TestIndexesToLabels(t *testing.T) {
 			result:   map[string]string{"l": "A "},
 		},
 		{
+			oid:      []int{0},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "EnumAsInfo", EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"}}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "foo"},
+		},
+		{
+			oid:      []int{3},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "EnumAsInfo", EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"}}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "3"},
+		},
+		{
 			oid: []int{3, 65, 32, 255},
 			metric: config.Metric{
 				Indexes: []*config.Index{{Labelname: "l", Type: "OctetString"}},
