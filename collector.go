@@ -672,7 +672,6 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 	case "EnumAsInfo":
 		subOid, indexOids := splitOid(indexOids, 1)
 		return enumValues[subOid[0]], subOid, indexOids
-
 	default:
 		panic(fmt.Sprintf("Unknown index type %s", typ))
 		return "", nil, nil
