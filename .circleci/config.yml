@@ -5,11 +5,11 @@ orbs:
   prometheus: prometheus/prometheus@0.1.0
 
 executors:
-  # Whenever the Go version is updated here, .travis.yml and .promu.yml
+  # Whenever the Go version is updated here, .promu.yml
   # should also be updated.
   golang:
     docker:
-    - image: circleci/golang:1.14
+    - image: circleci/golang:1.15
     parameters:
       working_dir:
         type: string
