@@ -15,6 +15,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
@@ -110,17 +111,47 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
 }
 
-func updateConfiguration(w http.ResponseWriter, r *http.Request) {
+func reloadConfiguration(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		rc := make(chan error)
-		reloadCh <- rc
-		if err := <-rc; err != nil {
+		if err := signalReloadChannel(); err != nil {
 			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
 		}
 	default:
 		http.Error(w, "POST method expected", 400)
 	}
+}
+
+func updateConfiguration(logger log.Logger, configFile string) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case "POST":
+			body, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				http.Error(w, "error while reading body", http.StatusBadRequest)
+				return
+			}
+			r.Body.Close()
+			if err = ioutil.WriteFile(configFile, body, 0644); err != nil {
+				http.Error(w, fmt.Sprintf("error while writing config file: %s", err.Error()), http.StatusBadRequest)
+			}
+			if err := signalReloadChannel(); err != nil {
+				http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusBadRequest)
+			}
+			level.Info(logger).Log("msg", "Config file has been updated")
+		default:
+			http.Error(w, "POST method expected", 400)
+		}
+	}
+}
+
+func signalReloadChannel() error {
+	rc := make(chan error)
+	reloadCh <- rc
+	if err := <-rc; err != nil {
+		return err
+	}
+	return nil
 }
 
 type SafeConfig struct {
@@ -197,7 +228,8 @@ func main() {
 	http.HandleFunc("/snmp", func(w http.ResponseWriter, r *http.Request) {
 		handler(w, r, logger)
 	})
-	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
+	http.HandleFunc("/-/reload", reloadConfiguration)                      // Endpoint to reload configuration.
+	http.HandleFunc("/-/update", updateConfiguration(logger, *configFile)) // Endpoint to update configuration.
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
