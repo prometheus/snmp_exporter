@@ -8901,6 +8901,2515 @@ keepalived:
       1: nocsum
       2: csum
       3: remcsum
+liebert_pdu:
+  walk:
+  - 1.3.6.1.4.1.476.1.42.3.8.20
+  - 1.3.6.1.4.1.476.1.42.3.8.30.20
+  - 1.3.6.1.4.1.476.1.42.3.8.30.40
+  - 1.3.6.1.4.1.476.1.42.3.8.50.20
+  - 1.3.6.1.4.1.476.1.42.3.8.60.10
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: lgpPduEntryIndex
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.1
+    type: gauge
+    help: This is the index that indicates the row of the 'lgpPduTable'. - 1.3.6.1.4.1.476.1.42.3.8.20.1.1
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntryId
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.5
+    type: gauge
+    help: This is an internal index representing a unique identifier for each PDU
+      represented by this agent - 1.3.6.1.4.1.476.1.42.3.8.20.1.5
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntryUsrLabel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.10
+    type: DisplayString
+    help: This is a user assigned label representing the PDU. - 1.3.6.1.4.1.476.1.42.3.8.20.1.10
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntrySysAssignLabel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+    type: DisplayString
+    help: System assigned identifier representing the PDU - 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntryPositionRelative
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.20
+    type: gauge
+    help: This is a one-based value that indicates the PDU's relative position within
+      a rack or other enclosing entity. - 1.3.6.1.4.1.476.1.42.3.8.20.1.20
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntrySysStatus
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.25
+    type: gauge
+    help: This value represents a bit-field of the various operational states of the
+      PDU - 1.3.6.1.4.1.476.1.42.3.8.20.1.25
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntryUsrTag1
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.35
+    type: DisplayString
+    help: This is a user assigned Tag for the PDU - 1.3.6.1.4.1.476.1.42.3.8.20.1.35
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntryUsrTag2
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.40
+    type: DisplayString
+    help: This is a user assigned Tag for the PDU - 1.3.6.1.4.1.476.1.42.3.8.20.1.40
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntrySerialNumber
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.45
+    type: DisplayString
+    help: System assigned serial number for this PDU - 1.3.6.1.4.1.476.1.42.3.8.20.1.45
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntryRbCount
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.50
+    type: gauge
+    help: Number of receptacle branches (Rb) within this PDU. - 1.3.6.1.4.1.476.1.42.3.8.20.1.50
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+  - name: lgpPduEntrySWOverCurrentProtection
+    oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.55
+    type: gauge
+    help: This is the PDU Software Over Current Protection feature which will prevent
+      unused receptacles from turning on when the 'PDU Over Current Warning' or 'PDU
+      Over Current Alarm' threshold is violated - 1.3.6.1.4.1.476.1.42.3.8.20.1.55
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    enum_values:
+      0: disabled
+      1: enable
+  - name: lgpPduPsEntryIndex
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.5
+    type: gauge
+    help: This is a unique identifier for the Power Source within a given PDU - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.5
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryId
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.10
+    type: gauge
+    help: This is a unique entry id representing a given PDU power source for the
+      PDU. - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.10
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntrySysAssignLabel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+    type: DisplayString
+    help: System assigned identifier for this power source - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryModel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.20
+    type: DisplayString
+    help: This is the model name (identifier) of the power supply. - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.20
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryWiringType
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.25
+    type: gauge
+    help: The PDU's power supply physical wiring type - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.25
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+    enum_values:
+      0: not-specified
+      1: single-phase-3-wire-L1-N-PE
+      2: two-phase-3-wire-L1-L2-PE
+      3: three-phase-4-wire-L1-L2-L3-PE
+      4: three-phase-5-wire-L1-L2-L3-N-PE
+      5: two-phase-4-wire-L1-L2-N-PE
+  - name: lgpPduPsEntryEpInputRated
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.30
+    type: gauge
+    help: Rated Input Line Voltage for the power source (i.e - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.30
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryEcInputRated
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.35
+    type: gauge
+    help: This is the rated input line current for the module (it is NOT the measured
+      current). - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.35
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryFreqRated
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.40
+    type: gauge
+    help: Rated input line frequency for this power source (i.e - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.40
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryEnergyAccum
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.50
+    type: gauge
+    help: Total accumulated energy, measured at the power source input, since the
+      last energy reset - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.50
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntrySerialNum
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.55
+    type: DisplayString
+    help: This is a unique serial number of the power supply - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.55
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryFirmwareVersion
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.60
+    type: DisplayString
+    help: This is the version of the firmware installed on the PDU's power supply.
+      - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.60
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryPwrTotal
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.65
+    type: gauge
+    help: Total input power for this power supply - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.65
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryEcNeutral
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.70
+    type: gauge
+    help: The neutral current measured at the PDU's power source. - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.70
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryEcNeutralThrshldOvrWarn
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.75
+    type: gauge
+    help: The threshold at which an over current warning is activated - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.75
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryEcNeutralThrshldOvrAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.80
+    type: gauge
+    help: The threshold at which an over current alarm is activated - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.80
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryUnbalancedLoadThrshldAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.85
+    type: gauge
+    help: The parameter is for setting the maximum acceptable percentage of 'Unbalanced
+      Load' between any two phases - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.85
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryApTotal
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.90
+    type: gauge
+    help: Total Apparent power for this power supply - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.90
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryPfTotal
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.95
+    type: gauge
+    help: Total power factor, which is real power/apparent power for all phases combined
+      - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.95
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryEcResidual
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.100
+    type: gauge
+    help: The measured residual current. - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.100
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsEntryEcResidualThrshldOvrAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.105
+    type: gauge
+    help: The threshold at which an over current alarm is activated - 1.3.6.1.4.1.476.1.42.3.8.30.20.1.105
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryIndex
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.5
+    type: gauge
+    help: This is the index that indicates the line/phase of the measurements in the
+      given row of the 'lgpPduPsLineTable'. - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.5
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryId
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.10
+    type: gauge
+    help: Unique identifier (within a PDU) for the PDU's power source - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.10
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryLine
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.15
+    type: gauge
+    help: The line number (phase) that the measurement represents for all measurements
+      in a given row of the table - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.15
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+    enum_values:
+      1: phase1
+      2: phase2
+      3: phase3
+  - name: lgpPduPsLineEntryEpLNTenths
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.19
+    type: gauge
+    help: Alternating Current RMS Line to Neutral Electrical Potential measurement
+      - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.19
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEpLN
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.20
+    type: gauge
+    help: Alternating Current RMS Line to Neutral Electrical Potential measurement
+      - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.20
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEc
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.21
+    type: gauge
+    help: Total input line-to-neutral electrical current - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.21
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEcHundredths
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.22
+    type: gauge
+    help: Total input line-to-neutral electrical current - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.22
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEcThrshldUndrAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.35
+    type: gauge
+    help: The threshold at which an under current alarm is activated - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.35
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEcThrshldOvrWarn
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.36
+    type: gauge
+    help: The threshold at which an over current warning is activated - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.36
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEcThrshldOvrAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.37
+    type: gauge
+    help: The threshold at which an over current alarm is activated - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.37
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEcAvailBeforeAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.38
+    type: gauge
+    help: The amount that the current/amperage may increase from its present value
+      before an over current alarm occurs. - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.38
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEcUsedBeforeAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.39
+    type: gauge
+    help: The percent of current utilization relative to the over current alarm threshold.
+      - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.39
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEpLL
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.60
+    type: gauge
+    help: Line to Line Electrical Potential - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.60
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEpLLTenths
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.61
+    type: gauge
+    help: Line to Line Electrical Potential - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.61
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryEcAvailBeforeAlarmHundredths
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.62
+    type: gauge
+    help: The amount that the current/amperage may increase from its present value
+      before an over current alarm occurs. - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.62
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryPwrLN
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.63
+    type: gauge
+    help: The line-to-neutral measurement of the Real Power (Watts) - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.63
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryPwrLL
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.64
+    type: gauge
+    help: The line-to-line measurement of the Real Power (Watts) - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.64
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryApLN
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.65
+    type: gauge
+    help: The line-to-neutral measurement of the Apparent Power (VA) - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.65
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryApLL
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.66
+    type: gauge
+    help: The line-to-line measurement of the Apparent Power (VA) - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.66
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryPfLN
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.67
+    type: gauge
+    help: The line-to-neutral measurement of the Power Factor of the power source
+      - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.67
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduPsLineEntryPfLL
+    oid: 1.3.6.1.4.1.476.1.42.3.8.30.40.1.68
+    type: gauge
+    help: The line-to-line measurement of the Power Factor of the power source - 1.3.6.1.4.1.476.1.42.3.8.30.40.1.68
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduPsEntryIndex
+      type: gauge
+    - labelname: lgpPduPsLineEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduPsEntryIndex
+      labelname: lgpPduPsEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.30.20.1.15
+      type: DisplayString
+  - name: lgpPduRcpEntryIndex
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.1
+    type: gauge
+    help: This is the index that indicates the receptacle position on the receptacle
+      branch - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.1
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryId
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.5
+    type: gauge
+    help: A runtime assigned receptacle identification number. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.5
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryUsrLabel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.10
+    type: DisplayString
+    help: User assigned label for this receptacle. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.10
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryUsrTag1
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.15
+    type: DisplayString
+    help: User assigned Tag to assist in identifying or grouping this receptacle within
+      the end-users domain. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.15
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryUsrTag2
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.20
+    type: DisplayString
+    help: User assigned Tag to assist in identifying or grouping this receptacle within
+      the end-users domain. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.20
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntrySysAssignLabel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+    type: DisplayString
+    help: System assigned identifier representing the receptacle - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryPosition
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.30
+    type: gauge
+    help: A number representing the position of the receptacle within the receptacle
+      branch. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.30
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryType
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.40
+    type: gauge
+    help: The type or form of receptacle - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.40
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: not-specified
+      1: nema-5-20R-20-Amp
+      2: iec-C13-sheet-F-10-Amp
+      3: iec-C19-sheet-J-16-Amp
+      7: cee-7-type-E-schuko
+      8: nema-L6-30R-30-Amp
+  - name: lgpPduRcpEntryLineSource
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.45
+    type: gauge
+    help: This represents the line source that is supplying power to this receptacle
+      - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.45
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: not-specified
+      1: line-1-N
+      2: line-2-N
+      3: line-3-N
+      4: line-1-line-2
+      5: line-2-line-3
+      6: line-3-line-1
+      7: unknown-line-neutral
+      8: unknown-line-line
+  - name: lgpPduRcpEntryCapabilities
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.50
+    type: gauge
+    help: Receptacle capabilities describes what an individual receptacle is capable
+      of - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.50
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: not-specified
+      1: no-optional-capabilities
+      2: measurement-only
+      3: measurement-and-control
+      4: control-only
+      5: current-measurement-only
+      6: current-measurement-and-control
+  - name: lgpPduRcpEntryEp
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.55
+    type: gauge
+    help: Voltage being delivered to the load attached to the receptacle - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.55
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEpTenths
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.56
+    type: gauge
+    help: Voltage being delivered to the load attached to the receptacle - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.56
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEc
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.60
+    type: gauge
+    help: Current (amperage) being delivered to the load attached to the receptacle
+      - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.60
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEcHundredths
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.61
+    type: gauge
+    help: Current (amperage) being delivered to the load attached to the receptacle
+      - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.61
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryPwrOut
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.65
+    type: gauge
+    help: Real Power (watts) being delivered to the load attached to the receptacle.
+      - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.65
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryApOut
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.70
+    type: gauge
+    help: Apparent Power (volt-amps) being delivered to the load attached to the receptacle.
+      - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.70
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryPf
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.75
+    type: gauge
+    help: Receptacle Power Factor, which is the ratio of real power to apparent power
+      (i.e - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.75
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryFreq
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.80
+    type: gauge
+    help: The measured line frequency being delivered to the load attached to the
+      receptacle. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.80
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEnergyAccum
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.85
+    type: gauge
+    help: Total accumulated energy, measured at the module input, since the last energy
+      reset - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.85
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryPwrOnDelay
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.90
+    type: gauge
+    help: The amount of time to wait before power is applied to the receptacle after
+      a power strip is turned on or rebooted - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.90
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryPwrState
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.95
+    type: gauge
+    help: unknown The current power state is unknown - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.95
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: unknown
+      1: "off"
+      2: "on"
+      3: off-pending-on-delay
+  - name: lgpPduRcpEntryPwrUpState
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.96
+    type: gauge
+    help: The 'Power Up State' defines the state to which the receptacle shall return
+      after a power cycle of the PDU - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.96
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      1: "on"
+      2: "off"
+      3: last-state
+  - name: lgpPduRcpEntryControl
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.100
+    type: gauge
+    help: This object represents the current and persistent (configured) power state
+      of the receptacle - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.100
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: "off"
+      1: "on"
+      2: cycle-power
+  - name: lgpPduRcpEntryControlLock
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.105
+    type: gauge
+    help: This object represents the locked state of the receptacle - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.105
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: unknown
+      1: unlocked
+      2: locked
+  - name: lgpPduRcpEntryEcThrshldUnderAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.150
+    type: gauge
+    help: The threshold at which an under current alarm is activated - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.150
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEcThrshldOverWarn
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.151
+    type: gauge
+    help: The threshold at which an over current warning is activated - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.151
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEcThrshldOverAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.152
+    type: gauge
+    help: The threshold at which an over current alarm is activated - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.152
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEcAvailBeforeAlarmHundredths
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.159
+    type: gauge
+    help: The amount that the current/amperage may increase from its present value
+      before an over current alarm occurs. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.159
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEcAvailBeforeAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.160
+    type: gauge
+    help: The amount that the current/amperage may increase from its present value
+      before an over current alarm occurs. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.160
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEcUsedBeforeAlarm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.161
+    type: gauge
+    help: The percent of current utilization relative to the over current alarm threshold.
+      - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.161
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryEcCrestFactor
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.162
+    type: gauge
+    help: Receptacle current crest factor, which is the peak amplitude of the current
+      waveform divided by the RMS value of the waveform. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.162
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryBlinkLED
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.200
+    type: gauge
+    help: Blink the receptacle LED - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.200
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      1: noAction
+      2: blinkLED
+  - name: lgpPduRcpEntrySwOverTemperatureProtection
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.205
+    type: gauge
+    help: 'The configuration parameter to enable or disable the Receptacle SW Over
+      Temperature Protection feature If the feature is enabled, in case of Over Temperature
+      Alarm condition, following action will be taken on the receptacles: Locked &
+      Off - No Change Unlocked & Off - No Change Unlocked & On - Turn it Off - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.205'
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: disable
+      1: enable
+  - name: lgpPduRcpEntryOperationCondition
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.210
+    type: gauge
+    help: Receptacle Operating Condition - indicates the condition of the receptacle
+      - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.210
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      1: normalOperation
+      2: normalWithWarning
+      3: normalWithAlarm
+      4: abnormal
+  - name: lgpPduRcpEntryCriticality
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.215
+    type: gauge
+    help: The configuration parameter can be used by the user to mark a receptacle
+      as critical or non-critical. - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.215
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+    enum_values:
+      0: critical
+      1: notCritical
+  - name: lgpPduRcpEntryPostOnDelay
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.220
+    type: gauge
+    help: The 'Post On Delay' is the time interval (in seconds) that the PDU waits
+      after a command is issued to switch ON a receptacle before applying power to
+      the receptacle A value of zero implies that there is no delay (i.e - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.220
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryPostOffDelay
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.225
+    type: gauge
+    help: The 'Post Off Delay' is the time interval (in seconds) that the PDU waits
+      after a command is issued to switch OFF a receptacle before removing power from
+      the receptacle A value of zero implies that there is no delay (i.e - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.225
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryAddReceptacleToGroup
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.230
+    type: OctetString
+    help: This receptacle can be added to a group by writing a corresponding OID to
+      this column - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.230
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduRcpEntryRemoveReceptacleFromGroup
+    oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.235
+    type: OctetString
+    help: This receptacle can be removed from a group by writing a corresponding OID
+      to this column - 1.3.6.1.4.1.476.1.42.3.8.50.20.1.235
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduRbEntryIndex
+      type: gauge
+    - labelname: lgpPduRcpEntryIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduRcpEntryIndex
+      labelname: lgpPduRcpEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.50.20.1.25
+      type: DisplayString
+  - name: lgpPduAuxSensorIndex
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.1
+    type: gauge
+    help: This is the index indicating the nth element of the table. - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.1
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorMeasType
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.5
+    type: gauge
+    help: not-specified The type of sensor is unknown - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.5
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+    enum_values:
+      0: not-specified
+      1: temperature
+      2: humidity
+      3: temperature-and-humidity
+  - name: lgpPduAuxSensorId
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.10
+    type: gauge
+    help: System assigned auxiliary sensor identification number - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.10
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorSysAssignLabel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+    type: DisplayString
+    help: Label assigned to the auxiliary sensor at runtime by the system - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorPositionRelative
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.20
+    type: gauge
+    help: Auxiliary sensor relative position - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.20
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorUsrLabel
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.25
+    type: DisplayString
+    help: User assigned auxiliary sensor label. - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.25
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorUsrTag1
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.30
+    type: DisplayString
+    help: User assigned Tag to assist in identifying or grouping this auxiliary sensor
+      within the end-users domain. - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.30
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorUsrTag2
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.35
+    type: DisplayString
+    help: User assigned Tag to assist in identifying or grouping this auxiliary sensor
+      within the end-users domain. - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.35
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempSerialNum
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.40
+    type: DisplayString
+    help: The temperature sensor's globally unique serial number assigned at the time
+      of manufacture. - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.40
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorHumSerialNum
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.45
+    type: DisplayString
+    help: The humidity sensor's globally unique serial number assigned at the time
+      of manufacture. - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.45
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempMeasurementDegF
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.50
+    type: gauge
+    help: Temperature measured at the temperature sensor reported in degrees Fahrenheit.
+      - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.50
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldUndrAlmDegF
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.55
+    type: gauge
+    help: Under temperature alarm threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.55
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldOvrAlmDegF
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.60
+    type: gauge
+    help: Over temperature alarm threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.60
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldUndrWarnDegF
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.65
+    type: gauge
+    help: Under temperature warning threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.65
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldOvrWarnDegF
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.70
+    type: gauge
+    help: Over temperature warning threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.70
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempMeasurementDegC
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.75
+    type: gauge
+    help: Temperature measured at the temperature sensor reported in degrees Celsius.
+      - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.75
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldUndrAlmDegC
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.80
+    type: gauge
+    help: Under temperature alarm threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.80
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldOvrAlmDegC
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.85
+    type: gauge
+    help: Over temperature alarm threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.85
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldUndrWarnDegC
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.90
+    type: gauge
+    help: Under temperature warning threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.90
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorTempThrshldOvrWarnDegC
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.95
+    type: gauge
+    help: Over temperature warning threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.95
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorHumMeasurement
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.100
+    type: gauge
+    help: Relative Humidity measured at the humidity sensor. - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.100
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorHumThrshldUndrAlm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.105
+    type: gauge
+    help: Under relative humidity alarm threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.105
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorHumThrshldOvrAlm
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.110
+    type: gauge
+    help: Over relative humidity alarm threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.110
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorHumThrshldUndrWarn
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.115
+    type: gauge
+    help: Under relative humidity warning threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.115
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
+  - name: lgpPduAuxSensorHumThrshldOvrWarn
+    oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.120
+    type: gauge
+    help: Over relative humidity warning threshold - 1.3.6.1.4.1.476.1.42.3.8.60.10.1.120
+    indexes:
+    - labelname: lgpPduEntryIndex
+      type: gauge
+    - labelname: lgpPduAuxSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - lgpPduEntryIndex
+      labelname: lgpPduEntrySysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.15
+      type: DisplayString
+    - labels:
+      - lgpPduAuxSensorIndex
+      labelname: lgpPduAuxSensorSysAssignLabel
+      oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
+      type: DisplayString
 nec_ix:
   walk:
   - 1.3.6.1.4.1.119.2.3.84.11
