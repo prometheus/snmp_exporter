@@ -443,3 +443,25 @@ modules:
               value: '0$1.$2'
             - regex: '^(\d)'
               value: '0.0$1'
+
+# Liebert/Vertiv PDU's
+#
+# https://www.vertiv.com/en-us/support/software-download/monitoring/management-information-bases-mibs-for-liebert-products/
+# https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
+  liebert_pdu:
+    walk:
+      - sysUpTime
+      - lgpPduTable
+      - lgpPduPsTable
+      - lgpPduPsLineTable
+      - lgpPduRcpTable
+      - lgpPduAuxSensorTable
+    lookups:
+      - source_indexes: [lgpPduEntryIndex]
+        lookup: lgpPduEntrySysAssignLabel
+      - source_indexes: [lgpPduPsEntryIndex]
+        lookup: lgpPduPsEntrySysAssignLabel
+      - source_indexes: [lgpPduRcpEntryIndex]
+        lookup: lgpPduRcpEntrySysAssignLabel
+      - source_indexes: [lgpPduAuxSensorIndex]
+        lookup: lgpPduAuxSensorSysAssignLabel
