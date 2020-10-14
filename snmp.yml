@@ -16122,6 +16122,2093 @@ servertech_sentry3:
       type: gauge
     - labelname: outletIndex
       type: gauge
+servertech_sentry4:
+  walk:
+  - 1.3.6.1.4.1.1718.4.1.14.3
+  - 1.3.6.1.4.1.1718.4.1.2.2.1.3
+  - 1.3.6.1.4.1.1718.4.1.3.2.1.3
+  - 1.3.6.1.4.1.1718.4.1.3.3
+  - 1.3.6.1.4.1.1718.4.1.4.2.1.4
+  - 1.3.6.1.4.1.1718.4.1.4.3
+  - 1.3.6.1.4.1.1718.4.1.5.2.1.4
+  - 1.3.6.1.4.1.1718.4.1.5.3
+  - 1.3.6.1.4.1.1718.4.1.8.2.1.3
+  - 1.3.6.1.4.1.1718.4.1.8.3
+  - 1.3.6.1.4.1.1718.4.1.9.3
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: st4FanSensorValue
+    oid: 1.3.6.1.4.1.1718.4.1.14.3.1.1
+    type: gauge
+    help: The measured fan speed of the sensor in rotations per minute. - 1.3.6.1.4.1.1718.4.1.14.3.1.1
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4FanSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+  - name: st4FanSensorStatus
+    oid: 1.3.6.1.4.1.1718.4.1.14.3.1.2
+    type: gauge
+    help: The status of the fan sensor. - 1.3.6.1.4.1.1718.4.1.14.3.1.2
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4FanSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4InputCordState
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.1
+    type: gauge
+    help: The on/off state of the input cord. - 1.3.6.1.4.1.1718.4.1.3.3.1.1
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    enum_values:
+      0: unknown
+      1: "on"
+      2: "off"
+  - name: st4InputCordStatus
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.2
+    type: gauge
+    help: The status of the input cord. - 1.3.6.1.4.1.1718.4.1.3.3.1.2
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4InputCordActivePower
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.3
+    type: gauge
+    help: The measured active power of the input cord in Watts. - 1.3.6.1.4.1.1718.4.1.3.3.1.3
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+  - name: st4InputCordActivePowerStatus
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.4
+    type: gauge
+    help: The status of the measured active power of the input cord. - 1.3.6.1.4.1.1718.4.1.3.3.1.4
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4InputCordApparentPower
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.5
+    type: gauge
+    help: The measured apparent power of the input cord in Volt-Amps. - 1.3.6.1.4.1.1718.4.1.3.3.1.5
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+  - name: st4InputCordApparentPowerStatus
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.6
+    type: gauge
+    help: The status of the measured apparent power of the input cord. - 1.3.6.1.4.1.1718.4.1.3.3.1.6
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4InputCordPowerUtilized
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.7
+    type: gauge
+    help: The amount of the input cord power capacity used in tenth percent - 1.3.6.1.4.1.1718.4.1.3.3.1.7
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+  - name: st4InputCordPowerFactor
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.8
+    type: gauge
+    help: The measured power factor of the input cord in hundredths. - 1.3.6.1.4.1.1718.4.1.3.3.1.8
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+  - name: st4InputCordPowerFactorStatus
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.9
+    type: gauge
+    help: The status of the measured power factor of the input cord. - 1.3.6.1.4.1.1718.4.1.3.3.1.9
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4InputCordEnergy
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.10
+    type: gauge
+    help: The total energy consumption of loads through the input cord in tenth Kilowatt-Hours.
+      - 1.3.6.1.4.1.1718.4.1.3.3.1.10
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+  - name: st4InputCordFrequency
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.11
+    type: gauge
+    help: The frequency of the input cord voltage in tenth Hertz. - 1.3.6.1.4.1.1718.4.1.3.3.1.11
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+  - name: st4InputCordOutOfBalance
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.12
+    type: gauge
+    help: The current imbalance on the lines of the input cord in tenth percent. -
+      1.3.6.1.4.1.1718.4.1.3.3.1.12
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+  - name: st4InputCordOutOfBalanceStatus
+    oid: 1.3.6.1.4.1.1718.4.1.3.3.1.13
+    type: gauge
+    help: The status of the current imbalance on the lines of the input cord. - 1.3.6.1.4.1.1718.4.1.3.3.1.13
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4LineState
+    oid: 1.3.6.1.4.1.1718.4.1.4.3.1.1
+    type: gauge
+    help: The on/off state of the line. - 1.3.6.1.4.1.1718.4.1.4.3.1.1
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4LineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4LineIndex
+      labelname: st4LineLabel
+      oid: 1.3.6.1.4.1.1718.4.1.4.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4LineIndex
+    enum_values:
+      0: unknown
+      1: "on"
+      2: "off"
+  - name: st4LineStatus
+    oid: 1.3.6.1.4.1.1718.4.1.4.3.1.2
+    type: gauge
+    help: The status of the line. - 1.3.6.1.4.1.1718.4.1.4.3.1.2
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4LineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4LineIndex
+      labelname: st4LineLabel
+      oid: 1.3.6.1.4.1.1718.4.1.4.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4LineIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4LineCurrent
+    oid: 1.3.6.1.4.1.1718.4.1.4.3.1.3
+    type: gauge
+    help: The measured current on the line in hundredth Amps. - 1.3.6.1.4.1.1718.4.1.4.3.1.3
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4LineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4LineIndex
+      labelname: st4LineLabel
+      oid: 1.3.6.1.4.1.1718.4.1.4.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4LineIndex
+  - name: st4LineCurrentStatus
+    oid: 1.3.6.1.4.1.1718.4.1.4.3.1.4
+    type: gauge
+    help: The status of the measured current on the line. - 1.3.6.1.4.1.1718.4.1.4.3.1.4
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4LineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4LineIndex
+      labelname: st4LineLabel
+      oid: 1.3.6.1.4.1.1718.4.1.4.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4LineIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4LineCurrentUtilized
+    oid: 1.3.6.1.4.1.1718.4.1.4.3.1.5
+    type: gauge
+    help: The amount of the line current capacity used in tenth percent. - 1.3.6.1.4.1.1718.4.1.4.3.1.5
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4LineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4LineIndex
+      labelname: st4LineLabel
+      oid: 1.3.6.1.4.1.1718.4.1.4.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4LineIndex
+  - name: st4PhaseState
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.1
+    type: gauge
+    help: The on/off state of the phase. - 1.3.6.1.4.1.1718.4.1.5.3.1.1
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+    enum_values:
+      0: unknown
+      1: "on"
+      2: "off"
+  - name: st4PhaseStatus
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.2
+    type: gauge
+    help: The status of the phase. - 1.3.6.1.4.1.1718.4.1.5.3.1.2
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4PhaseVoltage
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.3
+    type: gauge
+    help: The measured voltage on the phase in tenth Volts. - 1.3.6.1.4.1.1718.4.1.5.3.1.3
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4PhaseVoltageStatus
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.4
+    type: gauge
+    help: The status of the measured voltage on the phase. - 1.3.6.1.4.1.1718.4.1.5.3.1.4
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4PhaseVoltageDeviation
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.5
+    type: gauge
+    help: The deviation from the nominal voltage on the phase in tenth percent. -
+      1.3.6.1.4.1.1718.4.1.5.3.1.5
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4PhaseCurrent
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.6
+    type: gauge
+    help: The measured current on the phase in hundredth Amps. - 1.3.6.1.4.1.1718.4.1.5.3.1.6
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4PhaseCurrentCrestFactor
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.7
+    type: gauge
+    help: The measured crest factor of the current waveform on the phase in tenths.
+      - 1.3.6.1.4.1.1718.4.1.5.3.1.7
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4PhaseActivePower
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.8
+    type: gauge
+    help: The measured active power on the phase in Watts. - 1.3.6.1.4.1.1718.4.1.5.3.1.8
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4PhaseApparentPower
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.9
+    type: gauge
+    help: The measured apparent power on the phase in Volt-Amps. - 1.3.6.1.4.1.1718.4.1.5.3.1.9
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4PhasePowerFactor
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.10
+    type: gauge
+    help: The measured power factor on the phase in hundredths. - 1.3.6.1.4.1.1718.4.1.5.3.1.10
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4PhasePowerFactorStatus
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.11
+    type: gauge
+    help: The status of the measured power factor on the phase. - 1.3.6.1.4.1.1718.4.1.5.3.1.11
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4PhaseReactance
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.12
+    type: gauge
+    help: The status of the measured reactance of the phase. - 1.3.6.1.4.1.1718.4.1.5.3.1.12
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+    enum_values:
+      0: unknown
+      1: capacitive
+      2: inductive
+      3: resistive
+  - name: st4PhaseEnergy
+    oid: 1.3.6.1.4.1.1718.4.1.5.3.1.13
+    type: gauge
+    help: The total energy consumption of loads through the phase in tenth Kilowatt-Hours.
+      - 1.3.6.1.4.1.1718.4.1.5.3.1.13
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4PhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4PhaseIndex
+      labelname: st4PhaseLabel
+      oid: 1.3.6.1.4.1.1718.4.1.5.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4PhaseIndex
+  - name: st4OutletState
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.1
+    type: gauge
+    help: The on/off state of the outlet. - 1.3.6.1.4.1.1718.4.1.8.3.1.1
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+    enum_values:
+      0: unknown
+      1: "on"
+      2: "off"
+  - name: st4OutletStatus
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.2
+    type: gauge
+    help: The status of the outlet. - 1.3.6.1.4.1.1718.4.1.8.3.1.2
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4OutletCurrent
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.3
+    type: gauge
+    help: The measured current on the outlet in hundredth Amps. - 1.3.6.1.4.1.1718.4.1.8.3.1.3
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4OutletCurrentStatus
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.4
+    type: gauge
+    help: The status of the measured current on the outlet. - 1.3.6.1.4.1.1718.4.1.8.3.1.4
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4OutletCurrentUtilized
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.5
+    type: gauge
+    help: The amount of the outlet current capacity used in tenth percent. - 1.3.6.1.4.1.1718.4.1.8.3.1.5
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4OutletVoltage
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.6
+    type: gauge
+    help: The measured voltage of the outlet in tenth Volts. - 1.3.6.1.4.1.1718.4.1.8.3.1.6
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4OutletActivePower
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.7
+    type: gauge
+    help: The measured active power of the outlet in Watts. - 1.3.6.1.4.1.1718.4.1.8.3.1.7
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4OutletActivePowerStatus
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.8
+    type: gauge
+    help: The status of the measured active power of the outlet. - 1.3.6.1.4.1.1718.4.1.8.3.1.8
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4OutletApparentPower
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.9
+    type: gauge
+    help: The measured apparent power of the outlet in Volt-Amps. - 1.3.6.1.4.1.1718.4.1.8.3.1.9
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4OutletPowerFactor
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.10
+    type: gauge
+    help: The measured power factor of the outlet in hundredths. - 1.3.6.1.4.1.1718.4.1.8.3.1.10
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4OutletPowerFactorStatus
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.11
+    type: gauge
+    help: The status of the measured power factor of the outlet. - 1.3.6.1.4.1.1718.4.1.8.3.1.11
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4OutletCurrentCrestFactor
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.12
+    type: gauge
+    help: The measured crest factor of the outlet in tenths. - 1.3.6.1.4.1.1718.4.1.8.3.1.12
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4OutletReactance
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.13
+    type: gauge
+    help: The status of the measured reactance of the outlet. - 1.3.6.1.4.1.1718.4.1.8.3.1.13
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+    enum_values:
+      0: unknown
+      1: capacitive
+      2: inductive
+      3: resistive
+  - name: st4OutletEnergy
+    oid: 1.3.6.1.4.1.1718.4.1.8.3.1.14
+    type: gauge
+    help: The total energy consumption of the device plugged into the outlet in Watt-Hours.
+      - 1.3.6.1.4.1.1718.4.1.8.3.1.14
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4OutletIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4OutletIndex
+      labelname: st4OutletName
+      oid: 1.3.6.1.4.1.1718.4.1.8.2.1.3
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4OutletIndex
+  - name: st4TempSensorValue
+    oid: 1.3.6.1.4.1.1718.4.1.9.3.1.1
+    type: gauge
+    help: The measured temperature on the sensor in tenth degrees using the scale
+      selected by st4TempSensorScale - 1.3.6.1.4.1.1718.4.1.9.3.1.1
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4TempSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+  - name: st4TempSensorStatus
+    oid: 1.3.6.1.4.1.1718.4.1.9.3.1.2
+    type: gauge
+    help: The status of the temperature sensor. - 1.3.6.1.4.1.1718.4.1.9.3.1.2
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4TempSensorIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
 synology:
   walk:
   - 1.3.6.1.2.1.2
