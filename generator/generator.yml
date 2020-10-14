@@ -108,6 +108,44 @@ modules:
       infeedVACapacityUsed:
         ignore: true  # Composite metric: infeedApparentPower / infeedVACapacity * 100
 
+# ServerTech Sentry 4 MIB
+#
+# Used by ServerTech PDUs
+#
+# https://cdn10.servertech.com/assets/documents/documents/816/original/Sentry4OIDTree.txt
+# https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib
+  servertech_sentry4:
+    walk:
+      - sysUpTime
+      - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.8.3   # st4OutletMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.9.3   # st4TempSensorMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.14.3  # st4FanSensorMonitorTable
+
+    lookups:
+      - source_indexes: [st4UnitIndex]
+        lookup: st4UnitName
+      - source_indexes: [st4UnitIndex, st4InputCordIndex]
+        lookup: st4InputCordName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
+        lookup: st4LineLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
+        lookup: st4PhaseLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
+        lookup: st4OutletName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
+        lookup: st4AdcSensorName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex, st4FanSensorIndex]
+        lookup: st4AdcSensorName
+        drop_source_indexes: true
+
 # Palo Alto Firewalls
 #
 # Palo Alto MIBs can be found here:
