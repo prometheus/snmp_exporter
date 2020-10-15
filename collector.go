@@ -24,8 +24,8 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
+	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/soniah/gosnmp"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"

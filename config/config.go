@@ -19,7 +19,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/soniah/gosnmp"
+	"github.com/gosnmp/gosnmp"
 	"gopkg.in/yaml.v2"
 )
 
