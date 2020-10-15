@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs:
-  prometheus: prometheus/prometheus@0.1.0
+  prometheus: prometheus/prometheus@0.8.0
 
 executors:
   # Whenever the Go version is updated here, .promu.yml
@@ -49,7 +49,8 @@ jobs:
     executor: golang
 
     steps:
-    - prometheus/setup_build_environment
+    - prometheus/setup_build_environment:
+        docker_version: 19.03.8
     - run: make -C generator docker
     - run: make -C generator docker DOCKER_REPO=quay.io/prometheus
     - run: docker images
@@ -62,7 +63,8 @@ jobs:
     executor: golang
 
     steps:
-    - prometheus/setup_build_environment
+    - prometheus/setup_build_environment:
+        docker_version: 19.03.8
     - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG
     - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
