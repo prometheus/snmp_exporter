@@ -514,6 +514,22 @@ func TestPduToSample(t *testing.T) {
 				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [test_metric]} label:<name:"test_metric" value:"missing" > gauge:<value:0 > `,
 			},
 		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.OctetString,
+				Value: "\u0000�H\u0000\u0011\"",
+			},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.1",
+				Type: "PhysAddress48",
+				Help: "Help string",
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [test_metric]} label:<name:"test_metric" value:"00:EF:BF:BD:48:00" > gauge:<value:1 > `,
+			},
+		},
 	}
 
 	for _, c := range cases {

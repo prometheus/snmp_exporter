@@ -552,6 +552,14 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 			// Trim leading period.
 			return pdu.Value.(string)[1:]
 		}
+		if typ == "PhysAddress48" {
+			parts := make([]int, len([]byte(pdu.Value.(string))))
+			for i, o := range []byte(pdu.Value.(string)) {
+				parts[i] = int(o)
+			}
+			str, _, _ := indexOidsAsString(parts, typ, 0, false, nil)
+			return str
+		}
 		// DisplayString.
 		return pdu.Value.(string)
 	case []byte:
