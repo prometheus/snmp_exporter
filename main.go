@@ -37,9 +37,12 @@ import (
 )
 
 var (
-	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
-	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
-	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	configFile     = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	listenAddress  = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
+	dryRun         = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	tlsEnabled     = kingpin.Flag("tls.enabled", "Enable TLS").Default("false").Bool()
+	tlsCertPath    = kingpin.Flag("tls.cert", "Path to TLS certificate to use (required if --tls.enabled supplied)").Default("").String()
+	tlsCertKeyPath = kingpin.Flag("tls.cert-key", "Path to TLS certificate key to use (required if --tls.enabled supplied)").Default("").String()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
@@ -150,7 +153,10 @@ func main() {
 	level.Info(logger).Log("build_context", version.BuildContext())
 
 	// Bail early if the config is bad.
-	var err error
+	var (
+		err      error
+		protocol string
+	)
 	sc.C, err = config.LoadFile(*configFile)
 	if err != nil {
 		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
@@ -241,8 +247,17 @@ func main() {
 	})
 
 	level.Info(logger).Log("msg", "Listening on address", "address", *listenAddress)
-	if err := http.ListenAndServe(*listenAddress, nil); err != nil {
-		level.Error(logger).Log("msg", "Error starting HTTP server", "err", err)
+
+	if *tlsEnabled {
+		protocol = "HTTPS"
+		err = http.ListenAndServeTLS(*listenAddress, *tlsCertPath, *tlsCertKeyPath, nil)
+	} else {
+		protocol = "HTTP"
+		err = http.ListenAndServe(*listenAddress, nil)
+	}
+
+	if err != nil {
+		level.Error(logger).Log("msg", "Error starting "+protocol+" server", "err", err)
 		os.Exit(1)
 	}
 }
