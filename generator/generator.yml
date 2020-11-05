@@ -503,3 +503,13 @@ modules:
         lookup: lgpPduRcpEntrySysAssignLabel
       - source_indexes: [lgpPduAuxSensorIndex]
         lookup: lgpPduAuxSensorSysAssignLabel
+
+# JunOS
+#
+# https://iphostmonitor.com/mib/JUNIPER-ALARM-MIB.html
+  junos:
+    walk:
+      - sysUpTime
+      - interfaces
+      - 1.3.6.1.4.1.2636.3.4.2.3.1 #Red Alarm state
+      - 1.3.6.1.4.1.2636.3.4.2.2.1 #Yellow Alarm state

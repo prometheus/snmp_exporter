@@ -41,6 +41,7 @@ UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 RARITAN_URL       := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
 LIEBERT_URL       := https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
+JUNOS_URL         := https://www.juniper.net/techpubs/software/junos/junos203/juniper-mibs-20.3R1.8.zip
 
 .DEFAULT: all
 
@@ -53,7 +54,8 @@ clean:
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
-		$(MIBDIR)/.synology
+		$(MIBDIR)/.synology \
+		$(MIBDIR)/.junos
 
 generator: *.go
 	go build
@@ -102,7 +104,8 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/IPD-MIB_Q419V9.mib \
-  $(MIBDIR)/LIEBERT_GP_PDU.MIB
+  $(MIBDIR)/LIEBERT_GP_PDU.MIB \
+  $(MIBDIR)/.junos
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -247,3 +250,25 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
 	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
 	@rm -v $(TMP)
+
+$(MIBDIR)/.junos:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading JunOS"
+	@curl $(CURL_OPTS) -o $(TMP) $(JUNOS_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) "JuniperMibs/*" \
+                                      "StandardMibs/mib-rtmib.txt" \
+                                      "StandardMibs/mib-rfc*.txt" \
+                                      "StandardMibs/mib-802.1*.txt" \
+                                      "StandardMibs/mib-ieee8021pae.txt" \
+                                      "StandardMibs/mib-alarmmib.txt" \
+                                      "StandardMibs/mib-bgpmib.txt" \
+                                      "StandardMibs/mib-IPV6-FLOW-LABEL-MIB.txt" \
+                                      "StandardMibs/mib-diffServDscp-tc.txt" \
+                                      "StandardMibs/mib-l3vpnmib.txt" \
+                                      "StandardMibs/mib-ospf2mib.txt" \
+                                      "StandardMibs/mib-lldp.txt" \
+                                      "StandardMibs/mib-IANA-RTPROTO-MIB.txt" \
+                                      "StandardMibs/mib-IANA-ADDRESS-FAMILY-NUMBERS-MIB.txt" \
+                                      "StandardMibs/mib-IANA-GMPLS-TC-MIB.txt"
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.junos
