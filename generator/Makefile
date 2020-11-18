@@ -27,6 +27,7 @@ IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharse
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
 KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.1.5/doc/KEEPALIVED-MIB.txt
+KEMP_LM_URL       := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
 MIKROTIK_URL      := 'http://download2.mikrotik.com/Mikrotik.mib'
 NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
 NET_SNMP_URL      := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.9/mibs
@@ -53,7 +54,8 @@ clean:
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
-		$(MIBDIR)/.synology
+		$(MIBDIR)/.synology \
+		$(MIBDIR)/.kemp-lm
 
 generator: *.go
 	go build
@@ -87,6 +89,7 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
   $(MIBDIR)/KEEPALIVED-MIB \
+  $(MIBDIR)/.kemp-lm \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/.net-snmp \
   $(MIBDIR)/.paloalto_panos \
@@ -154,6 +157,16 @@ $(MIBDIR)/IANA-PRINTER-MIB.txt:
 $(MIBDIR)/KEEPALIVED-MIB:
 	@echo ">> Downloading KEEPALIVED-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/KEEPALIVED-MIB $(KEEPALIVED_URL)
+
+$(MIBDIR)/.kemp-lm:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Kemp LM MIBs to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(KEMP_LM_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) *.txt
+	# Workaround invalid timestamps.
+	@sed -i -E 's/"([0-9]{12})[0-9]{2}Z"/"\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.kemp-lm
 
 $(MIBDIR)/MIKROTIK-MIB:
 	@echo ">> Downloading MIKROTIK-MIB"
