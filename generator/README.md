@@ -157,8 +157,8 @@ modules:
           instances: ["2","3","4"]  # List of interface instances to get
 
       dynamic: # dynamic filters are handed by the snmp exporter. The generator will simply pass on the configuration in the snmp.yml.
-               # (Not implemented yet) the exporter will do a snmp get of the oid and will restrict snmp get made on the targets
-               # if the value returned is in the values list.
+               # The exporter will do a snmp walk of the oid and will restrict snmp walk made on the targets
+               # to the instance matching the value in the values list.
                # This would be typically used to specify a filter for interfaces with a certain name in ifAlias, ifSpeed or admin status.
                # For example, only get interfaces that a gig and faster, or get interfaces that are named Up or interfaces that are admin Up
         - oid: 1.3.6.1.2.1.2.2.1.7
