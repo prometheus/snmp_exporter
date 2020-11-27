@@ -561,3 +561,27 @@ modules:
         lookup: lgpPduRcpEntrySysAssignLabel
       - source_indexes: [lgpPduAuxSensorIndex]
         lookup: lgpPduAuxSensorSysAssignLabel
+
+# Wiener Power Supply Module MPod
+# 
+# http://www.wiener-d.com/sc/power-supplies/mpod--lvhv/mpod-crate.html
+# https://file.wiener-d.com/software/net-snmp/net-snmp-CompileForExtendedPrecision-2015-03-06.txt
+  wiener_mpod:
+    walk: # generator doesn't have 'get'
+      - sysStatus
+      - sysUpTime
+      - outputMeasurementSenseVoltage
+      - outputMeasurementTerminalVoltage
+      - outputMeasurementCurrent
+      - outputMeasurementTemperature
+      - outputSwitch
+      - outputVoltage
+      - outputAdjustVoltage
+      - outputCurrent
+      - sysMainSwitch
+      - outputNumber
+      - outputVoltageRiseRate
+      #- 1.3.6.1.4.1.19947.1.3.2.1.13.1 # outputVoltageRiseRate.u0 # for 192.168.48.16 generator doesn't have 'get'
+      # - outputVoltageRiseRate.u100 didn't work
+      #- 1.3.6.1.4.1.19947.1.3.2.1.13.2 # outputVoltageRiseRate.u1 # for 192.168.48.17
+      #- 1.3.6.1.4.1.19947.1.3.2.1.13.101 # outputVoltageRiseRate.u100
