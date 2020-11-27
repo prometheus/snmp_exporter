@@ -166,7 +166,7 @@ $(MIBDIR)/.kemp-lm:
 	@curl $(CURL_OPTS) -o $(TMP) $(KEMP_LM_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) *.txt
 	# Workaround invalid timestamps.
-	@sed -i -E 's/"([0-9]{12})[0-9]{2}Z"/"\\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
+	@sed -i -E 's/"([0-9]{12})[0-9]{2}Z"/"\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.kemp-lm
 
@@ -267,5 +267,5 @@ $(MIBDIR)/WIENER-CRATE-MIB-5704.txt:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading WIENER-CRATE-MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(WIENER_URL)
-	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
+	@unzip -j -d $(MIBDIR) $(TMP)
 	@rm -v $(TMP)
