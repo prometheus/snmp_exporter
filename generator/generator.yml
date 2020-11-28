@@ -563,25 +563,32 @@ modules:
         lookup: lgpPduAuxSensorSysAssignLabel
 
 # Wiener Power Supply Module MPod
-# 
+#
 # http://www.wiener-d.com/sc/power-supplies/mpod--lvhv/mpod-crate.html
 # https://file.wiener-d.com/software/net-snmp/net-snmp-CompileForExtendedPrecision-2015-03-06.txt
   wiener_mpod:
-    walk: # generator doesn't have 'get'
-      - sysStatus
+    walk:
       - sysUpTime
-      - outputMeasurementSenseVoltage
-      - outputMeasurementTerminalVoltage
-      - outputMeasurementCurrent
-      - outputMeasurementTemperature
-      - outputSwitch
-      - outputVoltage
-      - outputAdjustVoltage
-      - outputCurrent
-      - sysMainSwitch
-      - outputNumber
-      - outputVoltageRiseRate
-      #- 1.3.6.1.4.1.19947.1.3.2.1.13.1 # outputVoltageRiseRate.u0 # for 192.168.48.16 generator doesn't have 'get'
-      # - outputVoltageRiseRate.u100 didn't work
-      #- 1.3.6.1.4.1.19947.1.3.2.1.13.2 # outputVoltageRiseRate.u1 # for 192.168.48.17
-      #- 1.3.6.1.4.1.19947.1.3.2.1.13.101 # outputVoltageRiseRate.u100
+      - 1.3.6.1.4.1.19947.1.1.1 # sysMainSwitch
+      - 1.3.6.1.4.1.19947.1.1.2 # sysStatus
+      - 1.3.6.1.4.1.19947.1.1.11 # sysOperatingTime
+      - 1.3.6.1.4.1.19947.1.3.1 # outputNumber
+      - 1.3.6.1.4.1.19947.1.3.2.1.5 # outputMeasurementSenseVoltage
+      - 1.3.6.1.4.1.19947.1.3.2.1.6 # outputMeasurementTerminalVoltage
+      - 1.3.6.1.4.1.19947.1.3.2.1.7 # outputMeasurementCurrent
+      - 1.3.6.1.4.1.19947.1.3.2.1.8 # outputMeasurementTemperature
+      - 1.3.6.1.4.1.19947.1.3.2.1.9 # outputSwitch
+      - 1.3.6.1.4.1.19947.1.3.2.1.10 # outputVoltage
+      - 1.3.6.1.4.1.19947.1.3.2.1.11 # outputAdjustVoltage
+      - 1.3.6.1.4.1.19947.1.3.2.1.12 # outputCurrent
+      - 1.3.6.1.4.1.19947.1.3.2.1.13 # outputVoltageRiseRate
+      - 1.3.6.1.4.1.19947.1.3.2.1.14 # outputVoltageFallRate
+      - 1.3.6.1.4.1.19947.1.3.2.1.15 # outputSupervisionBehavior
+      - 1.3.6.1.4.1.19947.1.3.6.1.8 # moduleStatus
+      - 1.3.6.1.4.1.19947.1.3.6.1.9 # moduleEventStatus
+      - 1.3.6.1.4.1.19947.1.4.2.1.2 # sensorTemperature
+      - 1.3.6.1.4.1.19947.1.7.8.1.2 # fanSpeed
+    lookups:
+      - source_indexes: [1.3.6.1.4.1.19947.1.3.2.1.1] # outputIndex
+        lookup: 1.3.6.1.4.1.19947.1.3.2.1.2 # outputName
+        drop_source_indexes: false
