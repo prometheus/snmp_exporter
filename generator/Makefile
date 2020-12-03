@@ -42,7 +42,6 @@ UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 RARITAN_URL       := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
 LIEBERT_URL       := https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
-WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
 
 .DEFAULT: all
 
@@ -104,7 +103,6 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/IPD-MIB_Q419V9.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB
@@ -261,11 +259,4 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@echo ">> Downloading LIEBERT_GP_PDU.MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
 	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
-	@rm -v $(TMP)
-
-$(MIBDIR)/WIENER-CRATE-MIB-5704.txt:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading WIENER-CRATE-MIB to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(WIENER_URL)
-	@unzip -j -d $(MIBDIR) $(TMP)
 	@rm -v $(TMP)
