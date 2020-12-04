@@ -500,7 +500,7 @@ modules:
 # Wiener Power Supply Module MPod
 #
 # http://www.wiener-d.com/sc/power-supplies/mpod--lvhv/mpod-crate.html
-# https://file.wiener-d.com/software/net-snmp/net-snmp-CompileForExtendedPrecision-2015-03-06.txt
+# https://file.wiener-d.com/software/net-snmp/
   wiener_mpod:
     walk:
       - sysUpTime
