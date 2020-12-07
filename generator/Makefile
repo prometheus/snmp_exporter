@@ -14,7 +14,7 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-CURL_OPTS ?= -s --retry 3 --retry-delay 3 --compressed --location --fail
+CURL_OPTS ?= -s --retry 3 --retry-delay 3 --fail
 
 DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
@@ -163,7 +163,7 @@ $(MIBDIR)/KEEPALIVED-MIB:
 $(MIBDIR)/.kemp-lm:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading Kemp LM MIBs to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(KEMP_LM_URL)
+	@curl $(CURL_OPTS) -L -o $(TMP) $(KEMP_LM_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) *.txt
 	# Workaround invalid timestamps.
 	@sed -i -E 's/"([0-9]{12})[0-9]{2}Z"/"\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
@@ -259,7 +259,7 @@ $(MIBDIR)/PDU-MIB.txt:
 $(MIBDIR)/IPD-MIB_Q419V9.mib:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading IPD-MIB_Q419V9 to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(INFRAPOWER_URL)
+	@curl $(CURL_OPTS) -L -o $(TMP) $(INFRAPOWER_URL)
 	@7z e -o$(MIBDIR) $(TMP)
 	@rm -v $(TMP)
 

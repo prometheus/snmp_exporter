@@ -1,4 +1,4 @@
-// Copyright 2012-2020 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -10,11 +10,12 @@ package gosnmp
 
 import (
 	"context"
+	"crypto/rand"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"math/big"
-	"math/rand"
 	"net"
 	"strconv"
 	"sync"
@@ -105,7 +106,7 @@ type GoSNMP struct {
 
 	// Internal - used to sync requests to responses
 	requestID uint32
-	random    *rand.Rand
+	random    uint32
 
 	rxBuf *[rxBufSize]byte // has to be pointer due to https://github.com/golang/go/issues/11728
 
@@ -252,26 +253,23 @@ func (x *GoSNMP) connect(networkSuffix string) error {
 	}
 
 	x.Transport += networkSuffix
-	err = x.netConnect()
-	if err != nil {
+	if err = x.netConnect(); err != nil {
 		return fmt.Errorf("error establishing connection to host: %s", err.Error())
 	}
 
-	if x.random == nil {
-		x.random = rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
+	if x.random == 0 {
+		n, err := rand.Int(rand.Reader, big.NewInt(math.MaxInt32)) // returns a uniform random value in [0, 2147483647].
+		if err != nil {
+			return fmt.Errorf("error occurred while generating random: %s", err.Error())
+		}
+		x.random = uint32(n.Uint64())
 	}
-	// http://tools.ietf.org/html/rfc3412#section-6 - msgID only
-	// uses the first 31 bits
+	// http://tools.ietf.org/html/rfc3412#section-6 - msgID only uses the first 31 bits
 	// msgID INTEGER (0..2147483647)
-	x.msgID = uint32(x.random.Int31())
+	x.msgID = x.random
+
 	// RequestID is Integer32 from SNMPV2-SMI and uses all 32 bits
-	// TrueSpeed: However, some SNMP devices do not implement the spec properly,
-	// and get confused with negative integers. So we take care not to allow any
-	// numbers that are large enough to overflow.
-	// However: https://golang.org/pkg/math/rand/#Rand.Int31 says "Int31 returns a
-	// non-negative pseudo-random 31-bit integer as an int32". Perhaps this fix
-	// should be reworded?
-	x.requestID = uint32(x.random.Int31() / 2)
+	x.requestID = x.random
 
 	x.rxBuf = new([rxBufSize]byte)
 

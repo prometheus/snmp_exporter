@@ -1,4 +1,4 @@
-// Copyright 2012-2020 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -665,11 +665,11 @@ func marshalVarbind(pdu *SnmpPDU) ([]byte, error) {
 		pduBuf.Write(tmpBuf.Bytes())
 
 	case OctetString, BitString:
-		//Oid
+		// Oid
 		tmpBuf.Write([]byte{byte(ObjectIdentifier), byte(len(oid))})
 		tmpBuf.Write(oid)
 
-		//OctetString
+		// OctetString
 		var octetStringBytes []byte
 		switch value := pdu.Value.(type) {
 		case []byte:
@@ -702,7 +702,7 @@ func marshalVarbind(pdu *SnmpPDU) ([]byte, error) {
 		pduBuf.Write(tmpBytes)
 
 	case ObjectIdentifier:
-		//Oid
+		// Oid
 		tmpBuf.Write([]byte{byte(ObjectIdentifier), byte(len(oid))})
 		tmpBuf.Write(oid)
 		value := pdu.Value.(string)
@@ -711,7 +711,7 @@ func marshalVarbind(pdu *SnmpPDU) ([]byte, error) {
 			return nil, fmt.Errorf("error marshalling ObjectIdentifier: %w", err)
 		}
 
-		//Oid data
+		// Oid data
 		var length []byte
 		length, err = marshalLength(len(oidBytes))
 		if err != nil {
@@ -732,10 +732,10 @@ func marshalVarbind(pdu *SnmpPDU) ([]byte, error) {
 		pduBuf.Write(tmpBytes)
 
 	case IPAddress:
-		//Oid
+		// Oid
 		tmpBuf.Write([]byte{byte(ObjectIdentifier), byte(len(oid))})
 		tmpBuf.Write(oid)
-		//OctetString
+		// OctetString
 		var ipAddressBytes []byte
 		switch value := pdu.Value.(type) {
 		case []byte:
