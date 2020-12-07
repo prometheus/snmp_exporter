@@ -1,3 +1,16 @@
+## unreleased
+
+* [CHANGE]
+* [FEATURE]
+* [ENHANCEMENT]
+* [BUGFIX]
+
+## v1.29.0
+
+NOTE: This release returns the OctetString []byte behavior for v1.26.0 and earlier.
+
+* [CHANGE] Return OctetString as []byte #264
+
 ## v1.28.0
 
 This release updates the Go import path from `github.com/soniah/gosnmp`
