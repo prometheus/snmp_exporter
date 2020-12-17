@@ -612,3 +612,30 @@ modules:
         lookup: lgpPduRcpEntrySysAssignLabel
       - source_indexes: [lgpPduAuxSensorIndex]
         lookup: lgpPduAuxSensorSysAssignLabel
+# Mikrotik Router
+#
+# http://download2.mikrotik.com/Mikrotik.mib
+  mikrotik:
+    walk:
+      - interfaces
+      - ifMIB
+      - laIndex
+      - sysUpTime
+      - sysDescr
+      - host
+      - mikrotik
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+      - source_indexes: [mtxrInterfaceStatsIndex]
+        lookup: ifName
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+      - source_indexes: [laIndex]
+        lookup: laNames
+        drop_source_indexes: true
+    overrides:
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
