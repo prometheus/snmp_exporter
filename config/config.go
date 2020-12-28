@@ -103,7 +103,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			if wp.Auth.Password == "" {
 				return fmt.Errorf("auth password is missing, required for SNMPv3 with auth")
 			}
-			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA"  && wp.Auth.AuthProtocol != "SHA224"  && wp.Auth.AuthProtocol != "SHA256"  && wp.Auth.AuthProtocol != "SHA384"  && wp.Auth.AuthProtocol != "SHA512" {
+			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA" && wp.Auth.AuthProtocol != "SHA224" && wp.Auth.AuthProtocol != "SHA256" && wp.Auth.AuthProtocol != "SHA384" && wp.Auth.AuthProtocol != "SHA512" {
 				return fmt.Errorf("auth protocol must be SHA or MD5")
 			}
 			fallthrough
