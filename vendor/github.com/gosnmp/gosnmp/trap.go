@@ -1,4 +1,4 @@
-// Copyright 2012-2020 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -7,7 +7,6 @@ package gosnmp
 import (
 	"fmt"
 	"net"
-	"os"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -269,8 +268,6 @@ func (t *TrapListener) handleTCPRequest(conn net.Conn) {
 		return
 	}
 
-	//fmt.Printf("TEST: handleTCPRequest:%s, %s", t.proto, conn.RemoteAddr())
-
 	msg := buf[:reqLen]
 	traps := t.Params.UnmarshalTrap(msg, false)
 
@@ -311,7 +308,7 @@ func (t *TrapListener) listenTCP(addr string) error {
 			fmt.Printf("ACCEPT: %s", conn)
 			if err != nil {
 				fmt.Println("error accepting: ", err.Error())
-				os.Exit(1)
+				return err
 			}
 			// Handle connections in a new goroutine.
 			go t.handleTCPRequest(conn)

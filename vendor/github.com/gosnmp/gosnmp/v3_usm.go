@@ -1,4 +1,4 @@
-// Copyright 2012-2020 The GoSNMP Authors. All rights reserved.  Use of this
+// Copyright 2012 The GoSNMP Authors. All rights reserved.  Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 
@@ -15,7 +15,11 @@ import (
 	"crypto/cipher"
 	"crypto/des" //nolint:gosec
 	"crypto/hmac"
+	_ "crypto/md5" //nolint:gosec
 	crand "crypto/rand"
+	_ "crypto/sha1" //nolint:gosec
+	_ "crypto/sha256"
+	_ "crypto/sha512"
 	"encoding/binary"
 	"encoding/hex"
 	"errors"
@@ -256,7 +260,7 @@ func (sp *UsmSecurityParameters) initSecurityKeysNoLock() error {
 		switch sp.PrivacyProtocol {
 		// Changed: The Output of SHA1 is a 20 octets array, therefore for AES128 (16 octets) either key extension algorithm can be used.
 		case AES, AES192, AES256, AES192C, AES256C:
-			//Use abstract AES key localization algorithms
+			// Use abstract AES key localization algorithms.
 			sp.PrivacyKey, err = genlocalPrivKey(sp.PrivacyProtocol, sp.AuthenticationProtocol,
 				sp.PrivacyPassphrase,
 				sp.AuthoritativeEngineID)
