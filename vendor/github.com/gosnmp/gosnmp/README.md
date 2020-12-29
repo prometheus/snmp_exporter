@@ -2,7 +2,7 @@ gosnmp
 ======
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#networking)
 
-[![Build Status](https://travis-ci.org/gosnmp/gosnmp.svg?branch=master)](https://travis-ci.org/gosnmp/gosnmp)
+![Build Status](https://circleci.com/gh/gosnmp/gosnmp.svg?style=shield)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/gosnmp/gosnmp)](https://pkg.go.dev/github.com/gosnmp/gosnmp)
 
 GoSNMP is an SNMP client library fully written in Go. It provides Get,
@@ -12,13 +12,10 @@ linux/amd64 and linux/386.
 
 # About
 
-**gosnmp/gosnmp** was originally based on **alouca/gosnmp**, but has been
-completely rewritten. Many thanks to Andreas Louca, other contributors
-(AUTHORS.md) and these project collaborators:
-
-* Whitham Reeve ([@wdreeveii](https://github.com/wdreeveii/))
-
-Original fork by Sonia Hamilton, sonia@snowfrog.net
+**gosnmp** was started by [Andreas Louca](https://github.com/alouca), then
+completely rewritten by [Sonia Hamilton](https://github.com/soniah)
+(2012-2020), and now ownership has been transferred to the community at
+[gosnmp/gosnmp](https://github.com/gosnmp/gosnmp).
 
 For support and help, join us in the #snmp channel of
 [Gophers Slack](https://invite.slack.golangbridge.org/).
