@@ -15116,6 +15116,81 @@ paloalto_fw:
     indexes:
     - labelname: hrFSIndex
       type: gauge
+  - name: panSysSwVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.1
+    type: DisplayString
+    help: Full software version - 1.3.6.1.4.1.25461.2.1.2.1.1
+  - name: panSysHwVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.2
+    type: DisplayString
+    help: Hardware version of the unit. - 1.3.6.1.4.1.25461.2.1.2.1.2
+  - name: panSysSerialNumber
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.3
+    type: DisplayString
+    help: The serial number of the unit - 1.3.6.1.4.1.25461.2.1.2.1.3
+  - name: panSysTimeZoneOffset
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.4
+    type: gauge
+    help: The offset in seconds from UTC of the system's time zone - 1.3.6.1.4.1.25461.2.1.2.1.4
+  - name: panSysDaylightSaving
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.5
+    type: gauge
+    help: Whether daylight savings are in currently in effect for the system's time zone. - 1.3.6.1.4.1.25461.2.1.2.1.5
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: panSysVpnClientVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.6
+    type: DisplayString
+    help: Currently installed VPN client package version - 1.3.6.1.4.1.25461.2.1.2.1.6
+  - name: panSysAppVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.7
+    type: DisplayString
+    help: Currently installed application definition version - 1.3.6.1.4.1.25461.2.1.2.1.7
+  - name: panSysAvVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.8
+    type: DisplayString
+    help: Currently installed antivirus version - 1.3.6.1.4.1.25461.2.1.2.1.8
+  - name: panSysThreatVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.9
+    type: DisplayString
+    help: Currently installed threat definition version - 1.3.6.1.4.1.25461.2.1.2.1.9
+  - name: panSysUrlFilteringVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.10
+    type: DisplayString
+    help: Currently installed URL filtering version - 1.3.6.1.4.1.25461.2.1.2.1.10
+  - name: panSysHAState
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.11
+    type: DisplayString
+    help: Current high-availability state. - 1.3.6.1.4.1.25461.2.1.2.1.11
+  - name: panSysHAPeerState
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.12
+    type: DisplayString
+    help: Current peer high-availability state. - 1.3.6.1.4.1.25461.2.1.2.1.12
+  - name: panSysHAMode
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.13
+    type: DisplayString
+    help: Current high-availability mode (disabled, active-passive, or active-active). - 1.3.6.1.4.1.25461.2.1.2.1.13
+  - name: panSysUrlFilteringDatabase
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.14
+    type: DisplayString
+    help: Current installed URL filtering database (surfcontrol, brightcloud, etc) - 1.3.6.1.4.1.25461.2.1.2.1.14
+  - name: panSysGlobalProtectClientVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.15
+    type: DisplayString
+    help: Currently installed global-protect client package version - 1.3.6.1.4.1.25461.2.1.2.1.15
+  - name: panSysOpswatDatafileVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.16
+    type: DisplayString
+    help: Currently installed opswat database version - 1.3.6.1.4.1.25461.2.1.2.1.16
+  - name: panSysWildfireVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.17
+    type: DisplayString
+    help: Currently installed wildfire content version - 1.3.6.1.4.1.25461.2.1.2.1.17
+  - name: panSysWildfirePrivateCloudVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.18
+    type: DisplayString
+    help: Currently installed wildfire private cloud content version - 1.3.6.1.4.1.25461.2.1.2.1.18
   - name: panAhoSw
     oid: 1.3.6.1.4.1.25461.2.1.2.1.19.1
     type: counter
@@ -15552,81 +15627,6 @@ paloalto_fw:
     oid: 1.3.6.1.4.1.25461.2.1.2.1.19.12.9
     type: counter
     help: Total unknown tunnel inspection packets in GTP tunnel[passed|dropped] - 1.3.6.1.4.1.25461.2.1.2.1.19.12.9
-  - name: panSysSwVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.1
-    type: DisplayString
-    help: Full software version - 1.3.6.1.4.1.25461.2.1.2.1.1
-  - name: panSysHwVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.2
-    type: DisplayString
-    help: Hardware version of the unit. - 1.3.6.1.4.1.25461.2.1.2.1.2
-  - name: panSysSerialNumber
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.3
-    type: DisplayString
-    help: The serial number of the unit - 1.3.6.1.4.1.25461.2.1.2.1.3
-  - name: panSysTimeZoneOffset
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.4
-    type: gauge
-    help: The offset in seconds from UTC of the system's time zone - 1.3.6.1.4.1.25461.2.1.2.1.4
-  - name: panSysDaylightSaving
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.5
-    type: gauge
-    help: Whether daylight savings are in currently in effect for the system's time zone. - 1.3.6.1.4.1.25461.2.1.2.1.5
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: panSysVpnClientVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.6
-    type: DisplayString
-    help: Currently installed VPN client package version - 1.3.6.1.4.1.25461.2.1.2.1.6
-  - name: panSysAppVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.7
-    type: DisplayString
-    help: Currently installed application definition version - 1.3.6.1.4.1.25461.2.1.2.1.7
-  - name: panSysAvVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.8
-    type: DisplayString
-    help: Currently installed antivirus version - 1.3.6.1.4.1.25461.2.1.2.1.8
-  - name: panSysThreatVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.9
-    type: DisplayString
-    help: Currently installed threat definition version - 1.3.6.1.4.1.25461.2.1.2.1.9
-  - name: panSysUrlFilteringVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.10
-    type: DisplayString
-    help: Currently installed URL filtering version - 1.3.6.1.4.1.25461.2.1.2.1.10
-  - name: panSysHAState
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.11
-    type: DisplayString
-    help: Current high-availability state. - 1.3.6.1.4.1.25461.2.1.2.1.11
-  - name: panSysHAPeerState
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.12
-    type: DisplayString
-    help: Current peer high-availability state. - 1.3.6.1.4.1.25461.2.1.2.1.12
-  - name: panSysHAMode
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.13
-    type: DisplayString
-    help: Current high-availability mode (disabled, active-passive, or active-active). - 1.3.6.1.4.1.25461.2.1.2.1.13
-  - name: panSysUrlFilteringDatabase
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.14
-    type: DisplayString
-    help: Current installed URL filtering database (surfcontrol, brightcloud, etc) - 1.3.6.1.4.1.25461.2.1.2.1.14
-  - name: panSysGlobalProtectClientVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.15
-    type: DisplayString
-    help: Currently installed global-protect client package version - 1.3.6.1.4.1.25461.2.1.2.1.15
-  - name: panSysOpswatDatafileVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.16
-    type: DisplayString
-    help: Currently installed opswat database version - 1.3.6.1.4.1.25461.2.1.2.1.16
-  - name: panSysWildfireVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.17
-    type: DisplayString
-    help: Currently installed wildfire content version - 1.3.6.1.4.1.25461.2.1.2.1.17
-  - name: panSysWildfirePrivateCloudVersion
-    oid: 1.3.6.1.4.1.25461.2.1.2.1.18
-    type: DisplayString
-    help: Currently installed wildfire private cloud content version - 1.3.6.1.4.1.25461.2.1.2.1.18
   - name: panSysAppReleaseDate
     oid: 1.3.6.1.4.1.25461.2.1.2.1.20
     type: DisplayString
@@ -23684,72 +23684,6 @@ ubiquiti_airmax:
     indexes:
     - labelname: ifIndex
       type: gauge
-  - name: ubntHostLocaltime
-    oid: 1.3.6.1.4.1.41112.1.4.8.1
-    type: DisplayString
-    help: Host local time - 1.3.6.1.4.1.41112.1.4.8.1
-  - name: ubntHostNetrole
-    oid: 1.3.6.1.4.1.41112.1.4.8.2
-    type: gauge
-    help: Radio mode - 1.3.6.1.4.1.41112.1.4.8.2
-    enum_values:
-      0: unknown
-      1: bridge
-      2: router
-      3: soho
-  - name: ubntHostCpuLoad
-    oid: 1.3.6.1.4.1.41112.1.4.8.3
-    type: gauge
-    help: Host CPU load - 1.3.6.1.4.1.41112.1.4.8.3
-  - name: ubntHostTemperature
-    oid: 1.3.6.1.4.1.41112.1.4.8.4
-    type: gauge
-    help: Host system temperature - 1.3.6.1.4.1.41112.1.4.8.4
-  - name: ubntGpsStatus
-    oid: 1.3.6.1.4.1.41112.1.4.9.1
-    type: gauge
-    help: GPS status - 1.3.6.1.4.1.41112.1.4.9.1
-    enum_values:
-      0: absent
-      1: "off"
-      2: "on"
-  - name: ubntGpsFix
-    oid: 1.3.6.1.4.1.41112.1.4.9.2
-    type: gauge
-    help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.4.9.2
-    enum_values:
-      0: unknown
-      1: nofix
-      2: fix2d
-      3: fix3d
-  - name: ubntGpsLat
-    oid: 1.3.6.1.4.1.41112.1.4.9.3
-    type: DisplayString
-    help: GPS Latitude - 1.3.6.1.4.1.41112.1.4.9.3
-  - name: ubntGpsLon
-    oid: 1.3.6.1.4.1.41112.1.4.9.4
-    type: DisplayString
-    help: GPS Longitude - 1.3.6.1.4.1.41112.1.4.9.4
-  - name: ubntGpsAltMeters
-    oid: 1.3.6.1.4.1.41112.1.4.9.5
-    type: DisplayString
-    help: GPS Altitude (m) - 1.3.6.1.4.1.41112.1.4.9.5
-  - name: ubntGpsAltFeet
-    oid: 1.3.6.1.4.1.41112.1.4.9.6
-    type: DisplayString
-    help: GPS Altitude (ft) - 1.3.6.1.4.1.41112.1.4.9.6
-  - name: ubntGpsSatsVisible
-    oid: 1.3.6.1.4.1.41112.1.4.9.7
-    type: gauge
-    help: GPS Satellites Visible - 1.3.6.1.4.1.41112.1.4.9.7
-  - name: ubntGpsSatsTracked
-    oid: 1.3.6.1.4.1.41112.1.4.9.8
-    type: gauge
-    help: GPS Satellites Tracked - 1.3.6.1.4.1.41112.1.4.9.8
-  - name: ubntGpsHDOP
-    oid: 1.3.6.1.4.1.41112.1.4.9.9
-    type: DisplayString
-    help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.4.9.9
   - name: ubntRadioIndex
     oid: 1.3.6.1.4.1.41112.1.4.1.1.1
     type: gauge
@@ -23857,86 +23791,6 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntRadioRssiIndex
       type: gauge
-  - name: ubntAirMaxAirtime
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.7
-    type: gauge
-    help: airMAX Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.6.1.7
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-  - name: ubntAirMaxGpsSync
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.8
-    type: gauge
-    help: airMAX GPS sync - on/off - 1.3.6.1.4.1.41112.1.4.6.1.8
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: ubntAirMaxTdd
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.9
-    type: gauge
-    help: airMAX TDD framing - on/off - 1.3.6.1.4.1.41112.1.4.6.1.9
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: ubntAirMaxIfIndex
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.1
-    type: gauge
-    help: Index for the ubntAirMaxTable - 1.3.6.1.4.1.41112.1.4.6.1.1
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-  - name: ubntAirMaxEnabled
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.2
-    type: gauge
-    help: airMAX status - on/off - 1.3.6.1.4.1.41112.1.4.6.1.2
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: ubntAirMaxQuality
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.3
-    type: gauge
-    help: airMAX quality - percentage - 1.3.6.1.4.1.41112.1.4.6.1.3
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-  - name: ubntAirMaxCapacity
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.4
-    type: gauge
-    help: airMAX capacity - percentage - 1.3.6.1.4.1.41112.1.4.6.1.4
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-  - name: ubntAirMaxPriority
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.5
-    type: gauge
-    help: airMAX priority - none/high/low/medium - 1.3.6.1.4.1.41112.1.4.6.1.5
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-    enum_values:
-      0: high
-      1: medium
-      2: low
-      3: none
-  - name: ubntAirMaxNoAck
-    oid: 1.3.6.1.4.1.41112.1.4.6.1.6
-    type: gauge
-    help: airMAX NoACK mode - on/off - 1.3.6.1.4.1.41112.1.4.6.1.6
-    indexes:
-    - labelname: ubntAirMaxIfIndex
-      type: gauge
-    enum_values:
-      1: "true"
-      2: "false"
   - name: ubntAirSyncIfIndex
     oid: 1.3.6.1.4.1.41112.1.4.3.1.1
     type: gauge
@@ -24114,66 +23968,86 @@ ubiquiti_airmax:
     indexes:
     - labelname: ubntWlStatIndex
       type: gauge
-  - name: ubntStaLocalCINR
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.16
+  - name: ubntAirMaxIfIndex
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.1
     type: gauge
-    help: Local CINR - 1.3.6.1.4.1.41112.1.4.7.1.16
+    help: Index for the ubntAirMaxTable - 1.3.6.1.4.1.41112.1.4.6.1.1
     indexes:
-    - labelname: ubntWlStatIndex
+    - labelname: ubntAirMaxIfIndex
       type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaTxCapacity
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.17
+  - name: ubntAirMaxEnabled
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.2
     type: gauge
-    help: Uplink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.17
+    help: airMAX status - on/off - 1.3.6.1.4.1.41112.1.4.6.1.2
     indexes:
-    - labelname: ubntWlStatIndex
+    - labelname: ubntAirMaxIfIndex
       type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaRxCapacity
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.18
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ubntAirMaxQuality
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.3
     type: gauge
-    help: Downlink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.18
+    help: airMAX quality - percentage - 1.3.6.1.4.1.41112.1.4.6.1.3
     indexes:
-    - labelname: ubntWlStatIndex
+    - labelname: ubntAirMaxIfIndex
       type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaTxAirtime
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.19
+  - name: ubntAirMaxCapacity
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.4
     type: gauge
-    help: Uplink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.19
+    help: airMAX capacity - percentage - 1.3.6.1.4.1.41112.1.4.6.1.4
     indexes:
-    - labelname: ubntWlStatIndex
+    - labelname: ubntAirMaxIfIndex
       type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaRxAirtime
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.20
+  - name: ubntAirMaxPriority
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.5
     type: gauge
-    help: Downlink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.20
+    help: airMAX priority - none/high/low/medium - 1.3.6.1.4.1.41112.1.4.6.1.5
     indexes:
-    - labelname: ubntWlStatIndex
+    - labelname: ubntAirMaxIfIndex
       type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
-  - name: ubntStaTxLatency
-    oid: 1.3.6.1.4.1.41112.1.4.7.1.21
+    enum_values:
+      0: high
+      1: medium
+      2: low
+      3: none
+  - name: ubntAirMaxNoAck
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.6
     type: gauge
-    help: Uplink Latency in milliseconds - 1.3.6.1.4.1.41112.1.4.7.1.21
+    help: airMAX NoACK mode - on/off - 1.3.6.1.4.1.41112.1.4.6.1.6
     indexes:
-    - labelname: ubntWlStatIndex
+    - labelname: ubntAirMaxIfIndex
       type: gauge
-    - labelname: ubntStaMac
-      type: PhysAddress48
-      fixed_size: 6
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ubntAirMaxAirtime
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.7
+    type: gauge
+    help: airMAX Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.6.1.7
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+  - name: ubntAirMaxGpsSync
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.8
+    type: gauge
+    help: airMAX GPS sync - on/off - 1.3.6.1.4.1.41112.1.4.6.1.8
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ubntAirMaxTdd
+    oid: 1.3.6.1.4.1.41112.1.4.6.1.9
+    type: gauge
+    help: airMAX TDD framing - on/off - 1.3.6.1.4.1.41112.1.4.6.1.9
+    indexes:
+    - labelname: ubntAirMaxIfIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
   - name: ubntStaMac
     oid: 1.3.6.1.4.1.41112.1.4.7.1.1
     type: PhysAddress48
@@ -24324,6 +24198,132 @@ ubiquiti_airmax:
     - labelname: ubntStaMac
       type: PhysAddress48
       fixed_size: 6
+  - name: ubntStaLocalCINR
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.16
+    type: gauge
+    help: Local CINR - 1.3.6.1.4.1.41112.1.4.7.1.16
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaTxCapacity
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.17
+    type: gauge
+    help: Uplink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.17
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaRxCapacity
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.18
+    type: gauge
+    help: Downlink Capacity in Kbps - 1.3.6.1.4.1.41112.1.4.7.1.18
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaTxAirtime
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.19
+    type: gauge
+    help: Uplink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.19
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaRxAirtime
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.20
+    type: gauge
+    help: Downlink Airtime in % multiplied by 10 - 1.3.6.1.4.1.41112.1.4.7.1.20
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntStaTxLatency
+    oid: 1.3.6.1.4.1.41112.1.4.7.1.21
+    type: gauge
+    help: Uplink Latency in milliseconds - 1.3.6.1.4.1.41112.1.4.7.1.21
+    indexes:
+    - labelname: ubntWlStatIndex
+      type: gauge
+    - labelname: ubntStaMac
+      type: PhysAddress48
+      fixed_size: 6
+  - name: ubntHostLocaltime
+    oid: 1.3.6.1.4.1.41112.1.4.8.1
+    type: DisplayString
+    help: Host local time - 1.3.6.1.4.1.41112.1.4.8.1
+  - name: ubntHostNetrole
+    oid: 1.3.6.1.4.1.41112.1.4.8.2
+    type: gauge
+    help: Radio mode - 1.3.6.1.4.1.41112.1.4.8.2
+    enum_values:
+      0: unknown
+      1: bridge
+      2: router
+      3: soho
+  - name: ubntHostCpuLoad
+    oid: 1.3.6.1.4.1.41112.1.4.8.3
+    type: gauge
+    help: Host CPU load - 1.3.6.1.4.1.41112.1.4.8.3
+  - name: ubntHostTemperature
+    oid: 1.3.6.1.4.1.41112.1.4.8.4
+    type: gauge
+    help: Host system temperature - 1.3.6.1.4.1.41112.1.4.8.4
+  - name: ubntGpsStatus
+    oid: 1.3.6.1.4.1.41112.1.4.9.1
+    type: gauge
+    help: GPS status - 1.3.6.1.4.1.41112.1.4.9.1
+    enum_values:
+      0: absent
+      1: "off"
+      2: "on"
+  - name: ubntGpsFix
+    oid: 1.3.6.1.4.1.41112.1.4.9.2
+    type: gauge
+    help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.4.9.2
+    enum_values:
+      0: unknown
+      1: nofix
+      2: fix2d
+      3: fix3d
+  - name: ubntGpsLat
+    oid: 1.3.6.1.4.1.41112.1.4.9.3
+    type: DisplayString
+    help: GPS Latitude - 1.3.6.1.4.1.41112.1.4.9.3
+  - name: ubntGpsLon
+    oid: 1.3.6.1.4.1.41112.1.4.9.4
+    type: DisplayString
+    help: GPS Longitude - 1.3.6.1.4.1.41112.1.4.9.4
+  - name: ubntGpsAltMeters
+    oid: 1.3.6.1.4.1.41112.1.4.9.5
+    type: DisplayString
+    help: GPS Altitude (m) - 1.3.6.1.4.1.41112.1.4.9.5
+  - name: ubntGpsAltFeet
+    oid: 1.3.6.1.4.1.41112.1.4.9.6
+    type: DisplayString
+    help: GPS Altitude (ft) - 1.3.6.1.4.1.41112.1.4.9.6
+  - name: ubntGpsSatsVisible
+    oid: 1.3.6.1.4.1.41112.1.4.9.7
+    type: gauge
+    help: GPS Satellites Visible - 1.3.6.1.4.1.41112.1.4.9.7
+  - name: ubntGpsSatsTracked
+    oid: 1.3.6.1.4.1.41112.1.4.9.8
+    type: gauge
+    help: GPS Satellites Tracked - 1.3.6.1.4.1.41112.1.4.9.8
+  - name: ubntGpsHDOP
+    oid: 1.3.6.1.4.1.41112.1.4.9.9
+    type: DisplayString
+    help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.4.9.9
   version: 1
 ubiquiti_unifi:
   walk:
