@@ -52,6 +52,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
@@ -60,6 +61,7 @@ import (
 // One entry in the tree of the MIB.
 type Node struct {
 	Oid               string
+	subid             int64
 	Label             string
 	Augments          string
 	Children          []*Node
@@ -183,6 +185,7 @@ func initSNMP(logger log.Logger) (string, error) {
 
 // Walk NetSNMP MIB tree, building a Go tree from it.
 func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
+	n.subid = int64(t.subid)
 	if oid != "" {
 		n.Oid = fmt.Sprintf("%s.%d", oid, t.subid)
 	} else {
@@ -228,6 +231,11 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 		buildMIBTree(head, child, n.Oid)
 		head = head.next_peer
 	}
+
+	// Ensure things are consistently ordered.
+	sort.Slice(n.Children, func(i, j int) bool {
+		return n.Children[i].subid < n.Children[j].subid
+	})
 
 	// Set names of indexes on each child.
 	// In practice this means only the entry will have it.
