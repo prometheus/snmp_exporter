@@ -166,7 +166,8 @@ $(MIBDIR)/.kemp-lm:
 	@curl $(CURL_OPTS) -L -o $(TMP) $(KEMP_LM_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) *.txt
 	# Workaround invalid timestamps.
-	@sed -i -E 's/"([0-9]{12})[0-9]{2}Z"/"\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
+	@sed -i.bak -E 's/"([0-9]{12})[0-9]{2}Z"/"\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
+	@rm $(MIBDIR)/*.RELEASE-B100-MIB.txt.bak
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.kemp-lm
 
