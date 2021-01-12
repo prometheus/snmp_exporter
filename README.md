@@ -63,6 +63,18 @@ This setup allows Prometheus to provide scheduling and service discovery, as
 unlike all other exporters running an exporter on the machine from which we are
 getting the metrics from is not possible.
 
+### TLS and basic authentication
+
+The SNMP Exporter supports TLS and basic authentication. This enables better
+control of the various HTTP endpoints.
+
+To use TLS and/or basic authentication, you need to pass a configuration file
+using the `--web.config.file` parameter. The format of the file is described
+[in the exporter-toolkit repository](https://github.com/prometheus/exporter-toolkit/blob/master/docs/web-configuration.md).
+
+Note that the TLS and basic authentication settings affect all HTTP endpoints:
+/metrics for scraping, /snmp for scraping SNMP devices, and the web UI.
+
 ## Large counter value handling
 
 In order to provide accurate counters for large Counter64 values, the exporter will automatically
