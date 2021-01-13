@@ -30,6 +30,8 @@ import (
 	"github.com/prometheus/common/promlog"
 	"github.com/prometheus/common/promlog/flag"
 	"github.com/prometheus/common/version"
+	"github.com/prometheus/exporter-toolkit/https"
+	httpsflag "github.com/prometheus/exporter-toolkit/https/kingpinflag"
 	"gopkg.in/alecthomas/kingpin.v2"
 	yaml "gopkg.in/yaml.v2"
 
@@ -38,6 +40,7 @@ import (
 
 var (
 	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	httpsConfig   = httpsflag.AddFlags(kingpin.CommandLine)
 	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
 	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
 
@@ -241,7 +244,8 @@ func main() {
 	})
 
 	level.Info(logger).Log("msg", "Listening on address", "address", *listenAddress)
-	if err := http.ListenAndServe(*listenAddress, nil); err != nil {
+	srv := &http.Server{Addr: *listenAddress}
+	if err := https.Listen(srv, *httpsConfig, logger); err != nil {
 		level.Error(logger).Log("msg", "Error starting HTTP server", "err", err)
 		os.Exit(1)
 	}
