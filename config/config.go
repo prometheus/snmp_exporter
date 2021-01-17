@@ -40,8 +40,8 @@ func LoadFile(filename string) (*Config, error) {
 func LoadWalkParamFile(filename string) (WalkConfig, error) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
-		if os.IsNotExist(err){
-			return WalkConfig{},nil
+		if os.IsNotExist(err) {
+			return WalkConfig{}, nil
 		}
 		return nil, err
 	}

@@ -37,10 +37,10 @@ import (
 )
 
 var (
-	walkParamConfigFile=kingpin.Flag("config.walkParam","path to optional walk param configuration file").Default("wp.yml").String()
-	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
-	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
-	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	walkParamConfigFile = kingpin.Flag("config.walkParam", "path to optional walk param configuration file").Default("wp.yml").String()
+	configFile          = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	listenAddress       = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
+	dryRun              = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = prometheus.NewSummaryVec(
@@ -96,27 +96,27 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 		return
 	}
 
-	var wpName=query.Get("walkParam")
+	var wpName = query.Get("walkParam")
 	if len(query["walkParaM"]) > 1 {
 		http.Error(w, "'walkParam' parameter must only be specified once", 400)
 		snmpRequestErrors.Inc()
 		return
 	}
-	if wpName==""{
+	if wpName == "" {
 		//nothing to do
-	}else{
-		if wp,exist:=sc.wp[wpName];exist==false{
-			http.Error(w, fmt.Sprintf("unknown 'walkParam' parameter '%v'",wpName), 400)
+	} else {
+		if wp, exist := sc.wp[wpName]; exist == false {
+			http.Error(w, fmt.Sprintf("unknown 'walkParam' parameter '%v'", wpName), 400)
 			snmpRequestErrors.Inc()
 			return
-		}else{
-			module.WalkParams=*wp
+		} else {
+			module.WalkParams = *wp
 		}
 	}
-	if wpName==""{
+	if wpName == "" {
 		logger = log.With(logger, "module", moduleName, "target", target)
-	}else{
-		logger = log.With(logger, "module", moduleName, "walkParam",wpName,"target", target)
+	} else {
+		logger = log.With(logger, "module", moduleName, "walkParam", wpName, "target", target)
 	}
 	level.Debug(logger).Log("msg", "Starting scrape")
 
@@ -147,7 +147,7 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 
 type SafeConfig struct {
 	sync.RWMutex
-	C *config.Config
+	C  *config.Config
 	wp config.WalkConfig
 }
 
@@ -162,7 +162,7 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	}
 	sc.Lock()
 	sc.C = conf
-	sc.wp=wp
+	sc.wp = wp
 	sc.Unlock()
 	return nil
 }
