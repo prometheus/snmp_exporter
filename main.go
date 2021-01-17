@@ -37,7 +37,7 @@ import (
 )
 
 var (
-	walkParamConfigFile=kingpin.Flag("config.walkParam","path to overridden walk param configs file").Default("wp.yml").String()
+	walkParamConfigFile=kingpin.Flag("config.walkParam","path to optional walk param configuration file").Default("wp.yml").String()
 	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
 	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
 	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
