@@ -30,8 +30,6 @@ import (
 	"github.com/prometheus/common/promlog"
 	"github.com/prometheus/common/promlog/flag"
 	"github.com/prometheus/common/version"
-	"github.com/prometheus/exporter-toolkit/web"
-	webflag "github.com/prometheus/exporter-toolkit/web/kingpinflag"
 	"gopkg.in/alecthomas/kingpin.v2"
 	yaml "gopkg.in/yaml.v2"
 
@@ -39,8 +37,8 @@ import (
 )
 
 var (
+	walkParamConfigFile=kingpin.Flag("config.walkParam","path to overridden walk param configs file").Default("wp.yml").String()
 	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
-	webConfig     = webflag.AddFlags(kingpin.CommandLine)
 	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
 	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
 
@@ -98,7 +96,28 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 		return
 	}
 
-	logger = log.With(logger, "module", moduleName, "target", target)
+	var wpName=query.Get("walkParam")
+	if len(query["walkParaM"]) > 1 {
+		http.Error(w, "'walkParam' parameter must only be specified once", 400)
+		snmpRequestErrors.Inc()
+		return
+	}
+	if wpName==""{
+		//nothing to do
+	}else{
+		if wp,exist:=sc.wp[wpName];exist==false{
+			http.Error(w, fmt.Sprintf("unknown 'walkParam' parameter '%v'",wpName), 400)
+			snmpRequestErrors.Inc()
+			return
+		}else{
+			module.WalkParams=*wp
+		}
+	}
+	if wpName==""{
+		logger = log.With(logger, "module", moduleName, "target", target)
+	}else{
+		logger = log.With(logger, "module", moduleName, "walkParam",wpName,"target", target)
+	}
 	level.Debug(logger).Log("msg", "Starting scrape")
 
 	start := time.Now()
@@ -129,6 +148,7 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 type SafeConfig struct {
 	sync.RWMutex
 	C *config.Config
+	wp config.WalkConfig
 }
 
 func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
@@ -136,8 +156,13 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	if err != nil {
 		return err
 	}
+	wp, err := config.LoadWalkParamFile(*walkParamConfigFile)
+	if err != nil {
+		return err
+	}
 	sc.Lock()
 	sc.C = conf
+	sc.wp=wp
 	sc.Unlock()
 	return nil
 }
@@ -155,6 +180,11 @@ func main() {
 	// Bail early if the config is bad.
 	var err error
 	sc.C, err = config.LoadFile(*configFile)
+	if err != nil {
+		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
+		os.Exit(1)
+	}
+	sc.wp, err = config.LoadWalkParamFile(*walkParamConfigFile)
 	if err != nil {
 		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
 		os.Exit(1)
@@ -244,8 +274,7 @@ func main() {
 	})
 
 	level.Info(logger).Log("msg", "Listening on address", "address", *listenAddress)
-	srv := &http.Server{Addr: *listenAddress}
-	if err := web.ListenAndServe(srv, *webConfig, logger); err != nil {
+	if err := http.ListenAndServe(*listenAddress, nil); err != nil {
 		level.Error(logger).Log("msg", "Error starting HTTP server", "err", err)
 		os.Exit(1)
 	}

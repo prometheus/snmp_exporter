@@ -16,6 +16,7 @@ package config
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"regexp"
 	"time"
 
@@ -33,6 +34,23 @@ func LoadFile(filename string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	return cfg, nil
+}
+
+func LoadWalkParamFile(filename string) (WalkConfig, error) {
+	content, err := ioutil.ReadFile(filename)
+	if err != nil {
+		if os.IsNotExist(err){
+			return WalkConfig{},nil
+		}
+		return nil, err
+	}
+	cfg := WalkConfig{}
+	err = yaml.UnmarshalStrict(content, &cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	return cfg, nil
 }
 
@@ -61,6 +79,8 @@ var (
 // Config for the snmp_exporter.
 type Config map[string]*Module
 
+type WalkConfig map[string]*WalkParams
+
 type WalkParams struct {
 	Version        int           `yaml:"version,omitempty"`
 	MaxRepetitions uint8         `yaml:"max_repetitions,omitempty"`
@@ -75,6 +95,47 @@ type Module struct {
 	Get        []string   `yaml:"get,omitempty"`
 	Metrics    []*Metric  `yaml:"metrics"`
 	WalkParams WalkParams `yaml:",inline"`
+}
+
+func (c *WalkParams) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	*c = DefaultWalkParams
+	type plain WalkParams
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+
+	wp := c
+
+	if wp.Version < 1 || wp.Version > 3 {
+		return fmt.Errorf("SNMP version must be 1, 2 or 3. Got: %d", wp.Version)
+	}
+	if wp.Version == 3 {
+		switch wp.Auth.SecurityLevel {
+		case "authPriv":
+			if wp.Auth.PrivPassword == "" {
+				return fmt.Errorf("priv password is missing, required for SNMPv3 with priv")
+			}
+			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" {
+				return fmt.Errorf("priv protocol must be DES or AES")
+			}
+			fallthrough
+		case "authNoPriv":
+			if wp.Auth.Password == "" {
+				return fmt.Errorf("auth password is missing, required for SNMPv3 with auth")
+			}
+			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA" {
+				return fmt.Errorf("auth protocol must be SHA or MD5")
+			}
+			fallthrough
+		case "noAuthNoPriv":
+			if wp.Auth.Username == "" {
+				return fmt.Errorf("auth username is missing, required for SNMPv3")
+			}
+		default:
+			return fmt.Errorf("security level must be one of authPriv, authNoPriv or noAuthNoPriv")
+		}
+	}
+	return nil
 }
 
 func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -95,7 +156,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			if wp.Auth.PrivPassword == "" {
 				return fmt.Errorf("priv password is missing, required for SNMPv3 with priv")
 			}
-			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" && wp.Auth.PrivProtocol != "AES192" && wp.Auth.PrivProtocol != "AES256" {
+			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" {
 				return fmt.Errorf("priv protocol must be DES or AES")
 			}
 			fallthrough
@@ -103,7 +164,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			if wp.Auth.Password == "" {
 				return fmt.Errorf("auth password is missing, required for SNMPv3 with auth")
 			}
-			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA" && wp.Auth.AuthProtocol != "SHA224" && wp.Auth.AuthProtocol != "SHA256" && wp.Auth.AuthProtocol != "SHA384" && wp.Auth.AuthProtocol != "SHA512" {
+			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA" {
 				return fmt.Errorf("auth protocol must be SHA or MD5")
 			}
 			fallthrough
@@ -153,14 +214,6 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		switch c.Auth.AuthProtocol {
 		case "SHA":
 			usm.AuthenticationProtocol = gosnmp.SHA
-		case "SHA224":
-			usm.AuthenticationProtocol = gosnmp.SHA224
-		case "SHA256":
-			usm.AuthenticationProtocol = gosnmp.SHA256
-		case "SHA384":
-			usm.AuthenticationProtocol = gosnmp.SHA384
-		case "SHA512":
-			usm.AuthenticationProtocol = gosnmp.SHA512
 		case "MD5":
 			usm.AuthenticationProtocol = gosnmp.MD5
 		}
@@ -172,10 +225,6 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 			usm.PrivacyProtocol = gosnmp.DES
 		case "AES":
 			usm.PrivacyProtocol = gosnmp.AES
-		case "AES192":
-			usm.PrivacyProtocol = gosnmp.AES192
-		case "AES256":
-			usm.PrivacyProtocol = gosnmp.AES256
 		}
 	}
 	g.SecurityParameters = usm
