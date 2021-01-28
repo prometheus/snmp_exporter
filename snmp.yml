@@ -29294,6 +29294,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifDescr
     oid: 1.3.6.1.2.1.2.2.1.2
     type: DisplayString
@@ -29301,6 +29307,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifType
     oid: 1.3.6.1.2.1.2.2.1.3
     type: EnumAsInfo
@@ -29308,6 +29320,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
     enum_values:
       1: other
       2: regular1822
@@ -29613,6 +29631,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifSpeed
     oid: 1.3.6.1.2.1.2.2.1.5
     type: gauge
@@ -29620,6 +29644,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifPhysAddress
     oid: 1.3.6.1.2.1.2.2.1.6
     type: PhysAddress48
@@ -29627,6 +29657,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifAdminStatus
     oid: 1.3.6.1.2.1.2.2.1.7
     type: gauge
@@ -29634,6 +29670,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
     enum_values:
       1: up
       2: down
@@ -29645,6 +29687,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
     enum_values:
       1: up
       2: down
@@ -29661,6 +29709,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInOctets
     oid: 1.3.6.1.2.1.2.2.1.10
     type: counter
@@ -29669,6 +29723,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.11
     type: counter
@@ -29678,6 +29738,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.12
     type: counter
@@ -29687,6 +29753,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInDiscards
     oid: 1.3.6.1.2.1.2.2.1.13
     type: counter
@@ -29696,6 +29768,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInErrors
     oid: 1.3.6.1.2.1.2.2.1.14
     type: counter
@@ -29704,6 +29782,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInUnknownProtos
     oid: 1.3.6.1.2.1.2.2.1.15
     type: counter
@@ -29712,6 +29796,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutOctets
     oid: 1.3.6.1.2.1.2.2.1.16
     type: counter
@@ -29720,6 +29810,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.17
     type: counter
@@ -29729,6 +29825,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutNUcastPkts
     oid: 1.3.6.1.2.1.2.2.1.18
     type: counter
@@ -29738,6 +29840,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutDiscards
     oid: 1.3.6.1.2.1.2.2.1.19
     type: counter
@@ -29746,6 +29854,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutErrors
     oid: 1.3.6.1.2.1.2.2.1.20
     type: counter
@@ -29754,6 +29868,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutQLen
     oid: 1.3.6.1.2.1.2.2.1.21
     type: gauge
@@ -29761,6 +29881,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifSpecific
     oid: 1.3.6.1.2.1.2.2.1.22
     type: OctetString
@@ -29769,6 +29895,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifName
     oid: 1.3.6.1.2.1.31.1.1.1.1
     type: DisplayString
@@ -29776,6 +29908,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.2
     type: counter
@@ -29784,6 +29922,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.3
     type: counter
@@ -29792,6 +29936,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.4
     type: counter
@@ -29801,6 +29951,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.5
     type: counter
@@ -29810,6 +29966,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInOctets
     oid: 1.3.6.1.2.1.31.1.1.1.6
     type: counter
@@ -29818,6 +29980,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.7
     type: counter
@@ -29827,6 +29995,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.8
     type: counter
@@ -29835,6 +30009,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCInBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.9
     type: counter
@@ -29843,6 +30023,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutOctets
     oid: 1.3.6.1.2.1.31.1.1.1.10
     type: counter
@@ -29851,6 +30037,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutUcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.11
     type: counter
@@ -29860,6 +30052,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutMulticastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.12
     type: counter
@@ -29869,6 +30067,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifHCOutBroadcastPkts
     oid: 1.3.6.1.2.1.31.1.1.1.13
     type: counter
@@ -29878,6 +30082,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifLinkUpDownTrapEnable
     oid: 1.3.6.1.2.1.31.1.1.1.14
     type: gauge
@@ -29886,6 +30096,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
     enum_values:
       1: enabled
       2: disabled
@@ -29897,6 +30113,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifPromiscuousMode
     oid: 1.3.6.1.2.1.31.1.1.1.16
     type: gauge
@@ -29905,6 +30127,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
     enum_values:
       1: "true"
       2: "false"
@@ -29916,6 +30144,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
     enum_values:
       1: "true"
       2: "false"
@@ -29927,6 +30161,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: ifCounterDiscontinuityTime
     oid: 1.3.6.1.2.1.31.1.1.1.19
     type: gauge
@@ -29935,6 +30175,12 @@ ubiquiti_unifi:
     indexes:
     - labelname: ifIndex
       type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: unifiRadioIndex
     oid: 1.3.6.1.4.1.41112.1.6.1.1.1.1
     type: gauge
@@ -30005,6 +30251,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapBssId
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.2
     type: PhysAddress48
@@ -30012,6 +30269,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapCcq
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.3
     type: gauge
@@ -30019,6 +30287,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapChannel
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.4
     type: gauge
@@ -30026,6 +30305,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapExtChannel
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.5
     type: gauge
@@ -30033,6 +30323,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapEssId
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
     type: DisplayString
@@ -30040,6 +30341,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapName
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
     type: DisplayString
@@ -30047,6 +30359,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapNumStations
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.8
     type: gauge
@@ -30054,6 +30377,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapRadio
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.9
     type: DisplayString
@@ -30061,6 +30395,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapRxBytes
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.10
     type: counter
@@ -30068,6 +30413,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapRxCrypts
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.11
     type: counter
@@ -30075,6 +30431,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapRxDropped
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.12
     type: counter
@@ -30082,6 +30449,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapRxErrors
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.13
     type: counter
@@ -30089,6 +30467,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapRxFrags
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.14
     type: counter
@@ -30096,6 +30485,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapRxPackets
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.15
     type: counter
@@ -30103,6 +30503,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapTxBytes
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.16
     type: counter
@@ -30110,6 +30521,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapTxDropped
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.17
     type: counter
@@ -30117,6 +30539,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapTxErrors
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.18
     type: counter
@@ -30124,6 +30557,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapTxPackets
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.19
     type: counter
@@ -30131,6 +30575,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapTxRetries
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.20
     type: counter
@@ -30138,6 +30593,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapTxPower
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.21
     type: gauge
@@ -30145,6 +30611,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiVapUp
     oid: 1.3.6.1.4.1.41112.1.6.1.2.1.22
     type: gauge
@@ -30152,6 +30629,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
     enum_values:
       1: "true"
       2: "false"
@@ -30162,6 +30650,17 @@ ubiquiti_unifi:
     indexes:
     - labelname: unifiVapIndex
       type: gauge
+    lookups:
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapName
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.7
+      type: DisplayString
+    - labels:
+      - unifiVapIndex
+      labelname: unifiVapEssId
+      oid: 1.3.6.1.4.1.41112.1.6.1.2.1.6
+      type: DisplayString
   - name: unifiIfIndex
     oid: 1.3.6.1.4.1.41112.1.6.2.1.1.1
     type: gauge
