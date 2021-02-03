@@ -344,6 +344,13 @@ modules:
       - interfaces
       - ifXTable
       - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+      - source_indexes: [unifiVapIndex]
+        lookup: unifiVapName
+      - source_indexes: [unifiVapIndex]
+        lookup: unifiVapEssId
     overrides:
       ifType:
         type: EnumAsInfo
