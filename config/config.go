@@ -95,7 +95,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			if wp.Auth.PrivPassword == "" {
 				return fmt.Errorf("priv password is missing, required for SNMPv3 with priv")
 			}
-			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" {
+			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" && wp.Auth.PrivProtocol != "AES192" && wp.Auth.PrivProtocol != "AES256" {
 				return fmt.Errorf("priv protocol must be DES or AES")
 			}
 			fallthrough
@@ -103,7 +103,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			if wp.Auth.Password == "" {
 				return fmt.Errorf("auth password is missing, required for SNMPv3 with auth")
 			}
-			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA" {
+			if wp.Auth.AuthProtocol != "MD5" && wp.Auth.AuthProtocol != "SHA" && wp.Auth.AuthProtocol != "SHA224" && wp.Auth.AuthProtocol != "SHA256" && wp.Auth.AuthProtocol != "SHA384" && wp.Auth.AuthProtocol != "SHA512" {
 				return fmt.Errorf("auth protocol must be SHA or MD5")
 			}
 			fallthrough
@@ -153,6 +153,14 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		switch c.Auth.AuthProtocol {
 		case "SHA":
 			usm.AuthenticationProtocol = gosnmp.SHA
+		case "SHA224":
+			usm.AuthenticationProtocol = gosnmp.SHA224
+		case "SHA256":
+			usm.AuthenticationProtocol = gosnmp.SHA256
+		case "SHA384":
+			usm.AuthenticationProtocol = gosnmp.SHA384
+		case "SHA512":
+			usm.AuthenticationProtocol = gosnmp.SHA512
 		case "MD5":
 			usm.AuthenticationProtocol = gosnmp.MD5
 		}
@@ -164,6 +172,10 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 			usm.PrivacyProtocol = gosnmp.DES
 		case "AES":
 			usm.PrivacyProtocol = gosnmp.AES
+		case "AES192":
+			usm.PrivacyProtocol = gosnmp.AES192
+		case "AES256":
+			usm.PrivacyProtocol = gosnmp.AES256
 		}
 	}
 	g.SecurityParameters = usm
