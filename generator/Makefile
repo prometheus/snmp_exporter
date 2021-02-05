@@ -28,7 +28,7 @@ IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
 KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.1.5/doc/KEEPALIVED-MIB.txt
 KEMP_LM_URL       := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
-MIKROTIK_URL      := 'http://download2.mikrotik.com/Mikrotik.mib'
+MIKROTIK_URL      := 'https://box.mikrotik.com/f/a41daf63d0c14347a088/?dl=1'
 NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
 NET_SNMP_URL      := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.9/mibs
 PALOALTO_URL      := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-10-0-snmp-mib-modules.zip
@@ -173,7 +173,7 @@ $(MIBDIR)/.kemp-lm:
 
 $(MIBDIR)/MIKROTIK-MIB:
 	@echo ">> Downloading MIKROTIK-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/MIKROTIK-MIB $(MIKROTIK_URL)
+	@curl $(CURL_OPTS) -L -o $(MIBDIR)/MIKROTIK-MIB $(MIKROTIK_URL)
 
 $(MIBDIR)/.net-snmp:
 	@echo ">> Downloading NET-SNMP mibs"
@@ -270,4 +270,3 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
 	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
 	@rm -v $(TMP)
-
