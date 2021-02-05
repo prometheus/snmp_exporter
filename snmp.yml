@@ -14356,6 +14356,20 @@ mikrotik:
     indexes:
     - labelname: mtxrWlStatIndex
       type: gauge
+  - name: mtxrWlStatTxCCQ
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.9
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.9'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatRxCCQ
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.10
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.10'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
   - name: mtxrWlRtabAddr
     oid: 1.3.6.1.4.1.14988.1.1.1.2.1.1
     type: PhysAddress48
@@ -14540,6 +14554,16 @@ mikrotik:
     oid: 1.3.6.1.4.1.14988.1.1.1.2.1.19
     type: gauge
     help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.19'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+      fixed_size: 6
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRadioName
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.20
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.20'
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
@@ -14747,6 +14771,16 @@ mikrotik:
       fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
+  - name: mtxrWlCMRtabEapIdent
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.13
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.13'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+      fixed_size: 6
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
   - name: mtxrWlCMRtabEntryCount
     oid: 1.3.6.1.4.1.14988.1.1.1.6
     type: gauge
@@ -14857,13 +14891,6 @@ mikrotik:
     indexes:
     - labelname: mtxrWl60GIndex
       type: gauge
-  - name: mtxrWl60GRxSector
-    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.10
-    type: gauge
-    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.10'
-    indexes:
-    - labelname: mtxrWl60GIndex
-      type: gauge
   - name: mtxrWl60GTxSectorInfo
     oid: 1.3.6.1.4.1.14988.1.1.1.8.1.11
     type: DisplayString
@@ -14875,6 +14902,13 @@ mikrotik:
     oid: 1.3.6.1.4.1.14988.1.1.1.8.1.12
     type: gauge
     help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.12'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GPhyRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.13
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.13'
     indexes:
     - labelname: mtxrWl60GIndex
       type: gauge
@@ -14920,13 +14954,6 @@ mikrotik:
     oid: 1.3.6.1.4.1.14988.1.1.1.9.1.6
     type: gauge
     help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.6'
-    indexes:
-    - labelname: mtxrWl60GStaIndex
-      type: gauge
-  - name: mtxrWl60GStaRxSector
-    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.7
-    type: gauge
-    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.7'
     indexes:
     - labelname: mtxrWl60GStaIndex
       type: gauge
@@ -15230,12 +15257,47 @@ mikrotik:
       1: "true"
   - name: mtxrHlFanSpeed1
     oid: 1.3.6.1.4.1.14988.1.1.3.17
-    type: DisplayString
+    type: gauge
     help: rpm - 1.3.6.1.4.1.14988.1.1.3.17
   - name: mtxrHlFanSpeed2
     oid: 1.3.6.1.4.1.14988.1.1.3.18
-    type: DisplayString
+    type: gauge
     help: rpm - 1.3.6.1.4.1.14988.1.1.3.18
+  - name: mtxrGaugeIndex
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.100.1.1'
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+  - name: mtxrGaugeName
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.100.1.2'
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+  - name: mtxrGaugeValue
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.3
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.100.1.3'
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+  - name: mtxrGaugeUnit
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.4
+    type: gauge
+    help: units - 1.3.6.1.4.1.14988.1.1.3.100.1.4
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+    enum_values:
+      1: celsius
+      2: rpm
+      3: dV
+      4: dA
+      5: dW
+      6: status
   - name: mtxrLicSoftwareId
     oid: 1.3.6.1.4.1.14988.1.1.4.1
     type: DisplayString
@@ -16458,6 +16520,19 @@ mikrotik:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+  - name: mtxrInterfaceStatsLinkDowns
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.90
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.90'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
   - name: mtxrPOEInterfaceIndex
     oid: 1.3.6.1.4.1.14988.1.1.15.1.1.1
     type: gauge
@@ -16561,6 +16636,55 @@ mikrotik:
     oid: 1.3.6.1.4.1.14988.1.1.16.1.1.7
     type: gauge
     help: dB - 1.3.6.1.4.1.14988.1.1.16.1.1.7
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemEnbId
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.8'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemSectorId
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.9'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemLac
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.10
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.10'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemIMEI
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.11
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.11'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemIMSI
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.12
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.12'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemUICC
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.13
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.13'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemRAT
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.14
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.14'
     indexes:
     - labelname: mtxrLTEModemInterfaceIndex
       type: gauge
@@ -16701,6 +16825,203 @@ mikrotik:
     help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.10'
     indexes:
     - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrIkeSACount
+    oid: 1.3.6.1.4.1.14988.1.1.20.1
+    type: gauge
+    help: IKE SA count - 1.3.6.1.4.1.14988.1.1.20.1
+  - name: mtxrIkeSAIndex
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.1'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAInitiatorCookie
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.2
+    type: DisplayString
+    help: initiator SPI - 1.3.6.1.4.1.14988.1.1.20.2.1.2
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAResponderCookie
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.3
+    type: DisplayString
+    help: responder SPI - 1.3.6.1.4.1.14988.1.1.20.2.1.3
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAResponder
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.4
+    type: gauge
+    help: IKE side - 1.3.6.1.4.1.14988.1.1.20.2.1.4
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrIkeSANatt
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.5
+    type: gauge
+    help: NAT is detected - 1.3.6.1.4.1.14988.1.1.20.2.1.5
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrIkeSAVersion
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.6
+    type: gauge
+    help: protocol version - 1.3.6.1.4.1.14988.1.1.20.2.1.6
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAState
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.7
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.7'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      1: exchange
+      2: established
+      3: expired
+      4: eap
+  - name: mtxrIkeSAUptime
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.8'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSASeen
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.9
+    type: gauge
+    help: time elapsed since last valid IKE packet - 1.3.6.1.4.1.14988.1.1.20.2.1.9
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAIdentity
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.10
+    type: DisplayString
+    help: peer identity - 1.3.6.1.4.1.14988.1.1.20.2.1.10
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAPh2Count
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.11
+    type: gauge
+    help: total ph2 SA pairs - 1.3.6.1.4.1.14988.1.1.20.2.1.11
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSALocalAddressType
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.12
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.12'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
+  - name: mtxrIkeSALocalAddress
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.13
+    type: InetAddress
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.13'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSALocalPort
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.14
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.14'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAPeerAddressType
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.15
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.15'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
+  - name: mtxrIkeSAPeerAddress
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.16
+    type: InetAddress
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.16'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAPeerPort
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.17
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.17'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSADynamicAddressType
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.18
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.18'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
+  - name: mtxrIkeSADynamicAddress
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.19
+    type: InetAddress
+    help: dynamic address allocated by mode config - 1.3.6.1.4.1.14988.1.1.20.2.1.19
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSATxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.20
+    type: counter
+    help: ph2 SA tx bytes - 1.3.6.1.4.1.14988.1.1.20.2.1.20
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSARxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.21
+    type: counter
+    help: ph2 SA rx bytes - 1.3.6.1.4.1.14988.1.1.20.2.1.21
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSATxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.22
+    type: counter
+    help: ph2 SA tx packets - 1.3.6.1.4.1.14988.1.1.20.2.1.22
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSARxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.23
+    type: counter
+    help: ph2 SA rx packets - 1.3.6.1.4.1.14988.1.1.20.2.1.23
+    indexes:
+    - labelname: mtxrIkeSAIndex
       type: gauge
   - name: laIndex
     oid: 1.3.6.1.4.1.2021.10.1.1
