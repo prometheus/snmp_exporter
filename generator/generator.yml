@@ -646,3 +646,20 @@ modules:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
+# GUDE PDU
+# http://wiki.gude.info/FAQ_EPC_SNMP
+# Taking mib from https://hoffan.rezel.enst.fr/rezel/observium/-/raw/b73362bc06637771609c1fea730ff0d00e001216/mibs/gude/GUDEADS-EPC8X-MIB as
+# the link from the manufacturer ( https://www.gude.info/files/software/GUDEADS-EPC8X-MIB.txt ) does not work.
+  gudeads_mib:
+    walk:
+      - sysUpTime
+      - sysDescr
+      - interfaces
+      - ifMIB
+      - gudeads
+    lookups:
+      - source_indexes: [epc8PortIndex]
+        lookup: epc8PortName
+    overrides:
+      epc8PortName:
+        type: DisplayString
