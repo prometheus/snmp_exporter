@@ -1,3 +1,10 @@
+## 0.20.0 / 2021-02-12
+
+NOTE: This is a safe harbor release. Future releases will have breaking changes to the configuration format.
+
+* [ENHANCEMENT] Remove vendoring
+* [ENHANCEMENT] Add TLS support
+
 ## 0.19.0 / 2020-08-31
 
 * [ENHANCEMENT] Support EnumAsInfo as an index (#559)
