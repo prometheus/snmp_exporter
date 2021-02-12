@@ -27,6 +27,7 @@ dependencies-stamp
 /.tarballs
 .deps
 *.tar.gz
+/vendor
 
 generator/generator
 generator/mibs
