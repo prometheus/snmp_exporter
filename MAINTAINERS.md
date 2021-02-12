@@ -1,2 +1,2 @@
 * Ben Kochie <superq@gmail.com> @SuperQ
-* Richard Hartmann <richih@prometheus.io> @RichiH
+* Richard Hartmann <richih@richih.org> @RichiH
