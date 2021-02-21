@@ -26,6 +26,7 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/promlog"
 	"github.com/prometheus/common/promlog/flag"
@@ -35,6 +36,7 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 	yaml "gopkg.in/yaml.v2"
 
+	"github.com/prometheus/snmp_exporter/collector"
 	"github.com/prometheus/snmp_exporter/config"
 )
 
@@ -45,14 +47,14 @@ var (
 	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
 
 	// Metrics about the SNMP exporter itself.
-	snmpDuration = prometheus.NewSummaryVec(
+	snmpDuration = promauto.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Name: "snmp_collection_duration_seconds",
 			Help: "Duration of collections by the SNMP exporter",
 		},
 		[]string{"module"},
 	)
-	snmpRequestErrors = prometheus.NewCounter(
+	snmpRequestErrors = promauto.NewCounter(
 		prometheus.CounterOpts{
 			Name: "snmp_request_errors_total",
 			Help: "Errors in requests to the SNMP exporter",
@@ -63,12 +65,6 @@ var (
 	}
 	reloadCh chan chan error
 )
-
-func init() {
-	prometheus.MustRegister(snmpDuration)
-	prometheus.MustRegister(snmpRequestErrors)
-	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
-}
 
 func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	query := r.URL.Query()
@@ -103,8 +99,8 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	collector := collector{ctx: r.Context(), target: target, module: module, logger: logger}
-	registry.MustRegister(collector)
+	c := collector.New(target, module, logger)
+	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
@@ -151,6 +147,8 @@ func main() {
 
 	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info())
 	level.Info(logger).Log("build_context", version.BuildContext())
+
+	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
 
 	// Bail early if the config is bad.
 	var err error
