@@ -341,6 +341,7 @@ apcups:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -2659,6 +2660,7 @@ arista_sw:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -3894,6 +3896,7 @@ cisco_wlc:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -5022,6 +5025,7 @@ ddwrt:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -6441,6 +6445,7 @@ if_mib:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -9244,6 +9249,7 @@ kemp_loadmaster:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -13029,6 +13035,7 @@ mikrotik:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -19647,6 +19654,7 @@ paloalto_fw:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -24220,6 +24228,7 @@ synology:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -26771,6 +26780,7 @@ ubiquiti_airfiber:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -28619,6 +28629,7 @@ ubiquiti_airmax:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -29944,6 +29955,7 @@ ubiquiti_unifi:
       298: ax25
       299: ieee19061nanocom
       300: cpri
+      301: omni
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
