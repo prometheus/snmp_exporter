@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package collector
 
 import (
 	"context"
@@ -26,13 +26,14 @@ import (
 	"github.com/go-kit/kit/log/level"
 	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
 
 var (
-	snmpUnexpectedPduType = prometheus.NewCounter(
+	snmpUnexpectedPduType = promauto.NewCounter(
 		prometheus.CounterOpts{
 			Name: "snmp_unexpected_pdu_type_total",
 			Help: "Unexpected Go types in a PDU.",
@@ -42,10 +43,6 @@ var (
 	float64Mantissa uint64 = 9007199254740992
 	wrapCounters           = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
 )
-
-func init() {
-	prometheus.MustRegister(snmpUnexpectedPduType)
-}
 
 // Types preceded by an enum with their actual type.
 var combinedTypeMapping = map[string]map[int]string{
@@ -209,6 +206,10 @@ type collector struct {
 	target string
 	module *config.Module
 	logger log.Logger
+}
+
+func New(target string, module *config.Module, logger log.Logger) *collector {
+	return &collector{target: target, module: module, logger: logger}
 }
 
 // Describe implements Prometheus.Collector.
