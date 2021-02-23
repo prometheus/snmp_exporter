@@ -26,23 +26,23 @@ CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
+INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
 KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.1.5/doc/KEEPALIVED-MIB.txt
 KEMP_LM_URL       := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
+LIEBERT_URL       := https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
 MIKROTIK_URL      := 'https://box.mikrotik.com/f/a41daf63d0c14347a088/?dl=1'
 NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
 NET_SNMP_URL      := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.9/mibs
 PALOALTO_URL      := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-10-0-snmp-mib-modules.zip
 PRINTER_URL       := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
+RARITAN_URL       := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 SERVERTECH_URL    := 'https://cdn10.servertech.com/assets/documents/documents/817/original/Sentry3.mib'
 SERVERTECH4_URL   := 'https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib'
 SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
-UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
+UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
-RARITAN_URL       := http://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
-LIEBERT_URL       := https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
 
 .DEFAULT: all
 
@@ -81,33 +81,33 @@ docker-tag-latest:
 
 .PHONY: mibs
 mibs: mib-dir \
+  $(MIBDIR)/.cisco_v2 \
+  $(MIBDIR)/.kemp-lm \
+  $(MIBDIR)/.net-snmp \
+  $(MIBDIR)/.paloalto_panos \
+  $(MIBDIR)/.synology \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/.cisco_v2 \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
+  $(MIBDIR)/IPD-MIB_Q419V9.mib \
   $(MIBDIR)/KEEPALIVED-MIB \
-  $(MIBDIR)/.kemp-lm \
+  $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/MIKROTIK-MIB \
-  $(MIBDIR)/.net-snmp \
-  $(MIBDIR)/.paloalto_panos \
+  $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt \
   $(MIBDIR)/PICO-SMI-ID-MIB.txt \
   $(MIBDIR)/PICO-SMI-MIB.txt \
   $(MIBDIR)/PRINTER-MIB-V2.txt \
   $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/servertech-sentry4-mib \
-  $(MIBDIR)/.synology \
-  $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
-  $(MIBDIR)/PDU-MIB.txt \
-  $(MIBDIR)/IPD-MIB_Q419V9.mib \
-  $(MIBDIR)/LIEBERT_GP_PDU.MIB
+  $(MIBDIR)/UBNT-UniFi-MIB \
+  $(MIBDIR)/WIENER-CRATE-MIB-5704.txt
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -156,9 +156,23 @@ $(MIBDIR)/IANA-PRINTER-MIB.txt:
 	@echo ">> Downloading IANA printer MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/IANA-PRINTER-MIB.txt $(IANA_PRINTER_URL)
 
+$(MIBDIR)/IPD-MIB_Q419V9.mib:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading IPD-MIB_Q419V9 to $(TMP)"
+	@curl $(CURL_OPTS) -L -o $(TMP) $(INFRAPOWER_URL)
+	@7z e -o$(MIBDIR) $(TMP)
+	@rm -v $(TMP)
+
 $(MIBDIR)/KEEPALIVED-MIB:
 	@echo ">> Downloading KEEPALIVED-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/KEEPALIVED-MIB $(KEEPALIVED_URL)
+
+$(MIBDIR)/LIEBERT_GP_PDU.MIB:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading LIEBERT_GP_PDU.MIB to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
+	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
+	@rm -v $(TMP)
 
 $(MIBDIR)/.kemp-lm:
 	$(eval TMP := $(shell mktemp))
@@ -191,6 +205,14 @@ $(MIBDIR)/.net-snmp:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB $(NET_SNMP_URL)/UCD-SNMP-MIB.txt
 	@touch $(MIBDIR)/.net-snmp
 
+$(MIBDIR)/.paloalto_panos:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading paloalto_pano to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(PALOALTO_URL)
+	@unzip -j -d $(MIBDIR) $(TMP)
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.paloalto_panos
+
 $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
 	@echo ">> Downloading PICO-IPSEC-FLOW-MONITOR-MIB.txt"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
@@ -203,17 +225,14 @@ $(MIBDIR)/PICO-SMI-ID-MIB.txt:
 	@echo ">> Downloading PICO-SMI-ID-MIB.txt"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-ID-MIB.txt "$(NEC_URL)/PICO-SMI-ID-MIB.txt"
 
-$(MIBDIR)/.paloalto_panos:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading paloalto_pano to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(PALOALTO_URL)
-	@unzip -j -d $(MIBDIR) $(TMP)
-	@rm -v $(TMP)
-	@touch $(MIBDIR)/.paloalto_panos
-
 $(MIBDIR)/PRINTER-MIB-V2.txt:
 	@echo ">> Downloading Printer MIB v2"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PRINTER-MIB-V2.txt $(PRINTER_URL)
+
+# raritan
+$(MIBDIR)/PDU-MIB.txt:
+	@echo ">> Downloading PDU-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
 
 $(MIBDIR)/servertech-sentry3-mib:
 	@echo ">> Downloading servertech-sentry3-mib"
@@ -231,10 +250,6 @@ $(MIBDIR)/.synology:
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.synology
 
-$(MIBDIR)/UBNT-UniFi-MIB:
-	@echo ">> Downloading UBNT-UniFi-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-UniFi-MIB "$(UBNT_DL_URL)/UBNT-UniFi-MIB"
-
 $(MIBDIR)/UBNT-AirFiber-MIB:
 	@echo ">> Downloading UBNT-AirFiber-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-AirFiber-MIB $(UBNT_AIRFIBER_URL)
@@ -246,27 +261,13 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	@unzip -j -d $(MIBDIR) $(TMP) UBNT-AirMAX-MIB.txt
 	@rm -v $(TMP)
 
+$(MIBDIR)/UBNT-UniFi-MIB:
+	@echo ">> Downloading UBNT-UniFi-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-UniFi-MIB "$(UBNT_DL_URL)/UBNT-UniFi-MIB"
+
 $(MIBDIR)/WIENER-CRATE-MIB-5704.txt:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading WIENER-CRATE-MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(WIENER_URL)
 	@unzip -j -d $(MIBDIR) $(TMP)
-	@rm -v $(TMP)
-
-$(MIBDIR)/PDU-MIB.txt:
-	@echo ">> Downloading PDU-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
-
-$(MIBDIR)/IPD-MIB_Q419V9.mib:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading IPD-MIB_Q419V9 to $(TMP)"
-	@curl $(CURL_OPTS) -L -o $(TMP) $(INFRAPOWER_URL)
-	@7z e -o$(MIBDIR) $(TMP)
-	@rm -v $(TMP)
-
-$(MIBDIR)/LIEBERT_GP_PDU.MIB:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading LIEBERT_GP_PDU.MIB to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
-	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
 	@rm -v $(TMP)
