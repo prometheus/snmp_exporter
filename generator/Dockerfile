@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:1.15
 
 RUN apt-get update && \
     apt-get install -y libsnmp-dev p7zip-full unzip && \

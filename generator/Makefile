@@ -71,6 +71,10 @@ parse_errors: generator mibs
 docker:
 	docker build -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" .
 
+.PHONY: docker-generate
+docker-generate: docker
+	docker run --rm -it -v $(PWD):/workdir -w /workdir "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)"
+
 .PHONY: docker-publish
 docker-publish:
 	docker push "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME)"
