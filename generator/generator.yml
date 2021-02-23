@@ -646,3 +646,31 @@ modules:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
+
+  # Vertiv Geist PDU
+  #
+  # https://www.vertiv.com/en-us/support/software-download/power-distribution/geist-r-series-v5-firmware/
+  # https://www.vertiv.com/4ae12a/globalassets/documents/firmware/geist/geist-r05-5_7_0-11112020.zip
+  vertiv_geist_pdu:
+    walk:
+      - sysUpTime
+      - deviceCount
+      - productAlarmCount
+      - productWarnCount
+      - pduMainTable
+      - pduPhaseTable
+      - pduBreakerTable
+      - pduLineTable
+      - pduOutletMeterTable
+
+    lookups:
+      - source_indexes: [pduMainIndex]
+        lookup: pduMainName
+      - source_indexes: [pduPhaseIndex]
+        lookup: pduPhaseName
+      - source_indexes: [pduBreakerIndex]
+        lookup: pduBreakerName
+      - source_indexes: [pduLineIndex]
+        lookup: pduLineName
+      - source_indexes: [pduOutletMeterIndex]
+        lookup: pduOutletMeterName

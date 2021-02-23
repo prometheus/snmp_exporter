@@ -42,6 +42,7 @@ SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Sof
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
 UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
+VERTIV_GEIST_URL  := https://www.vertiv.com/4ae12a/globalassets/documents/firmware/geist/geist-r05-5_7_0-11112020.zip
 WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
 
 .DEFAULT: all
@@ -94,6 +95,7 @@ mibs: mib-dir \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
+  $(MIBDIR)/geist_v5.mib \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
@@ -268,6 +270,14 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 $(MIBDIR)/UBNT-UniFi-MIB:
 	@echo ">> Downloading UBNT-UniFi-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-UniFi-MIB "$(UBNT_DL_URL)/UBNT-UniFi-MIB"
+
+# vertiv_geist
+$(MIBDIR)/geist_v5.mib:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading vertiv_geist to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(VERTIV_GEIST_URL)
+	@unzip -j -d $(MIBDIR) $(TMP)
+	@rm -v $(TMP)
 
 $(MIBDIR)/WIENER-CRATE-MIB-5704.txt:
 	$(eval TMP := $(shell mktemp))

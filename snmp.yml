@@ -31139,6 +31139,583 @@ ubiquiti_unifi:
     oid: 1.3.6.1.4.1.41112.1.6.3.6
     type: DisplayString
     help: ' - 1.3.6.1.4.1.41112.1.6.3.6'
+vertiv_geist_pdu:
+  walk:
+  - 1.3.6.1.4.1.21239.5.2.3.1
+  - 1.3.6.1.4.1.21239.5.2.3.2
+  - 1.3.6.1.4.1.21239.5.2.3.3
+  - 1.3.6.1.4.1.21239.5.2.3.4
+  - 1.3.6.1.4.1.21239.6.1.99.8
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  - 1.3.6.1.4.1.21239.5.2.1.13.0
+  - 1.3.6.1.4.1.21239.5.2.1.14.0
+  - 1.3.6.1.4.1.21239.5.2.1.6.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: productAlarmCount
+    oid: 1.3.6.1.4.1.21239.5.2.1.13
+    type: gauge
+    help: Number of alarms currently tripped - 1.3.6.1.4.1.21239.5.2.1.13
+  - name: productWarnCount
+    oid: 1.3.6.1.4.1.21239.5.2.1.14
+    type: gauge
+    help: Number of warnings currently tripped - 1.3.6.1.4.1.21239.5.2.1.14
+  - name: deviceCount
+    oid: 1.3.6.1.4.1.21239.5.2.1.6
+    type: gauge
+    help: Total number of devices on unit - 1.3.6.1.4.1.21239.5.2.1.6
+  - name: pduMainIndex
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.1
+    type: gauge
+    help: Table entry index value - 1.3.6.1.4.1.21239.5.2.3.1.1.1
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduMainSerial
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.2
+    type: DisplayString
+    help: Serial number - 1.3.6.1.4.1.21239.5.2.3.1.1.2
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduMainName
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+    type: DisplayString
+    help: PDU name (factory-assigned) - 1.3.6.1.4.1.21239.5.2.3.1.1.3
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduMainLabel
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.4
+    type: DisplayString
+    help: PDU label (user-defined) - 1.3.6.1.4.1.21239.5.2.3.1.1.4
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduMainAvail
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.5
+    type: gauge
+    help: 'Device availability: 0 = Unavailable 1 = Available 2 = Partially Unavailable
+      - 1.3.6.1.4.1.21239.5.2.3.1.1.5'
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduMeterType
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.6
+    type: gauge
+    help: 'Current meter type: 0 = Wye 1 = Delta - 1.3.6.1.4.1.21239.5.2.3.1.1.6'
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+    enum_values:
+      0: wye
+      1: delta
+  - name: pduTotalName
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.7
+    type: DisplayString
+    help: Total name (factory-assigned) - 1.3.6.1.4.1.21239.5.2.3.1.1.7
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduTotalLabel
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.8
+    type: DisplayString
+    help: Total label (user-defined) - 1.3.6.1.4.1.21239.5.2.3.1.1.8
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduTotalRealPower
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.9
+    type: gauge
+    help: PDU total real power - 1.3.6.1.4.1.21239.5.2.3.1.1.9
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduTotalApparentPower
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.10
+    type: gauge
+    help: PDU total apparent power - 1.3.6.1.4.1.21239.5.2.3.1.1.10
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduTotalPowerFactor
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.11
+    type: gauge
+    help: PDU total power factor - 1.3.6.1.4.1.21239.5.2.3.1.1.11
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduTotalEnergy
+    oid: 1.3.6.1.4.1.21239.5.2.3.1.1.12
+    type: gauge
+    help: PDU total accumulated energy in watt-hours - 1.3.6.1.4.1.21239.5.2.3.1.1.12
+    indexes:
+    - labelname: pduMainIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduMainIndex
+      labelname: pduMainName
+      oid: 1.3.6.1.4.1.21239.5.2.3.1.1.3
+      type: DisplayString
+  - name: pduPhaseIndex
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.1
+    type: gauge
+    help: Table entry index value - 1.3.6.1.4.1.21239.5.2.3.2.1.1
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseName
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+    type: DisplayString
+    help: PDU phase name (factory-assigned) - 1.3.6.1.4.1.21239.5.2.3.2.1.2
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseLabel
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.3
+    type: DisplayString
+    help: PDU phase label (user-defined) - 1.3.6.1.4.1.21239.5.2.3.2.1.3
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseVoltage
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.4
+    type: gauge
+    help: PDU phase voltage in tenths of a volt - 1.3.6.1.4.1.21239.5.2.3.2.1.4
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseCurrent
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.8
+    type: gauge
+    help: PDU phase current reading in hundredths of an amp - 1.3.6.1.4.1.21239.5.2.3.2.1.8
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseRealPower
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.12
+    type: gauge
+    help: Real power for phase in watts - 1.3.6.1.4.1.21239.5.2.3.2.1.12
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseApparentPower
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.13
+    type: gauge
+    help: Apparent power for phase in volt-amps - 1.3.6.1.4.1.21239.5.2.3.2.1.13
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhasePowerFactor
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.14
+    type: gauge
+    help: Power factor for phase - 1.3.6.1.4.1.21239.5.2.3.2.1.14
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseEnergy
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.15
+    type: gauge
+    help: Accumulated energy for phase in watt-hours - 1.3.6.1.4.1.21239.5.2.3.2.1.15
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseBalance
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.17
+    type: gauge
+    help: Phase balance as percent - 1.3.6.1.4.1.21239.5.2.3.2.1.17
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseCurrentCrestFactor
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.19
+    type: gauge
+    help: Current crest factor for phase, in hundredths - 1.3.6.1.4.1.21239.5.2.3.2.1.19
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+  - name: pduPhaseResCurrentDetected
+    oid: 1.3.6.1.4.1.21239.5.2.3.2.1.20
+    type: gauge
+    help: Tells if residual current was detected - 1.3.6.1.4.1.21239.5.2.3.2.1.20
+    indexes:
+    - labelname: pduPhaseIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduPhaseIndex
+      labelname: pduPhaseName
+      oid: 1.3.6.1.4.1.21239.5.2.3.2.1.2
+      type: DisplayString
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: pduBreakerIndex
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.1
+    type: gauge
+    help: Table entry index value - 1.3.6.1.4.1.21239.5.2.3.3.1.1
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerName
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+    type: DisplayString
+    help: PDU breaker name (factory-assigned) - 1.3.6.1.4.1.21239.5.2.3.3.1.2
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerLabel
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.3
+    type: DisplayString
+    help: PDU breaker label (user-defined) - 1.3.6.1.4.1.21239.5.2.3.3.1.3
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerCurrent
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.4
+    type: gauge
+    help: PDU breaker current reading in hundredths of an amp - 1.3.6.1.4.1.21239.5.2.3.3.1.4
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerVoltage
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.8
+    type: gauge
+    help: PDU breaker voltage in tenths of a volt - 1.3.6.1.4.1.21239.5.2.3.3.1.8
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerRealPower
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.12
+    type: gauge
+    help: Real power for breaker in watts - 1.3.6.1.4.1.21239.5.2.3.3.1.12
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerApparentPower
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.13
+    type: gauge
+    help: Apparent power for breaker in volt-amps - 1.3.6.1.4.1.21239.5.2.3.3.1.13
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerPowerFactor
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.14
+    type: gauge
+    help: Power factor for breaker - 1.3.6.1.4.1.21239.5.2.3.3.1.14
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerEnergy
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.15
+    type: gauge
+    help: Accumulated energy for breaker in watt-hours - 1.3.6.1.4.1.21239.5.2.3.3.1.15
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+  - name: pduBreakerResCurrentDetected
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.20
+    type: gauge
+    help: Tells if residual current was detected - 1.3.6.1.4.1.21239.5.2.3.3.1.20
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: pduBreakerLossOfLoadDetected
+    oid: 1.3.6.1.4.1.21239.5.2.3.3.1.21
+    type: gauge
+    help: Tells if a loss of load was detected - 1.3.6.1.4.1.21239.5.2.3.3.1.21
+    indexes:
+    - labelname: pduBreakerIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduBreakerIndex
+      labelname: pduBreakerName
+      oid: 1.3.6.1.4.1.21239.5.2.3.3.1.2
+      type: DisplayString
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: pduLineIndex
+    oid: 1.3.6.1.4.1.21239.5.2.3.4.1.1
+    type: gauge
+    help: Table entry index value - 1.3.6.1.4.1.21239.5.2.3.4.1.1
+    indexes:
+    - labelname: pduLineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduLineIndex
+      labelname: pduLineName
+      oid: 1.3.6.1.4.1.21239.5.2.3.4.1.2
+      type: DisplayString
+  - name: pduLineName
+    oid: 1.3.6.1.4.1.21239.5.2.3.4.1.2
+    type: DisplayString
+    help: PDU line name (factory-assigned) - 1.3.6.1.4.1.21239.5.2.3.4.1.2
+    indexes:
+    - labelname: pduLineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduLineIndex
+      labelname: pduLineName
+      oid: 1.3.6.1.4.1.21239.5.2.3.4.1.2
+      type: DisplayString
+  - name: pduLineLabel
+    oid: 1.3.6.1.4.1.21239.5.2.3.4.1.3
+    type: DisplayString
+    help: PDU line label (user-defined) - 1.3.6.1.4.1.21239.5.2.3.4.1.3
+    indexes:
+    - labelname: pduLineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduLineIndex
+      labelname: pduLineName
+      oid: 1.3.6.1.4.1.21239.5.2.3.4.1.2
+      type: DisplayString
+  - name: pduLineCurrent
+    oid: 1.3.6.1.4.1.21239.5.2.3.4.1.4
+    type: gauge
+    help: PDU line current reading in hundredths of an amp - 1.3.6.1.4.1.21239.5.2.3.4.1.4
+    indexes:
+    - labelname: pduLineIndex
+      type: gauge
+    lookups:
+    - labels:
+      - pduLineIndex
+      labelname: pduLineName
+      oid: 1.3.6.1.4.1.21239.5.2.3.4.1.2
+      type: DisplayString
+  - name: pduOutletMeterKWattHrs
+    oid: 1.3.6.1.4.1.21239.6.1.99.8.1.1
+    type: gauge
+    help: Kilowatt hours for outlet - 1.3.6.1.4.1.21239.6.1.99.8.1.1
+    indexes:
+    - labelname: pduOutletMainIndex
+      type: gauge
+    - labelname: pduOutletMainID
+      type: gauge
+  - name: pduOutletMeterAmps
+    oid: 1.3.6.1.4.1.21239.6.1.99.8.1.2
+    type: gauge
+    help: Current reading for outlet - 1.3.6.1.4.1.21239.6.1.99.8.1.2
+    indexes:
+    - labelname: pduOutletMainIndex
+      type: gauge
+    - labelname: pduOutletMainID
+      type: gauge
+  - name: pduOutletMeterPower
+    oid: 1.3.6.1.4.1.21239.6.1.99.8.1.3
+    type: gauge
+    help: Power measurement for outlet - 1.3.6.1.4.1.21239.6.1.99.8.1.3
+    indexes:
+    - labelname: pduOutletMainIndex
+      type: gauge
+    - labelname: pduOutletMainID
+      type: gauge
 wiener_mpod:
   walk:
   - 1.3.6.1.4.1.19947.1.3.2.1.10
