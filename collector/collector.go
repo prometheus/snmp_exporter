@@ -174,7 +174,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	// evaluate rules
 	newGet := config.Get
 	newWalk := config.Walk
-	for _, filter := range config.Filters{
+	for _, filter := range config.Filters {
 		var pdus []gosnmp.SnmpPDU
 		allowedList := []string{}
 

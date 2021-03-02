@@ -379,7 +379,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Build an map of all oid targeted by a filter to access it easily later
 	filterMap := map[string][]string{}
 
-	for _, filter := range cfg.Filters.Static{
+	for _, filter := range cfg.Filters.Static {
 		for _, oid := range filter.Targets {
 			n, ok := nameToNode[oid]
 			if ok {
