@@ -58,7 +58,7 @@ Binaries can be downloaded from the [Github
 releases](https://github.com/prometheus/snmp_exporter/releases) page and need no
 special installation.
 
-We also provide a sample [systemd unit file](snmp_exporter.service).
+We also provide a sample [systemd unit file](examples/systemd/snmp_exporter.service).
 
 ## Running
 
