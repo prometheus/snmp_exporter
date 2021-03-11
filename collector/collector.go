@@ -146,6 +146,26 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		if packet.Error != gosnmp.NoError {
 			return nil, fmt.Errorf("error reported by target %s: Error Status %d", snmp.Target, packet.Error)
 		}
+
+		// Sometimes SNMP returns OIDs for failures, including auth. Check against known error OIDs.
+		if packet.Version == gosnmp.Version3 && len(packet.Variables) == 1 && packet.PDUType == gosnmp.Report {
+			switch packet.Variables[0].Name {
+			case ".1.3.6.1.6.3.15.1.1.1.0":
+				return nil, fmt.Errorf("Authentication failure: Unsupported security level %s for %s", config.WalkParams.Auth.SecurityLevel, snmp.Target)
+			case ".1.3.6.1.6.3.15.1.1.2.0":
+				// gosnmp library automatically retransmits for issues with usmStatsNotInTimeWindows
+				continue
+			case ".1.3.6.1.6.3.15.1.1.3.0":
+				return nil, fmt.Errorf("Authentication failure: Unknown username %s for %s", config.WalkParams.Auth.Username, snmp.Target)
+			case ".1.3.6.1.6.3.15.1.1.4.0":
+				return nil, fmt.Errorf("Unknown Engine IDs for %s", snmp.Target)
+			case ".1.3.6.1.6.3.15.1.1.5.0":
+				return nil, fmt.Errorf("Authentication failure: Wrong digests for %s (incorrect password, community or key)", snmp.Target)
+			case ".1.3.6.1.6.3.15.1.1.6.0":
+				return nil, fmt.Errorf("Stats decryption error for %s", snmp.Target)
+			}
+		}
+
 		for _, v := range packet.Variables {
 			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
 				level.Debug(logger).Log("msg", "OID not supported by target", "oids", v.Name)
