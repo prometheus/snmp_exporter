@@ -8,6 +8,9 @@ apcups:
   - 1.3.6.1.4.1.318.1.1.1.4
   - 1.3.6.1.4.1.318.1.1.1.7.2
   - 1.3.6.1.4.1.318.1.1.10.2.3.2
+  - 1.3.6.1.4.1.318.1.1.26.10.2.2
+  - 1.3.6.1.4.1.318.1.1.26.4.3
+  - 1.3.6.1.4.1.318.1.1.26.6.3
   - 1.3.6.1.4.1.318.1.1.26.8.3
   get:
   - 1.3.6.1.2.1.1.3.0
@@ -2258,6 +2261,384 @@ apcups:
     help: A descriptive location for the probe set by the user. - 1.3.6.1.4.1.318.1.1.10.2.3.2.1.15
     indexes:
     - labelname: iemStatusProbeNumber
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusIndex
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.1
+    type: gauge
+    help: The index to the temperature-humidity status data table entry - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.1
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusModule
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.2
+    type: gauge
+    help: The user-defined Rack PDU numeric ID - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.2
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusName
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.3
+    type: DisplayString
+    help: The user-defined temperature-humidity sensor ID string - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.3
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusNumber
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.4
+    type: gauge
+    help: The temperature-humidity sensor numeric ID - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.4
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusType
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.5
+    type: gauge
+    help: The type of the sensor - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.5
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+    enum_values:
+      1: temperatureOnly
+      2: temperatureHumidity
+      3: commsLost
+      4: notInstalled
+  - name: rPDU2SensorTempHumidityStatusCommStatus
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.6
+    type: gauge
+    help: The communications status of the sensor - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.6
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+    enum_values:
+      1: notInstalled
+      2: commsOK
+      3: commsLost
+  - name: rPDU2SensorTempHumidityStatusTempF
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.7
+    type: gauge
+    help: Sensor temperature reading in tenths of degrees Fahrenheit - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.7
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusTempC
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.8
+    type: gauge
+    help: Sensor temperature reading in tenths of degrees Celsius - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.8
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusTempStatus
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.9
+    type: gauge
+    help: This OID reports the current state of the temperature probe - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.9
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+    enum_values:
+      1: notPresent
+      2: belowMin
+      3: belowLow
+      4: normal
+      5: aboveHigh
+      6: aboveMax
+  - name: rPDU2SensorTempHumidityStatusRelativeHumidity
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.10
+    type: gauge
+    help: Sensor humidity reading in percent relative humidity - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.10
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusHumidityStatus
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.11
+    type: gauge
+    help: This OID reports the current state of the humidity probe - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.11
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+    enum_values:
+      1: notPresent
+      2: belowMin
+      3: belowLow
+      4: normal
+      5: aboveHigh
+      6: aboveMax
+  - name: rPDU2SensorTempHumidityStatusTempPeakF
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.12
+    type: gauge
+    help: Sensor peak temperature in tenths of degrees Fahrenheit - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.12
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusTempPeakC
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.13
+    type: gauge
+    help: Sensor peak temperature in tenths of degrees Celsius - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.13
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusTempPeakTimestamp
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.14
+    type: DisplayString
+    help: Indicates the date and time that the peak temperature occurred - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.14
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2SensorTempHumidityStatusTempPeakStartTime
+    oid: 1.3.6.1.4.1.318.1.1.26.10.2.2.1.15
+    type: DisplayString
+    help: Indicates the date and time of the last temperature peak reset - 1.3.6.1.4.1.318.1.1.26.10.2.2.1.15
+    indexes:
+    - labelname: rPDU2SensorTempHumidityStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusIndex
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.1
+    type: gauge
+    help: The index to the Rack PDU status table entry - 1.3.6.1.4.1.318.1.1.26.4.3.1.1
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusModule
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.2
+    type: gauge
+    help: The user-defined Rack PDU numeric ID - 1.3.6.1.4.1.318.1.1.26.4.3.1.2
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusName
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.3
+    type: DisplayString
+    help: A user-defined string identifying the Rack PDU - 1.3.6.1.4.1.318.1.1.26.4.3.1.3
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusLoadState
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.4
+    type: gauge
+    help: Indicates the present load status of the Rack PDU - 1.3.6.1.4.1.318.1.1.26.4.3.1.4
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: lowLoad
+      2: normal
+      3: nearOverload
+      4: overload
+      5: notsupported
+  - name: rPDU2DeviceStatusPower
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.5
+    type: gauge
+    help: The power consumption of the Rack PDU load in hundredths of kilowatts -
+      1.3.6.1.4.1.318.1.1.26.4.3.1.5
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusPeakPower
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.6
+    type: gauge
+    help: The peak power consumption of the Rack PDU load in hundredths of kilowatts
+      - 1.3.6.1.4.1.318.1.1.26.4.3.1.6
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusPeakPowerTimestamp
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.7
+    type: DisplayString
+    help: Indicates the date and time that peak power consumption occurred - 1.3.6.1.4.1.318.1.1.26.4.3.1.7
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusPeakPowerStartTime
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.8
+    type: DisplayString
+    help: Indicates the date and time of the last device peak power reset - 1.3.6.1.4.1.318.1.1.26.4.3.1.8
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusEnergy
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.9
+    type: gauge
+    help: A user resettable energy meter measuring Rack PDU load energy consumption
+      in tenths of kilowatt-hours - 1.3.6.1.4.1.318.1.1.26.4.3.1.9
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusEnergyStartTime
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.10
+    type: DisplayString
+    help: Indicates the date and time of the last device energy meter reset - 1.3.6.1.4.1.318.1.1.26.4.3.1.10
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusCommandPending
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.11
+    type: gauge
+    help: Indicates whether or not the device is processing a pending command - 1.3.6.1.4.1.318.1.1.26.4.3.1.11
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: commandPending
+      2: noCommandPending
+      3: commandPendingUnknown
+  - name: rPDU2DeviceStatusPowerSupplyAlarm
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.12
+    type: gauge
+    help: Indicates a power supply alarm is active when value equals alarm (2) - 1.3.6.1.4.1.318.1.1.26.4.3.1.12
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: alarm
+  - name: rPDU2DeviceStatusPowerSupply1Status
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.13
+    type: gauge
+    help: Indicates whether or not an alarm is active in Power Supply 1 - 1.3.6.1.4.1.318.1.1.26.4.3.1.13
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: alarm
+      3: notInstalled
+  - name: rPDU2DeviceStatusPowerSupply2Status
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.14
+    type: gauge
+    help: Indicates whether or not an alarm is active in Power Supply 2 - 1.3.6.1.4.1.318.1.1.26.4.3.1.14
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: alarm
+      3: notInstalled
+  - name: rPDU2DeviceStatusOutletsEnergyStartTime
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.15
+    type: DisplayString
+    help: Indicates the date and time of the last outlets energy meter reset - 1.3.6.1.4.1.318.1.1.26.4.3.1.15
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.16
+    type: gauge
+    help: The apparent power consumption of the Rack PDU load in hundredths of kiloVoltAmps
+      (kVA) - 1.3.6.1.4.1.318.1.1.26.4.3.1.16
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusPowerFactor
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.17
+    type: gauge
+    help: The power factor of the Rack PDU load in hundredths - 1.3.6.1.4.1.318.1.1.26.4.3.1.17
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+  - name: rPDU2DeviceStatusNPSType
+    oid: 1.3.6.1.4.1.318.1.1.26.4.3.1.18
+    type: gauge
+    help: 'The device NPS status: notNPS (1) indicates the Rack PDU is not in an NPS
+      group - 1.3.6.1.4.1.318.1.1.26.4.3.1.18'
+    indexes:
+    - labelname: rPDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: notNPS
+      2: host
+      3: guest
+  - name: rPDU2PhaseStatusIndex
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.1
+    type: gauge
+    help: The index to the Rack PDU phase status table entry - 1.3.6.1.4.1.318.1.1.26.6.3.1.1
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusModule
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.2
+    type: gauge
+    help: The user-defined Rack PDU numeric ID - 1.3.6.1.4.1.318.1.1.26.6.3.1.2
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusNumber
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.3
+    type: gauge
+    help: The numeric phase ID - 1.3.6.1.4.1.318.1.1.26.6.3.1.3
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusLoadState
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.4
+    type: gauge
+    help: Indicates the present load status of the Rack PDU phase being queried -
+      1.3.6.1.4.1.318.1.1.26.6.3.1.4
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+    enum_values:
+      1: lowLoad
+      2: normal
+      3: nearOverload
+      4: overload
+  - name: rPDU2PhaseStatusCurrent
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.5
+    type: gauge
+    help: Indicates the current draw, in tenths of Amps, of the load on the Rack PDU
+      phase being queried - 1.3.6.1.4.1.318.1.1.26.6.3.1.5
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusVoltage
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.6
+    type: gauge
+    help: Indicates the Voltage, in Volts, of the Rack PDU phase being queried - 1.3.6.1.4.1.318.1.1.26.6.3.1.6
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusPower
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.7
+    type: gauge
+    help: Indicates the load power, in hundredths of kilowatts (kW), consumed on the
+      Rack PDU phase being queried - 1.3.6.1.4.1.318.1.1.26.6.3.1.7
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusApparentPower
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.8
+    type: gauge
+    help: Indicates the load apparent power, in hundredths of kiloVoltAmps (kVA),
+      consumed on the Rack PDU phase being queried - 1.3.6.1.4.1.318.1.1.26.6.3.1.8
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusPowerFactor
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.9
+    type: gauge
+    help: Indicates the load power factor, in hundredths, of the Rack PDU phase being
+      queried - 1.3.6.1.4.1.318.1.1.26.6.3.1.9
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusPeakCurrent
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.10
+    type: gauge
+    help: The peak current of the Rack PDU phase load in tenths of Amps - 1.3.6.1.4.1.318.1.1.26.6.3.1.10
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusPeakCurrentTimestamp
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.11
+    type: DisplayString
+    help: Indicates the date and time that the peak current occurred - 1.3.6.1.4.1.318.1.1.26.6.3.1.11
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
+      type: gauge
+  - name: rPDU2PhaseStatusPeakCurrentStartTime
+    oid: 1.3.6.1.4.1.318.1.1.26.6.3.1.12
+    type: DisplayString
+    help: Indicates the date and time of the last phase peak current reset - 1.3.6.1.4.1.318.1.1.26.6.3.1.12
+    indexes:
+    - labelname: rPDU2PhaseStatusIndex
       type: gauge
   - name: rPDU2BankStatusIndex
     oid: 1.3.6.1.4.1.318.1.1.26.8.3.1.1
