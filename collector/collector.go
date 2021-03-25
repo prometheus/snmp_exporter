@@ -208,8 +208,8 @@ type collector struct {
 	logger log.Logger
 }
 
-func New(target string, module *config.Module, logger log.Logger) *collector {
-	return &collector{target: target, module: module, logger: logger}
+func New(ctx context.Context, target string, module *config.Module, logger log.Logger) *collector {
+	return &collector{ctx: ctx, target: target, module: module, logger: logger}
 }
 
 // Describe implements Prometheus.Collector.
