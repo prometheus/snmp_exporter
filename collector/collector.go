@@ -202,14 +202,15 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 }
 
 type collector struct {
-	ctx    context.Context
-	target string
-	module *config.Module
-	logger log.Logger
+	ctx           context.Context
+	target        string
+	module        *config.Module
+	logger        log.Logger
+	metricsPrefix string
 }
 
-func New(ctx context.Context, target string, module *config.Module, logger log.Logger) *collector {
-	return &collector{ctx: ctx, target: target, module: module, logger: logger}
+func New(ctx context.Context, target string, module *config.Module, logger log.Logger, metricsPrefix *string) *collector {
+	return &collector{ctx: ctx, target: target, module: module, logger: logger, metricsPrefix: *metricsPrefix}
 }
 
 // Describe implements Prometheus.Collector.
@@ -253,7 +254,7 @@ PduLoop:
 			}
 			if head.metric != nil {
 				// Found a match.
-				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, c.logger)
+				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, c.logger, c.metricsPrefix)
 				for _, sample := range samples {
 					ch <- sample
 				}
@@ -332,7 +333,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 	return float64(t.Unix()), nil
 }
 
-func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger) []prometheus.Metric {
+func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger, metricsPrefix string) []prometheus.Metric {
 	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
@@ -404,7 +405,12 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		}
 	}
 
-	sample, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
+	metricName := metric.Name
+	if metricsPrefix != "" {
+		metricName = fmt.Sprintf("%s%s", metricsPrefix, metricName)
+	}
+
+	sample, err := prometheus.NewConstMetric(prometheus.NewDesc(metricName, metric.Help, labelnames, nil),
 		t, value, labelvalues...)
 	if err != nil {
 		sample = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),

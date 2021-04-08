@@ -45,6 +45,7 @@ var (
 	webConfig     = webflag.AddFlags(kingpin.CommandLine)
 	listenAddress = kingpin.Flag("web.listen-address", "Address to listen on for web interface and telemetry.").Default(":9116").String()
 	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	metricsPrefix = kingpin.Flag("metrics-prefix", "Prefix to append to every metric.").Default("").String()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = promauto.NewSummaryVec(
@@ -66,7 +67,7 @@ var (
 	reloadCh chan chan error
 )
 
-func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
+func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, metricsPrefix *string) {
 	query := r.URL.Query()
 
 	target := query.Get("target")
@@ -99,7 +100,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, module, logger)
+	c := collector.New(r.Context(), target, module, logger, metricsPrefix)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
@@ -196,7 +197,7 @@ func main() {
 	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	// Endpoint to do SNMP scrapes.
 	http.HandleFunc("/snmp", func(w http.ResponseWriter, r *http.Request) {
-		handler(w, r, logger)
+		handler(w, r, logger, metricsPrefix)
 	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 
