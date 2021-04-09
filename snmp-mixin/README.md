@@ -1,6 +1,6 @@
 # SNMP Mixin
 
-The MySQLd Mixin is a set of configurable, reusable, and extensible alerts and
+The SNMP Mixin is a set of configurable, reusable, and extensible alerts and
 dashboards based on the metrics exported by snmp_exporter. The mixin creates
 recording and alerting rules for Prometheus and suitable dashboard descriptions
 for Grafana.
