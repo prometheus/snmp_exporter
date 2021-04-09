@@ -82,9 +82,9 @@ jobs:
 
     steps:
     - checkout
-    - run: cd snmp-mixin; go install github.com/monitoring-mixins/mixtool/cmd/mixtool
-    - run: cd snmp-mixin; go install github.com/google/go-jsonnet/cmd/jsonnetfmt
-    - run: cd snmp-mixin; make lint build
+    - run: go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest
+    - run: go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+    - run: make -C snmp-mixin lint build
 
 workflows:
   version: 2
