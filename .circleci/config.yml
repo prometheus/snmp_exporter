@@ -94,6 +94,10 @@ workflows:
         filters:
           tags:
             only: /.*/
+    - mixin:
+        filters:
+          tags:
+            only: /.*/
     - prometheus/build:
         name: build
         filters:
