@@ -77,11 +77,24 @@ jobs:
     - run: make -C generator docker-publish
     - run: make -C generator docker-publish DOCKER_REPO=quay.io/prometheus
 
+  mixin:
+    executor: golang
+
+    steps:
+    - checkout
+    - run: go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest
+    - run: go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+    - run: make -C snmp-mixin lint build
+
 workflows:
   version: 2
   snmp_exporter:
     jobs:
     - test:
+        filters:
+          tags:
+            only: /.*/
+    - mixin:
         filters:
           tags:
             only: /.*/
