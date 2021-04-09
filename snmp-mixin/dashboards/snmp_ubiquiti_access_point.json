@@ -1,0 +1,2950 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      },
+      {
+        "datasource": "default",
+        "enable": false,
+        "expr": "ALERTS{instance=~\"$devices\",alertstate=\"firing\"}",
+        "hide": false,
+        "iconColor": "#8F3BB8",
+        "limit": 100,
+        "name": "Alerts-Firing",
+        "showIn": 0,
+        "step": "",
+        "tagKeys": "alerts-firing",
+        "tags": [],
+        "textFormat": "{{alertname}} {{severity}} {{alertstate}}",
+        "titleFormat": "Alerts",
+        "type": "tags",
+        "useValueForTime": false
+      },
+      {
+        "datasource": "default",
+        "enable": false,
+        "expr": "ALERTS{instance=~\"$devices\",alertstate=\"pending\"}",
+        "hide": false,
+        "iconColor": "#CA95E5",
+        "limit": 100,
+        "name": "Alerts-Pending",
+        "showIn": 0,
+        "tagKeys": "alerts-pending",
+        "tags": [],
+        "textFormat": "{{alertname}} {{severity}} {{alertstate}}",
+        "titleFormat": "Alerts",
+        "type": "tags"
+      },
+      {
+        "datasource": "default",
+        "enable": false,
+        "expr": "absent(snmp_scrape_walk_duration_seconds{instance=\"$devices\"})",
+        "hide": false,
+        "iconColor": "#FF780A",
+        "limit": 100,
+        "name": "SNMP-Unreach",
+        "showIn": 0,
+        "step": "",
+        "tagKeys": "snmp",
+        "tags": [],
+        "textFormat": "Unreachable",
+        "titleFormat": "SNMP",
+        "type": "tags",
+        "useValueForTime": false
+      },
+      {
+        "datasource": "default",
+        "enable": false,
+        "expr": "absent(probe_success{job=\"blackbox_icmp\",instance=\"$devices\"} == 1)",
+        "hide": false,
+        "iconColor": "#3274D9",
+        "limit": 100,
+        "name": "ICMP-Unreach",
+        "showIn": 0,
+        "step": "60s",
+        "tagKeys": "icmp",
+        "tags": [],
+        "textFormat": "Unreachable",
+        "titleFormat": "ICMP",
+        "type": "tags"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "id": 6,
+  "iteration": 1617917902810,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4008,
+      "panels": [],
+      "title": "Overview",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "How much traffic is on the air and going through this particular access point?",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 3974,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:491",
+          "alias": "/Out/",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=\"$devices\"}[5m]))*8",
+          "interval": "",
+          "legendFormat": "In",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=\"$devices\"}[5m]))*8",
+          "interval": "",
+          "legendFormat": "Out",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Traffic on the air",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:266",
+          "format": "binbps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:267",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "How many packets are on the air and going through this particular access point?\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 3985,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:491",
+          "alias": "/Out/",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "interval": "",
+          "legendFormat": "In",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "interval": "",
+          "legendFormat": "In, dropped",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "interval": "",
+          "legendFormat": "In, errors",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "interval": "",
+          "legendFormat": "Out",
+          "refId": "D"
+        },
+        {
+          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "interval": "",
+          "legendFormat": "Out, dropped",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "interval": "",
+          "legendFormat": "Out, errors",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Packets on the air",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:266",
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:267",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "description": "How much traffic is coming from and going to this particular access point into the wired network?\n\nIf this empty, the access point is likely in wireless relay mode.",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "hiddenSeries": false,
+      "id": 15,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:657",
+          "alias": "/In/",
+          "stack": "A"
+        },
+        {
+          "$$hashKey": "object:658",
+          "alias": "/Out/",
+          "stack": "B",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=~\"eth.*\"}[5m]))*8",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 3,
+          "legendFormat": "In",
+          "refId": "A",
+          "step": 10
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=~\"eth.*\"}[5m]))*8",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 3,
+          "legendFormat": "Out",
+          "refId": "B",
+          "step": 10
+        }
+      ],
+      "thresholds": [
+        {
+          "$$hashKey": "object:350",
+          "colorMode": "custom",
+          "line": true,
+          "lineColor": "rgba(255, 255, 255, 0.65)",
+          "op": "gt",
+          "value": 0,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Traffic on the wire",
+      "tooltip": {
+        "msResolution": true,
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:673",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:674",
+          "format": "short",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "How many packets are coming from and going to this particular access point into the wired network?\n\nIf this empty, the access point is likely in wireless relay mode.\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 3972,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:218",
+          "alias": "/Out/",
+          "transform": "negative-Y"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "irate(unifiIfRxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "In",
+          "refId": "A"
+        },
+        {
+          "expr": "irate(unifiIfRxMulticast{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "In, multicast",
+          "refId": "B"
+        },
+        {
+          "expr": "irate(unifiIfRxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "In, dropped",
+          "refId": "C"
+        },
+        {
+          "expr": "irate(unifiIfRxError{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "In, error",
+          "refId": "D"
+        },
+        {
+          "expr": "irate(unifiIfTxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "Out",
+          "refId": "E"
+        },
+        {
+          "expr": "irate(unifiIfTxMulticast{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "Out, multicast",
+          "refId": "F"
+        },
+        {
+          "expr": "irate(unifiIfTxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "Out, dropped",
+          "refId": "G"
+        },
+        {
+          "expr": "irate(unifiIfTxError{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "interval": "",
+          "legendFormat": "Out, error",
+          "refId": "H"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Packets on the wire",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:147",
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:148",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 290,
+      "panels": [],
+      "repeat": null,
+      "title": "Health & info",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "description": "This is the Linux load average as per https://en.wikipedia.org/wiki/Load_(computing)",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 33
+      },
+      "hiddenSeries": false,
+      "id": 126,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "laLoadFloat{instance=\"$devices\",laIndex=\"1\"}",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "1 minute",
+          "refId": "A",
+          "step": 240
+        },
+        {
+          "expr": "laLoadFloat{instance=\"$devices\",laIndex=\"2\"}",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "5 minutes",
+          "refId": "B"
+        },
+        {
+          "expr": "laLoadFloat{instance=\"$devices\",laIndex=\"3\"}",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "15 minutes",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Load average",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:137",
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:138",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 33
+      },
+      "hiddenSeries": false,
+      "id": 3958,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:415",
+          "alias": "/relative/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "memTotalReal{instance=\"$devices\"} - memTotalFree{instance=\"$devices\"}",
+          "interval": "",
+          "legendFormat": "Used, absolute",
+          "refId": "A"
+        },
+        {
+          "expr": "(memTotalReal{instance=\"$devices\"} - memTotalFree{instance=\"$devices\"}) / memTotalReal{instance=\"$devices\"}",
+          "interval": "",
+          "legendFormat": "Used, relative",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Memory",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:395",
+          "format": "bits",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:396",
+          "decimals": null,
+          "format": "percentunit",
+          "label": null,
+          "logBase": 1,
+          "max": "1",
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 3,
+        "x": 0,
+        "y": 40
+      },
+      "id": 3960,
+      "options": {
+        "content": "Model: $device_model  \nFirmware: $device_firmware_version  \nMain IP: $device_main_ip\n\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "{{$device_model}}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$devices information",
+      "type": "text"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 3,
+        "x": 3,
+        "y": 40
+      },
+      "id": 4019,
+      "options": {
+        "content": "${device_ESSIDs}",
+        "mode": "markdown"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "{{$device_model}}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$devices ESSIDs",
+      "type": "text"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 6,
+        "y": 40
+      },
+      "id": 3996,
+      "options": {
+        "content": "$device_mac_addresses",
+        "mode": "markdown"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "{{$device_model}}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$devices MAC",
+      "type": "text"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "This is split into the internal parts of snmp_exporter to show where any timing problems come from.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 3946,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": false,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "scrape_duration_seconds{job=~\"snmp.*\",instance=\"$devices\"}",
+          "interval": "",
+          "intervalFactor": 4,
+          "legendFormat": "Total job, Prometheus point of view",
+          "refId": "A"
+        },
+        {
+          "expr": "snmp_scrape_duration_seconds{job=~\"snmp.*\",instance=\"$devices\"}",
+          "interval": "",
+          "intervalFactor": 4,
+          "legendFormat": "snmp_exporter, internal",
+          "refId": "B"
+        },
+        {
+          "expr": "snmp_scrape_walk_duration_seconds{job=~\"snmp.*\",instance=\"$devices\"}",
+          "interval": "",
+          "intervalFactor": 4,
+          "legendFormat": "snmp_exporter, just SNMP",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Job response times",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:99",
+          "format": "s",
+          "label": null,
+          "logBase": 2,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:100",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 47
+      },
+      "id": 291,
+      "panels": [],
+      "repeat": null,
+      "title": "Interfaces",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "hiddenSeries": false,
+      "id": 692,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeat": "device_interfaces",
+      "repeatDirection": "h",
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "br0",
+          "value": "br0"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "hiddenSeries": false,
+      "id": 4020,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "eth0",
+          "value": "eth0"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 55
+      },
+      "hiddenSeries": false,
+      "id": 4021,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "lo",
+          "value": "lo"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 55
+      },
+      "hiddenSeries": false,
+      "id": 4022,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "ra0",
+          "value": "ra0"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 62
+      },
+      "hiddenSeries": false,
+      "id": 4023,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "ra1",
+          "value": "ra1"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 62
+      },
+      "hiddenSeries": false,
+      "id": 4024,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "ra2",
+          "value": "ra2"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 69
+      },
+      "hiddenSeries": false,
+      "id": 4025,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "ra3",
+          "value": "ra3"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 69
+      },
+      "hiddenSeries": false,
+      "id": 4026,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "rai0",
+          "value": "rai0"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 76
+      },
+      "hiddenSeries": false,
+      "id": 4027,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "rai1",
+          "value": "rai1"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 76
+      },
+      "hiddenSeries": false,
+      "id": 4028,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "rai2",
+          "value": "rai2"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "default",
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 83
+      },
+      "hiddenSeries": false,
+      "id": 4029,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": true,
+        "show": false,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "maxPerRow": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatDirection": "h",
+      "repeatIteration": 1617917902810,
+      "repeatPanelId": 692,
+      "scopedVars": {
+        "device_interfaces": {
+          "selected": false,
+          "text": "rai3",
+          "value": "rai3"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:132",
+          "alias": "/Out /",
+          "transform": "negative-Y"
+        },
+        {
+          "$$hashKey": "object:133",
+          "alias": "/utilization/",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        },
+        {
+          "$$hashKey": "object:134",
+          "alias": "/Sub/",
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "In {{ifName}}",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Out {{ifName}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Bits - $device_interfaces ",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:159",
+          "format": "bps",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:160",
+          "format": "percentunit",
+          "logBase": 1,
+          "max": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allFormat": "pipe",
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "All"
+        },
+        "datasource": "default",
+        "definition": "label_values(up{job=~\"snmp.*\"}, instance)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Devices",
+        "multi": false,
+        "multiFormat": "pipe",
+        "name": "devices",
+        "options": [],
+        "query": {
+          "query": "label_values(up{job=~\"snmp.*\"}, instance)",
+          "refId": "default-devices-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "pipe",
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "default",
+        "definition": "query_result(ifOperStatus{job=~\"snmp.*\",instance=\"$devices\"}==1)",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": true,
+        "label": "Interface",
+        "multi": true,
+        "multiFormat": "pipe",
+        "name": "device_interfaces",
+        "options": [],
+        "query": {
+          "query": "query_result(ifOperStatus{job=~\"snmp.*\",instance=\"$devices\"}==1)",
+          "refId": "default-device_interfaces-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": ".*ifName=\"(.*?)\".*",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "UAP-nanoHD",
+          "value": "UAP-nanoHD"
+        },
+        "datasource": "default",
+        "definition": "label_values(unifiApSystemModel{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemModel)",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "device_model",
+        "options": [],
+        "query": {
+          "query": "label_values(unifiApSystemModel{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemModel)",
+          "refId": "default-device_model-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "5.43.23.12533",
+          "value": "5.43.23.12533"
+        },
+        "datasource": "default",
+        "definition": "label_values(unifiApSystemVersion{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemVersion)",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "device_firmware_version",
+        "options": [],
+        "query": {
+          "query": "label_values(unifiApSystemVersion{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemVersion)",
+          "refId": "default-device_firmware_version-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "default",
+        "definition": "label_values(ifPhysAddress{job=~\"snmp.*\",instance=\"$devices\"}, ifPhysAddress)",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "device_mac_addresses",
+        "options": [],
+        "query": {
+          "query": "label_values(ifPhysAddress{job=~\"snmp.*\",instance=\"$devices\"}, ifPhysAddress)",
+          "refId": "default-device_mac_addresses-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "All"
+        },
+        "datasource": "default",
+        "definition": "label_values(unifiApSystemIp{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemIp)",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "device_main_ip",
+        "options": [],
+        "query": {
+          "query": "label_values(unifiApSystemIp{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemIp)",
+          "refId": "default-device_main_ip-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "pipe",
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "default",
+        "definition": "label_values(unifiVapEssId{job=~\"snmp.*\",instance=\"$devices\"}, unifiVapEssId)",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": true,
+        "label": "Interface",
+        "multi": true,
+        "multiFormat": "pipe",
+        "name": "device_ESSIDs",
+        "options": [],
+        "query": {
+          "query": "label_values(unifiVapEssId{job=~\"snmp.*\",instance=\"$devices\"}, unifiVapEssId)",
+          "refId": "default-device_ESSIDs-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "now": true,
+    "refresh_intervals": [
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "SNMP / Ubiquiti Access Point",
+  "uid": "RQ7zUC8Gk",
+  "version": 23
+}
