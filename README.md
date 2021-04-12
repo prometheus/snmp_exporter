@@ -74,7 +74,7 @@ FQDN of the SNMP device to get metrics from.
 You can also specify a `module` parameter to choose which module to use from
 the config file. `if_mib` is the default module.
 
-http://neutronium:9116/snmp?module=if_mib&target=1.2.3.4
+http://localhost:9116/snmp?module=if_mib&target=1.2.3.4
 
 ## Configuration
 
