@@ -345,6 +345,7 @@ apcups:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -3042,6 +3043,7 @@ arista_sw:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -4278,6 +4280,7 @@ cisco_wlc:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -5407,6 +5410,7 @@ ddwrt:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -6827,6 +6831,7 @@ if_mib:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -9631,6 +9636,7 @@ kemp_loadmaster:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -13417,6 +13423,7 @@ mikrotik:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -20036,6 +20043,7 @@ paloalto_fw:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -21191,36 +21199,28 @@ paloalto_fw:
     type: DisplayString
     help: Zone name for the interface - 1.3.6.1.4.1.25461.2.1.2.3.10.1.1
     indexes:
-    - labelname: panZoneName
-      type: DisplayString
-    - labelname: panVsysId
+    - labelname: ifIndex
       type: gauge
   - name: panZoneActiveTcpCps
     oid: 1.3.6.1.4.1.25461.2.1.2.3.10.1.2
     type: gauge
     help: Number of active TCP connections per second for this zone. - 1.3.6.1.4.1.25461.2.1.2.3.10.1.2
     indexes:
-    - labelname: panZoneName
-      type: DisplayString
-    - labelname: panVsysId
+    - labelname: ifIndex
       type: gauge
   - name: panZoneActiveUdpCps
     oid: 1.3.6.1.4.1.25461.2.1.2.3.10.1.3
     type: gauge
     help: Number of active UDP connections per second for this zone. - 1.3.6.1.4.1.25461.2.1.2.3.10.1.3
     indexes:
-    - labelname: panZoneName
-      type: DisplayString
-    - labelname: panVsysId
+    - labelname: ifIndex
       type: gauge
   - name: panZoneActiveOtherIpCps
     oid: 1.3.6.1.4.1.25461.2.1.2.3.10.1.4
     type: gauge
     help: Number of active Other IP connections per second for this zone. - 1.3.6.1.4.1.25461.2.1.2.3.10.1.4
     indexes:
-    - labelname: panZoneName
-      type: DisplayString
-    - labelname: panVsysId
+    - labelname: ifIndex
       type: gauge
   - name: ifIndex
     oid: 1.3.6.1.4.1.25461.2.1.2.3.11.1.1
@@ -24610,6 +24610,7 @@ synology:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -27196,6 +27197,7 @@ ubiquiti_airfiber:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -29045,6 +29047,7 @@ ubiquiti_airmax:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge
@@ -30371,6 +30374,7 @@ ubiquiti_unifi:
       299: ieee19061nanocom
       300: cpri
       301: omni
+      302: roe
   - name: ifMtu
     oid: 1.3.6.1.2.1.2.2.1.4
     type: gauge

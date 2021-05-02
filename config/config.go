@@ -63,7 +63,7 @@ type Config map[string]*Module
 
 type WalkParams struct {
 	Version        int           `yaml:"version,omitempty"`
-	MaxRepetitions uint8         `yaml:"max_repetitions,omitempty"`
+	MaxRepetitions uint32        `yaml:"max_repetitions,omitempty"`
 	Retries        int           `yaml:"retries,omitempty"`
 	Timeout        time.Duration `yaml:"timeout,omitempty"`
 	Auth           Auth          `yaml:"auth,omitempty"`
