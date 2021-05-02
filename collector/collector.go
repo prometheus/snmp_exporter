@@ -32,11 +32,39 @@ import (
 	"github.com/prometheus/snmp_exporter/config"
 )
 
+const (
+	namespace = "snmp"
+)
+
 var (
+	buckets               = prometheus.ExponentialBuckets(0.0001, 2, 15)
 	snmpUnexpectedPduType = promauto.NewCounter(
 		prometheus.CounterOpts{
-			Name: "snmp_unexpected_pdu_type_total",
-			Help: "Unexpected Go types in a PDU.",
+			Namespace: namespace,
+			Name:      "unexpected_pdu_type_total",
+			Help:      "Unexpected Go types in a PDU.",
+		},
+	)
+	snmpDuration = promauto.NewHistogram(
+		prometheus.HistogramOpts{
+			Namespace: namespace,
+			Name:      "packet_duration_seconds",
+			Help:      "A histogram of latencies for SNMP packets.",
+			Buckets:   buckets,
+		},
+	)
+	snmpPackets = promauto.NewCounter(
+		prometheus.CounterOpts{
+			Namespace: namespace,
+			Name:      "packets_total",
+			Help:      "Number of SNMP packet sent, including retries.",
+		},
+	)
+	snmpRetries = promauto.NewCounter(
+		prometheus.CounterOpts{
+			Namespace: namespace,
+			Name:      "packet_retries_total",
+			Help:      "Number of SNMP packet retries.",
 		},
 	)
 	// 64-bit float mantissa: https://en.wikipedia.org/wiki/Double-precision_floating-point_format
@@ -80,7 +108,14 @@ func listToOid(l []int) string {
 	return strings.Join(result, ".")
 }
 
-func ScrapeTarget(ctx context.Context, target string, config *config.Module, logger log.Logger) ([]gosnmp.SnmpPDU, error) {
+type ScrapeResults struct {
+	pdus    []gosnmp.SnmpPDU
+	packets uint64
+	retries uint64
+}
+
+func ScrapeTarget(ctx context.Context, target string, config *config.Module, logger log.Logger) (ScrapeResults, error) {
+	results := ScrapeResults{}
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
 	snmp.Context = ctx
@@ -88,13 +123,27 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	snmp.Retries = config.WalkParams.Retries
 	snmp.Timeout = config.WalkParams.Timeout
 
+	var sent time.Time
+	snmp.OnSent = func(x *gosnmp.GoSNMP) {
+		sent = time.Now()
+		snmpPackets.Inc()
+		results.packets++
+	}
+	snmp.OnRecv = func(x *gosnmp.GoSNMP) {
+		snmpDuration.Observe(time.Since(sent).Seconds())
+	}
+	snmp.OnRetry = func(x *gosnmp.GoSNMP) {
+		snmpRetries.Inc()
+		results.retries++
+	}
+
 	snmp.Target = target
 	snmp.Port = 161
 	if host, port, err := net.SplitHostPort(target); err == nil {
 		snmp.Target = host
 		p, err := strconv.Atoi(port)
 		if err != nil {
-			return nil, fmt.Errorf("error converting port number to int for target %s: %s", target, err)
+			return results, fmt.Errorf("error converting port number to int for target %s: %s", target, err)
 		}
 		snmp.Port = uint16(p)
 	}
@@ -106,9 +155,9 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	err := snmp.Connect()
 	if err != nil {
 		if err == context.Canceled {
-			return nil, fmt.Errorf("scrape canceled (possible timeout) connecting to target %s", snmp.Target)
+			return results, fmt.Errorf("scrape canceled (possible timeout) connecting to target %s", snmp.Target)
 		}
-		return nil, fmt.Errorf("error connecting to target %s: %s", target, err)
+		return results, fmt.Errorf("error connecting to target %s: %s", target, err)
 	}
 	defer snmp.Conn.Close()
 
@@ -130,9 +179,9 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
 			if err == context.Canceled {
-				return nil, fmt.Errorf("scrape canceled (possible timeout) getting target %s", snmp.Target)
+				return results, fmt.Errorf("scrape canceled (possible timeout) getting target %s", snmp.Target)
 			}
-			return nil, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
+			return results, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Get of OIDs completed", "oids", oids, "duration_seconds", time.Since(getStart))
 		// SNMPv1 will return packet error for unsupported OIDs.
@@ -144,7 +193,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		// Response received with errors.
 		// TODO: "stringify" gosnmp errors instead of showing error code.
 		if packet.Error != gosnmp.NoError {
-			return nil, fmt.Errorf("error reported by target %s: Error Status %d", snmp.Target, packet.Error)
+			return results, fmt.Errorf("error reported by target %s: Error Status %d", snmp.Target, packet.Error)
 		}
 		for _, v := range packet.Variables {
 			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
@@ -167,15 +216,15 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		}
 		if err != nil {
 			if err == context.Canceled {
-				return nil, fmt.Errorf("scrape canceled (possible timeout) walking target %s", snmp.Target)
+				return results, fmt.Errorf("scrape canceled (possible timeout) walking target %s", snmp.Target)
 			}
-			return nil, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
+			return results, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Walk of subtree completed", "oid", subtree, "duration_seconds", time.Since(walkStart))
 
-		result = append(result, pdus...)
+		results.pdus = append(result, pdus...)
 	}
-	return result, nil
+	return results, nil
 }
 
 type MetricNode struct {
@@ -220,7 +269,7 @@ func (c collector) Describe(ch chan<- *prometheus.Desc) {
 // Collect implements Prometheus.Collector.
 func (c collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
-	pdus, err := ScrapeTarget(c.ctx, c.target, c.module, c.logger)
+	results, err := ScrapeTarget(c.ctx, c.target, c.module, c.logger)
 	if err != nil {
 		level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
@@ -231,11 +280,19 @@ func (c collector) Collect(ch chan<- prometheus.Metric) {
 		prometheus.GaugeValue,
 		time.Since(start).Seconds())
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from walk.", nil, nil),
+		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, nil),
 		prometheus.GaugeValue,
-		float64(len(pdus)))
-	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(pdus))
-	for _, pdu := range pdus {
+		float64(results.packets))
+	ch <- prometheus.MustNewConstMetric(
+		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, nil),
+		prometheus.GaugeValue,
+		float64(results.retries))
+	ch <- prometheus.MustNewConstMetric(
+		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, nil),
+		prometheus.GaugeValue,
+		float64(len(results.pdus)))
+	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
+	for _, pdu := range results.pdus {
 		oidToPdu[pdu.Name[1:]] = pdu
 	}
 
