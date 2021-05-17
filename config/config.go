@@ -95,7 +95,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			if wp.Auth.PrivPassword == "" {
 				return fmt.Errorf("priv password is missing, required for SNMPv3 with priv")
 			}
-			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" && wp.Auth.PrivProtocol != "AES192" && wp.Auth.PrivProtocol != "AES256" {
+			if wp.Auth.PrivProtocol != "DES" && wp.Auth.PrivProtocol != "AES" && wp.Auth.PrivProtocol != "AES192" && wp.Auth.PrivProtocol != "AES192C" && wp.Auth.PrivProtocol != "AES256" && wp.Auth.PrivProtocol != "AES256C" {
 				return fmt.Errorf("priv protocol must be DES or AES")
 			}
 			fallthrough
@@ -174,8 +174,12 @@ func (c WalkParams) ConfigureSNMP(g *gosnmp.GoSNMP) {
 			usm.PrivacyProtocol = gosnmp.AES
 		case "AES192":
 			usm.PrivacyProtocol = gosnmp.AES192
+		case "AES192C":
+			usm.PrivacyProtocol = gosnmp.AES192C
 		case "AES256":
 			usm.PrivacyProtocol = gosnmp.AES256
+		case "AES256C":
+			usm.PrivacyProtocol = gosnmp.AES256C
 		}
 	}
 	g.SecurityParameters = usm
