@@ -198,8 +198,8 @@ type Filters struct {
 }
 
 type StaticFilter struct {
-	Targets   []string `yaml:"targets,omitempty"`
-	Instances []string `yaml:"instances,omitempty"`
+	Targets []string `yaml:"targets,omitempty"`
+	Indices []string `yaml:"indices,omitempty"`
 }
 type DynamicFilter struct {
 	Oid     string   `yaml:"oid"`

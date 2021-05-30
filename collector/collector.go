@@ -187,16 +187,16 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 			continue
 		}
 
-		allowedList = filterAllowedInstances(logger, filter, pdus, allowedList)
+		allowedList = filterAllowedIndices(logger, filter, pdus, allowedList)
 
-		// Update config to get only instance and not walk them
+		// Update config to get only index and not walk them
 		newWalk = updateWalkConfig(newWalk, filter, logger)
 
-		// Only Keep instance not involved in filters
+		// Only Keep indices not involved in filters
 		newCfg := updateGetConfig(newGet, filter, logger)
 
-		// We now add each instance from filter to the get list
-		newCfg = addAllowedInstances(filter, allowedList, logger, newCfg)
+		// We now add each index from filter to the get list
+		newCfg = addAllowedIndices(filter, allowedList, logger, newCfg)
 
 		newGet = newCfg
 	}
@@ -266,7 +266,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	return results, nil
 }
 
-func filterAllowedInstances(logger log.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string) []string {
+func filterAllowedIndices(logger log.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string) []string {
 	level.Debug(logger).Log("msg", "Evaluating rule for oid", "oid", filter.Oid)
 	for _, pdu := range pdus {
 		found := false
@@ -281,9 +281,9 @@ func filterAllowedInstances(logger log.Logger, filter config.DynamicFilter, pdus
 		}
 		if found {
 			pduArray := strings.Split(pdu.Name, ".")
-			instance := pduArray[len(pduArray)-1]
-			level.Debug(logger).Log("msg", "Caching instance", "instance", instance)
-			allowedList = append(allowedList, instance)
+			index := pduArray[len(pduArray)-1]
+			level.Debug(logger).Log("msg", "Caching index", "index", index)
+			allowedList = append(allowedList, index)
 		}
 	}
 	return allowedList
@@ -329,11 +329,11 @@ func updateGetConfig(getConfig []string, filter config.DynamicFilter, logger log
 	return newCfg
 }
 
-func addAllowedInstances(filter config.DynamicFilter, allowedList []string, logger log.Logger, newCfg []string) []string {
+func addAllowedIndices(filter config.DynamicFilter, allowedList []string, logger log.Logger, newCfg []string) []string {
 	for _, targetOid := range filter.Targets {
-		for _, instance := range allowedList {
-			level.Debug(logger).Log("msg", "Adding get configuration", "oid", targetOid+"."+instance)
-			newCfg = append(newCfg, targetOid+"."+instance)
+		for _, index := range allowedList {
+			level.Debug(logger).Log("msg", "Adding get configuration", "oid", targetOid+"."+index)
+			newCfg = append(newCfg, targetOid+"."+index)
 		}
 	}
 	return newCfg

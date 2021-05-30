@@ -385,7 +385,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			if ok {
 				oid = n.Oid
 			}
-			filterMap[oid] = filter.Instances
+			filterMap[oid] = filter.Indices
 		}
 	}
 
@@ -447,11 +447,11 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					needToWalk[indexNode.Oid] = struct{}{}
 				}
 				// we apply the same filter to metric.Oid if the lookup oid is filtered
-				instances, found := filterMap[indexNode.Oid]
+				indices, found := filterMap[indexNode.Oid]
 				if found {
 					delete(needToWalk, metric.Oid)
-					for _, instance := range instances {
-						needToWalk[metric.Oid+"."+instance+"."] = struct{}{}
+					for _, index := range indices {
+						needToWalk[metric.Oid+"."+index+"."] = struct{}{}
 					}
 				}
 				if lookup.DropSourceIndexes {
@@ -516,8 +516,8 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				oid = n.Oid
 			}
 			delete(needToWalk, oid)
-			for _, instance := range filter.Instances {
-				needToWalk[oid+"."+instance+"."] = struct{}{}
+			for _, index := range filter.Indices {
+				needToWalk[oid+"."+index+"."] = struct{}{}
 			}
 		}
 	}

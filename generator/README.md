@@ -142,23 +142,23 @@ modules:
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
                              #   Bits: An RFC 2578 BITS construct, which produces a StateSet with a time series per bit.
 
-    filters: # Define filters to collect only a subset of OID table instances
-      static: # static filters are handled in the generator. They will convert walks to multiple gets with the specified instances
+    filters: # Define filters to collect only a subset of OID table indices
+      static: # static filters are handled in the generator. They will convert walks to multiple gets with the specified indices
               # in the resulting snmp.yml output.
-              # the instance filter will reduce a walk of a table to only the defined instances to get
+              # the index filter will reduce a walk of a table to only the defined indices to get
               # If one of the target OIDs is used in a lookup, the filter will apply ALL tables using this lookup
               # For a network switch, this could be used to collect a subset of interfaces such as uplinks
               # For a router, this could be used to collect all real ports but not vlans and other virtual interfaces
               # Specifying ifAlias or ifName if they are used in lookups with ifIndex will apply to the filter to 
               # all the OIDs that depend on the lookup, such as ifSpeed, ifInHcOctets, etc.
-              # This feature applies to any table(s) OIDs using a common instance
+              # This feature applies to any table(s) OIDs using a common index
         - targets:
           - bsnDot11EssSsid
-          instances: ["2","3","4"]  # List of interface instances to get
+          indices: ["2","3","4"]  # List of interface indices to get
 
       dynamic: # dynamic filters are handed by the snmp exporter. The generator will simply pass on the configuration in the snmp.yml.
                # The exporter will do a snmp walk of the oid and will restrict snmp walk made on the targets
-               # to the instance matching the value in the values list.
+               # to the index matching the value in the values list.
                # This would be typically used to specify a filter for interfaces with a certain name in ifAlias, ifSpeed or admin status.
                # For example, only get interfaces that a gig and faster, or get interfaces that are named Up or interfaces that are admin Up
         - oid: 1.3.6.1.2.1.2.2.1.7
