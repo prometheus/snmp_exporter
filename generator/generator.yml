@@ -21,6 +21,82 @@ modules:
       ifType:
         type: EnumAsInfo
 
+  nec:
+    walk:
+    - rmon1dayClassCounterTxClass1Pkts
+    - mainTemperature
+    - asEthOamBnmReceptionLOC
+    - rmon1dayClassCounterRxClass6Pkts
+    - rmon1dayClassCounterRxClass7Octets
+    - metSysSdRxLevelValue
+#    - esModemModulation # TODO
+    - rmon1dayClassCounterTxClass2Pkts
+    - pmon1dayData2RfValue
+    - rmon1dayClassCounterRxClass2Pkts
+    - metSysBitErrorRateValue
+    - rmon1dayClassCounterRxClass3Pkts
+    - rmon1dayClassCounterRxClass0Octets
+    - pmon1dayData2RfValue
+    - rmon1dayClassCounterTxClass5Octets
+    - rmon1dayClassCounterTxClass7Octets
+    - rmon1dayClassCounterTxClass0Octets
+    - rmon1dayClassCounterTxClass3Octets
+    - rmon1dayClassCounterTxClass4Octets
+    - rmon1dayClassCounterRxClass2Octets
+    - asEthOamBnmTransmissionNominalValue
+    - rmon1dayClassCounterTxClass3Pkts
+    - rmon1dayClassCounterRxClass5Pkts
+#    - esModemTxPowerCont # TODO
+    - txModulation
+    - rmon1dayClassCounterRxClass0Pkts
+    - rmon1dayClassCounterTxClass5Pkts
+    - rmon1dayClassCounterTxClass6Octets
+    - metSysXpdValue
+    - pmon1dayData2RfValue
+    - pmon1dayData2RfValue
+    - rmon1dayClassCounterTxClass2Octets
+    - asEthOamBnmTransmissionCurrentValue
+    - rmon1dayClassCounterTxClass6Pkts
+    - rmon1dayClassCounterRxClass5Octets
+    - rmon1dayTxPeakRate
+    - rmon1dayClassCounterRxClass3Octets
+    - currentTimingSource
+    - rxModulation
+    - rmon1dayClassCounterTxClass1Octets
+    - rmon1dayClassCounterRxClass6Octets
+    - rmon1dayClassCounterRxClass4Octets
+    - timingSourceCondition
+    - rmon1dayClassCounterRxClass4Pkts
+#    - esModemChSpacing # TODO
+    - pmon1dayData2RfValue
+    - rmon1dayClassCounterRxClass1Octets
+    - rmon1dayClassCounterTxClass0Pkts
+    - rmon1dayRxPeakRate
+    - rmon1dayClassCounterTxClass4Pkts
+    - sysUpTime
+    - interfaces
+    - ifXTable
+    - snmpInPkts
+    - snmpOutPkts
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+      - source_indexes: [ifIndex]
+        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
+        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
+
 # Cisco Wireless LAN Controller
   cisco_wlc:
     walk:

@@ -107,7 +107,9 @@ mibs: mib-dir \
   $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/IPD-MIB_Q419V9.mib \
-  $(MIBDIR)/LIEBERT_GP_PDU.MIB
+  $(MIBDIR)/LIEBERT_GP_PDU.MIB \
+  $(MIBDIR)/IPE-COMMON1000-MIBv17.10.01.mib \
+  $(MIBDIR)/IPE-COMMON-MIBv17.10.09.mib
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -270,3 +272,11 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
 	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
 	@rm -v $(TMP)
+
+$(MIBDIR)/IPE-COMMON1000-MIBv17.10.01.mib:
+	@echo ">> Copying IPE-COMMON1000-MIBv17.10.01.mib"
+	@cp "nec/IPE-COMMON1000-MIBv17.10.01.mib" $(MIBDIR) -f
+
+$(MIBDIR)/IPE-COMMON-MIBv17.10.09.mib:
+	@echo ">> Copying IPE-COMMON-MIBv17.10.09.mib"
+	@cp "nec/IPE-COMMON-MIBv17.10.09.mib" $(MIBDIR) -f
