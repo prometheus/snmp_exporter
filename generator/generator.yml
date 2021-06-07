@@ -22,6 +22,8 @@ modules:
         type: EnumAsInfo
 
   nec:
+    max_repetitions: 1000
+    timeout: 5m
     walk:
     - rmon1dayClassCounterTxClass1Pkts
     - mainTemperature
@@ -78,6 +80,12 @@ modules:
     - ifXTable
     - snmpInPkts
     - snmpOutPkts
+    - meteringSfpRxPowerStatus
+    - meteringSfpTxPowerStatus
+    - meteringFanSpeed1Status
+    - meteringFanSpeed2Status
+    - meteringFanSpeed3Status
+    - metSysMainRxLevelStatus
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifAlias

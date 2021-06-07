@@ -222,8 +222,10 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		}
 		level.Debug(logger).Log("msg", "Walk of subtree completed", "oid", subtree, "duration_seconds", time.Since(walkStart))
 
-		results.pdus = append(result, pdus...)
+		result = append(result, pdus...)
 	}
+
+	results.pdus = append(results.pdus, result...)
 	return results, nil
 }
 
