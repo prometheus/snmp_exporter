@@ -22,7 +22,7 @@ If an SNMP entry has multiple index values, each value is mapped to a separate P
 
 SNMP is structured in OID trees, described by MIBs. OID subtrees have the same
 order across different locations in the tree. The order under
-`1.3.6.1.2.1.2.2.1.1` (`ifIndex`) is the as in `1.3.6.1.2.1.2.2.1.2`
+`1.3.6.1.2.1.2.2.1.1` (`ifIndex`) is the same as in `1.3.6.1.2.1.2.2.1.2`
 (`ifDescr`), `1.3.6.1.2.1.31.1.1.1.10` (`ifHCOutOctets`), etc. The numbers are
 OIDs, the names in parentheses are the names from a MIB, in this case
 [IF-MIB](http://www.oidview.com/mibs/0/IF-MIB.html).
