@@ -16,3 +16,6 @@ Prometheus uses GitHub to manage reviews of pull requests.
   and the _Formatting and style_ section of Peter Bourgon's [Go: Best
   Practices for Production
   Environments](http://peter.bourgon.org/go-in-production/#formatting-and-style).
+
+All commits must be signed-off, indicating that your contributions comply with
+the [CDO](https://developercertificate.org/).
