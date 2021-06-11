@@ -43,6 +43,7 @@ WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MI
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
 LIEBERT_URL       := https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
+BRIDGE_URL       := https://www.circitor.fr/Mibs/Mib/B/BRIDGE-MIB.mib
 
 .DEFAULT: all
 
@@ -107,7 +108,10 @@ mibs: mib-dir \
   $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/IPD-MIB_Q419V9.mib \
-  $(MIBDIR)/LIEBERT_GP_PDU.MIB
+  $(MIBDIR)/LIEBERT_GP_PDU.MIB \
+  $(MIBDIR)/IPE-COMMON1000-MIBv17.10.01.mib \
+  $(MIBDIR)/IPE-COMMON-MIBv17.10.09.mib \
+  $(MIBDIR)/BRIDGE-MIB.mib
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -270,3 +274,15 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
 	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
 	@rm -v $(TMP)
+
+$(MIBDIR)/IPE-COMMON1000-MIBv17.10.01.mib:
+	@echo ">> Copying IPE-COMMON1000-MIBv17.10.01.mib"
+	@cp "nec/IPE-COMMON1000-MIBv17.10.01.mib" $(MIBDIR) -f
+
+$(MIBDIR)/IPE-COMMON-MIBv17.10.09.mib:
+	@echo ">> Copying IPE-COMMON-MIBv17.10.09.mib"
+	@cp "nec/IPE-COMMON-MIBv17.10.09.mib" $(MIBDIR) -f
+
+$(MIBDIR)/BRIDGE-MIB.mib:
+	@echo ">> Downloading BRIDGE-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/BRIDGE-MIB.mib "$(BRIDGE_URL)"

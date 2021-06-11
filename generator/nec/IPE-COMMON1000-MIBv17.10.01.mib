@@ -1,0 +1,885 @@
+--
+-- ASN.1 MIB Definitions
+-- Output Date: Thu Jan 09 15:41:09 2020
+--
+
+IPE-COMMON1000-MIB DEFINITIONS ::= BEGIN
+
+-----------------------------------------------
+-- IMPORTS Definitions
+-----------------------------------------------
+
+    IMPORTS
+        Ipv6Address
+            FROM IPV6-TC
+        Integer32, IpAddress, NOTIFICATION-TYPE, OBJECT-TYPE, enterprises
+            FROM SNMPv2-SMI
+        DateAndTime, DisplayString, TEXTUAL-CONVENTION
+            FROM SNMPv2-TC;
+
+-----------------------------------------------
+-- Textual Convention Definitions
+-----------------------------------------------
+
+    EnableDisableValue ::= TEXTUAL-CONVENTION
+        STATUS       current
+        DESCRIPTION  "Enable/Disable Type"
+        SYNTAX       INTEGER { invalid(0), disable(1), enable(2) }
+
+    IpeStatsInfo ::= TEXTUAL-CONVENTION
+        STATUS       current
+        DESCRIPTION  
+            "PMON/RMON monitoring status.
+            'invalid' means the corresponding monitoring value is not
+            reliable because of the alarm or other reasons. 'maintenance'
+            means that some maintenance functions are executed on the current
+            interval."
+        SYNTAX       INTEGER {
+                         invalid(0),
+                         validNoMaint(1),
+                         validMaint(2),
+                         invalidNoMaint(3),
+                         invalidMaint(4)
+                     }
+
+    OffOnValue ::= TEXTUAL-CONVENTION
+        STATUS       current
+        DESCRIPTION  "Off/On Type"
+        SYNTAX       INTEGER { invalid(0), off(1), on(2) }
+
+    SeverityValue ::= TEXTUAL-CONVENTION
+        STATUS       current
+        DESCRIPTION  "Severity (CCITT Rec. X.733)"
+        SYNTAX       INTEGER {
+                         cleared(1),
+                         indetermine(2),
+                         critical(3),
+                         major(4),
+                         minor(5),
+                         warning(6),
+                         notReport(7)
+                     }
+
+-----------------------------------------------
+-- Begin User MIB Object Definitions
+-----------------------------------------------
+
+    nec OBJECT IDENTIFIER
+        ::= { enterprises 119 }
+
+    nec-mib OBJECT IDENTIFIER
+        ::= { nec 2 }
+
+    necProductDepend OBJECT IDENTIFIER
+        ::= { nec-mib 3 }
+
+    radioEquipment OBJECT IDENTIFIER
+        ::= { necProductDepend 69 }
+
+    system5 OBJECT IDENTIFIER
+        ::= { radioEquipment 5 }
+
+    pasoNeoIpe-common OBJECT IDENTIFIER
+        ::= { radioEquipment 501 }
+
+-----------------------------------------------
+-- system5 Group Definitions
+-----------------------------------------------
+
+    ipeConfigurationGroup OBJECT IDENTIFIER
+        ::= { system5 3 }
+
+    ipeCfgPortGroup OBJECT IDENTIFIER
+        ::= { ipeConfigurationGroup 15 }
+
+    ipeCfgPortLct1kTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF IpeCfgPortLct1kEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "LCT port set up information table.
+            TABSZ=1"
+        ::= { ipeCfgPortGroup 8 }
+
+    ipeCfgPortLct1kEntry OBJECT-TYPE
+        SYNTAX       IpeCfgPortLct1kEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "entry of  LCT port set up information table."
+        INDEX        { ipeCfgPortLct1kIndex }
+        ::= { ipeCfgPortLct1kTable 1 }
+
+    IpeCfgPortLct1kEntry ::= SEQUENCE {
+        ipeCfgPortLct1kIndex                   Integer32,
+        ipeCfgPortLct1kNEAddress               IpAddress,
+        ipeCfgPortLct1kIpAddress               IpAddress,
+        ipeCfgPortLct1kNetMask                 IpAddress,
+        ipeCfgPortLct1kEnable                  INTEGER,
+        ipeCfgPortLct1kMtu                     Integer32,
+        ipeCfgPortLct1kAutoNeg                 INTEGER,
+        ipeCfgPortLct1kLinkLocalAddress        Ipv6Address,
+        ipeCfgPortLct1kLinkLocalAddressOrigin  INTEGER,
+        ipeCfgPortLct1kHttpReverseProxyEnable  EnableDisableValue
+    }
+
+    ipeCfgPortLct1kIndex OBJECT-TYPE
+        SYNTAX       Integer32 (1..2)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "Index of table."
+        ::= { ipeCfgPortLct1kEntry 1 }
+
+    ipeCfgPortLct1kNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { ipeCfgPortLct1kEntry 2 }
+
+    ipeCfgPortLct1kIpAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  "IPaddress of LCT port."
+        ::= { ipeCfgPortLct1kEntry 3 }
+
+    ipeCfgPortLct1kNetMask OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  "Subnet mask of LCT port."
+        ::= { ipeCfgPortLct1kEntry 4 }
+
+    ipeCfgPortLct1kEnable OBJECT-TYPE
+        SYNTAX       INTEGER { enabled(1), disabled(2) }
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  
+            "Effective/invalid setting of LCT port.
+            default value is 'enabled'.(iPASOLINK EX Advanced)"
+        ::= { ipeCfgPortLct1kEntry 5 }
+
+    ipeCfgPortLct1kMtu OBJECT-TYPE
+        SYNTAX       Integer32 (256..1500)
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  
+            "MTU value of LCT.
+            value range:256 to 1500"
+        ::= { ipeCfgPortLct1kEntry 6 }
+
+    ipeCfgPortLct1kAutoNeg OBJECT-TYPE
+        SYNTAX       INTEGER { enabled(1), disabled(2) }
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  
+            "Effective/invalid setting of LCT AUTO NEGOTIATION.
+            value range: enabled
+                        disabled"
+        ::= { ipeCfgPortLct1kEntry 7 }
+
+    ipeCfgPortLct1kLinkLocalAddress OBJECT-TYPE
+        SYNTAX       Ipv6Address
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  "The IPv6 Link Local address of the LCT port."
+        ::= { ipeCfgPortLct1kEntry 8 }
+
+    ipeCfgPortLct1kLinkLocalAddressOrigin OBJECT-TYPE
+        SYNTAX       INTEGER { invalid(0), manual(1), linklayer(2) }
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  
+            "The origin of the address.
+            manual(1):
+            indicates that the address was manually configured to a specified
+            address, e.g., by user configuration.
+            
+            linklayer(2):
+            indicates the address to be created by IPv6 stateless address
+            auto-configuration."
+        ::= { ipeCfgPortLct1kEntry 9 }
+
+    ipeCfgPortLct1kHttpReverseProxyEnable OBJECT-TYPE
+        SYNTAX       EnableDisableValue
+        MAX-ACCESS   read-write
+        STATUS       current
+        DESCRIPTION  
+            "Enables or disables HTTP Reverse proxy on this interface."
+        ::= { ipeCfgPortLct1kEntry 10 }
+
+-----------------------------------------------
+-- IPE COMMON Group Definitions
+-----------------------------------------------
+
+    alarmStatusGroup OBJECT IDENTIFIER
+        ::= { pasoNeoIpe-common 3 }
+
+    inventoryGroup OBJECT IDENTIFIER
+        ::= { pasoNeoIpe-common 7 }
+
+    pmonGroup OBJECT IDENTIFIER
+        ::= { pasoNeoIpe-common 9 }
+
+-----------------------------------------------
+-- alarmStatusGroup Definitions
+-----------------------------------------------
+
+    asTCNGroup OBJECT IDENTIFIER
+        ::= { alarmStatusGroup 9 }
+
+    tcn15minMainCtrlCardGroup OBJECT IDENTIFIER
+        ::= { asTCNGroup 9 }
+
+    tcn15minMainCtrlCardTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF Tcn15minMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Represents Threshold Crossing Alarm Status of 15 minutes Main
+            Card Temperature."
+        ::= { tcn15minMainCtrlCardGroup 2 }
+
+    tcn15minMainCtrlCardEntry OBJECT-TYPE
+        SYNTAX       Tcn15minMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        INDEX        { tcn15minMainCtrlCardIfIndex }
+        ::= { tcn15minMainCtrlCardTable 1 }
+
+    Tcn15minMainCtrlCardEntry ::= SEQUENCE {
+        tcn15minMainCtrlCardIfIndex    Integer32,
+        tcn15minMainCtrlCardNEAddress  IpAddress,
+        tcn15minMainTemperature        SeverityValue
+    }
+
+    tcn15minMainCtrlCardIfIndex OBJECT-TYPE
+        SYNTAX       Integer32 (17..18)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Index of this table. value range: 17 (VR 1/VR 2/VR 4), 17-18 (VR
+            10)"
+        ::= { tcn15minMainCtrlCardEntry 1 }
+
+    tcn15minMainCtrlCardNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "reserved"
+        ::= { tcn15minMainCtrlCardEntry 2 }
+
+    tcn15minMainTemperature OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "TCN 15 minutes Main Card Temperature"
+        ::= { tcn15minMainCtrlCardEntry 3 }
+
+    tcn1dayMainCtrlCardGroup OBJECT IDENTIFIER
+        ::= { asTCNGroup 10 }
+
+    tcn1dayMainCtrlCardTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF Tcn1dayMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Represents Threshold Crossing Alarm Status of 1 day Main Card
+            Temperature."
+        ::= { tcn1dayMainCtrlCardGroup 2 }
+
+    tcn1dayMainCtrlCardEntry OBJECT-TYPE
+        SYNTAX       Tcn1dayMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        INDEX        { tcn1dayMainCtrlCardIfIndex }
+        ::= { tcn1dayMainCtrlCardTable 1 }
+
+    Tcn1dayMainCtrlCardEntry ::= SEQUENCE {
+        tcn1dayMainCtrlCardIfIndex    Integer32,
+        tcn1dayMainCtrlCardNEAddress  IpAddress,
+        tcn1dayMainTemperature        SeverityValue
+    }
+
+    tcn1dayMainCtrlCardIfIndex OBJECT-TYPE
+        SYNTAX       Integer32 (17..18)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Index of this table. value range: 17 (VR 1/VR 2/VR 4), 17-18 (VR
+            10)"
+        ::= { tcn1dayMainCtrlCardEntry 1 }
+
+    tcn1dayMainCtrlCardNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "reserved"
+        ::= { tcn1dayMainCtrlCardEntry 2 }
+
+    tcn1dayMainTemperature OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "TCN 1 day Main Card Temperature"
+        ::= { tcn1dayMainCtrlCardEntry 3 }
+
+    asMainCtrlGroup OBJECT IDENTIFIER
+        ::= { alarmStatusGroup 35 }
+
+    asMainCtrlGroupTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF AsMainCtrlGroupEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "Main card group object for iPASO1000."
+        ::= { asMainCtrlGroup 1 }
+
+    asMainCtrlGroupEntry OBJECT-TYPE
+        SYNTAX       AsMainCtrlGroupEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        INDEX        { asMainCtrlGroupIndex }
+        ::= { asMainCtrlGroupTable 1 }
+
+    AsMainCtrlGroupEntry ::= SEQUENCE {
+        asMainCtrlGroupIndex                 Integer32,
+        asMainCtrlGroupNEAddress             IpAddress,
+        ctrlGroupSvLineAlarm                 SeverityValue,
+        ctrlGroupIduTotalAlarm               SeverityValue,
+        ctrlGroupMaintenance                 OffOnValue,
+        ctrlGroupComFail                     SeverityValue,
+        ctrlGroupFirmwareVerMismatch         SeverityValue,
+        ctrlGroupCardMismatch                SeverityValue,
+        ctrlGroupHardwareVerMismatch         SeverityValue,
+        ctrlGroupMountedClk2mMismatch        SeverityValue,
+        ctrlGroupSwitchOverFailure           OffOnValue,
+        ctrlGroupSwitchComplete              OffOnValue,
+        ctrlGroupForcedSbySwitchComplete     OffOnValue,
+        ctrlGroupSwitchedTime                DateAndTime,
+        ctrlGroupSwitchedReason              DisplayString,
+        ctrlGroupConfigDataStoredTime        DateAndTime,
+        ctrlGroupSbyBusErrorTx               SeverityValue,
+        ctrlGroupSbyBusErrorRx               SeverityValue,
+        ctrlGroupSbyTermComFailAlarm         SeverityValue,
+        ctrlGroupDbMismatch                  SeverityValue,
+        ctrlGroupSoftkeyEquipSerialMismatch  SeverityValue,
+        ctrlGroupTrapSuppressionStatus       OffOnValue,
+        ctrlGroupStartupStatus               INTEGER
+    }
+
+    asMainCtrlGroupIndex OBJECT-TYPE
+        SYNTAX       Integer32 (1..1)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 1 }
+
+    asMainCtrlGroupNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 2 }
+
+    ctrlGroupSvLineAlarm OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       obsolete
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 3 }
+
+    ctrlGroupIduTotalAlarm OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       obsolete
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 4 }
+
+    ctrlGroupMaintenance OBJECT-TYPE
+        SYNTAX       OffOnValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 5 }
+
+    ctrlGroupComFail OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 6 }
+
+    ctrlGroupFirmwareVerMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 7 }
+
+    ctrlGroupCardMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 8 }
+
+    ctrlGroupHardwareVerMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       obsolete
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 9 }
+
+    ctrlGroupMountedClk2mMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       obsolete
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 10 }
+
+    ctrlGroupSwitchOverFailure OBJECT-TYPE
+        SYNTAX       OffOnValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 11 }
+
+    ctrlGroupSwitchComplete OBJECT-TYPE
+        SYNTAX       OffOnValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 12 }
+
+    ctrlGroupForcedSbySwitchComplete OBJECT-TYPE
+        SYNTAX       OffOnValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 13 }
+
+    ctrlGroupSwitchedTime OBJECT-TYPE
+        SYNTAX       DateAndTime
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 14 }
+
+    ctrlGroupSwitchedReason OBJECT-TYPE
+        SYNTAX       DisplayString (SIZE(0..32))
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 15 }
+
+    ctrlGroupConfigDataStoredTime OBJECT-TYPE
+        SYNTAX       DateAndTime
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 16 }
+
+    ctrlGroupSbyBusErrorTx OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 17 }
+
+    ctrlGroupSbyBusErrorRx OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 18 }
+
+    ctrlGroupSbyTermComFailAlarm OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 19 }
+
+    ctrlGroupDbMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 20 }
+
+    ctrlGroupSoftkeyEquipSerialMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlGroupEntry 21 }
+
+    ctrlGroupTrapSuppressionStatus OBJECT-TYPE
+        SYNTAX       OffOnValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "Trap Suppression Status"
+        ::= { asMainCtrlGroupEntry 22 }
+
+    ctrlGroupStartupStatus OBJECT-TYPE
+        SYNTAX       INTEGER { powerOn(1), cpuReset(2), deviceReset(3) }
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "Main Card Startup Status."
+        ::= { asMainCtrlGroupEntry 23 }
+
+    asMainCtrlCardTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF AsMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "Main card object for iPASO1000."
+        ::= { asMainCtrlGroup 2 }
+
+    asMainCtrlCardEntry OBJECT-TYPE
+        SYNTAX       AsMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        INDEX        { asMainCtrlCardIndex }
+        ::= { asMainCtrlCardTable 1 }
+
+    AsMainCtrlCardEntry ::= SEQUENCE {
+        asMainCtrlCardIndex            Integer32,
+        asMainCtrlCardNEAddress        IpAddress,
+        mainCardAlarm                  SeverityValue,
+        mainUsbFailure                 SeverityValue,
+        mainCpuAlarm                   SeverityValue,
+        mainMemoryFailure              SeverityValue,
+        mainClk2mMount                 INTEGER,
+        mainCardRunningStatus          INTEGER,
+        mainTempAlarm                  SeverityValue,
+        mainCtrlUnequipped             SeverityValue,
+        mainCtrlBusError               SeverityValue,
+        mainTemperature                Integer32,
+        mainFPGAMismatch               SeverityValue,
+        mainClkOptionCardUnequipped    SeverityValue,
+        mainClkOptionCardTypeMismatch  SeverityValue
+    }
+
+    asMainCtrlCardIndex OBJECT-TYPE
+        SYNTAX       Integer32 (17..18)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Index of this table. value range: 17 (VR 1/VR 2/VR 4), 17-18
+            (1000/VR 10)"
+        ::= { asMainCtrlCardEntry 1 }
+
+    asMainCtrlCardNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 2 }
+
+    mainCardAlarm OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 3 }
+
+    mainUsbFailure OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       obsolete
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 4 }
+
+    mainCpuAlarm OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 5 }
+
+    mainMemoryFailure OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 6 }
+
+    mainClk2mMount OBJECT-TYPE
+        SYNTAX       INTEGER { mount(2) }
+        MAX-ACCESS   read-only
+        STATUS       obsolete
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 7 }
+
+    mainCardRunningStatus OBJECT-TYPE
+        SYNTAX       INTEGER {
+                         invalid(0),
+                         act(1),
+                         sby(2),
+                         flt(3),
+                         actFlt(4),
+                         sbyFlt(5),
+                         init(6),
+                         oos(7),
+                         initFlt(8),
+                         unmount(9)
+                     }
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 8 }
+
+    mainTempAlarm OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 9 }
+
+    mainCtrlUnequipped OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 10 }
+
+    mainCtrlBusError OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 11 }
+
+    mainTemperature OBJECT-TYPE
+        SYNTAX       Integer32 (-999..-999|-500..1500)
+        UNITS        "0.1 degree"
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  
+            "Main Card Temperature.
+            range: -200~900(iPASOLINK200/400/1000series/EX/iX),
+            -200~1500(iPASOLINK VR series), -500~1500(iPASOLINK EX Advanced)
+            if the unexpected condition happened, the object reports value
+            '-999'."
+        ::= { asMainCtrlCardEntry 12 }
+
+    mainFPGAMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  ""
+        ::= { asMainCtrlCardEntry 13 }
+
+    mainClkOptionCardUnequipped OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "CLK Option Card Unequipped Alarm."
+        ::= { asMainCtrlCardEntry 14 }
+
+    mainClkOptionCardTypeMismatch OBJECT-TYPE
+        SYNTAX       SeverityValue
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "CLK Option Card Type Mismatch Alarm."
+        ::= { asMainCtrlCardEntry 15 }
+
+    invClkOptionCardInfoTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF InvClkOptionCardInfoEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "Equipment Inventory Information for CLK Option Card."
+        ::= { inventoryGroup 11 }
+
+    invClkOptionCardInfoEntry OBJECT-TYPE
+        SYNTAX       InvClkOptionCardInfoEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        INDEX        { invClkOptionCardInfoIndex }
+        ::= { invClkOptionCardInfoTable 1 }
+
+    InvClkOptionCardInfoEntry ::= SEQUENCE {
+        invClkOptionCardInfoIndex         Integer32,
+        invClkOptionCardInfoNEAddress     IpAddress,
+        invClkOptionCardName              DisplayString,
+        invClkOptionCardCodeNo            DisplayString,
+        invClkOptionCardSerialNo          DisplayString,
+        invClkOptionCardManufacturedDate  DisplayString,
+        invClkOptionCardHardVersion       DisplayString
+    }
+
+    invClkOptionCardInfoIndex OBJECT-TYPE
+        SYNTAX       Integer32 (1..2)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Index of this table. value range: 1 (VR 1/VR 2/VR 4), 1-2 (VR
+            10)"
+        ::= { invClkOptionCardInfoEntry 1 }
+
+    invClkOptionCardInfoNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "reserved."
+        ::= { invClkOptionCardInfoEntry 2 }
+
+    invClkOptionCardName OBJECT-TYPE
+        SYNTAX       DisplayString
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "Name"
+        ::= { invClkOptionCardInfoEntry 3 }
+
+    invClkOptionCardCodeNo OBJECT-TYPE
+        SYNTAX       DisplayString
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "Code No."
+        ::= { invClkOptionCardInfoEntry 4 }
+
+    invClkOptionCardSerialNo OBJECT-TYPE
+        SYNTAX       DisplayString
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "Serial No."
+        ::= { invClkOptionCardInfoEntry 5 }
+
+    invClkOptionCardManufacturedDate OBJECT-TYPE
+        SYNTAX       DisplayString
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "Manufactured Date"
+        ::= { invClkOptionCardInfoEntry 6 }
+
+    invClkOptionCardHardVersion OBJECT-TYPE
+        SYNTAX       DisplayString
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "Hardware Version."
+        ::= { invClkOptionCardInfoEntry 7 }
+
+-----------------------------------------------
+-- pmonGroup Definitions
+-----------------------------------------------
+
+    pmon15minMainCtrlCardGroup OBJECT IDENTIFIER
+        ::= { pmonGroup 11 }
+
+    pmon15minMainCtrlCardTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF Pmon15minMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "15minutes Monitoring Table"
+        ::= { pmon15minMainCtrlCardGroup 1 }
+
+    pmon15minMainCtrlCardEntry OBJECT-TYPE
+        SYNTAX       Pmon15minMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        INDEX        { pmon15minMainCtrlCardIfIndex }
+        ::= { pmon15minMainCtrlCardTable 1 }
+
+    Pmon15minMainCtrlCardEntry ::= SEQUENCE {
+        pmon15minMainCtrlCardIfIndex            Integer32,
+        pmon15minMainCtrlCardNEAddress          IpAddress,
+        pmon15minMainTemperatureDataStatusInfo  IpeStatsInfo,
+        pmon15minMainTemperatureData            DisplayString
+    }
+
+    pmon15minMainCtrlCardIfIndex OBJECT-TYPE
+        SYNTAX       Integer32 (17..18)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Index of this table. value range: 17 (VR 1/VR 2/VR 4), 17-18 (VR
+            10)"
+        ::= { pmon15minMainCtrlCardEntry 1 }
+
+    pmon15minMainCtrlCardNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "reserved"
+        ::= { pmon15minMainCtrlCardEntry 2 }
+
+    pmon15minMainTemperatureDataStatusInfo OBJECT-TYPE
+        SYNTAX       IpeStatsInfo
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "15minutes Main Card Temperature Status"
+        ::= { pmon15minMainCtrlCardEntry 3 }
+
+    pmon15minMainTemperatureData OBJECT-TYPE
+        SYNTAX       DisplayString
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "15minutes Main Card Temperature"
+        ::= { pmon15minMainCtrlCardEntry 4 }
+
+    pmon1dayMainCtrlCardGroup OBJECT IDENTIFIER
+        ::= { pmonGroup 12 }
+
+    pmon1dayMainCtrlCardTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF Pmon1dayMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "1day Monitoring Table"
+        ::= { pmon1dayMainCtrlCardGroup 2 }
+
+    pmon1dayMainCtrlCardEntry OBJECT-TYPE
+        SYNTAX       Pmon1dayMainCtrlCardEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  ""
+        INDEX        { pmon1dayMainCtrlCardIfIndex }
+        ::= { pmon1dayMainCtrlCardTable 1 }
+
+    Pmon1dayMainCtrlCardEntry ::= SEQUENCE {
+        pmon1dayMainCtrlCardIfIndex            Integer32,
+        pmon1dayMainCtrlCardNEAddress          IpAddress,
+        pmon1dayMainTemperatureDataStatusInfo  IpeStatsInfo,
+        pmon1dayMainTemperatureData            DisplayString
+    }
+
+    pmon1dayMainCtrlCardIfIndex OBJECT-TYPE
+        SYNTAX       Integer32 (17..18)
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  
+            "Index of this table. value range: 17 (VR 1/VR 2/VR 4), 17-18 (VR
+            10)"
+        ::= { pmon1dayMainCtrlCardEntry 1 }
+
+    pmon1dayMainCtrlCardNEAddress OBJECT-TYPE
+        SYNTAX       IpAddress
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION  "reserved"
+        ::= { pmon1dayMainCtrlCardEntry 2 }
+
+    pmon1dayMainTemperatureDataStatusInfo OBJECT-TYPE
+        SYNTAX       IpeStatsInfo
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "1day Main Card Temperature Status"
+        ::= { pmon1dayMainCtrlCardEntry 3 }
+
+    pmon1dayMainTemperatureData OBJECT-TYPE
+        SYNTAX       DisplayString
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION  "1day Main Card Temperature"
+        ::= { pmon1dayMainCtrlCardEntry 4 }
+
+-----------------------------------------------
+-- End User MIB Object Definitions
+-----------------------------------------------
+
+END
