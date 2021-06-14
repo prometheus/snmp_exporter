@@ -283,6 +283,10 @@ $(MIBDIR)/IPE-COMMON-MIBv17.10.09.mib:
 	@echo ">> Copying IPE-COMMON-MIBv17.10.09.mib"
 	@cp "nec/IPE-COMMON-MIBv17.10.09.mib" $(MIBDIR) -f
 
+$(MIBDIR)/IPE-COMMON-MIB.mib:
+	@echo ">> Copying IPE-COMMON-MIB.mib"
+	@cp "nec/IPE-COMMON-MIB.mib" $(MIBDIR) -f
+
 $(MIBDIR)/BRIDGE-MIB.mib:
 	@echo ">> Downloading BRIDGE-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/BRIDGE-MIB.mib "$(BRIDGE_URL)"

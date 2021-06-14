@@ -31,7 +31,7 @@ modules:
     - rmon1dayClassCounterRxClass6Pkts
     - rmon1dayClassCounterRxClass7Octets
     - metSysSdRxLevelValue
-#    - esModemModulation # TODO
+    - esModemModulation
     - rmon1dayClassCounterTxClass2Pkts
     - pmon1dayData2RfValue
     - rmon1dayClassCounterRxClass2Pkts
@@ -48,7 +48,7 @@ modules:
     - asEthOamBnmTransmissionNominalValue
     - rmon1dayClassCounterTxClass3Pkts
     - rmon1dayClassCounterRxClass5Pkts
-#    - esModemTxPowerCont # TODO
+    - esModemTxPowerCont
     - txModulation
     - rmon1dayClassCounterRxClass0Pkts
     - rmon1dayClassCounterTxClass5Pkts
@@ -69,7 +69,7 @@ modules:
     - rmon1dayClassCounterRxClass4Octets
     - timingSourceCondition
     - rmon1dayClassCounterRxClass4Pkts
-#    - esModemChSpacing # TODO
+    - esModemChSpacing
     - pmon1dayData2RfValue
     - rmon1dayClassCounterRxClass1Octets
     - rmon1dayClassCounterTxClass0Pkts
