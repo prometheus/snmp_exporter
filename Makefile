@@ -1,25 +1,49 @@
-# Copyright 2016 The Prometheus Authors
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+DOCKER_IMAGE_NAME ?= snmp_exporter
+DOCKER_REPO_NAME := gcr.io/npav-172917/ # access plz
+DOCKER_VER := $(if $(DOCKER_VER),$(DOCKER_VER),$(shell whoami)-dev)
+BIN_NAME := bin/alpine-$(DOCKER_IMAGE_NAME)
 
-# Needs to be defined before including Makefile.common to auto-generate targets
-DOCKER_ARCHS ?= amd64 armv7 arm64 ppc64le
+GO_REPOSITORY_PATH := github.com/accedian-tt/$(DOCKER_IMAGE_NAME)
+GO_SDK_IMAGE := gcr.io/npav-172917/docker-go-sdk   # access plz
+GO_SDK_VERSION := 0.36.0-alpine
+GOPATH := $(GOPATH)
 
-include Makefile.common
+PROJECT_BASE_PATH := $(PWD)
 
-STATICCHECK_IGNORE =
+all: test docker
 
-DOCKER_IMAGE_NAME ?= snmp-exporter
+docker: dockerbin
+	docker build -t $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER) .
+push: docker
+	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
+build-test: docker
+	docker tag $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER) $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):test
 
-ifdef DEBUG
-	bindata_flags = -debug
-endif
+test:
+	docker run -it --rm \
+		-e GOPATH=/root/go \
+		-v "$(GOPATH):/root/go" \
+		-v "$(PROJECT_BASE_PATH):/root/workingdir" \
+		-w "/root/workingdir" \
+		$(GO_SDK_IMAGE):$(GO_SDK_VERSION) go test -p 1 ./...
+
+dockerbin: .FORCE
+	echo "PATH is $(GOPATH)"
+	docker run -it --rm \
+		-e GOPATH=/root/go \
+		-v "$(GOPATH):/root/go" \
+		-v "$(PROJECT_BASE_PATH):/root/workingdir" \
+		-w "/root/workingdir" \
+		$(GO_SDK_IMAGE):$(GO_SDK_VERSION) go build -o $(BIN_NAME)
+
+#licenseinventory:
+#	docker run -it --rm \
+#		-e GOPATH=/root/go \
+#		-v "$(GOPATH):/root/go" \
+#		-w "/root/go/src/$(GO_REPOSITORY_PATH)" \
+#		$(GO_SDK_IMAGE):$(GO_SDK_VERSION) printLicenses.sh
+
+.FORCE:
+clean:
+	rm -rf bin
+	rm -f licenses.csv licenses.md licences_groups.md licenses_groups.csv
