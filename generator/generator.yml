@@ -207,6 +207,7 @@ modules:
       - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
       - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
       - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.7.3   # st4BranchMonitorTable
       - 1.3.6.1.4.1.1718.4.1.8.3   # st4OutletMonitorTable
       - 1.3.6.1.4.1.1718.4.1.9.3   # st4TempSensorMonitorTable
       - 1.3.6.1.4.1.1718.4.1.14.3  # st4FanSensorMonitorTable
@@ -222,6 +223,9 @@ modules:
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
         lookup: st4PhaseLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
+        lookup: st4BranchLabel
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
         lookup: st4OutletName

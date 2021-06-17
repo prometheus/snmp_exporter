@@ -23988,6 +23988,8 @@ servertech_sentry4:
   - 1.3.6.1.4.1.1718.4.1.4.3
   - 1.3.6.1.4.1.1718.4.1.5.2.1.4
   - 1.3.6.1.4.1.1718.4.1.5.3
+  - 1.3.6.1.4.1.1718.4.1.7.2.1.4
+  - 1.3.6.1.4.1.1718.4.1.7.3
   - 1.3.6.1.4.1.1718.4.1.8.2.1.3
   - 1.3.6.1.4.1.1718.4.1.8.3
   - 1.3.6.1.4.1.1718.4.1.9.3
@@ -25349,6 +25351,256 @@ servertech_sentry4:
       labelname: st4InputCordIndex
     - labels: []
       labelname: st4PhaseIndex
+  - name: st4BranchState
+    oid: 1.3.6.1.4.1.1718.4.1.7.3.1.1
+    type: gauge
+    help: The on/off state of the branch. - 1.3.6.1.4.1.1718.4.1.7.3.1.1
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4BranchIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4BranchIndex
+      labelname: st4BranchLabel
+      oid: 1.3.6.1.4.1.1718.4.1.7.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4BranchIndex
+    enum_values:
+      0: unknown
+      1: "on"
+      2: "off"
+  - name: st4BranchStatus
+    oid: 1.3.6.1.4.1.1718.4.1.7.3.1.2
+    type: gauge
+    help: The status of the branch. - 1.3.6.1.4.1.1718.4.1.7.3.1.2
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4BranchIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4BranchIndex
+      labelname: st4BranchLabel
+      oid: 1.3.6.1.4.1.1718.4.1.7.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4BranchIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4BranchCurrent
+    oid: 1.3.6.1.4.1.1718.4.1.7.3.1.3
+    type: gauge
+    help: The measured current on the branch in hundredth Amps. - 1.3.6.1.4.1.1718.4.1.7.3.1.3
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4BranchIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4BranchIndex
+      labelname: st4BranchLabel
+      oid: 1.3.6.1.4.1.1718.4.1.7.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4BranchIndex
+  - name: st4BranchCurrentStatus
+    oid: 1.3.6.1.4.1.1718.4.1.7.3.1.4
+    type: gauge
+    help: The status of the measured current on the branch. - 1.3.6.1.4.1.1718.4.1.7.3.1.4
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4BranchIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4BranchIndex
+      labelname: st4BranchLabel
+      oid: 1.3.6.1.4.1.1718.4.1.7.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4BranchIndex
+    enum_values:
+      0: normal
+      1: disabled
+      2: purged
+      5: reading
+      6: settle
+      7: notFound
+      8: lost
+      9: readError
+      10: noComm
+      11: pwrError
+      12: breakerTripped
+      13: fuseBlown
+      14: lowAlarm
+      15: lowWarning
+      16: highWarning
+      17: highAlarm
+      18: alarm
+      19: underLimit
+      20: overLimit
+      21: nvmFail
+      22: profileError
+      23: conflict
+  - name: st4BranchCurrentUtilized
+    oid: 1.3.6.1.4.1.1718.4.1.7.3.1.5
+    type: gauge
+    help: The amount of the branch current capacity used in tenth percent. - 1.3.6.1.4.1.1718.4.1.7.3.1.5
+    indexes:
+    - labelname: st4UnitIndex
+      type: gauge
+    - labelname: st4InputCordIndex
+      type: gauge
+    - labelname: st4BranchIndex
+      type: gauge
+    lookups:
+    - labels:
+      - st4UnitIndex
+      labelname: st4UnitName
+      oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      labelname: st4InputCordName
+      oid: 1.3.6.1.4.1.1718.4.1.3.2.1.3
+      type: DisplayString
+    - labels:
+      - st4UnitIndex
+      - st4InputCordIndex
+      - st4BranchIndex
+      labelname: st4BranchLabel
+      oid: 1.3.6.1.4.1.1718.4.1.7.2.1.4
+      type: DisplayString
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4UnitIndex
+    - labels: []
+      labelname: st4InputCordIndex
+    - labels: []
+      labelname: st4BranchIndex
   - name: st4OutletState
     oid: 1.3.6.1.4.1.1718.4.1.8.3.1.1
     type: gauge
