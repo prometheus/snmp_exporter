@@ -1,10 +1,10 @@
 DOCKER_IMAGE_NAME ?= snmp_exporter
-DOCKER_REPO_NAME := gcr.io/npav-172917/ # access plz
+DOCKER_REPO_NAME := gcr.io/npav-172917/
 DOCKER_VER := $(if $(DOCKER_VER),$(DOCKER_VER),$(shell whoami)-dev)
 BIN_NAME := bin/alpine-$(DOCKER_IMAGE_NAME)
 
 GO_REPOSITORY_PATH := github.com/accedian-tt/$(DOCKER_IMAGE_NAME)
-GO_SDK_IMAGE := gcr.io/npav-172917/docker-go-sdk   # access plz
+GO_SDK_IMAGE := gcr.io/npav-172917/docker-go-sdk
 GO_SDK_VERSION := 0.36.0-alpine
 GOPATH := $(GOPATH)
 
