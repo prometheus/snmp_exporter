@@ -28,7 +28,7 @@ dependencies-stamp
 .deps
 *.tar.gz
 /vendor
-.idea
+/.idea
 
 generator/generator
 generator/mibs
