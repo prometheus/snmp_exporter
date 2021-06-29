@@ -98,6 +98,7 @@ modules:
     overrides:
       ifAlias:
         ignore: true # Lookup metric
+        type: OctetString
       ifDescr:
         ignore: true # Lookup metric
       ifName:
