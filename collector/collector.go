@@ -161,7 +161,6 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	}
 	defer snmp.Conn.Close()
 
-	result := []gosnmp.SnmpPDU{}
 	getOids := config.Get
 	maxOids := int(config.WalkParams.MaxRepetitions)
 	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only report one OID error per call.
@@ -200,7 +199,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 				level.Debug(logger).Log("msg", "OID not supported by target", "oids", v.Name)
 				continue
 			}
-			result = append(result, v)
+			results.pdus = append(results.pdus, v)
 		}
 		getOids = getOids[oids:]
 	}
@@ -222,7 +221,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		}
 		level.Debug(logger).Log("msg", "Walk of subtree completed", "oid", subtree, "duration_seconds", time.Since(walkStart))
 
-		results.pdus = append(result, pdus...)
+		results.pdus = append(results.pdus, pdus...)
 	}
 	return results, nil
 }
