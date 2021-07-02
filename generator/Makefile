@@ -111,6 +111,7 @@ mibs: mib-dir \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/IPE-COMMON1000-MIBv17.10.01.mib \
   $(MIBDIR)/IPE-COMMON-MIBv17.10.09.mib \
+  $(MIBDIR)/IPE-COMMON-MIB.mib \
   $(MIBDIR)/BRIDGE-MIB.mib
 
 mib-dir:

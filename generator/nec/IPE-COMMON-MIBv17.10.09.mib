@@ -3,7 +3,7 @@
 -- Output Date: Thu Jan 09 15:40:44 2020
 --
 
-IPE-COMMON-MIB DEFINITIONS ::= BEGIN
+IPE-COMMON-MIB-V17-10-09 DEFINITIONS ::= BEGIN
 
 -----------------------------------------------
 -- IMPORTS Definitions
