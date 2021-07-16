@@ -134,13 +134,13 @@ $(MIBDIR)/.cisco_v2:
 	@mkdir -p $(MIBDIR)/cisco_v2
 	@curl $(CURL_OPTS) -o $(TMP) $(CISCO_URL)
 	tar --no-same-owner -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxvf $(TMP)
-	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
-	cp mibs/cisco_v2/AIRESPACE-WIRELESS-MIB.my mibs/AIRESPACE-WIRELESS-MIB
-	cp mibs/cisco_v2/ENTITY-MIB.my mibs/ENTITY-MIB
-	cp mibs/cisco_v2/ENTITY-SENSOR-MIB.my mibs/ENTITY-SENSOR-MIB
-	cp mibs/cisco_v2/ENTITY-STATE-MIB.my mibs/ENTITY-STATE-MIB
-	cp mibs/cisco_v2/ENTITY-STATE-TC-MIB.my mibs/ENTITY-STATE-TC-MIB
-	cp mibs/cisco_v2/ISDN-MIB.my mibs/ISDN-MIB
+	cp $(MIBDIR)/cisco_v2/AIRESPACE-REF-MIB.my $(MIBDIR)/AIRESPACE-REF-MIB
+	cp $(MIBDIR)/cisco_v2/AIRESPACE-WIRELESS-MIB.my $(MIBDIR)/AIRESPACE-WIRELESS-MIB
+	cp $(MIBDIR)/cisco_v2/ENTITY-MIB.my $(MIBDIR)/ENTITY-MIB
+	cp $(MIBDIR)/cisco_v2/ENTITY-SENSOR-MIB.my $(MIBDIR)/ENTITY-SENSOR-MIB
+	cp $(MIBDIR)/cisco_v2/ENTITY-STATE-MIB.my $(MIBDIR)/ENTITY-STATE-MIB
+	cp $(MIBDIR)/cisco_v2/ENTITY-STATE-TC-MIB.my $(MIBDIR)/ENTITY-STATE-TC-MIB
+	cp $(MIBDIR)/cisco_v2/ISDN-MIB.my $(MIBDIR)/ISDN-MIB
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.cisco_v2
 
