@@ -57,7 +57,6 @@ all: mibs
 clean:
 	rm -rvf \
 		$(MIBDIR)/* \
-		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology \
