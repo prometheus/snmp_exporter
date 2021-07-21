@@ -86,6 +86,15 @@ modules:
     - meteringFanSpeed2Status
     - meteringFanSpeed3Status
     - metSysMainRxLevelStatus
+    version: 3
+    auth:
+      username: simulator
+      security_level: authPriv
+      password: auctoritas
+      auth_protocol: MD5
+      priv_protocol: DES
+      priv_password: privatus
+      context_name: public
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifAlias
