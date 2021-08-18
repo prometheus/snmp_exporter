@@ -7774,6 +7774,45 @@ modules:
           regex: ^(?:(\d*?)(\d{2}))$
         - value: 0.0$1
           regex: ^(?:^(\d))$
+  ip_mib:
+    walk:
+    - 1.3.6.1.2.1.4.28
+    metrics:
+    - name: ipv4InterfaceIfIndex
+      oid: 1.3.6.1.2.1.4.28.1.1
+      type: gauge
+      help: The index value that uniquely identifies the interface to which this entry
+        is applicable - 1.3.6.1.2.1.4.28.1.1
+      indexes:
+      - labelname: ipv4InterfaceIfIndex
+        type: gauge
+    - name: ipv4InterfaceReasmMaxSize
+      oid: 1.3.6.1.2.1.4.28.1.2
+      type: gauge
+      help: The size of the largest IPv4 datagram that this entity can re-assemble
+        from incoming IPv4 fragmented datagrams received on this interface. - 1.3.6.1.2.1.4.28.1.2
+      indexes:
+      - labelname: ipv4InterfaceIfIndex
+        type: gauge
+    - name: ipv4InterfaceEnableStatus
+      oid: 1.3.6.1.2.1.4.28.1.3
+      type: gauge
+      help: The indication of whether IPv4 is enabled (up) or disabled (down) on this
+        interface - 1.3.6.1.2.1.4.28.1.3
+      indexes:
+      - labelname: ipv4InterfaceIfIndex
+        type: gauge
+      enum_values:
+        1: up
+        2: down
+    - name: ipv4InterfaceRetransmitTime
+      oid: 1.3.6.1.2.1.4.28.1.4
+      type: gauge
+      help: The time between retransmissions of ARP requests to a neighbor when resolving
+        the address or when probing the reachability of a neighbor. - 1.3.6.1.2.1.4.28.1.4
+      indexes:
+      - labelname: ipv4InterfaceIfIndex
+        type: gauge
   keepalived:
     walk:
     - 1.3.6.1.2.1.207.1.2.5
