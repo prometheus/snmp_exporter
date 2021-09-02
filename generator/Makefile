@@ -14,7 +14,7 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-CURL_OPTS ?= -s --retry 3 --retry-delay 3 --fail
+CURL_OPTS ?= -L -s --retry 3 --retry-delay 3 --fail
 
 DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
@@ -71,6 +71,10 @@ parse_errors: generator mibs
 .PHONY: docker
 docker:
 	docker build -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" .
+
+.PHONY: docker-generate
+docker-generate: docker mibs
+	docker run -ti -v "${PWD}:/opt/" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" generate
 
 .PHONY: docker-publish
 docker-publish:
