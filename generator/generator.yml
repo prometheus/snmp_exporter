@@ -1,55 +1,9 @@
 modules:
-# Printer: RFC 3805
-#
-# https://tools.ietf.org/html/rfc3805
-# https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib.xhtml
-  printer_mib:
-    walk:
-      - sysUpTime
-      - hrPrinterStatus
-      - prtGeneralReset
-      - prtConsoleDisable
-      - prtGeneralPrinterName
-      - prtGeneralSerialNumber
-      - prtAlertCriticalEvents
-      - prtAlertAllEvents
-      - prtCoverStatus
-      - prtMarkerSuppliesDescription
-      - prtMarkerSuppliesLevel
-      - prtMarkerSuppliesMaxCapacity
-      - prtMarkerSuppliesType
-    auth:
-      community: rewandchewrw
-    lookups:
-      - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
-        lookup: prtMarkerSuppliesType
-    overrides:
-      hrPrinterStatus:
-        type: EnumAsStateSet
-      prtGeneralReset:
-        type: EnumAsStateSet
-      prtConsoleDisable:
-        type: EnumAsStateSet
-      prtGeneralPrinterName:
-        type: DisplayString
-      prtGeneralSerialNumber:
-        type: DisplayString
-      prtCoverStatus:
-        type: EnumAsStateSet
-      prtMarkerSuppliesDescription:
-        type: DisplayString
 
-# Mikrotik Router
-#
-# http://download2.mikrotik.com/Mikrotik.mib
   mikrotik:
     walk:
       - interfaces
       - ifMIB
-      - laIndex
-      - sysUpTime
-      - sysDescr
-      - host
       - mikrotik
     auth:
       community: rewandchewrw
@@ -58,13 +12,17 @@ modules:
         lookup: ifName
       - source_indexes: [mtxrInterfaceStatsIndex]
         lookup: ifName
-      - source_indexes: [hrStorageIndex]
-        lookup: hrStorageDescr
-      - source_indexes: [laIndex]
-        lookup: laNames
         drop_source_indexes: true
     overrides:
       ifName:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
+
+  ruckus:
+    walk:
+      - interfaces
+      - ifMIB
+      - ruckusRootMIB
+    auth:
+      community: rewandchewrw
