@@ -1,0 +1,4856 @@
+# WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.
+mikrotik:
+  walk:
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31
+  - 1.3.6.1.4.1.14988
+  metrics:
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+    help: The number of network interfaces (regardless of their current state) present
+      on this system. - 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: EnumAsInfo
+    help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: transpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
+      299: ieee19061nanocom
+      300: cpri
+      301: omni
+      302: roe
+      303: p2pOverLan
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    help: The size of the largest packet which can be sent/received on the interface,
+      specified in octets - 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: up
+      2: down
+      3: testing
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state - 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast or broadcast address at this sub-layer -
+      1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    help: The number of inbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being deliverable to a higher-layer
+      protocol - 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    help: For packet-oriented interfaces, the number of inbound packets that contained
+      errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    help: For packet-oriented interfaces, the number of packets received via the interface
+      which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    help: The number of outbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    help: For packet-oriented interfaces, the number of outbound packets that could
+      not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifSpecific
+    oid: 1.3.6.1.2.1.2.2.1.22
+    type: OctetString
+    help: A reference to MIB definitions specific to the particular media being used
+      to realize the interface - 1.3.6.1.2.1.2.2.1.22
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    help: Indicates whether linkUp/linkDown traps should be generated for this interface
+      - 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: enabled
+      2: disabled
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
+      per second - 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    help: This object has a value of false(2) if this interface only accepts packets/frames
+      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    help: This object has the value 'true(1)' if the interface sublayer has a physical
+      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    help: This object is an 'alias' name for the interface as specified by a network
+      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    help: The value of sysUpTime on the most recent occasion at which any one or more
+      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifStackHigherLayer
+    oid: 1.3.6.1.2.1.31.1.2.1.1
+    type: gauge
+    help: The value of ifIndex corresponding to the higher sub-layer of the relationship,
+      i.e., the sub-layer which runs on 'top' of the sub-layer identified by the corresponding
+      instance of ifStackLowerLayer - 1.3.6.1.2.1.31.1.2.1.1
+    indexes:
+    - labelname: ifStackHigherLayer
+      type: gauge
+    - labelname: ifStackLowerLayer
+      type: gauge
+  - name: ifStackLowerLayer
+    oid: 1.3.6.1.2.1.31.1.2.1.2
+    type: gauge
+    help: The value of ifIndex corresponding to the lower sub-layer of the relationship,
+      i.e., the sub-layer which runs 'below' the sub-layer identified by the corresponding
+      instance of ifStackHigherLayer - 1.3.6.1.2.1.31.1.2.1.2
+    indexes:
+    - labelname: ifStackHigherLayer
+      type: gauge
+    - labelname: ifStackLowerLayer
+      type: gauge
+  - name: ifStackStatus
+    oid: 1.3.6.1.2.1.31.1.2.1.3
+    type: gauge
+    help: The status of the relationship between two sub-layers - 1.3.6.1.2.1.31.1.2.1.3
+    indexes:
+    - labelname: ifStackHigherLayer
+      type: gauge
+    - labelname: ifStackLowerLayer
+      type: gauge
+    enum_values:
+      1: active
+      2: notInService
+      3: notReady
+      4: createAndGo
+      5: createAndWait
+      6: destroy
+  - name: ifTestId
+    oid: 1.3.6.1.2.1.31.1.3.1.1
+    type: gauge
+    help: This object identifies the current invocation of the interface's test. -
+      1.3.6.1.2.1.31.1.3.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifTestStatus
+    oid: 1.3.6.1.2.1.31.1.3.1.2
+    type: gauge
+    help: This object indicates whether or not some manager currently has the necessary
+      'ownership' required to invoke a test on this interface - 1.3.6.1.2.1.31.1.3.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: notInUse
+      2: inUse
+  - name: ifTestType
+    oid: 1.3.6.1.2.1.31.1.3.1.3
+    type: OctetString
+    help: A control variable used to start and stop operator- initiated interface
+      tests - 1.3.6.1.2.1.31.1.3.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifTestResult
+    oid: 1.3.6.1.2.1.31.1.3.1.4
+    type: gauge
+    help: This object contains the result of the most recently requested test, or
+      the value none(1) if no tests have been requested since the last reset - 1.3.6.1.2.1.31.1.3.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: none
+      2: success
+      3: inProgress
+      4: notSupported
+      5: unAbleToRun
+      6: aborted
+      7: failed
+  - name: ifTestCode
+    oid: 1.3.6.1.2.1.31.1.3.1.5
+    type: OctetString
+    help: This object contains a code which contains more specific information on
+      the test result, for example an error-code after a failed test - 1.3.6.1.2.1.31.1.3.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifTestOwner
+    oid: 1.3.6.1.2.1.31.1.3.1.6
+    type: DisplayString
+    help: The entity which currently has the 'ownership' required to invoke a test
+      on this interface. - 1.3.6.1.2.1.31.1.3.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifRcvAddressAddress
+    oid: 1.3.6.1.2.1.31.1.4.1.1
+    type: PhysAddress48
+    help: An address for which the system will accept packets/frames on this entry's
+      interface. - 1.3.6.1.2.1.31.1.4.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: ifRcvAddressAddress
+      type: PhysAddress48
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifRcvAddressStatus
+    oid: 1.3.6.1.2.1.31.1.4.1.2
+    type: gauge
+    help: This object is used to create and delete rows in the ifRcvAddressTable.
+      - 1.3.6.1.2.1.31.1.4.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: ifRcvAddressAddress
+      type: PhysAddress48
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: active
+      2: notInService
+      3: notReady
+      4: createAndGo
+      5: createAndWait
+      6: destroy
+  - name: ifRcvAddressType
+    oid: 1.3.6.1.2.1.31.1.4.1.3
+    type: gauge
+    help: This object has the value nonVolatile(3) for those entries in the table
+      which are valid and will not be deleted by the next restart of the managed system
+      - 1.3.6.1.2.1.31.1.4.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: ifRcvAddressAddress
+      type: PhysAddress48
+    lookups:
+    - labels:
+      - ifIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    enum_values:
+      1: other
+      2: volatile
+      3: nonVolatile
+  - name: ifTableLastChange
+    oid: 1.3.6.1.2.1.31.1.5
+    type: gauge
+    help: The value of sysUpTime at the time of the last creation or deletion of an
+      entry in the ifTable - 1.3.6.1.2.1.31.1.5
+  - name: ifStackLastChange
+    oid: 1.3.6.1.2.1.31.1.6
+    type: gauge
+    help: The value of sysUpTime at the time of the last change of the (whole) interface
+      stack - 1.3.6.1.2.1.31.1.6
+  - name: mtxrWlStatIndex
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.1'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatTxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.2
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.1.1.2
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatRxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.3
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.1.1.3
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatStrength
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.4
+    type: gauge
+    help: dBm - 1.3.6.1.4.1.14988.1.1.1.1.1.4
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatSsid
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.5
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.5'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatBssid
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.6
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.6'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatFreq
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.7
+    type: gauge
+    help: megahertz - 1.3.6.1.4.1.14988.1.1.1.1.1.7
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatBand
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.8
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.8'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatTxCCQ
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.9
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.9'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlStatRxCCQ
+    oid: 1.3.6.1.4.1.14988.1.1.1.1.1.10
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.1.1.10'
+    indexes:
+    - labelname: mtxrWlStatIndex
+      type: gauge
+  - name: mtxrWlRtabAddr
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.1
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.1'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabIface
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.2
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.2'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabStrength
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.3
+    type: gauge
+    help: dBm - 1.3.6.1.4.1.14988.1.1.1.2.1.3
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabTxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.4
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.4'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.5
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.5'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabTxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.6
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.6'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.7
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.7'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabTxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.8
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.2.1.8
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.9
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.2.1.9
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRouterOSVersion
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.10
+    type: DisplayString
+    help: RouterOS version - 1.3.6.1.4.1.14988.1.1.1.2.1.10
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabUptime
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.11
+    type: gauge
+    help: uptime - 1.3.6.1.4.1.14988.1.1.1.2.1.11
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabSignalToNoise
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.12
+    type: gauge
+    help: Measured in dB, if value does not exist it is indicated with 0 - 1.3.6.1.4.1.14988.1.1.1.2.1.12
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabTxStrengthCh0
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.13
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.13'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRxStrengthCh0
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.14
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.14'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabTxStrengthCh1
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.15
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.15'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRxStrengthCh1
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.16
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.16'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabTxStrengthCh2
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.17
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.17'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRxStrengthCh2
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.18
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.18'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabTxStrength
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.19
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.19'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlRtabRadioName
+    oid: 1.3.6.1.4.1.14988.1.1.1.2.1.20
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.2.1.20'
+    indexes:
+    - labelname: mtxrWlRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlRtabIface
+      type: gauge
+  - name: mtxrWlApIndex
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.1'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApTxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.2
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.3.1.2
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApRxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.3
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.3.1.3
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApSsid
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.4'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApBssid
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.5
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.5'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApClientCount
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.6
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.6'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApFreq
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.7
+    type: gauge
+    help: megahertz - 1.3.6.1.4.1.14988.1.1.1.3.1.7
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApBand
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.8
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.8'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApNoiseFloor
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.9'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApOverallTxCCQ
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.10
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.10'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlApAuthClientCount
+    oid: 1.3.6.1.4.1.14988.1.1.1.3.1.11
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.3.1.11'
+    indexes:
+    - labelname: mtxrWlApIndex
+      type: gauge
+  - name: mtxrWlRtabEntryCount
+    oid: 1.3.6.1.4.1.14988.1.1.1.4
+    type: gauge
+    help: Wireless registration table entry count - 1.3.6.1.4.1.14988.1.1.1.4
+  - name: mtxrWlCMRtabAddr
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.1
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.1'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabIface
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.2
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.2'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabUptime
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.3
+    type: gauge
+    help: uptime - 1.3.6.1.4.1.14988.1.1.1.5.1.3
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabTxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.4
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.4'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabRxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.5
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.5'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabTxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.6
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.6'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabRxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.7
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.7'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabTxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.8
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.5.1.8
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabRxRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.9
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.1.5.1.9
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabTxStrength
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.10
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.10'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabRxStrength
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.11
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.11'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabSsid
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.12
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.12'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabEapIdent
+    oid: 1.3.6.1.4.1.14988.1.1.1.5.1.13
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.5.1.13'
+    indexes:
+    - labelname: mtxrWlCMRtabAddr
+      type: PhysAddress48
+    - labelname: mtxrWlCMRtabIface
+      type: gauge
+  - name: mtxrWlCMRtabEntryCount
+    oid: 1.3.6.1.4.1.14988.1.1.1.6
+    type: gauge
+    help: Wireless CAPSMAN registration table entry count - 1.3.6.1.4.1.14988.1.1.1.6
+  - name: mtxrWlCMIndex
+    oid: 1.3.6.1.4.1.14988.1.1.1.7.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.7.1.1'
+    indexes:
+    - labelname: mtxrWlCMIndex
+      type: gauge
+  - name: mtxrWlCMRegClientCount
+    oid: 1.3.6.1.4.1.14988.1.1.1.7.1.2
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.7.1.2'
+    indexes:
+    - labelname: mtxrWlCMIndex
+      type: gauge
+  - name: mtxrWlCMAuthClientCount
+    oid: 1.3.6.1.4.1.14988.1.1.1.7.1.3
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.7.1.3'
+    indexes:
+    - labelname: mtxrWlCMIndex
+      type: gauge
+  - name: mtxrWlCMState
+    oid: 1.3.6.1.4.1.14988.1.1.1.7.1.4
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.7.1.4'
+    indexes:
+    - labelname: mtxrWlCMIndex
+      type: gauge
+  - name: mtxrWlCMChannel
+    oid: 1.3.6.1.4.1.14988.1.1.1.7.1.5
+    type: DisplayString
+    help: for master only - 1.3.6.1.4.1.14988.1.1.1.7.1.5
+    indexes:
+    - labelname: mtxrWlCMIndex
+      type: gauge
+  - name: mtxrWl60GIndex
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.1'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GMode
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.2
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.2'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+    enum_values:
+      0: apBridge
+      1: stationBridge
+      2: sniff
+      3: bridge
+  - name: mtxrWl60GSsid
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.3
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.3'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GConnected
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.4
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.4'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrWl60GRemote
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.5
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.5'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GFreq
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.6
+    type: gauge
+    help: Mhz - 1.3.6.1.4.1.14988.1.1.1.8.1.6
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GMcs
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.7
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.7'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GSignal
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.8'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GTxSector
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.9'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GTxSectorInfo
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.11
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.11'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GRssi
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.12
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.12'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GPhyRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.8.1.13
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.8.1.13'
+    indexes:
+    - labelname: mtxrWl60GIndex
+      type: gauge
+  - name: mtxrWl60GStaIndex
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.1'
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWl60GStaConnected
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.2
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.2'
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrWl60GStaRemote
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.3
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.3'
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWl60GStaMcs
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.4
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.4'
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWl60GStaSignal
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.5
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.5'
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWl60GStaTxSector
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.6
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.6'
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWl60GStaPhyRate
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.8
+    type: gauge
+    help: Mbits per second - 1.3.6.1.4.1.14988.1.1.1.9.1.8
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWl60GStaRssi
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.9.1.9'
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWl60GStaDistance
+    oid: 1.3.6.1.4.1.14988.1.1.1.9.1.10
+    type: gauge
+    help: meters - 1.3.6.1.4.1.14988.1.1.1.9.1.10
+    indexes:
+    - labelname: mtxrWl60GStaIndex
+      type: gauge
+  - name: mtxrWlCMREntryCount
+    oid: 1.3.6.1.4.1.14988.1.1.1.10
+    type: gauge
+    help: Wireless CAPSMAN remote-cap entry count - 1.3.6.1.4.1.14988.1.1.1.10
+  - name: mtxrWlCMRemoteIndex
+    oid: 1.3.6.1.4.1.14988.1.1.1.11.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.11.1.1'
+    indexes:
+    - labelname: mtxrWlCMRemoteIndex
+      type: gauge
+  - name: mtxrWlCMRemoteName
+    oid: 1.3.6.1.4.1.14988.1.1.1.11.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.11.1.2'
+    indexes:
+    - labelname: mtxrWlCMRemoteIndex
+      type: gauge
+  - name: mtxrWlCMRemoteState
+    oid: 1.3.6.1.4.1.14988.1.1.1.11.1.3
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.11.1.3'
+    indexes:
+    - labelname: mtxrWlCMRemoteIndex
+      type: gauge
+  - name: mtxrWlCMRemoteAddress
+    oid: 1.3.6.1.4.1.14988.1.1.1.11.1.4
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.11.1.4'
+    indexes:
+    - labelname: mtxrWlCMRemoteIndex
+      type: gauge
+  - name: mtxrWlCMRemoteRadios
+    oid: 1.3.6.1.4.1.14988.1.1.1.11.1.5
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.1.11.1.5'
+    indexes:
+    - labelname: mtxrWlCMRemoteIndex
+      type: gauge
+  - name: mtxrQueueSimpleIndex
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.1'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleName
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.2'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleSrcAddr
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.3
+    type: InetAddressIPv4
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.3'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleSrcMask
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.4
+    type: InetAddressIPv4
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.4'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleDstAddr
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.5
+    type: InetAddressIPv4
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.5'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleDstMask
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.6
+    type: InetAddressIPv4
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.6'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleIface
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.7
+    type: gauge
+    help: interface index - 1.3.6.1.4.1.14988.1.1.2.1.1.7
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleBytesIn
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.8
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.8'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleBytesOut
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.9
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.9'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimplePacketsIn
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.10
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.10'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimplePacketsOut
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.11
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.11'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimplePCQQueuesIn
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.12
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.12'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimplePCQQueuesOut
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.13
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.13'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleDroppedIn
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.14
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.14'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueSimpleDroppedOut
+    oid: 1.3.6.1.4.1.14988.1.1.2.1.1.15
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.1.1.15'
+    indexes:
+    - labelname: mtxrQueueSimpleIndex
+      type: gauge
+  - name: mtxrQueueTreeIndex
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.2.1.1'
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreeName
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.2.1.2'
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreeFlow
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.3
+    type: DisplayString
+    help: flowmark - 1.3.6.1.4.1.14988.1.1.2.2.1.3
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreeParentIndex
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.4
+    type: gauge
+    help: index of parent tree queue or parent interface - 1.3.6.1.4.1.14988.1.1.2.2.1.4
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreeBytes
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.5
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.2.1.5'
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreePackets
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.6
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.2.1.6'
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreeHCBytes
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.7
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.2.1.7'
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreePCQQueues
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.8
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.2.1.8'
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrQueueTreeDropped
+    oid: 1.3.6.1.4.1.14988.1.1.2.2.1.9
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.2.2.1.9'
+    indexes:
+    - labelname: mtxrQueueTreeIndex
+      type: gauge
+  - name: mtxrHlCoreVoltage
+    oid: 1.3.6.1.4.1.14988.1.1.3.1
+    type: gauge
+    help: core voltage - 1.3.6.1.4.1.14988.1.1.3.1
+  - name: mtxrHlThreeDotThreeVoltage
+    oid: 1.3.6.1.4.1.14988.1.1.3.2
+    type: gauge
+    help: 3.3V voltage - 1.3.6.1.4.1.14988.1.1.3.2
+  - name: mtxrHlFiveVoltage
+    oid: 1.3.6.1.4.1.14988.1.1.3.3
+    type: gauge
+    help: 5V voltage - 1.3.6.1.4.1.14988.1.1.3.3
+  - name: mtxrHlTwelveVoltage
+    oid: 1.3.6.1.4.1.14988.1.1.3.4
+    type: gauge
+    help: 12V voltage - 1.3.6.1.4.1.14988.1.1.3.4
+  - name: mtxrHlSensorTemperature
+    oid: 1.3.6.1.4.1.14988.1.1.3.5
+    type: gauge
+    help: temperature at sensor chip - 1.3.6.1.4.1.14988.1.1.3.5
+  - name: mtxrHlCpuTemperature
+    oid: 1.3.6.1.4.1.14988.1.1.3.6
+    type: gauge
+    help: temperature near cpu - 1.3.6.1.4.1.14988.1.1.3.6
+  - name: mtxrHlBoardTemperature
+    oid: 1.3.6.1.4.1.14988.1.1.3.7
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.7'
+  - name: mtxrHlVoltage
+    oid: 1.3.6.1.4.1.14988.1.1.3.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.8'
+  - name: mtxrHlActiveFan
+    oid: 1.3.6.1.4.1.14988.1.1.3.9
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.9'
+  - name: mtxrHlTemperature
+    oid: 1.3.6.1.4.1.14988.1.1.3.10
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.10'
+  - name: mtxrHlProcessorTemperature
+    oid: 1.3.6.1.4.1.14988.1.1.3.11
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.11'
+  - name: mtxrHlPower
+    oid: 1.3.6.1.4.1.14988.1.1.3.12
+    type: gauge
+    help: Watts - 1.3.6.1.4.1.14988.1.1.3.12
+  - name: mtxrHlCurrent
+    oid: 1.3.6.1.4.1.14988.1.1.3.13
+    type: gauge
+    help: mA - 1.3.6.1.4.1.14988.1.1.3.13
+  - name: mtxrHlProcessorFrequency
+    oid: 1.3.6.1.4.1.14988.1.1.3.14
+    type: gauge
+    help: Mhz - 1.3.6.1.4.1.14988.1.1.3.14
+  - name: mtxrHlPowerSupplyState
+    oid: 1.3.6.1.4.1.14988.1.1.3.15
+    type: gauge
+    help: PSU state ok - 1.3.6.1.4.1.14988.1.1.3.15
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrHlBackupPowerSupplyState
+    oid: 1.3.6.1.4.1.14988.1.1.3.16
+    type: gauge
+    help: backup PSU state ok - 1.3.6.1.4.1.14988.1.1.3.16
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrHlFanSpeed1
+    oid: 1.3.6.1.4.1.14988.1.1.3.17
+    type: gauge
+    help: rpm - 1.3.6.1.4.1.14988.1.1.3.17
+  - name: mtxrHlFanSpeed2
+    oid: 1.3.6.1.4.1.14988.1.1.3.18
+    type: gauge
+    help: rpm - 1.3.6.1.4.1.14988.1.1.3.18
+  - name: mtxrGaugeIndex
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.100.1.1'
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+  - name: mtxrGaugeName
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.100.1.2'
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+  - name: mtxrGaugeValue
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.3
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.3.100.1.3'
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+  - name: mtxrGaugeUnit
+    oid: 1.3.6.1.4.1.14988.1.1.3.100.1.4
+    type: gauge
+    help: units - 1.3.6.1.4.1.14988.1.1.3.100.1.4
+    indexes:
+    - labelname: mtxrGaugeIndex
+      type: gauge
+    enum_values:
+      1: celsius
+      2: rpm
+      3: dV
+      4: dA
+      5: dW
+      6: status
+  - name: mtxrLicSoftwareId
+    oid: 1.3.6.1.4.1.14988.1.1.4.1
+    type: DisplayString
+    help: software id - 1.3.6.1.4.1.14988.1.1.4.1
+  - name: mtxrLicUpgrUntil
+    oid: 1.3.6.1.4.1.14988.1.1.4.2
+    type: DateAndTime
+    help: current key allows upgrading until this date - 1.3.6.1.4.1.14988.1.1.4.2
+  - name: mtxrLicLevel
+    oid: 1.3.6.1.4.1.14988.1.1.4.3
+    type: gauge
+    help: current key level - 1.3.6.1.4.1.14988.1.1.4.3
+  - name: mtxrLicVersion
+    oid: 1.3.6.1.4.1.14988.1.1.4.4
+    type: DisplayString
+    help: software version - 1.3.6.1.4.1.14988.1.1.4.4
+  - name: mtxrLicUpgradableTo
+    oid: 1.3.6.1.4.1.14988.1.1.4.5
+    type: gauge
+    help: upgradable to - 1.3.6.1.4.1.14988.1.1.4.5
+  - name: mtxrHotspotActiveUserIndex
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.1'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserServerID
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.2
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.2'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserName
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.3
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.3'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserDomain
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.4
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.4'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserIP
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.5
+    type: InetAddressIPv4
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.5'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserMAC
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.6
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.6'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserConnectTime
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.7
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.7'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserValidTillTime
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.8'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserIdleStartTime
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.9'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserIdleTimeout
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.10
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.10'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserPingTimeout
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.11
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.11'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserBytesIn
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.12
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.12'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserBytesOut
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.13
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.13'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserPacketsIn
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.14
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.14'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserPacketsOut
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.15
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.15'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserLimitBytesIn
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.16
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.16'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserLimitBytesOut
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.17
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.17'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserAdvertStatus
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.18
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.18'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserRadius
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.19
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.19'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrHotspotActiveUserBlockedByAdvert
+    oid: 1.3.6.1.4.1.14988.1.1.5.1.1.20
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.5.1.1.20'
+    indexes:
+    - labelname: mtxrHotspotActiveUserIndex
+      type: gauge
+  - name: mtxrDHCPLeaseCount
+    oid: 1.3.6.1.4.1.14988.1.1.6.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.6.1'
+  - name: mtxrSystemReboot
+    oid: 1.3.6.1.4.1.14988.1.1.7.1
+    type: gauge
+    help: set non zero to reboot - 1.3.6.1.4.1.14988.1.1.7.1
+  - name: mtxrUSBPowerReset
+    oid: 1.3.6.1.4.1.14988.1.1.7.2
+    type: gauge
+    help: switches off usb power for specified amout of seconds - 1.3.6.1.4.1.14988.1.1.7.2
+  - name: mtxrSerialNumber
+    oid: 1.3.6.1.4.1.14988.1.1.7.3
+    type: DisplayString
+    help: RouterBOARD serial number - 1.3.6.1.4.1.14988.1.1.7.3
+  - name: mtxrFirmwareVersion
+    oid: 1.3.6.1.4.1.14988.1.1.7.4
+    type: DisplayString
+    help: Current firmware version - 1.3.6.1.4.1.14988.1.1.7.4
+  - name: mtxrNote
+    oid: 1.3.6.1.4.1.14988.1.1.7.5
+    type: DisplayString
+    help: note - 1.3.6.1.4.1.14988.1.1.7.5
+  - name: mtxrBuildTime
+    oid: 1.3.6.1.4.1.14988.1.1.7.6
+    type: DisplayString
+    help: build time - 1.3.6.1.4.1.14988.1.1.7.6
+  - name: mtxrFirmwareUpgradeVersion
+    oid: 1.3.6.1.4.1.14988.1.1.7.7
+    type: DisplayString
+    help: Upgrade firmware version - 1.3.6.1.4.1.14988.1.1.7.7
+  - name: mtxrBoardName
+    oid: 1.3.6.1.4.1.14988.1.1.7.8
+    type: DisplayString
+    help: board name - 1.3.6.1.4.1.14988.1.1.7.8
+  - name: mtxrScriptIndex
+    oid: 1.3.6.1.4.1.14988.1.1.8.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.8.1.1.1'
+    indexes:
+    - labelname: mtxrScriptIndex
+      type: gauge
+  - name: mtxrScriptName
+    oid: 1.3.6.1.4.1.14988.1.1.8.1.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.8.1.1.2'
+    indexes:
+    - labelname: mtxrScriptIndex
+      type: gauge
+  - name: mtxrScriptRunCmd
+    oid: 1.3.6.1.4.1.14988.1.1.8.1.1.3
+    type: gauge
+    help: set non zero to run - 1.3.6.1.4.1.14988.1.1.8.1.1.3
+    indexes:
+    - labelname: mtxrScriptIndex
+      type: gauge
+  - name: mtxrDnStatIndex
+    oid: 1.3.6.1.4.1.14988.1.1.10.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.10.1.1.1'
+    indexes:
+    - labelname: mtxrDnStatIndex
+      type: gauge
+  - name: mtxrDnStatTxRate
+    oid: 1.3.6.1.4.1.14988.1.1.10.1.1.2
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.10.1.1.2
+    indexes:
+    - labelname: mtxrDnStatIndex
+      type: gauge
+  - name: mtxrDnStatRxRate
+    oid: 1.3.6.1.4.1.14988.1.1.10.1.1.3
+    type: gauge
+    help: bits per second - 1.3.6.1.4.1.14988.1.1.10.1.1.3
+    indexes:
+    - labelname: mtxrDnStatIndex
+      type: gauge
+  - name: mtxrDnStatTxStrength
+    oid: 1.3.6.1.4.1.14988.1.1.10.1.1.4
+    type: gauge
+    help: dBm - 1.3.6.1.4.1.14988.1.1.10.1.1.4
+    indexes:
+    - labelname: mtxrDnStatIndex
+      type: gauge
+  - name: mtxrDnStatRxStrength
+    oid: 1.3.6.1.4.1.14988.1.1.10.1.1.5
+    type: gauge
+    help: dBm - 1.3.6.1.4.1.14988.1.1.10.1.1.5
+    indexes:
+    - labelname: mtxrDnStatIndex
+      type: gauge
+  - name: mtxrDnConnected
+    oid: 1.3.6.1.4.1.14988.1.1.10.1.1.6
+    type: gauge
+    help: 0 - not connected, connected otherwise - 1.3.6.1.4.1.14988.1.1.10.1.1.6
+    indexes:
+    - labelname: mtxrDnStatIndex
+      type: gauge
+  - name: mtxrNeighborIndex
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.1'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrNeighborIpAddress
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+    type: InetAddressIPv4
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.2'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrNeighborMacAddress
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.3
+    type: PhysAddress48
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.3'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrNeighborVersion
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.4
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.4'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrNeighborPlatform
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.5
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.5'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrNeighborIdentity
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.6
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.6'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrNeighborSoftwareID
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.7
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.7'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrNeighborInterfaceID
+    oid: 1.3.6.1.4.1.14988.1.1.11.1.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.11.1.1.8'
+    indexes:
+    - labelname: mtxrNeighborIndex
+      type: gauge
+  - name: mtxrDate
+    oid: 1.3.6.1.4.1.14988.1.1.12.1
+    type: gauge
+    help: UNIX time - 1.3.6.1.4.1.14988.1.1.12.1
+  - name: mtxrLongtitude
+    oid: 1.3.6.1.4.1.14988.1.1.12.2
+    type: DisplayString
+    help: longtitude - 1.3.6.1.4.1.14988.1.1.12.2
+  - name: mtxrLatitude
+    oid: 1.3.6.1.4.1.14988.1.1.12.3
+    type: DisplayString
+    help: latitude - 1.3.6.1.4.1.14988.1.1.12.3
+  - name: mtxrAltitude
+    oid: 1.3.6.1.4.1.14988.1.1.12.4
+    type: DisplayString
+    help: altitude - 1.3.6.1.4.1.14988.1.1.12.4
+  - name: mtxrSpeed
+    oid: 1.3.6.1.4.1.14988.1.1.12.5
+    type: DisplayString
+    help: speed - 1.3.6.1.4.1.14988.1.1.12.5
+  - name: mtxrSattelites
+    oid: 1.3.6.1.4.1.14988.1.1.12.6
+    type: gauge
+    help: visible sattelite count - 1.3.6.1.4.1.14988.1.1.12.6
+  - name: mtxrValid
+    oid: 1.3.6.1.4.1.14988.1.1.12.7
+    type: gauge
+    help: is the data valid - 1.3.6.1.4.1.14988.1.1.12.7
+  - name: mtxrWirelessModemSignalStrength
+    oid: 1.3.6.1.4.1.14988.1.1.13.1
+    type: gauge
+    help: signal strength in dBm (if first ppp-client modem supports) - 1.3.6.1.4.1.14988.1.1.13.1
+  - name: mtxrWirelessModemSignalECIO
+    oid: 1.3.6.1.4.1.14988.1.1.13.2
+    type: gauge
+    help: signal EC/IO in dB (if first ppp-client modem supports) - 1.3.6.1.4.1.14988.1.1.13.2
+  - name: mtxrInterfaceStatsIndex
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.1'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsName
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.2'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsDriverRxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.11
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.11'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsDriverRxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.12
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.12'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsDriverTxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.13
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.13'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsDriverTxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.14
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.14'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxRx64
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.15
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.15'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxRx65To127
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.16
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.16'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxRx128To255
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.17
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.17'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxRx256To511
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.18
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.18'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxRx512To1023
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.19
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.19'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxRx1024To1518
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.20
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.20'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxRx1519ToMax
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.21
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.21'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.31
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.31'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.32
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.32'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxTooShort
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.33
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.33'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRx64
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.34
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.34'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRx65To127
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.35
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.35'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRx128To255
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.36
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.36'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRx256To511
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.37
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.37'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRx512To1023
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.38
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.38'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRx1024To1518
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.39
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.39'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRx1519ToMax
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.40
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.40'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxTooLong
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.41
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.41'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxBroadcast
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.42
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.42'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxPause
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.43
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.43'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxMulticast
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.44
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.44'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxFCSError
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.45
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.45'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxAlignError
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.46
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.46'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxFragment
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.47
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.47'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxOverflow
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.48
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.48'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxControl
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.49
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.49'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxUnknownOp
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.50
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.50'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxLengthError
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.51
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.51'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxCodeError
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.52
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.52'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxCarrierError
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.53
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.53'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxJabber
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.54
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.54'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsRxDrop
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.55
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.55'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.61
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.61'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.62
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.62'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxTooShort
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.63
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.63'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTx64
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.64
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.64'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTx65To127
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.65
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.65'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTx128To255
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.66
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.66'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTx256To511
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.67
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.67'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTx512To1023
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.68
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.68'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTx1024To1518
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.69
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.69'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTx1519ToMax
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.70
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.70'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxTooLong
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.71
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.71'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxBroadcast
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.72
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.72'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxPause
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.73
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.73'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxMulticast
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.74
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.74'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxUnderrun
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.75
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.75'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxCollision
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.76
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.76'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxExcessiveCollision
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.77
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.77'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxMultipleCollision
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.78
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.78'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxSingleCollision
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.79
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.79'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxExcessiveDeferred
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.80
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.80'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxDeferred
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.81
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.81'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxLateCollision
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.82
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.82'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxTotalCollision
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.83
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.83'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxPauseHonored
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.84
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.84'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxDrop
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.85
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.85'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxJabber
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.86
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.86'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxFCSError
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.87
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.87'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxControl
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.88
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.88'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsTxFragment
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.89
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.89'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrInterfaceStatsLinkDowns
+    oid: 1.3.6.1.4.1.14988.1.1.14.1.1.90
+    type: counter
+    help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.90'
+    indexes:
+    - labelname: mtxrInterfaceStatsIndex
+      type: gauge
+    lookups:
+    - labels:
+      - mtxrInterfaceStatsIndex
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+    - labels: []
+      labelname: mtxrInterfaceStatsIndex
+  - name: mtxrPOEInterfaceIndex
+    oid: 1.3.6.1.4.1.14988.1.1.15.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.15.1.1.1'
+    indexes:
+    - labelname: mtxrPOEInterfaceIndex
+      type: gauge
+  - name: mtxrPOEName
+    oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.15.1.1.2'
+    indexes:
+    - labelname: mtxrPOEInterfaceIndex
+      type: gauge
+  - name: mtxrPOEStatus
+    oid: 1.3.6.1.4.1.14988.1.1.15.1.1.3
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.15.1.1.3'
+    indexes:
+    - labelname: mtxrPOEInterfaceIndex
+      type: gauge
+    enum_values:
+      1: disabled
+      2: waitingForLoad
+      3: poweredOn
+      4: overload
+  - name: mtxrPOEVoltage
+    oid: 1.3.6.1.4.1.14988.1.1.15.1.1.4
+    type: gauge
+    help: V - 1.3.6.1.4.1.14988.1.1.15.1.1.4
+    indexes:
+    - labelname: mtxrPOEInterfaceIndex
+      type: gauge
+  - name: mtxrPOECurrent
+    oid: 1.3.6.1.4.1.14988.1.1.15.1.1.5
+    type: gauge
+    help: mA - 1.3.6.1.4.1.14988.1.1.15.1.1.5
+    indexes:
+    - labelname: mtxrPOEInterfaceIndex
+      type: gauge
+  - name: mtxrPOEPower
+    oid: 1.3.6.1.4.1.14988.1.1.15.1.1.6
+    type: gauge
+    help: W - 1.3.6.1.4.1.14988.1.1.15.1.1.6
+    indexes:
+    - labelname: mtxrPOEInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemInterfaceIndex
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.1'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemSignalRSSI
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.2
+    type: gauge
+    help: dBm - 1.3.6.1.4.1.14988.1.1.16.1.1.2
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemSignalRSRQ
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.3
+    type: gauge
+    help: dB - 1.3.6.1.4.1.14988.1.1.16.1.1.3
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemSignalRSRP
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.4
+    type: gauge
+    help: dBm - 1.3.6.1.4.1.14988.1.1.16.1.1.4
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemCellId
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.5
+    type: gauge
+    help: current cell ID - 1.3.6.1.4.1.14988.1.1.16.1.1.5
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemAccessTechnology
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.6
+    type: gauge
+    help: as reported by +CREG - 1.3.6.1.4.1.14988.1.1.16.1.1.6
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+    enum_values:
+      -1: unknown
+      0: gsmcompact
+      1: gsm
+      2: utran
+      3: egprs
+      4: hsdpa
+      5: hsupa
+      6: hsdpahsupa
+      7: eutran
+  - name: mtxrLTEModemSignalSINR
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.7
+    type: gauge
+    help: dB - 1.3.6.1.4.1.14988.1.1.16.1.1.7
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemEnbId
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.8'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemSectorId
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.9'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemLac
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.10
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.10'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemIMEI
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.11
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.11'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemIMSI
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.12
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.12'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemUICC
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.13
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.13'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrLTEModemRAT
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.14
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.14'
+    indexes:
+    - labelname: mtxrLTEModemInterfaceIndex
+      type: gauge
+  - name: mtxrPartitionIndex
+    oid: 1.3.6.1.4.1.14988.1.1.17.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.17.1.1.1'
+    indexes:
+    - labelname: mtxrPartitionIndex
+      type: gauge
+  - name: mtxrPartitionName
+    oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.17.1.1.2'
+    indexes:
+    - labelname: mtxrPartitionIndex
+      type: gauge
+  - name: mtxrPartitionSize
+    oid: 1.3.6.1.4.1.14988.1.1.17.1.1.3
+    type: gauge
+    help: MB - 1.3.6.1.4.1.14988.1.1.17.1.1.3
+    indexes:
+    - labelname: mtxrPartitionIndex
+      type: gauge
+  - name: mtxrPartitionVersion
+    oid: 1.3.6.1.4.1.14988.1.1.17.1.1.4
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.17.1.1.4'
+    indexes:
+    - labelname: mtxrPartitionIndex
+      type: gauge
+  - name: mtxrPartitionActive
+    oid: 1.3.6.1.4.1.14988.1.1.17.1.1.5
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.17.1.1.5'
+    indexes:
+    - labelname: mtxrPartitionIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrPartitionRunning
+    oid: 1.3.6.1.4.1.14988.1.1.17.1.1.6
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.17.1.1.6'
+    indexes:
+    - labelname: mtxrPartitionIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrScriptRunIndex
+    oid: 1.3.6.1.4.1.14988.1.1.18.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.18.1.1.1'
+    indexes:
+    - labelname: mtxrScriptRunIndex
+      type: gauge
+  - name: mtxrScriptRunOutput
+    oid: 1.3.6.1.4.1.14988.1.1.18.1.1.2
+    type: DisplayString
+    help: this oid on get request will run script and return it's output - 1.3.6.1.4.1.14988.1.1.18.1.1.2
+    indexes:
+    - labelname: mtxrScriptRunIndex
+      type: gauge
+  - name: mtxrOpticalIndex
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.1'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrOpticalName
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+    type: DisplayString
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.2'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrOpticalRxLoss
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.3
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.3'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrOpticalTxFault
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.4
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.4'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrOpticalWavelength
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.5
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.5'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrOpticalTemperature
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.6
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.6'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrOpticalSupplyVoltage
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.7
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.7'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrOpticalTxBiasCurrent
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.8'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrOpticalTxPower
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.9
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.9'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrOpticalRxPower
+    oid: 1.3.6.1.4.1.14988.1.1.19.1.1.10
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.10'
+    indexes:
+    - labelname: mtxrOpticalIndex
+      type: gauge
+  - name: mtxrIkeSACount
+    oid: 1.3.6.1.4.1.14988.1.1.20.1
+    type: gauge
+    help: IKE SA count - 1.3.6.1.4.1.14988.1.1.20.1
+  - name: mtxrIkeSAIndex
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.1
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.1'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAInitiatorCookie
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.2
+    type: DisplayString
+    help: initiator SPI - 1.3.6.1.4.1.14988.1.1.20.2.1.2
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAResponderCookie
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.3
+    type: DisplayString
+    help: responder SPI - 1.3.6.1.4.1.14988.1.1.20.2.1.3
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAResponder
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.4
+    type: gauge
+    help: IKE side - 1.3.6.1.4.1.14988.1.1.20.2.1.4
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrIkeSANatt
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.5
+    type: gauge
+    help: NAT is detected - 1.3.6.1.4.1.14988.1.1.20.2.1.5
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: "false"
+      1: "true"
+  - name: mtxrIkeSAVersion
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.6
+    type: gauge
+    help: protocol version - 1.3.6.1.4.1.14988.1.1.20.2.1.6
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAState
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.7
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.7'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      1: exchange
+      2: established
+      3: expired
+      4: eap
+  - name: mtxrIkeSAUptime
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.8
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.8'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSASeen
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.9
+    type: gauge
+    help: time elapsed since last valid IKE packet - 1.3.6.1.4.1.14988.1.1.20.2.1.9
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAIdentity
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.10
+    type: DisplayString
+    help: peer identity - 1.3.6.1.4.1.14988.1.1.20.2.1.10
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAPh2Count
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.11
+    type: gauge
+    help: total ph2 SA pairs - 1.3.6.1.4.1.14988.1.1.20.2.1.11
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSALocalAddressType
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.12
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.12'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
+  - name: mtxrIkeSALocalAddress
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.13
+    type: InetAddress
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.13'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSALocalPort
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.14
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.14'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAPeerAddressType
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.15
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.15'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
+  - name: mtxrIkeSAPeerAddress
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.16
+    type: InetAddress
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.16'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSAPeerPort
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.17
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.17'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSADynamicAddressType
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.18
+    type: gauge
+    help: ' - 1.3.6.1.4.1.14988.1.1.20.2.1.18'
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
+  - name: mtxrIkeSADynamicAddress
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.19
+    type: InetAddress
+    help: dynamic address allocated by mode config - 1.3.6.1.4.1.14988.1.1.20.2.1.19
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSATxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.20
+    type: counter
+    help: ph2 SA tx bytes - 1.3.6.1.4.1.14988.1.1.20.2.1.20
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSARxBytes
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.21
+    type: counter
+    help: ph2 SA rx bytes - 1.3.6.1.4.1.14988.1.1.20.2.1.21
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSATxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.22
+    type: counter
+    help: ph2 SA tx packets - 1.3.6.1.4.1.14988.1.1.20.2.1.22
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  - name: mtxrIkeSARxPackets
+    oid: 1.3.6.1.4.1.14988.1.1.20.2.1.23
+    type: counter
+    help: ph2 SA rx packets - 1.3.6.1.4.1.14988.1.1.20.2.1.23
+    indexes:
+    - labelname: mtxrIkeSAIndex
+      type: gauge
+  auth:
+    community: rewandchewrw
+ruckus:
+  walk:
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31
+  - 1.3.6.1.4.1.25053
+  metrics:
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+    help: The number of network interfaces (regardless of their current state) present
+      on this system. - 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: other
+      2: regular1822
+      3: hdh1822
+      4: ddnX25
+      5: rfc877x25
+      6: ethernetCsmacd
+      7: iso88023Csmacd
+      8: iso88024TokenBus
+      9: iso88025TokenRing
+      10: iso88026Man
+      11: starLan
+      12: proteon10Mbit
+      13: proteon80Mbit
+      14: hyperchannel
+      15: fddi
+      16: lapb
+      17: sdlc
+      18: ds1
+      19: e1
+      20: basicISDN
+      21: primaryISDN
+      22: propPointToPointSerial
+      23: ppp
+      24: softwareLoopback
+      25: eon
+      26: ethernet3Mbit
+      27: nsip
+      28: slip
+      29: ultra
+      30: ds3
+      31: sip
+      32: frameRelay
+      33: rs232
+      34: para
+      35: arcnet
+      36: arcnetPlus
+      37: atm
+      38: miox25
+      39: sonet
+      40: x25ple
+      41: iso88022llc
+      42: localTalk
+      43: smdsDxi
+      44: frameRelayService
+      45: v35
+      46: hssi
+      47: hippi
+      48: modem
+      49: aal5
+      50: sonetPath
+      51: sonetVT
+      52: smdsIcip
+      53: propVirtual
+      54: propMultiplexor
+      55: ieee80212
+      56: fibreChannel
+      57: hippiInterface
+      58: frameRelayInterconnect
+      59: aflane8023
+      60: aflane8025
+      61: cctEmul
+      62: fastEther
+      63: isdn
+      64: v11
+      65: v36
+      66: g703at64k
+      67: g703at2mb
+      68: qllc
+      69: fastEtherFX
+      70: channel
+      71: ieee80211
+      72: ibm370parChan
+      73: escon
+      74: dlsw
+      75: isdns
+      76: isdnu
+      77: lapd
+      78: ipSwitch
+      79: rsrb
+      80: atmLogical
+      81: ds0
+      82: ds0Bundle
+      83: bsc
+      84: async
+      85: cnr
+      86: iso88025Dtr
+      87: eplrs
+      88: arap
+      89: propCnls
+      90: hostPad
+      91: termPad
+      92: frameRelayMPI
+      93: x213
+      94: adsl
+      95: radsl
+      96: sdsl
+      97: vdsl
+      98: iso88025CRFPInt
+      99: myrinet
+      100: voiceEM
+      101: voiceFXO
+      102: voiceFXS
+      103: voiceEncap
+      104: voiceOverIp
+      105: atmDxi
+      106: atmFuni
+      107: atmIma
+      108: pppMultilinkBundle
+      109: ipOverCdlc
+      110: ipOverClaw
+      111: stackToStack
+      112: virtualIpAddress
+      113: mpc
+      114: ipOverAtm
+      115: iso88025Fiber
+      116: tdlc
+      117: gigabitEthernet
+      118: hdlc
+      119: lapf
+      120: v37
+      121: x25mlp
+      122: x25huntGroup
+      123: transpHdlc
+      124: interleave
+      125: fast
+      126: ip
+      127: docsCableMaclayer
+      128: docsCableDownstream
+      129: docsCableUpstream
+      130: a12MppSwitch
+      131: tunnel
+      132: coffee
+      133: ces
+      134: atmSubInterface
+      135: l2vlan
+      136: l3ipvlan
+      137: l3ipxvlan
+      138: digitalPowerline
+      139: mediaMailOverIp
+      140: dtm
+      141: dcn
+      142: ipForward
+      143: msdsl
+      144: ieee1394
+      145: if-gsn
+      146: dvbRccMacLayer
+      147: dvbRccDownstream
+      148: dvbRccUpstream
+      149: atmVirtual
+      150: mplsTunnel
+      151: srp
+      152: voiceOverAtm
+      153: voiceOverFrameRelay
+      154: idsl
+      155: compositeLink
+      156: ss7SigLink
+      157: propWirelessP2P
+      158: frForward
+      159: rfc1483
+      160: usb
+      161: ieee8023adLag
+      162: bgppolicyaccounting
+      163: frf16MfrBundle
+      164: h323Gatekeeper
+      165: h323Proxy
+      166: mpls
+      167: mfSigLink
+      168: hdsl2
+      169: shdsl
+      170: ds1FDL
+      171: pos
+      172: dvbAsiIn
+      173: dvbAsiOut
+      174: plc
+      175: nfas
+      176: tr008
+      177: gr303RDT
+      178: gr303IDT
+      179: isup
+      180: propDocsWirelessMaclayer
+      181: propDocsWirelessDownstream
+      182: propDocsWirelessUpstream
+      183: hiperlan2
+      184: propBWAp2Mp
+      185: sonetOverheadChannel
+      186: digitalWrapperOverheadChannel
+      187: aal2
+      188: radioMAC
+      189: atmRadio
+      190: imt
+      191: mvl
+      192: reachDSL
+      193: frDlciEndPt
+      194: atmVciEndPt
+      195: opticalChannel
+      196: opticalTransport
+      197: propAtm
+      198: voiceOverCable
+      199: infiniband
+      200: teLink
+      201: q2931
+      202: virtualTg
+      203: sipTg
+      204: sipSig
+      205: docsCableUpstreamChannel
+      206: econet
+      207: pon155
+      208: pon622
+      209: bridge
+      210: linegroup
+      211: voiceEMFGD
+      212: voiceFGDEANA
+      213: voiceDID
+      214: mpegTransport
+      215: sixToFour
+      216: gtp
+      217: pdnEtherLoop1
+      218: pdnEtherLoop2
+      219: opticalChannelGroup
+      220: homepna
+      221: gfp
+      222: ciscoISLvlan
+      223: actelisMetaLOOP
+      224: fcipLink
+      225: rpr
+      226: qam
+      227: lmp
+      228: cblVectaStar
+      229: docsCableMCmtsDownstream
+      230: adsl2
+      231: macSecControlledIF
+      232: macSecUncontrolledIF
+      233: aviciOpticalEther
+      234: atmbond
+      235: voiceFGDOS
+      236: mocaVersion1
+      237: ieee80216WMAN
+      238: adsl2plus
+      239: dvbRcsMacLayer
+      240: dvbTdm
+      241: dvbRcsTdma
+      242: x86Laps
+      243: wwanPP
+      244: wwanPP2
+      245: voiceEBS
+      246: ifPwType
+      247: ilan
+      248: pip
+      249: aluELP
+      250: gpon
+      251: vdsl2
+      252: capwapDot11Profile
+      253: capwapDot11Bss
+      254: capwapWtpVirtualRadio
+      255: bits
+      256: docsCableUpstreamRfPort
+      257: cableDownstreamRfPort
+      258: vmwareVirtualNic
+      259: ieee802154
+      260: otnOdu
+      261: otnOtu
+      262: ifVfiType
+      263: g9981
+      264: g9982
+      265: g9983
+      266: aluEpon
+      267: aluEponOnu
+      268: aluEponPhysicalUni
+      269: aluEponLogicalLink
+      270: aluGponOnu
+      271: aluGponPhysicalUni
+      272: vmwareNicTeam
+      277: docsOfdmDownstream
+      278: docsOfdmaUpstream
+      279: gfast
+      280: sdci
+      281: xboxWireless
+      282: fastdsl
+      283: docsCableScte55d1FwdOob
+      284: docsCableScte55d1RetOob
+      285: docsCableScte55d2DsOob
+      286: docsCableScte55d2UsOob
+      287: docsCableNdf
+      288: docsCableNdr
+      289: ptm
+      290: ghn
+      291: otnOtsi
+      292: otnOtuc
+      293: otnOduc
+      294: otnOtsig
+      295: microwaveCarrierTermination
+      296: microwaveRadioLinkTerminal
+      297: ieee8021axDrni
+      298: ax25
+      299: ieee19061nanocom
+      300: cpri
+      301: omni
+      302: roe
+      303: p2pOverLan
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    help: The size of the largest packet which can be sent/received on the interface,
+      specified in octets - 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: up
+      2: down
+      3: testing
+      4: unknown
+      5: dormant
+      6: notPresent
+      7: lowerLayerDown
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state - 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast or broadcast address at this sub-layer -
+      1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    help: The number of inbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being deliverable to a higher-layer
+      protocol - 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    help: For packet-oriented interfaces, the number of inbound packets that contained
+      errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    help: For packet-oriented interfaces, the number of packets received via the interface
+      which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    help: The number of outbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    help: For packet-oriented interfaces, the number of outbound packets that could
+      not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifSpecific
+    oid: 1.3.6.1.2.1.2.2.1.22
+    type: OctetString
+    help: A reference to MIB definitions specific to the particular media being used
+      to realize the interface - 1.3.6.1.2.1.2.2.1.22
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    help: Indicates whether linkUp/linkDown traps should be generated for this interface
+      - 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: enabled
+      2: disabled
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
+      per second - 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    help: This object has a value of false(2) if this interface only accepts packets/frames
+      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    help: This object has the value 'true(1)' if the interface sublayer has a physical
+      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    help: This object is an 'alias' name for the interface as specified by a network
+      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    help: The value of sysUpTime on the most recent occasion at which any one or more
+      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifStackHigherLayer
+    oid: 1.3.6.1.2.1.31.1.2.1.1
+    type: gauge
+    help: The value of ifIndex corresponding to the higher sub-layer of the relationship,
+      i.e., the sub-layer which runs on 'top' of the sub-layer identified by the corresponding
+      instance of ifStackLowerLayer - 1.3.6.1.2.1.31.1.2.1.1
+    indexes:
+    - labelname: ifStackHigherLayer
+      type: gauge
+    - labelname: ifStackLowerLayer
+      type: gauge
+  - name: ifStackLowerLayer
+    oid: 1.3.6.1.2.1.31.1.2.1.2
+    type: gauge
+    help: The value of ifIndex corresponding to the lower sub-layer of the relationship,
+      i.e., the sub-layer which runs 'below' the sub-layer identified by the corresponding
+      instance of ifStackHigherLayer - 1.3.6.1.2.1.31.1.2.1.2
+    indexes:
+    - labelname: ifStackHigherLayer
+      type: gauge
+    - labelname: ifStackLowerLayer
+      type: gauge
+  - name: ifStackStatus
+    oid: 1.3.6.1.2.1.31.1.2.1.3
+    type: gauge
+    help: The status of the relationship between two sub-layers - 1.3.6.1.2.1.31.1.2.1.3
+    indexes:
+    - labelname: ifStackHigherLayer
+      type: gauge
+    - labelname: ifStackLowerLayer
+      type: gauge
+    enum_values:
+      1: active
+      2: notInService
+      3: notReady
+      4: createAndGo
+      5: createAndWait
+      6: destroy
+  - name: ifTestId
+    oid: 1.3.6.1.2.1.31.1.3.1.1
+    type: gauge
+    help: This object identifies the current invocation of the interface's test. -
+      1.3.6.1.2.1.31.1.3.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifTestStatus
+    oid: 1.3.6.1.2.1.31.1.3.1.2
+    type: gauge
+    help: This object indicates whether or not some manager currently has the necessary
+      'ownership' required to invoke a test on this interface - 1.3.6.1.2.1.31.1.3.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: notInUse
+      2: inUse
+  - name: ifTestType
+    oid: 1.3.6.1.2.1.31.1.3.1.3
+    type: OctetString
+    help: A control variable used to start and stop operator- initiated interface
+      tests - 1.3.6.1.2.1.31.1.3.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifTestResult
+    oid: 1.3.6.1.2.1.31.1.3.1.4
+    type: gauge
+    help: This object contains the result of the most recently requested test, or
+      the value none(1) if no tests have been requested since the last reset - 1.3.6.1.2.1.31.1.3.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: success
+      3: inProgress
+      4: notSupported
+      5: unAbleToRun
+      6: aborted
+      7: failed
+  - name: ifTestCode
+    oid: 1.3.6.1.2.1.31.1.3.1.5
+    type: OctetString
+    help: This object contains a code which contains more specific information on
+      the test result, for example an error-code after a failed test - 1.3.6.1.2.1.31.1.3.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifTestOwner
+    oid: 1.3.6.1.2.1.31.1.3.1.6
+    type: DisplayString
+    help: The entity which currently has the 'ownership' required to invoke a test
+      on this interface. - 1.3.6.1.2.1.31.1.3.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifRcvAddressAddress
+    oid: 1.3.6.1.2.1.31.1.4.1.1
+    type: PhysAddress48
+    help: An address for which the system will accept packets/frames on this entry's
+      interface. - 1.3.6.1.2.1.31.1.4.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: ifRcvAddressAddress
+      type: PhysAddress48
+  - name: ifRcvAddressStatus
+    oid: 1.3.6.1.2.1.31.1.4.1.2
+    type: gauge
+    help: This object is used to create and delete rows in the ifRcvAddressTable.
+      - 1.3.6.1.2.1.31.1.4.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: ifRcvAddressAddress
+      type: PhysAddress48
+    enum_values:
+      1: active
+      2: notInService
+      3: notReady
+      4: createAndGo
+      5: createAndWait
+      6: destroy
+  - name: ifRcvAddressType
+    oid: 1.3.6.1.2.1.31.1.4.1.3
+    type: gauge
+    help: This object has the value nonVolatile(3) for those entries in the table
+      which are valid and will not be deleted by the next restart of the managed system
+      - 1.3.6.1.2.1.31.1.4.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: ifRcvAddressAddress
+      type: PhysAddress48
+    enum_values:
+      1: other
+      2: volatile
+      3: nonVolatile
+  - name: ifTableLastChange
+    oid: 1.3.6.1.2.1.31.1.5
+    type: gauge
+    help: The value of sysUpTime at the time of the last creation or deletion of an
+      entry in the ifTable - 1.3.6.1.2.1.31.1.5
+  - name: ifStackLastChange
+    oid: 1.3.6.1.2.1.31.1.6
+    type: gauge
+    help: The value of sysUpTime at the time of the last change of the (whole) interface
+      stack - 1.3.6.1.2.1.31.1.6
+  - name: ruckusUnleashedSystemName
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.1
+    type: DisplayString
+    help: System name - 1.3.6.1.4.1.25053.1.15.1.1.1.1.1
+  - name: ruckusUnleashedSystemIPAddr
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.2
+    type: InetAddressIPv4
+    help: IP Address - 1.3.6.1.4.1.25053.1.15.1.1.1.1.2
+  - name: ruckusUnleashedSystemMacAddr
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.3
+    type: OctetString
+    help: MAC Address - 1.3.6.1.4.1.25053.1.15.1.1.1.1.3
+  - name: ruckusUnleashedSystemUptime
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.8
+    type: gauge
+    help: Up time - 1.3.6.1.4.1.25053.1.15.1.1.1.1.8
+  - name: ruckusUnleashedSystemModel
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.9
+    type: DisplayString
+    help: Model - 1.3.6.1.4.1.25053.1.15.1.1.1.1.9
+  - name: ruckusUnleashedSystemLicensedAPs
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.12
+    type: gauge
+    help: Licensed APs - 1.3.6.1.4.1.25053.1.15.1.1.1.1.12
+  - name: ruckusUnleashedSystemMaxSta
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.13
+    type: gauge
+    help: Number of max stations allowed. - 1.3.6.1.4.1.25053.1.15.1.1.1.1.13
+  - name: ruckusUnleashedSystemSerialNumber
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.15
+    type: DisplayString
+    help: Serial number - 1.3.6.1.4.1.25053.1.15.1.1.1.1.15
+  - name: ruckusUnleashedSystemVersion
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.18
+    type: DisplayString
+    help: Software version - 1.3.6.1.4.1.25053.1.15.1.1.1.1.18
+  - name: ruckusUnleashedSystemCountryCode
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.1.20
+    type: OctetString
+    help: Specifies the country code - 1.3.6.1.4.1.25053.1.15.1.1.1.1.20
+  - name: ruckusUnleashedSystemStatsNumAP
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.1
+    type: gauge
+    help: Number of AP - 1.3.6.1.4.1.25053.1.15.1.1.1.15.1
+  - name: ruckusUnleashedSystemStatsNumSta
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.2
+    type: gauge
+    help: Number of authorized client devices - 1.3.6.1.4.1.25053.1.15.1.1.1.15.2
+  - name: ruckusUnleashedSystemStatsWLANTotalRxPkts
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.5
+    type: counter
+    help: Total received packets of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.5
+  - name: ruckusUnleashedSystemStatsWLANTotalRxBytes
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.6
+    type: counter
+    help: Total received bytes of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.6
+  - name: ruckusUnleashedSystemStatsWLANTotalRxMulticast
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.7
+    type: counter
+    help: Total received multicast packets of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.7
+  - name: ruckusUnleashedSystemStatsWLANTotalTxPkts
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.8
+    type: counter
+    help: Total transmitted packets of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.8
+  - name: ruckusUnleashedSystemStatsWLANTotalTxBytes
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.9
+    type: counter
+    help: Total transmitted bytes of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.9
+  - name: ruckusUnleashedSystemStatsWLANTotalTxMulticast
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.10
+    type: counter
+    help: Total transmitted multicast packets of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.10
+  - name: ruckusUnleashedSystemStatsWLANTotalTxFail
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.11
+    type: counter
+    help: Total transmitted fail packets of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.11
+  - name: ruckusUnleashedSystemStatsWLANTotalTxRetry
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.12
+    type: counter
+    help: Total transmitted retry packets of wireless interfaces - 1.3.6.1.4.1.25053.1.15.1.1.1.15.12
+  - name: ruckusUnleashedSystemStatsCPUUtil
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.13
+    type: gauge
+    help: CPU utilization - 1.3.6.1.4.1.25053.1.15.1.1.1.15.13
+  - name: ruckusUnleashedSystemStatsMemoryUtil
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.14
+    type: gauge
+    help: Memory utilization - 1.3.6.1.4.1.25053.1.15.1.1.1.15.14
+  - name: ruckusUnleashedSystemStatsNumRegisteredAP
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.15
+    type: gauge
+    help: Number of registered AP - 1.3.6.1.4.1.25053.1.15.1.1.1.15.15
+  - name: ruckusUnleashedSystemStatsWLANTotalAssocFail
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.16
+    type: counter
+    help: Total number of failed station associations. - 1.3.6.1.4.1.25053.1.15.1.1.1.15.16
+  - name: ruckusUnleashedSystemStatsWLANTotalRxErrFrm
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.17
+    type: counter
+    help: Total number of errornous downlink frames. - 1.3.6.1.4.1.25053.1.15.1.1.1.15.17
+  - name: ruckusUnleashedSystemStatsWLANTotalTxDroppedPkt
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.19
+    type: counter
+    help: Total number of dropped downlink packets. - 1.3.6.1.4.1.25053.1.15.1.1.1.15.19
+  - name: ruckusUnleashedSystemStatsWLANTotalTxErrFrm
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.20
+    type: counter
+    help: Total number of errornous downlink frames. - 1.3.6.1.4.1.25053.1.15.1.1.1.15.20
+  - name: ruckusUnleashedSystemStatsWLANTotalTxDroppedFrm
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.21
+    type: counter
+    help: Total number of dropped downlink frames. - 1.3.6.1.4.1.25053.1.15.1.1.1.15.21
+  - name: ruckusUnleashedSystemStatsAllNumSta
+    oid: 1.3.6.1.4.1.25053.1.15.1.1.1.15.30
+    type: gauge
+    help: Number of All client devices - 1.3.6.1.4.1.25053.1.15.1.1.1.15.30
+  auth:
+    community: rewandchewrw
