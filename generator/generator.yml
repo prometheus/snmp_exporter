@@ -86,6 +86,58 @@ modules:
     - meteringFanSpeed2Status
     - meteringFanSpeed3Status
     - metSysMainRxLevelStatus
+    - metSysTxPowerValue
+    - metSysRxLevelValue
+    - metSysPSVoltageValue
+    - metSysTxPowerValue
+    - metSysRxLevelValue
+    - metSysPSVoltageValue
+    - metSysTempODUValue
+    - rmon1dayHCRxEthStatsOctets2
+    - rmon1dayHCTxEthStatsOctets2
+    - rmon1dayHCRxEthStatsPkts2
+    - rmon1dayHCTxEthStatsPkts2
+    - rmon1dayRxEthStatsDropEvents2
+    - rmon1dayRxEthStatsUndersizePkts2
+    - rmon1dayRxEthStatsFragments2
+    - rmon1dayHCRxEthStatsPkts64Octets2
+    - rmon1dayHCTxEthStatsPkts64Octets2
+    - rmon1dayHCRxEthStatsPkts65to127Octets2
+    - rmon1dayHCTxEthStatsPkts65to127Octets2
+    - rmon1dayHCRxEthStatsPkts128to255Octets2
+    - rmon1dayHCTxEthStatsPkts128to255Octets2
+    - rmon1dayHCRxEthStatsPkts256to511Octets2
+    - rmon1dayHCTxEthStatsPkts256to511Octets2
+    - rmon1dayHCRxEthStatsPkts512to1023Octets2
+    - rmon1dayHCTxEthStatsPkts512to1023Octets2
+    - rmon1dayHCRxEthStatsPkts1024to1518Octets2
+    - rmon1dayHCTxEthStatsPkts1024to1518Octets2
+    - rmon1dayRxEthStatsCRCAlignErrors2
+    - rmon1dayRxEthStatsOversizePkts2
+    - rmon1dayTxEthStatsOversizePkts2
+    - rmon1dayRxEthStatsJabbers2
+    - rmon1dayRxEthStatsMulticastPkts2
+    - rmon1dayTxEthStatsMulticastPkts2
+    - rmon1dayRxEthStatsBroadcastPkts2
+    - rmon1dayTxEthStatsBroadcastPkts2
+    - rmon1dayTxEthStatsCollisions2
+    - rmon1dayHCRxUnknownTPID2
+    - rmon1dayHCRxUnknownVID2
+    - rmon1dayHCRxMAClimit2
+    - rmon1dayHCRxFilterDiscard2
+    - rmon1dayHCTxFilterDiscard2
+    - rmon1dayHCRxQoSDiscard2
+    - rmon1dayHCTxQueue0Discard2
+    - rmon1dayHCTxQueue1Discard2
+    - rmon1dayHCTxQueue2Discard2
+    - rmon1dayHCTxQueue3Discard2
+    - rmon1dayHCTxQueue4Discard2
+    - rmon1dayHCTxQueue5Discard2
+    - rmon1dayHCTxQueue6Discard2
+    - rmon1dayHCTxQueue7Discard2
+    - rmon1dayClassCounterRxClass1Pkts
+    - rmon1dayClassCounterTxClass7Pkts
+    - rmon1dayClassCounterRxClass7Pkts
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifAlias
