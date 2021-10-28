@@ -7795,12 +7795,134 @@ infrapower_pdu:
         regex: ^(?:^(\d))$
 keepalived:
   walk:
+  - 1.3.6.1.2.1.68.2.4
   - 1.3.6.1.4.1.9586.100.5.2.1
   - 1.3.6.1.4.1.9586.100.5.2.3
   - 1.3.6.1.4.1.9586.100.5.3.1
   - 1.3.6.1.4.1.9586.100.5.3.3
   - 1.3.6.1.4.1.9586.100.5.3.4
   metrics:
+  - name: vrrpStatsBecomeMaster
+    oid: 1.3.6.1.2.1.68.2.4.1.1
+    type: counter
+    help: The total number of times that this virtual router's state has transitioned
+      to MASTER. - 1.3.6.1.2.1.68.2.4.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsAdvertiseRcvd
+    oid: 1.3.6.1.2.1.68.2.4.1.2
+    type: counter
+    help: The total number of VRRP advertisements received by this virtual router.
+      - 1.3.6.1.2.1.68.2.4.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsAdvertiseIntervalErrors
+    oid: 1.3.6.1.2.1.68.2.4.1.3
+    type: counter
+    help: The total number of VRRP advertisement packets received for which the advertisement
+      interval is different than the one configured for the local virtual router.
+      - 1.3.6.1.2.1.68.2.4.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsAuthFailures
+    oid: 1.3.6.1.2.1.68.2.4.1.4
+    type: counter
+    help: The total number of VRRP packets received that do not pass the authentication
+      check. - 1.3.6.1.2.1.68.2.4.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsIpTtlErrors
+    oid: 1.3.6.1.2.1.68.2.4.1.5
+    type: counter
+    help: The total number of VRRP packets received by the virtual router with IP
+      TTL (Time-To-Live) not equal to 255. - 1.3.6.1.2.1.68.2.4.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsPriorityZeroPktsRcvd
+    oid: 1.3.6.1.2.1.68.2.4.1.6
+    type: counter
+    help: The total number of VRRP packets received by the virtual router with a priority
+      of '0'. - 1.3.6.1.2.1.68.2.4.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsPriorityZeroPktsSent
+    oid: 1.3.6.1.2.1.68.2.4.1.7
+    type: counter
+    help: The total number of VRRP packets sent by the virtual router with a priority
+      of '0'. - 1.3.6.1.2.1.68.2.4.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsInvalidTypePktsRcvd
+    oid: 1.3.6.1.2.1.68.2.4.1.8
+    type: counter
+    help: The number of VRRP packets received by the virtual router with an invalid
+      value in the 'type' field. - 1.3.6.1.2.1.68.2.4.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsAddressListErrors
+    oid: 1.3.6.1.2.1.68.2.4.1.9
+    type: counter
+    help: The total number of packets received for which the address list does not
+      match the locally configured list for the virtual router. - 1.3.6.1.2.1.68.2.4.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsInvalidAuthType
+    oid: 1.3.6.1.2.1.68.2.4.1.10
+    type: counter
+    help: The total number of packets received with an unknown authentication type.
+      - 1.3.6.1.2.1.68.2.4.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsAuthTypeMismatch
+    oid: 1.3.6.1.2.1.68.2.4.1.11
+    type: counter
+    help: The total number of packets received with 'Auth Type' not equal to the locally
+      configured authentication method (`vrrpOperAuthType'). - 1.3.6.1.2.1.68.2.4.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
+  - name: vrrpStatsPacketLengthErrors
+    oid: 1.3.6.1.2.1.68.2.4.1.12
+    type: counter
+    help: The total number of packets received with a packet length less than the
+      length of the VRRP header. - 1.3.6.1.2.1.68.2.4.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpOperVrId
+      type: gauge
   - name: vrrpSyncGroupIndex
     oid: 1.3.6.1.4.1.9586.100.5.2.1.1.1
     type: gauge
@@ -28122,6 +28244,20 @@ synology:
     indexes:
     - labelname: iSCSILUNInfoIndex
       type: gauge
+  - name: iSCSILUNDiskLatencyAvg
+    oid: 1.3.6.1.4.1.6574.104.1.1.18
+    type: gauge
+    help: Average latency of LUN disk - 1.3.6.1.4.1.6574.104.1.1.18
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
+  - name: iSCSILUNThinProvisionVolFreeMBs
+    oid: 1.3.6.1.4.1.6574.104.1.1.19
+    type: gauge
+    help: Free space(MB) of thin provisioning lun's volume - 1.3.6.1.4.1.6574.104.1.1.19
+    indexes:
+    - labelname: iSCSILUNInfoIndex
+      type: gauge
   - name: diskIndex
     oid: 1.3.6.1.4.1.6574.2.1.1.1
     type: gauge
@@ -28215,6 +28351,98 @@ synology:
       type: OctetString
     - labels: []
       labelname: diskIndex
+  - name: diskRole
+    oid: 1.3.6.1.4.1.6574.2.1.1.7
+    type: OctetString
+    help: Synology disk role The role of the disk in system - 1.3.6.1.4.1.6574.2.1.1.7
+    indexes:
+    - labelname: diskIndex
+      type: gauge
+    lookups:
+    - labels:
+      - diskIndex
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+    - labels: []
+      labelname: diskIndex
+  - name: diskRetry
+    oid: 1.3.6.1.4.1.6574.2.1.1.8
+    type: gauge
+    help: Synology disk retry count The count of each disk connection retries. - 1.3.6.1.4.1.6574.2.1.1.8
+    indexes:
+    - labelname: diskIndex
+      type: gauge
+    lookups:
+    - labels:
+      - diskIndex
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+    - labels: []
+      labelname: diskIndex
+  - name: diskBadSector
+    oid: 1.3.6.1.4.1.6574.2.1.1.9
+    type: gauge
+    help: Synology disk bad sector count The count of each disk I/O bad sector. -
+      1.3.6.1.4.1.6574.2.1.1.9
+    indexes:
+    - labelname: diskIndex
+      type: gauge
+    lookups:
+    - labels:
+      - diskIndex
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+    - labels: []
+      labelname: diskIndex
+  - name: diskIdentifyFail
+    oid: 1.3.6.1.4.1.6574.2.1.1.10
+    type: gauge
+    help: Synology disk identify fail count The count of each disk identify fails.
+      - 1.3.6.1.4.1.6574.2.1.1.10
+    indexes:
+    - labelname: diskIndex
+      type: gauge
+    lookups:
+    - labels:
+      - diskIndex
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+    - labels: []
+      labelname: diskIndex
+  - name: diskRemainLife
+    oid: 1.3.6.1.4.1.6574.2.1.1.11
+    type: gauge
+    help: Synology disk remainLife The estimate remain life of each disk. - 1.3.6.1.4.1.6574.2.1.1.11
+    indexes:
+    - labelname: diskIndex
+      type: gauge
+    lookups:
+    - labels:
+      - diskIndex
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+    - labels: []
+      labelname: diskIndex
+  - name: diskName
+    oid: 1.3.6.1.4.1.6574.2.1.1.12
+    type: OctetString
+    help: Synology disk name The name of disk which align to storage manager. - 1.3.6.1.4.1.6574.2.1.1.12
+    indexes:
+    - labelname: diskIndex
+      type: gauge
+    lookups:
+    - labels:
+      - diskIndex
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+    - labels: []
+      labelname: diskIndex
   - name: raidIndex
     oid: 1.3.6.1.4.1.6574.3.1.1.1
     type: gauge
@@ -28280,6 +28508,21 @@ synology:
     oid: 1.3.6.1.4.1.6574.3.1.1.5
     type: gauge
     help: Synology raid totalsize Total space in bytes. - 1.3.6.1.4.1.6574.3.1.1.5
+    indexes:
+    - labelname: raidIndex
+      type: gauge
+    lookups:
+    - labels:
+      - raidIndex
+      labelname: raidName
+      oid: 1.3.6.1.4.1.6574.3.1.1.2
+      type: DisplayString
+    - labels: []
+      labelname: raidIndex
+  - name: raidHotspareCnt
+    oid: 1.3.6.1.4.1.6574.3.1.1.6
+    type: gauge
+    help: Synology raid hotspare Total hotspare disks count - 1.3.6.1.4.1.6574.3.1.1.6
     indexes:
     - labelname: raidIndex
       type: gauge

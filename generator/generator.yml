@@ -450,6 +450,7 @@ modules:
 # keepalived
 #
 # https://github.com/acassen/keepalived/blob/master/doc/KEEPALIVED-MIB.txt
+# https://github.com/acassen/keepalived/blob/master/doc/VRRP-MIB.txt
   keepalived:
     walk:
       - vrrpInstanceTable # Table of VRRP instances.
@@ -457,6 +458,7 @@ modules:
       - virtualServerGroupTable # Table of virtual server groups.
       - virtualServerTable # Table of virtual servers.
       - realServerTable # Table of real servers. This includes regular real servers and sorry servers.
+      - vrrpRouterStatsTable # Table of VRRP statistics.
     overrides:
       vrrpSyncGroupScriptMaster:
         ignore: true # Non-metric display string.
