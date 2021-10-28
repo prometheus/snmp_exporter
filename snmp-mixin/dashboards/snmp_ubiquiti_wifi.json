@@ -13,7 +13,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "ALERTS{instance=~\"$devices\",alertstate=\"firing\"}",
+        "expr": "ALERTS{instance=~\"$instance\",alertstate=\"firing\"}",
         "hide": false,
         "iconColor": "#8F3BB8",
         "limit": 100,
@@ -30,7 +30,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "ALERTS{instance=~\"$devices\",alertstate=\"pending\"}",
+        "expr": "ALERTS{instance=~\"$instance\",alertstate=\"pending\"}",
         "hide": false,
         "iconColor": "#CA95E5",
         "limit": 100,
@@ -45,7 +45,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "absent(snmp_scrape_walk_duration_seconds{instance=\"$devices\"})",
+        "expr": "absent(snmp_scrape_walk_duration_seconds{instance=\"$instance\"})",
         "hide": false,
         "iconColor": "#FF780A",
         "limit": 100,
@@ -62,7 +62,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "absent(probe_success{job=\"blackbox_icmp\",instance=\"$devices\"} == 1)",
+        "expr": "absent(probe_success{job=\"blackbox_icmp\",instance=\"$instance\"} == 1)",
         "hide": false,
         "iconColor": "#3274D9",
         "limit": 100,
@@ -86,7 +86,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -104,7 +104,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This is the global overview of all wireless traffic coming from and going to the access points.",
       "fieldConfig": {
         "defaults": {
@@ -154,13 +154,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "legendFormat": "Out",
           "refId": "B"
@@ -214,7 +214,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This is the global overview of all wireless traffic coming from and going to the access points.\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
       "fieldConfig": {
         "defaults": {
@@ -264,37 +264,37 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out, errors",
           "refId": "F"
@@ -348,7 +348,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "description": "This is the global overview of all traffic coming from and going to the access points through the wired network.",
       "editable": true,
       "error": false,
@@ -408,7 +408,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=~\"$devices\",ifName=~\"eth.*\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=~\"eth.*\"}[$__rate_interval]))*8",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -418,7 +418,7 @@
           "step": 10
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=~\"$devices\",ifName=~\"eth.*\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=~\"eth.*\"}[$__rate_interval]))*8",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 3,
@@ -484,7 +484,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This is the global overview of all packets coming from and going to the access points through the wired network.\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
       "fieldConfig": {
         "defaults": {
@@ -534,49 +534,49 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiIfRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiIfRxMulticast{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfRxMulticast{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In, multicast",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiIfRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiIfRxError{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfRxError{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In, error",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiIfTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiIfTxMulticast{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfTxMulticast{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out, multicast",
           "refId": "F"
         },
         {
-          "expr": "sum(irate(unifiIfTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "G"
         },
         {
-          "expr": "sum(irate(unifiIfTxError{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiIfTxError{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out, error",
           "refId": "H"
@@ -626,7 +626,7 @@
       }
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -660,7 +660,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -690,7 +690,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "$devices ESSIDs",
+      "title": "$instance ESSIDs",
       "type": "text"
     },
     {
@@ -698,7 +698,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "If any device is consistently above the others, this might indicate a problem. Consider rebooting that device, upgrading it, or putting another one nearby to reduce load.",
       "fieldConfig": {
         "defaults": {
@@ -745,7 +745,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(3,scrape_duration_seconds{job=~\"snmp.*\",instance=~\"$devices\"})",
+          "expr": "topk(3,scrape_duration_seconds{job=~\"$job\",instance=~\"$instance\"})",
           "interval": "",
           "intervalFactor": 4,
           "legendFormat": "{{instance}}",
@@ -797,7 +797,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -814,7 +814,7 @@
           "value": "All"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -822,7 +822,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -861,7 +861,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -909,14 +909,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -927,7 +927,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -970,7 +970,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1038,42 +1038,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -1084,7 +1084,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1124,7 +1124,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1142,7 +1142,7 @@
           "value": "192.168.178.70"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -1150,7 +1150,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1189,7 +1189,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -1240,14 +1240,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1258,7 +1258,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1301,7 +1301,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1372,42 +1372,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -1418,7 +1418,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1458,7 +1458,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1476,7 +1476,7 @@
           "value": "All"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -1484,7 +1484,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1523,7 +1523,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -1574,14 +1574,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1592,7 +1592,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1635,7 +1635,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1706,42 +1706,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -1752,7 +1752,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1792,7 +1792,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1810,7 +1810,7 @@
           "value": "All"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -1818,7 +1818,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1857,7 +1857,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -1908,14 +1908,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1926,7 +1926,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1969,7 +1969,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2040,42 +2040,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -2086,7 +2086,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2126,7 +2126,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2144,7 +2144,7 @@
           "value": "All"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -2152,7 +2152,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2191,7 +2191,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -2242,14 +2242,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2260,7 +2260,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2303,7 +2303,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2374,42 +2374,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -2420,7 +2420,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2460,7 +2460,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2478,7 +2478,7 @@
           "value": "All"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -2486,7 +2486,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2525,7 +2525,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -2576,14 +2576,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2594,7 +2594,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2637,7 +2637,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2708,42 +2708,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -2754,7 +2754,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2794,7 +2794,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2812,7 +2812,7 @@
           "value": "All"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -2820,7 +2820,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2859,7 +2859,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -2910,14 +2910,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2928,7 +2928,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2971,7 +2971,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -3042,42 +3042,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -3088,7 +3088,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -3128,7 +3128,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3146,7 +3146,7 @@
           "value": "All"
         }
       },
-      "title": "Device: $devices",
+      "title": "Device: $instance",
       "type": "row"
     },
     {
@@ -3154,7 +3154,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -3193,7 +3193,7 @@
       "links": [
         {
           "targetBlank": true,
-          "title": "$devices drilldown",
+          "title": "$instance drilldown",
           "url": "d/RQ7zUC8Gk/snmp-ubiquiti-access-point?orgId=1?devices=${devices:queryparam}"
         }
       ],
@@ -3244,14 +3244,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -3262,7 +3262,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Traffic on air - $devices",
+      "title": "Traffic on air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -3305,7 +3305,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -3376,42 +3376,42 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=~\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Out, errors",
@@ -3422,7 +3422,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Packets on the air - $devices",
+      "title": "Packets on the air - $instance",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -3468,8 +3468,60 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "description": "", 
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allFormat": "pipe",
-        "allValue": null,
+        "allValue": ".+",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "All"
+        },
+        "datasource": "$datasource",
+        "definition": "label_values(up{job=~\"snmp.*\"}, job)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "job",
+        "multi": true,
+        "multiFormat": "pipe",
+        "name": "job",
+        "options": [],
+        "query": {
+          "query": "label_values(up{job=~\"snmp.*\"}, job)",
+          "refId": "default-job-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "pipe",
+        "allValue": ".+",
         "current": {
           "selected": false,
           "text": [
@@ -3479,19 +3531,19 @@
             "$__all"
           ]
         },
-        "datasource": "default",
-        "definition": "label_values(up{job=~\"snmp.*\"}, instance)",
+        "datasource": "$datasource",
+        "definition": "label_values(up{job=~\"$job\"}, instance)",
         "description": null,
         "error": null,
         "hide": 2,
         "includeAll": true,
-        "label": "Devices",
+        "label": "instance",
         "multi": true,
         "multiFormat": "pipe",
-        "name": "devices",
+        "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(up{job=~\"snmp.*\"}, instance)",
+          "query": "label_values(up{job=~\"$job\"}, instance)",
           "refId": "default-devices-Variable-Query"
         },
         "refresh": 1,
@@ -3516,8 +3568,8 @@
             "$__all"
           ]
         },
-        "datasource": "default",
-        "definition": "query_result(ifOperStatus{job=~\"snmp.*\",instance=~\"$devices\"}==1)",
+        "datasource": "$datasource",
+        "definition": "query_result(ifOperStatus{job=~\"$job\",instance=~\"$instance\"}==1)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -3528,7 +3580,7 @@
         "name": "device_interfaces",
         "options": [],
         "query": {
-          "query": "query_result(ifOperStatus{job=~\"snmp.*\",instance=~\"$devices\"}==1)",
+          "query": "query_result(ifOperStatus{job=~\"$job\",instance=~\"$instance\"}==1)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3548,8 +3600,8 @@
           "text": "UAP-nanoHD",
           "value": "UAP-nanoHD"
         },
-        "datasource": "default",
-        "definition": "label_values(unifiApSystemModel{job=~\"snmp.*\",instance=~\"$devices\"}, unifiApSystemModel)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiApSystemModel{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemModel)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -3559,7 +3611,7 @@
         "name": "device_model",
         "options": [],
         "query": {
-          "query": "label_values(unifiApSystemModel{job=~\"snmp.*\",instance=~\"$devices\"}, unifiApSystemModel)",
+          "query": "label_values(unifiApSystemModel{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemModel)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3579,8 +3631,8 @@
           "text": "5.43.23.12533",
           "value": "5.43.23.12533"
         },
-        "datasource": "default",
-        "definition": "label_values(unifiApSystemVersion{job=~\"snmp.*\",instance=~\"$devices\"}, unifiApSystemVersion)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiApSystemVersion{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemVersion)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -3590,7 +3642,7 @@
         "name": "device_firmware_version",
         "options": [],
         "query": {
-          "query": "label_values(unifiApSystemVersion{job=~\"snmp.*\",instance=~\"$devices\"}, unifiApSystemVersion)",
+          "query": "label_values(unifiApSystemVersion{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemVersion)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3614,8 +3666,8 @@
             "$__all"
           ]
         },
-        "datasource": "default",
-        "definition": "label_values(ifPhysAddress{job=~\"snmp.*\",instance=~\"$devices\"}, ifPhysAddress)",
+        "datasource": "$datasource",
+        "definition": "label_values(ifPhysAddress{job=~\"$job\",instance=~\"$instance\"}, ifPhysAddress)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -3625,7 +3677,7 @@
         "name": "device_mac_addresses",
         "options": [],
         "query": {
-          "query": "label_values(ifPhysAddress{job=~\"snmp.*\",instance=~\"$devices\"}, ifPhysAddress)",
+          "query": "label_values(ifPhysAddress{job=~\"$job\",instance=~\"$instance\"}, ifPhysAddress)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3645,8 +3697,8 @@
           "text": "All",
           "value": "All"
         },
-        "datasource": "default",
-        "definition": "label_values(unifiApSystemIp{job=~\"snmp.*\",instance=~\"$devices\"}, unifiApSystemIp)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiApSystemIp{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemIp)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -3656,7 +3708,7 @@
         "name": "device_main_ip",
         "options": [],
         "query": {
-          "query": "label_values(unifiApSystemIp{job=~\"snmp.*\",instance=~\"$devices\"}, unifiApSystemIp)",
+          "query": "label_values(unifiApSystemIp{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemIp)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3681,8 +3733,8 @@
             "$__all"
           ]
         },
-        "datasource": "default",
-        "definition": "label_values(unifiVapEssId{job=~\"snmp.*\",instance=~\"$devices\"}, unifiVapEssId)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiVapEssId{job=~\"$job\",instance=~\"$instance\"}, unifiVapEssId)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -3693,7 +3745,7 @@
         "name": "device_ESSIDs",
         "options": [],
         "query": {
-          "query": "label_values(unifiVapEssId{job=~\"snmp.*\",instance=~\"$devices\"}, unifiVapEssId)",
+          "query": "label_values(unifiVapEssId{job=~\"$job\",instance=~\"$instance\"}, unifiVapEssId)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
