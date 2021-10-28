@@ -22,7 +22,7 @@ modules:
         type: EnumAsInfo
 
   nec:
-    max_repetitions: 1000
+    max_repetitions: 50
     timeout: 5m
     walk:
     - rmon1dayClassCounterTxClass1Pkts
