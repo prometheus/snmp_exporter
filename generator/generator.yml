@@ -38,7 +38,6 @@ modules:
     - metSysBitErrorRateValue
     - rmon1dayClassCounterRxClass3Pkts
     - rmon1dayClassCounterRxClass0Octets
-    - pmon1dayData2RfValue
     - rmon1dayClassCounterTxClass5Octets
     - rmon1dayClassCounterTxClass7Octets
     - rmon1dayClassCounterTxClass0Octets
@@ -54,8 +53,6 @@ modules:
     - rmon1dayClassCounterTxClass5Pkts
     - rmon1dayClassCounterTxClass6Octets
     - metSysXpdValue
-    - pmon1dayData2RfValue
-    - pmon1dayData2RfValue
     - rmon1dayClassCounterTxClass2Octets
     - asEthOamBnmTransmissionCurrentValue
     - rmon1dayClassCounterTxClass6Pkts
@@ -70,7 +67,6 @@ modules:
     - timingSourceCondition
     - rmon1dayClassCounterRxClass4Pkts
     - esModemChSpacing
-    - pmon1dayData2RfValue
     - rmon1dayClassCounterRxClass1Octets
     - rmon1dayClassCounterTxClass0Pkts
     - rmon1dayRxPeakRate
@@ -86,9 +82,6 @@ modules:
     - meteringFanSpeed2Status
     - meteringFanSpeed3Status
     - metSysMainRxLevelStatus
-    - metSysTxPowerValue
-    - metSysRxLevelValue
-    - metSysPSVoltageValue
     - metSysTxPowerValue
     - metSysRxLevelValue
     - metSysPSVoltageValue
