@@ -4636,6 +4636,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4654,6 +4655,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     - labelname: bsnAPIfNoiseChannelNo
@@ -4673,6 +4675,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4690,6 +4693,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4711,6 +4715,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4781,6 +4786,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4799,6 +4805,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4817,6 +4824,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4835,6 +4843,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4853,6 +4862,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4871,6 +4881,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4889,6 +4900,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4907,6 +4919,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4925,6 +4938,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4943,6 +4957,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4961,6 +4976,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4978,6 +4994,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -4999,6 +5016,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -5018,6 +5036,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -14882,6 +14901,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabIface
@@ -14891,6 +14911,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabStrength
@@ -14900,6 +14921,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxBytes
@@ -14909,6 +14931,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxBytes
@@ -14918,6 +14941,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxPackets
@@ -14927,6 +14951,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxPackets
@@ -14936,6 +14961,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxRate
@@ -14945,6 +14971,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxRate
@@ -14954,6 +14981,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRouterOSVersion
@@ -14963,6 +14991,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabUptime
@@ -14972,6 +15001,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabSignalToNoise
@@ -14981,6 +15011,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrengthCh0
@@ -14990,6 +15021,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxStrengthCh0
@@ -14999,6 +15031,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrengthCh1
@@ -15008,6 +15041,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxStrengthCh1
@@ -15017,6 +15051,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrengthCh2
@@ -15026,6 +15061,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxStrengthCh2
@@ -15035,6 +15071,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrength
@@ -15044,6 +15081,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRadioName
@@ -15053,6 +15091,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlApIndex
@@ -15143,6 +15182,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabIface
@@ -15152,6 +15192,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabUptime
@@ -15161,6 +15202,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxBytes
@@ -15170,6 +15212,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxBytes
@@ -15179,6 +15222,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxPackets
@@ -15188,6 +15232,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxPackets
@@ -15197,6 +15242,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxRate
@@ -15206,6 +15252,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxRate
@@ -15215,6 +15262,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxStrength
@@ -15224,6 +15272,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxStrength
@@ -15233,6 +15282,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabSsid
@@ -15242,6 +15292,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabEapIdent
@@ -15251,6 +15302,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabEntryCount
@@ -17514,10 +17566,53 @@ nec:
   walk:
   - 1.3.6.1.2.1.2
   - 1.3.6.1.2.1.31.1.1
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.11
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.13
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.15
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.17
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.19
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.21
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.23
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.25
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.27
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.29
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.3
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.31
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.33
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.35
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.37
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.39
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.41
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.43
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.45
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.47
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.49
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.5
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.51
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.53
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.55
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.57
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.59
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.61
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.63
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.65
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.67
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.69
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.7
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.71
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.73
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.75
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.77
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.79
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.81
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.83
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.85
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.87
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.9
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.90
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.11
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.13
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.15
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.17
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.19
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.21
@@ -17543,6 +17638,8 @@ nec:
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.57
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.59
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.61
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.63
+  - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.65
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.7
   - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.9
   - 1.3.6.1.4.1.119.2.3.69.501.3.13.3.3.1.1.3
@@ -17556,10 +17653,14 @@ nec:
   - 1.3.6.1.4.1.119.2.3.69.501.4.2.1.5
   - 1.3.6.1.4.1.119.2.3.69.501.4.2.1.7
   - 1.3.6.1.4.1.119.2.3.69.501.4.2.1.8
+  - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.10
   - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.14
   - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.15
   - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.18
   - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.20
+  - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.4
+  - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.6
+  - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.8
   - 1.3.6.1.4.1.119.2.3.69.501.8.2.1.4
   - 1.3.6.1.4.1.119.2.3.69.501.8.2.1.6
   - 1.3.6.1.4.1.119.2.3.69.501.8.3.1.4
@@ -18828,10 +18929,304 @@ nec:
       labelname: ifName
       oid: 1.3.6.1.2.1.31.1.1.1.1
       type: DisplayString
+  - name: rmon1dayRxEthStatsDropEvents2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.11
+    type: counter
+    help: RMON 1day RX Drop Events - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.11
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayRxEthStatsUndersizePkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.13
+    type: counter
+    help: RMON 1day RX Undersize Pkts - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.13
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayRxEthStatsFragments2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.15
+    type: counter
+    help: RMON 1day RX Fragments - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.15
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsPkts64Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.17
+    type: counter
+    help: RMON 1day RX 64 Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.17
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsPkts64Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.19
+    type: counter
+    help: RMON 1day TX 64 Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.19
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsPkts65to127Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.21
+    type: counter
+    help: RMON 1day RX 65 to 127 Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.21
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsPkts65to127Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.23
+    type: counter
+    help: RMON 1day TX 65 to 127 Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.23
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsPkts128to255Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.25
+    type: counter
+    help: RMON 1day RX 128 to 255 Octs. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.25
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsPkts128to255Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.27
+    type: counter
+    help: RMON 1day TX 128 to 255 Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.27
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsPkts256to511Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.29
+    type: counter
+    help: RMON 1day RX 256 to 511 Octs. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.29
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsOctets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.3
+    type: counter
+    help: RMON 1day RX Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.3
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsPkts256to511Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.31
+    type: counter
+    help: RMON 1day TX 256 to 511 Octs. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.31
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsPkts512to1023Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.33
+    type: counter
+    help: RMON 1day RX 512 to 1023 Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.33
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsPkts512to1023Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.35
+    type: counter
+    help: RMON 1day TX 512 to 1023 Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.35
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsPkts1024to1518Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.37
+    type: counter
+    help: RMON 1day RX 1024 to 1518 Octs. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.37
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsPkts1024to1518Octets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.39
+    type: counter
+    help: RMON 1day TX 1024 to 1518 Octs. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.39
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayRxEthStatsCRCAlignErrors2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.41
+    type: counter
+    help: RMON 1day RX CRC Alignment Errors - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.41
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayRxEthStatsOversizePkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.43
+    type: counter
+    help: RMON 1day RX Oversize Pkts - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.43
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayRxEthStatsJabbers2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.45
+    type: counter
+    help: RMON 1day RX Jabbers - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.45
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayRxEthStatsMulticastPkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.47
+    type: counter
+    help: RMON 1day RX Multicast Pkts - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.47
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayTxEthStatsMulticastPkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.49
+    type: counter
+    help: RMON 1day TX Multicast Pkts. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.49
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsOctets2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.5
+    type: counter
+    help: RMON 1day TX Octs - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.5
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayRxEthStatsBroadcastPkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.51
+    type: counter
+    help: RMON 1day RX Broadcast Pkts. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.51
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayTxEthStatsBroadcastPkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.53
+    type: counter
+    help: RMON 1day TX Broadcast Pkts. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.53
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayTxEthStatsCollisions2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.55
+    type: counter
+    help: RMON 1day TX Collisions. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.55
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxUnknownTPID2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.57
+    type: counter
+    help: RMON 1day RX Unknown TPID. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.57
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxUnknownVID2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.59
+    type: counter
+    help: RMON 1day RX Unknown VID. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.59
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxMAClimit2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.61
+    type: counter
+    help: RMON 1day RX MAC Limit. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.61
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxFilterDiscard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.63
+    type: counter
+    help: RMON 1day RX Filter Discard. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.63
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxQoSDiscard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.65
+    type: counter
+    help: RMON 1day RX QoS Discard. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.65
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue0Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.67
+    type: counter
+    help: RMON 1day TX Queue0 Discard. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.67
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue1Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.69
+    type: counter
+    help: RMON 1day TX Queue1 Discard. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.69
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCRxEthStatsPkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.7
+    type: counter
+    help: RMON 1day RX Pkts - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.7
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue2Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.71
+    type: counter
+    help: RMON 1day TX Queue2 Discard. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.71
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue3Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.73
+    type: counter
+    help: RMON 1day TX Queue3 Discard. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.73
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue4Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.75
+    type: counter
+    help: RMON 1day TX Queue4 Discard - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.75
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue5Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.77
+    type: counter
+    help: RMON 1day TX Queue5 Discard - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.77
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue6Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.79
+    type: counter
+    help: RMON 1day TX Queue6 Discard - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.79
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxQueue7Discard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.81
+    type: counter
+    help: RMON 1day TX Queue7 Discard - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.81
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayTxEthStatsOversizePkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.83
+    type: counter
+    help: RMON 1day TX Oversize Pkts. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.83
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxFilterDiscard2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.85
+    type: counter
+    help: RMON 1day TX Filter Discard. - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.85
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
   - name: rmon1dayTxPeakRate
     oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.87
     type: gauge
     help: RMON 1day TX Peak Rate - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.87
+    indexes:
+    - labelname: rmon1dayPort2IfIndex
+      type: gauge
+  - name: rmon1dayHCTxEthStatsPkts2
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.9
+    type: counter
+    help: RMON 1day TX Pkts - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.2.1.9
     indexes:
     - labelname: rmon1dayPort2IfIndex
       type: gauge
@@ -18855,6 +19250,14 @@ nec:
     type: counter
     help: the number of octets transmitted out of the interface from Class1 queue.
       - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.13
+    indexes:
+    - labelname: rmon1dayClassCounterIfIndex
+      type: gauge
+  - name: rmon1dayClassCounterRxClass1Pkts
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.15
+    type: counter
+    help: the number of packets received on the interface and classified as Class1.
+      - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.15
     indexes:
     - labelname: rmon1dayClassCounterIfIndex
       type: gauge
@@ -19058,6 +19461,22 @@ nec:
     indexes:
     - labelname: rmon1dayClassCounterIfIndex
       type: gauge
+  - name: rmon1dayClassCounterRxClass7Pkts
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.63
+    type: counter
+    help: the number of packets received on the interface and classified as Class7.
+      - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.63
+    indexes:
+    - labelname: rmon1dayClassCounterIfIndex
+      type: gauge
+  - name: rmon1dayClassCounterTxClass7Pkts
+    oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.65
+    type: counter
+    help: the number of packets transmitted out of the interface from Class7 queue
+      - 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.65
+    indexes:
+    - labelname: rmon1dayClassCounterIfIndex
+      type: gauge
   - name: rmon1dayClassCounterRxClass0Pkts
     oid: 1.3.6.1.4.1.119.2.3.69.501.11.1.2.4.1.1.7
     type: counter
@@ -19222,6 +19641,13 @@ nec:
       6: cs40m
       8: cs112m
       21: cs80m
+  - name: metSysTempODUValue
+    oid: 1.3.6.1.4.1.119.2.3.69.501.8.1.1.10
+    type: DisplayString
+    help: MODEM ODU Temperature - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.10
+    indexes:
+    - labelname: meteringIfIndex
+      type: gauge
   - name: metSysBitErrorRateValue
     oid: 1.3.6.1.4.1.119.2.3.69.501.8.1.1.14
     type: DisplayString
@@ -19250,6 +19676,27 @@ nec:
     oid: 1.3.6.1.4.1.119.2.3.69.501.8.1.1.20
     type: DisplayString
     help: XPD - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.20
+    indexes:
+    - labelname: meteringIfIndex
+      type: gauge
+  - name: metSysTxPowerValue
+    oid: 1.3.6.1.4.1.119.2.3.69.501.8.1.1.4
+    type: DisplayString
+    help: MODEM TX Power - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.4
+    indexes:
+    - labelname: meteringIfIndex
+      type: gauge
+  - name: metSysRxLevelValue
+    oid: 1.3.6.1.4.1.119.2.3.69.501.8.1.1.6
+    type: DisplayString
+    help: MODEM RX Power - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.6
+    indexes:
+    - labelname: meteringIfIndex
+      type: gauge
+  - name: metSysPSVoltageValue
+    oid: 1.3.6.1.4.1.119.2.3.69.501.8.1.1.8
+    type: DisplayString
+    help: MODEM ODU Power Supply - 1.3.6.1.4.1.119.2.3.69.501.8.1.1.8
     indexes:
     - labelname: meteringIfIndex
       type: gauge
@@ -19319,7 +19766,7 @@ nec:
         4: pmonSEF
         5: pmonUAS
         6: pmonOFS
-  max_repetitions: 1000
+  max_repetitions: 50
   timeout: 5m0s
 nec_ix:
   walk:
@@ -32028,6 +32475,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaName
     oid: 1.3.6.1.4.1.41112.1.4.7.1.2
     type: DisplayString
@@ -32037,6 +32485,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaSignal
     oid: 1.3.6.1.4.1.41112.1.4.7.1.3
     type: gauge
@@ -32046,6 +32495,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaNoiseFloor
     oid: 1.3.6.1.4.1.41112.1.4.7.1.4
     type: gauge
@@ -32055,6 +32505,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaDistance
     oid: 1.3.6.1.4.1.41112.1.4.7.1.5
     type: gauge
@@ -32064,6 +32515,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaCcq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.6
     type: gauge
@@ -32073,6 +32525,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.7
     type: gauge
@@ -32082,6 +32535,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.8
     type: gauge
@@ -32091,6 +32545,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmc
     oid: 1.3.6.1.4.1.41112.1.4.7.1.9
     type: gauge
@@ -32100,6 +32555,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaLastIp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.10
     type: InetAddressIPv4
@@ -32109,6 +32565,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.11
     type: gauge
@@ -32118,6 +32575,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.12
     type: gauge
@@ -32127,6 +32585,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.13
     type: counter
@@ -32136,6 +32595,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.14
     type: counter
@@ -32145,6 +32605,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaConnTime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.15
     type: gauge
@@ -32154,6 +32615,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaLocalCINR
     oid: 1.3.6.1.4.1.41112.1.4.7.1.16
     type: gauge
@@ -32163,6 +32625,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.17
     type: gauge
@@ -32172,6 +32635,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.18
     type: gauge
@@ -32181,6 +32645,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.19
     type: gauge
@@ -32190,6 +32655,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.20
     type: gauge
@@ -32199,6 +32665,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxLatency
     oid: 1.3.6.1.4.1.41112.1.4.7.1.21
     type: gauge
@@ -32208,6 +32675,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntHostLocaltime
     oid: 1.3.6.1.4.1.41112.1.4.8.1
     type: DisplayString
