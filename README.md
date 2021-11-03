@@ -68,13 +68,9 @@ Start `snmp_exporter` as a daemon or from CLI:
 ./snmp_exporter
 ```
 
-Visit http://localhost:9116/snmp?target=1.2.3.4 where 1.2.3.4 is the IP or
-FQDN of the SNMP device to get metrics from.
-
-You can also specify a `module` parameter to choose which module to use from
-the config file. `if_mib` is the default module.
-
-http://localhost:9116/snmp?module=if_mib&target=1.2.3.4
+Visit http://localhost:9116/snmp?module=if_mib&target=1.2.3.4 where `1.2.3.4` is the IP or
+FQDN of the SNMP device to get metrics from and `if_mib` is the default module, defined
+in `snmp.yml`.
 
 ## Configuration
 
