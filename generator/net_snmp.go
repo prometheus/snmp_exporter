@@ -20,8 +20,7 @@ package main
 #include <net-snmp/mib_api.h>
 #include <unistd.h>
 // From parse.c
-#define MAXTC   4096
-  struct tc {
+struct tc {
   int             type;
   int             modid;
   char           *descriptor;
@@ -29,11 +28,12 @@ package main
   struct enum_list *enums;
   struct range_list *ranges;
   char           *description;
-} tclist[MAXTC];
+} *tclist;
+int tc_alloc;
 
 // Return the size of a fixed, or 0 if it is not fixed.
 int get_tc_fixed_size(int tc_index) {
-	if (tc_index < 0 || tc_index >= MAXTC) {
+	if (tc_index < 0 || tc_index >= tc_alloc) {
     return 0;
   }
   struct range_list *ranges;
