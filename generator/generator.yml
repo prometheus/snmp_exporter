@@ -655,3 +655,31 @@ modules:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
+
+# Draytek Corporation
+#
+# https://www.draytek.com/assets/files/external/DRAYTEK-CORPORATION.mib
+#
+  draytek:
+    walk:
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - memoryUsage
+      - adslMibObjects
+      - usbsensorObjects
+      - vpnconnObjects
+      - routerinfoObjects
+    lookups:
+      - source_indexes: [ifIndex]
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo

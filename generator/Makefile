@@ -23,6 +23,7 @@ DOCKER_REPO       ?= prom
 APC_URL           := 'https://download.schneider-electric.com/files?p_File_Name=powernet432.mib'
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
+DRAYTEK_URL       := https://www.draytek.com/assets/files/external/DRAYTEK-CORPORATION.mib
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
@@ -87,6 +88,7 @@ mibs: mib-dir \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/.cisco_v2 \
+  $(MIBDIR)/DRAYTEK-CORPORATION.mib \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
@@ -136,6 +138,7 @@ $(MIBDIR)/.cisco_v2:
 	@mkdir -p $(MIBDIR)/cisco_v2
 	@curl $(CURL_OPTS) -o $(TMP) $(CISCO_URL)
 	tar --no-same-owner -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxvf $(TMP)
+	cp mibs/cisco_v2/ADSL-LINE-MIB.my mibs/ADSL-LINE-MIB
 	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
 	cp mibs/cisco_v2/AIRESPACE-WIRELESS-MIB.my mibs/AIRESPACE-WIRELESS-MIB
 	cp mibs/cisco_v2/ENTITY-MIB.my mibs/ENTITY-MIB
@@ -145,6 +148,11 @@ $(MIBDIR)/.cisco_v2:
 	cp mibs/cisco_v2/ISDN-MIB.my mibs/ISDN-MIB
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.cisco_v2
+
+
+$(MIBDIR)/DRAYTEK-CORPORATION.mib:
+	@echo ">> Downloading DRAYTEK MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/DRAYTEK-CORPORATION.mib $(DRAYTEK_URL)
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Downloading IANA charset MIB"
