@@ -141,6 +141,7 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 func main() {
 	promlogConfig := &promlog.Config{}
 	flag.AddFlags(kingpin.CommandLine, promlogConfig)
+	kingpin.Version(version.Print("snmp_exporter"))
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
 	logger := promlog.New(promlogConfig)
