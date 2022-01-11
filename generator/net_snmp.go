@@ -18,10 +18,21 @@ package main
 #cgo CFLAGS: -I/usr/local/include
 #include <net-snmp/net-snmp-config.h>
 #include <net-snmp/mib_api.h>
+#include <net-snmp/agent/agent_callbacks.h>
+#include <net-snmp/library/default_store.h>
 #include <unistd.h>
 // From parse.c
+// Hacky workarounds to detect which version of net-snmp this
+// based on various headers that appear in 5.8 and 5.9.
+#if !defined(NETSNMP_DS_LIB_ADD_FORWARDER_INFO)
+#if defined(SNMPD_CALLBACK_UNREGISTER_NOTIFICATIONS)
+#define MAXTC   16384
+#else
 #define MAXTC   4096
-  struct tc {
+#endif
+#endif
+
+struct tc {
   int             type;
   int             modid;
   char           *descriptor;
@@ -29,11 +40,17 @@ package main
   struct enum_list *enums;
   struct range_list *ranges;
   char           *description;
+#if !defined(NETSNMP_DS_LIB_ADD_FORWARDER_INFO)
 } tclist[MAXTC];
+int tc_alloc = MAXTC;
+#else
+} *tclist;
+int tc_alloc;
+#endif
 
 // Return the size of a fixed, or 0 if it is not fixed.
 int get_tc_fixed_size(int tc_index) {
-	if (tc_index < 0 || tc_index >= MAXTC) {
+  if (tc_index < 0 || tc_index >= tc_alloc) {
     return 0;
   }
   struct range_list *ranges;
