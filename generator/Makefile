@@ -43,7 +43,7 @@ UBNT_DL_URL       := https://dl.ubnt-ut.com/snmp
 WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
-LIEBERT_URL       := https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
+LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 
 .DEFAULT: all
 
@@ -274,5 +274,5 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading LIEBERT_GP_PDU.MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
-	@tar --no-same-owner -C $(MIBDIR) -xvf $(TMP)
+	@unzip -j -d $(MIBDIR) $(TMP) LIEBERT_GP_PDU.MIB LIEBERT_GP_REG.MIB
 	@rm -v $(TMP)
