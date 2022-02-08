@@ -99,7 +99,7 @@ scrape_configs:
         - switch.local # SNMP device.
     metrics_path: /snmp
     params:
-      module: [if_mib]
+      module: [if_mib]  # can't be used as multiple module option. Onle ne module per job allowed
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
