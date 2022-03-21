@@ -44,11 +44,12 @@ var (
 		PrivProtocol:  "DES",
 	}
 	DefaultWalkParams = WalkParams{
-		Version:        2,
-		MaxRepetitions: 25,
-		Retries:        3,
-		Timeout:        time.Second * 5,
-		Auth:           DefaultAuth,
+		Version:                 2,
+		MaxRepetitions:          25,
+		Retries:                 3,
+		Timeout:                 time.Second * 5,
+		Auth:                    DefaultAuth,
+		UseUnconnectedUDPSocket: false,
 	}
 	DefaultModule = Module{
 		WalkParams: DefaultWalkParams,
@@ -62,11 +63,12 @@ var (
 type Config map[string]*Module
 
 type WalkParams struct {
-	Version        int           `yaml:"version,omitempty"`
-	MaxRepetitions uint32        `yaml:"max_repetitions,omitempty"`
-	Retries        int           `yaml:"retries,omitempty"`
-	Timeout        time.Duration `yaml:"timeout,omitempty"`
-	Auth           Auth          `yaml:"auth,omitempty"`
+	Version                 int           `yaml:"version,omitempty"`
+	MaxRepetitions          uint32        `yaml:"max_repetitions,omitempty"`
+	Retries                 int           `yaml:"retries,omitempty"`
+	Timeout                 time.Duration `yaml:"timeout,omitempty"`
+	Auth                    Auth          `yaml:"auth,omitempty"`
+	UseUnconnectedUDPSocket bool          `yaml:"use_unconnected_udp_socket,omitempty"`
 }
 
 type Module struct {
