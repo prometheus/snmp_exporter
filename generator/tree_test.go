@@ -18,7 +18,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/go-kit/kit/log"
+	"github.com/go-kit/log"
 	"github.com/prometheus/snmp_exporter/config"
 	yaml "gopkg.in/yaml.v2"
 )
