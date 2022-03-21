@@ -19,7 +19,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/go-kit/kit/log"
+	"github.com/go-kit/log"
 	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_model/go"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"

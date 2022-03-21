@@ -13,7 +13,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "ALERTS{instance=~\"$devices\",alertstate=\"firing\"}",
+        "expr": "ALERTS{instance=~\"$instance\",alertstate=\"firing\"}",
         "hide": false,
         "iconColor": "#8F3BB8",
         "limit": 100,
@@ -30,7 +30,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "ALERTS{instance=~\"$devices\",alertstate=\"pending\"}",
+        "expr": "ALERTS{instance=~\"$instance\",alertstate=\"pending\"}",
         "hide": false,
         "iconColor": "#CA95E5",
         "limit": 100,
@@ -45,7 +45,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "absent(snmp_scrape_walk_duration_seconds{instance=\"$devices\"})",
+        "expr": "absent(snmp_scrape_walk_duration_seconds{job=~\"$job\",instance=~\"$instance\"})",
         "hide": false,
         "iconColor": "#FF780A",
         "limit": 100,
@@ -62,7 +62,7 @@
       {
         "datasource": "default",
         "enable": false,
-        "expr": "absent(probe_success{job=\"blackbox_icmp\",instance=\"$devices\"} == 1)",
+        "expr": "absent(probe_success{job=~\"blackbox_icmp\",instance=~\"$instance\"} == 1)",
         "hide": false,
         "iconColor": "#3274D9",
         "limit": 100,
@@ -86,7 +86,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -103,7 +103,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "How much traffic is on the air and going through this particular access point?",
       "fieldConfig": {
         "defaults": {
@@ -153,13 +153,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxBytes{job=~\"snmp.*\",instance=\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapRxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapTxBytes{job=~\"snmp.*\",instance=\"$devices\"}[5m]))*8",
+          "expr": "sum(rate(unifiVapTxBytes{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))*8",
           "interval": "",
           "legendFormat": "Out",
           "refId": "B"
@@ -213,7 +213,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "How many packets are on the air and going through this particular access point?\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
       "fieldConfig": {
         "defaults": {
@@ -263,37 +263,37 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(unifiVapRxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(unifiVapRxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(unifiVapRxErrors{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapRxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "In, errors",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(unifiVapTxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out",
           "refId": "D"
         },
         {
-          "expr": "sum(irate(unifiVapTxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(unifiVapTxErrors{job=~\"snmp.*\",instance=\"$devices\"}[5m]))",
+          "expr": "sum(rate(unifiVapTxErrors{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Out, errors",
           "refId": "F"
@@ -347,7 +347,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "description": "How much traffic is coming from and going to this particular access point into the wired network?\n\nIf this empty, the access point is likely in wireless relay mode.",
       "editable": true,
       "error": false,
@@ -407,7 +407,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=~\"eth.*\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=~\"eth.*\"}[$__rate_interval]))*8",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -417,7 +417,7 @@
           "step": 10
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=~\"eth.*\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=~\"eth.*\"}[$__rate_interval]))*8",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 3,
@@ -483,7 +483,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "How many packets are coming from and going to this particular access point into the wired network?\n\nIf this empty, the access point is likely in wireless relay mode.\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
       "fieldConfig": {
         "defaults": {
@@ -533,49 +533,49 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(unifiIfRxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfRxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "In",
           "refId": "A"
         },
         {
-          "expr": "irate(unifiIfRxMulticast{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfRxMulticast{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "In, multicast",
           "refId": "B"
         },
         {
-          "expr": "irate(unifiIfRxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfRxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "In, dropped",
           "refId": "C"
         },
         {
-          "expr": "irate(unifiIfRxError{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfRxError{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "In, error",
           "refId": "D"
         },
         {
-          "expr": "irate(unifiIfTxPackets{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfTxPackets{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "Out",
           "refId": "E"
         },
         {
-          "expr": "irate(unifiIfTxMulticast{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfTxMulticast{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "Out, multicast",
           "refId": "F"
         },
         {
-          "expr": "irate(unifiIfTxDropped{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfTxDropped{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "Out, dropped",
           "refId": "G"
         },
         {
-          "expr": "irate(unifiIfTxError{job=~\"snmp.*\",instance=\"$devices\"}[5m])",
+          "expr": "rate(unifiIfTxError{job=~\"$job\",instance=~\"$instance\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "Out, error",
           "refId": "H"
@@ -626,7 +626,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -645,7 +645,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "description": "This is the Linux load average as per https://en.wikipedia.org/wiki/Load_(computing)",
       "fieldConfig": {
         "defaults": {
@@ -691,7 +691,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "laLoadFloat{instance=\"$devices\",laIndex=\"1\"}",
+          "expr": "laLoadFloat{job=~\"$job\",instance=~\"$instance\",laIndex=\"1\"}",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "1 minute",
@@ -699,14 +699,14 @@
           "step": 240
         },
         {
-          "expr": "laLoadFloat{instance=\"$devices\",laIndex=\"2\"}",
+          "expr": "laLoadFloat{job=~\"$job\",instance=~\"$instance\",laIndex=\"2\"}",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "5 minutes",
           "refId": "B"
         },
         {
-          "expr": "laLoadFloat{instance=\"$devices\",laIndex=\"3\"}",
+          "expr": "laLoadFloat{job=~\"$job\",instance=~\"$instance\",laIndex=\"3\"}",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "15 minutes",
@@ -761,7 +761,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -812,13 +812,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "memTotalReal{instance=\"$devices\"} - memTotalFree{instance=\"$devices\"}",
+          "expr": "memTotalReal{job=~\"$job\",instance=~\"$instance\"} - memTotalFree{job=~\"$job\",instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "Used, absolute",
           "refId": "A"
         },
         {
-          "expr": "(memTotalReal{instance=\"$devices\"} - memTotalFree{instance=\"$devices\"}) / memTotalReal{instance=\"$devices\"}",
+          "expr": "(memTotalReal{job=~\"$job\",instance=~\"$instance\"} - memTotalFree{job=~\"$job\",instance=~\"$instance\"}) / memTotalReal{job=~\"$job\",instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "Used, relative",
           "refId": "B"
@@ -869,7 +869,7 @@
       }
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -899,11 +899,11 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "$devices information",
+      "title": "$instance information",
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -933,11 +933,11 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "$devices ESSIDs",
+      "title": "$instance ESSIDs",
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -967,7 +967,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "$devices MAC",
+      "title": "$instance MAC",
       "type": "text"
     },
     {
@@ -975,7 +975,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This is split into the internal parts of snmp_exporter to show where any timing problems come from.",
       "fieldConfig": {
         "defaults": {
@@ -1022,21 +1022,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "scrape_duration_seconds{job=~\"snmp.*\",instance=\"$devices\"}",
+          "expr": "scrape_duration_seconds{job=~\"$job\",instance=~\"$instance\"}",
           "interval": "",
           "intervalFactor": 4,
           "legendFormat": "Total job, Prometheus point of view",
           "refId": "A"
         },
         {
-          "expr": "snmp_scrape_duration_seconds{job=~\"snmp.*\",instance=\"$devices\"}",
+          "expr": "snmp_scrape_duration_seconds{job=~\"$job\",instance=~\"$instance\"}",
           "interval": "",
           "intervalFactor": 4,
           "legendFormat": "snmp_exporter, internal",
           "refId": "B"
         },
         {
-          "expr": "snmp_scrape_walk_duration_seconds{job=~\"snmp.*\",instance=\"$devices\"}",
+          "expr": "snmp_scrape_walk_duration_seconds{job=~\"$job\",instance=~\"$instance\"}",
           "interval": "",
           "intervalFactor": 4,
           "legendFormat": "snmp_exporter, just SNMP",
@@ -1088,7 +1088,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1106,7 +1106,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1187,14 +1187,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1248,7 +1248,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1330,14 +1330,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1391,7 +1391,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1473,14 +1473,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1534,7 +1534,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1616,14 +1616,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1677,7 +1677,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1759,14 +1759,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1820,7 +1820,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1902,14 +1902,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -1963,7 +1963,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2045,14 +2045,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2106,7 +2106,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2188,14 +2188,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2249,7 +2249,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2331,14 +2331,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2392,7 +2392,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2474,14 +2474,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2535,7 +2535,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "default",
+      "datasource": "$datasource",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -2617,14 +2617,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(ifHCInOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCInOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "In {{ifName}}",
           "refId": "E"
         },
         {
-          "expr": "sum(irate(ifHCOutOctets{instance=\"$devices\",ifName=\"$device_interfaces\"}[5m]))*8",
+          "expr": "sum(rate(ifHCOutOctets{job=~\"$job\",instance=~\"$instance\",ifName=\"$device_interfaces\"}[$__rate_interval]))*8",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Out {{ifName}}",
@@ -2681,26 +2681,78 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "description": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allFormat": "pipe",
-        "allValue": null,
+        "allValue": ".+",
         "current": {
           "selected": false,
           "text": "All",
           "value": "All"
         },
-        "datasource": "default",
-        "definition": "label_values(up{job=~\"snmp.*\"}, instance)",
+        "datasource": "$datasource",
+        "definition": "label_values(up{job=~\"snmp.*\"}, job)",
         "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": "Devices",
-        "multi": false,
+        "label": "job",
+        "multi": true,
         "multiFormat": "pipe",
-        "name": "devices",
+        "name": "job",
+        "options": [],
+        "query": { 
+          "query": "label_values(up{job=~\"snmp.*\"}, job)",
+          "refId": "default-job-Variable-Query"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "pipe",
+        "allValue": ".+",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "All"
+        },
+        "datasource": "$datasource",
+        "definition": "label_values(up{job=~\"$job\"}, instance)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "instance",
+        "multi": true,
+        "multiFormat": "pipe",
+        "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(up{job=~\"snmp.*\"}, instance)",
+          "query": "label_values(up{job=~\"$job\"}, instance)",
           "refId": "default-devices-Variable-Query"
         },
         "refresh": 1,
@@ -2725,8 +2777,8 @@
             "$__all"
           ]
         },
-        "datasource": "default",
-        "definition": "query_result(ifOperStatus{job=~\"snmp.*\",instance=\"$devices\"}==1)",
+        "datasource": "$datasource",
+        "definition": "query_result(ifOperStatus{job=~\"$job\",instance=~\"$instance\"}==1)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -2737,7 +2789,7 @@
         "name": "device_interfaces",
         "options": [],
         "query": {
-          "query": "query_result(ifOperStatus{job=~\"snmp.*\",instance=\"$devices\"}==1)",
+          "query": "query_result(ifOperStatus{job=~\"$job\",instance=~\"$instance\"}==1)",
           "refId": "default-device_interfaces-Variable-Query"
         },
         "refresh": 1,
@@ -2757,8 +2809,8 @@
           "text": "UAP-nanoHD",
           "value": "UAP-nanoHD"
         },
-        "datasource": "default",
-        "definition": "label_values(unifiApSystemModel{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemModel)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiApSystemModel{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemModel)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -2768,7 +2820,7 @@
         "name": "device_model",
         "options": [],
         "query": {
-          "query": "label_values(unifiApSystemModel{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemModel)",
+          "query": "label_values(unifiApSystemModel{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemModel)",
           "refId": "default-device_model-Variable-Query"
         },
         "refresh": 1,
@@ -2788,8 +2840,8 @@
           "text": "5.43.23.12533",
           "value": "5.43.23.12533"
         },
-        "datasource": "default",
-        "definition": "label_values(unifiApSystemVersion{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemVersion)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiApSystemVersion{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemVersion)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -2799,7 +2851,7 @@
         "name": "device_firmware_version",
         "options": [],
         "query": {
-          "query": "label_values(unifiApSystemVersion{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemVersion)",
+          "query": "label_values(unifiApSystemVersion{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemVersion)",
           "refId": "default-device_firmware_version-Variable-Query"
         },
         "refresh": 1,
@@ -2823,8 +2875,8 @@
             "$__all"
           ]
         },
-        "datasource": "default",
-        "definition": "label_values(ifPhysAddress{job=~\"snmp.*\",instance=\"$devices\"}, ifPhysAddress)",
+        "datasource": "$datasource",
+        "definition": "label_values(ifPhysAddress{job=~\"$job\",instance=~\"$instance\"}, ifPhysAddress)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -2834,7 +2886,7 @@
         "name": "device_mac_addresses",
         "options": [],
         "query": {
-          "query": "label_values(ifPhysAddress{job=~\"snmp.*\",instance=\"$devices\"}, ifPhysAddress)",
+          "query": "label_values(ifPhysAddress{job=~\"$job\",instance=~\"$instance\"}, ifPhysAddress)",
           "refId": "default-device_mac_addresses-Variable-Query"
         },
         "refresh": 1,
@@ -2854,8 +2906,8 @@
           "text": "All",
           "value": "All"
         },
-        "datasource": "default",
-        "definition": "label_values(unifiApSystemIp{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemIp)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiApSystemIp{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemIp)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -2865,7 +2917,7 @@
         "name": "device_main_ip",
         "options": [],
         "query": {
-          "query": "label_values(unifiApSystemIp{job=~\"snmp.*\",instance=\"$devices\"}, unifiApSystemIp)",
+          "query": "label_values(unifiApSystemIp{job=~\"$job\",instance=~\"$instance\"}, unifiApSystemIp)",
           "refId": "default-device_main_ip-Variable-Query"
         },
         "refresh": 1,
@@ -2890,8 +2942,8 @@
             "$__all"
           ]
         },
-        "datasource": "default",
-        "definition": "label_values(unifiVapEssId{job=~\"snmp.*\",instance=\"$devices\"}, unifiVapEssId)",
+        "datasource": "$datasource",
+        "definition": "label_values(unifiVapEssId{job=~\"$job\",instance=~\"$instance\"}, unifiVapEssId)",
         "description": null,
         "error": null,
         "hide": 2,
@@ -2902,7 +2954,7 @@
         "name": "device_ESSIDs",
         "options": [],
         "query": {
-          "query": "label_values(unifiVapEssId{job=~\"snmp.*\",instance=\"$devices\"}, unifiVapEssId)",
+          "query": "label_values(unifiVapEssId{job=~\"$job\",instance=~\"$instance\"}, unifiVapEssId)",
           "refId": "default-device_ESSIDs-Variable-Query"
         },
         "refresh": 1,
