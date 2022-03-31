@@ -702,7 +702,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.12.2.2.1.10
     type: gauge
     help: Configures whether the outlet group will load shed (turn off) after the
-      UPS's time on battery has exceeded the upsOutletGroupConfigLoadShedTimeOnBattery
+      UPS device's time on battery has exceeded the upsOutletGroupConfigLoadShedTimeOnBattery
       OID setting - 1.3.6.1.4.1.318.1.1.1.12.2.2.1.10
     indexes:
     - labelname: upsOutletGroupConfigIndex
@@ -1308,6 +1308,20 @@ apcups:
     indexes:
     - labelname: upsHighPrecBatteryPackOnlyIndex
       type: gauge
+  - name: upsHighPrecBatteryPackOnlyManufactureDate
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.9
+    type: DisplayString
+    help: The battery pack manufacture date. - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.9
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
+  - name: upsHighPrecBatteryPackOnlySKU
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.10
+    type: DisplayString
+    help: The battery pack SKU. - 1.3.6.1.4.1.318.1.1.1.2.3.10.4.1.10
+    indexes:
+    - labelname: upsHighPrecBatteryPackOnlyIndex
+      type: gauge
   - name: upsHighPrecBatteryHealth
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.11
     type: OctetString
@@ -1321,6 +1335,24 @@ apcups:
     type: gauge
     help: The current internal UPS temperature expressed in tenths of degrees Celsius
       - 1.3.6.1.4.1.318.1.1.1.2.3.13
+  - name: upsHighPrecMaximumModuleTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.14
+    type: gauge
+    help: The current maximum temperature across all battery modules in tenths of
+      degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.14
+  - name: upsHighPrecMinimumModuleTemperature
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.15
+    type: gauge
+    help: The current minimum temperature across all battery modules in tenths of
+      degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.15
+  - name: upsHighPrecMaximumCellVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.16
+    type: gauge
+    help: The current maximum cell voltage in mVDC across all batteries. - 1.3.6.1.4.1.318.1.1.1.2.3.16
+  - name: upsHighPrecMinimumCellVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.2.3.17
+    type: gauge
+    help: The current minimum cell voltage in mVDC across all batteries. - 1.3.6.1.4.1.318.1.1.1.2.3.17
   - name: upsBatteryNumberOfCabinets
     oid: 1.3.6.1.4.1.318.1.1.1.2.4
     type: gauge
@@ -1478,7 +1510,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.3
     type: gauge
     help: Local battery string identification index in the actual battery cabinet
-      (E.g - 1.3.6.1.4.1.318.1.1.1.2.6.1.3
+      (e.g - 1.3.6.1.4.1.318.1.1.1.2.6.1.3
     indexes:
     - labelname: upsBatteryCabStringIndex
       type: gauge
@@ -1551,7 +1583,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.3
     type: gauge
     help: Local battery block/module identification index in the actual battery string
-      (E.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.3
+      (e.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.3
     indexes:
     - labelname: upsBatteryCabBlockIndex
       type: gauge
@@ -1611,7 +1643,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.10
     type: gauge
     help: The vertical position of the battery block/module in the actual battery
-      cabinet (E.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.10
+      cabinet (e.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.10
     indexes:
     - labelname: upsBatteryCabBlockIndex
       type: gauge
@@ -1619,7 +1651,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.11
     type: gauge
     help: The horizontal position of the battery block/module in the actual battery
-      cabinet (E.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.11
+      cabinet (e.g - 1.3.6.1.4.1.318.1.1.1.2.7.1.11
     indexes:
     - labelname: upsBatteryCabBlockIndex
       type: gauge
@@ -1641,7 +1673,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.2.8.1.3
     type: gauge
     help: Local battery block/module identification index in the actual battery block
-      (E.g - 1.3.6.1.4.1.318.1.1.1.2.8.1.3
+      (e.g - 1.3.6.1.4.1.318.1.1.1.2.8.1.3
     indexes:
     - labelname: upsBatteryCabBlockCellIndex
       type: gauge
@@ -2081,6 +2113,7 @@ apcups:
       4: refused
       5: aborted
       6: pending
+      7: unknown
   - name: upsAdvTestCalibrationDate
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.7
     type: DisplayString
@@ -2106,6 +2139,58 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.10
     type: DisplayString
     help: The UPS system's automatic battery test period. - 1.3.6.1.4.1.318.1.1.1.7.2.10
+  - name: upsAdvTestCalibrationLastSuccessfulDate
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.11
+    type: DisplayString
+    help: The latest date when the UPS performed a successful runtime calibration
+      test - 1.3.6.1.4.1.318.1.1.1.7.2.11
+  - name: upsAdvTestBatteryLastSuccessfulDate
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.12
+    type: DisplayString
+    help: The latest date when the UPS performed a successful battery diagnostic test
+      (battery monitoring test) - 1.3.6.1.4.1.318.1.1.1.7.2.12
+  - name: upsAdvTestBatteryLastDate
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.13
+    type: DisplayString
+    help: The latest date when the UPS performed a battery diagnostic test (battery
+      monitoring test), regardless of the test result - 1.3.6.1.4.1.318.1.1.1.7.2.13
+  - name: upsAdvTestBatteryProcessStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.14
+    type: gauge
+    help: The results of the latest battery diagnostic test (battery monitoring test)
+      - 1.3.6.1.4.1.318.1.1.1.7.2.14
+    enum_values:
+      1: ok
+      2: preconditionNotMeet
+      3: batteryTestInProgress
+      4: refused
+      5: aborted
+      6: pending
+      7: unknown
+  - name: upsAdvTestBatteryConditionStatus
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.15
+    type: gauge
+    help: Result of the latest successful test 1 = unknown 2 = battery OK 3 = battery
+      capacity decreased 4 = battery defect - 1.3.6.1.4.1.318.1.1.1.7.2.15
+    enum_values:
+      1: unknown
+      2: batteryOK
+      3: batteryCapacityDecreased
+      4: batteryDefect
+  - name: upsAdvTestDiagnosticsBatteryInterval
+    oid: 1.3.6.1.4.1.318.1.1.1.7.2.16
+    type: gauge
+    help: The battery test is a diagnostic test (also referred to as battery monitoring
+      test) - 1.3.6.1.4.1.318.1.1.1.7.2.16
+    enum_values:
+      1: never
+      2: weekly
+      3: biweekly
+      4: every4weeks
+      5: every8weeks
+      6: every12weeks
+      7: every26weeks
+      8: every52weeks
   - name: upsCommStatus
     oid: 1.3.6.1.4.1.318.1.1.1.8.1
     type: gauge
