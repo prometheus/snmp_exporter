@@ -2,14 +2,14 @@
 version: 2.1
 
 orbs:
-  prometheus: prometheus/prometheus@0.15.0
+  prometheus: prometheus/prometheus@0.16.0
 
 executors:
   # Whenever the Go version is updated here, .promu.yml
   # should also be updated.
   golang:
     docker:
-    - image: circleci/golang:1.17
+    - image: quay.io/prometheus/golang-builder:1.18-base
     parameters:
       working_dir:
         type: string
@@ -22,7 +22,8 @@ jobs:
 
     steps:
     - prometheus/setup_environment
-    - run: sudo apt-get -y install build-essential libsnmp-dev
+    - run: apt-get update
+    - run: apt-get -y install build-essential libsnmp-dev
     - run: make
     - run: git diff --exit-code
     - prometheus/store_artifact:
@@ -38,7 +39,8 @@ jobs:
     steps:
     - checkout:
         path: ~/project
-    - run: sudo apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
+    - run: apt-get update
+    - run: apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
     - run: make mibs
     - run: make generator
     - run: make parse_errors

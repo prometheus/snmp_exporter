@@ -296,16 +296,16 @@ modules:
       - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
       - 1.3.6.1.4.1.2021.11 # systemStats
     lookups:
-    - source_indexes: [ifIndex]
-      # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
-      lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
-      drop_source_indexes: true
-    - source_indexes: [laIndex]
-      lookup: laNames
-      drop_source_indexes: true
-    - source_indexes: [hrStorageIndex]
-      lookup: hrStorageDescr
-      drop_source_indexes: true
+      - source_indexes: [ifIndex]
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+        drop_source_indexes: true
+      - source_indexes: [laIndex]
+        lookup: laNames
+        drop_source_indexes: true
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+        drop_source_indexes: true
     overrides:
       ifType:
         type: EnumAsInfo
