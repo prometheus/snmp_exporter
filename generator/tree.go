@@ -379,6 +379,13 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Apply lookups.
 	for _, metric := range out.Metrics {
 		toDelete := []string{}
+
+		// Build a list of lookup labels which are required as index.
+		requiredAsIndex := []string{}
+		for _, lookup := range cfg.Lookups {
+			requiredAsIndex = append(requiredAsIndex, lookup.SourceIndexes...)
+		}
+
 		for _, lookup := range cfg.Lookups {
 			foundIndexes := 0
 			// See if all lookup indexes are present.
@@ -407,6 +414,17 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
 				}
 				metric.Lookups = append(metric.Lookups, l)
+
+				// If lookup label is used as source index in another lookup,
+				// we need to add this new label as another index.
+				for _, sourceIndex := range requiredAsIndex {
+					if sourceIndex == l.Labelname {
+						idx := &config.Index{Labelname: l.Labelname, Type: l.Type}
+						metric.Indexes = append(metric.Indexes, idx)
+						break
+					}
+				}
+
 				// Make sure we walk the lookup OID(s).
 				if len(tableInstances[metric.Oid]) > 0 {
 					for _, index := range tableInstances[metric.Oid] {
