@@ -26769,6 +26769,22 @@ synology:
       type: OctetString
     - labels: []
       labelname: diskIndex
+  - name: diskHealthStatus
+    oid: 1.3.6.1.4.1.6574.2.1.1.13
+    type: gauge
+    help: Synology disk health status Each meanings of status represented describe
+      below - 1.3.6.1.4.1.6574.2.1.1.13
+    indexes:
+    - labelname: diskIndex
+      type: gauge
+    lookups:
+    - labels:
+      - diskIndex
+      labelname: diskID
+      oid: 1.3.6.1.4.1.6574.2.1.1.2
+      type: OctetString
+    - labels: []
+      labelname: diskIndex
   - name: raidIndex
     oid: 1.3.6.1.4.1.6574.3.1.1.1
     type: gauge
