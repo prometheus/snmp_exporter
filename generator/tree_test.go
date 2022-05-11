@@ -1240,6 +1240,75 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Multi-index table lookup, chained lookup
+		{
+			node: &Node{Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Label: "octet",
+						Children: []*Node{
+							{Oid: "1.1.1", Label: "octetEntry", Indexes: []string{"octetIndex", "octetIndex2"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "octetIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "octetIndex2", Type: "INTEGER"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "octetFoo", Type: "INTEGER"}}},
+							{Oid: "1.1.2", Label: "octetOtherEntry", Indexes: []string{"octetIndex3"},
+								Children: []*Node{
+									{Oid: "1.1.2.1", Access: "ACCESS_READONLY", Label: "octetIndex3", Type: "INTEGER"},
+									{Oid: "1.1.2.2", Access: "ACCESS_READONLY", Label: "octetDesc", Type: "OCTETSTR"}}}}}}},
+			cfg: &ModuleConfig{
+				Walk: []string{"octetFoo"},
+				Lookups: []*Lookup{
+					{
+						SourceIndexes: []string{"octetIndex", "octetIndex2"},
+						Lookup:        "octetIndex3",
+					},
+					{
+						SourceIndexes: []string{"octetIndex3"},
+						Lookup:        "octetDesc",
+					},
+				},
+			},
+			out: &config.Module{
+				// Walk is expanded to include the lookup OID.
+				Walk: []string{"1.1.1.3", "1.1.2.1", "1.1.2.2"},
+				Metrics: []*config.Metric{
+					{
+						Name: "octetFoo",
+						Oid:  "1.1.1.3",
+						Help: " - 1.1.1.3",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "octetIndex",
+								Type:      "gauge",
+							},
+							{
+								Labelname: "octetIndex2",
+								Type:      "gauge",
+							},
+							{
+								Labelname: "octetIndex3",
+								Type:      "gauge",
+							},
+						},
+						Lookups: []*config.Lookup{
+							{
+								Labels:    []string{"octetIndex", "octetIndex2"},
+								Labelname: "octetIndex3",
+								Type:      "gauge",
+								Oid:       "1.1.2.1",
+							},
+							{
+								Labels:    []string{"octetIndex3"},
+								Labelname: "octetDesc",
+								Type:      "OctetString",
+								Oid:       "1.1.2.2",
+							},
+						},
+					},
+				},
+			},
+		},
 		// Validate metric names.
 		{
 			node: &Node{Oid: "1", Label: "root",
