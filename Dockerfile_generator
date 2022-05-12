@@ -1,0 +1,26 @@
+FROM golang as builder
+
+RUN apt-get update && \
+    apt-get install -y libsnmp-dev p7zip-full unzip
+
+WORKDIR /snmp_exporter
+COPY . .
+
+WORKDIR /snmp_exporter/generator
+RUN go build -v
+
+FROM golang
+
+RUN apt-get update && \
+    apt-get install -y libsnmp-dev p7zip-full unzip
+
+WORKDIR /src
+COPY --from=builder /snmp_exporter/generator/generator /bin/generator
+
+WORKDIR "/opt"
+
+ENTRYPOINT ["/bin/generator"]
+
+ENV MIBDIRS mibs
+
+CMD ["generate"]
