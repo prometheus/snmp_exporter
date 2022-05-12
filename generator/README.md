@@ -99,6 +99,17 @@ modules:
         drop_source_indexes: false  # If true, delete source index labels for this lookup.
                                     # This avoids label clutter when the new index is unique.
 
+      # It is also possible to chain lookups or use multiple labels to gather label values.
+      # This might be helpful to resolve multiple index labels to a proper human readable label.
+      # Please be aware that ordering matters here.
+
+      # In this example, we first do a lookup to get the `cbQosConfigIndex` as another label.
+      - source_indexes: [cbQosPolicyIndex, cbQosObjectsIndex]
+        lookup: cbQosConfigIndex
+      # Using the newly added label, we have another lookup to fetch the `cbQosCMName` based on `cbQosConfigIndex`.
+      - source_indexes: [cbQosConfigIndex]
+        lookup: cbQosCMName
+
      overrides: # Allows for per-module overrides of bits of MIBs
        metricName:
          ignore: true # Drops the metric from the output.
