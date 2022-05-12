@@ -380,16 +380,25 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	for _, metric := range out.Metrics {
 		toDelete := []string{}
 		for _, lookup := range cfg.Lookups {
-			foundIndexes := 0
+			foundIndexNames := []string{}
 			// See if all lookup indexes are present.
 			for _, index := range metric.Indexes {
 				for _, lookupIndex := range lookup.SourceIndexes {
 					if index.Labelname == lookupIndex {
-						foundIndexes++
+						foundIndexNames = append(foundIndexNames, lookupIndex)
 					}
 				}
 			}
-			if foundIndexes == len(lookup.SourceIndexes) {
+
+			for _, definedLookup := range metric.Lookups {
+				for _, lookupIndex := range lookup.SourceIndexes {
+					if definedLookup.Type == "gauge" && definedLookup.Labelname == lookupIndex && !isStringPresent(foundIndexNames, lookupIndex) {
+						foundIndexNames = append(foundIndexNames, lookupIndex)
+					}
+				}
+			}
+
+			if len(foundIndexNames) == len(lookup.SourceIndexes) {
 				if _, ok := nameToNode[lookup.Lookup]; !ok {
 					return nil, fmt.Errorf("unknown index '%s'", lookup.Lookup)
 				}
@@ -403,7 +412,13 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					Type:      typ,
 					Oid:       indexNode.Oid,
 				}
-				for _, oldIndex := range lookup.SourceIndexes {
+
+				if isLabelPresent(metric, l) {
+					level.Warn(logger).Log("msg", "Label already present and lookup will be skipped", "metric", metric.Name, "label", l.Labelname)
+					continue
+				}
+
+				for _, oldIndex := range foundIndexNames {
 					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
 				}
 				metric.Lookups = append(metric.Lookups, l)
@@ -417,7 +432,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				}
 				if lookup.DropSourceIndexes {
 					// Avoid leaving the old labelname around.
-					toDelete = append(toDelete, lookup.SourceIndexes...)
+					toDelete = append(toDelete, foundIndexNames...)
 				}
 			}
 		}
@@ -489,4 +504,30 @@ var (
 
 func sanitizeLabelName(name string) string {
 	return invalidLabelCharRE.ReplaceAllString(name, "_")
+}
+
+func isStringPresent(strings []string, element string) bool {
+	for _, s := range strings {
+		if s == element {
+			return true
+		}
+	}
+
+	return false
+}
+
+func isLabelPresent(metric *config.Metric, l *config.Lookup) bool {
+	for _, existing := range metric.Lookups {
+		if existing.Labelname == l.Labelname {
+			return true
+		}
+	}
+
+	for _, index := range metric.Indexes {
+		if index.Labelname == l.Labelname {
+			return true
+		}
+	}
+
+	return false
 }
