@@ -70,6 +70,7 @@ var (
 	// 64-bit float mantissa: https://en.wikipedia.org/wiki/Double-precision_floating-point_format
 	float64Mantissa uint64 = 9007199254740992
 	wrapCounters           = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
+	srcAddress             = kingpin.Flag("snmp.source-address", "Source address to send snmp from in the format 'address:port' to use when connecting targets. If the port parameter is empty or '0', as in '127.0.0.1:' or '[::1]:0', a source port number is automatically (random) chosen.").Default("").String()
 )
 
 // Types preceded by an enum with their actual type.
@@ -123,6 +124,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	snmp.Retries = config.WalkParams.Retries
 	snmp.Timeout = config.WalkParams.Timeout
 	snmp.UseUnconnectedUDPSocket = config.WalkParams.UseUnconnectedUDPSocket
+	snmp.LocalAddr = *srcAddress
 
 	var sent time.Time
 	snmp.OnSent = func(x *gosnmp.GoSNMP) {
