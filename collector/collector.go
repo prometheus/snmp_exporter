@@ -127,7 +127,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	snmp.LocalAddr = *srcAddress
 
 	// Allow a set of OIDs that aren't in a strictly increasing order
-	if config.WalkParams.AllowNonIncr {
+	if config.WalkParams.NoCheckIncreasing {
 		snmp.AppOpts = make(map[string]interface{})
 		snmp.AppOpts["c"] = true
 	}
