@@ -132,6 +132,12 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		snmp.AppOpts["c"] = true
 	}
 
+	// Allow a set of OIDs that aren't in a strictly increasing order
+	if config.WalkParams.AllowNonIncr {
+		snmp.AppOpts = make(map[string]interface{})
+		snmp.AppOpts["c"] = true
+	}
+
 	var sent time.Time
 	snmp.OnSent = func(x *gosnmp.GoSNMP) {
 		sent = time.Now()
