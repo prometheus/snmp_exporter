@@ -17,5 +17,4 @@ Prometheus uses GitHub to manage reviews of pull requests.
   Practices for Production
   Environments](http://peter.bourgon.org/go-in-production/#formatting-and-style).
 
-All commits must be signed-off, indicating that your contributions comply with
-the [CDO](https://developercertificate.org/).
+* Be sure to sign off on the [DCO](https://github.com/probot/dco#how-it-works).
