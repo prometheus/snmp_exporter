@@ -8,4 +8,4 @@ groups:
       severity: critical
     annotations:
       description: 'SNMP device {{$labels.instance}} from job {{$labels.job}} is down.'
-      summary: SNMP device down
+      summary: SNMP device down.
