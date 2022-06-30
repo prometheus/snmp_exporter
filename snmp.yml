@@ -7899,6 +7899,7 @@ infrapower_pdu:
         regex: ^(?:^(\d))$
 keepalived:
   walk:
+  - 1.3.6.1.2.1.207.1.2.5
   - 1.3.6.1.2.1.68.2.4
   - 1.3.6.1.4.1.9586.100.5.2.1
   - 1.3.6.1.4.1.9586.100.5.2.3
@@ -7906,6 +7907,264 @@ keepalived:
   - 1.3.6.1.4.1.9586.100.5.3.3
   - 1.3.6.1.4.1.9586.100.5.3.4
   metrics:
+  - name: vrrpv3StatisticsMasterTransitions
+    oid: 1.3.6.1.2.1.207.1.2.5.1.1
+    type: counter
+    help: The total number of times that this virtual router's state has transitioned
+      to master state - 1.3.6.1.2.1.207.1.2.5.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsNewMasterReason
+    oid: 1.3.6.1.2.1.207.1.2.5.1.2
+    type: gauge
+    help: This indicates the reason for the virtual router to transition to master
+      state - 1.3.6.1.2.1.207.1.2.5.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+    enum_values:
+      0: notMaster
+      1: priority
+      2: preempted
+      3: masterNoResponse
+  - name: vrrpv3StatisticsRcvdAdvertisements
+    oid: 1.3.6.1.2.1.207.1.2.5.1.3
+    type: counter
+    help: The total number of VRRP advertisements received by this virtual router
+      - 1.3.6.1.2.1.207.1.2.5.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsAdvIntervalErrors
+    oid: 1.3.6.1.2.1.207.1.2.5.1.4
+    type: counter
+    help: The total number of VRRP advertisement packets received for which the advertisement
+      interval is different from the vrrpv3OperationsAdvInterval configured on this
+      virtual router - 1.3.6.1.2.1.207.1.2.5.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsIpTtlErrors
+    oid: 1.3.6.1.2.1.207.1.2.5.1.5
+    type: counter
+    help: The total number of VRRP packets received by the virtual router with IPv4
+      TTL (for VRRP over IPv4) or IPv6 Hop Limit (for VRRP over IPv6) not equal to
+      255 - 1.3.6.1.2.1.207.1.2.5.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsProtoErrReason
+    oid: 1.3.6.1.2.1.207.1.2.5.1.6
+    type: gauge
+    help: This indicates the reason for the last protocol error - 1.3.6.1.2.1.207.1.2.5.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+    enum_values:
+      0: noError
+      1: ipTtlError
+      2: versionError
+      3: checksumError
+      4: vrIdError
+  - name: vrrpv3StatisticsRcvdPriZeroPackets
+    oid: 1.3.6.1.2.1.207.1.2.5.1.7
+    type: counter
+    help: The total number of VRRP packets received by the virtual router with a priority
+      of '0' - 1.3.6.1.2.1.207.1.2.5.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsSentPriZeroPackets
+    oid: 1.3.6.1.2.1.207.1.2.5.1.8
+    type: counter
+    help: The total number of VRRP packets sent by the virtual router with a priority
+      of '0' - 1.3.6.1.2.1.207.1.2.5.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsRcvdInvalidTypePackets
+    oid: 1.3.6.1.2.1.207.1.2.5.1.9
+    type: counter
+    help: The number of VRRP packets received by the virtual router with an invalid
+      value in the 'type' field - 1.3.6.1.2.1.207.1.2.5.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsAddressListErrors
+    oid: 1.3.6.1.2.1.207.1.2.5.1.10
+    type: counter
+    help: The total number of packets received for which the address list does not
+      match the locally configured list for the virtual router - 1.3.6.1.2.1.207.1.2.5.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsPacketLengthErrors
+    oid: 1.3.6.1.2.1.207.1.2.5.1.11
+    type: counter
+    help: The total number of packets received with a packet length less than the
+      length of the VRRP header - 1.3.6.1.2.1.207.1.2.5.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsRowDiscontinuityTime
+    oid: 1.3.6.1.2.1.207.1.2.5.1.12
+    type: gauge
+    help: The value of sysUpTime on the most recent occasion at which any one or more
+      of this entry's counters suffered a discontinuity - 1.3.6.1.2.1.207.1.2.5.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+  - name: vrrpv3StatisticsRefreshRate
+    oid: 1.3.6.1.2.1.207.1.2.5.1.13
+    type: gauge
+    help: The minimum reasonable polling interval for this entry - 1.3.6.1.2.1.207.1.2.5.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+    - labelname: vrrpv3OperationsVrId
+      type: gauge
+    - labelname: vrrpv3OperationsInetAddrType
+      type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
   - name: vrrpStatsBecomeMaster
     oid: 1.3.6.1.2.1.68.2.4.1.1
     type: counter
@@ -8093,10 +8352,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
-    enum_values:
-      0: static
   - name: vrrpInstanceName
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.2
     type: DisplayString
@@ -8104,8 +8359,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceVirtualRouterId
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.3
     type: gauge
@@ -8113,8 +8366,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceState
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.4
     type: gauge
@@ -8122,8 +8373,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       0: init
       1: backup
@@ -8139,8 +8388,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       0: init
       1: backup
@@ -8156,8 +8403,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       0: init
       1: backup
@@ -8174,8 +8419,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceEffectivePriority
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.8
     type: gauge
@@ -8183,8 +8426,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceVipsStatus
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.9
     type: gauge
@@ -8192,8 +8433,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: allSet
       2: notAllSet
@@ -8204,8 +8443,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceTrackPrimaryIf
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.11
     type: gauge
@@ -8213,8 +8450,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: tracked
       2: notTracked
@@ -8226,8 +8461,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstancePreempt
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.13
     type: gauge
@@ -8235,8 +8468,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: preempt
       2: noPreempt
@@ -8248,8 +8479,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceAuthType
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.15
     type: gauge
@@ -8257,8 +8486,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       0: none
       1: password
@@ -8271,8 +8498,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceGarpDelay
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.19
     type: gauge
@@ -8280,8 +8505,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceSmtpAlert
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.20
     type: gauge
@@ -8289,8 +8512,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: enabled
       2: disabled
@@ -8301,8 +8522,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: enabled
       2: disabled
@@ -8314,8 +8533,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: "true"
       2: "false"
@@ -8326,8 +8543,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: "true"
       2: "false"
@@ -8338,8 +8553,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: "true"
       2: "false"
@@ -8350,8 +8563,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       2: vrrpv2
       3: vrrpv3
@@ -8362,8 +8573,6 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
   - name: vrrpInstanceNotifyDeleted
     oid: 1.3.6.1.4.1.9586.100.5.2.3.1.33
     type: gauge
@@ -8372,11 +8581,30 @@ keepalived:
     indexes:
     - labelname: vrrpInstanceIndex
       type: gauge
-      enum_values:
-        0: static
     enum_values:
       1: "true"
       2: "false"
+  - name: vrrpInstanceMulticastAddressType
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.34
+    type: gauge
+    help: A value that represents a type of Internet address. - 1.3.6.1.4.1.9586.100.5.2.3.1.34
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
+    enum_values:
+      0: unknown
+      1: ipv4
+      2: ipv6
+      3: ipv4z
+      4: ipv6z
+      16: dns
+  - name: vrrpInstanceMulticastAddress
+    oid: 1.3.6.1.4.1.9586.100.5.2.3.1.35
+    type: InetAddress
+    help: Multicast address for adverts - 1.3.6.1.4.1.9586.100.5.2.3.1.35
+    indexes:
+    - labelname: vrrpInstanceIndex
+      type: gauge
   - name: virtualServerGroupIndex
     oid: 1.3.6.1.4.1.9586.100.5.3.1.1.1
     type: gauge
@@ -8490,6 +8718,7 @@ keepalived:
       11: fo
       12: ovf
       13: mh
+      14: twos
       99: unknown
   - name: virtualServerLoadBalancingKind
     oid: 1.3.6.1.4.1.9586.100.5.3.3.1.10
@@ -8981,6 +9210,13 @@ keepalived:
       1: nocsum
       2: csum
       3: remcsum
+  - name: virtualServerName
+    oid: 1.3.6.1.4.1.9586.100.5.3.3.1.71
+    type: DisplayString
+    help: Optional SNMP name of this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.71
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
   - name: realServerIndex
     oid: 1.3.6.1.4.1.9586.100.5.3.4.1.1
     type: gauge
@@ -9504,6 +9740,15 @@ keepalived:
       1: nocsum
       2: csum
       3: remcsum
+  - name: realServerName
+    oid: 1.3.6.1.4.1.9586.100.5.3.4.1.55
+    type: DisplayString
+    help: Optional SNMP name of this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.55
+    indexes:
+    - labelname: virtualServerIndex
+      type: gauge
+    - labelname: realServerIndex
+      type: gauge
 kemp_loadmaster:
   walk:
   - 1.3.6.1.2.1.2

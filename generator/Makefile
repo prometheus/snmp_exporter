@@ -26,8 +26,9 @@ CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
-KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.1.5/doc/KEEPALIVED-MIB.txt
-VRRP_URL          := https://raw.githubusercontent.com/acassen/keepalived/v2.1.5/doc/VRRP-MIB.txt
+KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.2.7/doc/KEEPALIVED-MIB.txt
+VRRP_URL          := https://raw.githubusercontent.com/acassen/keepalived/v2.2.7/doc/VRRP-MIB.txt
+VRRPV3_URL        := https://raw.githubusercontent.com/acassen/keepalived/v2.2.7/doc/VRRPv3-MIB.txt
 KEMP_LM_URL       := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
 MIKROTIK_URL      := 'https://box.mikrotik.com/f/a41daf63d0c14347a088/?dl=1'
 NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
@@ -96,6 +97,7 @@ mibs: mib-dir \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/VRRP-MIB \
+  $(MIBDIR)/VRRPv3-MIB \
   $(MIBDIR)/.kemp-lm \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/.net-snmp \
@@ -169,6 +171,10 @@ $(MIBDIR)/KEEPALIVED-MIB:
 $(MIBDIR)/VRRP-MIB:
 	@echo ">> Downloading VRRP-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/VRRP-MIB $(VRRP_URL)
+
+$(MIBDIR)/VRRPv3-MIB:
+	@echo ">> Downloading VRRPv3-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/VRRPv3-MIB $(VRRPV3_URL)
 
 $(MIBDIR)/.kemp-lm:
 	$(eval TMP := $(shell mktemp))
