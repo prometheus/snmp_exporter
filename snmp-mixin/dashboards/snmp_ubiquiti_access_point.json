@@ -107,6 +107,7 @@
       "description": "How much traffic is on the air and going through this particular access point?",
       "fieldConfig": {
         "defaults": {
+          "unit": "bps",
           "custom": {}
         },
         "overrides": []
@@ -217,6 +218,7 @@
       "description": "How many packets are on the air and going through this particular access point?\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
       "fieldConfig": {
         "defaults": {
+          "unit": "pps",
           "custom": {}
         },
         "overrides": []
@@ -353,6 +355,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "bps",
           "custom": {}
         },
         "overrides": []
@@ -487,6 +490,7 @@
       "description": "How many packets are coming from and going to this particular access point into the wired network?\n\nIf this empty, the access point is likely in wireless relay mode.\n\nIf this graph spikes up relative to the traffic numbers, you might see degraded overall throughput.",
       "fieldConfig": {
         "defaults": {
+          "unit": "pps",
           "custom": {}
         },
         "overrides": []
@@ -649,6 +653,7 @@
       "description": "This is the Linux load average as per https://en.wikipedia.org/wiki/Load_(computing)",
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -764,6 +769,7 @@
       "datasource": "$datasource",
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -829,6 +835,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Memory",
+      "description": "Memory",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -873,6 +880,7 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -907,6 +915,7 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -941,6 +950,7 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -979,6 +989,7 @@
       "description": "This is split into the internal parts of snmp_exporter to show where any timing problems come from.",
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {},
           "links": []
         },
@@ -1111,6 +1122,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -1206,6 +1218,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1253,6 +1266,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -1349,6 +1363,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1396,6 +1411,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -1492,6 +1508,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1539,6 +1556,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -1635,6 +1653,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1682,6 +1701,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -1778,6 +1798,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1825,6 +1846,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -1921,6 +1943,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1968,6 +1991,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -2064,6 +2088,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2111,6 +2136,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -2207,6 +2233,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2254,6 +2281,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -2350,6 +2378,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2397,6 +2426,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -2493,6 +2523,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2540,6 +2571,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
           "custom": {}
         },
         "overrides": []
@@ -2636,6 +2668,7 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Bits - $device_interfaces ",
+      "description": "Bits",
       "tooltip": {
         "msResolution": false,
         "shared": true,
