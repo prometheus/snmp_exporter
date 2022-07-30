@@ -67,7 +67,7 @@ import "C"
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"sort"
 
@@ -177,7 +177,7 @@ func initSNMP(logger log.Logger) (string, error) {
 	ch := make(chan string)
 	errch := make(chan error)
 	go func() {
-		data, err := ioutil.ReadAll(r)
+		data, err := io.ReadAll(r)
 		if err != nil {
 			errch <- fmt.Errorf("error reading from pipe: %s", err)
 			return

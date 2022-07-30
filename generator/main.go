@@ -15,7 +15,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -37,7 +36,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 		return fmt.Errorf("unable to determine absolute path for output")
 	}
 
-	content, err := ioutil.ReadFile("generator.yml")
+	content, err := os.ReadFile("generator.yml")
 	if err != nil {
 		return fmt.Errorf("error reading yml config: %s", err)
 	}

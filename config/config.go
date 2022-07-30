@@ -15,7 +15,7 @@ package config
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"regexp"
 	"time"
 
@@ -24,7 +24,7 @@ import (
 )
 
 func LoadFile(filename string) (*Config, error) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
