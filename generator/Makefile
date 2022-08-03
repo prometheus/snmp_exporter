@@ -20,7 +20,7 @@ DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 DOCKER_REPO       ?= prom
 
-APC_URL           := 'https://download.schneider-electric.com/files?p_File_Name=powernet441.mib'
+APC_URL           := 'https://download.schneider-electric.com/files?p_Doc_Ref=APC_POWERNETMIB_441_EN&p_enDocType=Firmware&p_File_Name=powernet441.mib'
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
