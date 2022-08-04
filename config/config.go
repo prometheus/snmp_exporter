@@ -37,6 +37,8 @@ func LoadFile(filename string) (*Config, error) {
 }
 
 var (
+	defaultRetries int = 3
+
 	DefaultAuth = Auth{
 		Community:     "public",
 		SecurityLevel: "noAuthNoPriv",
@@ -46,7 +48,7 @@ var (
 	DefaultWalkParams = WalkParams{
 		Version:                 2,
 		MaxRepetitions:          25,
-		Retries:                 3,
+		Retries:                 &defaultRetries,
 		Timeout:                 time.Second * 5,
 		Auth:                    DefaultAuth,
 		UseUnconnectedUDPSocket: false,
@@ -66,7 +68,7 @@ type Config map[string]*Module
 type WalkParams struct {
 	Version                 int           `yaml:"version,omitempty"`
 	MaxRepetitions          uint32        `yaml:"max_repetitions,omitempty"`
-	Retries                 int           `yaml:"retries,omitempty"`
+	Retries                 *int          `yaml:"retries,omitempty"`
 	Timeout                 time.Duration `yaml:"timeout,omitempty"`
 	Auth                    Auth          `yaml:"auth,omitempty"`
 	UseUnconnectedUDPSocket bool          `yaml:"use_unconnected_udp_socket,omitempty"`
