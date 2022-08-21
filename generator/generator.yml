@@ -684,9 +684,6 @@ modules:
       - inputVA
       - inputWatts
       - inputPowerCapacity
-      #- outletID
-      - outletName
-      #- outletDesignator
       - outletCurrentCapacity
       - outletCurrent
       - outletCurrentThStatus
@@ -699,10 +696,8 @@ modules:
     lookups:
       - source_indexes: [strappingIndex, outletIndex]
         lookup: 1.3.6.1.4.1.534.6.6.7.6.1.1.2 # outletID
-        #drop_source_indexes: true
       - source_indexes: [strappingIndex, outletIndex]
         lookup: 1.3.6.1.4.1.534.6.6.7.6.1.1.3 # outletName
-        #drop_source_indexes: true
       - source_indexes: [strappingIndex, outletIndex]
         lookup: 1.3.6.1.4.1.534.6.6.7.6.1.1.6 # outletDesignator
         drop_source_indexes: true
