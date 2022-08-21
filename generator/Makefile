@@ -46,6 +46,7 @@ RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
+EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-OIDS
 
 .DEFAULT: all
 
@@ -118,7 +119,8 @@ mibs: mib-dir \
   $(MIBDIR)/IPD-MIB_Q419V9.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/EATON-EPDU-MIB.txt \
-  $(MIBDIR)/EATON-SENSOR-MIB.txt
+  $(MIBDIR)/EATON-SENSOR-MIB.txt \
+  $(MIBDIR)/EATON-OIDS.txt
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -296,4 +298,8 @@ $(MIBDIR)/EATON-EPDU-MIB.txt $(MIBDIR)/EATON-SENSOR-MIB.txt:
 	@curl $(CURL_OPTS) -o $(TMP) $(EATON_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) EATON-EPDU-MIB.txt EATON-SENSOR-MIB.txt
 	@rm -v $(TMP)
+
+$(MIBDIR)/EATON-OIDS.txt:
+	@echo ">> Downloading EATON-OIDS.txt to $@"
+	@curl $(CURL_OPTS) -o $@ $(EATON_OIDS_URL)
 
