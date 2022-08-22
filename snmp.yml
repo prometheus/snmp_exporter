@@ -6593,6 +6593,10 @@ eaton_epdu:
   - 1.3.6.1.4.1.534.6.6.7.6.5.1.2
   - 1.3.6.1.4.1.534.6.6.7.6.5.1.3
   - 1.3.6.1.4.1.534.6.6.7.6.6.1.2
+  - 1.3.6.1.4.1.534.6.8.1.2.3.1.1
+  - 1.3.6.1.4.1.534.6.8.1.2.3.1.3
+  - 1.3.6.1.4.1.534.6.8.1.3.3.1.1
+  - 1.3.6.1.4.1.534.6.8.1.3.3.1.3
   metrics:
   - name: ifNumber
     oid: 1.3.6.1.2.1.2.1
@@ -7700,6 +7704,92 @@ eaton_epdu:
       1: "on"
       2: pendingOff
       3: pendingOn
+  - name: temperatureAlarm
+    oid: 1.3.6.1.4.1.534.6.8.1.2.3.1.1
+    type: gauge
+    help: Alarm set according to the realtime measure compared to the thresholds.
+      - 1.3.6.1.4.1.534.6.8.1.2.3.1.1
+    indexes:
+    - labelname: sensorIndex
+      type: gauge
+      enum_values:
+        1: temp1
+        2: temp2
+        3: temp3
+        4: temp4
+        5: temp5
+        6: temp6
+        7: temp7
+        8: temp8
+    - labelname: temperatureIndex
+      type: gauge
+    enum_values:
+      0: good
+      1: lowWarning
+      2: lowCritical
+      3: highWarning
+      4: highCritical
+  - name: temperatureValue
+    oid: 1.3.6.1.4.1.534.6.8.1.2.3.1.3
+    type: gauge
+    help: Realtime measured value after correction with the offset - 1.3.6.1.4.1.534.6.8.1.2.3.1.3
+    indexes:
+    - labelname: sensorIndex
+      type: gauge
+      enum_values:
+        1: temp1
+        2: temp2
+        3: temp3
+        4: temp4
+        5: temp5
+        6: temp6
+        7: temp7
+        8: temp8
+    - labelname: temperatureIndex
+      type: gauge
+  - name: humidityAlarm
+    oid: 1.3.6.1.4.1.534.6.8.1.3.3.1.1
+    type: gauge
+    help: Alarm set according to the realtime measure compared to the thresholds.
+      - 1.3.6.1.4.1.534.6.8.1.3.3.1.1
+    indexes:
+    - labelname: sensorIndex
+      type: gauge
+      enum_values:
+        1: temp1
+        2: temp2
+        3: temp3
+        4: temp4
+        5: temp5
+        6: temp6
+        7: temp7
+        8: temp8
+    - labelname: humidityIndex
+      type: gauge
+    enum_values:
+      0: good
+      1: lowWarning
+      2: lowCritical
+      3: highWarning
+      4: highCritical
+  - name: humidityValue
+    oid: 1.3.6.1.4.1.534.6.8.1.3.3.1.3
+    type: gauge
+    help: Realtime measured value after correction with the offset - 1.3.6.1.4.1.534.6.8.1.3.3.1.3
+    indexes:
+    - labelname: sensorIndex
+      type: gauge
+      enum_values:
+        1: temp1
+        2: temp2
+        3: temp3
+        4: temp4
+        5: temp5
+        6: temp6
+        7: temp7
+        8: temp8
+    - labelname: humidityIndex
+      type: gauge
   version: 1
 if_mib:
   walk:
