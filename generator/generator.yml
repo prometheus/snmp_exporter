@@ -657,3 +657,56 @@ modules:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
+
+# Eaton ePDU
+#
+# https://www.eaton.com/us/en-us/catalog/backup-power-ups-surge-it-power-distribution/eaton-metered-outlet-rack-pdu.resources.html
+  eaton_epdu:
+    version: 1
+    walk:
+      - interfaces
+      - ifXTable
+      - communicationStatus
+      - internalStatus
+      - inputFrequency
+      - inputFrequencyStatus
+      - inputVoltageCount
+      - inputCurrentCount
+      - inputPowerCount
+      - inputFeedName
+      - inputVoltage
+      - inputVoltageThStatus
+      - inputCurrentCapacity
+      - inputCurrent
+      - inputCurrentThStatus
+      - inputCurrentCrestFactor
+      - inputCurrentPercentLoad
+      - inputVA
+      - inputWatts
+      - inputPowerCapacity
+      - outletCurrentCapacity
+      - outletCurrent
+      - outletCurrentThStatus
+      - outletCurrentCrestFactor
+      - outletCurrentPercentLoad
+      - outletVA
+      - outletWatts
+      - outletPowerFactor
+      - outletControlStatus
+      - humidityAlarm
+      - humidityValue
+      - temperatureAlarm
+      - temperatureValue
+    lookups:
+      - source_indexes: [strappingIndex, outletIndex]
+        lookup: 1.3.6.1.4.1.534.6.6.7.6.1.1.2 # outletID
+      - source_indexes: [strappingIndex, outletIndex]
+        lookup: 1.3.6.1.4.1.534.6.6.7.6.1.1.3 # outletName
+      - source_indexes: [strappingIndex, outletIndex]
+        lookup: 1.3.6.1.4.1.534.6.6.7.6.1.1.6 # outletDesignator
+        drop_source_indexes: true
+    overrides:
+      ifType:
+        type: EnumAsInfo
+      "1.3.6.1.4.1.534.6.6.7.6.1.1.3":
+        type: DisplayString
