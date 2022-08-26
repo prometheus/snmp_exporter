@@ -7,7 +7,7 @@ After=network-online.target
 [Service]
 User=prometheus
 Restart=on-failure
-ExecStart=/home/prometheus/snmp_exporter/snmp_exporter --config.file='/home/prometheus/snmp_exporter/snmp.yml'
+ExecStart=/home/prometheus/snmp_exporter/snmp_exporter --config.file=/home/prometheus/snmp_exporter/snmp.yml
 
 [Install]
 WantedBy=multi-user.target
