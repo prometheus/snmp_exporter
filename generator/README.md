@@ -59,6 +59,8 @@ modules:
       - 1.3.6.1.2.1.2              # Same as "interfaces"
       - sysUpTime                  # Same as "1.3.6.1.2.1.1.3"
       - 1.3.6.1.2.1.31.1.1.1.6.40  # Instance of "ifHCInOctets" with index "40"
+      - 1.3.6.1.2.1.2.2.1.4        # Same as ifMtu (used for filter example)
+      - bsnDot11EssSsid            # Same as 1.3.6.1.4.1.14179.2.1.1.1.2 (used for filter example)
 
     version: 2  # SNMP version to use. Defaults to 2.
                 # 1 will use GETNEXT, 2 and 3 use GETBULK.
