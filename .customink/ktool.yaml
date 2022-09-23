@@ -1,0 +1,34 @@
+---
+apiVersion: customink.com/v1
+kind: ConfigGenerator
+metadata:
+  name: customink-config-generator
+
+namespace: webops
+projectName: snmp-exporter
+team: "webops"
+tier: 3
+multiregion: false
+
+envs:
+
+secrets:
+  parameterStore:
+    # Shared keys
+    - SHARED/NEWRELIC_KEY
+
+objects:
+
+  - type: web
+    sslSidecar: true
+    # We need to specify command because this app uses an old Rails that will otherwise run WEBrick
+    command:
+      - bundle
+      - exec
+      - puma
+      - -p
+      - '8080'
+    ingress:
+      scheme: internal
+    multiregion: false
+
