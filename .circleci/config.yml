@@ -35,7 +35,7 @@ executors:
   # should also be updated.
   golang:
     docker:
-    - image: quay.io/prometheus/golang-builder:1.18-base
+    - image: circleci/golang:1.15.8
     parameters:
       working_dir:
         type: string
@@ -43,133 +43,71 @@ executors:
     working_directory: << parameters.working_dir >>
 
 jobs:
-  test:
-    executor: golang
-
+  build:
+    working_directory: ~/project/generator
+    docker:
+      - image: circleci/golang:1.15.8
     steps:
-    - prometheus/setup_environment
-    - run: apt-get update
-    - run: apt-get -y install build-essential libsnmp-dev
-    - run: make
-    - run: git diff --exit-code
-    - prometheus/store_artifact:
-        file: snmp_exporter
+      - checkout
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            apt update -y && \
+            apt install -y build-essential libsnmp-dev && \
+            go mod download && \
 
-  generator:
-    executor:
-      name: golang
-      working_dir: ~/project/generator
+      - save_cache:
+          key: go-mod-v4-{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run:
+          name: Run tests
+          command: |
+            mkdir -p /tmp/test-reports
+            gotestsum --junitfile /tmp/test-reports/unit-tests.xml
+      - store_test_results:
+          path: /tmp/test-reports
 
-    environment:
-      MIBDIRS: mibs
-    steps:
-    - checkout:
-        path: ~/project
-    - run: apt-get update
-    - run: apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
-    - run: make mibs
-    - run: make generator
-    - run: make parse_errors
-    - run: make generate
-    - run: diff -u ../snmp.yml snmp.yml
-
-  publish_generator_master:
-    executor: golang
-
-    steps:
-    - prometheus/setup_build_environment:
-    - run: make -C generator docker
-    - run: make -C generator docker DOCKER_REPO=quay.io/prometheus
-    - run: docker images
-    - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
-    - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
-    - run: make -C generator docker-publish
-    - run: make -C generator docker-publish DOCKER_REPO=quay.io/prometheus
-
-  publish_generator_release:
-    executor: golang
-
-    steps:
-    - prometheus/setup_build_environment:
-    - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG
-    - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
-    - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
-    - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
-    - run: |
-        if [[ "$CIRCLE_TAG" =~ ^v[0-9]+(\.[0-9]+){2}$ ]]; then
-          make -C generator docker-tag-latest DOCKER_IMAGE_TAG="$CIRCLE_TAG"
-          make -C generator docker-tag-latest DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/prometheus
-        fi
-    - run: make -C generator docker-publish
-    - run: make -C generator docker-publish DOCKER_REPO=quay.io/prometheus
-
-  mixin:
-    executor: golang
-
-    steps:
-    - checkout
-    - run: go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest
-    - run: go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
-    - run: make -C snmp-mixin lint build
-
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  version: 2
-  snmp_exporter:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
     jobs:
-    - test:
-        filters:
-          tags:
-            only: /.*/
-    - mixin:
-        filters:
-          tags:
-            only: /.*/
-    - prometheus/build:
-        name: build
-        filters:
-          tags:
-            only: /.*/
-    - generator:
-        filters:
-          tags:
-            only: /.*/
-    - prometheus/publish_master:
-        context: org-context
-        requires:
-        - test
-        - build
-        - generator
-        filters:
-          branches:
-            only: master
-    - prometheus/publish_release:
-        context: org-context
-        requires:
-        - test
-        - build
-        - generator
-        filters:
-          tags:
-            only: /^v[0-9]+(\.[0-9]+){2}(-.+|[^-.]*)$/
-          branches:
-            ignore: /.*/
-    - publish_generator_master:
-        context: org-context
-        requires:
-        - test
-        - build
-        - generator
-        filters:
-          branches:
-            only: master
-    - publish_generator_release:
-        context: org-context
-        requires:
-        - test
-        - build
-        - generator
-        filters:
-          tags:
-            only: /^v[0-9]+(\.[0-9]+){2}(-.+|[^-.]*)$/
-          branches:
-            ignore: /.*/
+      - build
+      - docker-image:
+          context: customink
+      - deploy:
+          context: customink
+          name: staging-deploy
+          requires:
+            - docker-image
+          filters:
+            branches:
+              only:
+                - master
+                #  Put branches here in order to test them on staging
+          # Job parameters
+          env-name: staging
+          access-key: STAGING_AWS_ACCESS_KEY_ID
+          secret-key: STAGING_AWS_SECRET_ACCESS_KEY
+      - hold:
+          type: approval
+          requires:
+            - staging-deploy
+          filters:
+            branches:
+              only:
+                - master
+      - deploy:
+          context: customink
+          name: prod-deploy
+          requires:
+            - hold
+          # Job parameters
+          env-name: prod
+          access-key: PRODUCTION_AWS_ACCESS_KEY_ID
+          secret-key: PRODUCTION_AWS_SECRET_ACCESS_KEY
