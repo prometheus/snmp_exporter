@@ -406,16 +406,28 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 	switch metric.Type {
 	case "counter":
 		t = prometheus.CounterValue
+		if len(metric.RegexpExtracts) > 0 {
+			return applyRegexExtracts(metric, fmt.Sprintf("%f", value), labelnames, labelvalues, logger)
+		}
 	case "gauge":
 		t = prometheus.GaugeValue
+		if len(metric.RegexpExtracts) > 0 {
+			return applyRegexExtracts(metric, fmt.Sprintf("%f", value), labelnames, labelvalues, logger)
+		}
 	case "Float", "Double":
 		t = prometheus.GaugeValue
+		if len(metric.RegexpExtracts) > 0 {
+			return applyRegexExtracts(metric, fmt.Sprintf("%f", value), labelnames, labelvalues, logger)
+		}
 	case "DateAndTime":
 		t = prometheus.GaugeValue
 		value, err = parseDateAndTime(pdu)
 		if err != nil {
 			level.Debug(logger).Log("msg", "Error parsing DateAndTime", "err", err)
 			return []prometheus.Metric{}
+		}
+		if len(metric.RegexpExtracts) > 0 {
+			return applyRegexExtracts(metric, fmt.Sprintf("%f", value), labelnames, labelvalues, logger)
 		}
 	case "EnumAsInfo":
 		return enumAsInfo(metric, int(value), labelnames, labelvalues)
