@@ -70,8 +70,39 @@ jobs:
             gotestsum --junitfile /tmp/test-reports/unit-tests.xml
       - store_test_results:
           path: /tmp/test-reports
-
-# Invoke jobs via workflows
+docker-image:
+    docker:
+      - <<: *deploy_docker_image
+    working_directory: "/app"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Inker Directory Docker Image
+          command: |
+            export AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
+            export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
+            ktool build-image
+deploy:
+    parameters:
+      env-name:
+        type: string
+      access-key:
+        type: env_var_name
+      secret-key:
+        type: env_var_name
+    docker:
+      - <<: *deploy_docker_image
+    working_directory: "/app"
+    steps:
+      - checkout
+      - run:
+          name: Deploy to k8s cluster
+          command: |
+            export AWS_ACCESS_KEY_ID=${<< parameters.access-key >>}
+            export AWS_SECRET_ACCESS_KEY=${<< parameters.secret-key >>}
+            ktool deploy --stage << parameters.env-name >># Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
