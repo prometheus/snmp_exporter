@@ -84,12 +84,20 @@ jobs:
       #       gotestsum --junitfile /tmp/test-reports/unit-tests.xml
       # - store_test_results:
       #     path: /tmp/test-reports
+  docker-image:
+    docker:
+      - <<: *deploy_docker_image
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
             name: SNMP-Exporter Image
             command: |
               export AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
               export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
               ktool build-image
+# Invoke jobs via workflows
   deploy:
     parameters:
       env-name:
@@ -100,7 +108,6 @@ jobs:
         type: env_var_name
     docker:
       - <<: *deploy_docker_image
-    working_directory: "/app"
     steps:
       - checkout
       - run:
@@ -108,7 +115,13 @@ jobs:
           command: |
             export AWS_ACCESS_KEY_ID=${<< parameters.access-key >>}
             export AWS_SECRET_ACCESS_KEY=${<< parameters.secret-key >>}
-            ktool deploy --stage << parameters.env-name >># Invoke jobs via workflows
+            ktool deploy --stage << parameters.env-name >>
+# -------------------------------------------------------------------------------------------------------------------- #
+# CircleCI Workflow Execution Order                                                                                    #
+#                                                                                                                      #
+# Here we define the Workflow, the order of the various jobs and their dependencies.                                   #
+# This allows us to decide whether to run certain tasks sequentially or run several of them in parallel.               #
+# -------------------------------------------------------------------------------------------------------------------- #
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   build-and-deploy:
@@ -120,6 +133,7 @@ workflows:
           name: staging-deploy
           requires:
             - build-and-test
+            - docker-image
           filters:
             branches:
               only:
