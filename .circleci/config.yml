@@ -47,7 +47,7 @@ executors:
 # ---------------------------------------------------------------------------------------------------------------------
 jobs:
   ### Build and test the application
-  build:
+  build-and-test:
     working_directory: ~/project/generator
     docker:
       - image: circleci/golang:1.15.8
@@ -82,7 +82,7 @@ docker-image:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Inker Directory Docker Image
+          name: SNMP-Exporter Image
           command: |
             export AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
             export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
