@@ -16,9 +16,11 @@ docker_image: &docker_image
   aws_auth:
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
     aws_secret_access_key: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
+  user: root
 
 golang_docker_image: &golang_docker_image
   image: cimg/go:1.15.8
+  user: root
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CircleCI Commands Configuration
@@ -52,9 +54,9 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            sudo apt update -y && \
-            sudo apt upgrade -y && \
-            sudo apt install -y build-essential diffutils libsnmp-dev p7zip-full
+            apt update -y && \
+            apt upgrade -y && \
+            apt install -y build-essential diffutils libsnmp-dev p7zip-full
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
