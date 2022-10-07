@@ -19,15 +19,5 @@ secrets:
 
 objects:
 
-  - type: web
-    sslSidecar: true
-    # We need to specify command because this app uses an old Rails that will otherwise run WEBrick
-    command:
-      - bundle
-      - exec
-      - puma
-      - -p
-      - '8080'
-    ingress:
-      scheme: internal
+  - type: worker
     multiregion: false
