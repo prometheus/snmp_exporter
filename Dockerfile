@@ -6,8 +6,8 @@ FROM 916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/python:bionic
 LABEL maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
 
 
-RUN apt update -y && \
-    apt install -y build-essential diffutils libsnmp-dev p7zip-full
+# RUN apt update -y && \
+#     apt install -y build-essential diffutils libsnmp-dev p7zip-full
 
 
 ARG ARCH="amd64"
