@@ -77,13 +77,13 @@ jobs:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
-      - run:
-          name: Run tests
-          command: |
-            mkdir -p /tmp/test-reports
-            gotestsum --junitfile /tmp/test-reports/unit-tests.xml
-      - store_test_results:
-          path: /tmp/test-reports
+      # - run:
+      #     name: Run tests
+      #     command: |
+      #       mkdir -p /tmp/test-reports
+      #       gotestsum --junitfile /tmp/test-reports/unit-tests.xml
+      # - store_test_results:
+      #     path: /tmp/test-reports
       - run:
             name: SNMP-Exporter Image
             command: |
