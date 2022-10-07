@@ -41,8 +41,15 @@ executors:
         type: string
         default: ~/project
     working_directory: << parameters.working_dir >>
-
+# ---------------------------------------------------------------------------------------------------------------------
+# CircleCI Job Configuration
+#
+# This section defines all the available jobs that can be executed inside a Workflow.
+# Think of a Job as a batch of tasks that need to be performed to setup the environment
+# and perform a specific task such as running RSpec.
+# ---------------------------------------------------------------------------------------------------------------------
 jobs:
+  ### Build and test the application
   build:
     working_directory: ~/project/generator
     docker:
@@ -58,7 +65,6 @@ jobs:
             apt update -y && \
             apt install -y build-essential libsnmp-dev && \
             go mod download && \
-
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:

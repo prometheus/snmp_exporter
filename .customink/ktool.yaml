@@ -31,4 +31,3 @@ objects:
     ingress:
       scheme: internal
     multiregion: false
-
