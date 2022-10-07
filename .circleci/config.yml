@@ -115,13 +115,10 @@ workflows:
     jobs:
       - build-and-test:
           context: customink
-      - docker-image:
-          context: customink
       - deploy:
           context: customink
           name: staging-deploy
           requires:
-            - docker-image
             - build-and-test
           filters:
             branches:
