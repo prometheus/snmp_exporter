@@ -72,10 +72,7 @@ jobs:
           command: |
             apt update -y && \
             apt install -y install build-essential diffutils libsnmp-dev p7zip-full && \
-            go mod download && \
-            go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest && \
-            go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest && \
-            make -C snmp-mixin lint build
+            go mod download
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
