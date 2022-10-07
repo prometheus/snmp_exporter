@@ -17,6 +17,15 @@ deploy_docker_image: &docker_image
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
     aws_secret_access_key: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
 
+golang_docker_image: &golang_docker_image
+  image: circleci/golang:1.15.8
+  parameters:
+      working_dir:
+        type: string
+        default: ~/project
+  working_directory: << parameters.working_dir >>
+  orbs:
+  prometheus: prometheus/prometheus@0.16.0
 # ---------------------------------------------------------------------------------------------------------------------
 # CircleCI Commands Configuration
 #
@@ -25,19 +34,19 @@ deploy_docker_image: &docker_image
 # command on the system, but will already be preconfigured. This allows us to keep the jobs definition small and clean
 # ---------------------------------------------------------------------------------------------------------------------
 version: 2.1
-orbs:
-  prometheus: prometheus/prometheus@0.16.0
-executors:
-  # Whenever the Go version is updated here, .promu.yml
-  # should also be updated.
-  golang:
-    docker:
-    - image: circleci/golang:1.15.8
-    parameters:
-      working_dir:
-        type: string
-        default: ~/project
-    working_directory: << parameters.working_dir >>
+# orbs:
+#   prometheus: prometheus/prometheus@0.16.0
+# executors:
+#   # Whenever the Go version is updated here, .promu.yml
+#   # should also be updated.
+#   golang:
+#     docker:
+#     - image: circleci/golang:1.15.8
+#     parameters:
+#       working_dir:
+#         type: string
+#         default: ~/project
+#     working_directory: << parameters.working_dir >>
 # ---------------------------------------------------------------------------------------------------------------------
 # CircleCI Job Configuration
 #
@@ -76,6 +85,7 @@ jobs:
 docker-image:
     docker:
       - <<: *deploy_docker_image
+      - <<: *golang_docker_image
     working_directory: "/app"
     steps:
       - checkout
