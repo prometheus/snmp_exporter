@@ -72,7 +72,7 @@ jobs:
           command: |
             sudo apt update -y && \
             sudo apt upgrade -y && \
-            sudo apt install -y install build-essential diffutils libsnmp-dev
+            sudo apt install -y build-essential diffutils libsnmp-dev p7zip-full
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
