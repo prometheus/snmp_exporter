@@ -5,14 +5,14 @@
 # Reusable snippets are defined below this section. These are yaml fragments that can injected into the standard
 # CircleCI configuration, reducing the complexity of the entire block.
 # ---------------------------------------------------------------------------------------------------------------------
-docker_image: &docker_snmp_image
+docker_image: &deploy_docker_image
   image: 916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/python-ci:bionic
   user: root
   aws_auth:
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
     aws_secret_access_key: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
 
-deploy_docker_image: &deploy_docker_image
+deploy_docker_image: &docker_image
   image: 916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/ktool:v13
   aws_auth:
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
