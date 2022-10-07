@@ -19,11 +19,6 @@ docker_image: &docker_image
 
 golang_docker_image: &golang_docker_image
   image: circleci/golang:1.15.8
-  # parameters:
-  #     working_dir:
-  #       type: string
-  #       default: ~/project
-  # working_directory: << parameters.working_dir >>
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CircleCI Commands Configuration
@@ -35,19 +30,6 @@ golang_docker_image: &golang_docker_image
 version: 2.1
 orbs:
   prometheus: prometheus/prometheus@0.16.0
-# orbs:
-#   prometheus: prometheus/prometheus@0.16.0
-# executors:
-#   # Whenever the Go version is updated here, .promu.yml
-#   # should also be updated.
-#   golang:
-#     docker:
-#     - image: circleci/golang:1.15.8
-#     parameters:
-#       working_dir:
-#         type: string
-#         default: ~/project
-#     working_directory: << parameters.working_dir >>
 # ---------------------------------------------------------------------------------------------------------------------
 # CircleCI Job Configuration
 #
@@ -77,13 +59,6 @@ jobs:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
-      # - run:
-      #     name: Run tests
-      #     command: |
-      #       mkdir -p /tmp/test-reports
-      #       gotestsum --junitfile /tmp/test-reports/unit-tests.xml
-      # - store_test_results:
-      #     path: /tmp/test-reports
   docker-image:
     docker:
       - <<: *deploy_docker_image
