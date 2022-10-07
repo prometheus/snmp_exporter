@@ -70,11 +70,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            sudo add-apt-repository main && \
-            sudo add-apt-repository universe && \
-            sudo add-apt-repository restricted && \
-            sudo add-apt-repository multiverse && \
-            sudo apt update -y && \
+            sudo apt update -y \
             sudo apt install -y install build-essential diffutils libsnmp-dev p7zip-full
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
