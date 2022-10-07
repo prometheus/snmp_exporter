@@ -18,7 +18,7 @@ docker_image: &docker_image
     aws_secret_access_key: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
 
 golang_docker_image: &golang_docker_image
-  image: circleci/golang:1.15.8
+  image: cimg/go:1.15.8
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CircleCI Commands Configuration
@@ -64,8 +64,8 @@ jobs:
       - <<: *deploy_docker_image
     steps:
       - checkout
-      # - setup_remote_docker:
-          # docker_layer_caching: true
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
             name: SNMP-Exporter Image
             command: |
