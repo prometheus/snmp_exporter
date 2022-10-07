@@ -45,7 +45,6 @@ jobs:
     working_directory: ~/project/generator
     docker:
       - <<: *golang_docker_image
-      - <<: *docker_image
     steps:
       - checkout
       - restore_cache:
@@ -75,6 +74,7 @@ jobs:
               export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
               ktool build-image
 # Invoke jobs via workflows
+### Deploy the application to kubernetes cluster
   deploy:
     parameters:
       env-name:
