@@ -56,19 +56,6 @@ orbs:
 # and perform a specific task such as running RSpec.
 # ---------------------------------------------------------------------------------------------------------------------
 jobs:
-  docker-image:
-    docker:
-      - <<: *deploy_docker_image
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-            name: SNMP-Exporter Image
-            command: |
-              export AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
-              export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
-              ktool build-image
   ### Build and test the application
   build-and-test:
     working_directory: ~/project/generator
@@ -97,7 +84,19 @@ jobs:
       #       gotestsum --junitfile /tmp/test-reports/unit-tests.xml
       # - store_test_results:
       #     path: /tmp/test-reports
-
+  docker-image:
+    docker:
+      - <<: *deploy_docker_image
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+            name: SNMP-Exporter Image
+            command: |
+              export AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
+              export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
+              ktool build-image
 # Invoke jobs via workflows
   deploy:
     parameters:
@@ -128,6 +127,8 @@ workflows:
   build-and-deploy:
     jobs:
       - build-and-test:
+          context: customink
+      - docker-image:
           context: customink
       - deploy:
           context: customink
