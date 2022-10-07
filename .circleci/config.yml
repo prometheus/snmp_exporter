@@ -5,13 +5,13 @@
 # Reusable snippets are defined below this section. These are yaml fragments that can injected into the standard
 # CircleCI configuration, reducing the complexity of the entire block.
 # ---------------------------------------------------------------------------------------------------------------------
-docker_image: &deploy_docker_image
+deploy_docker_image: &deploy_docker_image
   image: 916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/ktool:v13
   aws_auth:
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
     aws_secret_access_key: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
 
-deploy_docker_image: &docker_image
+docker_image: &docker_image
   image:  916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/python-ci:bionic 
   aws_auth:
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
@@ -59,7 +59,8 @@ jobs:
   build-and-test:
     working_directory: ~/project/generator
     docker:
-      - image: circleci/golang:1.15.8
+      - <<: *golang_docker_image
+      - <<: *docker_image
     steps:
       - checkout
       - restore_cache:
@@ -82,21 +83,12 @@ jobs:
             gotestsum --junitfile /tmp/test-reports/unit-tests.xml
       - store_test_results:
           path: /tmp/test-reports
-docker-image:
-    docker:
-      - <<: *deploy_docker_image
-      - <<: *golang_docker_image
-    working_directory: "/app"
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
-          name: SNMP-Exporter Image
-          command: |
-            export AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
-            export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
-            ktool build-image
+            name: SNMP-Exporter Image
+            command: |
+              export AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
+              export AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
+              ktool build-image
 deploy:
     parameters:
       env-name:
