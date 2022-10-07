@@ -6,14 +6,13 @@
 # CircleCI configuration, reducing the complexity of the entire block.
 # ---------------------------------------------------------------------------------------------------------------------
 docker_image: &deploy_docker_image
-  image: 916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/python-ci:bionic
-  user: root
+  image: 916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/ktool:v13
   aws_auth:
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
     aws_secret_access_key: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
 
 deploy_docker_image: &docker_image
-  image: 916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/ktool:v13
+  image:  916869144969.dkr.ecr.us-east-1.amazonaws.com/customink/python-ci:bionic 
   aws_auth:
     aws_access_key_id: ${PRODUCTION_AWS_ACCESS_KEY_ID}
     aws_secret_access_key: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
@@ -26,10 +25,8 @@ deploy_docker_image: &docker_image
 # command on the system, but will already be preconfigured. This allows us to keep the jobs definition small and clean
 # ---------------------------------------------------------------------------------------------------------------------
 version: 2.1
-
 orbs:
   prometheus: prometheus/prometheus@0.16.0
-
 executors:
   # Whenever the Go version is updated here, .promu.yml
   # should also be updated.
@@ -113,7 +110,8 @@ deploy:
 workflows:
   build-and-deploy:
     jobs:
-      - build
+      - build-and-test:
+          context: customink
       - docker-image:
           context: customink
       - deploy:
@@ -121,12 +119,12 @@ workflows:
           name: staging-deploy
           requires:
             - docker-image
+            - build-and-test
           filters:
             branches:
               only:
                 - master
                 - sf/DCOPS-25205-snmp-scrap
-                #  Put branches here in order to test them on staging
           # Job parameters
           env-name: staging
           access-key: STAGING_AWS_ACCESS_KEY_ID
