@@ -41,9 +41,9 @@ import (
 )
 
 var (
-	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
-	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
-	toolkitFlags  = webflag.AddFlags(kingpin.CommandLine, ":9116")
+	configFile   = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	dryRun       = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	toolkitFlags = webflag.AddFlags(kingpin.CommandLine, ":9116")
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = promauto.NewSummaryVec(
