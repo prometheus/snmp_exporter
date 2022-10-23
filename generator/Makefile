@@ -22,7 +22,7 @@ DOCKER_REPO       ?= prom
 
 APC_URL           := 'https://download.schneider-electric.com/files?p_Doc_Ref=APC_POWERNETMIB_441_EN&p_enDocType=Firmware&p_File_Name=powernet441.mib'
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
-CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
+CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/main/v2
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
@@ -90,13 +90,19 @@ docker-tag-latest:
 .PHONY: mibs
 mibs: mib-dir \
   $(MIBDIR)/apc-powernet-mib \
+  $(MIBDIR)/AIRESPACE-REF-MIB \
+  $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/.cisco_v2 \
+  $(MIBDIR)/ENTITY-MIB \
+  $(MIBDIR)/ENTITY-SENSOR-MIB \
+  $(MIBDIR)/ENTITY-STATE-MIB \
+  $(MIBDIR)/ENTITY-STATE-TC-MIB \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
+  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/VRRP-MIB \
   $(MIBDIR)/VRRPv3-MIB \
@@ -141,21 +147,33 @@ $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB:
 	@echo ">> Downloading ARISTA-SW-IP-FORWARDING-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
 
-$(MIBDIR)/.cisco_v2:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading cisco_v2"
-	@mkdir -p $(MIBDIR)/cisco_v2
-	@curl $(CURL_OPTS) -o $(TMP) $(CISCO_URL)
-	tar --no-same-owner -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxvf $(TMP)
-	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
-	cp mibs/cisco_v2/AIRESPACE-WIRELESS-MIB.my mibs/AIRESPACE-WIRELESS-MIB
-	cp mibs/cisco_v2/ENTITY-MIB.my mibs/ENTITY-MIB
-	cp mibs/cisco_v2/ENTITY-SENSOR-MIB.my mibs/ENTITY-SENSOR-MIB
-	cp mibs/cisco_v2/ENTITY-STATE-MIB.my mibs/ENTITY-STATE-MIB
-	cp mibs/cisco_v2/ENTITY-STATE-TC-MIB.my mibs/ENTITY-STATE-TC-MIB
-	cp mibs/cisco_v2/ISDN-MIB.my mibs/ISDN-MIB
-	@rm -v $(TMP)
-	@touch $(MIBDIR)/.cisco_v2
+$(MIBDIR)/AIRESPACE-REF-MIB:
+	@echo ">> Downloading Cisco AIRESPACE-REF-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-REF-MIB "$(CISCO_URL)/AIRESPACE-REF-MIB.my"
+
+$(MIBDIR)/AIRESPACE-WIRELESS-MIB:
+	@echo ">> Downloading Cisco AIRESPACE-WIRELESS-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CISCO_URL)/AIRESPACE-WIRELESS-MIB.my"
+
+$(MIBDIR)/ENTITY-MIB:
+	@echo ">> Downloading Cisco ENTITY-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-MIB "$(CISCO_URL)/ENTITY-MIB.my"
+
+$(MIBDIR)/ENTITY-SENSOR-MIB:
+	@echo ">> Downloading Cisco ENTITY-SENSOR-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-SENSOR-MIB "$(CISCO_URL)/ENTITY-SENSOR-MIB.my"
+
+$(MIBDIR)/ENTITY-STATE-MIB:
+	@echo ">> Downloading Cisco ENTITY-STATE-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-MIB "$(CISCO_URL)/ENTITY-STATE-MIB.my"
+
+$(MIBDIR)/ENTITY-STATE-TC-MIB:
+	@echo ">> Downloading Cisco ENTITY-STATE-TC-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-TC-MIB "$(CISCO_URL)/ENTITY-STATE-TC-MIB.my"
+
+$(MIBDIR)/ISDN-MIB:
+	@echo ">> Downloading Cisco ISDN-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB "$(CISCO_URL)/ISDN-MIB.my"
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Downloading IANA charset MIB"
