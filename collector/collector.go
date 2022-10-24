@@ -24,9 +24,9 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/snmp_exporter/gosnmp"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
@@ -122,6 +122,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	snmp.MaxRepetitions = config.WalkParams.MaxRepetitions
 	snmp.Retries = config.WalkParams.Retries
 	snmp.Timeout = config.WalkParams.Timeout
+	snmp.Logger = gosnmp.NewLogger(&gosnmpLogger{logger})
 
 	var sent time.Time
 	snmp.OnSent = func(x *gosnmp.GoSNMP) {
@@ -332,12 +333,17 @@ func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 		} else {
 			return float64(gosnmp.ToBigInt(pdu.Value).Uint64())
 		}
-	case gosnmp.OpaqueFloat:
-		return float64(pdu.Value.(float32))
-	case gosnmp.OpaqueDouble:
-		return pdu.Value.(float64)
 	default:
-		return float64(gosnmp.ToBigInt(pdu.Value).Int64())
+		switch pdu.Type {
+		case gosnmp.OpaqueFloat:
+			return float64(pdu.Value.(float32))
+		case gosnmp.OpaqueDouble:
+			return pdu.Value.(float64)
+		case gosnmp.OpaqueUinteger64:
+			return float64(pdu.Value.(uint64))
+		default:
+			return float64(gosnmp.ToBigInt(pdu.Value).Int64())
+		}
 	}
 }
 
@@ -392,6 +398,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu)
+	level.Debug(logger).Log("type", byte(pdu.Type), "msg", "processing metric", "oid", pdu.Name)
 
 	value := getPduValue(pdu)
 	t := prometheus.UntypedValue

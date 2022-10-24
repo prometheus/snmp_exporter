@@ -9,6 +9,7 @@ GO_SDK_VERSION := 0.36.0-alpine
 GOPATH := $(GOPATH)
 
 PROJECT_BASE_PATH := $(PWD)
+DATE_TAG := $(shell date -u +"%Y%m%dT%H%M%SZ")
 
 all: test docker
 
@@ -47,3 +48,12 @@ dockerbin: .FORCE
 clean:
 	rm -rf bin
 	rm -f licenses.csv licenses.md licences_groups.md licenses_groups.csv
+
+debugfile:
+	docker build . -t gcr.io/npav-172917/snmp-exporter:debug-$(DATE_TAG)
+	docker save gcr.io/npav-172917/snmp-exporter:debug-$(DATE_TAG) --output  snmp-exporter:debug-$(DATE_TAG).tar
+
+accpush:
+	docker build . -t gcr.io/npav-172917/snmp-exporter:$(DATE_TAG)
+	docker push gcr.io/npav-172917/snmp-exporter:$(DATE_TAG)
+	docker save gcr.io/npav-172917/snmp-exporter:$(DATE_TAG) --output  snmp-exporter:$(DATE_TAG).tar

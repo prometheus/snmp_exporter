@@ -1,0 +1,77 @@
+---
+version: 2.1
+
+executors:
+  golang:
+    docker:
+    - image: cimg/go:1.18
+
+jobs:
+  generate:
+    executor: golang
+    steps:
+    - checkout
+    - run: go install golang.org/x/tools/cmd/stringer@latest
+    - run: go install github.com/golang/mock/mockgen@latest
+    - run: go generate
+    - run: git diff --exit-code
+
+  lint:
+    executor: golang
+    steps:
+    - checkout
+    - run: make tools
+    - run: make lint
+
+  test:
+    parameters:
+      goarch:
+        type: string
+      goversion:
+        type: string
+    docker:
+      - image: cimg/go:<< parameters.goversion >>
+    environment:
+      GOARCH: << parameters.goarch >>
+      GOSNMP_TARGET: "127.0.0.1"
+      GOSNMP_PORT: "161"
+      GOSNMP_TARGET_IPV4: "127.0.0.1"
+      GOSNMP_PORT_IPV4: "161"
+      GOSNMP_TARGET_IPV6: "::1"
+      GOSNMP_PORT_IPV6: "161"
+
+    steps:
+    - checkout
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install snmpd
+    - run: sudo ./snmp_users.sh
+    - run: sudo sed -i -e 's/^agentaddress.*$/agentaddress 127.0.0.1/' /etc/snmp/snmpd.conf
+    - run: sudo service snmpd restart
+    - run: go test -v -tags helper
+    - run: go test -v -tags marshal
+    - run: go test -v -tags misc
+    - run: go test -v -tags api
+    - run: go test -v -tags end2end
+    - run: go test -v -tags trap
+    - run: |
+       if [[ "${GOARCH}" == "amd64" ]]; then
+         go test -v -tags all -race
+       else
+         echo "Not running -race"
+       fi
+
+workflows:
+  version: 2
+  test:
+    jobs:
+    - generate
+    - lint
+    - test:
+        matrix:
+          parameters:
+            goarch:
+            - "amd64"
+            - "386"
+            goversion:
+            - "1.17"
+            - "1.18"

@@ -20,8 +20,8 @@ import (
 	"testing"
 
 	"github.com/go-kit/kit/log"
-	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_model/go"
+	"github.com/prometheus/snmp_exporter/gosnmp"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
