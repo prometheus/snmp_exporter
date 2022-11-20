@@ -43,7 +43,7 @@ UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.tx
 UBNT_DL_URL       := https://dl.ubnt-ut.com/snmp
 WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
+INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
 EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-OIDS
@@ -122,7 +122,7 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
   $(MIBDIR)/PDU-MIB.txt \
-  $(MIBDIR)/IPD-MIB_Q419V9.mib \
+  $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/EATON-EPDU-MIB.txt \
   $(MIBDIR)/EATON-SENSOR-MIB.txt \
@@ -296,11 +296,13 @@ $(MIBDIR)/PDU-MIB.txt:
 	@echo ">> Downloading PDU-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
 
-$(MIBDIR)/IPD-MIB_Q419V9.mib:
+$(MIBDIR)/Infrapower-MIB.mib:
 	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading IPD-MIB_Q419V9 to $(TMP)"
+	@echo ">> Downloading Infrapower-MIB.mib to $(TMP)"
+	@rm -vf $(MIBDIR)/IPD-MIB_Q419V9.mib
 	@curl $(CURL_OPTS) -L -o $(TMP) $(INFRAPOWER_URL)
-	@7z e -o$(MIBDIR) $(TMP)
+	@unzip -j -d $(MIBDIR) $(TMP) IPD-03-S-MIB_Q320V1.mib
+	@mv -v $(MIBDIR)/IPD-03-S-MIB_Q320V1.mib $(MIBDIR)/Infrapower-MIB.mib
 	@rm -v $(TMP)
 
 $(MIBDIR)/LIEBERT_GP_PDU.MIB:

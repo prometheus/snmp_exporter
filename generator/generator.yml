@@ -568,7 +568,7 @@ modules:
 
 # InfraPower PDU's
 #
-# https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
+# https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 # The circuit table in the infrapower MIB is invalid as it has a table (circuitTable) nested inside another table (pduTable), and this invalid setup then confuses the generator.
   infrapower_pdu:
     walk:
