@@ -9,7 +9,7 @@ executors:
   # should also be updated.
   golang:
     docker:
-    - image: quay.io/prometheus/golang-builder:1.18-base
+    - image: cimg/go:1.19
     parameters:
       working_dir:
         type: string
@@ -22,8 +22,8 @@ jobs:
 
     steps:
     - prometheus/setup_environment
-    - run: apt-get update
-    - run: apt-get -y install build-essential libsnmp-dev
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install build-essential libsnmp-dev
     - run: make
     - run: git diff --exit-code
     - prometheus/store_artifact:
@@ -39,8 +39,8 @@ jobs:
     steps:
     - checkout:
         path: ~/project
-    - run: apt-get update
-    - run: apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
     - run: make mibs
     - run: make generator
     - run: make parse_errors
