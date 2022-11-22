@@ -1,3 +1,14 @@
+## 0.21.0 / 2022-11-22
+
+* [CHANGE] Update to exporter-toolkit v0.8.1 (#810)
+* [FEATURE] Support chained lookups in the generator (#757)
+* [ENHANCEMENT] Add per-SNMP packet statistics. (#656)
+* [ENHANCEMENT] Add support for aes192c and aes256c privacy protocol (#657)
+* [ENHANCEMENT] Support responding from different source address (#702)
+* [BUGFIX] Fixes dropped context passing (#634)
+* [BUGFIX] Add version flag (#717)
+* [BUGFIX] Fix retries in generator (#786)
+
 ## 0.20.0 / 2021-02-12
 
 NOTE: This is a safe harbor release. Future releases will have breaking changes to the configuration format.
