@@ -88,8 +88,7 @@ docker-publish:
 docker-tag-latest:
 	docker tag "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):latest"
 
-.PHONY: mibs
-mibs: mib-dir \
+mibs: \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
@@ -126,9 +125,6 @@ mibs: mib-dir \
   $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/CyberPower.MIB
-
-mib-dir:
-	@mkdir -p -v $(MIBDIR)
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib"

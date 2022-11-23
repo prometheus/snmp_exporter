@@ -13,17 +13,15 @@ sudo apt-get install unzip build-essential libsnmp-dev # Debian-based distros
 # Redhat-based distributions.
 sudo yum install gcc gcc-g++ make net-snmp net-snmp-utils net-snmp-libs net-snmp-devel # RHEL-based distros
 
-go get github.com/prometheus/snmp_exporter/generator
-cd ${GOPATH-$HOME/go}/src/github.com/prometheus/snmp_exporter/generator
-go build
-make mibs
+git clone https://github.com/prometheus/snmp_exporter.git
+cd snmp_exporter/generator
+make generator mibs
 ```
 
 ## Running
 
 ```sh
-export MIBDIRS=mibs
-./generator generate
+make generate
 ```
 
 The generator reads in from `generator.yml` and writes to `snmp.yml`.
