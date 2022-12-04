@@ -47,7 +47,9 @@ INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IP
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
 EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-OIDS
-CYBERPOWER_URL    := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v2.9.MIB.zip
+
+CYBERPOWER_VERSION := 2.9
+CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
 .DEFAULT: all
 
@@ -128,7 +130,7 @@ mibs: mib-dir \
   $(MIBDIR)/EATON-EPDU-MIB.txt \
   $(MIBDIR)/EATON-SENSOR-MIB.txt \
   $(MIBDIR)/EATON-OIDS.txt \
-  $(MIBDIR)/CyberPower_MIB_v2.9.MIB
+  $(MIBDIR)/CyberPower.MIB
 
 mib-dir:
 	@mkdir -p -v $(MIBDIR)
@@ -327,7 +329,8 @@ $(MIBDIR)/EATON-OIDS.txt:
 
 $(MIBDIR)/CyberPower.MIB:
 	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading CyberPower_MIB_v2.9.MIB to $(TMP)"
+	@echo ">> Downloading CyberPower.MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(CYBERPOWER_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) CyberPower.MIB
+	@unzip -j -d $(MIBDIR) $(TMP) CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB
+	@mv -v $(MIBDIR)/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB $@
 	@rm -v $(TMP)
