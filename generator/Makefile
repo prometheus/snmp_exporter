@@ -325,9 +325,9 @@ $(MIBDIR)/EATON-OIDS.txt:
 	@echo ">> Downloading EATON-OIDS.txt to $@"
 	@curl $(CURL_OPTS) -o $@ $(EATON_OIDS_URL)
 
-$(MIBDIR)/CyberPower_MIB_v2.9.MIB:
+$(MIBDIR)/CyberPower.MIB:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading CyberPower_MIB_v2.9.MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(CYBERPOWER_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) CyberPower_MIB_v2.9.MIB
+	@unzip -j -d $(MIBDIR) $(TMP) CyberPower.MIB
 	@rm -v $(TMP)
