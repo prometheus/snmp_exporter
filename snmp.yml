@@ -5132,6 +5132,2612 @@ cisco_wlc:
       type: OctetString
     - labels: []
       labelname: bsnAPDot3MacAddress
+cyberpower:
+  walk:
+  - 1.3.6.1.4.1.3808.1.1.1
+  - 1.3.6.1.4.1.3808.1.1.4
+  - 1.3.6.1.4.1.3808.1.1.6
+  metrics:
+  - name: upsBaseIdentModel
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.1.1
+    type: DisplayString
+    help: The UPS model name. - 1.3.6.1.4.1.3808.1.1.1.1.1.1
+  - name: upsBaseIdentName
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.1.2
+    type: DisplayString
+    help: The UPS identified name could be set by the administrator. - 1.3.6.1.4.1.3808.1.1.1.1.1.2
+  - name: upsAdvanceIdentFirmwareRevision
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.1
+    type: DisplayString
+    help: The UPS firmware revision. - 1.3.6.1.4.1.3808.1.1.1.1.2.1
+  - name: upsAdvanceIdentDateOfManufacture
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.2
+    type: DisplayString
+    help: The UPS manufacture date in mm/dd/yy format. - 1.3.6.1.4.1.3808.1.1.1.1.2.2
+  - name: upsAdvanceIdentSerialNumber
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.3
+    type: DisplayString
+    help: The UPS serial number in the internal microprocessor. - 1.3.6.1.4.1.3808.1.1.1.1.2.3
+  - name: upsAdvanceIdentAgentFirmwareRevision
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.4
+    type: DisplayString
+    help: The SNMP agent firmware revision. - 1.3.6.1.4.1.3808.1.1.1.1.2.4
+  - name: upsAdvanceIdentLCDFirmwareVersion
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.5
+    type: DisplayString
+    help: The revision number of the UPS LCD firmware. - 1.3.6.1.4.1.3808.1.1.1.1.2.5
+  - name: upsAdvanceIdentPowerRating
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.6
+    type: gauge
+    help: The Volt-Amp rating of the UPS. - 1.3.6.1.4.1.3808.1.1.1.1.2.6
+  - name: upsAdvanceIdentLoadPower
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.7
+    type: gauge
+    help: The power rating(Watts) of the UPS. - 1.3.6.1.4.1.3808.1.1.1.1.2.7
+  - name: upsAdvanceIdentCurrentRating
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.8
+    type: gauge
+    help: The output current rating of the UPS - 1.3.6.1.4.1.3808.1.1.1.1.2.8
+  - name: upsAdvanceIdentAgentSerialNumber
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.9
+    type: DisplayString
+    help: A string identifying the serial number of the Agent. - 1.3.6.1.4.1.3808.1.1.1.1.2.9
+  - name: upsBaseBatteryStatus
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.1.1
+    type: gauge
+    help: The UPS battery status - 1.3.6.1.4.1.3808.1.1.1.2.1.1
+    enum_values:
+      1: unknown
+      2: batteryNormal
+      3: batteryLow
+      4: batteryNotPresent
+  - name: upsBaseBatteryTimeOnBattery
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.1.2
+    type: gauge
+    help: The UPS wasted battery time since the UPS has transfered to backup mode.
+      - 1.3.6.1.4.1.3808.1.1.1.2.1.2
+  - name: upsBaseBatteryLastReplaceDate
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.1.3
+    type: DisplayString
+    help: The UPS batteries last replaced date in mm/dd/yyyy format - 1.3.6.1.4.1.3808.1.1.1.2.1.3
+  - name: upsBaseBatteryAgeRecommand
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.1.4
+    type: gauge
+    help: Recommended battery life in month - 1.3.6.1.4.1.3808.1.1.1.2.1.4
+  - name: upsAdvanceBatteryCapacity
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.1
+    type: gauge
+    help: The battery capacity expressed in percentage. - 1.3.6.1.4.1.3808.1.1.1.2.2.1
+  - name: upsAdvanceBatteryVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.2
+    type: gauge
+    help: The battery voltage expressed in 1/10 VDC. - 1.3.6.1.4.1.3808.1.1.1.2.2.2
+  - name: upsAdvanceBatteryTemperature
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.3
+    type: gauge
+    help: The UPS battery temperature expressed in Celsius. - 1.3.6.1.4.1.3808.1.1.1.2.2.3
+  - name: upsAdvanceBatteryRunTimeRemaining
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.4
+    type: gauge
+    help: The UPS battery remaining run time. - 1.3.6.1.4.1.3808.1.1.1.2.2.4
+  - name: upsAdvanceBatteryReplaceIndicator
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.5
+    type: gauge
+    help: This value indicates if UPS batteries need to be replaced. - 1.3.6.1.4.1.3808.1.1.1.2.2.5
+    enum_values:
+      1: noBatteryNeedsReplacing
+      2: batteryNeedsReplacing
+  - name: upsAdvanceBatteryFullChargeVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.6
+    type: gauge
+    help: The battery charged voltage expressed in 1/10 VDC. - 1.3.6.1.4.1.3808.1.1.1.2.2.6
+  - name: upsAdvanceBatteryCurrent
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.7
+    type: gauge
+    help: The battery current expressed in percentage. - 1.3.6.1.4.1.3808.1.1.1.2.2.7
+  - name: upsAdvanceBatteryVoltageRating
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.8
+    type: gauge
+    help: The DC voltage rating of the battery set. - 1.3.6.1.4.1.3808.1.1.1.2.2.8
+  - name: upsAdvanceBatteryLife
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.2.9
+    type: gauge
+    help: The battery life expressed in 1/100 percentage. - 1.3.6.1.4.1.3808.1.1.1.2.2.9
+  - name: upsBaseInputPhase
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.1.1
+    type: gauge
+    help: The AC input phase. - 1.3.6.1.4.1.3808.1.1.1.3.1.1
+  - name: upsAdvanceInputLineVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.2.1
+    type: gauge
+    help: The input line voltage in 1/10 VAC. - 1.3.6.1.4.1.3808.1.1.1.3.2.1
+  - name: upsAdvanceInputMaxLineVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.2.2
+    type: gauge
+    help: The maximum input line voltage in 1/10 VAC over the previous 1 minute period.
+      - 1.3.6.1.4.1.3808.1.1.1.3.2.2
+  - name: upsAdvanceInputMinLineVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.2.3
+    type: gauge
+    help: The minimum input line voltage in 1/10 VAC over the previous 1 minute period.
+      - 1.3.6.1.4.1.3808.1.1.1.3.2.3
+  - name: upsAdvanceInputFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.2.4
+    type: gauge
+    help: The input line frequency in 1/10 Hz. - 1.3.6.1.4.1.3808.1.1.1.3.2.4
+  - name: upsAdvanceInputLineFailCause
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.2.5
+    type: gauge
+    help: The reason of UPS power failure - 1.3.6.1.4.1.3808.1.1.1.3.2.5
+    enum_values:
+      1: noTransfer
+      2: highLineVoltage
+      3: brownout
+      4: selfTest
+  - name: upsAdvanceInputStatus
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.2.6
+    type: gauge
+    help: Display the present status of the utility power supplied to the UPS. - 1.3.6.1.4.1.3808.1.1.1.3.2.6
+    enum_values:
+      1: normal
+      2: overVoltage
+      3: underVoltage
+      4: frequencyFailure
+      5: blackout
+      6: powerFailure
+  - name: upsAdvanceInputWatt
+    oid: 1.3.6.1.4.1.3808.1.1.1.3.2.7
+    type: gauge
+    help: Getting this OID will return the input power that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.3.2.7
+  - name: upsBaseOutputStatus
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.1.1
+    type: gauge
+    help: The UPS output status. - 1.3.6.1.4.1.3808.1.1.1.4.1.1
+    enum_values:
+      1: unknown
+      2: onLine
+      3: onBattery
+      4: onBoost
+      5: onSleep
+      6: "off"
+      7: rebooting
+      8: onECO
+      9: onBypass
+      10: onBuck
+      11: onOverload
+  - name: upsBaseOutputPhase
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.1.2
+    type: gauge
+    help: The output phase. - 1.3.6.1.4.1.3808.1.1.1.4.1.2
+  - name: upsBaseOutputWorkingFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.1.3
+    type: DisplayString
+    help: The frequency of the UPS output power. - 1.3.6.1.4.1.3808.1.1.1.4.1.3
+  - name: upsAdvanceOutputVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.1
+    type: gauge
+    help: The UPS output voltage in 1/10 VAC. - 1.3.6.1.4.1.3808.1.1.1.4.2.1
+  - name: upsAdvanceOutputFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.2
+    type: gauge
+    help: The UPS output frequency in 1/10 Hz. - 1.3.6.1.4.1.3808.1.1.1.4.2.2
+  - name: upsAdvanceOutputLoad
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.3
+    type: gauge
+    help: The UPS output load expressed in percentage - 1.3.6.1.4.1.3808.1.1.1.4.2.3
+  - name: upsAdvanceOutputCurrent
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.4
+    type: gauge
+    help: The UPS output current in 1/10 Amps. - 1.3.6.1.4.1.3808.1.1.1.4.2.4
+  - name: upsAdvanceOutputPower
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.5
+    type: gauge
+    help: The total output active power of the UPS system in W. - 1.3.6.1.4.1.3808.1.1.1.4.2.5
+  - name: upsAdvanceOutputEnergy
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.6
+    type: gauge
+    help: The total output energy of the UPS system in 1/10 kWh. - 1.3.6.1.4.1.3808.1.1.1.4.2.6
+  - name: upsAdvanceOutputEnergyStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.7
+    type: DisplayString
+    help: Indicates the date and time of the last device energy meter reset. - 1.3.6.1.4.1.3808.1.1.1.4.2.7
+  - name: upsBaseConfigNumDevices
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.1.1
+    type: gauge
+    help: The number of equipment plugged into the UPS. - 1.3.6.1.4.1.3808.1.1.1.5.1.1
+  - name: deviceIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.1
+    type: gauge
+    help: The index of the equipment plugged into the UPS. - 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.1
+    indexes:
+    - labelname: deviceIndex
+      type: gauge
+  - name: deviceName
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.2
+    type: DisplayString
+    help: The name of the equipment plugged into the UPS. - 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.2
+    indexes:
+    - labelname: deviceIndex
+      type: gauge
+  - name: vaRating
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.3
+    type: gauge
+    help: The VA rating of the equipment plugged into the UPS. - 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.3
+    indexes:
+    - labelname: deviceIndex
+      type: gauge
+  - name: acceptThisDevice
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.4
+    type: gauge
+    help: An equipment is plugged if yes, unplugged if no. - 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.4
+    indexes:
+    - labelname: deviceIndex
+      type: gauge
+    enum_values:
+      1: "yes"
+      2: "no"
+  - name: upsAdvanceConfigOutputVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.1
+    type: gauge
+    help: The standard UPS output voltage in VAC - 1.3.6.1.4.1.3808.1.1.1.5.2.1
+  - name: upsAdvanceConfigHighTransferVolt
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.2
+    type: gauge
+    help: Adjust the high transfer vloltage in VAC - 1.3.6.1.4.1.3808.1.1.1.5.2.2
+  - name: upsAdvanceConfigLowTransferVolt
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.3
+    type: gauge
+    help: Adjust the low transfer vloltage in VAC - 1.3.6.1.4.1.3808.1.1.1.5.2.3
+  - name: upsAdvanceConfigAlarm
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.4
+    type: gauge
+    help: This value is set to handle audible alarms when power failure. - 1.3.6.1.4.1.3808.1.1.1.5.2.4
+    enum_values:
+      1: timed
+      2: enable
+      3: disable
+      4: mute
+  - name: upsAdvanceConfigAlarmTimer
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.5
+    type: gauge
+    help: The time after power failure at which the UPS begins giving audible alarms
+      - 1.3.6.1.4.1.3808.1.1.1.5.2.5
+  - name: upsAdvanceConfigMinReturnCapacity
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.6
+    type: gauge
+    help: The minimum battery capacity that UPS will return from a low battery shutdown
+      condition - 1.3.6.1.4.1.3808.1.1.1.5.2.6
+  - name: upsAdvanceConfigSensitivity
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.7
+    type: gauge
+    help: The sensitivity of the UPS to power failure detection. - 1.3.6.1.4.1.3808.1.1.1.5.2.7
+    enum_values:
+      1: auto
+      2: low
+      3: medium
+      4: high
+  - name: upsAdvanceConfigLowBatteryRunTime
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.8
+    type: gauge
+    help: The desired run time, in seconds, UPS will enter in a low battery sequence
+      - 1.3.6.1.4.1.3808.1.1.1.5.2.8
+  - name: upsAdvanceConfigReturnDelay
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.9
+    type: gauge
+    help: The delay time the UPS will turn on after power recovery - 1.3.6.1.4.1.3808.1.1.1.5.2.9
+  - name: upsAdvanceConfigShutoffDelay
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.10
+    type: gauge
+    help: The delay time the UPS will remain on after receiving a turn off command
+      - 1.3.6.1.4.1.3808.1.1.1.5.2.10
+  - name: upsAdvanceConfigSleepDelay
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.11
+    type: gauge
+    help: The delay time the UPS will enter sleep mode after receiving a sleep command
+      - 1.3.6.1.4.1.3808.1.1.1.5.2.11
+  - name: upsAdvanceConfigSetEEPROMDefaults
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.12
+    type: gauge
+    help: Reset the UPS EEPROM parameters to default values. - 1.3.6.1.4.1.3808.1.1.1.5.2.12
+    enum_values:
+      1: noSetEEPROMDefaults
+      2: setEEPROMDefaults
+  - name: upsAdvanceConfigAutoRestore
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.13
+    type: gauge
+    help: When this option is enabled, the UPS will restore output immediately when
+      the utility power restores.When this option is disabled, the UPS will not restore
+      output at that moment and users have to turn it on manually at a later time.
+      - 1.3.6.1.4.1.3808.1.1.1.5.2.13
+    enum_values:
+      1: disable
+      2: enable
+  - name: upsAdvanceConfigRechargedCapacity
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.14
+    type: gauge
+    help: When the utility power restores, the UPS will start to recharge until the
+      specified battery capacity in percentage is met before restoring output power
+      - 1.3.6.1.4.1.3808.1.1.1.5.2.14
+  - name: upsAdvanceConfigColdStart
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.15
+    type: gauge
+    help: Set the ability of the UPS can start in the absence of input power.When
+      this option is enabled the UPS can be turned on without having input power.
+      - 1.3.6.1.4.1.3808.1.1.1.5.2.15
+    enum_values:
+      1: disable
+      2: enable
+  - name: upsAdvanceConfigDeepDischargeProtection
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.16
+    type: gauge
+    help: When the UPS is on Battery Mode with 0% load and the status remains for
+      the time configured,the RMCARD will enforce the UPS to Sleep Mode and the output
+      will be turned off - 1.3.6.1.4.1.3808.1.1.1.5.2.16
+  - name: upsAdvanceConfigSleepAfterAllClientShut
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.17
+    type: gauge
+    help: If this option is enabled, UPS will enter sleep mode after utility power
+      failed and remaining MSDT+2 minutes.More information about MSDT please reference
+      to help page of UPS - > PowerPanel List. - 1.3.6.1.4.1.3808.1.1.1.5.2.17
+    enum_values:
+      1: disable
+      2: enable
+  - name: upsAdvanceConfigLowBatteryThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.18
+    type: gauge
+    help: When the UPS supplies battery power and the remaining capacity is lower
+      than this threshold, the UPS will sound an alarm - 1.3.6.1.4.1.3808.1.1.1.5.2.18
+  - name: upsAdvanceConfigEnergyReset
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.2.19
+    type: gauge
+    help: Setting this OID to reset (2) will cause the output energy meter value to
+      be reset to zero - 1.3.6.1.4.1.3808.1.1.1.5.2.19
+    enum_values:
+      1: noOperation
+      2: reset
+  - name: upsBaseControlConserveBattery
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.1.1
+    type: gauge
+    help: UPS on battery will enter sleeping when the variable is set to turnOffUpsToConserveBattery(2)
+      - 1.3.6.1.4.1.3808.1.1.1.6.1.1
+    enum_values:
+      1: noTurnOffUps
+      2: turnOffUpsToConserveBattery
+  - name: upsAdvanceControlUpsOff
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.2.1
+    type: gauge
+    help: UPS will shutdown when the variable is set to turnUpsOff(2) - 1.3.6.1.4.1.3808.1.1.1.6.2.1
+    enum_values:
+      1: noTurnUpsOff
+      2: turnUpsOff
+      3: turnUpsOffGracefully
+  - name: upsAdvanceControlRebootUps
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.2.2
+    type: gauge
+    help: UPS will shutdown and turn back on when the variable is set to rebootUps(2)
+      - 1.3.6.1.4.1.3808.1.1.1.6.2.2
+    enum_values:
+      1: noRebootUps
+      2: rebootUps
+  - name: upsAdvanceControlUpsSleep
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.2.3
+    type: gauge
+    help: UPS will enter sleep mode when the variable is set to putUpsToSleep(2) -
+      1.3.6.1.4.1.3808.1.1.1.6.2.3
+    enum_values:
+      1: noPutUpsToSleep
+      2: putUpsToSleep
+      3: putUpsToSleepGracefully
+  - name: upsAdvanceControlSimulatePowerFail
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.2.4
+    type: gauge
+    help: UPS will transfer to backup mode when the variable is set to simulatePowerFailure(2)
+      - 1.3.6.1.4.1.3808.1.1.1.6.2.4
+    enum_values:
+      1: noSimulatePowerFailure
+      2: simulatePowerFailure
+  - name: upsAdvanceControlFlashAndBeep
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.2.5
+    type: gauge
+    help: UPS will beep and simultaneously turn on the panel lights when the variable
+      is set to flashAndBeep(2) - 1.3.6.1.4.1.3808.1.1.1.6.2.5
+    enum_values:
+      1: noFlashAndBeep
+      2: flashAndBeep
+  - name: upsAdvanceControlTurnOnUPS
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.2.6
+    type: gauge
+    help: UPS will turned on immediately when the variable is set to turnOnUPS(2)
+      - 1.3.6.1.4.1.3808.1.1.1.6.2.6
+    enum_values:
+      1: noTurnOnUPS
+      2: turnOnUPS
+  - name: upsAdvanceSleepAfterDelay
+    oid: 1.3.6.1.4.1.3808.1.1.1.6.2.7
+    type: gauge
+    help: UPS will enter sleep mode after indicated number of seconds, or less if
+      the UPS batteries become depleted - 1.3.6.1.4.1.3808.1.1.1.6.2.7
+  - name: upsAdvanceTestDiagnosticSchedule
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.1
+    type: gauge
+    help: The schedule of the UPS automatic selftest. - 1.3.6.1.4.1.3808.1.1.1.7.2.1
+    enum_values:
+      1: unknown
+      2: biweekly
+      3: weekly
+      4: atTurnOn
+      5: never
+  - name: upsAdvanceTestDiagnostics
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.2
+    type: gauge
+    help: UPS will do a diagnostic selftest when the variable is set to testDiagnostics(2)
+      - 1.3.6.1.4.1.3808.1.1.1.7.2.2
+    enum_values:
+      1: noTestDiagnostics
+      2: testDiagnostics
+  - name: upsAdvanceTestDiagnosticsResults
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.3
+    type: gauge
+    help: The last UPS selftest result. - 1.3.6.1.4.1.3808.1.1.1.7.2.3
+    enum_values:
+      1: ok
+      2: failed
+      3: invalidTest
+      4: testInProgress
+  - name: upsAdvanceTestLastDiagnosticsDate
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.4
+    type: DisplayString
+    help: The last UPS selftest date in mm/dd/yy format. - 1.3.6.1.4.1.3808.1.1.1.7.2.4
+  - name: upsAdvanceTestIndicators
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.5
+    type: gauge
+    help: UPS will perform a panel indicator test when the variable is set to testIndicators(2)
+      - 1.3.6.1.4.1.3808.1.1.1.7.2.5
+    enum_values:
+      1: noTestIndicators
+      2: testIndicators
+  - name: upsAdvanceTestRuntimeEstimation
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.6
+    type: gauge
+    help: UPS will discharge to calibrate the UPS runtime when the variable is set
+      to performEstimation(2) - 1.3.6.1.4.1.3808.1.1.1.7.2.6
+    enum_values:
+      1: noPerformEstimation
+      2: performEstimation
+      3: cancelCurrentEstimation
+  - name: upsAdvanceTestEstimationResults
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.7
+    type: gauge
+    help: The last runtime estimation result - 1.3.6.1.4.1.3808.1.1.1.7.2.7
+    enum_values:
+      1: ok
+      2: invalidEstimation
+      3: estimationInProgress
+  - name: upsAdvanceTestEstimationDate
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.8
+    type: DisplayString
+    help: The last UPS runtime estimation date - 1.3.6.1.4.1.3808.1.1.1.7.2.8
+  - name: upsBankControlIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.1.1.1.1
+    type: gauge
+    help: The index to the outlet entry. - 1.3.6.1.4.1.3808.1.1.1.8.1.1.1.1
+    indexes:
+    - labelname: upsBankControlIndex
+      type: gauge
+  - name: upsBankControlOutletCommand
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.1.1.1.2
+    type: gauge
+    help: Getting this variable will return the outlet bank state - 1.3.6.1.4.1.3808.1.1.1.8.1.1.1.2
+    indexes:
+    - labelname: upsBankControlIndex
+      type: gauge
+    enum_values:
+      1: immediateOn
+      2: immediateOff
+      3: bankNotExist
+      4: criticalBank
+  - name: upsIndividualOutletTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.1
+    type: gauge
+    help: The number of switched outlets - 1.3.6.1.4.1.3808.1.1.1.8.2.1
+  - name: upsIndividualOutletConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.1
+    type: gauge
+    help: The index to the switched outlet configuration table entry. - 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.1
+    indexes:
+    - labelname: upsIndividualOutletConfigIndex
+      type: gauge
+  - name: upsIndividualOutletConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.2
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.2
+    indexes:
+    - labelname: upsIndividualOutletConfigIndex
+      type: gauge
+  - name: upsIndividualOutletConfigPowerOnTime
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.3
+    type: gauge
+    help: The amount of time (in seconds) the outlet will delay powering on at coldstart
+      or when a command that requires a turn-on delay is issued - 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.3
+    indexes:
+    - labelname: upsIndividualOutletConfigIndex
+      type: gauge
+  - name: upsIndividualOutletConfigPowerOffTime
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.4
+    type: gauge
+    help: The amount of time (in seconds) the outlet will delay powering off when
+      a command that requires a turn-off delay is issued - 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.4
+    indexes:
+    - labelname: upsIndividualOutletConfigIndex
+      type: gauge
+  - name: upsIndividualOutletConfigRebootDuration
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.5
+    type: gauge
+    help: During a reboot sequence, power is turned off and then back on - 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.5
+    indexes:
+    - labelname: upsIndividualOutletConfigIndex
+      type: gauge
+  - name: upsIndividualOutletInfoIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.1
+    type: gauge
+    help: The index to the switched outlet information table entry. - 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.1
+    indexes:
+    - labelname: upsIndividualOutletInfoIndex
+      type: gauge
+  - name: upsIndividualOutletInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.2
+    type: DisplayString
+    help: The numeric switched outlet name. - 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.2
+    indexes:
+    - labelname: upsIndividualOutletInfoIndex
+      type: gauge
+  - name: upsIndividualOutletInfoBank
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.3
+    type: gauge
+    help: The numeric bank ID. - 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.3
+    indexes:
+    - labelname: upsIndividualOutletInfoIndex
+      type: gauge
+  - name: upsIndividualOutletStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.1
+    type: gauge
+    help: The index to the switched outlet status information table entry. - 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.1
+    indexes:
+    - labelname: upsIndividualOutletStatusIndex
+      type: gauge
+  - name: upsIndividualOutletStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.2
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.2
+    indexes:
+    - labelname: upsIndividualOutletStatusIndex
+      type: gauge
+  - name: upsIndividualOutletStatusState
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.3
+    type: gauge
+    help: Indicates the present switch state of the switched outlet being queried.
+      - 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.3
+    indexes:
+    - labelname: upsIndividualOutletStatusIndex
+      type: gauge
+    enum_values:
+      1: outletStatusOn
+      2: outletStatusOff
+  - name: upsIndividualOutletStatusCommandPending
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.4
+    type: gauge
+    help: Getting this variable will return the command pending state of the outlet
+      - 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.4
+    indexes:
+    - labelname: upsIndividualOutletStatusIndex
+      type: gauge
+    enum_values:
+      1: outletStatusCommandPending
+      2: outletStatusNoCommandPending
+  - name: upsIndividualOutletControlIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.1
+    type: gauge
+    help: The index to the switched outlet control data table entry. - 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.1
+    indexes:
+    - labelname: upsIndividualOutletControlIndex
+      type: gauge
+  - name: upsIndividualOutletControlName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.2
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.2
+    indexes:
+    - labelname: upsIndividualOutletControlIndex
+      type: gauge
+  - name: upsIndividualOutletControlCommand
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.3
+    type: gauge
+    help: Getting this variable will return the outlet state - 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.3
+    indexes:
+    - labelname: upsIndividualOutletControlIndex
+      type: gauge
+    enum_values:
+      1: immediateOn
+      2: immediateOff
+      3: immediateReboot
+      4: delayedOn
+      5: delayedOff
+      6: delayedReboot
+      7: cancelPendingCommand
+  - name: upsPhaseInputTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.1.1
+    type: gauge
+    help: Getting this OID will return the phase number. - 1.3.6.1.4.1.3808.1.1.1.9.1.1
+  - name: upsPhaseInputTableIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.1
+    type: gauge
+    help: The index to the UPS Phase Input entry. - 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.1
+    indexes:
+    - labelname: upsPhaseInputTableIndex
+      type: gauge
+  - name: upsPhaseInputVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.2
+    type: gauge
+    help: Getting this OID will return the input voltage that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.2
+    indexes:
+    - labelname: upsPhaseInputTableIndex
+      type: gauge
+  - name: upsPhaseInputCurrent
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.3
+    type: gauge
+    help: Getting this OID will return the input current that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.3
+    indexes:
+    - labelname: upsPhaseInputTableIndex
+      type: gauge
+  - name: upsPhaseInputFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.4
+    type: gauge
+    help: Getting this OID will return the input frequency that each phase of the
+      UPS can provide - 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.4
+    indexes:
+    - labelname: upsPhaseInputTableIndex
+      type: gauge
+  - name: upsPhaseInputPowerFactor
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.5
+    type: gauge
+    help: Getting this OID will return the input power factor that each phase of the
+      UPS can provide - 1.3.6.1.4.1.3808.1.1.1.9.1.2.1.5
+    indexes:
+    - labelname: upsPhaseInputTableIndex
+      type: gauge
+  - name: upsPhaseOutputTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.2.1
+    type: gauge
+    help: Getting this OID will return the Phase number. - 1.3.6.1.4.1.3808.1.1.1.9.2.1
+  - name: upsPhaseOutputTableIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.1
+    type: gauge
+    help: The index to the UPS Phase Output entry. - 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.1
+    indexes:
+    - labelname: upsPhaseOutputTableIndex
+      type: gauge
+  - name: upsPhaseOutputVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.2
+    type: gauge
+    help: Getting this OID will return the output voltage that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.2
+    indexes:
+    - labelname: upsPhaseOutputTableIndex
+      type: gauge
+  - name: upsPhaseOutputCurrent
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.3
+    type: gauge
+    help: Getting this OID will return the output current that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.3
+    indexes:
+    - labelname: upsPhaseOutputTableIndex
+      type: gauge
+  - name: upsPhaseOutputFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.4
+    type: gauge
+    help: Getting this OID will return the output frequency that each phase of the
+      UPS can provide - 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.4
+    indexes:
+    - labelname: upsPhaseOutputTableIndex
+      type: gauge
+  - name: upsPhaseOutputPowerFactor
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.5
+    type: gauge
+    help: Getting this OID will return the output power factor that each phase of
+      the UPS can provide - 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.5
+    indexes:
+    - labelname: upsPhaseOutputTableIndex
+      type: gauge
+  - name: upsPhaseOutputPower
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.6
+    type: gauge
+    help: Getting this OID will return the output power that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.9.2.2.1.6
+    indexes:
+    - labelname: upsPhaseOutputTableIndex
+      type: gauge
+  - name: upsPhaseBypassTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.3.1
+    type: gauge
+    help: Getting this OID will return the Phase number. - 1.3.6.1.4.1.3808.1.1.1.9.3.1
+  - name: upsPhaseBypassTableIndex
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.1
+    type: gauge
+    help: The index to the UPS Phase Bypass entry. - 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.1
+    indexes:
+    - labelname: upsPhaseBypassTableIndex
+      type: gauge
+  - name: upsPhaseBypassVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.2
+    type: gauge
+    help: Getting this OID will return the bypass voltage that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.2
+    indexes:
+    - labelname: upsPhaseBypassTableIndex
+      type: gauge
+  - name: upsPhaseBypassCurrent
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.3
+    type: gauge
+    help: Getting this OID will return the bypass current that each phase of the UPS
+      can provide - 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.3
+    indexes:
+    - labelname: upsPhaseBypassTableIndex
+      type: gauge
+  - name: upsPhaseBypassFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.4
+    type: gauge
+    help: Getting this OID will return the bypass frequency that each phase of the
+      UPS can provide - 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.4
+    indexes:
+    - labelname: upsPhaseBypassTableIndex
+      type: gauge
+  - name: upsPhaseBypassPowerFactor
+    oid: 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.5
+    type: gauge
+    help: Getting this OID will return the bypass power factor that each phase of
+      the UPS can provide - 1.3.6.1.4.1.3808.1.1.1.9.3.2.1.5
+    indexes:
+    - labelname: upsPhaseBypassTableIndex
+      type: gauge
+  - name: upsStatus
+    oid: 1.3.6.1.4.1.3808.1.1.1.10.1
+    type: gauge
+    help: The UPS system status. - 1.3.6.1.4.1.3808.1.1.1.10.1
+    enum_values:
+      1: normal
+      2: overheat
+      3: hardwarefault
+  - name: upsTemperature
+    oid: 1.3.6.1.4.1.3808.1.1.1.10.2
+    type: gauge
+    help: The UPS NTC temperature expressed in Celsius. - 1.3.6.1.4.1.3808.1.1.1.10.2
+  - name: envirIdentName
+    oid: 1.3.6.1.4.1.3808.1.1.4.1.1
+    type: DisplayString
+    help: The name of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.1.1
+  - name: envirIdentLocation
+    oid: 1.3.6.1.4.1.3808.1.1.4.1.2
+    type: DisplayString
+    help: The location of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.1.2
+  - name: envirTemperature
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.1
+    type: gauge
+    help: The environment temperature expressed in 1/10 Fahrenheit - 1.3.6.1.4.1.3808.1.1.4.2.1
+  - name: envirTempHighThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.2
+    type: gauge
+    help: The high temperature threshold of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.2.2
+  - name: envirTempLowThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.3
+    type: gauge
+    help: The low temperature threshold of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.2.3
+  - name: envirTempRateOfChange
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.4
+    type: gauge
+    help: The rate of change of the temperature - 1.3.6.1.4.1.3808.1.1.4.2.4
+  - name: envirTempHysteresis
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.5
+    type: gauge
+    help: The number of degrees beyond the temperature thresholds at which an active
+      temperature alarm will be cleared - 1.3.6.1.4.1.3808.1.1.4.2.5
+  - name: envirTemperatureCelsius
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.6
+    type: gauge
+    help: The environment temperature expressed in 1/10 Celsius - 1.3.6.1.4.1.3808.1.1.4.2.6
+  - name: envirTempCelsiusHighThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.7
+    type: gauge
+    help: The high temperature threshold of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.2.7
+  - name: envirTempCelsiusLowThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.8
+    type: gauge
+    help: The low temperature threshold of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.2.8
+  - name: envirTempCelsiusRateOfChange
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.9
+    type: gauge
+    help: The rate of change of the temperature - 1.3.6.1.4.1.3808.1.1.4.2.9
+  - name: envirTempCelsiusHysteresis
+    oid: 1.3.6.1.4.1.3808.1.1.4.2.10
+    type: gauge
+    help: The number of degrees beyond the temperature thresholds at which an active
+      temperature alarm will be cleared - 1.3.6.1.4.1.3808.1.1.4.2.10
+  - name: envirHumidity
+    oid: 1.3.6.1.4.1.3808.1.1.4.3.1
+    type: gauge
+    help: The environment relative humidity expressed in persentage. - 1.3.6.1.4.1.3808.1.1.4.3.1
+  - name: envirHumidHighThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.4.3.2
+    type: gauge
+    help: The high relative humidity threshold of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.3.2
+  - name: envirHumidLowThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.4.3.3
+    type: gauge
+    help: The low relative humidity threshold of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.3.3
+  - name: envirHumidRateOfChange
+    oid: 1.3.6.1.4.1.3808.1.1.4.3.4
+    type: gauge
+    help: The rate of change of the relative humidity - 1.3.6.1.4.1.3808.1.1.4.3.4
+  - name: envirHumidHysteresis
+    oid: 1.3.6.1.4.1.3808.1.1.4.3.5
+    type: gauge
+    help: The number of degrees beyond the relative humidity thresholds at which an
+      active relative humidity alarm will be cleared - 1.3.6.1.4.1.3808.1.1.4.3.5
+  - name: envirContactTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.4.4.1
+    type: gauge
+    help: The number of the contact in the environment sensor. - 1.3.6.1.4.1.3808.1.1.4.4.1
+  - name: envirContactIndex
+    oid: 1.3.6.1.4.1.3808.1.1.4.4.2.1.1
+    type: gauge
+    help: The index to the contact of the environment sensor. - 1.3.6.1.4.1.3808.1.1.4.4.2.1.1
+    indexes:
+    - labelname: envirContactIndex
+      type: gauge
+  - name: envirContactName
+    oid: 1.3.6.1.4.1.3808.1.1.4.4.2.1.2
+    type: DisplayString
+    help: Getting or setting the name of the contact of the environment sensor. -
+      1.3.6.1.4.1.3808.1.1.4.4.2.1.2
+    indexes:
+    - labelname: envirContactIndex
+      type: gauge
+  - name: envirContactStatus
+    oid: 1.3.6.1.4.1.3808.1.1.4.4.2.1.3
+    type: gauge
+    help: Getting this OID will return the Contact Status. - 1.3.6.1.4.1.3808.1.1.4.4.2.1.3
+    indexes:
+    - labelname: envirContactIndex
+      type: gauge
+    enum_values:
+      1: contactNormal
+      2: contactAbnormal
+  - name: envirContactNormalState
+    oid: 1.3.6.1.4.1.3808.1.1.4.4.2.1.4
+    type: gauge
+    help: Set the contact normal state. - 1.3.6.1.4.1.3808.1.1.4.4.2.1.4
+    indexes:
+    - labelname: envirContactIndex
+      type: gauge
+    enum_values:
+      1: normalOpen
+      2: normalClose
+  - name: ePDU2Role
+    oid: 1.3.6.1.4.1.3808.1.1.6.1
+    type: gauge
+    help: Get this oid shows the role the PDU played on Daisy Chain Group - 1.3.6.1.4.1.3808.1.1.6.1
+    enum_values:
+      1: standalone
+      2: host
+      3: slave
+  - name: ePDU2IdentTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.1
+    type: gauge
+    help: PDU as a Host response total PDU ident number on daisy chain - 1.3.6.1.4.1.3808.1.1.6.2.1
+  - name: ePDU2IdentIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.1
+    type: gauge
+    help: The index to the Rack PDU identification table entry. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.1
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.2
+    type: gauge
+    help: The Rack PDU identification table entry numeric ID. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.2
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentName
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.3
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentLocation
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.4
+    type: DisplayString
+    help: A user-defined string identifying the location of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.4
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentContact
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.5
+    type: DisplayString
+    help: A user-defined string identifying the person to contact of the Rack PDU.
+      - 1.3.6.1.4.1.3808.1.1.6.2.2.1.5
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentHardwareRev
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.6
+    type: DisplayString
+    help: The Rack PDU hardware version. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.6
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentFirmwareRev
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.7
+    type: DisplayString
+    help: The Rack PDU firmware version. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.7
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentDateOfManufacture
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.8
+    type: DisplayString
+    help: The date the Rack PDU was manufactured in mm/dd/yyyy format. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.8
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentModelName
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.9
+    type: DisplayString
+    help: The Rack PDU model number. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.9
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentSerialNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.10
+    type: DisplayString
+    help: The Rack PDU serial number. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.10
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentIndicator
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.11
+    type: gauge
+    help: PDU will perform a panel indicator test when the variable is set to testIndicators(2)
+      - 1.3.6.1.4.1.3808.1.1.6.2.2.1.11
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+    enum_values:
+      1: noTestIndicators
+      2: testIndicators
+  - name: ePDU2DeviceTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.1
+    type: gauge
+    help: A Host Rack PDU response total number of Rack PDUs on daisy chain - 1.3.6.1.4.1.3808.1.1.6.3.1
+  - name: ePDU2DeviceConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.1
+    type: gauge
+    help: The index to the Rack PDU table entry. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.1
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.2
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.3
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigLocation
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.4
+    type: DisplayString
+    help: A user-defined string identifying the location of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.4
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigContact
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.5
+    type: DisplayString
+    help: A user-defined string identifying the person to contact of the Rack PDU.
+      - 1.3.6.1.4.1.3808.1.1.6.3.2.1.5
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigDisplayOrientation
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.6
+    type: gauge
+    help: Getting this OID will return the intended physical orientation of the Seven-Segment
+      Display - 1.3.6.1.4.1.3808.1.1.6.3.2.1.6
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+    enum_values:
+      1: displayNormal
+      2: displayReverse
+      3: displayRotate90
+      4: displayRotate270
+      5: displayAuto
+  - name: ePDU2DeviceConfigColdstartDelay
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.7
+    type: gauge
+    help: The amount of delay, measured in seconds, between when power is provided
+      to the Rack PDU and when the Rack PDU provides basic master power to the outlets
+      - 1.3.6.1.4.1.3808.1.1.6.3.2.1.7
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigCurrentLowLoadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.8
+    type: gauge
+    help: User-defined low current draw alarm threshold, measured in Amps. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.8
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigCurrentNearOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.9
+    type: gauge
+    help: User-defined near overload current threshold, measured in Amps. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.9
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigCurrentOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.10
+    type: gauge
+    help: User-defined current overload threshold, measured in Amps. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.10
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigPeakLoadReset
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.11
+    type: gauge
+    help: Setting this OID to resetAll (2) will cause the existing peak current value
+      of Rack PDU and its outlets to be replaced by the current load current value
+      - 1.3.6.1.4.1.3808.1.1.6.3.2.1.11
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+    enum_values:
+      1: noOperation
+      2: resetAll
+      3: resetDevice
+      4: resetOutlets
+  - name: ePDU2DeviceConfigEnergyReset
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.12
+    type: gauge
+    help: Setting this OID to resetAll (2) will cause the device energy meter value
+      to be reset to zero - 1.3.6.1.4.1.3808.1.1.6.3.2.1.12
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+    enum_values:
+      1: noOperation
+      2: resetAll
+      3: resetDevice
+      4: resetOutlets
+  - name: ePDU2DeviceConfigPowerLowLoadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.13
+    type: gauge
+    help: User-defined low power draw alarm threshold, measured in Watts. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.13
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigPowerNearOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.14
+    type: gauge
+    help: User-defined near overload power threshold, measured in Watts. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.14
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigPowerOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.15
+    type: gauge
+    help: User-defined power overload threshold, measured in Watts. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.15
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceInfoIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.1
+    type: gauge
+    help: The index to the Rack PDU Information table entry. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.1
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.2
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.3
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoRating
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.4
+    type: gauge
+    help: The electrical rating of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.4
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoNumOutlets
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.5
+    type: gauge
+    help: The number of outlets on the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.5
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoSwitchedOutlets
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.6
+    type: gauge
+    help: The number of switched outlets on the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.6
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoMeteredOutlets
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.7
+    type: gauge
+    help: The number of metered outlets on the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.7
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoNumPhases
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.8
+    type: gauge
+    help: The number of phases present in the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.8
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoNumBreakers
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.9
+    type: gauge
+    help: The number of metered banks present in the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.9
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoBreakerRating
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.10
+    type: gauge
+    help: The maximum current rating, measured in Amps, for the Rack PDU - 1.3.6.1.4.1.3808.1.1.6.3.3.1.10
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceInfoOrientation
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.11
+    type: gauge
+    help: Rack PDU orientation. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.11
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+    enum_values:
+      1: orientHorizontal
+      2: orientVertical
+  - name: ePDU2DeviceInfoOutletLayout
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.12
+    type: gauge
+    help: Getting this OID will return outlet layout for the device - 1.3.6.1.4.1.3808.1.1.6.3.3.1.12
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+    enum_values:
+      1: seqPhaseToNeutral
+      2: seqPhaseToPhase
+      3: seqOther
+  - name: ePDU2DeviceInfoPowerLimit
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.13
+    type: gauge
+    help: The maximum power limit, measured in Watt, for the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.13
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
+  - name: ePDU2DeviceStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.1
+    type: gauge
+    help: The index to the Rack PDU status table entry. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.1
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.2
+    type: gauge
+    help: The Rack PDU numeric ID - 1.3.6.1.4.1.3808.1.1.6.3.4.1.2
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.3
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusLoadState
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.4
+    type: gauge
+    help: Indicates the present load status of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.4
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: noLoadAlarm
+      2: underCurrentAlarm
+      3: nearOverCurrentAlarm
+      4: overCurrentAlarm
+  - name: ePDU2DeviceStatusCurrentLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.5
+    type: gauge
+    help: The power consumption of the Rack PDU load in tenths of Amps. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.5
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusCurrentPeakLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.6
+    type: gauge
+    help: The peak power consumption of the Rack PDU load in tenths of Amps. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.6
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusPeakLoadTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.7
+    type: DisplayString
+    help: Indicates the date and time that peak load occurred. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.7
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusPeakLoadStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.8
+    type: DisplayString
+    help: Indicates the date and time of the last device peak load reset. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.8
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusEnergy
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.9
+    type: gauge
+    help: A user resettable energy meter measuring Rack PDU load energy consumption
+      in tenths of kilowatt-hours. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.9
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusEnergyStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.10
+    type: DisplayString
+    help: Indicates the date and time of the last device energy meter reset. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.10
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusCommandPending
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.11
+    type: gauge
+    help: Indicates whether or not the device is processing a pending command. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.11
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: commandPending
+      2: noCommandPending
+  - name: ePDU2DeviceStatusPowerSupplyAlarm
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.12
+    type: gauge
+    help: Indicates a power supply alarm is active when value equals alarm (2). -
+      1.3.6.1.4.1.3808.1.1.6.3.4.1.12
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: alarm
+  - name: ePDU2DeviceStatusPowerSupply1Status
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.13
+    type: gauge
+    help: Indicates whether or not an alarm is active in Power Supply 1. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.13
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: alarm
+  - name: ePDU2DeviceStatusPowerSupply2Status
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.14
+    type: gauge
+    help: Indicates whether or not an alarm is active in Power Supply 2. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.14
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: alarm
+  - name: ePDU2DeviceStatusApparentPower
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.15
+    type: gauge
+    help: The apparent power consumption of the Rack PDU load in VoltAmps (VA). -
+      1.3.6.1.4.1.3808.1.1.6.3.4.1.15
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusPowerFactor
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.16
+    type: gauge
+    help: The power factor of the Rack PDU load in hundredths. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.16
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusRoleType
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.17
+    type: gauge
+    help: Get this oid shows the role the PDU played on Daisy Chain Group - 1.3.6.1.4.1.3808.1.1.6.3.4.1.17
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+    enum_values:
+      1: standalone
+      2: host
+      3: slave
+  - name: ePDU2DeviceStatusPowerLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.18
+    type: gauge
+    help: The power consumption of the Rack PDU load in Watts. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.18
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusPowerPeakLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.19
+    type: gauge
+    help: The peak power consumption of the Rack PDU load in Watts. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.19
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceControlIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.5.1.1
+    type: gauge
+    help: The index to the Rack PDU control table entry. - 1.3.6.1.4.1.3808.1.1.6.3.5.1.1
+    indexes:
+    - labelname: ePDU2DeviceControlIndex
+      type: gauge
+  - name: ePDU2DeviceControlModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.5.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.3.5.1.2
+    indexes:
+    - labelname: ePDU2DeviceControlIndex
+      type: gauge
+  - name: ePDU2DeviceControlName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.5.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.5.1.3
+    indexes:
+    - labelname: ePDU2DeviceControlIndex
+      type: gauge
+  - name: ePDU2DeviceControlCommand
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.5.1.4
+    type: gauge
+    help: Setting this OID to immediateAllOn (1) will turn all outlets on immediately
+      - 1.3.6.1.4.1.3808.1.1.6.3.5.1.4
+    indexes:
+    - labelname: ePDU2DeviceControlIndex
+      type: gauge
+    enum_values:
+      1: immediateAllOn
+      2: immediateAllOff
+      3: immediateAllReboot
+      4: delayedAllOn
+      5: delayedAllOff
+      6: delayedAllReboot
+      7: cancelAllPendingCommand
+      8: noCommand
+  - name: ePDU2PhaseTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.1
+    type: gauge
+    help: A Host Rack PDU response total phase number of Rack PDUs on daisy chain
+      - 1.3.6.1.4.1.3808.1.1.6.4.1
+  - name: ePDU2PhaseConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.1
+    type: gauge
+    help: The index to the Rack PDU phase configuration table entry. - 1.3.6.1.4.1.3808.1.1.6.4.2.1.1
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+  - name: ePDU2PhaseConfigModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.4.2.1.2
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+  - name: ePDU2PhaseConfigNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.3
+    type: gauge
+    help: The numeric phase ID. - 1.3.6.1.4.1.3808.1.1.6.4.2.1.3
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+  - name: ePDU2PhaseConfigOverloadRestriction
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.4
+    type: gauge
+    help: This OID controls the behavior of a Switched Rack PDU phase when an overload
+      condition is possible and additional outlets are requested to be turned on -
+      1.3.6.1.4.1.3808.1.1.6.4.2.1.4
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+    enum_values:
+      -1: notSupported
+      1: alwaysAllowTurnON
+      2: restrictOnNearOverload
+      3: restrictOnOverload
+  - name: ePDU2PhaseConfigLowLoadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.5
+    type: gauge
+    help: User-defined low load phase current threshold in Amps. - 1.3.6.1.4.1.3808.1.1.6.4.2.1.5
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+  - name: ePDU2PhaseConfigNearOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.6
+    type: gauge
+    help: User-defined near phase overload current warning threshold in Amps. - 1.3.6.1.4.1.3808.1.1.6.4.2.1.6
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+  - name: ePDU2PhaseConfigOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.7
+    type: gauge
+    help: User-defined phase overload current threshold in Amps - 1.3.6.1.4.1.3808.1.1.6.4.2.1.7
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+  - name: ePDU2PhaseConfigPhasePeakLoadReset
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.2.1.8
+    type: gauge
+    help: Setting this OID to reset (2) will cause the existing peak current value
+      to be replaced by the present load current value - 1.3.6.1.4.1.3808.1.1.6.4.2.1.8
+    indexes:
+    - labelname: ePDU2PhaseConfigIndex
+      type: gauge
+    enum_values:
+      1: noOperation
+      2: reset
+  - name: ePDU2PhaseStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.1
+    type: gauge
+    help: The index to the Rack PDU phase status table entry. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.1
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.2
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.3
+    type: gauge
+    help: The numeric phase ID. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.3
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusLoadState
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.4
+    type: gauge
+    help: Indicates the present load status of the Rack PDU phase being queried. -
+      1.3.6.1.4.1.3808.1.1.6.4.4.1.4
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: lowLoad
+      3: nearOverload
+      4: overload
+  - name: ePDU2PhaseStatusLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.5
+    type: gauge
+    help: Indicates the current draw, in tenths of Amps, of the load on the Rack PDU
+      phase being queried. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.5
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.6
+    type: gauge
+    help: Indicates the Voltage, in tenths of Volts, of the Rack PDU phase being queried.
+      - 1.3.6.1.4.1.3808.1.1.6.4.4.1.6
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusPower
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.7
+    type: gauge
+    help: Indicates the load power, in watts, consumed on the Rack PDU phase being
+      queried - 1.3.6.1.4.1.3808.1.1.6.4.4.1.7
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusApparentPower
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.8
+    type: gauge
+    help: Indicates the load apparent power, in VoltAmps (VA), consumed on the Rack
+      PDU phase being queried - 1.3.6.1.4.1.3808.1.1.6.4.4.1.8
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusPowerFactor
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.9
+    type: gauge
+    help: Indicates the load power factor, in hundredths, of the Rack PDU phase being
+      queried - 1.3.6.1.4.1.3808.1.1.6.4.4.1.9
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusPeakLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.10
+    type: gauge
+    help: The peak current of the Rack PDU phase load in tenths of Amps - 1.3.6.1.4.1.3808.1.1.6.4.4.1.10
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusPeakLoadTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.11
+    type: DisplayString
+    help: Indicates the date and time the phase peak current occurred. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.11
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusPeakLoadStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.12
+    type: DisplayString
+    help: Indicates the date and time of the last phase peak current reset. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.12
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusLineToLineVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.13
+    type: gauge
+    help: Indicates the Line to Line Voltage, in tenths of Volts, of the Rack PDU
+      phase being queried - 1.3.6.1.4.1.3808.1.1.6.4.4.1.13
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2BankTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.1
+    type: gauge
+    help: A Host Rack PDU response total bank number of Rack PDUs on daisy chain -
+      1.3.6.1.4.1.3808.1.1.6.5.1
+  - name: ePDU2BankConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.1
+    type: gauge
+    help: The index to the Rack PDU bank configuration table entry. - 1.3.6.1.4.1.3808.1.1.6.5.2.1.1
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+  - name: ePDU2BankConfigModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.5.2.1.2
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+  - name: ePDU2BankConfigNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.3
+    type: gauge
+    help: The numeric bank ID. - 1.3.6.1.4.1.3808.1.1.6.5.2.1.3
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+  - name: ePDU2BankConfigOverloadRestriction
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.4
+    type: gauge
+    help: This OID controls the behavior of a Switched Rack PDU bank when an overload
+      condition is possible and additional outlets are requested to be turned on -
+      1.3.6.1.4.1.3808.1.1.6.5.2.1.4
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+    enum_values:
+      1: alwaysAllowTurnON
+      2: restrictOnNearOverload
+      3: restrictOnOverload
+  - name: ePDU2BankConfigLowLoadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.5
+    type: gauge
+    help: User-defined low load bank current threshold in Amps. - 1.3.6.1.4.1.3808.1.1.6.5.2.1.5
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+  - name: ePDU2BankConfigNearOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.6
+    type: gauge
+    help: User-defined near bank overload current warning threshold in Amps. - 1.3.6.1.4.1.3808.1.1.6.5.2.1.6
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+  - name: ePDU2BankConfigOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.7
+    type: gauge
+    help: User-defined bank overload current threshold in Amps - 1.3.6.1.4.1.3808.1.1.6.5.2.1.7
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+  - name: ePDU2BankConfigPeakLoadReset
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.2.1.8
+    type: gauge
+    help: Setting this OID to reset (2) will cause the existing peak current value
+      to be replaced by the present load current value - 1.3.6.1.4.1.3808.1.1.6.5.2.1.8
+    indexes:
+    - labelname: ePDU2BankConfigIndex
+      type: gauge
+    enum_values:
+      1: noOperation
+      2: reset
+  - name: ePDU2BankInfoIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.3.1.1
+    type: gauge
+    help: The index to the Rack PDU bank properties table entry. - 1.3.6.1.4.1.3808.1.1.6.5.3.1.1
+    indexes:
+    - labelname: ePDU2BankInfoIndex
+      type: gauge
+  - name: ePDU2BankInfoModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.3.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.5.3.1.2
+    indexes:
+    - labelname: ePDU2BankInfoIndex
+      type: gauge
+  - name: ePDU2BankInfoNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.3.1.3
+    type: gauge
+    help: The numeric bank ID. - 1.3.6.1.4.1.3808.1.1.6.5.3.1.3
+    indexes:
+    - labelname: ePDU2BankInfoIndex
+      type: gauge
+  - name: ePDU2BankStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.1
+    type: gauge
+    help: The index to the Rack PDU bank status table entry. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.1
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2BankStatusModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.2
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2BankStatusNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.3
+    type: gauge
+    help: The numeric bank ID. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.3
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2BankStatusLoadState
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.4
+    type: gauge
+    help: Indicates the present load status of the Rack PDU bank being queried. -
+      1.3.6.1.4.1.3808.1.1.6.5.4.1.4
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: lowLoad
+      3: nearOverload
+      4: overload
+  - name: ePDU2BankStatusLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.5
+    type: gauge
+    help: Indicates the current draw, in tenths of Amps, of the load on the Rack PDU
+      bank being queried. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.5
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2BankStatusPeakLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.6
+    type: gauge
+    help: The peak current of the Rack PDU bank load in tenths of Amps. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.6
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2BankStatusPeakLoadTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.7
+    type: DisplayString
+    help: Indicates the date and time the bank peak current occurred. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.7
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2BankStatusPeakLoadStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.8
+    type: DisplayString
+    help: Indicates the date and time of the last bank peak current reset. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.8
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.1
+    type: gauge
+    help: The number of switched outlets on connected Rack PDUs. - 1.3.6.1.4.1.3808.1.1.6.6.1.1
+  - name: ePDU2OutletSwitchedConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.1
+    type: gauge
+    help: The index to the Rack PDU switched outlet configuration table entry. - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.1
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedConfigModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.2
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedConfigNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.3
+    type: gauge
+    help: The numeric switched outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.3
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.4
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.4
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedConfigPowerOnTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.5
+    type: gauge
+    help: The amount of time (in seconds) the outlet will delay powering on at coldstart
+      or when a command that requires a turn-on delay is issued - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.5
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedConfigPowerOffTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.6
+    type: gauge
+    help: The amount of time (in seconds) the outlet will delay powering off when
+      a command that requires a turn-off delay is issued - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.6
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedConfigRebootDuration
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.7
+    type: gauge
+    help: During a reboot sequence, power is turned off and then back on - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.7
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedInfoIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.1
+    type: gauge
+    help: The index to the Rack PDU switched outlet information table entry. - 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.1
+    indexes:
+    - labelname: ePDU2OutletSwitchedInfoIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedInfoModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.2
+    indexes:
+    - labelname: ePDU2OutletSwitchedInfoIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedInfoNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.3
+    type: gauge
+    help: The numeric switched outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.3
+    indexes:
+    - labelname: ePDU2OutletSwitchedInfoIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.4
+    type: DisplayString
+    help: The numeric switched outlet name. - 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.4
+    indexes:
+    - labelname: ePDU2OutletSwitchedInfoIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedInfoPhaseLayout
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.5
+    type: gauge
+    help: 'This OID describes the phase connections of the referenced outlet as follows:
+      seqPhase1ToNeutral(1) indicates that the outlet is wired from Phase 1 to Neutral
+      - 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.5'
+    indexes:
+    - labelname: ePDU2OutletSwitchedInfoIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedInfoBank
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.6
+    type: gauge
+    help: The numeric bank ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.6
+    indexes:
+    - labelname: ePDU2OutletSwitchedInfoIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.1
+    type: gauge
+    help: The index to the Rack PDU switched outlet status information table entry.
+      - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.1
+    indexes:
+    - labelname: ePDU2OutletSwitchedStatusIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedStatusModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.2
+    indexes:
+    - labelname: ePDU2OutletSwitchedStatusIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedStatusNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.3
+    type: gauge
+    help: The numeric switched outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.3
+    indexes:
+    - labelname: ePDU2OutletSwitchedStatusIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.4
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.4
+    indexes:
+    - labelname: ePDU2OutletSwitchedStatusIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedStatusState
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.5
+    type: gauge
+    help: Indicates the present switch state of the Rack PDU switched outlet being
+      queried. - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.5
+    indexes:
+    - labelname: ePDU2OutletSwitchedStatusIndex
+      type: gauge
+    enum_values:
+      1: outletStatusOn
+      2: outletStatusOff
+  - name: ePDU2OutletSwitchedStatusCommandPending
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.6
+    type: gauge
+    help: Getting this variable will return the command pending state of the outlet
+      - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.6
+    indexes:
+    - labelname: ePDU2OutletSwitchedStatusIndex
+      type: gauge
+    enum_values:
+      1: outletStatusCommandPending
+      2: outletStatusNoCommandPending
+  - name: ePDU2OutletSwitchedControlIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.1
+    type: gauge
+    help: The index to the Rack PDU switched outlet control data table entry. - 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.1
+    indexes:
+    - labelname: ePDU2OutletSwitchedControlIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedControlModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.2
+    type: gauge
+    help: The user-defined Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.2
+    indexes:
+    - labelname: ePDU2OutletSwitchedControlIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedControlNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.3
+    type: gauge
+    help: The numeric switched outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.3
+    indexes:
+    - labelname: ePDU2OutletSwitchedControlIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedControlName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.4
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.4
+    indexes:
+    - labelname: ePDU2OutletSwitchedControlIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedControlCommand
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.5
+    type: gauge
+    help: Getting this variable will return the outlet state - 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.5
+    indexes:
+    - labelname: ePDU2OutletSwitchedControlIndex
+      type: gauge
+    enum_values:
+      1: immediateOn
+      2: immediateOff
+      3: immediateReboot
+      4: delayedOn
+      5: delayedOff
+      6: delayedReboot
+      7: cancelPendingCommand
+      8: outletIdentify
+  - name: ePDU2OutletMeteredTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.1
+    type: gauge
+    help: The number of metered outlets on connected Rack PDUs. - 1.3.6.1.4.1.3808.1.1.6.6.2.1
+  - name: ePDU2OutletMeteredConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.1
+    type: gauge
+    help: The index to the Rack PDU metered outlet configuration table entry. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.1
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredConfigModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.2
+    type: gauge
+    help: The user-defined Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.2
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredConfigNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.3
+    type: gauge
+    help: The numeric metered outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.3
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.4
+    type: DisplayString
+    help: The user-defined metered outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.4
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredConfigLowLoadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.5
+    type: gauge
+    help: User-defined outlet low load current threshold in Watts. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.5
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredConfigNearOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.6
+    type: gauge
+    help: User-defined outlet near overload warning threshold in Watts. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.6
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredConfigOverloadThreshold
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.7
+    type: gauge
+    help: User-defined outlet overload current threshold in Watts. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.7
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.1
+    type: gauge
+    help: The index to the Rack PDU metered information table entry. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.1
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.2
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.3
+    type: gauge
+    help: The numeric metered outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.3
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.4
+    type: DisplayString
+    help: The user-defined metered outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.4
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoLayout
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.5
+    type: gauge
+    help: 'This OID describes the phase connections of the referenced outlet as follows:
+      seqPhase1ToNeutral(1) indicates that the outlet is wired from Phase 1 to Neutral
+      - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.5'
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoRating
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.6
+    type: gauge
+    help: Maximum power rating of Rack PDU metered outlet. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.6
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoBank
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.7
+    type: gauge
+    help: This outlet's numeric bank ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.7
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.1
+    type: gauge
+    help: The index to the Rack PDU metered status table entry. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.1
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.2
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.3
+    type: gauge
+    help: The numeric metered outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.3
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.4
+    type: DisplayString
+    help: The user-defined metered outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.4
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusAlarm
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.5
+    type: gauge
+    help: Getting this OID will return the current outlet alarm. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.5
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+    enum_values:
+      1: noLoadAlarm
+      2: underCurrentAlarm
+      3: nearOverCurrentAlarm
+      4: overCurrentAlarm
+  - name: ePDU2OutletMeteredStatusLoad
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.6
+    type: gauge
+    help: Getting this OID will return the measured Outlet load for an Outlet Monitored
+      Rack PDU in tenths of Amps. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.6
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusActivePower
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.7
+    type: gauge
+    help: Getting this OID will return the measured Outlet load for an Outlet Monitored
+      Rack PDU in watts. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.7
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusPeakPower
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.8
+    type: gauge
+    help: The peak power consumption of the Rack PDU load in watts. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.8
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusPeakPowerTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.9
+    type: DisplayString
+    help: Get this oid shows the date and time that peak power consumption occurred.
+      - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.9
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusPeakPowerStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.10
+    type: DisplayString
+    help: Get this oid shows the date and time that peak power consumption started.
+      - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.10
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusEnergy
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.11
+    type: gauge
+    help: Energy meter measuring Rack PDU load energy consumption in tenths of kilowatt-hours.
+      - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.11
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusEnergyStart
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.12
+    type: DisplayString
+    help: Indicates the date and time of the last device energy meter reset. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.12
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.1
+    type: gauge
+    help: The number of monitored outlets on connected Rack PDUs. - 1.3.6.1.4.1.3808.1.1.6.6.3.1
+  - name: ePDU2OutletMonitoredConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.1
+    type: gauge
+    help: The index to the Rack PDU monitored outlet configuration table entry. -
+      1.3.6.1.4.1.3808.1.1.6.6.3.2.1.1
+    indexes:
+    - labelname: ePDU2OutletMonitoredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredConfigModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.2
+    type: gauge
+    help: The user-defined Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.2
+    indexes:
+    - labelname: ePDU2OutletMonitoredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredConfigNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.3
+    type: gauge
+    help: The numeric monitored outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.3
+    indexes:
+    - labelname: ePDU2OutletMonitoredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.4
+    type: DisplayString
+    help: The user-defined monitored outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.4
+    indexes:
+    - labelname: ePDU2OutletMonitoredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.1
+    type: gauge
+    help: The index to the Rack PDU monitored information table entry. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.1
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.2
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.3
+    type: gauge
+    help: The numeric monitored outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.3
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.4
+    type: DisplayString
+    help: The user-defined monitored outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.4
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoLayout
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.5
+    type: gauge
+    help: 'This OID describes the phase connections of the referenced outlet as follows:
+      seqPhase1ToNeutral(1) indicates that the outlet is wired from Phase 1 to Neutral
+      - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.5'
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoRating
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.6
+    type: gauge
+    help: Maximum power rating of Rack PDU monitored outlet. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.6
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoBank
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.7
+    type: gauge
+    help: This outlet's numeric bank ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.7
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.1
+    type: gauge
+    help: The index to the Rack PDU monitored status table entry. - 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.1
+    indexes:
+    - labelname: ePDU2OutletMonitoredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredStatusModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.2
+    type: gauge
+    help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.2
+    indexes:
+    - labelname: ePDU2OutletMonitoredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredStatusNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.3
+    type: gauge
+    help: The numeric monitored outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.3
+    indexes:
+    - labelname: ePDU2OutletMonitoredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.4
+    type: DisplayString
+    help: The user-defined monitored outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.4
+    indexes:
+    - labelname: ePDU2OutletMonitoredStatusIndex
+      type: gauge
+  - name: ePDU2GroupNumberOfDevices
+    oid: 1.3.6.1.4.1.3808.1.1.6.8.1
+    type: gauge
+    help: Getting this OID will return the number of Rack PDU devices contributing
+      to the Daisy Chain group power and energy values - 1.3.6.1.4.1.3808.1.1.6.8.1
+  - name: ePDU2GroupTotalPower
+    oid: 1.3.6.1.4.1.3808.1.1.6.8.2
+    type: gauge
+    help: Getting this OID will return the total power consumption of the Rack PDU
+      Daisy Chain group devices in watts - 1.3.6.1.4.1.3808.1.1.6.8.2
+  - name: ePDU2GroupTotalEnergy
+    oid: 1.3.6.1.4.1.3808.1.1.6.8.3
+    type: gauge
+    help: Getting this OID will return the total energy consumption of the Rack PDU
+      Daisy Chain group devices in tenths of kilowatt-hours - 1.3.6.1.4.1.3808.1.1.6.8.3
+  - name: ePDU2GroupEnergyReset
+    oid: 1.3.6.1.4.1.3808.1.1.6.8.4
+    type: gauge
+    help: Setting this OID to reset (2) will cause the device energy meter value on
+      each device in the Rack PDU Daisy Chain group to be reset to zero - 1.3.6.1.4.1.3808.1.1.6.8.4
+    enum_values:
+      1: noOperation
+      2: reset
+  - name: ePDU2GroupPeakRecordReset
+    oid: 1.3.6.1.4.1.3808.1.1.6.8.5
+    type: gauge
+    help: Setting this OID to reset (2) will cause the device peak record value on
+      each device in the Rack PDU Daisy Chain group to be reset to current load/power
+      - 1.3.6.1.4.1.3808.1.1.6.8.5
+    enum_values:
+      1: noOperation
+      2: reset
+  - name: ePDU2SourceTableSize
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.1
+    type: gauge
+    help: A Host Automatic Transfer Switch response total number of Automatic Transfer
+      Switches on daisy chain - 1.3.6.1.4.1.3808.1.1.6.9.1
+  - name: ePDU2SourceConfigIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.1
+    type: gauge
+    help: The index to the Automatic Transfer Switch table entry. - 1.3.6.1.4.1.3808.1.1.6.9.2.1.1
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+  - name: ePDU2SourceConfigModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.2
+    type: gauge
+    help: The Automatic Transfer Switch numeric ID. - 1.3.6.1.4.1.3808.1.1.6.9.2.1.2
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+  - name: ePDU2SourceConfigPreferredSource
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.3
+    type: gauge
+    help: This variable returns the preferred source of power when both sources are
+      OK - 1.3.6.1.4.1.3808.1.1.6.9.2.1.3
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+    enum_values:
+      1: sourceA
+      2: sourceB
+      3: none
+  - name: ePDU2SourceConfigFrequencyDeviation
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.4
+    type: gauge
+    help: To configure the frequency deviation. - 1.3.6.1.4.1.3808.1.1.6.9.2.1.4
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+  - name: ePDU2SourceConfigVoltageSensitivity
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.5
+    type: gauge
+    help: 'This variable defines the sensitivity to changes in voltage: high(1) for
+      best protection, low(3) for frequent small line voltage changes. - 1.3.6.1.4.1.3808.1.1.6.9.2.1.5'
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+    enum_values:
+      1: high
+      2: medium
+      3: low
+  - name: ePDU2SourceConfigNominalVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.6
+    type: gauge
+    help: This variable returns the nominal voltage of the input. - 1.3.6.1.4.1.3808.1.1.6.9.2.1.6
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+  - name: ePDU2SourceConfigTransferVoltageRange
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.7
+    type: gauge
+    help: This variable defines the range of acceptable voltage from a power source
+      - 1.3.6.1.4.1.3808.1.1.6.9.2.1.7
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+    enum_values:
+      1: wide
+      2: medium
+      3: narrow
+  - name: ePDU2SourceConfigNarrowRangeValue
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.8
+    type: gauge
+    help: To configure the Narrow Range value of acceptable voltage from a power source.
+      - 1.3.6.1.4.1.3808.1.1.6.9.2.1.8
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+  - name: ePDU2SourceConfigMediumRangeValue
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.9
+    type: gauge
+    help: To configure the Medium Range value of acceptable voltage from a power source.
+      - 1.3.6.1.4.1.3808.1.1.6.9.2.1.9
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+  - name: ePDU2SourceConfigWideRangeValue
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.10
+    type: gauge
+    help: To configure the Wide Range value of acceptable voltage from a power source.
+      - 1.3.6.1.4.1.3808.1.1.6.9.2.1.10
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+  - name: ePDU2EventCountsReset
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.2.1.11
+    type: gauge
+    help: Setting this variable will clear all event counts in Automatic Transfer
+      Switch. - 1.3.6.1.4.1.3808.1.1.6.9.2.1.11
+    indexes:
+    - labelname: ePDU2SourceConfigIndex
+      type: gauge
+    enum_values:
+      1: none
+      2: clear
+  - name: ePDU2SourceInfoIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.1
+    type: gauge
+    help: The index to the Automatic Transfer Switch Information table entry. - 1.3.6.1.4.1.3808.1.1.6.9.3.1.1
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.2
+    type: gauge
+    help: The Automatic Transfer Switch numeric ID. - 1.3.6.1.4.1.3808.1.1.6.9.3.1.2
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoSourceSwitch
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.3
+    type: gauge
+    help: The Source Switch event counts of Automatic Transfer Switch. - 1.3.6.1.4.1.3808.1.1.6.9.3.1.3
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoSourcePreferenceChange
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.4
+    type: gauge
+    help: The Source Preference Change event counts of Automatic Transfer Switch.
+      - 1.3.6.1.4.1.3808.1.1.6.9.3.1.4
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoPreferredSourceFreqOutofRange
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.5
+    type: gauge
+    help: The Preferred Source Frequency Out of Range event counts of Automatic Transfer
+      Switch. - 1.3.6.1.4.1.3808.1.1.6.9.3.1.5
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoPreferredSourceVoltOutofRange
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.6
+    type: gauge
+    help: The Preferred Source Voltage Out of Range event counts of Automatic Transfer
+      Switch. - 1.3.6.1.4.1.3808.1.1.6.9.3.1.6
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoDeviceCurrentOverload
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.7
+    type: gauge
+    help: The Device Current Overload event counts of Automatic Transfer Switch. -
+      1.3.6.1.4.1.3808.1.1.6.9.3.1.7
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoBank1Overload
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.8
+    type: gauge
+    help: The Bank 1 Current Overload event counts of Automatic Transfer Switch -
+      1.3.6.1.4.1.3808.1.1.6.9.3.1.8
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoBank2Overload
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.9
+    type: gauge
+    help: The Bank 2 Current Overload event counts of Automatic Transfer Switch -
+      1.3.6.1.4.1.3808.1.1.6.9.3.1.9
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceInfoBank3Overload
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.3.1.10
+    type: gauge
+    help: The Bank 3 Current Overload event counts of Automatic Transfer Switch -
+      1.3.6.1.4.1.3808.1.1.6.9.3.1.10
+    indexes:
+    - labelname: ePDU2SourceInfoIndex
+      type: gauge
+  - name: ePDU2SourceStatusIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.1
+    type: gauge
+    help: The index to the Automatic Transfer Switch status table entry. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.1
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+  - name: ePDU2SourceStatusModuleIndex
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.2
+    type: gauge
+    help: The Automatic Transfer Switch numeric ID - 1.3.6.1.4.1.3808.1.1.6.9.4.1.2
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+  - name: ePDU2SourceStatusSelectedSource
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.3
+    type: gauge
+    help: This variable returns the current source of power. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.3
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: sourceA
+      2: sourceB
+      3: none
+  - name: ePDU2SourceStatusNominalFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.4
+    type: gauge
+    help: The Nominal Frequency in 0.1 Hertz. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.4
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+  - name: ePDU2SourceStatusSourceAVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.5
+    type: gauge
+    help: The input voltage of source A in 0.1 Volt. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.5
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+  - name: ePDU2SourceStatusSourceBVoltage
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.6
+    type: gauge
+    help: The input voltage of source B in 0.1 Volt. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.6
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+  - name: ePDU2SourceStatusSourceAFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.7
+    type: gauge
+    help: The input frequency of source A in 0.1 Hertz. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.7
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+  - name: ePDU2SourceStatusSourceBFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.8
+    type: gauge
+    help: The input frequency of source B in 0.1 Hertz. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.8
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+  - name: ePDU2SourceStatusSourceAVolStatus
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.9
+    type: gauge
+    help: The input voltage status of source A. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.9
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: overVoltage
+      3: underVoltage
+  - name: ePDU2SourceStatusSourceBVolStatus
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.10
+    type: gauge
+    help: The input voltage status of source B. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.10
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: overVoltage
+      3: underVoltage
+  - name: ePDU2SourceStatusSourceAFreqStatus
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.11
+    type: gauge
+    help: The input frequency status of source A. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.11
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: overFrequency
+      3: underFrequency
+  - name: ePDU2SourceStatusSourceBFreqStatus
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.12
+    type: gauge
+    help: The input frequency status of source B. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.12
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: overFrequency
+      3: underFrequency
+  - name: ePDU2SourceStatusSourcePhaseSync
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.13
+    type: gauge
+    help: This variable returns the status of the phase sync. - 1.3.6.1.4.1.3808.1.1.6.9.4.1.13
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: inSync
+      2: outOfSync
+  - name: ePDU2SourceStatusPowerSupplySourceAStatus
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.14
+    type: gauge
+    help: This variable returns the status of the power supply in system - 1.3.6.1.4.1.3808.1.1.6.9.4.1.14
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: failed3p3v
+      3: failed24v
+      4: failed3p3and24v
+  - name: ePDU2SourceStatusPowerSupplySourceBStatus
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.15
+    type: gauge
+    help: This variable returns the status of the power supply in system - 1.3.6.1.4.1.3808.1.1.6.9.4.1.15
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: normal
+      2: failed3p3v
+      3: failed24v
+      4: failed3p3and24v
+  - name: ePDU2SourceStatusRedundancyState
+    oid: 1.3.6.1.4.1.3808.1.1.6.9.4.1.16
+    type: gauge
+    help: This variable returns the current redundancy state of the ATS - 1.3.6.1.4.1.3808.1.1.6.9.4.1.16
+    indexes:
+    - labelname: ePDU2SourceStatusIndex
+      type: gauge
+    enum_values:
+      1: atsRedundancyLost
+      2: atsFullyRedundant
+  version: 1
 ddwrt:
   walk:
   - 1.3.6.1.2.1.2
