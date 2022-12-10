@@ -48,7 +48,7 @@ LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/moni
 EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
 EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-OIDS
 
-CYBERPOWER_VERSION := 2.9
+CYBERPOWER_VERSION := 2.10
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
 .DEFAULT: all
