@@ -25791,7 +25791,6 @@ printer_mib:
       6: interlockClosed
 raritan:
   walk:
-  - 1.3.6.1.4.1.13742.4.1.2.2.1.2
   - 1.3.6.1.4.1.13742.4.1.2.2.1.3
   - 1.3.6.1.4.1.13742.4.1.2.2.1.31
   - 1.3.6.1.4.1.13742.4.1.2.2.1.4
@@ -25801,6 +25800,8 @@ raritan:
   - 1.3.6.1.4.1.13742.4.1.20.2.1.7
   - 1.3.6.1.4.1.13742.4.1.20.2.1.8
   - 1.3.6.1.4.1.13742.4.1.20.2.1.9
+  - 1.3.6.1.4.1.13742.6.3.5.3.1.2
+  - 1.3.6.1.4.1.13742.6.5.5.3.1
   get:
   - 1.3.6.1.2.1.1.3.0
   - 1.3.6.1.4.1.13742.4.1.3.1.5.0
@@ -25822,7 +25823,7 @@ raritan:
     - labels:
       - outletIndex
       labelname: outletLabel
-      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
       type: DisplayString
     enum_values:
       -1: error
@@ -25840,7 +25841,7 @@ raritan:
     - labels:
       - outletIndex
       labelname: outletLabel
-      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
       type: DisplayString
   - name: outletCurrent
     oid: 1.3.6.1.4.1.13742.4.1.2.2.1.4
@@ -25853,7 +25854,7 @@ raritan:
     - labels:
       - outletIndex
       labelname: outletLabel
-      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
       type: DisplayString
   - name: outletMaxCurrent
     oid: 1.3.6.1.4.1.13742.4.1.2.2.1.5
@@ -25866,7 +25867,7 @@ raritan:
     - labels:
       - outletIndex
       labelname: outletLabel
-      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
       type: DisplayString
   - name: outletVoltage
     oid: 1.3.6.1.4.1.13742.4.1.2.2.1.6
@@ -25880,7 +25881,7 @@ raritan:
     - labels:
       - outletIndex
       labelname: outletLabel
-      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
       type: DisplayString
   - name: outletActivePower
     oid: 1.3.6.1.4.1.13742.4.1.2.2.1.7
@@ -25893,7 +25894,7 @@ raritan:
     - labels:
       - outletIndex
       labelname: outletLabel
-      oid: 1.3.6.1.4.1.13742.4.1.2.2.1.2
+      oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
       type: DisplayString
   - name: inletCurrent
     oid: 1.3.6.1.4.1.13742.4.1.20.2.1.7
@@ -25922,6 +25923,144 @@ raritan:
     type: gauge
     help: The value for the unit's CPU temperature sensor in tenth degrees celsius.
       - 1.3.6.1.4.1.13742.4.1.3.1.5
+  - name: measurementsExternalSensorIsAvailable
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.2
+    type: gauge
+    help: The sensor is present. - 1.3.6.1.4.1.13742.6.5.5.3.1.2
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: measurementsExternalSensorState
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.3
+    type: gauge
+    help: The sensor state. - 1.3.6.1.4.1.13742.6.5.5.3.1.3
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+    enum_values:
+      -1: unavailable
+      0: open
+      1: closed
+      2: belowLowerCritical
+      3: belowLowerWarning
+      4: normal
+      5: aboveUpperWarning
+      6: aboveUpperCritical
+      7: "on"
+      8: "off"
+      9: detected
+      10: notDetected
+      11: alarmed
+      12: ok
+      14: fail
+      15: "yes"
+      16: "no"
+      17: standby
+      18: one
+      19: two
+      20: inSync
+      21: outOfSync
+      22: i1OpenFault
+      23: i1ShortFault
+      24: i2OpenFault
+      25: i2ShortFault
+      26: fault
+      27: warning
+      28: critical
+      29: selfTest
+      30: nonRedundant
+  - name: measurementsExternalSensorValue
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.4
+    type: gauge
+    help: The sensor reading as a signed integer - 1.3.6.1.4.1.13742.6.5.5.3.1.4
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+  - name: measurementsExternalSensorTimeStamp
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.5
+    type: gauge
+    help: The timestamp for reading. - 1.3.6.1.4.1.13742.6.5.5.3.1.5
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+  - name: measurementsExternalSensorMinMaxValid
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.7
+    type: gauge
+    help: The minimum and maximum values of sensor reading and their timestamps provided
+      as measurementsExternalSensor[Signed]{Min|Max}{Value|TimeStamp} are valid -
+      1.3.6.1.4.1.13742.6.5.5.3.1.7
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+    enum_values:
+      1: "true"
+      2: "false"
+  - name: measurementsExternalSensorMinValue
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.8
+    type: gauge
+    help: The minimum value of sensor reading since last reset as a signed integer
+      The value of this OID variable should be scaled by externalSensorDecimalDigits
+      - 1.3.6.1.4.1.13742.6.5.5.3.1.8
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+  - name: measurementsExternalSensorMinTimeStamp
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.10
+    type: gauge
+    help: The timestamp of last change of the minimum value of sensor reading provided
+      as measurementExternalSensor[Signed]MinValue - 1.3.6.1.4.1.13742.6.5.5.3.1.10
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+  - name: measurementsExternalSensorMaxValue
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.11
+    type: gauge
+    help: The maximum value of sensor reading since last reset as a signed integer
+      The value of this OID variable should be scaled by externalSensorDecimalDigits
+      - 1.3.6.1.4.1.13742.6.5.5.3.1.11
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+  - name: measurementsExternalSensorMaxTimeStamp
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.13
+    type: gauge
+    help: The timestamp of last change of the maximum value of sensor reading provided
+      as measurementExternalSensor[Signed]MaxValue - 1.3.6.1.4.1.13742.6.5.5.3.1.13
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
+  - name: measurementsExternalSensorMinMaxResetTimeStamp
+    oid: 1.3.6.1.4.1.13742.6.5.5.3.1.14
+    type: gauge
+    help: The timestamp of last reset of all minimum and maximum values of sensor
+      reading including their timestamps, provided as measurementsExternalSensor[Signed]{Min|Max}{Value|TimeStamp}
+      and measurementsExternalSensorMinMaxValid - 1.3.6.1.4.1.13742.6.5.5.3.1.14
+    indexes:
+    - labelname: pduId
+      type: gauge
+    - labelname: sensorID
+      type: OctetString
   auth:
     community: raritan_public
 servertech_sentry3:

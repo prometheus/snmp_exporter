@@ -43,6 +43,7 @@ UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.tx
 UBNT_DL_URL       := https://dl.ubnt-ut.com/snmp
 WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
+RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
@@ -125,6 +126,7 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
   $(MIBDIR)/PDU-MIB.txt \
+  $(MIBDIR)/PDU2-MIB.txt \
   $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/EATON-EPDU-MIB.txt \
@@ -297,8 +299,12 @@ $(MIBDIR)/WIENER-CRATE-MIB-5704.txt:
 	@rm -v $(TMP)
 
 $(MIBDIR)/PDU-MIB.txt:
-	@echo ">> Downloading PDU-MIB"
+	@echo ">> Downloading Raritan PDU-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
+
+$(MIBDIR)/PDU2-MIB.txt:
+	@echo ">> Downloading Raritan PDU2-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU2-MIB.txt "$(RARITAN2_URL)"
 
 $(MIBDIR)/Infrapower-MIB.mib:
 	$(eval TMP := $(shell mktemp))
