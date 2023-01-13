@@ -14,7 +14,7 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-CURL_OPTS ?= -L -s --retry 3 --retry-delay 3 --fail
+CURL_OPTS ?= -L -s --retry 3 --retry-delay 3 --fail --header "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"
 
 DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
@@ -45,7 +45,7 @@ WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MI
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
-EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
+EATON_URL         := https://www.eaton.com/content/dam/eaton/products/backup-power-ups-surge-it-power-distribution/Firmware/eaton-pdu-g3-firmware-mib.zip
 EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-OIDS
 
 CYBERPOWER_VERSION := 2.10
@@ -320,7 +320,10 @@ $(MIBDIR)/EATON-EPDU-MIB.txt $(MIBDIR)/EATON-SENSOR-MIB.txt:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading EATON-EPDU-MIB.txt to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(EATON_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) EATON-EPDU-MIB.txt EATON-SENSOR-MIB.txt
+	$(eval TMP2 := $(shell mktemp --directory))
+	@unzip -j -d $(TMP2) $(TMP) EATON-EPDU-MIB.zip
+	@unzip -j -d $(MIBDIR) $(TMP2)/EATON-EPDU-MIB.zip EATON-EPDU-MIB.txt EATON-SENSOR-MIB.txt
+	@rm -rv $(TMP2)
 	@rm -v $(TMP)
 
 $(MIBDIR)/EATON-OIDS.txt:
