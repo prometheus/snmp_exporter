@@ -45,7 +45,8 @@ WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MI
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
-EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
+EATON_EPDU_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-EPDU-MIB
+EATON_SENSOR_URL  := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-SENSOR-MIB
 EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-OIDS
 
 CYBERPOWER_VERSION := 2.10
@@ -316,12 +317,13 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@unzip -j -d $(MIBDIR) $(TMP) LIEBERT_GP_PDU.MIB LIEBERT_GP_REG.MIB
 	@rm -v $(TMP)
 
-$(MIBDIR)/EATON-EPDU-MIB.txt $(MIBDIR)/EATON-SENSOR-MIB.txt:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading EATON-EPDU-MIB.txt to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(EATON_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) EATON-EPDU-MIB.txt EATON-SENSOR-MIB.txt
-	@rm -v $(TMP)
+$(MIBDIR)/EATON-EPDU-MIB.txt:
+	@echo ">> Downloading EATON-EPDU-MIB.txt to $@"
+	@curl $(CURL_OPTS) -o $@ $(EATON_EPDU_URL)
+
+$(MIBDIR)/EATON-SENSOR-MIB.txt:
+	@echo ">> Downloading EATON-SENSOR-MIB.txt to $@"
+	@curl $(CURL_OPTS) -o $@ $(EATON_SENSOR_URL)
 
 $(MIBDIR)/EATON-OIDS.txt:
 	@echo ">> Downloading EATON-OIDS.txt to $@"
