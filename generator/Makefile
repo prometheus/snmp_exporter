@@ -14,7 +14,7 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-CURL_OPTS ?= -L -s --retry 3 --retry-delay 3 --retry-max-time 60 --fail
+CURL_OPTS ?= -L -s --retry 5 --retry-delay 3 --retry-all-errors --fail
 
 DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
@@ -22,6 +22,7 @@ DOCKER_REPO       ?= prom
 
 APC_URL           := 'https://download.schneider-electric.com/files?p_Doc_Ref=APC_POWERNETMIB_441_EN&p_enDocType=Firmware&p_File_Name=powernet441.mib'
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
+CIRCITOR_URL      := http://www.circitor.fr/Mibs/Mib
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/main/v2
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
@@ -158,7 +159,7 @@ $(MIBDIR)/AIRESPACE-REF-MIB:
 
 $(MIBDIR)/AIRESPACE-WIRELESS-MIB:
 	@echo ">> Downloading Cisco AIRESPACE-WIRELESS-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CISCO_URL)/AIRESPACE-WIRELESS-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CIRCITOR_URL)/A/AIRESPACE-WIRELESS-MIB.mib"
 
 $(MIBDIR)/ENTITY-MIB:
 	@echo ">> Downloading Cisco ENTITY-MIB"
