@@ -22,7 +22,7 @@ DOCKER_REPO       ?= prom
 
 APC_URL           := 'https://download.schneider-electric.com/files?p_Doc_Ref=APC_POWERNETMIB_441_EN&p_enDocType=Firmware&p_File_Name=powernet441.mib'
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
-CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/main/v2
+CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/2d465cce2de4e67a3561d8e41e4c99b597558d4b/v2
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
@@ -45,8 +45,6 @@ WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MI
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
-EATON_URL         := https://powerquality.eaton.com/Support/Software-Drivers/Downloads/ePDU/EATON-EPDU-MIB.zip
-EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/master/mibs/eaton/EATON-OIDS
 
 CYBERPOWER_VERSION := 2.10
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -127,9 +125,6 @@ mibs: mib-dir \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
-  $(MIBDIR)/EATON-EPDU-MIB.txt \
-  $(MIBDIR)/EATON-SENSOR-MIB.txt \
-  $(MIBDIR)/EATON-OIDS.txt \
   $(MIBDIR)/CyberPower.MIB
 
 mib-dir:
@@ -315,17 +310,6 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) LIEBERT_GP_PDU.MIB LIEBERT_GP_REG.MIB
 	@rm -v $(TMP)
-
-$(MIBDIR)/EATON-EPDU-MIB.txt $(MIBDIR)/EATON-SENSOR-MIB.txt:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading EATON-EPDU-MIB.txt to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(EATON_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) EATON-EPDU-MIB.txt EATON-SENSOR-MIB.txt
-	@rm -v $(TMP)
-
-$(MIBDIR)/EATON-OIDS.txt:
-	@echo ">> Downloading EATON-OIDS.txt to $@"
-	@curl $(CURL_OPTS) -o $@ $(EATON_OIDS_URL)
 
 $(MIBDIR)/CyberPower.MIB:
 	$(eval TMP := $(shell mktemp))
