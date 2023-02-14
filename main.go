@@ -84,6 +84,15 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	if moduleName == "" {
 		moduleName = "if_mib"
 	}
+
+
+        snmp_context := query.Get("snmp_context")
+        if len(query["snmp_context"]) > 1 {
+                http.Error(w, "'snmp_context' parameter must only be specified once", 400)
+                snmpRequestErrors.Inc()
+                return
+        }
+
 	sc.RLock()
 	module, ok := (*(sc.C))[moduleName]
 	sc.RUnlock()
@@ -94,11 +103,11 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	}
 
 	logger = log.With(logger, "module", moduleName, "target", target)
-	level.Debug(logger).Log("msg", "Starting scrape")
+	level.Debug(logger).Log("msg", "Starting scrape","snmp_context",snmp_context)
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, module, logger)
+	c := collector.New(r.Context(), target, snmp_context, module, logger)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
