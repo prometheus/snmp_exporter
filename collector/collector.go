@@ -125,6 +125,7 @@ func ScrapeTarget(ctx context.Context, target string, snmp_context string, confi
 	snmp.Timeout = config.WalkParams.Timeout
 	snmp.UseUnconnectedUDPSocket = config.WalkParams.UseUnconnectedUDPSocket
 	snmp.LocalAddr = *srcAddress
+
 	// Allow a set of OIDs that aren't in a strictly increasing order
 	if config.WalkParams.AllowNonIncreasingOIDs {
 		snmp.AppOpts = make(map[string]interface{})
