@@ -103,7 +103,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	}
 
 	logger = log.With(logger, "module", moduleName, "target", target)
-	level.Debug(logger).Log("msg", "Starting scrape","snmp_context",snmp_context)
+	level.Debug(logger).Log("msg", "Starting scrape")
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
