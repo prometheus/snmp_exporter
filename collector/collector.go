@@ -115,7 +115,7 @@ type ScrapeResults struct {
 	retries uint64
 }
 
-func ScrapeTarget(ctx context.Context, target string, config *config.Module, logger log.Logger) (ScrapeResults, error) {
+func ScrapeTarget(ctx context.Context, target string, snmp_context string, config *config.Module, logger log.Logger) (ScrapeResults, error) {
 	results := ScrapeResults{}
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
@@ -125,7 +125,6 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	snmp.Timeout = config.WalkParams.Timeout
 	snmp.UseUnconnectedUDPSocket = config.WalkParams.UseUnconnectedUDPSocket
 	snmp.LocalAddr = *srcAddress
-
 	// Allow a set of OIDs that aren't in a strictly increasing order
 	if config.WalkParams.AllowNonIncreasingOIDs {
 		snmp.AppOpts = make(map[string]interface{})
@@ -158,7 +157,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	}
 
 	// Configure auth.
-	config.WalkParams.ConfigureSNMP(&snmp)
+	config.WalkParams.ConfigureSNMP(&snmp,snmp_context)
 
 	// Do the actual walk.
 	err := snmp.Connect()
@@ -261,12 +260,13 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 type collector struct {
 	ctx    context.Context
 	target string
+        snmp_context string
 	module *config.Module
 	logger log.Logger
 }
 
-func New(ctx context.Context, target string, module *config.Module, logger log.Logger) *collector {
-	return &collector{ctx: ctx, target: target, module: module, logger: logger}
+func New(ctx context.Context, target string, snmp_context string, module *config.Module, logger log.Logger) *collector {
+	return &collector{ctx: ctx, target: target, snmp_context: snmp_context, module: module, logger: logger}
 }
 
 // Describe implements Prometheus.Collector.
@@ -277,7 +277,7 @@ func (c collector) Describe(ch chan<- *prometheus.Desc) {
 // Collect implements Prometheus.Collector.
 func (c collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
-	results, err := ScrapeTarget(c.ctx, c.target, c.module, c.logger)
+	results, err := ScrapeTarget(c.ctx, c.target, c.snmp_context, c.module, c.logger)
 	if err != nil {
 		level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
