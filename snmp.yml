@@ -806,6 +806,7 @@ apcups:
       2: batteryNormal
       3: batteryLow
       4: batteryInFaultCondition
+      5: noBatteryPresent
   - name: upsBasicBatteryTimeOnBattery
     oid: 1.3.6.1.4.1.318.1.1.1.2.1.2
     type: gauge
@@ -818,8 +819,7 @@ apcups:
   - name: upsAdvBatteryCapacity
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.1
     type: gauge
-    help: The remaining battery capacity expressed in percent of full capacity. -
-      1.3.6.1.4.1.318.1.1.1.2.2.1
+    help: The remaining battery capacity expressed in percent of full capacity - 1.3.6.1.4.1.318.1.1.1.2.2.1
   - name: upsAdvBatteryTemperature
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.2
     type: gauge
@@ -851,11 +851,11 @@ apcups:
   - name: upsAdvBatteryActualVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.8
     type: gauge
-    help: The actual battery bus voltage in Volts. - 1.3.6.1.4.1.318.1.1.1.2.2.8
+    help: The actual battery bus voltage in Volts - 1.3.6.1.4.1.318.1.1.1.2.2.8
   - name: upsAdvBatteryCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.9
     type: gauge
-    help: The battery current in Amps. - 1.3.6.1.4.1.318.1.1.1.2.2.9
+    help: The battery current in Amps - 1.3.6.1.4.1.318.1.1.1.2.2.9
   - name: upsAdvTotalDCCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.2.10
     type: gauge
@@ -1062,7 +1062,7 @@ apcups:
   - name: upsHighPrecBatteryCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.5
     type: gauge
-    help: The battery current in tenths of Amps. - 1.3.6.1.4.1.318.1.1.1.2.3.5
+    help: The battery current in tenths of Amps - 1.3.6.1.4.1.318.1.1.1.2.3.5
   - name: upsHighPrecTotalDCCurrent
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.6
     type: gauge
@@ -1087,7 +1087,7 @@ apcups:
   - name: upsHighPrecBatteryVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
     type: gauge
-    help: The actual battery bus voltage expressed as tenths of Volts. - 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
+    help: The actual battery bus voltage expressed as tenths of Volts - 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
     indexes:
     - labelname: upsHighPrecBatteryActualVoltageTableIndex
       type: gauge
@@ -1804,7 +1804,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.12
     type: gauge
     help: The input total active power(sum of all three phases) of the UPS system
-      in kW. - 1.3.6.1.4.1.318.1.1.1.3.2.12
+      in kW - 1.3.6.1.4.1.318.1.1.1.3.2.12
   - name: upsAdvInputBypassTotalApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.13
     type: gauge
@@ -1827,6 +1827,10 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.3.2.17
     type: gauge
     help: The DC input current in Amps. - 1.3.6.1.4.1.318.1.1.1.3.2.17
+  - name: upsAdvInputNominalDCVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.2.18
+    type: gauge
+    help: The nominal input DC voltage of the inverter in Volts - 1.3.6.1.4.1.318.1.1.1.3.2.18
   - name: upsHighPrecInputLineVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.3.3.1
     type: gauge
@@ -1858,6 +1862,14 @@ apcups:
     type: gauge
     help: The current input bypass frequency to the UPS system in tenths of Hz. -
       1.3.6.1.4.1.318.1.1.1.3.3.7
+  - name: upsHighPrecInputDCVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.8
+    type: gauge
+    help: The DC input voltage, in tenths, of Volts on the inverter - 1.3.6.1.4.1.318.1.1.1.3.3.8
+  - name: upsHighPrecInputDCCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.3.3.9
+    type: gauge
+    help: The DC input current, in tenths of amperes, of the inverter. - 1.3.6.1.4.1.318.1.1.1.3.3.9
   - name: upsBasicOutputStatus
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.1
     type: gauge
@@ -1889,6 +1901,8 @@ apcups:
       24: batteryDischargeSpotmode
       25: inverterStandby
       26: chargerOnly
+      27: distributedEnergyReserve
+      28: selfTest
   - name: upsBasicOutputPhase
     oid: 1.3.6.1.4.1.318.1.1.1.4.1.2
     type: gauge
@@ -1981,7 +1995,7 @@ apcups:
   - name: upsAdvOutputApparentPower
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.9
     type: gauge
-    help: The total output apparent power of all phases of the UPS system in VA. -
+    help: The total output apparent power of all phases of the UPS system in VA -
       1.3.6.1.4.1.318.1.1.1.4.2.9
   - name: upsAdvOutputStatisticsIndex
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.1
@@ -2028,6 +2042,43 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.4.2.14
     type: gauge
     help: Output frequency in Hz measured at the output of inverter. - 1.3.6.1.4.1.318.1.1.1.4.2.14
+  - name: upsAdvOutputInverterLoad
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.15
+    type: gauge
+    help: The total active power at the output of all inverter modules in percent
+      of rated system power (% of kW) If not supported, return -1. - 1.3.6.1.4.1.318.1.1.1.4.2.15
+  - name: upsAdvOutputPercentPower
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.16
+    type: gauge
+    help: The relative active power at the output of the inverter system (static switch
+      output) in percent of rated system power (% of kW) - 1.3.6.1.4.1.318.1.1.1.4.2.16
+  - name: upsAdvOutputInverterActivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.17
+    type: gauge
+    help: The total active power at the output of all inverter modules in kW - 1.3.6.1.4.1.318.1.1.1.4.2.17
+  - name: upsAdvOutputPercentLoad
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.18
+    type: gauge
+    help: The relative apparent power at the output of the inverter system (static
+      switch output) in percent of rated system load (% of kVA) If not supported,
+      return -1. - 1.3.6.1.4.1.318.1.1.1.4.2.18
+  - name: upsAdvOutputInverterCurrent
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.19
+    type: gauge
+    help: The current, in amperes, drawn by the load on the inverter. - 1.3.6.1.4.1.318.1.1.1.4.2.19
+  - name: upsAdvOutputReactivePower
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.20
+    type: gauge
+    help: The total output reactive power of all phases of the UPS system in VAR -
+      1.3.6.1.4.1.318.1.1.1.4.2.20
+  - name: upsAdvOutputInverterVoltage
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.21
+    type: gauge
+    help: The output voltage of the inverter in VAC. - 1.3.6.1.4.1.318.1.1.1.4.2.21
+  - name: upsAdvOutputUpperAcceptPowerSettingPct
+    oid: 1.3.6.1.4.1.318.1.1.1.4.2.22
+    type: gauge
+    help: Upper acceptable voltage as percent of nominal voltage - 1.3.6.1.4.1.318.1.1.1.4.2.22
   - name: upsHighPrecOutputVoltage
     oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
     type: gauge
@@ -2153,7 +2204,7 @@ apcups:
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.13
     type: DisplayString
     help: The latest date when the UPS performed a battery diagnostic test (battery
-      monitoring test), regardless of the test result - 1.3.6.1.4.1.318.1.1.1.7.2.13
+      monitoring test), regardless of the test result.The format is YYYY-MM-DD - 1.3.6.1.4.1.318.1.1.1.7.2.13
   - name: upsAdvTestBatteryProcessStatus
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.14
     type: gauge
@@ -2167,16 +2218,20 @@ apcups:
       5: aborted
       6: pending
       7: unknown
+      8: noBatteryPresent
   - name: upsAdvTestBatteryConditionStatus
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.15
     type: gauge
     help: Result of the latest successful test 1 = unknown 2 = battery OK 3 = battery
-      capacity decreased 4 = battery defect - 1.3.6.1.4.1.318.1.1.1.7.2.15
+      capacity decreased 4 = battery defect 5 = indicate that no battery is present
+      (no battery, battery breaker open,..) to perform the battery diagnostic test
+      - 1.3.6.1.4.1.318.1.1.1.7.2.15
     enum_values:
       1: unknown
       2: batteryOK
       3: batteryCapacityDecreased
       4: batteryDefect
+      5: noBatteryPresent
   - name: upsAdvTestDiagnosticsBatteryInterval
     oid: 1.3.6.1.4.1.318.1.1.1.7.2.16
     type: gauge
