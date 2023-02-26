@@ -139,3 +139,13 @@ effects.
 
 If you need to disable this feature for non-Prometheus systems, use the
 command line flag `--no-snmp.wrap-large-counters`.
+
+# Once you have it running
+
+It can be opaque to get started with all this, but in our own experience,
+snmp_exporter is honestly the best way to interact with SNMP. To make it
+easier for others, please consider contributing back your configurations to
+us.
+`snmp.yml` config should be accompanied by generator config.
+For your dashboard, alerts, and recording rules, please consider
+contributing them to https://github.com/prometheus/snmp_exporter/tree/main/snmp-mixin
