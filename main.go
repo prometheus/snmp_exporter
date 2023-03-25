@@ -23,6 +23,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/alecthomas/kingpin/v2"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
@@ -33,7 +34,6 @@ import (
 	"github.com/prometheus/common/version"
 	"github.com/prometheus/exporter-toolkit/web"
 	webflag "github.com/prometheus/exporter-toolkit/web/kingpinflag"
-	"gopkg.in/alecthomas/kingpin.v2"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/prometheus/snmp_exporter/collector"
@@ -41,8 +41,12 @@ import (
 )
 
 var (
-	configFile   = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
-	dryRun       = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	configFile  = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	dryRun      = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	metricsPath = kingpin.Flag(
+		"web.telemetry-path",
+		"Path under which to expose metrics.",
+	).Default("/metrics").String()
 	toolkitFlags = webflag.AddFlags(kingpin.CommandLine, ":9116")
 
 	// Metrics about the SNMP exporter itself.
@@ -63,6 +67,11 @@ var (
 		C: &config.Config{},
 	}
 	reloadCh chan chan error
+)
+
+const (
+	proberPath = "/snmp"
+	configPath = "/config"
 )
 
 func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
@@ -195,41 +204,55 @@ func main() {
 
 	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	// Endpoint to do SNMP scrapes.
-	http.HandleFunc("/snmp", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(proberPath, func(w http.ResponseWriter, r *http.Request) {
 		handler(w, r, logger)
 	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(`<html>
-            <head>
-            <title>SNMP Exporter</title>
-            <style>
-            label{
-            display:inline-block;
-            width:75px;
-            }
-            form label {
-            margin: 10px;
-            }
-            form input {
-            margin: 10px;
-            }
-            </style>
-            </head>
-            <body>
-            <h1>SNMP Exporter</h1>
-            <form action="/snmp">
-            <label>Target:</label> <input type="text" name="target" placeholder="X.X.X.X" value="1.2.3.4"><br>
-            <label>Module:</label> <input type="text" name="module" placeholder="module" value="if_mib"><br>
-            <input type="submit" value="Submit">
-            </form>
-						<p><a href="/config">Config</a></p>
-            </body>
-            </html>`))
-	})
+	if *metricsPath != "/" && *metricsPath != "" {
+		landingConfig := web.LandingConfig{
+			Name:        "SNMP Exporter",
+			Description: "Prometheus Exporter for SNMP targets",
+			Version:     version.Info(),
+			Form: web.LandingForm{
+				Action: proberPath,
+				Inputs: []web.LandingFormInput{
+					{
+						Label:       "Target",
+						Type:        "text",
+						Name:        "target",
+						Placeholder: "X.X.X.X/[::X]",
+						Value:       "::1",
+					},
+					{
+						Label:       "Module",
+						Type:        "text",
+						Name:        "module",
+						Placeholder: "module",
+						Value:       "if_mib",
+					},
+				},
+			},
+			Links: []web.LandingLinks{
+				{
+					Address: configPath,
+					Text:    "Config",
+				},
+				{
+					Address: *metricsPath,
+					Text:    "Metrics",
+				},
+			},
+		}
+		landingPage, err := web.NewLandingPage(landingConfig)
+		if err != nil {
+			level.Error(logger).Log("err", err)
+			os.Exit(1)
+		}
+		http.Handle("/", landingPage)
+	}
 
-	http.HandleFunc("/config", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(configPath, func(w http.ResponseWriter, r *http.Request) {
 		sc.RLock()
 		c, err := yaml.Marshal(sc.C)
 		sc.RUnlock()
