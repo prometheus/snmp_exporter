@@ -1,5 +1,5 @@
-module-auth-test:
-  auth:
+auths:
+  with_secret:
     community: mysecret
     security_level: SomethingReadOnly
     username: user

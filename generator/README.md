@@ -66,10 +66,36 @@ make docker-generate
 
 ## File Format
 
-`generator.yml` provides a list of modules. Each module defines what to collect from a device type. The simplest module is just a name
-and a set of OIDs to walk.
+`generator.yml` provides a list of auths and modules. Each module defines what to collect from a device type.
+The simplest module is just a name and a set of OIDs to walk.
 
 ```yaml
+auths:
+  auth_name:
+    version: 2  # SNMP version to use. Defaults to 2.
+                # 1 will use GETNEXT, 2 and 3 use GETBULK.
+
+    # Community string is used with SNMP v1 and v2. Defaults to "public_v2".
+    community: public_v2
+
+    # v3 has different and more complex settings.
+    # Which are required depends on the security_level.
+    # The equivalent options on NetSNMP commands like snmpbulkwalk
+    # and snmpget are also listed. See snmpcmd(1).
+    username: user  # Required, no default. -u option to NetSNMP.
+    security_level: noAuthNoPriv  # Defaults to noAuthNoPriv. -l option to NetSNMP.
+                                  # Can be noAuthNoPriv, authNoPriv or authPriv.
+    password: pass  # Has no default. Also known as authKey, -A option to NetSNMP.
+                    # Required if security_level is authNoPriv or authPriv.
+    auth_protocol: MD5  # MD5, SHA, SHA224, SHA256, SHA384, or SHA512. Defaults to MD5. -a option to NetSNMP.
+                        # Used if security_level is authNoPriv or authPriv.
+    priv_protocol: DES  # DES, AES, AES192, or AES256. Defaults to DES. -x option to NetSNMP.
+                        # Used if security_level is authPriv.
+    priv_password: otherPass # Has no default. Also known as privKey, -X option to NetSNMP.
+                             # Required if security_level is authPriv.
+    context_name: context # Has no default. -n option to NetSNMP.
+                          # Required if context is configured on the device.
+
 modules:
   module_name:  # The module name. You can have as many modules as you want.
     walk:       # List of OIDs to walk. Can also be SNMP object names or specific instances.
@@ -79,34 +105,11 @@ modules:
       - 1.3.6.1.2.1.2.2.1.4        # Same as ifMtu (used for filter example)
       - bsnDot11EssSsid            # Same as 1.3.6.1.4.1.14179.2.1.1.1.2 (used for filter example)
 
-    version: 2  # SNMP version to use. Defaults to 2.
-                # 1 will use GETNEXT, 2 and 3 use GETBULK.
     max_repetitions: 25  # How many objects to request with GET/GETBULK, defaults to 25.
                          # May need to be reduced for buggy devices.
     retries: 3   # How many times to retry a failed request, defaults to 3.
     timeout: 5s  # Timeout for each individual SNMP request, defaults to 5s.
 
-    auth:
-      # Community string is used with SNMP v1 and v2. Defaults to "public".
-      community: public
-
-      # v3 has different and more complex settings.
-      # Which are required depends on the security_level.
-      # The equivalent options on NetSNMP commands like snmpbulkwalk
-      # and snmpget are also listed. See snmpcmd(1).
-      username: user  # Required, no default. -u option to NetSNMP.
-      security_level: noAuthNoPriv  # Defaults to noAuthNoPriv. -l option to NetSNMP.
-                                    # Can be noAuthNoPriv, authNoPriv or authPriv.
-      password: pass  # Has no default. Also known as authKey, -A option to NetSNMP.
-                      # Required if security_level is authNoPriv or authPriv.
-      auth_protocol: MD5  # MD5, SHA, SHA224, SHA256, SHA384, or SHA512. Defaults to MD5. -a option to NetSNMP.
-                          # Used if security_level is authNoPriv or authPriv.
-      priv_protocol: DES  # DES, AES, AES192, or AES256. Defaults to DES. -x option to NetSNMP.
-                          # Used if security_level is authPriv.
-      priv_password: otherPass # Has no default. Also known as privKey, -X option to NetSNMP.
-                               # Required if security_level is authPriv.
-      context_name: context # Has no default. -n option to NetSNMP.
-                            # Required if context is configured on the device.
 
     lookups:  # Optional list of lookups to perform.
               # The default for `keep_source_indexes` is false. Indexes must be unique for this option to be used.
@@ -152,7 +155,7 @@ modules:
                              #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
                              #   Float: A 32 bit floating-point value with type gauge.
                              #   Double: A 64 bit floating-point value with type gauge.
-                             #   InetAddressIPv4: An IPv4 address, rendered as 1.2.3.4.
+                             #   InetAddressIPv4: An IPv4 address, rendered as 192.0.0.8.
                              #   InetAddressIPv6: An IPv6 address, rendered as 0102:0304:0506:0708:090A:0B0C:0D0E:0F10.
                              #   InetAddress: An InetAddress per RFC 4001. Must be preceded by an InetAddressType.
                              #   InetAddressMissingSize: An InetAddress that violates section 4.1 of RFC 4001 by

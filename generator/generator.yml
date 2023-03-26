@@ -1,3 +1,10 @@
+---
+auths:
+  public_v1:
+    version: 1
+  public_v2:
+    version: 2
+
 modules:
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
@@ -55,7 +62,6 @@ modules:
 # Guide: http://www.apc.com/salestools/ASTE-6Z5QEY/ASTE-6Z5QEY_R0_EN.pdf
 # Download site: http://www.apc.com/us/en/tools/download/index.cfm
   apcups:
-    version: 1
     walk:
       - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
       - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
@@ -277,7 +283,6 @@ modules:
 # https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
 #
   ubiquiti_airfiber:
-    version: 1
     walk:
       - 1.3.6.1.4.1.41112.1.3 #ubntAirFiber
 
@@ -286,7 +291,6 @@ modules:
 # https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 #
   ubiquiti_airmax:
-    version: 1
     walk:
       - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
 
@@ -474,8 +478,6 @@ modules:
     overrides:
       outletOperationalState:
         type: EnumAsStateSet
-    auth:
-      community: raritan_public
 
 # Wiener Power Supply Module MPod
 #
@@ -594,7 +596,6 @@ modules:
 #
 # https://www.cyberpowersystems.com/product/software/mib-files/mib-v29/
   cyberpower:
-    version: 1
     walk:
       - 1.3.6.1.4.1.3808.1.1.1 # ups
       - 1.3.6.1.4.1.3808.1.1.4 # environmentSensor
