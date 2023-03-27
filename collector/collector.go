@@ -171,7 +171,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	}
 	defer snmp.Conn.Close()
 
-	// evaluate rules
+	// Evaluate rules.
 	newGet := config.Get
 	newWalk := config.Walk
 	for _, filter := range config.Filters {
@@ -183,19 +183,21 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		} else {
 			pdus, err = snmp.BulkWalkAll(filter.Oid)
 		}
+		// Do not try to filter anything if we had errors.
 		if err != nil {
+			level.Info(logger).Log("msg", "Error getting OID, won't do any filter on this oid", "oid", filter.Oid)
 			continue
 		}
 
 		allowedList = filterAllowedIndices(logger, filter, pdus, allowedList)
 
-		// Update config to get only index and not walk them
+		// Update config to get only index and not walk them.
 		newWalk = updateWalkConfig(newWalk, filter, logger)
 
-		// Only Keep indices not involved in filters
+		// Only Keep indices not involved in filters.
 		newCfg := updateGetConfig(newGet, filter, logger)
 
-		// We now add each index from filter to the get list
+		// We now add each index from filter to the get list.
 		newCfg = addAllowedIndices(filter, allowedList, logger, newCfg)
 
 		newGet = newCfg
@@ -300,7 +302,7 @@ func updateWalkConfig(walkConfig []string, filter config.DynamicFilter, logger l
 				break
 			}
 		}
-		// Oid not found in target,  we walk it
+		// Oid not found in target,  we walk it.
 		if !found {
 			newCfg = append(newCfg, elem)
 		}
@@ -313,14 +315,12 @@ func updateGetConfig(getConfig []string, filter config.DynamicFilter, logger log
 	for _, elem := range getConfig {
 		found := false
 		for _, targetOid := range filter.Targets {
-			if !strings.HasPrefix(elem, targetOid) {
-				continue
-			} else {
+			if strings.HasPrefix(elem, targetOid) {
 				found = true
 				break
 			}
 		}
-		// Oid not found in targets, we keep it
+		// Oid not found in targets, we keep it.
 		if !found {
 			level.Debug(logger).Log("msg", "Keeping get configuration", "oid", elem)
 			newCfg = append(newCfg, elem)
