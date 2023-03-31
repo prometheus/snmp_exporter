@@ -725,7 +725,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string) string {
 		// DisplayString.
 		return pdu.Value.(string)
 	case []byte:
-		if typ == "" {
+		if typ == "" || typ == "Bits" {
 			typ = "OctetString"
 		}
 		// Reuse the OID index parsing code.
