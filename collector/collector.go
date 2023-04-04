@@ -18,6 +18,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -170,7 +171,39 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	}
 	defer snmp.Conn.Close()
 
-	getOids := config.Get
+	// Evaluate rules.
+	newGet := config.Get
+	newWalk := config.Walk
+	for _, filter := range config.Filters {
+		var pdus []gosnmp.SnmpPDU
+		allowedList := []string{}
+
+		if snmp.Version == gosnmp.Version1 {
+			pdus, err = snmp.WalkAll(filter.Oid)
+		} else {
+			pdus, err = snmp.BulkWalkAll(filter.Oid)
+		}
+		// Do not try to filter anything if we had errors.
+		if err != nil {
+			level.Info(logger).Log("msg", "Error getting OID, won't do any filter on this oid", "oid", filter.Oid)
+			continue
+		}
+
+		allowedList = filterAllowedIndices(logger, filter, pdus, allowedList)
+
+		// Update config to get only index and not walk them.
+		newWalk = updateWalkConfig(newWalk, filter, logger)
+
+		// Only Keep indices not involved in filters.
+		newCfg := updateGetConfig(newGet, filter, logger)
+
+		// We now add each index from filter to the get list.
+		newCfg = addAllowedIndices(filter, allowedList, logger, newCfg)
+
+		newGet = newCfg
+	}
+
+	getOids := newGet
 	maxOids := int(config.WalkParams.MaxRepetitions)
 	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only report one OID error per call.
 	if maxOids == 0 || snmp.Version == gosnmp.Version1 {
@@ -213,7 +246,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		getOids = getOids[oids:]
 	}
 
-	for _, subtree := range config.Walk {
+	for _, subtree := range newWalk {
 		var pdus []gosnmp.SnmpPDU
 		level.Debug(logger).Log("msg", "Walking subtree", "oid", subtree)
 		walkStart := time.Now()
@@ -233,6 +266,77 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		results.pdus = append(results.pdus, pdus...)
 	}
 	return results, nil
+}
+
+func filterAllowedIndices(logger log.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string) []string {
+	level.Debug(logger).Log("msg", "Evaluating rule for oid", "oid", filter.Oid)
+	for _, pdu := range pdus {
+		found := false
+		for _, val := range filter.Values {
+			snmpval := pduValueAsString(&pdu, "DisplayString")
+			level.Debug(logger).Log("config value", val, "snmp value", snmpval)
+
+			if regexp.MustCompile(val).MatchString(snmpval) {
+				found = true
+				break
+			}
+		}
+		if found {
+			pduArray := strings.Split(pdu.Name, ".")
+			index := pduArray[len(pduArray)-1]
+			level.Debug(logger).Log("msg", "Caching index", "index", index)
+			allowedList = append(allowedList, index)
+		}
+	}
+	return allowedList
+}
+
+func updateWalkConfig(walkConfig []string, filter config.DynamicFilter, logger log.Logger) []string {
+	newCfg := []string{}
+	for _, elem := range walkConfig {
+		found := false
+		for _, targetOid := range filter.Targets {
+			if elem == targetOid {
+				level.Debug(logger).Log("msg", "Deleting for walk configuration", "oid", targetOid)
+				found = true
+				break
+			}
+		}
+		// Oid not found in target,  we walk it.
+		if !found {
+			newCfg = append(newCfg, elem)
+		}
+	}
+	return newCfg
+}
+
+func updateGetConfig(getConfig []string, filter config.DynamicFilter, logger log.Logger) []string {
+	newCfg := []string{}
+	for _, elem := range getConfig {
+		found := false
+		for _, targetOid := range filter.Targets {
+			if strings.HasPrefix(elem, targetOid) {
+				found = true
+				break
+			}
+		}
+		// Oid not found in targets, we keep it.
+		if !found {
+			level.Debug(logger).Log("msg", "Keeping get configuration", "oid", elem)
+			newCfg = append(newCfg, elem)
+		}
+	}
+	return newCfg
+}
+
+func addAllowedIndices(filter config.DynamicFilter, allowedList []string, logger log.Logger, newCfg []string) []string {
+	for _, targetOid := range filter.Targets {
+		for _, index := range allowedList {
+			level.Debug(logger).Log("msg", "Adding get configuration", "oid", targetOid+"."+index)
+			newCfg = append(newCfg, targetOid+"."+index)
+		}
+	}
+	return newCfg
 }
 
 type MetricNode struct {

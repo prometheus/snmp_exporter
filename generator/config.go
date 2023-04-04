@@ -15,8 +15,8 @@ package main
 
 import (
 	"fmt"
-
 	"github.com/prometheus/snmp_exporter/config"
+	"strconv"
 )
 
 // The generator config.
@@ -50,6 +50,27 @@ type ModuleConfig struct {
 	Lookups    []*Lookup                  `yaml:"lookups"`
 	WalkParams config.WalkParams          `yaml:",inline"`
 	Overrides  map[string]MetricOverrides `yaml:"overrides"`
+	Filters    config.Filters             `yaml:"filters,omitempty"`
+}
+
+// UnmarshalYAML implements the yaml.Unmarshaler interface.
+func (c *ModuleConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	type plain ModuleConfig
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+
+	// Ensure indices in static filters are integer for input validation.
+	for _, filter := range c.Filters.Static {
+		for _, index := range filter.Indices {
+			_, err := strconv.Atoi(index)
+			if err != nil {
+				return fmt.Errorf("invalid index '%s'. Index must be integer", index)
+			}
+		}
+	}
+
+	return nil
 }
 
 type Lookup struct {

@@ -1008,3 +1008,148 @@ func TestIndexesToLabels(t *testing.T) {
 		}
 	}
 }
+
+func TestFilterAllowedIndices(t *testing.T) {
+
+	pdus := []gosnmp.SnmpPDU{
+		gosnmp.SnmpPDU{
+			Name:  "1.3.6.1.2.1.2.2.1.8.1",
+			Value: "2",
+		},
+		gosnmp.SnmpPDU{
+			Name:  "1.3.6.1.2.1.2.2.1.8.2",
+			Value: "1",
+		},
+		gosnmp.SnmpPDU{
+			Name:  "1.3.6.1.2.1.2.2.1.8.3",
+			Value: "1",
+		},
+		gosnmp.SnmpPDU{
+			Name:  "1.3.6.1.2.1.2.2.1.8.4",
+			Value: "5",
+		},
+	}
+
+	cases := []struct {
+		filter      config.DynamicFilter
+		allowedList []string
+		result      []string
+	}{
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5"},
+				Values:  []string{"1"},
+			},
+			result: []string{"2", "3"},
+		},
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5"},
+				Values:  []string{"5"},
+			},
+			result: []string{"4"},
+		},
+	}
+	for _, c := range cases {
+		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList)
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("filterAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
+		}
+	}
+}
+
+func TestUpdateWalkConfig(t *testing.T) {
+	cases := []struct {
+		filter config.DynamicFilter
+		result []string
+	}{
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5", "1.3.6.1.2.1.2.2.1.7"},
+				Values:  []string{"1"},
+			},
+			result: []string{},
+		},
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.21"},
+				Values:  []string{"1"},
+			},
+			result: []string{"1.3.6.1.2.1.2.2.1.5", "1.3.6.1.2.1.2.2.1.7"},
+		},
+	}
+	walkConfig := []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5", "1.3.6.1.2.1.2.2.1.7"}
+	for _, c := range cases {
+		got := updateWalkConfig(walkConfig, c.filter, log.NewNopLogger())
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("updateWalkConfig(%v): got %v, want %v", c.filter, got, c.result)
+		}
+	}
+}
+
+func TestUpdateGetConfig(t *testing.T) {
+	cases := []struct {
+		filter config.DynamicFilter
+		result []string
+	}{
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1"},
+				Values:  []string{"1"},
+			},
+			result: []string{},
+		},
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.21"},
+				Values:  []string{"1"},
+			},
+			result: []string{"1.3.6.1.2.1.2.2.1.5", "1.3.6.1.2.1.2.2.1.7"},
+		},
+	}
+	getConfig := []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5", "1.3.6.1.2.1.2.2.1.7"}
+	for _, c := range cases {
+		got := updateGetConfig(getConfig, c.filter, log.NewNopLogger())
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("updateGetConfig(%v): got %v, want %v", c.filter, got, c.result)
+		}
+	}
+}
+
+func TestAddAllowedIndices(t *testing.T) {
+	cases := []struct {
+		filter config.DynamicFilter
+		result []string
+	}{
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1"},
+				Values:  []string{"1"},
+			},
+			result: []string{"1.3.6.1.2.1.31.1.1.1.10", "1.3.6.1.2.1.31.1.1.1.11", "1.3.6.1.2.1.2.2.1.2", "1.3.6.1.2.1.2.2.1.3"},
+		},
+		{
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.21"},
+				Values:  []string{"1"},
+			},
+			result: []string{"1.3.6.1.2.1.31.1.1.1.10", "1.3.6.1.2.1.31.1.1.1.11", "1.3.6.1.2.1.2.2.1.3.2", "1.3.6.1.2.1.2.2.1.3.3", "1.3.6.1.2.1.2.2.1.21.2", "1.3.6.1.2.1.2.2.1.21.3"},
+		},
+	}
+	allowedList := []string{"2", "3"}
+	newCfg := []string{"1.3.6.1.2.1.31.1.1.1.10", "1.3.6.1.2.1.31.1.1.1.11"}
+	for _, c := range cases {
+		got := addAllowedIndices(c.filter, allowedList, log.NewNopLogger(), newCfg)
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("addAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
+		}
+	}
+}

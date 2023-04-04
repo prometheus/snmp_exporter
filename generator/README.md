@@ -17,6 +17,12 @@ git clone https://github.com/prometheus/snmp_exporter.git
 cd snmp_exporter/generator
 make generator mibs
 ```
+## Preparation
+
+It is recommended to have a directory per device family which contains the mibs dir for the device family, 
+a logical link to the generator executable and the generator.yml configuration file. This is to avoid name space collisions
+in the MIB definition. Keep only the required MIBS in the mibs directory for the devices.
+Then merge all the resulting snmp.yml files into one main file that will be used by the snmp_exporter collector.
 
 ## Running
 
@@ -24,7 +30,8 @@ make generator mibs
 make generate
 ```
 
-The generator reads in from `generator.yml` and writes to `snmp.yml`.
+The generator reads in the simplified collection instructions from `generator.yml` and writes to `snmp.yml`. Only the snmp.yml file is used
+by the snmp_exporter executable to collect data from the snmp enabled devices.
 
 Additional command are available for debugging, use the `help` command to see them.
 
@@ -42,7 +49,7 @@ make docker-generate
 
 ## File Format
 
-`generator.yml` provides a list of modules. The simplest module is just a name
+`generator.yml` provides a list of modules. Each module defines what to collect from a device type. The simplest module is just a name
 and a set of OIDs to walk.
 
 ```yaml
@@ -52,6 +59,8 @@ modules:
       - 1.3.6.1.2.1.2              # Same as "interfaces"
       - sysUpTime                  # Same as "1.3.6.1.2.1.1.3"
       - 1.3.6.1.2.1.31.1.1.1.6.40  # Instance of "ifHCInOctets" with index "40"
+      - 1.3.6.1.2.1.2.2.1.4        # Same as ifMtu (used for filter example)
+      - bsnDot11EssSsid            # Same as 1.3.6.1.4.1.14179.2.1.1.1.2 (used for filter example)
 
     version: 2  # SNMP version to use. Defaults to 2.
                 # 1 will use GETNEXT, 2 and 3 use GETBULK.
@@ -105,19 +114,19 @@ modules:
       - source_indexes: [cbQosConfigIndex]
         lookup: cbQosCMName
 
-     overrides: # Allows for per-module overrides of bits of MIBs
-       metricName:
-         ignore: true # Drops the metric from the output.
-         regex_extracts:
-           Temp: # A new metric will be created appending this to the metricName to become metricNameTemp.
-             - regex: '(.*)' # Regex to extract a value from the returned SNMP walks's value.
-               value: '$1' # The result will be parsed as a float64, defaults to $1.
-           Status:
-             - regex: '.*Example'
-               value: '1' # The first entry whose regex matches and whose value parses wins.
-             - regex: '.*'
-               value: '0'
-         type: DisplayString # Override the metric type, possible types are:
+    overrides: # Allows for per-module overrides of bits of MIBs
+      metricName:
+        ignore: true # Drops the metric from the output.
+        regex_extracts:
+          Temp: # A new metric will be created appending this to the metricName to become metricNameTemp.
+            - regex: '(.*)' # Regex to extract a value from the returned SNMP walks's value.
+              value: '$1' # The result will be parsed as a float64, defaults to $1.
+          Status:
+            - regex: '.*Example'
+              value: '1' # The first entry whose regex matches and whose value parses wins.
+            - regex: '.*'
+              value: '0'
+        type: DisplayString # Override the metric type, possible types are:
                              #   gauge:   An integer with type gauge.
                              #   counter: An integer with type counter.
                              #   OctetString: A bit string, rendered as 0xff34.
@@ -134,6 +143,30 @@ modules:
                              #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
                              #   Bits: An RFC 2578 BITS construct, which produces a StateSet with a time series per bit.
+
+    filters: # Define filters to collect only a subset of OID table indices
+      static: # static filters are handled in the generator. They will convert walks to multiple gets with the specified indices
+              # in the resulting snmp.yml output.
+              # the index filter will reduce a walk of a table to only the defined indices to get
+              # If one of the target OIDs is used in a lookup, the filter will apply ALL tables using this lookup
+              # For a network switch, this could be used to collect a subset of interfaces such as uplinks
+              # For a router, this could be used to collect all real ports but not vlans and other virtual interfaces
+              # Specifying ifAlias or ifName if they are used in lookups with ifIndex will apply to the filter to 
+              # all the OIDs that depend on the lookup, such as ifSpeed, ifInHcOctets, etc.
+              # This feature applies to any table(s) OIDs using a common index
+        - targets:
+          - bsnDot11EssSsid
+          indices: ["2","3","4"]  # List of interface indices to get
+
+      dynamic: # dynamic filters are handed by the snmp exporter. The generator will simply pass on the configuration in the snmp.yml.
+               # The exporter will do a snmp walk of the oid and will restrict snmp walk made on the targets
+               # to the index matching the value in the values list.
+               # This would be typically used to specify a filter for interfaces with a certain name in ifAlias, ifSpeed or admin status.
+               # For example, only get interfaces that a gig and faster, or get interfaces that are named Up or interfaces that are admin Up
+        - oid: 1.3.6.1.2.1.2.2.1.7
+          targets:
+            - "1.3.6.1.2.1.2.2.1.4"
+          values: ["1", "2"]
 ```
 
 ### EnumAsInfo and EnumAsStateSet
