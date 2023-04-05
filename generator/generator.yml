@@ -24,8 +24,6 @@ modules:
 # Cisco Wireless LAN Controller
   cisco_wlc:
     walk:
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.14179.2.1.1.1.38   # bsnDot11EssNumberofMobileStations
       - 1.3.6.1.4.1.14179.2.2.2.1.2    # bsnAPIfType
       - 1.3.6.1.4.1.14179.2.2.2.1.4    # bsnAPIfPhyChannelNumber
@@ -40,9 +38,6 @@ modules:
       - source_indexes: [bsnAPDot3MacAddress]
         lookup: bsnAPName
         drop_source_indexes: true
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -63,7 +58,6 @@ modules:
     version: 1
     walk:
       - sysUpTime
-      - interfaces
       - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
       - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
       - 1.3.6.1.4.1.318.1.1.1.4       # upsOutput
@@ -83,8 +77,6 @@ modules:
         lookup: iemStatusProbeName
         drop_source_indexes: true
     overrides:
-      ifType:
-        type: EnumAsInfo
       rPDU2BankStatusLoadState:
         type: EnumAsStateSet
       upsAdvBatteryCondition:
@@ -166,7 +158,6 @@ modules:
   paloalto_fw:
     walk:
       - sysUpTime
-      - interfaces
       - hrDevice
       - hrSystem
       - hrStorage
@@ -186,14 +177,9 @@ modules:
   arista_sw:
     walk:
       - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.2.1.25.3.3.1.2 # hrProcessorLoad
       - 1.3.6.1.2.1.25.2.3.1.6 # hrStorageUsed
       - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Synology
 #
@@ -205,9 +191,7 @@ modules:
 #
   synology:
     walk:
-      - interfaces
       - sysUpTime
-      - ifXTable
       - laNames
       - laLoadInt
       - ssCpuUser
@@ -234,10 +218,6 @@ modules:
       - source_indexes: [serviceInfoIndex]
         lookup: serviceName
         drop_source_indexes: true
-      - source_indexes: [ifIndex]
-        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
-        drop_source_indexes: true
       - source_indexes: [diskIndex]
         lookup: diskID
         drop_source_indexes: true
@@ -261,8 +241,6 @@ modules:
         type: DisplayString
       diskType:
         type: DisplayString
-      ifType:
-        type: EnumAsInfo
       modelName:
         type: DisplayString
       raidFreeSize:
@@ -287,8 +265,6 @@ modules:
   ddwrt:
     walk:
       - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.2.1.25.2 # hrStorage
       - 1.3.6.1.4.1.2021.4 # memory
       - 1.3.6.1.4.1.2021.10.1.1 # laIndex
@@ -296,19 +272,12 @@ modules:
       - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
       - 1.3.6.1.4.1.2021.11 # systemStats
     lookups:
-      - source_indexes: [ifIndex]
-        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
-        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
-        drop_source_indexes: true
       - source_indexes: [laIndex]
         lookup: laNames
         drop_source_indexes: true
       - source_indexes: [hrStorageIndex]
         lookup: hrStorageDescr
         drop_source_indexes: true
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / AirFiber
 #
@@ -318,12 +287,7 @@ modules:
     version: 1
     walk:
       - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.3 #ubntAirFiber
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / AirMAX
 #
@@ -333,12 +297,7 @@ modules:
     version: 1
     walk:
       - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / UniFi
 #
@@ -348,19 +307,12 @@ modules:
   ubiquiti_unifi:
     walk:
       - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
     lookups:
-      - source_indexes: [ifIndex]
-        lookup: ifName
       - source_indexes: [unifiVapIndex]
         lookup: unifiVapName
       - source_indexes: [unifiVapIndex]
         lookup: unifiVapEssId
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # keepalived
 #
@@ -410,7 +362,6 @@ modules:
 # https://support.kemptechnologies.com/hc/en-us/articles/202375677-LoadMaster-SNMP-MIB-s
   kemp_loadmaster:
     walk:
-      - interfaces
       - sysUpTime
       - laNames
       - laLoadInt
@@ -635,7 +586,6 @@ modules:
 # http://download2.mikrotik.com/Mikrotik.mib
   mikrotik:
     walk:
-      - interfaces
       - ifMIB
       - laIndex
       - sysUpTime
