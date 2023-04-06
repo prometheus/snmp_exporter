@@ -660,7 +660,7 @@ modules:
 
 # CyberPower
 #
-# https://www.cyberpowersystems.com/product/software/mib-files/mib-v29/
+# https://www.cyberpowersystems.com/product/software/mib-files/mib-v211/
   cyberpower:
     version: 1
     walk:
