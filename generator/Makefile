@@ -129,6 +129,9 @@ mibs: \
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib "$(APC_URL)"
+	# Workaround to make DisplayString available (#867)
+	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $(MIBDIR)/apc-powernet-mib
+	@rm $(MIBDIR)/apc-powernet-mib.bak
 
 $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB:
 	@echo ">> Downloading ARISTA-ENTITY-SENSOR-MIB"
@@ -313,4 +316,7 @@ $(MIBDIR)/CyberPower.MIB:
 	@curl $(CURL_OPTS) -o $(TMP) $(CYBERPOWER_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB
 	@mv -v $(MIBDIR)/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB $@
+	# Workaround to make DisplayString available (#867)
+	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $@
+	@rm $@.bak
 	@rm -v $(TMP)
