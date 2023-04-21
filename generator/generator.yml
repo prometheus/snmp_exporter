@@ -570,7 +570,6 @@ modules:
 # http://download2.mikrotik.com/Mikrotik.mib
   mikrotik:
     walk:
-      - ifMIB
       - laIndex
       - sysDescr
       - host
