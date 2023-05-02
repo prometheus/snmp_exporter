@@ -19,10 +19,10 @@ import (
 	"regexp"
 	"testing"
 
+	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/go-kit/log"
 	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_model/go"
-	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
