@@ -702,6 +702,11 @@ func TestPduValueAsString(t *testing.T) {
 			result: "0102:0304:0506:0708:090A:0B0C:0D0E:0F10",
 		},
 		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{2, 0}},
+			typ:    "Bits",
+			result: "0x0200",
+		},
+		{
 			pdu:    &gosnmp.SnmpPDU{Value: nil},
 			result: "",
 		},
