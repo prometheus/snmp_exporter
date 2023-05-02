@@ -35,6 +35,23 @@ by the snmp_exporter executable to collect data from the snmp enabled devices.
 
 Additional command are available for debugging, use the `help` command to see them.
 
+### MIB Parsing options
+
+The parsing of MIBs can be controlled using the `--snmp.mibopts` flag. The available values depend on the net-snmp version used to build the generator.
+
+Example from net-snmp 5.9.1:
+
+```
+Toggle various defaults controlling MIB parsing:
+  u:  allow the use of underlines in MIB symbols
+  c:  disallow the use of "--" to terminate comments
+  d:  save the DESCRIPTIONs of the MIB objects
+  e:  disable errors when MIB symbols conflict
+  w:  enable warnings when MIB symbols conflict
+  W:  enable detailed warnings when MIB symbols conflict
+  R:  replace MIB symbols from latest module
+```
+
 ## Docker Users
 
 If you would like to run the generator in docker to generate your `snmp.yml` config run the following commands.
