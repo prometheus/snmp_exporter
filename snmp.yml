@@ -12,14 +12,8 @@ apcups:
   - 1.3.6.1.4.1.318.1.1.26.6.3
   - 1.3.6.1.4.1.318.1.1.26.8.3
   get:
-  - 1.3.6.1.2.1.1.3.0
   - 1.3.6.1.4.1.318.1.1.1.8.1.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: upsOutletGroupStatusTableSize
     oid: 1.3.6.1.4.1.318.1.1.1.12.1.1
     type: gauge
@@ -2359,14 +2353,7 @@ arista_sw:
   - 1.3.6.1.2.1.25.2.3.1.6
   - 1.3.6.1.2.1.25.3.3.1.2
   - 1.3.6.1.4.1.30065.3.1.1
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: hrStorageUsed
     oid: 1.3.6.1.2.1.25.2.3.1.6
     type: gauge
@@ -5630,14 +5617,7 @@ ddwrt:
   - 1.3.6.1.4.1.2021.10.1.5
   - 1.3.6.1.4.1.2021.11
   - 1.3.6.1.4.1.2021.4
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: hrMemorySize
     oid: 1.3.6.1.2.1.25.2.2
     type: gauge
@@ -7325,14 +7305,7 @@ infrapower_pdu:
   - 1.3.6.1.4.1.34550.20.2.1.1.1.17
   - 1.3.6.1.4.1.34550.20.2.1.1.1.6
   - 1.3.6.1.4.1.34550.20.2.1.1.1.7
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: pduMainLoadVoltage
     oid: 1.3.6.1.4.1.34550.20.2.1.1.1.13
     type: DisplayString
@@ -9262,16 +9235,10 @@ kemp_loadmaster:
   - 1.3.6.1.4.1.2021.10.1.5
   - 1.3.6.1.4.1.2021.4
   get:
-  - 1.3.6.1.2.1.1.3.0
   - 1.3.6.1.4.1.2021.11.10.0
   - 1.3.6.1.4.1.2021.11.11.0
   - 1.3.6.1.4.1.2021.11.9.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: version
     oid: 1.3.6.1.4.1.12196.13.0.1
     type: DisplayString
@@ -10029,14 +9996,7 @@ liebert_pdu:
   - 1.3.6.1.4.1.476.1.42.3.8.30.40
   - 1.3.6.1.4.1.476.1.42.3.8.50.20
   - 1.3.6.1.4.1.476.1.42.3.8.60.10
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: lgpPduEntryIndex
     oid: 1.3.6.1.4.1.476.1.42.3.8.20.1.1
     type: gauge
@@ -12534,23 +12494,17 @@ liebert_pdu:
 mikrotik:
   walk:
   - 1.3.6.1.2.1.25
-  - 1.3.6.1.2.1.31
+  - 1.3.6.1.2.1.31.1.1.1.1
   - 1.3.6.1.4.1.14988
   - 1.3.6.1.4.1.2021.10.1.1
   - 1.3.6.1.4.1.2021.10.1.2
   get:
   - 1.3.6.1.2.1.1.1.0
-  - 1.3.6.1.2.1.1.3.0
   metrics:
   - name: sysDescr
     oid: 1.3.6.1.2.1.1.1
     type: DisplayString
     help: A textual description of the entity - 1.3.6.1.2.1.1.1
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: hrSystemUptime
     oid: 1.3.6.1.2.1.25.1.1
     type: gauge
@@ -13074,476 +13028,6 @@ mikrotik:
     indexes:
     - labelname: hrSWInstalledIndex
       type: gauge
-  - name: ifInMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.2
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifInBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.3
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifOutMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.4
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a multicast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifOutBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.5
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a broadcast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCInOctets
-    oid: 1.3.6.1.2.1.31.1.1.1.6
-    type: counter
-    help: The total number of octets received on the interface, including framing
-      characters - 1.3.6.1.2.1.31.1.1.1.6
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCInUcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.7
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were not addressed to a multicast or broadcast address at this sub-layer
-      - 1.3.6.1.2.1.31.1.1.1.7
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCInMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.8
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCInBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.9
-    type: counter
-    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
-      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCOutOctets
-    oid: 1.3.6.1.2.1.31.1.1.1.10
-    type: counter
-    help: The total number of octets transmitted out of the interface, including framing
-      characters - 1.3.6.1.2.1.31.1.1.1.10
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCOutUcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.11
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were not addressed to a multicast or broadcast address at this sub-layer,
-      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCOutMulticastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.12
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a multicast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifHCOutBroadcastPkts
-    oid: 1.3.6.1.2.1.31.1.1.1.13
-    type: counter
-    help: The total number of packets that higher-level protocols requested be transmitted,
-      and which were addressed to a broadcast address at this sub-layer, including
-      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifLinkUpDownTrapEnable
-    oid: 1.3.6.1.2.1.31.1.1.1.14
-    type: gauge
-    help: Indicates whether linkUp/linkDown traps should be generated for this interface
-      - 1.3.6.1.2.1.31.1.1.1.14
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-    enum_values:
-      1: enabled
-      2: disabled
-  - name: ifHighSpeed
-    oid: 1.3.6.1.2.1.31.1.1.1.15
-    type: gauge
-    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
-      per second - 1.3.6.1.2.1.31.1.1.1.15
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifPromiscuousMode
-    oid: 1.3.6.1.2.1.31.1.1.1.16
-    type: gauge
-    help: This object has a value of false(2) if this interface only accepts packets/frames
-      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: ifConnectorPresent
-    oid: 1.3.6.1.2.1.31.1.1.1.17
-    type: gauge
-    help: This object has the value 'true(1)' if the interface sublayer has a physical
-      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-    enum_values:
-      1: "true"
-      2: "false"
-  - name: ifAlias
-    oid: 1.3.6.1.2.1.31.1.1.1.18
-    type: DisplayString
-    help: This object is an 'alias' name for the interface as specified by a network
-      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifCounterDiscontinuityTime
-    oid: 1.3.6.1.2.1.31.1.1.1.19
-    type: gauge
-    help: The value of sysUpTime on the most recent occasion at which any one or more
-      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifStackHigherLayer
-    oid: 1.3.6.1.2.1.31.1.2.1.1
-    type: gauge
-    help: The value of ifIndex corresponding to the higher sub-layer of the relationship,
-      i.e., the sub-layer which runs on 'top' of the sub-layer identified by the corresponding
-      instance of ifStackLowerLayer - 1.3.6.1.2.1.31.1.2.1.1
-    indexes:
-    - labelname: ifStackHigherLayer
-      type: gauge
-    - labelname: ifStackLowerLayer
-      type: gauge
-  - name: ifStackLowerLayer
-    oid: 1.3.6.1.2.1.31.1.2.1.2
-    type: gauge
-    help: The value of ifIndex corresponding to the lower sub-layer of the relationship,
-      i.e., the sub-layer which runs 'below' the sub-layer identified by the corresponding
-      instance of ifStackHigherLayer - 1.3.6.1.2.1.31.1.2.1.2
-    indexes:
-    - labelname: ifStackHigherLayer
-      type: gauge
-    - labelname: ifStackLowerLayer
-      type: gauge
-  - name: ifStackStatus
-    oid: 1.3.6.1.2.1.31.1.2.1.3
-    type: gauge
-    help: The status of the relationship between two sub-layers - 1.3.6.1.2.1.31.1.2.1.3
-    indexes:
-    - labelname: ifStackHigherLayer
-      type: gauge
-    - labelname: ifStackLowerLayer
-      type: gauge
-    enum_values:
-      1: active
-      2: notInService
-      3: notReady
-      4: createAndGo
-      5: createAndWait
-      6: destroy
-  - name: ifTestId
-    oid: 1.3.6.1.2.1.31.1.3.1.1
-    type: gauge
-    help: This object identifies the current invocation of the interface's test. -
-      1.3.6.1.2.1.31.1.3.1.1
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifTestStatus
-    oid: 1.3.6.1.2.1.31.1.3.1.2
-    type: gauge
-    help: This object indicates whether or not some manager currently has the necessary
-      'ownership' required to invoke a test on this interface - 1.3.6.1.2.1.31.1.3.1.2
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-    enum_values:
-      1: notInUse
-      2: inUse
-  - name: ifTestType
-    oid: 1.3.6.1.2.1.31.1.3.1.3
-    type: OctetString
-    help: A control variable used to start and stop operator- initiated interface
-      tests - 1.3.6.1.2.1.31.1.3.1.3
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifTestResult
-    oid: 1.3.6.1.2.1.31.1.3.1.4
-    type: gauge
-    help: This object contains the result of the most recently requested test, or
-      the value none(1) if no tests have been requested since the last reset - 1.3.6.1.2.1.31.1.3.1.4
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-    enum_values:
-      1: none
-      2: success
-      3: inProgress
-      4: notSupported
-      5: unAbleToRun
-      6: aborted
-      7: failed
-  - name: ifTestCode
-    oid: 1.3.6.1.2.1.31.1.3.1.5
-    type: OctetString
-    help: This object contains a code which contains more specific information on
-      the test result, for example an error-code after a failed test - 1.3.6.1.2.1.31.1.3.1.5
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifTestOwner
-    oid: 1.3.6.1.2.1.31.1.3.1.6
-    type: DisplayString
-    help: The entity which currently has the 'ownership' required to invoke a test
-      on this interface. - 1.3.6.1.2.1.31.1.3.1.6
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifRcvAddressAddress
-    oid: 1.3.6.1.2.1.31.1.4.1.1
-    type: PhysAddress48
-    help: An address for which the system will accept packets/frames on this entry's
-      interface. - 1.3.6.1.2.1.31.1.4.1.1
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    - labelname: ifRcvAddressAddress
-      type: PhysAddress48
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-  - name: ifRcvAddressStatus
-    oid: 1.3.6.1.2.1.31.1.4.1.2
-    type: gauge
-    help: This object is used to create and delete rows in the ifRcvAddressTable.
-      - 1.3.6.1.2.1.31.1.4.1.2
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    - labelname: ifRcvAddressAddress
-      type: PhysAddress48
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-    enum_values:
-      1: active
-      2: notInService
-      3: notReady
-      4: createAndGo
-      5: createAndWait
-      6: destroy
-  - name: ifRcvAddressType
-    oid: 1.3.6.1.2.1.31.1.4.1.3
-    type: gauge
-    help: This object has the value nonVolatile(3) for those entries in the table
-      which are valid and will not be deleted by the next restart of the managed system
-      - 1.3.6.1.2.1.31.1.4.1.3
-    indexes:
-    - labelname: ifIndex
-      type: gauge
-    - labelname: ifRcvAddressAddress
-      type: PhysAddress48
-    lookups:
-    - labels:
-      - ifIndex
-      labelname: ifName
-      oid: 1.3.6.1.2.1.31.1.1.1.1
-      type: DisplayString
-    enum_values:
-      1: other
-      2: volatile
-      3: nonVolatile
-  - name: ifTableLastChange
-    oid: 1.3.6.1.2.1.31.1.5
-    type: gauge
-    help: The value of sysUpTime at the time of the last creation or deletion of an
-      entry in the ifTable - 1.3.6.1.2.1.31.1.5
-  - name: ifStackLastChange
-    oid: 1.3.6.1.2.1.31.1.6
-    type: gauge
-    help: The value of sysUpTime at the time of the last change of the (whole) interface
-      stack - 1.3.6.1.2.1.31.1.6
   - name: mtxrWlStatIndex
     oid: 1.3.6.1.4.1.14988.1.1.1.1.1.1
     type: gauge
@@ -18526,14 +18010,7 @@ paloalto_fw:
   - 1.3.6.1.4.1.25461.2.1.2.1
   - 1.3.6.1.4.1.25461.2.1.2.3
   - 1.3.6.1.4.1.25461.2.1.2.5
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: hrSystemUptime
     oid: 1.3.6.1.2.1.25.1.1
     type: gauge
@@ -19621,14 +19098,7 @@ printer_mib:
   - 1.3.6.1.2.1.43.5.1.1.19
   - 1.3.6.1.2.1.43.5.1.1.3
   - 1.3.6.1.2.1.43.6.1.1.3
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: hrPrinterStatus
     oid: 1.3.6.1.2.1.25.3.5.1.1
     type: EnumAsStateSet
@@ -19830,14 +19300,8 @@ raritan:
   - 1.3.6.1.4.1.13742.4.1.20.2.1.8
   - 1.3.6.1.4.1.13742.4.1.20.2.1.9
   get:
-  - 1.3.6.1.2.1.1.3.0
   - 1.3.6.1.4.1.13742.4.1.3.1.5.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: outletOperationalState
     oid: 1.3.6.1.4.1.13742.4.1.2.2.1.3
     type: EnumAsStateSet
@@ -19956,14 +19420,7 @@ servertech_sentry3:
   walk:
   - 1.3.6.1.4.1.1718.3.2.2
   - 1.3.6.1.4.1.1718.3.2.3
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: infeedIndex
     oid: 1.3.6.1.4.1.1718.3.2.2.1.1
     type: gauge
@@ -20500,14 +19957,7 @@ servertech_sentry4:
   - 1.3.6.1.4.1.1718.4.1.8.2.1.3
   - 1.3.6.1.4.1.1718.4.1.8.3
   - 1.3.6.1.4.1.1718.4.1.9.3
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: st4FanSensorValue
     oid: 1.3.6.1.4.1.1718.4.1.14.3.1.1
     type: gauge
@@ -22840,16 +22290,10 @@ synology:
   - 1.3.6.1.4.1.6574.5
   - 1.3.6.1.4.1.6574.6
   get:
-  - 1.3.6.1.2.1.1.3.0
   - 1.3.6.1.4.1.2021.11.10.0
   - 1.3.6.1.4.1.2021.11.11.0
   - 1.3.6.1.4.1.2021.11.9.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: hrMemorySize
     oid: 1.3.6.1.2.1.25.2.2
     type: gauge
@@ -24605,14 +24049,7 @@ synology:
 ubiquiti_airfiber:
   walk:
   - 1.3.6.1.4.1.41112.1.3
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: airFiberConfigIndex
     oid: 1.3.6.1.4.1.41112.1.3.1.1.1
     type: gauge
@@ -25798,14 +25235,7 @@ ubiquiti_airfiber:
 ubiquiti_airmax:
   walk:
   - 1.3.6.1.4.1.41112.1.4
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: ubntRadioIndex
     oid: 1.3.6.1.4.1.41112.1.4.1.1.1
     type: gauge
@@ -26429,14 +25859,7 @@ ubiquiti_airmax:
 ubiquiti_unifi:
   walk:
   - 1.3.6.1.4.1.41112.1.6
-  get:
-  - 1.3.6.1.2.1.1.3.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: unifiRadioIndex
     oid: 1.3.6.1.4.1.41112.1.6.1.1.1.1
     type: gauge
@@ -27080,17 +26503,11 @@ wiener_mpod:
   - 1.3.6.1.4.1.19947.1.4.2.1.2
   - 1.3.6.1.4.1.19947.1.7.8.1.2
   get:
-  - 1.3.6.1.2.1.1.3.0
   - 1.3.6.1.4.1.19947.1.1.1.0
   - 1.3.6.1.4.1.19947.1.1.11.0
   - 1.3.6.1.4.1.19947.1.1.2.0
   - 1.3.6.1.4.1.19947.1.3.1.0
   metrics:
-  - name: sysUpTime
-    oid: 1.3.6.1.2.1.1.3
-    type: gauge
-    help: The time (in hundredths of a second) since the network management portion
-      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
   - name: sysMainSwitch
     oid: 1.3.6.1.4.1.19947.1.1.1
     type: gauge
