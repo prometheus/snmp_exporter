@@ -85,13 +85,12 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 		moduleName = "if_mib"
 	}
 
-
-        snmp_context := query.Get("snmp_context")
-        if len(query["snmp_context"]) > 1 {
-                http.Error(w, "'snmp_context' parameter must only be specified once", 400)
-                snmpRequestErrors.Inc()
-                return
-        }
+	snmp_context := query.Get("snmp_context")
+	if len(query["snmp_context"]) > 1 {
+		http.Error(w, "'snmp_context' parameter must only be specified once", 400)
+		snmpRequestErrors.Inc()
+		return
+	}
 
 	sc.RLock()
 	module, ok := (*(sc.C))[moduleName]

@@ -158,7 +158,7 @@ func ScrapeTarget(ctx context.Context, target string, snmp_context string, confi
 	}
 
 	// Configure auth.
-	config.WalkParams.ConfigureSNMP(&snmp,snmp_context)
+	config.WalkParams.ConfigureSNMP(&snmp, snmp_context)
 
 	// Do the actual walk.
 	err := snmp.Connect()
@@ -259,11 +259,11 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 }
 
 type collector struct {
-	ctx    context.Context
-	target string
-        snmp_context string
-	module *config.Module
-	logger log.Logger
+	ctx          context.Context
+	target       string
+	snmp_context string
+	module       *config.Module
+	logger       log.Logger
 }
 
 func New(ctx context.Context, target string, snmp_context string, module *config.Module, logger log.Logger) *collector {
