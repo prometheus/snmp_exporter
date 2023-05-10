@@ -481,6 +481,7 @@ modules:
       - prtMarkerSuppliesLevel
       - prtMarkerSuppliesMaxCapacity
       - prtMarkerSuppliesType
+      - prtMarkerLifeCount
     lookups:
       - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
         lookup: prtMarkerSuppliesType
