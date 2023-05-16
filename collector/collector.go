@@ -162,10 +162,12 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	config.WalkParams.ConfigureSNMP(&snmp)
 
 	// Do the actual walk.
+	getInitialStart := time.Now()
 	err := snmp.Connect()
 	if err != nil {
 		if err == context.Canceled {
-			return results, fmt.Errorf("scrape canceled (possible timeout) connecting to target %s", snmp.Target)
+			return results, fmt.Errorf("scrape cancelled after %s (possible timeout) connecting to target %s",
+				time.Since(getInitialStart), snmp.Target)
 		}
 		return results, fmt.Errorf("error connecting to target %s: %s", target, err)
 	}
@@ -220,7 +222,8 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
 			if err == context.Canceled {
-				return results, fmt.Errorf("scrape canceled (possible timeout) getting target %s", snmp.Target)
+				return results, fmt.Errorf("scrape cancelled after %s (possible timeout) getting target %s",
+					time.Since(getInitialStart), snmp.Target)
 			}
 			return results, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
 		}
@@ -257,7 +260,8 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 		}
 		if err != nil {
 			if err == context.Canceled {
-				return results, fmt.Errorf("scrape canceled (possible timeout) walking target %s", snmp.Target)
+				return results, fmt.Errorf("scrape canceled after %s (possible timeout) walking target %s",
+					time.Since(getInitialStart), snmp.Target)
 			}
 			return results, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
 		}
