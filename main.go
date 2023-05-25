@@ -178,17 +178,24 @@ func main() {
 		snmpDuration.WithLabelValues(module)
 	}
 
-	hup := make(chan os.Signal, 1)
+	sig := make(chan os.Signal, 1)
 	reloadCh = make(chan chan error)
-	signal.Notify(hup, syscall.SIGHUP)
+	signal.Notify(sig, syscall.SIGHUP, syscall.SIGTERM, syscall.SIGQUIT)
 	go func() {
 		for {
 			select {
-			case <-hup:
-				if err := sc.ReloadConfig(*configFile); err != nil {
-					level.Error(logger).Log("msg", "Error reloading config", "err", err)
-				} else {
-					level.Info(logger).Log("msg", "Loaded config file")
+			case signals := <-sig:
+				switch signals {
+				case syscall.SIGQUIT, syscall.SIGTERM:
+					level.Info(logger).Log("msg", "Got signal SIGTERM/SIGQUIT. Exiting.")
+					os.Exit(0)
+
+				case syscall.SIGHUP:
+					if err := sc.ReloadConfig(*configFile); err != nil {
+						level.Error(logger).Log("msg", "Error reloading config", "err", err)
+					} else {
+						level.Info(logger).Log("msg", "Loaded config file")
+					}
 				}
 			case rc := <-reloadCh:
 				if err := sc.ReloadConfig(*configFile); err != nil {
