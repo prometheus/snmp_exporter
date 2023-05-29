@@ -29,7 +29,8 @@ func LoadFile(filename string) (*Config, error) {
 		return nil, err
 	}
 	cfg := &Config{}
-	err = yaml.UnmarshalStrict(content, cfg)
+	expanded := os.ExpandEnv(string(content))
+	err = yaml.UnmarshalStrict([]byte(expanded), cfg)
 	if err != nil {
 		return nil, err
 	}

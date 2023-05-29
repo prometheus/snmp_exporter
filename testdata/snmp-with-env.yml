@@ -1,0 +1,5 @@
+default:
+  auth:
+    community: $COMMUNITY
+  walk:
+  - 1.1.1.1.1.1
