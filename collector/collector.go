@@ -161,7 +161,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 			continue
 		}
 
-		allowedList = filterAllowedIndices(logger, filter, pdus, allowedList, c.metrics)
+		allowedList = filterAllowedIndices(logger, filter, pdus, allowedList, metrics)
 
 		// Update config to get only index and not walk them.
 		newWalk = updateWalkConfig(newWalk, filter, logger)
