@@ -41,6 +41,7 @@ SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Sof
 UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
+UBNT_AF_LTU       := https://www.ui.com/downloads/firmwares/afltu-mib/v1.5.0/snmp-mibs.zip
 WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
@@ -120,6 +121,7 @@ mibs: \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
+  $(MIBDIR)/.ubnt-afltu \
   $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/Infrapower-MIB.mib \
@@ -282,6 +284,15 @@ $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	@curl $(CURL_OPTS) -o $(TMP) $(UBNT_AIROS_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) UBNT-AirMAX-MIB.txt
 	@rm -v $(TMP)
+
+$(MIBDIR)/.ubnt-afltu:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading UBNT-AFLTU-MIBs to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(UBNT_AF_LTU)
+	@unzip -j -d $(MIBDIR) $(TMP) snmp-mib-master/UBNT-AFLTU-MIB.txt
+	@unzip -j -d $(MIBDIR) $(TMP) snmp-mib-master/UBNT-MIB.txt
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.ubnt-afltu
 
 $(MIBDIR)/WIENER-CRATE-MIB-5704.txt:
 	$(eval TMP := $(shell mktemp))
