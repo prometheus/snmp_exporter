@@ -2956,6 +2956,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -2974,6 +2975,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     - labelname: bsnAPIfNoiseChannelNo
@@ -2993,6 +2995,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3010,6 +3013,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3031,6 +3035,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3101,6 +3106,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3119,6 +3125,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3137,6 +3144,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3155,6 +3163,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3173,6 +3182,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3191,6 +3201,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3209,6 +3220,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3227,6 +3239,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3245,6 +3258,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3263,6 +3277,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3281,6 +3296,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3298,6 +3314,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3319,6 +3336,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3338,6 +3356,7 @@ cisco_wlc:
     indexes:
     - labelname: bsnAPDot3MacAddress
       type: PhysAddress48
+      fixed_size: 6
     - labelname: bsnAPIfSlotId
       type: gauge
     lookups:
@@ -3354,6 +3373,34 @@ cyberpower:
   - 1.3.6.1.4.1.3808.1.1.4
   - 1.3.6.1.4.1.3808.1.1.6
   metrics:
+  - name: upsBaseIdentModel
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.1.1
+    type: DisplayString
+    help: The UPS model name. - 1.3.6.1.4.1.3808.1.1.1.1.1.1
+  - name: upsBaseIdentName
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.1.2
+    type: DisplayString
+    help: The UPS identified name could be set by the administrator. - 1.3.6.1.4.1.3808.1.1.1.1.1.2
+  - name: upsAdvanceIdentFirmwareRevision
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.1
+    type: DisplayString
+    help: The UPS firmware revision. - 1.3.6.1.4.1.3808.1.1.1.1.2.1
+  - name: upsAdvanceIdentDateOfManufacture
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.2
+    type: DisplayString
+    help: The UPS manufacture date in mm/dd/yy format. - 1.3.6.1.4.1.3808.1.1.1.1.2.2
+  - name: upsAdvanceIdentSerialNumber
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.3
+    type: DisplayString
+    help: The UPS serial number in the internal microprocessor. - 1.3.6.1.4.1.3808.1.1.1.1.2.3
+  - name: upsAdvanceIdentAgentFirmwareRevision
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.4
+    type: DisplayString
+    help: The SNMP agent firmware revision. - 1.3.6.1.4.1.3808.1.1.1.1.2.4
+  - name: upsAdvanceIdentLCDFirmwareVersion
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.5
+    type: DisplayString
+    help: The revision number of the UPS LCD firmware. - 1.3.6.1.4.1.3808.1.1.1.1.2.5
   - name: upsAdvanceIdentPowerRating
     oid: 1.3.6.1.4.1.3808.1.1.1.1.2.6
     type: gauge
@@ -3366,6 +3413,10 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.1.2.8
     type: gauge
     help: The output current rating of the UPS - 1.3.6.1.4.1.3808.1.1.1.1.2.8
+  - name: upsAdvanceIdentAgentSerialNumber
+    oid: 1.3.6.1.4.1.3808.1.1.1.1.2.9
+    type: DisplayString
+    help: A string identifying the serial number of the Agent. - 1.3.6.1.4.1.3808.1.1.1.1.2.9
   - name: upsBaseBatteryStatus
     oid: 1.3.6.1.4.1.3808.1.1.1.2.1.1
     type: gauge
@@ -3380,6 +3431,10 @@ cyberpower:
     type: gauge
     help: The UPS wasted battery time since the UPS has transfered to backup mode.
       - 1.3.6.1.4.1.3808.1.1.1.2.1.2
+  - name: upsBaseBatteryLastReplaceDate
+    oid: 1.3.6.1.4.1.3808.1.1.1.2.1.3
+    type: DisplayString
+    help: The UPS batteries last replaced date in mm/dd/yyyy format - 1.3.6.1.4.1.3808.1.1.1.2.1.3
   - name: upsBaseBatteryAgeRecommand
     oid: 1.3.6.1.4.1.3808.1.1.1.2.1.4
     type: gauge
@@ -3490,6 +3545,10 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.4.1.2
     type: gauge
     help: The output phase. - 1.3.6.1.4.1.3808.1.1.1.4.1.2
+  - name: upsBaseOutputWorkingFrequency
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.1.3
+    type: DisplayString
+    help: The frequency of the UPS output power. - 1.3.6.1.4.1.3808.1.1.1.4.1.3
   - name: upsAdvanceOutputVoltage
     oid: 1.3.6.1.4.1.3808.1.1.1.4.2.1
     type: gauge
@@ -3514,6 +3573,10 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.4.2.6
     type: gauge
     help: The total output energy of the UPS system in 1/10 kWh. - 1.3.6.1.4.1.3808.1.1.1.4.2.6
+  - name: upsAdvanceOutputEnergyStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.1.4.2.7
+    type: DisplayString
+    help: Indicates the date and time of the last device energy meter reset. - 1.3.6.1.4.1.3808.1.1.1.4.2.7
   - name: upsBaseConfigNumDevices
     oid: 1.3.6.1.4.1.3808.1.1.1.5.1.1
     type: gauge
@@ -3522,6 +3585,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.1
     type: gauge
     help: The index of the equipment plugged into the UPS. - 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.1
+    indexes:
+    - labelname: deviceIndex
+      type: gauge
+  - name: deviceName
+    oid: 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.2
+    type: DisplayString
+    help: The name of the equipment plugged into the UPS. - 1.3.6.1.4.1.3808.1.1.1.5.1.2.1.2
     indexes:
     - labelname: deviceIndex
       type: gauge
@@ -3750,6 +3820,10 @@ cyberpower:
       2: failed
       3: invalidTest
       4: testInProgress
+  - name: upsAdvanceTestLastDiagnosticsDate
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.4
+    type: DisplayString
+    help: The last UPS selftest date in mm/dd/yy format. - 1.3.6.1.4.1.3808.1.1.1.7.2.4
   - name: upsAdvanceTestIndicators
     oid: 1.3.6.1.4.1.3808.1.1.1.7.2.5
     type: gauge
@@ -3775,6 +3849,10 @@ cyberpower:
       1: ok
       2: invalidEstimation
       3: estimationInProgress
+  - name: upsAdvanceTestEstimationDate
+    oid: 1.3.6.1.4.1.3808.1.1.1.7.2.8
+    type: DisplayString
+    help: The last UPS runtime estimation date - 1.3.6.1.4.1.3808.1.1.1.7.2.8
   - name: upsBankControlIndex
     oid: 1.3.6.1.4.1.3808.1.1.1.8.1.1.1.1
     type: gauge
@@ -3802,6 +3880,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.1
     type: gauge
     help: The index to the switched outlet configuration table entry. - 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.1
+    indexes:
+    - labelname: upsIndividualOutletConfigIndex
+      type: gauge
+  - name: upsIndividualOutletConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.2
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.1.8.2.2.1.2
     indexes:
     - labelname: upsIndividualOutletConfigIndex
       type: gauge
@@ -3835,6 +3920,13 @@ cyberpower:
     indexes:
     - labelname: upsIndividualOutletInfoIndex
       type: gauge
+  - name: upsIndividualOutletInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.2
+    type: DisplayString
+    help: The numeric switched outlet name. - 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.2
+    indexes:
+    - labelname: upsIndividualOutletInfoIndex
+      type: gauge
   - name: upsIndividualOutletInfoBank
     oid: 1.3.6.1.4.1.3808.1.1.1.8.2.3.1.3
     type: gauge
@@ -3846,6 +3938,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.1
     type: gauge
     help: The index to the switched outlet status information table entry. - 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.1
+    indexes:
+    - labelname: upsIndividualOutletStatusIndex
+      type: gauge
+  - name: upsIndividualOutletStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.2
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.1.8.2.4.1.2
     indexes:
     - labelname: upsIndividualOutletStatusIndex
       type: gauge
@@ -3875,6 +3974,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.1
     type: gauge
     help: The index to the switched outlet control data table entry. - 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.1
+    indexes:
+    - labelname: upsIndividualOutletControlIndex
+      type: gauge
+  - name: upsIndividualOutletControlName
+    oid: 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.2
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.1.8.2.5.1.2
     indexes:
     - labelname: upsIndividualOutletControlIndex
       type: gauge
@@ -4042,6 +4148,14 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.1.10.2
     type: gauge
     help: The UPS NTC temperature expressed in Celsius. - 1.3.6.1.4.1.3808.1.1.1.10.2
+  - name: envirIdentName
+    oid: 1.3.6.1.4.1.3808.1.1.4.1.1
+    type: DisplayString
+    help: The name of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.1.1
+  - name: envirIdentLocation
+    oid: 1.3.6.1.4.1.3808.1.1.4.1.2
+    type: DisplayString
+    help: The location of the environment sensor - 1.3.6.1.4.1.3808.1.1.4.1.2
   - name: envirTemperature
     oid: 1.3.6.1.4.1.3808.1.1.4.2.1
     type: gauge
@@ -4116,6 +4230,14 @@ cyberpower:
     indexes:
     - labelname: envirContactIndex
       type: gauge
+  - name: envirContactName
+    oid: 1.3.6.1.4.1.3808.1.1.4.4.2.1.2
+    type: DisplayString
+    help: Getting or setting the name of the contact of the environment sensor. -
+      1.3.6.1.4.1.3808.1.1.4.4.2.1.2
+    indexes:
+    - labelname: envirContactIndex
+      type: gauge
   - name: envirContactStatus
     oid: 1.3.6.1.4.1.3808.1.1.4.4.2.1.3
     type: gauge
@@ -4162,6 +4284,63 @@ cyberpower:
     indexes:
     - labelname: ePDU2IdentIndex
       type: gauge
+  - name: ePDU2IdentName
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.3
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentLocation
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.4
+    type: DisplayString
+    help: A user-defined string identifying the location of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.4
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentContact
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.5
+    type: DisplayString
+    help: A user-defined string identifying the person to contact of the Rack PDU.
+      - 1.3.6.1.4.1.3808.1.1.6.2.2.1.5
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentHardwareRev
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.6
+    type: DisplayString
+    help: The Rack PDU hardware version. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.6
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentFirmwareRev
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.7
+    type: DisplayString
+    help: The Rack PDU firmware version. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.7
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentDateOfManufacture
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.8
+    type: DisplayString
+    help: The date the Rack PDU was manufactured in mm/dd/yyyy format. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.8
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentModelName
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.9
+    type: DisplayString
+    help: The Rack PDU model number. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.9
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
+  - name: ePDU2IdentSerialNumber
+    oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.10
+    type: DisplayString
+    help: The Rack PDU serial number. - 1.3.6.1.4.1.3808.1.1.6.2.2.1.10
+    indexes:
+    - labelname: ePDU2IdentIndex
+      type: gauge
   - name: ePDU2IdentIndicator
     oid: 1.3.6.1.4.1.3808.1.1.6.2.2.1.11
     type: gauge
@@ -4188,6 +4367,28 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.2
     type: gauge
     help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.2
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.3
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigLocation
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.4
+    type: DisplayString
+    help: A user-defined string identifying the location of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.2.1.4
+    indexes:
+    - labelname: ePDU2DeviceConfigIndex
+      type: gauge
+  - name: ePDU2DeviceConfigContact
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.2.1.5
+    type: DisplayString
+    help: A user-defined string identifying the person to contact of the Rack PDU.
+      - 1.3.6.1.4.1.3808.1.1.6.3.2.1.5
     indexes:
     - labelname: ePDU2DeviceConfigIndex
       type: gauge
@@ -4297,6 +4498,13 @@ cyberpower:
     indexes:
     - labelname: ePDU2DeviceInfoIndex
       type: gauge
+  - name: ePDU2DeviceInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.3.1.3
+    indexes:
+    - labelname: ePDU2DeviceInfoIndex
+      type: gauge
   - name: ePDU2DeviceInfoRating
     oid: 1.3.6.1.4.1.3808.1.1.6.3.3.1.4
     type: gauge
@@ -4388,6 +4596,13 @@ cyberpower:
     indexes:
     - labelname: ePDU2DeviceStatusIndex
       type: gauge
+  - name: ePDU2DeviceStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.3
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
   - name: ePDU2DeviceStatusLoadState
     oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.4
     type: gauge
@@ -4414,11 +4629,32 @@ cyberpower:
     indexes:
     - labelname: ePDU2DeviceStatusIndex
       type: gauge
+  - name: ePDU2DeviceStatusPeakLoadTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.7
+    type: DisplayString
+    help: Indicates the date and time that peak load occurred. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.7
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusPeakLoadStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.8
+    type: DisplayString
+    help: Indicates the date and time of the last device peak load reset. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.8
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
   - name: ePDU2DeviceStatusEnergy
     oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.9
     type: gauge
     help: A user resettable energy meter measuring Rack PDU load energy consumption
       in tenths of kilowatt-hours. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.9
+    indexes:
+    - labelname: ePDU2DeviceStatusIndex
+      type: gauge
+  - name: ePDU2DeviceStatusEnergyStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.4.1.10
+    type: DisplayString
+    help: Indicates the date and time of the last device energy meter reset. - 1.3.6.1.4.1.3808.1.1.6.3.4.1.10
     indexes:
     - labelname: ePDU2DeviceStatusIndex
       type: gauge
@@ -4514,6 +4750,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.3.5.1.2
     type: gauge
     help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.3.5.1.2
+    indexes:
+    - labelname: ePDU2DeviceControlIndex
+      type: gauge
+  - name: ePDU2DeviceControlName
+    oid: 1.3.6.1.4.1.3808.1.1.6.3.5.1.3
+    type: DisplayString
+    help: A user-defined string identifying the name of the Rack PDU. - 1.3.6.1.4.1.3808.1.1.6.3.5.1.3
     indexes:
     - labelname: ePDU2DeviceControlIndex
       type: gauge
@@ -4687,6 +4930,20 @@ cyberpower:
     indexes:
     - labelname: ePDU2PhaseStatusIndex
       type: gauge
+  - name: ePDU2PhaseStatusPeakLoadTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.11
+    type: DisplayString
+    help: Indicates the date and time the phase peak current occurred. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.11
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
+  - name: ePDU2PhaseStatusPeakLoadStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.12
+    type: DisplayString
+    help: Indicates the date and time of the last phase peak current reset. - 1.3.6.1.4.1.3808.1.1.6.4.4.1.12
+    indexes:
+    - labelname: ePDU2PhaseStatusIndex
+      type: gauge
   - name: ePDU2PhaseStatusLineToLineVoltage
     oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.13
     type: gauge
@@ -4836,6 +5093,20 @@ cyberpower:
     indexes:
     - labelname: ePDU2BankStatusIndex
       type: gauge
+  - name: ePDU2BankStatusPeakLoadTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.7
+    type: DisplayString
+    help: Indicates the date and time the bank peak current occurred. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.7
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
+  - name: ePDU2BankStatusPeakLoadStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.5.4.1.8
+    type: DisplayString
+    help: Indicates the date and time of the last bank peak current reset. - 1.3.6.1.4.1.3808.1.1.6.5.4.1.8
+    indexes:
+    - labelname: ePDU2BankStatusIndex
+      type: gauge
   - name: ePDU2OutletSwitchedTableSize
     oid: 1.3.6.1.4.1.3808.1.1.6.6.1.1
     type: gauge
@@ -4858,6 +5129,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.3
     type: gauge
     help: The numeric switched outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.3
+    indexes:
+    - labelname: ePDU2OutletSwitchedConfigIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.4
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.1.2.1.4
     indexes:
     - labelname: ePDU2OutletSwitchedConfigIndex
       type: gauge
@@ -4905,6 +5183,13 @@ cyberpower:
     indexes:
     - labelname: ePDU2OutletSwitchedInfoIndex
       type: gauge
+  - name: ePDU2OutletSwitchedInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.4
+    type: DisplayString
+    help: The numeric switched outlet name. - 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.4
+    indexes:
+    - labelname: ePDU2OutletSwitchedInfoIndex
+      type: gauge
   - name: ePDU2OutletSwitchedInfoPhaseLayout
     oid: 1.3.6.1.4.1.3808.1.1.6.6.1.3.1.5
     type: gauge
@@ -4940,6 +5225,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.3
     type: gauge
     help: The numeric switched outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.3
+    indexes:
+    - labelname: ePDU2OutletSwitchedStatusIndex
+      type: gauge
+  - name: ePDU2OutletSwitchedStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.4
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.1.4.1.4
     indexes:
     - labelname: ePDU2OutletSwitchedStatusIndex
       type: gauge
@@ -4986,6 +5278,13 @@ cyberpower:
     indexes:
     - labelname: ePDU2OutletSwitchedControlIndex
       type: gauge
+  - name: ePDU2OutletSwitchedControlName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.4
+    type: DisplayString
+    help: The user-defined switched outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.4
+    indexes:
+    - labelname: ePDU2OutletSwitchedControlIndex
+      type: gauge
   - name: ePDU2OutletSwitchedControlCommand
     oid: 1.3.6.1.4.1.3808.1.1.6.6.1.5.1.5
     type: gauge
@@ -5024,6 +5323,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.3
     type: gauge
     help: The numeric metered outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.3
+    indexes:
+    - labelname: ePDU2OutletMeteredConfigIndex
+      type: gauge
+  - name: ePDU2OutletMeteredConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.4
+    type: DisplayString
+    help: The user-defined metered outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.2.2.1.4
     indexes:
     - labelname: ePDU2OutletMeteredConfigIndex
       type: gauge
@@ -5066,6 +5372,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.3
     type: gauge
     help: The numeric metered outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.3
+    indexes:
+    - labelname: ePDU2OutletMeteredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMeteredInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.4
+    type: DisplayString
+    help: The user-defined metered outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.2.3.1.4
     indexes:
     - labelname: ePDU2OutletMeteredInfoIndex
       type: gauge
@@ -5113,6 +5426,13 @@ cyberpower:
     indexes:
     - labelname: ePDU2OutletMeteredStatusIndex
       type: gauge
+  - name: ePDU2OutletMeteredStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.4
+    type: DisplayString
+    help: The user-defined metered outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.4
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
   - name: ePDU2OutletMeteredStatusAlarm
     oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.5
     type: gauge
@@ -5148,11 +5468,34 @@ cyberpower:
     indexes:
     - labelname: ePDU2OutletMeteredStatusIndex
       type: gauge
+  - name: ePDU2OutletMeteredStatusPeakPowerTimestamp
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.9
+    type: DisplayString
+    help: Get this oid shows the date and time that peak power consumption occurred.
+      - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.9
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusPeakPowerStartTime
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.10
+    type: DisplayString
+    help: Get this oid shows the date and time that peak power consumption started.
+      - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.10
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
   - name: ePDU2OutletMeteredStatusEnergy
     oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.11
     type: gauge
     help: Energy meter measuring Rack PDU load energy consumption in tenths of kilowatt-hours.
       - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.11
+    indexes:
+    - labelname: ePDU2OutletMeteredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMeteredStatusEnergyStart
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.12
+    type: DisplayString
+    help: Indicates the date and time of the last device energy meter reset. - 1.3.6.1.4.1.3808.1.1.6.6.2.4.1.12
     indexes:
     - labelname: ePDU2OutletMeteredStatusIndex
       type: gauge
@@ -5182,6 +5525,13 @@ cyberpower:
     indexes:
     - labelname: ePDU2OutletMonitoredConfigIndex
       type: gauge
+  - name: ePDU2OutletMonitoredConfigName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.4
+    type: DisplayString
+    help: The user-defined monitored outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.3.2.1.4
+    indexes:
+    - labelname: ePDU2OutletMonitoredConfigIndex
+      type: gauge
   - name: ePDU2OutletMonitoredInfoIndex
     oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.1
     type: gauge
@@ -5200,6 +5550,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.3
     type: gauge
     help: The numeric monitored outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.3
+    indexes:
+    - labelname: ePDU2OutletMonitoredInfoIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredInfoName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.4
+    type: DisplayString
+    help: The user-defined monitored outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.3.3.1.4
     indexes:
     - labelname: ePDU2OutletMonitoredInfoIndex
       type: gauge
@@ -5244,6 +5601,13 @@ cyberpower:
     oid: 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.3
     type: gauge
     help: The numeric monitored outlet ID. - 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.3
+    indexes:
+    - labelname: ePDU2OutletMonitoredStatusIndex
+      type: gauge
+  - name: ePDU2OutletMonitoredStatusName
+    oid: 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.4
+    type: DisplayString
+    help: The user-defined monitored outlet name string. - 1.3.6.1.4.1.3808.1.1.6.6.3.4.1.4
     indexes:
     - labelname: ePDU2OutletMonitoredStatusIndex
       type: gauge
@@ -13105,6 +13469,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabIface
@@ -13114,6 +13479,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabStrength
@@ -13123,6 +13489,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxBytes
@@ -13132,6 +13499,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxBytes
@@ -13141,6 +13509,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxPackets
@@ -13150,6 +13519,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxPackets
@@ -13159,6 +13529,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxRate
@@ -13168,6 +13539,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxRate
@@ -13177,6 +13549,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRouterOSVersion
@@ -13186,6 +13559,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabUptime
@@ -13195,6 +13569,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabSignalToNoise
@@ -13204,6 +13579,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrengthCh0
@@ -13213,6 +13589,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxStrengthCh0
@@ -13222,6 +13599,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrengthCh1
@@ -13231,6 +13609,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxStrengthCh1
@@ -13240,6 +13619,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrengthCh2
@@ -13249,6 +13629,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRxStrengthCh2
@@ -13258,6 +13639,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabTxStrength
@@ -13267,6 +13649,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlRtabRadioName
@@ -13276,6 +13659,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlRtabIface
       type: gauge
   - name: mtxrWlApIndex
@@ -13366,6 +13750,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabIface
@@ -13375,6 +13760,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabUptime
@@ -13384,6 +13770,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxBytes
@@ -13393,6 +13780,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxBytes
@@ -13402,6 +13790,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxPackets
@@ -13411,6 +13800,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxPackets
@@ -13420,6 +13810,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxRate
@@ -13429,6 +13820,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxRate
@@ -13438,6 +13830,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabTxStrength
@@ -13447,6 +13840,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabRxStrength
@@ -13456,6 +13850,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabSsid
@@ -13465,6 +13860,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabEapIdent
@@ -13474,6 +13870,7 @@ mikrotik:
     indexes:
     - labelname: mtxrWlCMRtabAddr
       type: PhysAddress48
+      fixed_size: 6
     - labelname: mtxrWlCMRtabIface
       type: gauge
   - name: mtxrWlCMRtabEntryCount
@@ -25609,6 +26006,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaName
     oid: 1.3.6.1.4.1.41112.1.4.7.1.2
     type: DisplayString
@@ -25618,6 +26016,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaSignal
     oid: 1.3.6.1.4.1.41112.1.4.7.1.3
     type: gauge
@@ -25627,6 +26026,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaNoiseFloor
     oid: 1.3.6.1.4.1.41112.1.4.7.1.4
     type: gauge
@@ -25636,6 +26036,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaDistance
     oid: 1.3.6.1.4.1.41112.1.4.7.1.5
     type: gauge
@@ -25645,6 +26046,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaCcq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.6
     type: gauge
@@ -25654,6 +26056,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.7
     type: gauge
@@ -25663,6 +26066,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmq
     oid: 1.3.6.1.4.1.41112.1.4.7.1.8
     type: gauge
@@ -25672,6 +26076,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaAmc
     oid: 1.3.6.1.4.1.41112.1.4.7.1.9
     type: gauge
@@ -25681,6 +26086,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaLastIp
     oid: 1.3.6.1.4.1.41112.1.4.7.1.10
     type: InetAddressIPv4
@@ -25690,6 +26096,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.11
     type: gauge
@@ -25699,6 +26106,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxRate
     oid: 1.3.6.1.4.1.41112.1.4.7.1.12
     type: gauge
@@ -25708,6 +26116,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.13
     type: counter
@@ -25717,6 +26126,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxBytes
     oid: 1.3.6.1.4.1.41112.1.4.7.1.14
     type: counter
@@ -25726,6 +26136,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaConnTime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.15
     type: gauge
@@ -25735,6 +26146,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaLocalCINR
     oid: 1.3.6.1.4.1.41112.1.4.7.1.16
     type: gauge
@@ -25744,6 +26156,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.17
     type: gauge
@@ -25753,6 +26166,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxCapacity
     oid: 1.3.6.1.4.1.41112.1.4.7.1.18
     type: gauge
@@ -25762,6 +26176,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.19
     type: gauge
@@ -25771,6 +26186,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaRxAirtime
     oid: 1.3.6.1.4.1.41112.1.4.7.1.20
     type: gauge
@@ -25780,6 +26196,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntStaTxLatency
     oid: 1.3.6.1.4.1.41112.1.4.7.1.21
     type: gauge
@@ -25789,6 +26206,7 @@ ubiquiti_airmax:
       type: gauge
     - labelname: ubntStaMac
       type: PhysAddress48
+      fixed_size: 6
   - name: ubntHostLocaltime
     oid: 1.3.6.1.4.1.41112.1.4.8.1
     type: DisplayString
