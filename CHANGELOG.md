@@ -1,3 +1,11 @@
+## 0.22.0 / 2023-06-15
+
+* [FEATURE] Add indices filters #624
+* [FEATURE] Add MIBOPTS flag to the generator #891
+* [ENHANCEMENT] Treat Bits as OctetString #870
+* [ENHANCEMENT] Report duration in logs for canceled scrapes #876
+* [BUGFIX] Fix several generator MIBs. #843, #868, #889
+
 ## 0.21.0 / 2022-11-22
 
 * [CHANGE] Update to exporter-toolkit v0.8.1 (#810)
