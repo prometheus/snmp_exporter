@@ -45,8 +45,12 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	if err != nil {
 		return fmt.Errorf("error parsing yml config: %s", err)
 	}
+	if cfg.Version != 2 {
+		return config.ErrUnsupportedVersion
+	}
 
 	outputConfig := config.Config{}
+	outputConfig.Version = cfg.Version
 	outputConfig.Auths = cfg.Auths
 	outputConfig.Modules = make(map[string]*config.Module, len(cfg.Modules))
 	for name, m := range cfg.Modules {

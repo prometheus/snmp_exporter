@@ -186,6 +186,7 @@ func main() {
 	err := sc.ReloadConfig(*configFile)
 	if err != nil {
 		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
+		level.Error(logger).Log("msg", "Possible old config file, see https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
 		os.Exit(1)
 	}
 

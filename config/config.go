@@ -14,6 +14,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"regexp"
@@ -32,6 +33,9 @@ func LoadFile(filename string) (*Config, error) {
 	err = yaml.UnmarshalStrict(content, cfg)
 	if err != nil {
 		return nil, err
+	}
+	if cfg.Version != 2 {
+		return cfg, ErrUnsupportedVersion
 	}
 	return cfg, nil
 }
@@ -59,12 +63,15 @@ var (
 	DefaultRegexpExtract = RegexpExtract{
 		Value: "$1",
 	}
+
+	ErrUnsupportedVersion = errors.New("unsupported config version")
 )
 
 // Config for the snmp_exporter.
 type Config struct {
 	Auths   map[string]*Auth   `yaml:"auths",omitempty"`
 	Modules map[string]*Module `yaml:"modules",omitempty"`
+	Version int                `yaml:"version"`
 }
 
 type WalkParams struct {

@@ -7,3 +7,4 @@ auths:
     auth_protocol: SHA256
     priv_protocol: AES
     priv_password: mysecret
+version: 2
