@@ -343,7 +343,7 @@ type internalMetrics struct {
 	snmpRetries           prometheus.Counter
 }
 
-type collector struct {
+type Collector struct {
 	ctx     context.Context
 	target  string
 	auth    *config.Auth
@@ -391,18 +391,18 @@ func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
 	}
 }
 
-func New(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, reg prometheus.Registerer) *collector {
+func New(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, reg prometheus.Registerer) *Collector {
 	internalMetrics := newInternalMetrics(reg)
-	return &collector{ctx: ctx, target: target, auth: auth, module: module, logger: logger, metrics: internalMetrics}
+	return &Collector{ctx: ctx, target: target, auth: auth, module: module, logger: logger, metrics: internalMetrics}
 }
 
 // Describe implements Prometheus.Collector.
-func (c collector) Describe(ch chan<- *prometheus.Desc) {
+func (c Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- prometheus.NewDesc("dummy", "dummy", nil, nil)
 }
 
 // Collect implements Prometheus.Collector.
-func (c collector) Collect(ch chan<- prometheus.Metric) {
+func (c Collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
 	results, err := ScrapeTarget(c.ctx, c.target, c.auth, c.module, c.logger, c.metrics)
 	if err != nil {
@@ -465,9 +465,8 @@ func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 		if *wrapCounters {
 			// Wrap by 2^53.
 			return float64(gosnmp.ToBigInt(pdu.Value).Uint64() % float64Mantissa)
-		} else {
-			return float64(gosnmp.ToBigInt(pdu.Value).Uint64())
 		}
+		return float64(gosnmp.ToBigInt(pdu.Value).Uint64())
 	case gosnmp.OpaqueFloat:
 		return float64(pdu.Value.(float32))
 	case gosnmp.OpaqueDouble:
@@ -530,7 +529,6 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 	labels := indexesToLabels(indexOids, metric, oidToPdu, metrics)
 
 	value := getPduValue(pdu)
-	t := prometheus.UntypedValue
 
 	labelnames := make([]string, 0, len(labels)+1)
 	labelvalues := make([]string, 0, len(labels)+1)
@@ -539,6 +537,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		labelvalues = append(labelvalues, v)
 	}
 
+	var t prometheus.ValueType
 	switch metric.Type {
 	case "counter":
 		t = prometheus.CounterValue
@@ -827,9 +826,8 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		}
 		if len(parts) == 0 {
 			return "", subOid, indexOids
-		} else {
-			return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
 		}
+		return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
 	case "DisplayString":
 		var subOid []int
 		length := fixedSize
@@ -867,12 +865,10 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		value, ok := enumValues[subOid[0]]
 		if ok {
 			return value, subOid, indexOids
-		} else {
-			return fmt.Sprintf("%d", subOid[0]), subOid, indexOids
 		}
+		return fmt.Sprintf("%d", subOid[0]), subOid, indexOids
 	default:
 		panic(fmt.Sprintf("Unknown index type %s", typ))
-		return "", nil, nil
 	}
 }
 

@@ -41,7 +41,7 @@ func LoadFile(filename string) (*Config, error) {
 }
 
 var (
-	defaultRetries int = 3
+	defaultRetries = 3
 
 	DefaultAuth = Auth{
 		Community:     "public",
@@ -69,8 +69,8 @@ var (
 
 // Config for the snmp_exporter.
 type Config struct {
-	Auths   map[string]*Auth   `yaml:"auths",omitempty"`
-	Modules map[string]*Module `yaml:"modules",omitempty"`
+	Auths   map[string]*Auth   `yaml:"auths,omitempty"`
+	Modules map[string]*Module `yaml:"modules,omitempty"`
 	Version int                `yaml:"version"`
 }
 
