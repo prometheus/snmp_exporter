@@ -55,7 +55,7 @@ var (
 			Name: "snmp_collection_duration_seconds",
 			Help: "Duration of collections by the SNMP exporter",
 		},
-		[]string{"module"},
+		[]string{"auth", "module"},
 	)
 	snmpRequestErrors = promauto.NewCounter(
 		prometheus.CounterOpts{
@@ -79,41 +79,58 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 
 	target := query.Get("target")
 	if len(query["target"]) != 1 || target == "" {
-		http.Error(w, "'target' parameter must be specified once", 400)
+		http.Error(w, "'target' parameter must be specified once", http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
 	}
 
+	authName := query.Get("auth")
+	if len(query["auth"]) > 1 {
+		http.Error(w, "'auth' parameter must only be specified once", http.StatusBadRequest)
+		snmpRequestErrors.Inc()
+		return
+	}
+	if authName == "" {
+		authName = "public_v2"
+	}
+
 	moduleName := query.Get("module")
 	if len(query["module"]) > 1 {
-		http.Error(w, "'module' parameter must only be specified once", 400)
+		http.Error(w, "'module' parameter must only be specified once", http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
 	}
 	if moduleName == "" {
 		moduleName = "if_mib"
 	}
+
 	sc.RLock()
-	module, ok := (*(sc.C))[moduleName]
+	auth, authOk := sc.C.Auths[authName]
+	module, moduleOk := sc.C.Modules[moduleName]
 	sc.RUnlock()
-	if !ok {
-		http.Error(w, fmt.Sprintf("Unknown module '%s'", moduleName), 400)
+	if !authOk {
+		http.Error(w, fmt.Sprintf("Unknown auth '%s'", authName), http.StatusBadRequest)
+		snmpRequestErrors.Inc()
+		return
+	}
+	if !moduleOk {
+		http.Error(w, fmt.Sprintf("Unknown module '%s'", moduleName), http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
 	}
 
-	logger = log.With(logger, "module", moduleName, "target", target)
+	logger = log.With(logger, "auth", authName, "module", moduleName, "target", target)
 	level.Debug(logger).Log("msg", "Starting scrape")
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, module, logger)
+	c := collector.New(r.Context(), target, auth, module, logger)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
 	duration := time.Since(start).Seconds()
-	snmpDuration.WithLabelValues(moduleName).Observe(duration)
+	snmpDuration.WithLabelValues(authName, moduleName).Observe(duration)
 	level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
 }
 
@@ -126,7 +143,7 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
 		}
 	default:
-		http.Error(w, "POST method expected", 400)
+		http.Error(w, "POST method expected", http.StatusBadRequest)
 	}
 }
 
@@ -142,6 +159,12 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	}
 	sc.Lock()
 	sc.C = conf
+	// Initialize metrics.
+	for auth := range sc.C.Auths {
+		for module := range sc.C.Modules {
+			snmpDuration.WithLabelValues(auth, module)
+		}
+	}
 	sc.Unlock()
 	return nil
 }
@@ -160,10 +183,10 @@ func main() {
 	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
 
 	// Bail early if the config is bad.
-	var err error
-	sc.C, err = config.LoadFile(*configFile)
+	err := sc.ReloadConfig(*configFile)
 	if err != nil {
 		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
+		level.Error(logger).Log("msg", "Possible old config file, see https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
 		os.Exit(1)
 	}
 
@@ -171,11 +194,6 @@ func main() {
 	if *dryRun {
 		level.Info(logger).Log("msg", "Configuration parsed successfully")
 		return
-	}
-
-	// Initialize metrics.
-	for module := range *sc.C {
-		snmpDuration.WithLabelValues(module)
 	}
 
 	hup := make(chan os.Signal, 1)
@@ -225,6 +243,13 @@ func main() {
 						Value:       "::1",
 					},
 					{
+						Label:       "Auth",
+						Type:        "text",
+						Name:        "auth",
+						Placeholder: "auth",
+						Value:       "public_v2",
+					},
+					{
 						Label:       "Module",
 						Type:        "text",
 						Name:        "module",
@@ -258,7 +283,7 @@ func main() {
 		sc.RUnlock()
 		if err != nil {
 			level.Error(logger).Log("msg", "Error marshaling configuration", "err", err)
-			http.Error(w, err.Error(), 500)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.Write(c)

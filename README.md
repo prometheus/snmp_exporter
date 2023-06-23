@@ -4,7 +4,11 @@ This exporter is the recommended way to expose SNMP data in a format which
 Prometheus can ingest.
 
 To simply get started, it's recommended to use the `if_mib` module with
-switches, access points, or routers.
+switches, access points, or routers using the `public_v2` auth module,
+which should be a read-only access community on the target device.
+
+Note, community strings in SNMP are not considered secrets, as they are sent
+unencrypted in SNMP v1 and v2c. For secure access, SNMP v3 is required.
 
 # Concepts
 
@@ -68,9 +72,12 @@ Start `snmp_exporter` as a daemon or from CLI:
 ./snmp_exporter
 ```
 
-Visit http://localhost:9116/snmp?module=if_mib&target=1.2.3.4 where `1.2.3.4` is the IP or
-FQDN of the SNMP device to get metrics from and `if_mib` is the default module, defined
-in `snmp.yml`.
+Visit [http://localhost:9116/snmp?target=192.0.0.8] where `192.0.0.8` is the IP or
+FQDN of the SNMP device to get metrics from. Note that this will use the default auth (`public_v2`) and
+default module (`if_mib`). The auth and module must be defined in the `snmp.yml`.
+
+For example, if you have an auth named `my_secure_v3` for walking `ddwrt`, the URL would look like
+[http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=192.0.0.8].
 
 ## Configuration
 
@@ -83,7 +90,7 @@ using SNMP v2 GETBULK.
 
 ## Prometheus Configuration
 
-`target` and `module` can be passed as a parameter through relabelling.
+The URL params `target`, `auth`, and `module` can be controlled through relabelling.
 
 Example config:
 ```YAML
@@ -95,6 +102,7 @@ scrape_configs:
         - switch.local # SNMP device.
     metrics_path: /snmp
     params:
+      auth: [public_v2]
       module: [if_mib]
     relabel_configs:
       - source_labels: [__address__]

@@ -1,3 +1,16 @@
+## 0.23.0 / TBD
+
+BREAKING CHANGES:
+
+This version of the exporter introduces a new configuration file format. This
+new format separates the walk and metric mappings from the connection and
+authentication settings. This allows for easier configuration of different
+auth params without having to duplicate the full walk and metric mapping.
+
+See auth-split-migration.md for more details.
+
+* [CHANGE] Split config of auth and modules #859
+
 ## 0.22.0 / 2023-06-15
 
 * [FEATURE] Add indices filters #624

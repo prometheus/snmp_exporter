@@ -21,7 +21,9 @@ import (
 
 // The generator config.
 type Config struct {
+	Auths   map[string]*config.Auth  `yaml:"auths"`
 	Modules map[string]*ModuleConfig `yaml:"modules"`
+	Version int                      `yaml:"version"`
 }
 
 type MetricOverrides struct {
