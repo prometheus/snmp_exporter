@@ -124,7 +124,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, auth, module, logger)
+	c := collector.New(r.Context(), target, auth, module, logger, registry)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
