@@ -1,3 +1,24 @@
+## 0.23.0 / TBD
+
+BREAKING CHANGES:
+
+This version of the exporter introduces a new configuration file format. This
+new format separates the walk and metric mappings from the connection and
+authentication settings. This allows for easier configuration of different
+auth params without having to duplicate the full walk and metric mapping.
+
+See auth-split-migration.md for more details.
+
+* [CHANGE] Split config of auth and modules #859
+
+## 0.22.0 / 2023-06-15
+
+* [FEATURE] Add indices filters #624
+* [FEATURE] Add MIBOPTS flag to the generator #891
+* [ENHANCEMENT] Treat Bits as OctetString #870
+* [ENHANCEMENT] Report duration in logs for canceled scrapes #876
+* [BUGFIX] Fix several generator MIBs. #843, #868, #889
+
 ## 0.21.0 / 2022-11-22
 
 * [CHANGE] Update to exporter-toolkit v0.8.1 (#810)

@@ -45,8 +45,14 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	if err != nil {
 		return fmt.Errorf("error parsing yml config: %s", err)
 	}
+	if cfg.Version != 2 {
+		return config.ErrUnsupportedVersion
+	}
 
 	outputConfig := config.Config{}
+	outputConfig.Version = cfg.Version
+	outputConfig.Auths = cfg.Auths
+	outputConfig.Modules = make(map[string]*config.Module, len(cfg.Modules))
 	for name, m := range cfg.Modules {
 		level.Info(logger).Log("msg", "Generating config for module", "module", name)
 		// Give each module a copy of the tree so that it can be modified.
@@ -61,9 +67,9 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 		if err != nil {
 			return err
 		}
-		outputConfig[name] = out
-		outputConfig[name].WalkParams = m.WalkParams
-		level.Info(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig[name].Metrics))
+		outputConfig.Modules[name] = out
+		outputConfig.Modules[name].WalkParams = m.WalkParams
+		level.Info(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig.Modules[name].Metrics))
 	}
 
 	config.DoNotHideSecrets = true
@@ -94,6 +100,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 
 var (
 	failOnParseErrors  = kingpin.Flag("fail-on-parse-errors", "Exit with a non-zero status if there are MIB parsing errors").Default("false").Bool()
+	snmpMIBOpts        = kingpin.Flag("snmp.mibopts", "Toggle various defaults controlling MIB parsing, see snmpwalk --help").String()
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
 	outputPath         = generateCommand.Flag("output-path", "Path to to write resulting config file").Default("snmp.yml").Short('o').String()
 	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")

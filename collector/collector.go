@@ -86,19 +86,19 @@ type ScrapeResults struct {
 	retries uint64
 }
 
-func ScrapeTarget(ctx context.Context, target string, config *config.Module, logger log.Logger, metrics internalMetrics) (ScrapeResults, error) {
+func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics internalMetrics) (ScrapeResults, error) {
 	results := ScrapeResults{}
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
 	snmp.Context = ctx
-	snmp.MaxRepetitions = config.WalkParams.MaxRepetitions
-	snmp.Retries = *config.WalkParams.Retries
-	snmp.Timeout = config.WalkParams.Timeout
-	snmp.UseUnconnectedUDPSocket = config.WalkParams.UseUnconnectedUDPSocket
+	snmp.MaxRepetitions = module.WalkParams.MaxRepetitions
+	snmp.Retries = *module.WalkParams.Retries
+	snmp.Timeout = module.WalkParams.Timeout
+	snmp.UseUnconnectedUDPSocket = module.WalkParams.UseUnconnectedUDPSocket
 	snmp.LocalAddr = *srcAddress
 
 	// Allow a set of OIDs that aren't in a strictly increasing order
-	if config.WalkParams.AllowNonIncreasingOIDs {
+	if module.WalkParams.AllowNonIncreasingOIDs {
 		snmp.AppOpts = make(map[string]interface{})
 		snmp.AppOpts["c"] = true
 	}
@@ -129,7 +129,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	}
 
 	// Configure auth.
-	config.WalkParams.ConfigureSNMP(&snmp)
+	auth.ConfigureSNMP(&snmp)
 
 	// Do the actual walk.
 	getInitialStart := time.Now()
@@ -144,9 +144,9 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	defer snmp.Conn.Close()
 
 	// Evaluate rules.
-	newGet := config.Get
-	newWalk := config.Walk
-	for _, filter := range config.Filters {
+	newGet := module.Get
+	newWalk := module.Walk
+	for _, filter := range module.Filters {
 		var pdus []gosnmp.SnmpPDU
 		allowedList := []string{}
 
@@ -176,7 +176,7 @@ func ScrapeTarget(ctx context.Context, target string, config *config.Module, log
 	}
 
 	getOids := newGet
-	maxOids := int(config.WalkParams.MaxRepetitions)
+	maxOids := int(module.WalkParams.MaxRepetitions)
 	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only report one OID error per call.
 	if maxOids == 0 || snmp.Version == gosnmp.Version1 {
 		maxOids = 1
@@ -346,6 +346,7 @@ type internalMetrics struct {
 type collector struct {
 	ctx     context.Context
 	target  string
+	auth    *config.Auth
 	module  *config.Module
 	logger  log.Logger
 	metrics internalMetrics
@@ -390,9 +391,9 @@ func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
 	}
 }
 
-func New(ctx context.Context, target string, module *config.Module, logger log.Logger, reg prometheus.Registerer) *collector {
+func New(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, reg prometheus.Registerer) *collector {
 	internalMetrics := newInternalMetrics(reg)
-	return &collector{ctx: ctx, target: target, module: module, logger: logger, metrics: internalMetrics}
+	return &collector{ctx: ctx, target: target, auth: auth, module: module, logger: logger, metrics: internalMetrics}
 }
 
 // Describe implements Prometheus.Collector.
@@ -403,7 +404,7 @@ func (c collector) Describe(ch chan<- *prometheus.Desc) {
 // Collect implements Prometheus.Collector.
 func (c collector) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
-	results, err := ScrapeTarget(c.ctx, c.target, c.module, c.logger, c.metrics)
+	results, err := ScrapeTarget(c.ctx, c.target, c.auth, c.module, c.logger, c.metrics)
 	if err != nil {
 		level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)

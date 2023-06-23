@@ -1,3 +1,13 @@
+---
+# The generator config format version.
+version: 2
+
+auths:
+  public_v1:
+    version: 1
+  public_v2:
+    version: 2
+
 modules:
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
@@ -24,8 +34,6 @@ modules:
 # Cisco Wireless LAN Controller
   cisco_wlc:
     walk:
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.14179.2.1.1.1.38   # bsnDot11EssNumberofMobileStations
       - 1.3.6.1.4.1.14179.2.2.2.1.2    # bsnAPIfType
       - 1.3.6.1.4.1.14179.2.2.2.1.4    # bsnAPIfPhyChannelNumber
@@ -40,9 +48,6 @@ modules:
       - source_indexes: [bsnAPDot3MacAddress]
         lookup: bsnAPName
         drop_source_indexes: true
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -60,10 +65,7 @@ modules:
 # Guide: http://www.apc.com/salestools/ASTE-6Z5QEY/ASTE-6Z5QEY_R0_EN.pdf
 # Download site: http://www.apc.com/us/en/tools/download/index.cfm
   apcups:
-    version: 1
     walk:
-      - sysUpTime
-      - interfaces
       - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
       - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
       - 1.3.6.1.4.1.318.1.1.1.4       # upsOutput
@@ -83,8 +85,6 @@ modules:
         lookup: iemStatusProbeName
         drop_source_indexes: true
     overrides:
-      ifType:
-        type: EnumAsInfo
       rPDU2BankStatusLoadState:
         type: EnumAsStateSet
       upsAdvBatteryCondition:
@@ -102,7 +102,6 @@ modules:
 # ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
   servertech_sentry3:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
       - 1.3.6.1.4.1.1718.3.2.3  # outletTable
     overrides:
@@ -119,7 +118,6 @@ modules:
 # https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib
   servertech_sentry4:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
       - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
       - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
@@ -165,8 +163,6 @@ modules:
 #
   paloalto_fw:
     walk:
-      - sysUpTime
-      - interfaces
       - hrDevice
       - hrSystem
       - hrStorage
@@ -185,15 +181,9 @@ modules:
 #
   arista_sw:
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.2.1.25.3.3.1.2 # hrProcessorLoad
       - 1.3.6.1.2.1.25.2.3.1.6 # hrStorageUsed
       - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Synology
 #
@@ -205,9 +195,6 @@ modules:
 #
   synology:
     walk:
-      - interfaces
-      - sysUpTime
-      - ifXTable
       - laNames
       - laLoadInt
       - ssCpuUser
@@ -234,10 +221,6 @@ modules:
       - source_indexes: [serviceInfoIndex]
         lookup: serviceName
         drop_source_indexes: true
-      - source_indexes: [ifIndex]
-        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
-        drop_source_indexes: true
       - source_indexes: [diskIndex]
         lookup: diskID
         drop_source_indexes: true
@@ -261,8 +244,6 @@ modules:
         type: DisplayString
       diskType:
         type: DisplayString
-      ifType:
-        type: EnumAsInfo
       modelName:
         type: DisplayString
       raidFreeSize:
@@ -286,9 +267,6 @@ modules:
 #
   ddwrt:
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.2.1.25.2 # hrStorage
       - 1.3.6.1.4.1.2021.4 # memory
       - 1.3.6.1.4.1.2021.10.1.1 # laIndex
@@ -296,49 +274,28 @@ modules:
       - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
       - 1.3.6.1.4.1.2021.11 # systemStats
     lookups:
-      - source_indexes: [ifIndex]
-        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
-        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
-        drop_source_indexes: true
       - source_indexes: [laIndex]
         lookup: laNames
         drop_source_indexes: true
       - source_indexes: [hrStorageIndex]
         lookup: hrStorageDescr
         drop_source_indexes: true
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / AirFiber
 #
 # https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
 #
   ubiquiti_airfiber:
-    version: 1
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.3 #ubntAirFiber
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / AirMAX
 #
 # https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 #
   ubiquiti_airmax:
-    version: 1
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / UniFi
 #
@@ -347,20 +304,12 @@ modules:
 #
   ubiquiti_unifi:
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
     lookups:
-      - source_indexes: [ifIndex]
-        lookup: ifName
       - source_indexes: [unifiVapIndex]
         lookup: unifiVapName
       - source_indexes: [unifiVapIndex]
         lookup: unifiVapEssId
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # keepalived
 #
@@ -410,8 +359,6 @@ modules:
 # https://support.kemptechnologies.com/hc/en-us/articles/202375677-LoadMaster-SNMP-MIB-s
   kemp_loadmaster:
     walk:
-      - interfaces
-      - sysUpTime
       - laNames
       - laLoadInt
       - ssCpuUser
@@ -468,7 +415,6 @@ modules:
 # https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib.xhtml
   printer_mib:
     walk:
-      - sysUpTime
       - hrPrinterStatus
       - prtGeneralReset
       - prtConsoleDisable
@@ -519,7 +465,6 @@ modules:
 
   raritan:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
       - 1.3.6.1.4.1.13742.4.1.20.2.1.8 # inletVoltage
       - 1.3.6.1.4.1.13742.4.1.20.2.1.9 # inletActivePower
@@ -536,8 +481,6 @@ modules:
     overrides:
       outletOperationalState:
         type: EnumAsStateSet
-    auth:
-      community: raritan_public
 
 # Wiener Power Supply Module MPod
 #
@@ -545,7 +488,6 @@ modules:
 # https://file.wiener-d.com/software/net-snmp/
   wiener_mpod:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.19947.1.1.1        # sysMainSwitch
       - 1.3.6.1.4.1.19947.1.1.2        # sysStatus
       - 1.3.6.1.4.1.19947.1.1.11       # sysOperatingTime
@@ -572,7 +514,6 @@ modules:
 # The circuit table in the infrapower MIB is invalid as it has a table (circuitTable) nested inside another table (pduTable), and this invalid setup then confuses the generator.
   infrapower_pdu:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.34550.20.2.1.1.1.1 # pduIndex
       - 1.3.6.1.4.1.34550.20.2.1.1.1.6 # pduName
       - 1.3.6.1.4.1.34550.20.2.1.1.1.7 # pduLocation
@@ -615,7 +556,6 @@ modules:
 # https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
   liebert_pdu:
     walk:
-      - sysUpTime
       - lgpPduTable
       - lgpPduPsTable
       - lgpPduPsLineTable
@@ -635,10 +575,7 @@ modules:
 # http://download2.mikrotik.com/Mikrotik.mib
   mikrotik:
     walk:
-      - interfaces
-      - ifMIB
       - laIndex
-      - sysUpTime
       - sysDescr
       - host
       - mikrotik
@@ -662,7 +599,6 @@ modules:
 #
 # https://www.cyberpowersystems.com/product/software/mib-files/mib-v29/
   cyberpower:
-    version: 1
     walk:
       - 1.3.6.1.4.1.3808.1.1.1 # ups
       - 1.3.6.1.4.1.3808.1.1.4 # environmentSensor
