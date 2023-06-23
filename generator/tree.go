@@ -232,9 +232,8 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 		_, ok = metricType(n.Type)
 		if ok && metricAccess(n.Access) && len(n.Indexes) == 0 {
 			return n, oidScalar
-		} else {
-			return n, oidSubtree
 		}
+		return n, oidSubtree
 	}
 
 	// Unknown OID/name, search Node tree for longest match.
