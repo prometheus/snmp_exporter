@@ -220,7 +220,7 @@ func main() {
 		}
 	}()
 
-	http.Handle("/metrics", promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
+	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	// Endpoint to do SNMP scrapes.
 	http.HandleFunc(proberPath, func(w http.ResponseWriter, r *http.Request) {
 		handler(w, r, logger)
