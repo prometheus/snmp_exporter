@@ -566,10 +566,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 
 		if typeMapping, ok := combinedTypeMapping[metricType]; ok {
 			// Lookup associated sub type in previous object.
-			oids := strings.Split(metric.Oid, ".")
-			i, _ := strconv.Atoi(oids[len(oids)-1])
-			oids[len(oids)-1] = strconv.Itoa(i - 1)
-			prevOid := fmt.Sprintf("%s.%s", strings.Join(oids, "."), listToOid(indexOids))
+			prevOid := fmt.Sprintf("%s.%s", getPrevOid(metric.Oid), listToOid(indexOids))
 			if prevPdu, ok := oidToPdu[prevOid]; ok {
 				val := int(getPduValue(&prevPdu))
 				if t, ok := typeMapping[val]; ok {
@@ -872,6 +869,13 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 	}
 }
 
+func getPrevOid(oid string) string {
+	oids := strings.Split(oid, ".")
+	i, _ := strconv.Atoi(oids[len(oids)-1])
+	oids[len(oids)-1] = strconv.Itoa(i - 1)
+	return strings.Join(oids, ".")
+}
+
 func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, metrics internalMetrics) map[string]string {
 	labels := map[string]string{}
 	labelOids := map[string][]int{}
@@ -898,7 +902,21 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 			oid = fmt.Sprintf("%s.%s", oid, listToOid(labelOids[label]))
 		}
 		if pdu, ok := oidToPdu[oid]; ok {
-			labels[lookup.Labelname] = pduValueAsString(&pdu, lookup.Type, metrics)
+			t := lookup.Type
+			if typeMapping, ok := combinedTypeMapping[lookup.Type]; ok {
+				// Lookup associated sub type in previous object.
+				prevOid := getPrevOid(lookup.Oid)
+				for _, label := range lookup.Labels {
+					prevOid = fmt.Sprintf("%s.%s", prevOid, listToOid(labelOids[label]))
+				}
+				if prevPdu, ok := oidToPdu[prevOid]; ok {
+					val := int(getPduValue(&prevPdu))
+					if ty, ok := typeMapping[val]; ok {
+						t = ty
+					}
+				}
+			}
+			labels[lookup.Labelname] = pduValueAsString(&pdu, t, metrics)
 			labelOids[lookup.Labelname] = []int{int(gosnmp.ToBigInt(pdu.Value).Int64())}
 		} else {
 			labels[lookup.Labelname] = ""

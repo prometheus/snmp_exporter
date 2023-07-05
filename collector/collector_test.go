@@ -1005,6 +1005,25 @@ func TestIndexesToLabels(t *testing.T) {
 			},
 			result: map[string]string{"a": "1", "chainable_id": "42", "targetlabel": "targetvalue"},
 		},
+		{
+			oid: []int{1, 8, 1},
+			metric: config.Metric{
+				Indexes: []*config.Index{
+					{Labelname: "lldpRemTimeMark", Type: "gauge"},
+					{Labelname: "lldpRemLocalPortNum", Type: "gauge"},
+					{Labelname: "lldpRemIndex", Type: "gauge"},
+				},
+				Lookups: []*config.Lookup{
+					{Labels: []string{"lldpRemLocalPortNum"}, Labelname: "lldpLocPortId", Oid: "1.1.3", Type: "LldpPortId"},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{
+				"1.1.9.1.8.1": gosnmp.SnmpPDU{Value: "hostname"},
+				"1.1.2.8":     gosnmp.SnmpPDU{Value: 3},
+				"1.1.3.8":     gosnmp.SnmpPDU{Value: []byte{4, 5, 6, 7, 8, 9}},
+			},
+			result: map[string]string{"lldpRemTimeMark": "1", "lldpRemLocalPortNum": "8", "lldpRemIndex": "1", "lldpLocPortId": "04:05:06:07:08:09"},
+		},
 	}
 	for _, c := range cases {
 		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, internalMetrics{})
