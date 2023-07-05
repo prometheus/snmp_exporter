@@ -531,9 +531,8 @@ func TestPduToSample(t *testing.T) {
 				if c.shouldErr {
 					errHappened = true
 					continue
-				} else {
-					t.Fatalf("Error writing metric: %v", err)
 				}
+				t.Fatalf("Error writing metric: %v", err)
 			}
 			got := strings.ReplaceAll(m.Desc().String()+" "+metric.String(), "  ", " ")
 			if _, ok := expected[got]; !ok {
