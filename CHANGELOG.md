@@ -1,4 +1,4 @@
-## 0.23.0 / TBD
+## 0.23.0-rc.0 / 2023-07-04
 
 BREAKING CHANGES:
 
@@ -10,6 +10,8 @@ auth params without having to duplicate the full walk and metric mapping.
 See auth-split-migration.md for more details.
 
 * [CHANGE] Split config of auth and modules #859
+* [ENHANCEMENT] Improved Lookup process for label information #908
+* [BUGFIX] Fix metrics path not using command-line argument value #904
 
 ## 0.22.0 / 2023-06-15
 

@@ -8,6 +8,8 @@ The complete `generator` format is [documented in generator/README.md#file-forma
 
 The complete `snmp_exporter` format is [documented in /generator/FORMAT.md](/generator/FORMAT.md).
 
+See the main [README](/README#Configuration) for the Prometheus configuration examples.
+
 ## Examples
 
 A generator containing the following config:
