@@ -94,10 +94,7 @@ type Module struct {
 func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultModule
 	type plain Module
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
+	return unmarshal((*plain)(c))
 }
 
 // ConfigureSNMP sets the various version and auth settings.
@@ -286,10 +283,7 @@ type RegexpExtract struct {
 func (c *RegexpExtract) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultRegexpExtract
 	type plain RegexpExtract
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
+	return unmarshal((*plain)(c))
 }
 
 // Regexp encapsulates a regexp.Regexp and makes it YAML marshalable.
