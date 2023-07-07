@@ -70,6 +70,7 @@ make docker-generate
 The simplest module is just a name and a set of OIDs to walk.
 
 ```yaml
+version: 2
 auths:
   auth_name:
     version: 2  # SNMP version to use. Defaults to 2.
