@@ -2,14 +2,14 @@
 version: 2.1
 
 orbs:
-  prometheus: prometheus/prometheus@0.16.0
+  prometheus: prometheus/prometheus@0.17.1
 
 executors:
   # Whenever the Go version is updated here, .promu.yml
   # should also be updated.
   golang:
     docker:
-    - image: quay.io/prometheus/golang-builder:1.18-base
+    - image: cimg/go:1.20
     parameters:
       working_dir:
         type: string
@@ -22,8 +22,8 @@ jobs:
 
     steps:
     - prometheus/setup_environment
-    - run: apt-get update
-    - run: apt-get -y install build-essential libsnmp-dev
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install build-essential libsnmp-dev
     - run: make
     - run: git diff --exit-code
     - prometheus/store_artifact:
@@ -39,8 +39,8 @@ jobs:
     steps:
     - checkout:
         path: ~/project
-    - run: apt-get update
-    - run: apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
     - run: make mibs
     - run: make generator
     - run: make parse_errors
@@ -51,8 +51,7 @@ jobs:
     executor: golang
 
     steps:
-    - prometheus/setup_build_environment:
-        docker_version: 19.03.8
+    - prometheus/setup_environment
     - run: make -C generator docker
     - run: make -C generator docker DOCKER_REPO=quay.io/prometheus
     - run: docker images
@@ -65,8 +64,7 @@ jobs:
     executor: golang
 
     steps:
-    - prometheus/setup_build_environment:
-        docker_version: 19.03.8
+    - prometheus/setup_environment
     - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG
     - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD

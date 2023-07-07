@@ -1,7 +1,7 @@
 FROM golang:latest
 
 RUN apt-get update && \
-    apt-get install -y libsnmp-dev p7zip-full unzip && \
+    apt-get install -y libsnmp-dev unzip && \
     go install github.com/prometheus/snmp_exporter/generator@latest
 
 WORKDIR "/opt"

@@ -180,7 +180,7 @@ func metricAccess(a string) bool {
 	case "ACCESS_READONLY", "ACCESS_READWRITE", "ACCESS_CREATE", "ACCESS_NOACCESS":
 		return true
 	default:
-		// the others are inaccessible metrics.
+		// The others are inaccessible metrics.
 		return false
 	}
 }
@@ -232,9 +232,8 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 		_, ok = metricType(n.Type)
 		if ok && metricAccess(n.Access) && len(n.Indexes) == 0 {
 			return n, oidScalar
-		} else {
-			return n, oidSubtree
 		}
+		return n, oidSubtree
 	}
 
 	// Unknown OID/name, search Node tree for longest match.
@@ -382,6 +381,19 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		})
 	}
 
+	// Build an map of all oid targeted by a filter to access it easily later.
+	filterMap := map[string][]string{}
+
+	for _, filter := range cfg.Filters.Static {
+		for _, oid := range filter.Targets {
+			n, ok := nameToNode[oid]
+			if ok {
+				oid = n.Oid
+			}
+			filterMap[oid] = filter.Indices
+		}
+	}
+
 	// Apply lookups.
 	for _, metric := range out.Metrics {
 		toDelete := []string{}
@@ -439,6 +451,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				} else {
 					needToWalk[indexNode.Oid] = struct{}{}
 				}
+				// We apply the same filter to metric.Oid if the lookup oid is filtered.
+				indices, found := filterMap[indexNode.Oid]
+				if found {
+					delete(needToWalk, metric.Oid)
+					for _, index := range indices {
+						needToWalk[metric.Oid+"."+index+"."] = struct{}{}
+					}
+				}
 				if lookup.DropSourceIndexes {
 					// Avoid leaving the old labelname around.
 					toDelete = append(toDelete, lookup.SourceIndexes...)
@@ -459,8 +479,8 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		}
 	}
 
-	// Check that the object before an InetAddress is an InetAddressType,
-	// if not, change it to an OctetString.
+	// Check that the object before an InetAddress is an InetAddressType.
+	// If not, change it to an OctetString.
 	for _, metric := range out.Metrics {
 		if metric.Type == "InetAddress" || metric.Type == "InetAddressMissingSize" {
 			// Get previous oid.
@@ -491,6 +511,23 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 		}
 	}
+
+	// Apply filters.
+	for _, filter := range cfg.Filters.Static {
+		// Delete the oid targeted by the filter, as we won't walk the whole table.
+		for _, oid := range filter.Targets {
+			n, ok := nameToNode[oid]
+			if ok {
+				oid = n.Oid
+			}
+			delete(needToWalk, oid)
+			for _, index := range filter.Indices {
+				needToWalk[oid+"."+index+"."] = struct{}{}
+			}
+		}
+	}
+
+	out.Filters = cfg.Filters.Dynamic
 
 	oids := []string{}
 	for k := range needToWalk {

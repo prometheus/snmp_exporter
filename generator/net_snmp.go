@@ -20,6 +20,7 @@ package main
 #include <net-snmp/mib_api.h>
 #include <net-snmp/agent/agent_callbacks.h>
 #include <net-snmp/library/default_store.h>
+#include <net-snmp/library/parse.h>
 #include <unistd.h>
 // From parse.c
 // Hacky workarounds to detect which version of net-snmp this
@@ -159,6 +160,9 @@ func initSNMP(logger log.Logger) (string, error) {
 	os.Setenv("MIBS", "ALL")
 	// Help the user find their MIB directories.
 	level.Info(logger).Log("msg", "Loading MIBs", "from", C.GoString(C.netsnmp_get_mib_directory()))
+	if *snmpMIBOpts != "" {
+		C.snmp_mib_toggle_options(C.CString(*snmpMIBOpts))
+	}
 	// We want the descriptions.
 	C.snmp_set_save_descriptions(1)
 

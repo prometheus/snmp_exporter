@@ -14,15 +14,15 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-CURL_OPTS ?= -L -s --retry 3 --retry-delay 3 --fail
+CURL_OPTS ?= -L --no-progress-meter --retry 3 --retry-delay 3 --fail
 
 DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 DOCKER_REPO       ?= prom
 
-APC_URL           := 'https://download.schneider-electric.com/files?p_File_Name=powernet441.mib'
+APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet446.mib&p_Doc_Ref=APC_POWERNETMIB_446_EN
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
-CISCO_URL         := 'ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz'
+CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/2d465cce2de4e67a3561d8e41e4c99b597558d4b/v2
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
@@ -40,11 +40,14 @@ SERVERTECH4_URL   := 'https://cdn10.servertech.com/assets/documents/documents/81
 SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
 UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
-UBNT_DL_URL       := https://dl.ubnt-ut.com/snmp
+UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 WIENER_URL        := https://file.wiener-d.com/software/net-snmp/WIENER-CRATE-MIB-5704.zip
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-INFRAPOWER_URL    := https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
+INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
+
+CYBERPOWER_VERSION := 2.10
+CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
 .DEFAULT: all
 
@@ -85,16 +88,21 @@ docker-publish:
 docker-tag-latest:
 	docker tag "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):latest"
 
-.PHONY: mibs
-mibs: mib-dir \
+mibs: \
   $(MIBDIR)/apc-powernet-mib \
+  $(MIBDIR)/AIRESPACE-REF-MIB \
+  $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/.cisco_v2 \
+  $(MIBDIR)/ENTITY-MIB \
+  $(MIBDIR)/ENTITY-SENSOR-MIB \
+  $(MIBDIR)/ENTITY-STATE-MIB \
+  $(MIBDIR)/ENTITY-STATE-TC-MIB \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
+  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/VRRP-MIB \
   $(MIBDIR)/VRRPv3-MIB \
@@ -114,15 +122,16 @@ mibs: mib-dir \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/WIENER-CRATE-MIB-5704.txt \
   $(MIBDIR)/PDU-MIB.txt \
-  $(MIBDIR)/IPD-MIB_Q419V9.mib \
-  $(MIBDIR)/LIEBERT_GP_PDU.MIB
-
-mib-dir:
-	@mkdir -p -v $(MIBDIR)
+  $(MIBDIR)/Infrapower-MIB.mib \
+  $(MIBDIR)/LIEBERT_GP_PDU.MIB \
+  $(MIBDIR)/CyberPower.MIB
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib $(APC_URL)
+	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib "$(APC_URL)"
+	# Workaround to make DisplayString available (#867)
+	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $(MIBDIR)/apc-powernet-mib
+	@rm $(MIBDIR)/apc-powernet-mib.bak
 
 $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB:
 	@echo ">> Downloading ARISTA-ENTITY-SENSOR-MIB"
@@ -136,21 +145,33 @@ $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB:
 	@echo ">> Downloading ARISTA-SW-IP-FORWARDING-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
 
-$(MIBDIR)/.cisco_v2:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading cisco_v2"
-	@mkdir -p $(MIBDIR)/cisco_v2
-	@curl $(CURL_OPTS) -o $(TMP) $(CISCO_URL)
-	tar --no-same-owner -C $(MIBDIR)/cisco_v2 --strip-components=3 -zxvf $(TMP)
-	cp mibs/cisco_v2/AIRESPACE-REF-MIB.my mibs/AIRESPACE-REF-MIB
-	cp mibs/cisco_v2/AIRESPACE-WIRELESS-MIB.my mibs/AIRESPACE-WIRELESS-MIB
-	cp mibs/cisco_v2/ENTITY-MIB.my mibs/ENTITY-MIB
-	cp mibs/cisco_v2/ENTITY-SENSOR-MIB.my mibs/ENTITY-SENSOR-MIB
-	cp mibs/cisco_v2/ENTITY-STATE-MIB.my mibs/ENTITY-STATE-MIB
-	cp mibs/cisco_v2/ENTITY-STATE-TC-MIB.my mibs/ENTITY-STATE-TC-MIB
-	cp mibs/cisco_v2/ISDN-MIB.my mibs/ISDN-MIB
-	@rm -v $(TMP)
-	@touch $(MIBDIR)/.cisco_v2
+$(MIBDIR)/AIRESPACE-REF-MIB:
+	@echo ">> Downloading Cisco AIRESPACE-REF-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-REF-MIB "$(CISCO_URL)/AIRESPACE-REF-MIB.my"
+
+$(MIBDIR)/AIRESPACE-WIRELESS-MIB:
+	@echo ">> Downloading Cisco AIRESPACE-WIRELESS-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CISCO_URL)/AIRESPACE-WIRELESS-MIB.my"
+
+$(MIBDIR)/ENTITY-MIB:
+	@echo ">> Downloading Cisco ENTITY-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-MIB "$(CISCO_URL)/ENTITY-MIB.my"
+
+$(MIBDIR)/ENTITY-SENSOR-MIB:
+	@echo ">> Downloading Cisco ENTITY-SENSOR-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-SENSOR-MIB "$(CISCO_URL)/ENTITY-SENSOR-MIB.my"
+
+$(MIBDIR)/ENTITY-STATE-MIB:
+	@echo ">> Downloading Cisco ENTITY-STATE-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-MIB "$(CISCO_URL)/ENTITY-STATE-MIB.my"
+
+$(MIBDIR)/ENTITY-STATE-TC-MIB:
+	@echo ">> Downloading Cisco ENTITY-STATE-TC-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-TC-MIB "$(CISCO_URL)/ENTITY-STATE-TC-MIB.my"
+
+$(MIBDIR)/ISDN-MIB:
+	@echo ">> Downloading Cisco ISDN-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB "$(CISCO_URL)/ISDN-MIB.my"
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Downloading IANA charset MIB"
@@ -273,11 +294,13 @@ $(MIBDIR)/PDU-MIB.txt:
 	@echo ">> Downloading PDU-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU-MIB.txt "$(RARITAN_URL)"
 
-$(MIBDIR)/IPD-MIB_Q419V9.mib:
+$(MIBDIR)/Infrapower-MIB.mib:
 	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading IPD-MIB_Q419V9 to $(TMP)"
+	@echo ">> Downloading Infrapower-MIB.mib to $(TMP)"
+	@rm -vf $(MIBDIR)/IPD-MIB_Q419V9.mib
 	@curl $(CURL_OPTS) -L -o $(TMP) $(INFRAPOWER_URL)
-	@7z e -o$(MIBDIR) $(TMP)
+	@unzip -j -d $(MIBDIR) $(TMP) IPD-03-S-MIB_Q320V1.mib
+	@mv -v $(MIBDIR)/IPD-03-S-MIB_Q320V1.mib $(MIBDIR)/Infrapower-MIB.mib
 	@rm -v $(TMP)
 
 $(MIBDIR)/LIEBERT_GP_PDU.MIB:
@@ -285,4 +308,15 @@ $(MIBDIR)/LIEBERT_GP_PDU.MIB:
 	@echo ">> Downloading LIEBERT_GP_PDU.MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) LIEBERT_GP_PDU.MIB LIEBERT_GP_REG.MIB
+	@rm -v $(TMP)
+
+$(MIBDIR)/CyberPower.MIB:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading CyberPower.MIB to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(CYBERPOWER_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB
+	@mv -v $(MIBDIR)/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB $@
+	# Workaround to make DisplayString available (#867)
+	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $@
+	@rm $@.bak
 	@rm -v $(TMP)

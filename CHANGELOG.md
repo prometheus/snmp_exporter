@@ -1,3 +1,37 @@
+## 0.23.0-rc.0 / 2023-07-04
+
+BREAKING CHANGES:
+
+This version of the exporter introduces a new configuration file format. This
+new format separates the walk and metric mappings from the connection and
+authentication settings. This allows for easier configuration of different
+auth params without having to duplicate the full walk and metric mapping.
+
+See auth-split-migration.md for more details.
+
+* [CHANGE] Split config of auth and modules #859
+* [ENHANCEMENT] Improved Lookup process for label information #908
+* [BUGFIX] Fix metrics path not using command-line argument value #904
+
+## 0.22.0 / 2023-06-15
+
+* [FEATURE] Add indices filters #624
+* [FEATURE] Add MIBOPTS flag to the generator #891
+* [ENHANCEMENT] Treat Bits as OctetString #870
+* [ENHANCEMENT] Report duration in logs for canceled scrapes #876
+* [BUGFIX] Fix several generator MIBs. #843, #868, #889
+
+## 0.21.0 / 2022-11-22
+
+* [CHANGE] Update to exporter-toolkit v0.8.1 (#810)
+* [FEATURE] Support chained lookups in the generator (#757)
+* [ENHANCEMENT] Add per-SNMP packet statistics. (#656)
+* [ENHANCEMENT] Add support for aes192c and aes256c privacy protocol (#657)
+* [ENHANCEMENT] Support responding from different source address (#702)
+* [BUGFIX] Fixes dropped context passing (#634)
+* [BUGFIX] Add version flag (#717)
+* [BUGFIX] Fix retries in generator (#786)
+
 ## 0.20.0 / 2021-02-12
 
 NOTE: This is a safe harbor release. Future releases will have breaking changes to the configuration format.
