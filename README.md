@@ -73,11 +73,21 @@ Start `snmp_exporter` as a daemon or from CLI:
 ```
 
 Visit [http://localhost:9116/snmp?target=192.0.0.8] where `192.0.0.8` is the IP or
-FQDN of the SNMP device to get metrics from. Note that this will use the default auth (`public_v2`) and
-default module (`if_mib`). The auth and module must be defined in the `snmp.yml`.
+FQDN of the SNMP device to get metrics from. Note that this will use the default transport (`udp`),
+default port (`161`), default auth (`public_v2`) and default module (`if_mib`). The auth and module
+must be defined in the `snmp.yml` file.
 
 For example, if you have an auth named `my_secure_v3` for walking `ddwrt`, the URL would look like
 [http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=192.0.0.8].
+
+To configure a different transport and/or port, use the syntax `[transport://]host[:port]`.
+
+For example, to scrape a device using `tcp` on port `1161`, the URL would look like
+[http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=tcp%3A%2F%2F192.0.0.8%3A1161].
+
+Note that [URL encoding](https://en.wikipedia.org/wiki/URL_encoding) should be used for `target` due
+to the `:` and `/` characters. Prometheus encodes query parameters automatically and manual encoding
+is not necessary within the Prometheus configuration file.
 
 ## Configuration
 
@@ -85,7 +95,7 @@ The default configuration file name is `snmp.yml` and should not be edited
 by hand. If you need to change it, see
 [Generating configuration](#generating-configuration).
 
-The default `snmp.yml` covers a variety of common hardware walking them
+The default `snmp.yml` file covers a variety of common hardware walking them
 using SNMP v2 GETBULK.
 
 ## Prometheus Configuration
