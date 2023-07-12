@@ -1033,6 +1033,117 @@ func TestIndexesToLabels(t *testing.T) {
 	}
 }
 
+func TestConfigureTarget(t *testing.T) {
+	cases := []struct {
+		target     string
+		gTransport string
+		gTarget    string
+		gPort      uint16
+		shouldErr  bool
+	}{
+		{
+			target:     "localhost",
+			gTransport: "",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "localhost:1161",
+			gTransport: "",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://localhost",
+			gTransport: "udp",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://localhost:1161",
+			gTransport: "udp",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "[::1]",
+			gTransport: "",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "[::1]:1161",
+			gTransport: "",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://[::1]",
+			gTransport: "udp",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://[::1]:1161",
+			gTransport: "udp",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{ // this case is valid during parse but invalid during connect
+			target:     "tcp://udp://localhost:1161",
+			gTransport: "tcp",
+			gTarget:    "udp://localhost:1161",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "localhost:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "[::1]:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+	}
+
+	for _, c := range cases {
+		var g gosnmp.GoSNMP
+		err := configureTarget(&g, c.target)
+		if c.shouldErr {
+			if err == nil {
+				t.Fatalf("Was expecting error, but none returned for %q", c.target)
+			}
+			continue
+		}
+		if err != nil {
+			t.Fatalf("Error configuring target %q: %v", c.target, err)
+		}
+		if g.Transport != c.gTransport {
+			t.Fatalf("Bad SNMP transport for %q, got=%q, expected=%q", c.target, g.Transport, c.gTransport)
+		}
+		if g.Target != c.gTarget {
+			t.Fatalf("Bad SNMP target for %q, got=%q, expected=%q", c.target, g.Target, c.gTarget)
+		}
+		if g.Port != c.gPort {
+			t.Fatalf("Bad SNMP port for %q, got=%d, expected=%d", c.target, g.Port, c.gPort)
+		}
+	}
+}
+
 func TestFilterAllowedIndices(t *testing.T) {
 
 	pdus := []gosnmp.SnmpPDU{
