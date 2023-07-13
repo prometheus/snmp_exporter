@@ -110,6 +110,7 @@ scrape_configs:
       - targets:
         - 192.168.1.2  # SNMP device.
         - switch.local # SNMP device.
+        - tcp://192.168.1.3:1161  # SNMP device using TCP transport and custom port.
     metrics_path: /snmp
     params:
       auth: [public_v2]
