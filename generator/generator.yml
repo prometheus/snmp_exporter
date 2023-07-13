@@ -589,6 +589,18 @@ modules:
       - source_indexes: [laIndex]
         lookup: laNames
         drop_source_indexes: true
+      - source_indexes: [mtxrGaugeIndex]
+        lookup: mtxrGaugeName
+        drop_source_indexes: true
+      - source_indexes: [mtxrNeighborIndex]
+        lookup: mtxrNeighborIpAddress
+        drop_source_indexes: true
+      - source_indexes: [mtxrOpticalIndex]
+        lookup: mtxrOpticalName
+      - source_indexes: [mtxrPOEInterfaceIndex]
+        lookup: mtxrPOEName
+      - source_indexes: [mtxrPartitionIndex]
+        lookup: mtxrPartitionName
     overrides:
       ifName:
         ignore: true # Lookup metric
