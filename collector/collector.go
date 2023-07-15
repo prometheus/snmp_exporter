@@ -117,15 +117,9 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 		results.retries++
 	}
 
-	snmp.Target = target
-	snmp.Port = 161
-	if host, port, err := net.SplitHostPort(target); err == nil {
-		snmp.Target = host
-		p, err := strconv.Atoi(port)
-		if err != nil {
-			return results, fmt.Errorf("error converting port number to int for target %s: %s", target, err)
-		}
-		snmp.Port = uint16(p)
+	// Configure target.
+	if err := configureTarget(&snmp, target); err != nil {
+		return results, err
 	}
 
 	// Configure auth.
@@ -240,6 +234,24 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 		results.pdus = append(results.pdus, pdus...)
 	}
 	return results, nil
+}
+
+func configureTarget(g *gosnmp.GoSNMP, target string) error {
+	if s := strings.SplitN(target, "://", 2); len(s) == 2 {
+		g.Transport = s[0]
+		target = s[1]
+	}
+	g.Target = target
+	g.Port = 161
+	if host, port, err := net.SplitHostPort(target); err == nil {
+		g.Target = host
+		p, err := strconv.Atoi(port)
+		if err != nil {
+			return fmt.Errorf("error converting port number to int for target %q: %w", target, err)
+		}
+		g.Port = uint16(p)
+	}
+	return nil
 }
 
 func filterAllowedIndices(logger log.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics internalMetrics) []string {
