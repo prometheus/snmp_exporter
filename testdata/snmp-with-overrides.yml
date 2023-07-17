@@ -9,4 +9,4 @@ modules:
       regex_extracts:
         Temp:
         - regex:
-version: 2
+config_version: 2

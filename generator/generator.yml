@@ -1,6 +1,6 @@
 ---
 # The generator config format version.
-version: 2
+config_version: 2
 
 auths:
   public_v1:

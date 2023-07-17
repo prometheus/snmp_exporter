@@ -64,14 +64,14 @@ var (
 		Value: "$1",
 	}
 
-	ErrUnsupportedVersion = errors.New("unsupported config version")
+	ErrUnsupportedVersion = errors.New("unsupported config_version")
 )
 
 // Config for the snmp_exporter.
 type Config struct {
 	Auths   map[string]*Auth   `yaml:"auths,omitempty"`
 	Modules map[string]*Module `yaml:"modules,omitempty"`
-	Version int                `yaml:"version"`
+	Version int                `yaml:"config_version"`
 }
 
 type WalkParams struct {

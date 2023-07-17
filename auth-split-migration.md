@@ -27,6 +27,7 @@ modules:
 Would now become:
 
 ```yaml
+config_version: 2
 auths:
   public_v2:
     community: public
@@ -41,6 +42,7 @@ The newly generated `snmp_exporter` config would be:
 
 ```yaml
 # WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.
+config_version: 2
 auths:
   public_v2:
     community: public
