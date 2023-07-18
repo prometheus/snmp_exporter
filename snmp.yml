@@ -49214,4 +49214,3 @@ modules:
       indexes:
       - labelname: fanNumber
         type: gauge
-version: 2
