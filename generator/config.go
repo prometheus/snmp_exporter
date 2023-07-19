@@ -23,6 +23,7 @@ import (
 type Config struct {
 	Auths   map[string]*config.Auth  `yaml:"auths"`
 	Modules map[string]*ModuleConfig `yaml:"modules"`
+	Version int                      `yaml:"version,omitempty"`
 }
 
 type MetricOverrides struct {
