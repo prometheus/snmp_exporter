@@ -65,6 +65,7 @@ var (
 type Config struct {
 	Auths   map[string]*Auth   `yaml:"auths,omitempty"`
 	Modules map[string]*Module `yaml:"modules,omitempty"`
+	Version int                `yaml:"version,omitempty"`
 }
 
 type WalkParams struct {
