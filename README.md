@@ -1,170 +1,42 @@
-# Prometheus SNMP Exporter
+# SNMP Exporter based on version 0.19.0
 
-This exporter is the recommended way to expose SNMP data in a format which
-Prometheus can ingest.
+This project is an SNMP Exporter based on version 0.19.0 of the original [snmp_exporter](https://github.com/prometheus/snmp_exporter) project. The SNMP Exporter allows you to monitor SNMP-enabled devices by collecting and exposing SNMP metrics to Prometheus.
 
-To simply get started, it's recommended to use the `if_mib` module with
-switches, access points, or routers using the `public_v2` auth module,
-which should be a read-only access community on the target device.
+## About SNMP Exporter
 
-Note, community strings in SNMP are not considered secrets, as they are sent
-unencrypted in SNMP v1 and v2c. For secure access, SNMP v3 is required.
+[Prometheus SNMP Exporter](https://github.com/prometheus/snmp_exporter) is an open-source tool that enables the collection and conversion of SNMP metrics into a format that can be scraped by Prometheus. It provides a simple and reliable way to monitor SNMP-enabled devices, such as routers, switches, printers, and other network equipment.
 
-# Concepts
+## Version Information
 
-While SNMP uses a hierarchical data structure and Prometheus uses an
-n-dimnensional matrix, the two systems map perfectly, and without the need
-to walk through data by hand. `snmp_exporter` maps the data for you.
+This project is based on version 0.19.0 of the SNMP Exporter. The source code and modifications made for this project are derived from the original release at [https://github.com/prometheus/snmp_exporter/releases/tag/v0.19.0](https://github.com/prometheus/snmp_exporter/releases/tag/v0.19.0).
 
-## Prometheus
+## Our Purpose
+The purpose of this project repository is to extend the capabilities of the SNMP Exporter based on version 0.19.0. Our goal is to provide a flexible and customizable solution that allows us to generate custom binary executable files capable of specifying ports other than the default port 9116. This enhancement empowers us to run multiple SNMP Exporters on the same node, each serving different SNMP-enabled devices or providing specific metrics.
 
-Prometheus is able to map SNMP index instances to labels. For example, the `ifEntry` specifies an INDEX of  `ifIndex`. This becomes the `ifIndex` label in Prometheus.
+By customizing the SNMP Exporter's port, we gain the ability to segment and manage our SNMP monitoring more efficiently. Each SNMP Exporter instance can focus on specific SNMP devices or metrics, allowing us to collect and analyze data more precisely. This flexibility is especially beneficial in complex environments with a diverse range of network devices, such as routers, switches, printers, and more.
 
-If an SNMP entry has multiple index values, each value is mapped to a separate Prometheus label.
+The project's modifications are based on the well-established version 0.19.0 of the SNMP Exporter, which forms a reliable foundation for our enhancements. By leveraging this version as a starting point, we ensure compatibility with existing configurations and maintain the stability and robustness of the SNMP Exporter.
 
-## SNMP
+## How to Use
+1. In the main.go file, locate the listenAddress variable, and edit it to listen on an unused port by incrementing the port number to the next available one.
 
-SNMP is structured in OID trees, described by MIBs. OID subtrees have the same
-order across different locations in the tree. The order under
-`1.3.6.1.2.1.2.2.1.1` (`ifIndex`) is the same as in `1.3.6.1.2.1.2.2.1.2`
-(`ifDescr`), `1.3.6.1.2.1.31.1.1.1.10` (`ifHCOutOctets`), etc. The numbers are
-OIDs, the names in parentheses are the names from a MIB, in this case
-[IF-MIB](http://www.oidview.com/mibs/0/IF-MIB.html).
+2. Edit the Dockerfile to expose the port that the SNMP Exporter is listening on. Update the EXPOSE statement with the port number from step 1.
 
-## Mapping
+3. Copy both the updated Dockerfile and the binary executable snmp_exporter to the path within Pando's kubernetes-core repository where the device config lives.
 
-Given a device with an interface at number 2, a partial `snmpwalk` return looks
-like:
+4. Once this is complete, build the Docker image, push it to your Docker Hub repository, and reference your new container image in your Kubernetes deployment YAML.
 
-```
-1.3.6.1.2.1.2.2.1.1.2 = INTEGER: 2         # ifIndex for '2' is literally just '2'
-1.3.6.1.2.1.2.2.1.2.2 = STRING: "eth0"     # ifDescr
-1.3.6.1.2.1.31.1.1.1.1 = STRING: "eth0"    # IfName
-1.3.6.1.2.1.31.1.1.1.10.2 = INTEGER: 1000  # ifHCOutOctets, 1000 bytes
-1.3.6.1.2.1.31.1.1.1.18.2 = STRING: ""     # ifAlias
-```
+Note: With these steps, your SNMP Exporter container will now listen on the desired port, and you can deploy it on your Kubernetes cluster with the updated configuration.
 
-`snmp_exporter` combines all of this data into:
+## License
 
-```
-ifHCOutOctets{ifAlias="",ifDescr="eth0",ifIndex="2",ifName="eth0"} 1000
-```
+This project is licensed under the [Apache License 2.0](LICENSE), the same license used by the original SNMP Exporter project.
 
-# Scaling
+## Acknowledgments
 
-A single instance of `snmp_exporter` can be run for thousands of devices.
+This project is built upon the amazing work of the Prometheus team and the contributors to the SNMP Exporter. We extend our gratitude to the open-source community for making this project possible.
 
-# Usage
+For more information on the original SNMP Exporter and its contributors, please visit the [GitHub repository](https://github.com/prometheus/snmp_exporter).
 
-## Installation
-
-Binaries can be downloaded from the [Github
-releases](https://github.com/prometheus/snmp_exporter/releases) page and need no
-special installation.
-
-We also provide a sample [systemd unit file](examples/systemd/snmp_exporter.service).
-
-## Running
-
-Start `snmp_exporter` as a daemon or from CLI:
-
-```sh
-./snmp_exporter
-```
-
-Visit <http://localhost:9116/snmp?target=192.0.0.8> where `192.0.0.8` is the IP or
-FQDN of the SNMP device to get metrics from. Note that this will use the default transport (`udp`),
-default port (`161`), default auth (`public_v2`) and default module (`if_mib`). The auth and module
-must be defined in the `snmp.yml` file.
-
-For example, if you have an auth named `my_secure_v3` for walking `ddwrt`, the URL would look like
-<http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=192.0.0.8>.
-
-To configure a different transport and/or port, use the syntax `[transport://]host[:port]`.
-
-For example, to scrape a device using `tcp` on port `1161`, the URL would look like
-<http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=tcp%3A%2F%2F192.0.0.8%3A1161>.
-
-Note that [URL encoding](https://en.wikipedia.org/wiki/URL_encoding) should be used for `target` due
-to the `:` and `/` characters. Prometheus encodes query parameters automatically and manual encoding
-is not necessary within the Prometheus configuration file.
-
-## Configuration
-
-The default configuration file name is `snmp.yml` and should not be edited
-by hand. If you need to change it, see
-[Generating configuration](#generating-configuration).
-
-The default `snmp.yml` file covers a variety of common hardware walking them
-using SNMP v2 GETBULK.
-
-## Prometheus Configuration
-
-The URL params `target`, `auth`, and `module` can be controlled through relabelling.
-
-Example config:
-```YAML
-scrape_configs:
-  - job_name: 'snmp'
-    static_configs:
-      - targets:
-        - 192.168.1.2  # SNMP device.
-        - switch.local # SNMP device.
-        - tcp://192.168.1.3:1161  # SNMP device using TCP transport and custom port.
-    metrics_path: /snmp
-    params:
-      auth: [public_v2]
-      module: [if_mib]
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
-```
-
-Similarly to [blackbox_exporter](https://github.com/prometheus/blackbox_exporter),
-`snmp_exporter` is meant to run on a few central machines and can be thought of
-like a "Prometheus proxy".
-
-### TLS and basic authentication
-
-The SNMP Exporter supports TLS and basic authentication. This enables better
-control of the various HTTP endpoints.
-
-To use TLS and/or basic authentication, you need to pass a configuration file
-using the `--web.config.file` parameter. The format of the file is described
-[in the exporter-toolkit repository](https://github.com/prometheus/exporter-toolkit/blob/master/docs/web-configuration.md).
-
-Note that the TLS and basic authentication settings affect all HTTP endpoints:
-/metrics for scraping, /snmp for scraping SNMP devices, and the web UI.
-
-### Generating configuration
-
-Most use cases should be covered by our [default configuration](snmp.yml).
-If you need to generate your own configuration from MIBs, you can use the
-[generator](generator/).
-
-Use the generator if you need to customize which objects are walked or use
-non-public MIBs.
-
-## Large counter value handling
-
-In order to provide accurate counters for large Counter64 values, the exporter
-will automatically wrap the value every 2^53 to avoid 64-bit float rounding.
-Prometheus handles this gracefully for you and you will not notice any negative
-effects.
-
-If you need to disable this feature for non-Prometheus systems, use the
-command line flag `--no-snmp.wrap-large-counters`.
-
-# Once you have it running
-
-It can be opaque to get started with all this, but in our own experience,
-snmp_exporter is honestly the best way to interact with SNMP. To make it
-easier for others, please consider contributing back your configurations to
-us.
-`snmp.yml` config should be accompanied by generator config.
-For your dashboard, alerts, and recording rules, please consider
-contributing them to <https://github.com/prometheus/snmp_exporter/tree/main/snmp-mixin>.
+---
+*Note: Update the repository URL and other details as necessary based on where you host the code.*
