@@ -14409,6 +14409,14 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrGaugeIndex
+        labelname: mtxrGaugeName
+        oid: 1.3.6.1.4.1.14988.1.1.3.100.1.2
+        type: DisplayString
+      - labels: []
+        labelname: mtxrGaugeIndex
     - name: mtxrGaugeName
       oid: 1.3.6.1.4.1.14988.1.1.3.100.1.2
       type: DisplayString
@@ -14416,6 +14424,14 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrGaugeIndex
+        labelname: mtxrGaugeName
+        oid: 1.3.6.1.4.1.14988.1.1.3.100.1.2
+        type: DisplayString
+      - labels: []
+        labelname: mtxrGaugeIndex
     - name: mtxrGaugeValue
       oid: 1.3.6.1.4.1.14988.1.1.3.100.1.3
       type: gauge
@@ -14423,6 +14439,14 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrGaugeIndex
+        labelname: mtxrGaugeName
+        oid: 1.3.6.1.4.1.14988.1.1.3.100.1.2
+        type: DisplayString
+      - labels: []
+        labelname: mtxrGaugeIndex
     - name: mtxrGaugeUnit
       oid: 1.3.6.1.4.1.14988.1.1.3.100.1.4
       type: gauge
@@ -14430,6 +14454,14 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrGaugeIndex
+        labelname: mtxrGaugeName
+        oid: 1.3.6.1.4.1.14988.1.1.3.100.1.2
+        type: DisplayString
+      - labels: []
+        labelname: mtxrGaugeIndex
       enum_values:
         1: celsius
         2: rpm
@@ -14703,6 +14735,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrNeighborIpAddress
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
       type: InetAddressIPv4
@@ -14710,6 +14750,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrNeighborMacAddress
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.3
       type: PhysAddress48
@@ -14717,6 +14765,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrNeighborVersion
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.4
       type: DisplayString
@@ -14724,6 +14780,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrNeighborPlatform
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.5
       type: DisplayString
@@ -14731,6 +14795,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrNeighborIdentity
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.6
       type: DisplayString
@@ -14738,6 +14810,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrNeighborSoftwareID
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.7
       type: DisplayString
@@ -14745,6 +14825,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrNeighborInterfaceID
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.8
       type: gauge
@@ -14752,6 +14840,14 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrNeighborIndex
+        labelname: mtxrNeighborIpAddress
+        oid: 1.3.6.1.4.1.14988.1.1.11.1.1.2
+        type: InetAddressIPv4
+      - labels: []
+        labelname: mtxrNeighborIndex
     - name: mtxrDate
       oid: 1.3.6.1.4.1.14988.1.1.12.1
       type: gauge
@@ -15679,6 +15775,12 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPOEInterfaceIndex
+        labelname: mtxrPOEName
+        oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
+        type: DisplayString
     - name: mtxrPOEName
       oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
       type: DisplayString
@@ -15686,6 +15788,12 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPOEInterfaceIndex
+        labelname: mtxrPOEName
+        oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
+        type: DisplayString
     - name: mtxrPOEStatus
       oid: 1.3.6.1.4.1.14988.1.1.15.1.1.3
       type: gauge
@@ -15693,6 +15801,12 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPOEInterfaceIndex
+        labelname: mtxrPOEName
+        oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
+        type: DisplayString
       enum_values:
         1: disabled
         2: waitingForLoad
@@ -15705,6 +15819,12 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPOEInterfaceIndex
+        labelname: mtxrPOEName
+        oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
+        type: DisplayString
     - name: mtxrPOECurrent
       oid: 1.3.6.1.4.1.14988.1.1.15.1.1.5
       type: gauge
@@ -15712,6 +15832,12 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPOEInterfaceIndex
+        labelname: mtxrPOEName
+        oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
+        type: DisplayString
     - name: mtxrPOEPower
       oid: 1.3.6.1.4.1.14988.1.1.15.1.1.6
       type: gauge
@@ -15719,6 +15845,12 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPOEInterfaceIndex
+        labelname: mtxrPOEName
+        oid: 1.3.6.1.4.1.14988.1.1.15.1.1.2
+        type: DisplayString
     - name: mtxrLTEModemInterfaceIndex
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.1
       type: gauge
@@ -15834,6 +15966,12 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPartitionIndex
+        labelname: mtxrPartitionName
+        oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
+        type: DisplayString
     - name: mtxrPartitionName
       oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
       type: DisplayString
@@ -15841,6 +15979,12 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPartitionIndex
+        labelname: mtxrPartitionName
+        oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
+        type: DisplayString
     - name: mtxrPartitionSize
       oid: 1.3.6.1.4.1.14988.1.1.17.1.1.3
       type: gauge
@@ -15848,6 +15992,12 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPartitionIndex
+        labelname: mtxrPartitionName
+        oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
+        type: DisplayString
     - name: mtxrPartitionVersion
       oid: 1.3.6.1.4.1.14988.1.1.17.1.1.4
       type: DisplayString
@@ -15855,6 +16005,12 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPartitionIndex
+        labelname: mtxrPartitionName
+        oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
+        type: DisplayString
     - name: mtxrPartitionActive
       oid: 1.3.6.1.4.1.14988.1.1.17.1.1.5
       type: gauge
@@ -15862,6 +16018,12 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPartitionIndex
+        labelname: mtxrPartitionName
+        oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
+        type: DisplayString
       enum_values:
         0: "false"
         1: "true"
@@ -15872,6 +16034,12 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrPartitionIndex
+        labelname: mtxrPartitionName
+        oid: 1.3.6.1.4.1.14988.1.1.17.1.1.2
+        type: DisplayString
       enum_values:
         0: "false"
         1: "true"
@@ -15896,6 +16064,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrOpticalName
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
       type: DisplayString
@@ -15903,6 +16077,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrOpticalRxLoss
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.3
       type: gauge
@@ -15910,6 +16090,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
       enum_values:
         0: "false"
         1: "true"
@@ -15920,6 +16106,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
       enum_values:
         0: "false"
         1: "true"
@@ -15930,6 +16122,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrOpticalTemperature
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.6
       type: gauge
@@ -15937,6 +16135,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrOpticalSupplyVoltage
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.7
       type: gauge
@@ -15944,6 +16148,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrOpticalTxBiasCurrent
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.8
       type: gauge
@@ -15951,6 +16161,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrOpticalTxPower
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.9
       type: gauge
@@ -15958,6 +16174,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrOpticalRxPower
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.10
       type: gauge
@@ -15965,6 +16187,12 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrIkeSACount
       oid: 1.3.6.1.4.1.14988.1.1.20.1
       type: gauge
