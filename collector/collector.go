@@ -44,8 +44,8 @@ var (
 	wrapCounters           = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
 	srcAddress             = kingpin.Flag("snmp.source-address", "Source address to send snmp from in the format 'address:port' to use when connecting targets. If the port parameter is empty or '0', as in '127.0.0.1:' or '[::1]:0', a source port number is automatically (random) chosen.").Default("").String()
 
-	SnmpDuration = promauto.NewSummaryVec(
-		prometheus.SummaryOpts{
+	SnmpDuration = promauto.NewHistogramVec(
+		prometheus.HistogramOpts{
 			Name: "snmp_collection_duration_seconds",
 			Help: "Duration of collections by the SNMP exporter",
 		},
