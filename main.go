@@ -92,6 +92,19 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 	if len(queryModule) == 0 {
 		queryModule = append(queryModule, "if_mib")
 	}
+	uniqueM := make(map[string]bool)
+	var modules []string
+	for _, qm := range queryModule {
+		for _, m := range strings.Split(qm, ",") {
+			if m == "" {
+				continue
+			}
+			if _, ok := uniqueM[m]; !ok {
+				uniqueM[m] = true
+				modules = append(modules, m)
+			}
+		}
+	}
 	sc.RLock()
 	auth, authOk := sc.C.Auths[authName]
 	if !authOk {
@@ -100,25 +113,21 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 		snmpRequestErrors.Inc()
 		return
 	}
-	modules := make(map[string]*config.Module)
-	for _, qm := range queryModule {
-		for _, m := range strings.Split(qm, ",") {
-			module, moduleOk := sc.C.Modules[m]
-			if !moduleOk {
-				sc.RUnlock()
-				http.Error(w, fmt.Sprintf("Unknown module '%s'", m), http.StatusBadRequest)
-				snmpRequestErrors.Inc()
-				return
-			}
-			if _, ok := modules[m]; !ok {
-				modules[m] = module
-			}
+	var nmodules []*collector.NamedModule
+	for _, m := range modules {
+		module, moduleOk := sc.C.Modules[m]
+		if !moduleOk {
+			sc.RUnlock()
+			http.Error(w, fmt.Sprintf("Unknown module '%s'", m), http.StatusBadRequest)
+			snmpRequestErrors.Inc()
+			return
 		}
+		nmodules = append(nmodules, collector.NewNamedModule(m, module))
 	}
 	sc.RUnlock()
 	logger = log.With(logger, "auth", authName, "target", target)
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, authName, auth, modules, logger, registry, *concurrency)
+	c := collector.New(r.Context(), target, authName, auth, nmodules, logger, registry, *concurrency)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
@@ -153,7 +162,7 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	// Initialize metrics.
 	for auth := range sc.C.Auths {
 		for module := range sc.C.Modules {
-			collector.SnmpDuration.WithLabelValues(auth, module)
+			collector.InitModuleMetrics(auth, module)
 		}
 	}
 	sc.Unlock()
