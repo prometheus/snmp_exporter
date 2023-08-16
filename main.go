@@ -19,6 +19,7 @@ import (
 	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -94,43 +95,54 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 		authName = "public_v2"
 	}
 
-	moduleName := query.Get("module")
+	// Accept comma-separated list: module=foo,bar
+	// TODO: should be also accept module=foo&module=bar (and combinations)?
+	moduleParam := query.Get("module")
 	if len(query["module"]) > 1 {
 		http.Error(w, "'module' parameter must only be specified once", http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
 	}
-	if moduleName == "" {
-		moduleName = "if_mib"
+	if moduleParam == "" {
+		moduleParam = "if_mib"
 	}
 
+	// TODO: should we reject duplicates?
+	moduleNames := strings.Split(moduleParam, ",")
+
+	modules := make([]*config.Module, 0, len(moduleNames))
 	sc.RLock()
 	auth, authOk := sc.C.Auths[authName]
-	module, moduleOk := sc.C.Modules[moduleName]
-	sc.RUnlock()
 	if !authOk {
+		sc.RUnlock()
 		http.Error(w, fmt.Sprintf("Unknown auth '%s'", authName), http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
 	}
-	if !moduleOk {
-		http.Error(w, fmt.Sprintf("Unknown module '%s'", moduleName), http.StatusBadRequest)
-		snmpRequestErrors.Inc()
-		return
+	for _, moduleName := range moduleNames {
+		module, moduleOk := sc.C.Modules[moduleName]
+		if !moduleOk {
+			sc.RUnlock()
+			http.Error(w, fmt.Sprintf("Unknown module '%s'", moduleName), http.StatusBadRequest)
+			snmpRequestErrors.Inc()
+			return
+		}
+		modules = append(modules, module)
 	}
+	sc.RUnlock()
 
-	logger = log.With(logger, "auth", authName, "module", moduleName, "target", target)
+	logger = log.With(logger, "auth", authName, "module", moduleParam, "target", target)
 	level.Debug(logger).Log("msg", "Starting scrape")
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, auth, module, logger, registry)
+	c := collector.New(r.Context(), target, auth, modules, logger, registry)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
 	duration := time.Since(start).Seconds()
-	snmpDuration.WithLabelValues(authName, moduleName).Observe(duration)
+	snmpDuration.WithLabelValues(authName, moduleParam).Observe(duration)
 	level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
 }
 

@@ -359,7 +359,7 @@ type Collector struct {
 	ctx     context.Context
 	target  string
 	auth    *config.Auth
-	module  *config.Module
+	modules []*config.Module
 	logger  log.Logger
 	metrics internalMetrics
 }
@@ -403,9 +403,9 @@ func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
 	}
 }
 
-func New(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, reg prometheus.Registerer) *Collector {
+func New(ctx context.Context, target string, auth *config.Auth, modules []*config.Module, logger log.Logger, reg prometheus.Registerer) *Collector {
 	internalMetrics := newInternalMetrics(reg)
-	return &Collector{ctx: ctx, target: target, auth: auth, module: module, logger: logger, metrics: internalMetrics}
+	return &Collector{ctx: ctx, target: target, auth: auth, modules: modules, logger: logger, metrics: internalMetrics}
 }
 
 // Describe implements Prometheus.Collector.
@@ -415,56 +415,68 @@ func (c Collector) Describe(ch chan<- *prometheus.Desc) {
 
 // Collect implements Prometheus.Collector.
 func (c Collector) Collect(ch chan<- prometheus.Metric) {
+	var totalScrapeDuration float64
+	var totalPackets, totalRetries, totalPdus uint64
 	start := time.Now()
-	results, err := ScrapeTarget(c.ctx, c.target, c.auth, c.module, c.logger, c.metrics)
-	if err != nil {
-		level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
-		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
-		return
+	for _, module := range c.modules {
+		startThisModule := time.Now()
+		results, err := ScrapeTarget(c.ctx, c.target, c.auth, module, c.logger, c.metrics)
+		if err != nil {
+			level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
+			ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
+			return
+		}
+		totalScrapeDuration += time.Since(startThisModule).Seconds()
+		totalPackets += results.packets
+		totalRetries += results.retries
+		totalPdus += uint64(len(results.pdus))
+		oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
+		for _, pdu := range results.pdus {
+			oidToPdu[pdu.Name[1:]] = pdu
+		}
+
+		metricTree := buildMetricTree(module.Metrics)
+		// Look for metrics that match each pdu.
+	PduLoop:
+		for oid, pdu := range oidToPdu {
+			head := metricTree
+			oidList := oidToList(oid)
+			for i, o := range oidList {
+				var ok bool
+				head, ok = head.children[o]
+				if !ok {
+					continue PduLoop
+				}
+				if head.metric != nil {
+					// Found a match.
+					samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, c.logger, c.metrics)
+					for _, sample := range samples {
+						// TODO: if multiple modules are invoked, and return duplicate metrics,
+						// should we skip them? Otherwise we get a 500 error:
+						// "collected metric "foo" {...} was collected before with the same name and label values"
+						ch <- sample
+					}
+					break
+				}
+			}
+		}
 	}
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, nil),
 		prometheus.GaugeValue,
-		time.Since(start).Seconds())
+		totalScrapeDuration)
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, nil),
 		prometheus.GaugeValue,
-		float64(results.packets))
+		float64(totalPackets))
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, nil),
 		prometheus.GaugeValue,
-		float64(results.retries))
+		float64(totalRetries))
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, nil),
 		prometheus.GaugeValue,
-		float64(len(results.pdus)))
-	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
-	for _, pdu := range results.pdus {
-		oidToPdu[pdu.Name[1:]] = pdu
-	}
-
-	metricTree := buildMetricTree(c.module.Metrics)
-	// Look for metrics that match each pdu.
-PduLoop:
-	for oid, pdu := range oidToPdu {
-		head := metricTree
-		oidList := oidToList(oid)
-		for i, o := range oidList {
-			var ok bool
-			head, ok = head.children[o]
-			if !ok {
-				continue PduLoop
-			}
-			if head.metric != nil {
-				// Found a match.
-				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, c.logger, c.metrics)
-				for _, sample := range samples {
-					ch <- sample
-				}
-				break
-			}
-		}
-	}
+		float64(totalPdus))
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, nil),
 		prometheus.GaugeValue,
