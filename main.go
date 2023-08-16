@@ -19,11 +19,13 @@ import (
 	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"strconv"
 	"sync"
 	"syscall"
 	"time"
 
 	"github.com/alecthomas/kingpin/v2"
+	"github.com/getsentry/sentry-go"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
@@ -48,6 +50,8 @@ var (
 		"Path under which to expose metrics.",
 	).Default("/metrics").String()
 	toolkitFlags = webflag.AddFlags(kingpin.CommandLine, ":9116")
+	sentryDsn    = kingpin.Flag("sentry.dsn", "Sentry DSN to use when reporting traces.").Default("").String()
+	sentryDebug  = kingpin.Flag("sentry.debug", "Start Sentry reporting in debug mode.").Default("false").Bool()
 
 	// Metrics about the SNMP exporter itself.
 	snmpDuration = promauto.NewSummaryVec(
@@ -180,6 +184,24 @@ func main() {
 	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info())
 	level.Info(logger).Log("build_context", version.BuildContext())
 
+	if *sentryDsn == "" {
+		*sentryDsn = os.Getenv("SENTRY_DSN")
+	}
+	if !*sentryDebug {
+		*sentryDebug, _ = strconv.ParseBool(os.Getenv("SENTRY_DEBUG"))
+	}
+	if *sentryDsn != "" {
+		level.Debug(logger).Log("msg", "Initialising Sentry reporting", "debug", *sentryDebug)
+		err := sentry.Init(sentry.ClientOptions{
+			Dsn:   *sentryDsn,
+			Debug: *sentryDebug,
+		})
+		defer sentry.Flush(2 * time.Second)
+		if err != nil {
+			level.Error(logger).Log("msg", "Sentry init failure", "err", err)
+		}
+	}
+
 	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
 
 	// Bail early if the config is bad.
@@ -187,6 +209,7 @@ func main() {
 	if err != nil {
 		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
 		level.Error(logger).Log("msg", "Possible old config file, see https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
+		sentry.CaptureException(err)
 		os.Exit(1)
 	}
 
@@ -205,12 +228,14 @@ func main() {
 			case <-hup:
 				if err := sc.ReloadConfig(*configFile); err != nil {
 					level.Error(logger).Log("msg", "Error reloading config", "err", err)
+					sentry.CaptureException(err)
 				} else {
 					level.Info(logger).Log("msg", "Loaded config file")
 				}
 			case rc := <-reloadCh:
 				if err := sc.ReloadConfig(*configFile); err != nil {
 					level.Error(logger).Log("msg", "Error reloading config", "err", err)
+					sentry.CaptureException(err)
 					rc <- err
 				} else {
 					level.Info(logger).Log("msg", "Loaded config file")
@@ -284,6 +309,7 @@ func main() {
 		if err != nil {
 			level.Error(logger).Log("msg", "Error marshaling configuration", "err", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			sentry.CaptureException(err)
 			return
 		}
 		w.Write(c)
@@ -292,6 +318,7 @@ func main() {
 	srv := &http.Server{}
 	if err := web.ListenAndServe(srv, toolkitFlags, logger); err != nil {
 		level.Error(logger).Log("msg", "Error starting HTTP server", "err", err)
+		sentry.CaptureException(err)
 		os.Exit(1)
 	}
 }

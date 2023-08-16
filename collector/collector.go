@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/alecthomas/kingpin/v2"
+	"github.com/getsentry/sentry-go"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/gosnmp/gosnmp"
@@ -129,6 +130,7 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 	getInitialStart := time.Now()
 	err := snmp.Connect()
 	if err != nil {
+		sentry.CaptureException(err)
 		if err == context.Canceled {
 			return results, fmt.Errorf("scrape cancelled after %s (possible timeout) connecting to target %s",
 				time.Since(getInitialStart), snmp.Target)
@@ -185,6 +187,7 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 		getStart := time.Now()
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
+			sentry.CaptureException(err)
 			if err == context.Canceled {
 				return results, fmt.Errorf("scrape cancelled after %s (possible timeout) getting target %s",
 					time.Since(getInitialStart), snmp.Target)
@@ -223,6 +226,7 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 			pdus, err = snmp.BulkWalkAll(subtree)
 		}
 		if err != nil {
+			sentry.CaptureException(err)
 			if err == context.Canceled {
 				return results, fmt.Errorf("scrape canceled after %s (possible timeout) walking target %s",
 					time.Since(getInitialStart), snmp.Target)
@@ -513,6 +517,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 		locString := fmt.Sprintf("%s%02d%02d", string(v[8]), v[9], v[10])
 		loc, err := time.Parse("-0700", locString)
 		if err != nil {
+			sentry.CaptureException(err)
 			return 0, fmt.Errorf("error parsing location string: %q, error: %s", locString, err)
 		}
 		tz = loc.Location()
@@ -607,6 +612,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 	sample, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
 		t, value, labelvalues...)
 	if err != nil {
+		sentry.CaptureException(err)
 		sample = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),
 			fmt.Errorf("error for metric %s with labels %v from indexOids %v: %v", metric.Name, labelvalues, indexOids, err))
 	}
