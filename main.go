@@ -19,6 +19,7 @@ import (
 	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"strings"
 	"sync"
 	"syscall"
 
@@ -100,15 +101,19 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 		return
 	}
 	modules := make(map[string]*config.Module)
-	for _, m := range queryModule {
-		module, moduleOk := sc.C.Modules[m]
-		if !moduleOk {
-			sc.RUnlock()
-			http.Error(w, fmt.Sprintf("Unknown module '%s'", m), http.StatusBadRequest)
-			snmpRequestErrors.Inc()
-			return
+	for _, qm := range queryModule {
+		for _, m := range strings.Split(qm, ",") {
+			module, moduleOk := sc.C.Modules[m]
+			if !moduleOk {
+				sc.RUnlock()
+				http.Error(w, fmt.Sprintf("Unknown module '%s'", m), http.StatusBadRequest)
+				snmpRequestErrors.Inc()
+				return
+			}
+			if _, ok := modules[m]; !ok {
+				modules[m] = module
+			}
 		}
-		modules[m] = module
 	}
 	sc.RUnlock()
 	logger = log.With(logger, "auth", authName, "target", target)
