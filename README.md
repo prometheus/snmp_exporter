@@ -89,6 +89,25 @@ Note that [URL encoding](https://en.wikipedia.org/wiki/URL_encoding) should be u
 to the `:` and `/` characters. Prometheus encodes query parameters automatically and manual encoding
 is not necessary within the Prometheus configuration file.
 
+## Multi-Module Handling
+The multi-module functionality allows you to specify multiple modules, enabling the retrieval of information from several modules in a single scrape.
+The concurrency can be specified using the snmp-exporter option --concurrency (the default is 1).
+
+Note: This implementation does not perform any de-duplication of walks between different modules.
+
+There are two ways to specify multiple modules. You can either separate them with a comma or define multiple params_module.
+The URLs would look like this:
+
+For comma separation:
+```
+http://localhost:9116/snmp?module=if_mib,arista_sw&target=192.0.0.8
+```
+
+For multiple params_module:
+```
+http://localhost:9116/snmp?module=if_mib&module=arista_sw&target=192.0.0.8
+```
+
 ## Configuration
 
 The default configuration file name is `snmp.yml` and should not be edited
