@@ -47,11 +47,12 @@ jobs:
     - run: make generate
     - run: diff -u ../snmp.yml snmp.yml
 
-  publish_generator_master:
+  publish_generator_main:
     executor: golang
 
     steps:
-    - prometheus/setup_environment
+    - prometheus/setup_build_environment:
+        docker_version: ""
     - run: make -C generator docker
     - run: make -C generator docker DOCKER_REPO=quay.io/prometheus
     - run: docker images
@@ -64,7 +65,8 @@ jobs:
     executor: golang
 
     steps:
-    - prometheus/setup_environment
+    - prometheus/setup_build_environment:
+        docker_version: ""
     - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG
     - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
@@ -107,7 +109,7 @@ workflows:
         filters:
           tags:
             only: /.*/
-    - prometheus/publish_master:
+    - prometheus/publish_main:
         context: org-context
         requires:
         - test
@@ -115,7 +117,7 @@ workflows:
         - generator
         filters:
           branches:
-            only: master
+            only: main
     - prometheus/publish_release:
         context: org-context
         requires:
@@ -127,7 +129,7 @@ workflows:
             only: /^v[0-9]+(\.[0-9]+){2}(-.+|[^-.]*)$/
           branches:
             ignore: /.*/
-    - publish_generator_master:
+    - publish_generator_main:
         context: org-context
         requires:
         - test
@@ -135,7 +137,7 @@ workflows:
         - generator
         filters:
           branches:
-            only: master
+            only: main
     - publish_generator_release:
         context: org-context
         requires:
