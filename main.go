@@ -27,7 +27,6 @@ import (
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/promlog"
 	"github.com/prometheus/common/promlog/flag"
@@ -50,14 +49,14 @@ var (
 	toolkitFlags = webflag.AddFlags(kingpin.CommandLine, ":9116")
 
 	// Metrics about the SNMP exporter itself.
-	snmpDuration = promauto.NewSummaryVec(
+	snmpDuration = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Name: "snmp_collection_duration_seconds",
 			Help: "Duration of collections by the SNMP exporter",
 		},
 		[]string{"auth", "module"},
 	)
-	snmpRequestErrors = promauto.NewCounter(
+	snmpRequestErrors = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Name: "snmp_request_errors_total",
 			Help: "Errors in requests to the SNMP exporter",
@@ -124,6 +123,8 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 
 	start := time.Now()
 	registry := prometheus.NewRegistry()
+	registry.MustRegister(snmpDuration)
+	registry.MustRegister(snmpRequestErrors)
 	c := collector.New(r.Context(), target, auth, module, logger, registry)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.

@@ -28,7 +28,6 @@ import (
 	"github.com/go-kit/log/level"
 	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
@@ -42,6 +41,8 @@ var (
 	float64Mantissa uint64 = 9007199254740992
 	wrapCounters           = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
 	srcAddress             = kingpin.Flag("snmp.source-address", "Source address to send snmp from in the format 'address:port' to use when connecting targets. If the port parameter is empty or '0', as in '127.0.0.1:' or '[::1]:0', a source port number is automatically (random) chosen.").Default("").String()
+
+	globalMetrics = newInternalMetrics()
 )
 
 // Types preceded by an enum with their actual type.
@@ -364,16 +365,16 @@ type Collector struct {
 	metrics internalMetrics
 }
 
-func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
+func newInternalMetrics() internalMetrics {
 	buckets := prometheus.ExponentialBuckets(0.0001, 2, 15)
-	snmpUnexpectedPduType := promauto.With(reg).NewCounter(
+	snmpUnexpectedPduType := prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "unexpected_pdu_type_total",
 			Help:      "Unexpected Go types in a PDU.",
 		},
 	)
-	snmpDuration := promauto.With(reg).NewHistogram(
+	snmpDuration := prometheus.NewHistogram(
 		prometheus.HistogramOpts{
 			Namespace: namespace,
 			Name:      "packet_duration_seconds",
@@ -381,14 +382,14 @@ func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
 			Buckets:   buckets,
 		},
 	)
-	snmpPackets := promauto.With(reg).NewCounter(
+	snmpPackets := prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "packets_total",
 			Help:      "Number of SNMP packet sent, including retries.",
 		},
 	)
-	snmpRetries := promauto.With(reg).NewCounter(
+	snmpRetries := prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "packet_retries_total",
@@ -404,8 +405,15 @@ func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
 }
 
 func New(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, reg prometheus.Registerer) *Collector {
-	internalMetrics := newInternalMetrics(reg)
-	return &Collector{ctx: ctx, target: target, auth: auth, module: module, logger: logger, metrics: internalMetrics}
+	mustRegisterInternalMetrics(reg)
+	return &Collector{ctx: ctx, target: target, auth: auth, module: module, logger: logger, metrics: globalMetrics}
+}
+
+func mustRegisterInternalMetrics(reg prometheus.Registerer) {
+	reg.MustRegister(globalMetrics.snmpUnexpectedPduType)
+	reg.MustRegister(globalMetrics.snmpDuration)
+	reg.MustRegister(globalMetrics.snmpPackets)
+	reg.MustRegister(globalMetrics.snmpRetries)
 }
 
 // Describe implements Prometheus.Collector.
