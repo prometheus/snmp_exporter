@@ -20,6 +20,8 @@ DOCKER_IMAGE_NAME ?= snmp-generator
 DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 DOCKER_REPO       ?= prom
 
+SANITIZED_DOCKER_IMAGE_TAG := $(subst +,-,$(DOCKER_IMAGE_TAG))
+
 APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet446.mib&p_Doc_Ref=APC_POWERNETMIB_446_EN
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/2d465cce2de4e67a3561d8e41e4c99b597558d4b/v2
@@ -74,19 +76,19 @@ parse_errors: generator mibs
 
 .PHONY: docker
 docker:
-	docker build -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" .
+	docker build -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" .
 
 .PHONY: docker-generate
 docker-generate: docker mibs
-	docker run -ti -v "${PWD}:/opt/" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" generate
+	docker run -ti -v "${PWD}:/opt/" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" generate
 
 .PHONY: docker-publish
 docker-publish:
-	docker push "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME)"
+	docker push "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)"
 
 .PHONY: docker-tag-latest
 docker-tag-latest:
-	docker tag "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):latest"
+	docker tag "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):latest"
 
 mibs: \
   $(MIBDIR)/apc-powernet-mib \
