@@ -160,11 +160,7 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	sc.Lock()
 	sc.C = conf
 	// Initialize metrics.
-	for auth := range sc.C.Auths {
-		for module := range sc.C.Modules {
-			collector.InitModuleMetrics(auth, module)
-		}
-	}
+	collector.InitModuleMetrics(sc.C.Auths, sc.C.Modules)
 	sc.Unlock()
 	return nil
 }

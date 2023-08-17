@@ -89,8 +89,12 @@ func listToOid(l []int) string {
 	return strings.Join(result, ".")
 }
 
-func InitModuleMetrics(auth, module string) {
-	snmpDuration.WithLabelValues(auth, module)
+func InitModuleMetrics(auths map[string]*config.Auth, modules map[string]*config.Module) {
+	for auth := range auths {
+		for module := range modules {
+			snmpDuration.WithLabelValues(auth, module)
+		}
+	}
 }
 
 type ScrapeResults struct {
