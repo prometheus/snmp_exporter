@@ -53,13 +53,13 @@ jobs:
     steps:
     - prometheus/setup_build_environment:
         docker_version: ""
-    - run: make -C generator docker
-    - run: make -C generator docker DOCKER_REPO=quay.io/prometheus
+    - run: make -C generator docker DOCKER_IMAGE_TAG=main
+    - run: make -C generator docker DOCKER_REPO=quay.io/prometheus DOCKER_IMAGE_TAG=main
     - run: docker images
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
     - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
-    - run: make -C generator docker-publish
-    - run: make -C generator docker-publish DOCKER_REPO=quay.io/prometheus
+    - run: make -C generator docker-publish DOCKER_IMAGE_TAG=main
+    - run: make -C generator docker-publish DOCKER_REPO=quay.io/prometheus DOCKER_IMAGE_TAG=main
 
   publish_generator_release:
     executor: golang
