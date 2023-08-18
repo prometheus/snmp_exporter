@@ -43,7 +43,7 @@ import (
 var (
 	configFile  = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
 	dryRun      = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
-	concurrency = kingpin.Flag("concurrency", "Specify the number of modules to fetch concurrently").Default("1").Int()
+	concurrency = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
 	metricsPath = kingpin.Flag(
 		"web.telemetry-path",
 		"Path under which to expose metrics.",

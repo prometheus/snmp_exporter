@@ -91,7 +91,7 @@ is not necessary within the Prometheus configuration file.
 
 ## Multi-Module Handling
 The multi-module functionality allows you to specify multiple modules, enabling the retrieval of information from several modules in a single scrape.
-The concurrency can be specified using the snmp-exporter option --concurrency (the default is 1).
+The concurrency can be specified using the snmp-exporter option `--snmp.module-concurrency` (the default is 1).
 
 Note: This implementation does not perform any de-duplication of walks between different modules.
 
