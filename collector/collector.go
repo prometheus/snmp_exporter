@@ -527,12 +527,10 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		}()
 	}
 
-	go func() {
-		for _, module := range c.modules {
-			workerChan <- module
-		}
-		close(workerChan)
-	}()
+	for _, module := range c.modules {
+		workerChan <- module
+	}
+	close(workerChan)
 	wg.Wait()
 }
 
