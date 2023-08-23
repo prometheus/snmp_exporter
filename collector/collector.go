@@ -21,6 +21,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/alecthomas/kingpin/v2"
@@ -42,6 +43,14 @@ var (
 	float64Mantissa uint64 = 9007199254740992
 	wrapCounters           = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
 	srcAddress             = kingpin.Flag("snmp.source-address", "Source address to send snmp from in the format 'address:port' to use when connecting targets. If the port parameter is empty or '0', as in '127.0.0.1:' or '[::1]:0', a source port number is automatically (random) chosen.").Default("").String()
+
+	snmpDuration = promauto.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Name: "snmp_collection_duration_seconds",
+			Help: "Duration of collections by the SNMP exporter",
+		},
+		[]string{"auth", "module"},
+	)
 )
 
 // Types preceded by an enum with their actual type.
@@ -78,6 +87,14 @@ func listToOid(l []int) string {
 		result = append(result, strconv.Itoa(o))
 	}
 	return strings.Join(result, ".")
+}
+
+func InitModuleMetrics(auths map[string]*config.Auth, modules map[string]*config.Module) {
+	for auth := range auths {
+		for module := range modules {
+			snmpDuration.WithLabelValues(auth, module)
+		}
+	}
 }
 
 type ScrapeResults struct {
@@ -355,13 +372,27 @@ type internalMetrics struct {
 	snmpRetries           prometheus.Counter
 }
 
+type NamedModule struct {
+	*config.Module
+	name string
+}
+
+func NewNamedModule(name string, module *config.Module) *NamedModule {
+	return &NamedModule{
+		Module: module,
+		name:   name,
+	}
+}
+
 type Collector struct {
-	ctx     context.Context
-	target  string
-	auth    *config.Auth
-	module  *config.Module
-	logger  log.Logger
-	metrics internalMetrics
+	ctx         context.Context
+	target      string
+	auth        *config.Auth
+	authName    string
+	modules     []*NamedModule
+	logger      log.Logger
+	metrics     internalMetrics
+	concurrency int
 }
 
 func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
@@ -403,9 +434,9 @@ func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
 	}
 }
 
-func New(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, reg prometheus.Registerer) *Collector {
+func New(ctx context.Context, target, authName string, auth *config.Auth, modules []*NamedModule, logger log.Logger, reg prometheus.Registerer, conc int) *Collector {
 	internalMetrics := newInternalMetrics(reg)
-	return &Collector{ctx: ctx, target: target, auth: auth, module: module, logger: logger, metrics: internalMetrics}
+	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: internalMetrics, concurrency: conc}
 }
 
 // Describe implements Prometheus.Collector.
@@ -413,29 +444,30 @@ func (c Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- prometheus.NewDesc("dummy", "dummy", nil, nil)
 }
 
-// Collect implements Prometheus.Collector.
-func (c Collector) Collect(ch chan<- prometheus.Metric) {
+func (c Collector) collect(ch chan<- prometheus.Metric, module *NamedModule) {
+	logger := log.With(c.logger, "module", module.name)
 	start := time.Now()
-	results, err := ScrapeTarget(c.ctx, c.target, c.auth, c.module, c.logger, c.metrics)
+	results, err := ScrapeTarget(c.ctx, c.target, c.auth, module.Module, logger, c.metrics)
+	moduleLabel := prometheus.Labels{"module": module.name}
 	if err != nil {
-		level.Info(c.logger).Log("msg", "Error scraping target", "err", err)
-		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, nil), err)
+		level.Info(logger).Log("msg", "Error scraping target", "err", err)
+		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, moduleLabel), err)
 		return
 	}
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, nil),
+		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, moduleLabel),
 		prometheus.GaugeValue,
 		time.Since(start).Seconds())
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, nil),
+		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, moduleLabel),
 		prometheus.GaugeValue,
 		float64(results.packets))
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, nil),
+		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
 		float64(results.retries))
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, nil),
+		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
 		float64(len(results.pdus)))
 	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
@@ -443,7 +475,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		oidToPdu[pdu.Name[1:]] = pdu
 	}
 
-	metricTree := buildMetricTree(c.module.Metrics)
+	metricTree := buildMetricTree(module.Metrics)
 	// Look for metrics that match each pdu.
 PduLoop:
 	for oid, pdu := range oidToPdu {
@@ -457,7 +489,7 @@ PduLoop:
 			}
 			if head.metric != nil {
 				// Found a match.
-				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, c.logger, c.metrics)
+				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, logger, c.metrics)
 				for _, sample := range samples {
 					ch <- sample
 				}
@@ -466,9 +498,40 @@ PduLoop:
 		}
 	}
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, nil),
+		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, moduleLabel),
 		prometheus.GaugeValue,
 		time.Since(start).Seconds())
+}
+
+// Collect implements Prometheus.Collector.
+func (c Collector) Collect(ch chan<- prometheus.Metric) {
+	wg := sync.WaitGroup{}
+	workerCount := c.concurrency
+	if workerCount < 1 {
+		workerCount = 1
+	}
+	workerChan := make(chan *NamedModule)
+	for i := 0; i < workerCount; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for m := range workerChan {
+				logger := log.With(c.logger, "module", m.name)
+				level.Debug(logger).Log("msg", "Starting scrape")
+				start := time.Now()
+				c.collect(ch, m)
+				duration := time.Since(start).Seconds()
+				level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
+				snmpDuration.WithLabelValues(c.authName, m.name).Observe(duration)
+			}
+		}()
+	}
+
+	for _, module := range c.modules {
+		workerChan <- module
+	}
+	close(workerChan)
+	wg.Wait()
 }
 
 func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
