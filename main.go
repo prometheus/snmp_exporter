@@ -41,7 +41,7 @@ import (
 )
 
 var (
-	configFile  = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	configFile  = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").Strings()
 	dryRun      = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
 	concurrency = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
 	metricsPath = kingpin.Flag(
@@ -152,7 +152,7 @@ type SafeConfig struct {
 	C *config.Config
 }
 
-func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
+func (sc *SafeConfig) ReloadConfig(configFile []string) (err error) {
 	conf, err := config.LoadFile(configFile)
 	if err != nil {
 		return err

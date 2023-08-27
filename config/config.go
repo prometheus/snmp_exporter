@@ -16,6 +16,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"time"
 
@@ -23,15 +24,23 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func LoadFile(filename string) (*Config, error) {
-	content, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
+func LoadFile(paths []string) (*Config, error) {
 	cfg := &Config{}
-	err = yaml.UnmarshalStrict(content, cfg)
-	if err != nil {
-		return nil, err
+	for _, p := range paths {
+		files, err := filepath.Glob(p)
+		if err != nil {
+			return nil, err
+		}
+		for _, f := range files {
+			content, err := os.ReadFile(f)
+			if err != nil {
+				return nil, err
+			}
+			err = yaml.UnmarshalStrict(content, cfg)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 	return cfg, nil
 }
