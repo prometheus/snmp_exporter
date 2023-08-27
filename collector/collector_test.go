@@ -718,6 +718,11 @@ func TestPduValueAsString(t *testing.T) {
 			pdu:    &gosnmp.SnmpPDU{Value: 10.1, Type: gosnmp.OpaqueDouble},
 			result: "10.1",
 		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{115, 97, 110, 101, 253, 190, 214}},
+			typ:    "DisplayString",
+			result: "sane�",
+		},
 	}
 	for _, c := range cases {
 		got := pduValueAsString(c.pdu, c.typ, internalMetrics{})

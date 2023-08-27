@@ -817,7 +817,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics internalMetrics) 
 			return pdu.Value.(string)[1:]
 		}
 		// DisplayString.
-		return pdu.Value.(string)
+		return strings.ToValidUTF8(pdu.Value.(string), "�")
 	case []byte:
 		if typ == "" || typ == "Bits" {
 			typ = "OctetString"
@@ -832,7 +832,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics internalMetrics) 
 			parts = append([]int{len(pdu.Value.([]byte))}, parts...)
 		}
 		str, _, _ := indexOidsAsString(parts, typ, 0, false, nil)
-		return str
+		return strings.ToValidUTF8(str, "�")
 	case nil:
 		return ""
 	default:
