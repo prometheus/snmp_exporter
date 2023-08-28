@@ -22,7 +22,7 @@ import (
 
 func TestHideConfigSecrets(t *testing.T) {
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig("testdata/snmp-auth.yml")
+	err := sc.ReloadConfig([]string{"testdata/snmp-auth.yml"})
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth.yml", err)
 	}
@@ -41,9 +41,24 @@ func TestHideConfigSecrets(t *testing.T) {
 
 func TestLoadConfigWithOverrides(t *testing.T) {
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig("testdata/snmp-with-overrides.yml")
+	err := sc.ReloadConfig([]string{"testdata/snmp-with-overrides.yml"})
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-with-overrides.yml", err)
+	}
+	sc.RLock()
+	_, err = yaml.Marshal(sc.C)
+	sc.RUnlock()
+	if err != nil {
+		t.Errorf("Error marshaling config: %v", err)
+	}
+}
+
+func TestLoadMultipleConfigs(t *testing.T) {
+	sc := &SafeConfig{}
+	configs := []string{"testdata/snmp-auth.yml", "testdata/snmp-with-overrides.yml"}
+	err := sc.ReloadConfig(configs)
+	if err != nil {
+		t.Errorf("Error loading configs %v: %v", configs, err)
 	}
 	sc.RLock()
 	_, err = yaml.Marshal(sc.C)
