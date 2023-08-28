@@ -34,10 +34,6 @@ import (
 	"github.com/prometheus/snmp_exporter/config"
 )
 
-const (
-	namespace = "snmp"
-)
-
 var (
 	// 64-bit float mantissa: https://en.wikipedia.org/wiki/Double-precision_floating-point_format
 	float64Mantissa uint64 = 9007199254740992
@@ -103,7 +99,7 @@ type ScrapeResults struct {
 	retries uint64
 }
 
-func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics internalMetrics) (ScrapeResults, error) {
+func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
 	results := ScrapeResults{}
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
@@ -123,14 +119,14 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 	var sent time.Time
 	snmp.OnSent = func(x *gosnmp.GoSNMP) {
 		sent = time.Now()
-		metrics.snmpPackets.Inc()
+		metrics.SNMPPackets.Inc()
 		results.packets++
 	}
 	snmp.OnRecv = func(x *gosnmp.GoSNMP) {
-		metrics.snmpDuration.Observe(time.Since(sent).Seconds())
+		metrics.SNMPDuration.Observe(time.Since(sent).Seconds())
 	}
 	snmp.OnRetry = func(x *gosnmp.GoSNMP) {
-		metrics.snmpRetries.Inc()
+		metrics.SNMPRetries.Inc()
 		results.retries++
 	}
 
@@ -271,7 +267,7 @@ func configureTarget(g *gosnmp.GoSNMP, target string) error {
 	return nil
 }
 
-func filterAllowedIndices(logger log.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics internalMetrics) []string {
+func filterAllowedIndices(logger log.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
 	level.Debug(logger).Log("msg", "Evaluating rule for oid", "oid", filter.Oid)
 	for _, pdu := range pdus {
 		found := false
@@ -365,11 +361,11 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 	return metricTree
 }
 
-type internalMetrics struct {
-	snmpUnexpectedPduType prometheus.Counter
-	snmpDuration          prometheus.Histogram
-	snmpPackets           prometheus.Counter
-	snmpRetries           prometheus.Counter
+type Metrics struct {
+	SNMPUnexpectedPduType prometheus.Counter
+	SNMPDuration          prometheus.Histogram
+	SNMPPackets           prometheus.Counter
+	SNMPRetries           prometheus.Counter
 }
 
 type NamedModule struct {
@@ -391,52 +387,12 @@ type Collector struct {
 	authName    string
 	modules     []*NamedModule
 	logger      log.Logger
-	metrics     internalMetrics
+	metrics     Metrics
 	concurrency int
 }
 
-func newInternalMetrics(reg prometheus.Registerer) internalMetrics {
-	buckets := prometheus.ExponentialBuckets(0.0001, 2, 15)
-	snmpUnexpectedPduType := promauto.With(reg).NewCounter(
-		prometheus.CounterOpts{
-			Namespace: namespace,
-			Name:      "unexpected_pdu_type_total",
-			Help:      "Unexpected Go types in a PDU.",
-		},
-	)
-	snmpDuration := promauto.With(reg).NewHistogram(
-		prometheus.HistogramOpts{
-			Namespace: namespace,
-			Name:      "packet_duration_seconds",
-			Help:      "A histogram of latencies for SNMP packets.",
-			Buckets:   buckets,
-		},
-	)
-	snmpPackets := promauto.With(reg).NewCounter(
-		prometheus.CounterOpts{
-			Namespace: namespace,
-			Name:      "packets_total",
-			Help:      "Number of SNMP packet sent, including retries.",
-		},
-	)
-	snmpRetries := promauto.With(reg).NewCounter(
-		prometheus.CounterOpts{
-			Namespace: namespace,
-			Name:      "packet_retries_total",
-			Help:      "Number of SNMP packet retries.",
-		},
-	)
-	return internalMetrics{
-		snmpUnexpectedPduType: snmpUnexpectedPduType,
-		snmpDuration:          snmpDuration,
-		snmpPackets:           snmpPackets,
-		snmpRetries:           snmpRetries,
-	}
-}
-
-func New(ctx context.Context, target, authName string, auth *config.Auth, modules []*NamedModule, logger log.Logger, reg prometheus.Registerer, conc int) *Collector {
-	internalMetrics := newInternalMetrics(reg)
-	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: internalMetrics, concurrency: conc}
+func New(ctx context.Context, target, authName string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int) *Collector {
+	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: metrics, concurrency: conc}
 }
 
 // Describe implements Prometheus.Collector.
@@ -598,7 +554,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 	return float64(t.Unix()), nil
 }
 
-func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger, metrics internalMetrics) []prometheus.Metric {
+func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger, metrics Metrics) []prometheus.Metric {
 	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu, metrics)
@@ -799,7 +755,7 @@ func splitOid(oid []int, count int) ([]int, []int) {
 }
 
 // This mirrors decodeValue in gosnmp's helper.go.
-func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics internalMetrics) string {
+func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
 	switch pdu.Value.(type) {
 	case int:
 		return strconv.Itoa(pdu.Value.(int))
@@ -837,7 +793,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics internalMetrics) 
 		return ""
 	default:
 		// This shouldn't happen.
-		metrics.snmpUnexpectedPduType.Inc()
+		metrics.SNMPUnexpectedPduType.Inc()
 		return fmt.Sprintf("%s", pdu.Value)
 	}
 }
@@ -951,7 +907,7 @@ func getPrevOid(oid string) string {
 	return strings.Join(oids, ".")
 }
 
-func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, metrics internalMetrics) map[string]string {
+func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, metrics Metrics) map[string]string {
 	labels := map[string]string{}
 	labelOids := map[string][]int{}
 
