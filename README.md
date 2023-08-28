@@ -118,7 +118,7 @@ The default `snmp.yml` file covers a variety of common hardware walking them
 using SNMP v2 GETBULK.
 
 The `--config.file` parameter can be used multiple times to load more than one file.
-It also supports [glob filename matching](https://pkg.go.dev/path/filepath#Glob). (i.e. `snmp*.yml`)
+It also supports [glob filename matching](https://pkg.go.dev/path/filepath#Glob), e.g. `snmp*.yml`.
 
 Duplicate `module` or `auth` entries are treated as invalid and can not be loaded.
 
