@@ -518,7 +518,7 @@ func TestPduToSample(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger(), internalMetrics{})
+		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger(), Metrics{})
 		metric := &io_prometheus_client.Metric{}
 		expected := map[string]struct{}{}
 		for _, e := range c.expectedMetrics {
@@ -725,7 +725,7 @@ func TestPduValueAsString(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := pduValueAsString(c.pdu, c.typ, internalMetrics{})
+		got := pduValueAsString(c.pdu, c.typ, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("pduValueAsString(%v, %q): got %q, want %q", c.pdu, c.typ, got, c.result)
 		}
@@ -1031,7 +1031,7 @@ func TestIndexesToLabels(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, internalMetrics{})
+		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("indexesToLabels(%v, %v, %v): got %v, want %v", c.oid, c.metric, c.oidToPdu, got, c.result)
 		}
@@ -1249,7 +1249,7 @@ func TestFilterAllowedIndices(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList, internalMetrics{})
+		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("filterAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}
