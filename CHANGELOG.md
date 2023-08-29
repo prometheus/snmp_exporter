@@ -1,3 +1,9 @@
+## 0.24.0 / 2023-08-29
+
+* [CHANGE] Sanitize invalid UTF-8 #968
+* [FEATURE] Support fetching multiple modules in one scrape #945
+* [FEATURE] Support loading multiple configuration files #970
+
 ## 0.23.0 / 2023-07-20
 
 BREAKING CHANGES:

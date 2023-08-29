@@ -9,7 +9,7 @@ executors:
   # should also be updated.
   golang:
     docker:
-    - image: cimg/go:1.20
+    - image: cimg/go:1.21
     parameters:
       working_dir:
         type: string
