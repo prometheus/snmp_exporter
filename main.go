@@ -62,6 +62,14 @@ var (
 			Help:      "Errors in requests to the SNMP exporter",
 		},
 	)
+	snmpCollectionDuration = promauto.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Namespace: namespace,
+			Name:      "collection_duration_seconds",
+			Help:      "Duration of collections by the SNMP exporter",
+		},
+		[]string{"auth", "module"},
+	)
 	sc = &SafeConfig{
 		C: &config.Config{},
 	}
@@ -165,7 +173,11 @@ func (sc *SafeConfig) ReloadConfig(configFile []string) (err error) {
 	sc.Lock()
 	sc.C = conf
 	// Initialize metrics.
-	collector.InitModuleMetrics(sc.C.Auths, sc.C.Modules)
+	for auth := range sc.C.Auths {
+		for module := range sc.C.Modules {
+			snmpCollectionDuration.WithLabelValues(auth, module)
+		}
+	}
 	sc.Unlock()
 	return nil
 }
@@ -226,6 +238,7 @@ func main() {
 
 	buckets := prometheus.ExponentialBuckets(0.0001, 2, 15)
 	exporterMetrics := collector.Metrics{
+		SNMPCollectionDuration: snmpCollectionDuration,
 		SNMPUnexpectedPduType: promauto.NewCounter(
 			prometheus.CounterOpts{
 				Namespace: namespace,
