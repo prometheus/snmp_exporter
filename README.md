@@ -89,6 +89,9 @@ Note that [URL encoding](https://en.wikipedia.org/wiki/URL_encoding) should be u
 to the `:` and `/` characters. Prometheus encodes query parameters automatically and manual encoding
 is not necessary within the Prometheus configuration file.
 
+Metrics concerning the operation of the exporter itself are available at the
+endpoint <http://localhost:9116/metrics>.
+
 ## Multi-Module Handling
 The multi-module functionality allows you to specify multiple modules, enabling the retrieval of information from several modules in a single scrape.
 The concurrency can be specified using the snmp-exporter option `--snmp.module-concurrency` (the default is 1).
@@ -146,6 +149,11 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
+
+  # Global exporter-level metrics
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets: ['localhost:9116']
 ```
 
 Similarly to [blackbox_exporter](https://github.com/prometheus/blackbox_exporter),
