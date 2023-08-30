@@ -462,7 +462,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				c.collect(ch, m)
 				duration := time.Since(start).Seconds()
 				level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
-				c.metrics.SNMPCollectionDuration.WithLabelValues(c.authName, m.name).Observe(duration)
+				c.metrics.SNMPCollectionDuration.WithLabelValues(m.name).Observe(duration)
 			}
 		}()
 	}

@@ -68,7 +68,7 @@ var (
 			Name:      "collection_duration_seconds",
 			Help:      "Duration of collections by the SNMP exporter",
 		},
-		[]string{"auth", "module"},
+		[]string{"module"},
 	)
 	sc = &SafeConfig{
 		C: &config.Config{},
@@ -173,10 +173,8 @@ func (sc *SafeConfig) ReloadConfig(configFile []string) (err error) {
 	sc.Lock()
 	sc.C = conf
 	// Initialize metrics.
-	for auth := range sc.C.Auths {
-		for module := range sc.C.Modules {
-			snmpCollectionDuration.WithLabelValues(auth, module)
-		}
+	for module := range sc.C.Modules {
+		snmpCollectionDuration.WithLabelValues(module)
 	}
 	sc.Unlock()
 	return nil
