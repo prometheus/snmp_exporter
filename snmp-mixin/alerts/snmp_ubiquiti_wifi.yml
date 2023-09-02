@@ -1,0 +1,19 @@
+groups:
+- name: SNMPUbiquitiAlerts
+  rules:
+  - alert: SNMPUbiquitiRxErrorRate
+    expr: (sum by (instance) (irate(unifiVapRxDropped{job=~"snmp.*"}[5m])) + sum by (instance) (irate(unifiVapRxErrors{job=~"snmp.*"}[5m]))) / sum by (instance) (irate(unifiVapRxPackets{job=~"snmp.*"}[5m])) > 0.2
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: 'Access point {{$labels.instance}} from job {{$labels.job}} has input error rate > 20%.'
+      summary: High input error rate.
+  - alert: SNMPUbiquitiTxErrorRate
+    expr: (sum by (instance) (irate(unifiVapTxDropped{job=~"snmp.*"}[5m])) + sum by (instance) (irate(unifiVapTxErrors{job=~"snmp.*"}[5m]))) / sum by (instance) (irate(unifiVapTxPackets{job=~"snmp.*"}[5m])) > 0.05
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: 'Access point {{$labels.instance}} from job {{$labels.job}} has output error rate > 5%.'
+      summary: High output error rate.

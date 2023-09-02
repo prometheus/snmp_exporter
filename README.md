@@ -1,44 +1,133 @@
 # Prometheus SNMP Exporter
 
-This is an exporter that exposes information gathered from SNMP
-for use by the Prometheus monitoring system.
+This exporter is the recommended way to expose SNMP data in a format which
+Prometheus can ingest.
 
-There are two components. An exporter that does the actual scraping, and a
-[generator](generator/) (which depends on NetSNMP) that creates the
-configuration for use by the exporter.
+To simply get started, it's recommended to use the `if_mib` module with
+switches, access points, or routers using the `public_v2` auth module,
+which should be a read-only access community on the target device.
+
+Note, community strings in SNMP are not considered secrets, as they are sent
+unencrypted in SNMP v1 and v2c. For secure access, SNMP v3 is required.
+
+# Concepts
+
+While SNMP uses a hierarchical data structure and Prometheus uses an
+n-dimnensional matrix, the two systems map perfectly, and without the need
+to walk through data by hand. `snmp_exporter` maps the data for you.
+
+## Prometheus
+
+Prometheus is able to map SNMP index instances to labels. For example, the `ifEntry` specifies an INDEX of  `ifIndex`. This becomes the `ifIndex` label in Prometheus.
+
+If an SNMP entry has multiple index values, each value is mapped to a separate Prometheus label.
+
+## SNMP
+
+SNMP is structured in OID trees, described by MIBs. OID subtrees have the same
+order across different locations in the tree. The order under
+`1.3.6.1.2.1.2.2.1.1` (`ifIndex`) is the same as in `1.3.6.1.2.1.2.2.1.2`
+(`ifDescr`), `1.3.6.1.2.1.31.1.1.1.10` (`ifHCOutOctets`), etc. The numbers are
+OIDs, the names in parentheses are the names from a MIB, in this case
+[IF-MIB](http://www.oidview.com/mibs/0/IF-MIB.html).
+
+## Mapping
+
+Given a device with an interface at number 2, a partial `snmpwalk` return looks
+like:
+
+```
+1.3.6.1.2.1.2.2.1.1.2 = INTEGER: 2         # ifIndex for '2' is literally just '2'
+1.3.6.1.2.1.2.2.1.2.2 = STRING: "eth0"     # ifDescr
+1.3.6.1.2.1.31.1.1.1.1 = STRING: "eth0"    # IfName
+1.3.6.1.2.1.31.1.1.1.10.2 = INTEGER: 1000  # ifHCOutOctets, 1000 bytes
+1.3.6.1.2.1.31.1.1.1.18.2 = STRING: ""     # ifAlias
+```
+
+`snmp_exporter` combines all of this data into:
+
+```
+ifHCOutOctets{ifAlias="",ifDescr="eth0",ifIndex="2",ifName="eth0"} 1000
+```
+
+# Scaling
+
+A single instance of `snmp_exporter` can be run for thousands of devices.
+
+# Usage
 
 ## Installation
 
 Binaries can be downloaded from the [Github
-releases](https://github.com/prometheus/snmp_exporter/releases) page.
+releases](https://github.com/prometheus/snmp_exporter/releases) page and need no
+special installation.
 
-## Usage
+We also provide a sample [systemd unit file](examples/systemd/snmp_exporter.service).
+
+## Running
+
+Start `snmp_exporter` as a daemon or from CLI:
 
 ```sh
 ./snmp_exporter
 ```
 
-Visit http://localhost:9116/snmp?target=1.2.3.4 where 1.2.3.4 is the IP of the
-SNMP device to get metrics from. You can also specify a `module` parameter, to
-choose which module to use from the config file.
+Visit <http://localhost:9116/snmp?target=192.0.0.8> where `192.0.0.8` is the IP or
+FQDN of the SNMP device to get metrics from. Note that this will use the default transport (`udp`),
+default port (`161`), default auth (`public_v2`) and default module (`if_mib`). The auth and module
+must be defined in the `snmp.yml` file.
+
+For example, if you have an auth named `my_secure_v3` for walking `ddwrt`, the URL would look like
+<http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=192.0.0.8>.
+
+To configure a different transport and/or port, use the syntax `[transport://]host[:port]`.
+
+For example, to scrape a device using `tcp` on port `1161`, the URL would look like
+<http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=tcp%3A%2F%2F192.0.0.8%3A1161>.
+
+Note that [URL encoding](https://en.wikipedia.org/wiki/URL_encoding) should be used for `target` due
+to the `:` and `/` characters. Prometheus encodes query parameters automatically and manual encoding
+is not necessary within the Prometheus configuration file.
+
+Metrics concerning the operation of the exporter itself are available at the
+endpoint <http://localhost:9116/metrics>.
+
+## Multi-Module Handling
+The multi-module functionality allows you to specify multiple modules, enabling the retrieval of information from several modules in a single scrape.
+The concurrency can be specified using the snmp-exporter option `--snmp.module-concurrency` (the default is 1).
+
+Note: This implementation does not perform any de-duplication of walks between different modules.
+
+There are two ways to specify multiple modules. You can either separate them with a comma or define multiple params_module.
+The URLs would look like this:
+
+For comma separation:
+```
+http://localhost:9116/snmp?module=if_mib,arista_sw&target=192.0.0.8
+```
+
+For multiple params_module:
+```
+http://localhost:9116/snmp?module=if_mib&module=arista_sw&target=192.0.0.8
+```
 
 ## Configuration
 
-The snmp exporter reads from a `snmp.yml` config file by default. This file is
-not intended to be written by hand, rather use the [generator](generator/) to
-generate it for you.
+The default configuration file name is `snmp.yml` and should not be edited
+by hand. If you need to change it, see
+[Generating configuration](#generating-configuration).
 
-The default `snmp.yml` covers a variety of common hardware for which
-MIBs are available to the public, walking them using SNMP v2 GETBULK.
+The default `snmp.yml` file covers a variety of common hardware walking them
+using SNMP v2 GETBULK.
 
-You'll need to use the generator in all but the simplest of setups. It is
-needed to customize which objects are walked, use non-public MIBs or specify
-authentication parameters.
+The `--config.file` parameter can be used multiple times to load more than one file.
+It also supports [glob filename matching](https://pkg.go.dev/path/filepath#Glob), e.g. `snmp*.yml`.
+
+Duplicate `module` or `auth` entries are treated as invalid and can not be loaded.
 
 ## Prometheus Configuration
 
-The snmp exporter needs to be passed the address as a parameter, this can be
-done with relabelling.
+The URL params `target`, `auth`, and `module` can be controlled through relabelling.
 
 Example config:
 ```YAML
@@ -47,8 +136,11 @@ scrape_configs:
     static_configs:
       - targets:
         - 192.168.1.2  # SNMP device.
+        - switch.local # SNMP device.
+        - tcp://192.168.1.3:1161  # SNMP device using TCP transport and custom port.
     metrics_path: /snmp
     params:
+      auth: [public_v2]
       module: [if_mib]
     relabel_configs:
       - source_labels: [__address__]
@@ -57,15 +149,54 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
+
+  # Global exporter-level metrics
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets: ['localhost:9116']
 ```
 
-This setup allows Prometheus to provide scheduling and service discovery, as
-unlike all other exporters running an exporter on the machine from which we are
-getting the metrics from is not possible.
+Similarly to [blackbox_exporter](https://github.com/prometheus/blackbox_exporter),
+`snmp_exporter` is meant to run on a few central machines and can be thought of
+like a "Prometheus proxy".
+
+### TLS and basic authentication
+
+The SNMP Exporter supports TLS and basic authentication. This enables better
+control of the various HTTP endpoints.
+
+To use TLS and/or basic authentication, you need to pass a configuration file
+using the `--web.config.file` parameter. The format of the file is described
+[in the exporter-toolkit repository](https://github.com/prometheus/exporter-toolkit/blob/master/docs/web-configuration.md).
+
+Note that the TLS and basic authentication settings affect all HTTP endpoints:
+/metrics for scraping, /snmp for scraping SNMP devices, and the web UI.
+
+### Generating configuration
+
+Most use cases should be covered by our [default configuration](snmp.yml).
+If you need to generate your own configuration from MIBs, you can use the
+[generator](generator/).
+
+Use the generator if you need to customize which objects are walked or use
+non-public MIBs.
 
 ## Large counter value handling
 
-In order to provide accurate counters for large Counter64 values, the exporter will automatically
-wrap the value every 2^53 to avoid 64-bit float rounding.
+In order to provide accurate counters for large Counter64 values, the exporter
+will automatically wrap the value every 2^53 to avoid 64-bit float rounding.
+Prometheus handles this gracefully for you and you will not notice any negative
+effects.
 
-To disable this feature, use the command line flag `--no-snmp.wrap-large-counters`.
+If you need to disable this feature for non-Prometheus systems, use the
+command line flag `--no-snmp.wrap-large-counters`.
+
+# Once you have it running
+
+It can be opaque to get started with all this, but in our own experience,
+snmp_exporter is honestly the best way to interact with SNMP. To make it
+easier for others, please consider contributing back your configurations to
+us.
+`snmp.yml` config should be accompanied by generator config.
+For your dashboard, alerts, and recording rules, please consider
+contributing them to <https://github.com/prometheus/snmp_exporter/tree/main/snmp-mixin>.

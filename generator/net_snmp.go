@@ -18,10 +18,22 @@ package main
 #cgo CFLAGS: -I/usr/local/include
 #include <net-snmp/net-snmp-config.h>
 #include <net-snmp/mib_api.h>
+#include <net-snmp/agent/agent_callbacks.h>
+#include <net-snmp/library/default_store.h>
+#include <net-snmp/library/parse.h>
 #include <unistd.h>
 // From parse.c
+// Hacky workarounds to detect which version of net-snmp this
+// based on various headers that appear in 5.8 and 5.9.
+#if !defined(NETSNMP_DS_LIB_ADD_FORWARDER_INFO)
+#if defined(SNMPD_CALLBACK_UNREGISTER_NOTIFICATIONS)
+#define MAXTC   16384
+#else
 #define MAXTC   4096
-  struct tc {
+#endif
+#endif
+
+struct tc {
   int             type;
   int             modid;
   char           *descriptor;
@@ -29,11 +41,17 @@ package main
   struct enum_list *enums;
   struct range_list *ranges;
   char           *description;
+#if !defined(NETSNMP_DS_LIB_ADD_FORWARDER_INFO)
 } tclist[MAXTC];
+int tc_alloc = MAXTC;
+#else
+} *tclist;
+int tc_alloc;
+#endif
 
 // Return the size of a fixed, or 0 if it is not fixed.
 int get_tc_fixed_size(int tc_index) {
-	if (tc_index < 0 || tc_index >= MAXTC) {
+  if (tc_index < 0 || tc_index >= tc_alloc) {
     return 0;
   }
   struct range_list *ranges;
@@ -50,16 +68,18 @@ import "C"
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
+	"sort"
 
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/go-kit/log"
+	"github.com/go-kit/log/level"
 )
 
 // One entry in the tree of the MIB.
 type Node struct {
 	Oid               string
+	subid             int64
 	Label             string
 	Augments          string
 	Children          []*Node
@@ -140,6 +160,9 @@ func initSNMP(logger log.Logger) (string, error) {
 	os.Setenv("MIBS", "ALL")
 	// Help the user find their MIB directories.
 	level.Info(logger).Log("msg", "Loading MIBs", "from", C.GoString(C.netsnmp_get_mib_directory()))
+	if *snmpMIBOpts != "" {
+		C.snmp_mib_toggle_options(C.CString(*snmpMIBOpts))
+	}
 	// We want the descriptions.
 	C.snmp_set_save_descriptions(1)
 
@@ -158,7 +181,7 @@ func initSNMP(logger log.Logger) (string, error) {
 	ch := make(chan string)
 	errch := make(chan error)
 	go func() {
-		data, err := ioutil.ReadAll(r)
+		data, err := io.ReadAll(r)
 		if err != nil {
 			errch <- fmt.Errorf("error reading from pipe: %s", err)
 			return
@@ -183,6 +206,7 @@ func initSNMP(logger log.Logger) (string, error) {
 
 // Walk NetSNMP MIB tree, building a Go tree from it.
 func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
+	n.subid = int64(t.subid)
 	if oid != "" {
 		n.Oid = fmt.Sprintf("%s.%d", oid, t.subid)
 	} else {
@@ -228,6 +252,11 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 		buildMIBTree(head, child, n.Oid)
 		head = head.next_peer
 	}
+
+	// Ensure things are consistently ordered.
+	sort.Slice(n.Children, func(i, j int) bool {
+		return n.Children[i].subid < n.Children[j].subid
+	})
 
 	// Set names of indexes on each child.
 	// In practice this means only the entry will have it.

@@ -1,3 +1,10 @@
+---
+auths:
+  public_v1:
+    version: 1
+  public_v2:
+    version: 2
+
 modules:
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
@@ -24,8 +31,6 @@ modules:
 # Cisco Wireless LAN Controller
   cisco_wlc:
     walk:
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.14179.2.1.1.1.38   # bsnDot11EssNumberofMobileStations
       - 1.3.6.1.4.1.14179.2.2.2.1.2    # bsnAPIfType
       - 1.3.6.1.4.1.14179.2.2.2.1.4    # bsnAPIfPhyChannelNumber
@@ -40,9 +45,6 @@ modules:
       - source_indexes: [bsnAPDot3MacAddress]
         lookup: bsnAPName
         drop_source_indexes: true
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -60,10 +62,7 @@ modules:
 # Guide: http://www.apc.com/salestools/ASTE-6Z5QEY/ASTE-6Z5QEY_R0_EN.pdf
 # Download site: http://www.apc.com/us/en/tools/download/index.cfm
   apcups:
-    version: 1
     walk:
-      - sysUpTime
-      - interfaces
       - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
       - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
       - 1.3.6.1.4.1.318.1.1.1.4       # upsOutput
@@ -71,7 +70,10 @@ modules:
       - 1.3.6.1.4.1.318.1.1.1.8.1     # upsCommStatus
       - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
       - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
+      - 1.3.6.1.4.1.318.1.1.26.4.3    # rPDU2DeviceStatusTable
+      - 1.3.6.1.4.1.318.1.1.26.6.3    # rPDU2PhaseStatusTable
       - 1.3.6.1.4.1.318.1.1.26.8.3    # rPDU2BankStatusTable
+      - 1.3.6.1.4.1.318.1.1.26.10.2.2 # rPDU2SensorTempHumidityStatusTable
     lookups:
       - source_indexes: [upsOutletGroupStatusIndex]
         lookup: upsOutletGroupStatusName
@@ -80,8 +82,6 @@ modules:
         lookup: iemStatusProbeName
         drop_source_indexes: true
     overrides:
-      ifType:
-        type: EnumAsInfo
       rPDU2BankStatusLoadState:
         type: EnumAsStateSet
       upsAdvBatteryCondition:
@@ -99,7 +99,6 @@ modules:
 # ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
   servertech_sentry3:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
       - 1.3.6.1.4.1.1718.3.2.3  # outletTable
     overrides:
@@ -107,6 +106,47 @@ modules:
         ignore: true  # Composite metric: infeedLoadValue / infeedCapacity * 100
       infeedVACapacityUsed:
         ignore: true  # Composite metric: infeedApparentPower / infeedVACapacity * 100
+
+# ServerTech Sentry 4 MIB
+#
+# Used by ServerTech PDUs
+#
+# https://cdn10.servertech.com/assets/documents/documents/816/original/Sentry4OIDTree.txt
+# https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib
+  servertech_sentry4:
+    walk:
+      - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.7.3   # st4BranchMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.8.3   # st4OutletMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.9.3   # st4TempSensorMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.14.3  # st4FanSensorMonitorTable
+
+    lookups:
+      - source_indexes: [st4UnitIndex]
+        lookup: st4UnitName
+      - source_indexes: [st4UnitIndex, st4InputCordIndex]
+        lookup: st4InputCordName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
+        lookup: st4LineLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
+        lookup: st4PhaseLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
+        lookup: st4BranchLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
+        lookup: st4OutletName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
+        lookup: st4AdcSensorName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex, st4FanSensorIndex]
+        lookup: st4AdcSensorName
+        drop_source_indexes: true
 
 # Palo Alto Firewalls
 #
@@ -120,8 +160,6 @@ modules:
 #
   paloalto_fw:
     walk:
-      - sysUpTime
-      - interfaces
       - hrDevice
       - hrSystem
       - hrStorage
@@ -140,15 +178,9 @@ modules:
 #
   arista_sw:
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.2.1.25.3.3.1.2 # hrProcessorLoad
       - 1.3.6.1.2.1.25.2.3.1.6 # hrStorageUsed
       - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Synology
 #
@@ -160,9 +192,6 @@ modules:
 #
   synology:
     walk:
-      - interfaces
-      - sysUpTime
-      - ifXTable
       - laNames
       - laLoadInt
       - ssCpuUser
@@ -189,10 +218,6 @@ modules:
       - source_indexes: [serviceInfoIndex]
         lookup: serviceName
         drop_source_indexes: true
-      - source_indexes: [ifIndex]
-        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
-        drop_source_indexes: true
       - source_indexes: [diskIndex]
         lookup: diskID
         drop_source_indexes: true
@@ -206,8 +231,30 @@ modules:
         lookup: hrStorageDescr
         drop_source_indexes: true
     overrides:
-      ifType:
-        type: EnumAsInfo
+      diskModel:
+        type: DisplayString
+      diskSMARTAttrName:
+        type: DisplayString
+      diskSMARTAttrStatus:
+        type: DisplayString
+      diskSMARTInfoDevName:
+        type: DisplayString
+      diskType:
+        type: DisplayString
+      modelName:
+        type: DisplayString
+      raidFreeSize:
+        type: gauge
+      raidName:
+        type: DisplayString
+      raidTotalSize:
+        type: gauge
+      serialNumber:
+        type: DisplayString
+      serviceName:
+        type: DisplayString
+      version:
+        type: DisplayString
 
 # DD-WRT
 #
@@ -217,9 +264,6 @@ modules:
 #
   ddwrt:
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.2.1.25.2 # hrStorage
       - 1.3.6.1.4.1.2021.4 # memory
       - 1.3.6.1.4.1.2021.10.1.1 # laIndex
@@ -227,49 +271,28 @@ modules:
       - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
       - 1.3.6.1.4.1.2021.11 # systemStats
     lookups:
-    - source_indexes: [ifIndex]
-      # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
-      lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
-      drop_source_indexes: true
-    - source_indexes: [laIndex]
-      lookup: laNames
-      drop_source_indexes: true
-    - source_indexes: [hrStorageIndex]
-      lookup: hrStorageDescr
-      drop_source_indexes: true
-    overrides:
-      ifType:
-        type: EnumAsInfo
+      - source_indexes: [laIndex]
+        lookup: laNames
+        drop_source_indexes: true
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+        drop_source_indexes: true
 
 # Ubiquiti / AirFiber
 #
 # https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
 #
   ubiquiti_airfiber:
-    version: 1
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.3 #ubntAirFiber
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / AirMAX
 #
 # https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 #
   ubiquiti_airmax:
-    version: 1
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
-    overrides:
-      ifType:
-        type: EnumAsInfo
 
 # Ubiquiti / UniFi
 #
@@ -278,17 +301,18 @@ modules:
 #
   ubiquiti_unifi:
     walk:
-      - sysUpTime
-      - interfaces
-      - ifXTable
       - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
-    overrides:
-      ifType:
-        type: EnumAsInfo
+    lookups:
+      - source_indexes: [unifiVapIndex]
+        lookup: unifiVapName
+      - source_indexes: [unifiVapIndex]
+        lookup: unifiVapEssId
 
 # keepalived
 #
-# https://github.com/acassen/keepalived/blob/master/doc/KEEPALIVED-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.2.7/doc/KEEPALIVED-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.2.7/doc/VRRP-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.2.7/doc/VRRPv3-MIB.txt
   keepalived:
     walk:
       - vrrpInstanceTable # Table of VRRP instances.
@@ -296,6 +320,8 @@ modules:
       - virtualServerGroupTable # Table of virtual server groups.
       - virtualServerTable # Table of virtual servers.
       - realServerTable # Table of real servers. This includes regular real servers and sorry servers.
+      - vrrpRouterStatsTable # Table of VRRP statistics.
+      - vrrpv3StatisticsTable # Table of VRRPv3 statistics.
     overrides:
       vrrpSyncGroupScriptMaster:
         ignore: true # Non-metric display string.
@@ -324,13 +350,68 @@ modules:
       vrrpInstanceScriptMstrRxLowerPri:
         ignore: true # Non-metric display string.
 
+# Kemp Technologies LoadMaster
+#
+# https://kemptechnologies.com/files/packages/current/LM_mibs.zip
+# https://support.kemptechnologies.com/hc/en-us/articles/202375677-LoadMaster-SNMP-MIB-s
+  kemp_loadmaster:
+    walk:
+      - laNames
+      - laLoadInt
+      - ssCpuUser
+      - ssCpuSystem
+      - ssCpuIdle
+      - memory
+      - 1.3.6.1.4.1.12196.13.0 # VSdesc
+      - 1.3.6.1.4.1.12196.13.1 # VSentry
+      - 1.3.6.1.4.1.12196.13.2 # RSentry
+    lookups:
+      - source_indexes: [vSidx]
+        lookup: 1.3.6.1.4.1.12196.13.1.1.13 # vSName
+    overrides:
+      daemonState:
+        type: EnumAsInfo
+      haState:
+        type: EnumAsInfo
+      patchVersion:
+        type: DisplayString
+      rSAddrType:
+        type: EnumAsInfo
+      rSForwardingMethod:
+        type: DisplayString
+      rSIp:
+        type: DisplayString
+      rSState:
+        type: EnumAsInfo
+      vSAdaptiveMethod:
+        type: DisplayString
+      vSAddrtype:
+        type: EnumAsInfo
+      vSCheckerType:
+        type: DisplayString
+      vSIp:
+        type: DisplayString
+      vSL7cookieId:
+        type: DisplayString
+      vSL7persist:
+        type: DisplayString
+      vSName:
+        type: DisplayString
+      vSProtocol:
+        type: EnumAsInfo
+      vSSchedulingMethod:
+        type: DisplayString
+      vSState:
+        type: EnumAsInfo
+      version:
+        type: DisplayString
+
 # Printer: RFC 3805
 #
 # https://tools.ietf.org/html/rfc3805
 # https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib.xhtml
   printer_mib:
     walk:
-      - sysUpTime
       - hrPrinterStatus
       - prtGeneralReset
       - prtConsoleDisable
@@ -379,9 +460,12 @@ modules:
       - picoIPv4MIB
       - picoIPv6MIB
 
+# Raritan
+#
+# https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
+# https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
   raritan:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
       - 1.3.6.1.4.1.13742.4.1.20.2.1.8 # inletVoltage
       - 1.3.6.1.4.1.13742.4.1.20.2.1.9 # inletActivePower
@@ -392,22 +476,20 @@ modules:
       - 1.3.6.1.4.1.13742.4.1.2.2.1.6  # outletVoltage
       - 1.3.6.1.4.1.13742.4.1.2.2.1.7  # outletActivePower
       - 1.3.6.1.4.1.13742.4.1.3.1.5    # unitCpuTemp
+      - 1.3.6.1.4.1.13742.6.5.5.3.1    # externalSensors
     lookups:
       - source_indexes: [outletIndex]
         lookup: outletLabel
     overrides:
       outletOperationalState:
         type: EnumAsStateSet
-    auth:
-      community: raritan_public
 
 # InfraPower PDU's
 #
-# https://www.austin-hughes.com/support/software/infrapower/IPD-MIB.7z
+# https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 # The circuit table in the infrapower MIB is invalid as it has a table (circuitTable) nested inside another table (pduTable), and this invalid setup then confuses the generator.
   infrapower_pdu:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.34550.20.2.1.1.1.1 # pduIndex
       - 1.3.6.1.4.1.34550.20.2.1.1.1.6 # pduName
       - 1.3.6.1.4.1.34550.20.2.1.1.1.7 # pduLocation
@@ -443,3 +525,69 @@ modules:
               value: '0$1.$2'
             - regex: '^(\d)'
               value: '0.0$1'
+
+# Liebert/Vertiv PDU's
+#
+# https://www.vertiv.com/en-us/support/software-download/monitoring/management-information-bases-mibs-for-liebert-products/
+# https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
+  liebert_pdu:
+    walk:
+      - lgpPduTable
+      - lgpPduPsTable
+      - lgpPduPsLineTable
+      - lgpPduRcpTable
+      - lgpPduAuxSensorTable
+    lookups:
+      - source_indexes: [lgpPduEntryIndex]
+        lookup: lgpPduEntrySysAssignLabel
+      - source_indexes: [lgpPduPsEntryIndex]
+        lookup: lgpPduPsEntrySysAssignLabel
+      - source_indexes: [lgpPduRcpEntryIndex]
+        lookup: lgpPduRcpEntrySysAssignLabel
+      - source_indexes: [lgpPduAuxSensorIndex]
+        lookup: lgpPduAuxSensorSysAssignLabel
+# Mikrotik Router
+#
+# http://download2.mikrotik.com/Mikrotik.mib
+  mikrotik:
+    walk:
+      - laIndex
+      - sysDescr
+      - host
+      - mikrotik
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+      - source_indexes: [mtxrInterfaceStatsIndex]
+        lookup: ifName
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+      - source_indexes: [laIndex]
+        lookup: laNames
+        drop_source_indexes: true
+      - source_indexes: [mtxrGaugeIndex]
+        lookup: mtxrGaugeName
+        drop_source_indexes: true
+      - source_indexes: [mtxrNeighborIndex]
+        lookup: mtxrNeighborIpAddress
+        drop_source_indexes: true
+      - source_indexes: [mtxrOpticalIndex]
+        lookup: mtxrOpticalName
+      - source_indexes: [mtxrPOEInterfaceIndex]
+        lookup: mtxrPOEName
+      - source_indexes: [mtxrPartitionIndex]
+        lookup: mtxrPartitionName
+    overrides:
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
+
+# CyberPower
+#
+# https://www.cyberpowersystems.com/product/software/mib-files/mib-v29/
+  cyberpower:
+    walk:
+      - 1.3.6.1.4.1.3808.1.1.1 # ups
+      - 1.3.6.1.4.1.3808.1.1.4 # environmentSensor
+      - 1.3.6.1.4.1.3808.1.1.6 # ePDU2

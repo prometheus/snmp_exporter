@@ -20,8 +20,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/go-kit/log"
+	"github.com/go-kit/log/level"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
@@ -180,7 +180,7 @@ func metricAccess(a string) bool {
 	case "ACCESS_READONLY", "ACCESS_READWRITE", "ACCESS_CREATE", "ACCESS_NOACCESS":
 		return true
 	default:
-		// the others are inaccessible metrics.
+		// The others are inaccessible metrics.
 		return false
 	}
 }
@@ -232,9 +232,8 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 		_, ok = metricType(n.Type)
 		if ok && metricAccess(n.Access) && len(n.Indexes) == 0 {
 			return n, oidScalar
-		} else {
-			return n, oidSubtree
 		}
+		return n, oidSubtree
 	}
 
 	// Unknown OID/name, search Node tree for longest match.
@@ -358,6 +357,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if n.ImpliedIndex && count+1 == len(n.Indexes) {
 					index.Implied = true
 				}
+				index.EnumValues = indexNode.EnumValues
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
@@ -375,9 +375,29 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		})
 	}
 
+	// Build an map of all oid targeted by a filter to access it easily later.
+	filterMap := map[string][]string{}
+
+	for _, filter := range cfg.Filters.Static {
+		for _, oid := range filter.Targets {
+			n, ok := nameToNode[oid]
+			if ok {
+				oid = n.Oid
+			}
+			filterMap[oid] = filter.Indices
+		}
+	}
+
 	// Apply lookups.
 	for _, metric := range out.Metrics {
 		toDelete := []string{}
+
+		// Build a list of lookup labels which are required as index.
+		requiredAsIndex := []string{}
+		for _, lookup := range cfg.Lookups {
+			requiredAsIndex = append(requiredAsIndex, lookup.SourceIndexes...)
+		}
+
 		for _, lookup := range cfg.Lookups {
 			foundIndexes := 0
 			// See if all lookup indexes are present.
@@ -406,6 +426,17 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
 				}
 				metric.Lookups = append(metric.Lookups, l)
+
+				// If lookup label is used as source index in another lookup,
+				// we need to add this new label as another index.
+				for _, sourceIndex := range requiredAsIndex {
+					if sourceIndex == l.Labelname {
+						idx := &config.Index{Labelname: l.Labelname, Type: l.Type}
+						metric.Indexes = append(metric.Indexes, idx)
+						break
+					}
+				}
+
 				// Make sure we walk the lookup OID(s).
 				if len(tableInstances[metric.Oid]) > 0 {
 					for _, index := range tableInstances[metric.Oid] {
@@ -413,6 +444,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					}
 				} else {
 					needToWalk[indexNode.Oid] = struct{}{}
+				}
+				// We apply the same filter to metric.Oid if the lookup oid is filtered.
+				indices, found := filterMap[indexNode.Oid]
+				if found {
+					delete(needToWalk, metric.Oid)
+					for _, index := range indices {
+						needToWalk[metric.Oid+"."+index+"."] = struct{}{}
+					}
 				}
 				if lookup.DropSourceIndexes {
 					// Avoid leaving the old labelname around.
@@ -434,8 +473,8 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		}
 	}
 
-	// Check that the object before an InetAddress is an InetAddressType,
-	// if not, change it to an OctetString.
+	// Check that the object before an InetAddress is an InetAddressType.
+	// If not, change it to an OctetString.
 	for _, metric := range out.Metrics {
 		if metric.Type == "InetAddress" || metric.Type == "InetAddressMissingSize" {
 			// Get previous oid.
@@ -466,6 +505,23 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 		}
 	}
+
+	// Apply filters.
+	for _, filter := range cfg.Filters.Static {
+		// Delete the oid targeted by the filter, as we won't walk the whole table.
+		for _, oid := range filter.Targets {
+			n, ok := nameToNode[oid]
+			if ok {
+				oid = n.Oid
+			}
+			delete(needToWalk, oid)
+			for _, index := range filter.Indices {
+				needToWalk[oid+"."+index+"."] = struct{}{}
+			}
+		}
+	}
+
+	out.Filters = cfg.Filters.Dynamic
 
 	oids := []string{}
 	for k := range needToWalk {
