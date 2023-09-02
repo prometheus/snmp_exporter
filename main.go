@@ -19,9 +19,9 @@ import (
 	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"strings"
 	"sync"
 	"syscall"
-	"time"
 
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/go-kit/log"
@@ -40,9 +40,14 @@ import (
 	"github.com/prometheus/snmp_exporter/config"
 )
 
+const (
+	namespace = "snmp"
+)
+
 var (
-	configFile  = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").String()
+	configFile  = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").Strings()
 	dryRun      = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	concurrency = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
 	metricsPath = kingpin.Flag(
 		"web.telemetry-path",
 		"Path under which to expose metrics.",
@@ -50,18 +55,20 @@ var (
 	toolkitFlags = webflag.AddFlags(kingpin.CommandLine, ":9116")
 
 	// Metrics about the SNMP exporter itself.
-	snmpDuration = promauto.NewSummaryVec(
-		prometheus.SummaryOpts{
-			Name: "snmp_collection_duration_seconds",
-			Help: "Duration of collections by the SNMP exporter",
-		},
-		[]string{"auth", "module"},
-	)
 	snmpRequestErrors = promauto.NewCounter(
 		prometheus.CounterOpts{
-			Name: "snmp_request_errors_total",
-			Help: "Errors in requests to the SNMP exporter",
+			Namespace: namespace,
+			Name:      "request_errors_total",
+			Help:      "Errors in requests to the SNMP exporter",
 		},
+	)
+	snmpCollectionDuration = promauto.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Namespace: namespace,
+			Name:      "collection_duration_seconds",
+			Help:      "Duration of collections by the SNMP exporter",
+		},
+		[]string{"module"},
 	)
 	sc = &SafeConfig{
 		C: &config.Config{},
@@ -74,7 +81,7 @@ const (
 	configPath = "/config"
 )
 
-func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
+func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporterMetrics collector.Metrics) {
 	query := r.URL.Query()
 
 	target := query.Get("target")
@@ -94,44 +101,50 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger) {
 		authName = "public_v2"
 	}
 
-	moduleName := query.Get("module")
-	if len(query["module"]) > 1 {
-		http.Error(w, "'module' parameter must only be specified once", http.StatusBadRequest)
-		snmpRequestErrors.Inc()
-		return
+	queryModule := query["module"]
+	if len(queryModule) == 0 {
+		queryModule = append(queryModule, "if_mib")
 	}
-	if moduleName == "" {
-		moduleName = "if_mib"
+	uniqueM := make(map[string]bool)
+	var modules []string
+	for _, qm := range queryModule {
+		for _, m := range strings.Split(qm, ",") {
+			if m == "" {
+				continue
+			}
+			if _, ok := uniqueM[m]; !ok {
+				uniqueM[m] = true
+				modules = append(modules, m)
+			}
+		}
 	}
-
 	sc.RLock()
 	auth, authOk := sc.C.Auths[authName]
-	module, moduleOk := sc.C.Modules[moduleName]
-	sc.RUnlock()
 	if !authOk {
+		sc.RUnlock()
 		http.Error(w, fmt.Sprintf("Unknown auth '%s'", authName), http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
 	}
-	if !moduleOk {
-		http.Error(w, fmt.Sprintf("Unknown module '%s'", moduleName), http.StatusBadRequest)
-		snmpRequestErrors.Inc()
-		return
+	var nmodules []*collector.NamedModule
+	for _, m := range modules {
+		module, moduleOk := sc.C.Modules[m]
+		if !moduleOk {
+			sc.RUnlock()
+			http.Error(w, fmt.Sprintf("Unknown module '%s'", m), http.StatusBadRequest)
+			snmpRequestErrors.Inc()
+			return
+		}
+		nmodules = append(nmodules, collector.NewNamedModule(m, module))
 	}
-
-	logger = log.With(logger, "auth", authName, "module", moduleName, "target", target)
-	level.Debug(logger).Log("msg", "Starting scrape")
-
-	start := time.Now()
+	sc.RUnlock()
+	logger = log.With(logger, "auth", authName, "target", target)
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, auth, module, logger, registry)
+	c := collector.New(r.Context(), target, authName, auth, nmodules, logger, exporterMetrics, *concurrency)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
-	duration := time.Since(start).Seconds()
-	snmpDuration.WithLabelValues(authName, moduleName).Observe(duration)
-	level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
 }
 
 func updateConfiguration(w http.ResponseWriter, r *http.Request) {
@@ -152,7 +165,7 @@ type SafeConfig struct {
 	C *config.Config
 }
 
-func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
+func (sc *SafeConfig) ReloadConfig(configFile []string) (err error) {
 	conf, err := config.LoadFile(configFile)
 	if err != nil {
 		return err
@@ -160,10 +173,8 @@ func (sc *SafeConfig) ReloadConfig(configFile string) (err error) {
 	sc.Lock()
 	sc.C = conf
 	// Initialize metrics.
-	for auth := range sc.C.Auths {
-		for module := range sc.C.Modules {
-			snmpDuration.WithLabelValues(auth, module)
-		}
+	for module := range sc.C.Modules {
+		snmpCollectionDuration.WithLabelValues(module)
 	}
 	sc.Unlock()
 	return nil
@@ -176,8 +187,11 @@ func main() {
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
 	logger := promlog.New(promlogConfig)
+	if *concurrency < 1 {
+		*concurrency = 1
+	}
 
-	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info())
+	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency)
 	level.Info(logger).Log("build_context", version.BuildContext())
 
 	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
@@ -220,10 +234,44 @@ func main() {
 		}
 	}()
 
+	buckets := prometheus.ExponentialBuckets(0.0001, 2, 15)
+	exporterMetrics := collector.Metrics{
+		SNMPCollectionDuration: snmpCollectionDuration,
+		SNMPUnexpectedPduType: promauto.NewCounter(
+			prometheus.CounterOpts{
+				Namespace: namespace,
+				Name:      "unexpected_pdu_type_total",
+				Help:      "Unexpected Go types in a PDU.",
+			},
+		),
+		SNMPDuration: promauto.NewHistogram(
+			prometheus.HistogramOpts{
+				Namespace: namespace,
+				Name:      "packet_duration_seconds",
+				Help:      "A histogram of latencies for SNMP packets.",
+				Buckets:   buckets,
+			},
+		),
+		SNMPPackets: promauto.NewCounter(
+			prometheus.CounterOpts{
+				Namespace: namespace,
+				Name:      "packets_total",
+				Help:      "Number of SNMP packet sent, including retries.",
+			},
+		),
+		SNMPRetries: promauto.NewCounter(
+			prometheus.CounterOpts{
+				Namespace: namespace,
+				Name:      "packet_retries_total",
+				Help:      "Number of SNMP packet retries.",
+			},
+		),
+	}
+
 	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	// Endpoint to do SNMP scrapes.
 	http.HandleFunc(proberPath, func(w http.ResponseWriter, r *http.Request) {
-		handler(w, r, logger)
+		handler(w, r, logger, exporterMetrics)
 	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 

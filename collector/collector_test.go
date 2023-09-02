@@ -518,7 +518,7 @@ func TestPduToSample(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger(), internalMetrics{})
+		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger(), Metrics{})
 		metric := &io_prometheus_client.Metric{}
 		expected := map[string]struct{}{}
 		for _, e := range c.expectedMetrics {
@@ -531,9 +531,8 @@ func TestPduToSample(t *testing.T) {
 				if c.shouldErr {
 					errHappened = true
 					continue
-				} else {
-					t.Fatalf("Error writing metric: %v", err)
 				}
+				t.Fatalf("Error writing metric: %v", err)
 			}
 			got := strings.ReplaceAll(m.Desc().String()+" "+metric.String(), "  ", " ")
 			if _, ok := expected[got]; !ok {
@@ -719,9 +718,14 @@ func TestPduValueAsString(t *testing.T) {
 			pdu:    &gosnmp.SnmpPDU{Value: 10.1, Type: gosnmp.OpaqueDouble},
 			result: "10.1",
 		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{115, 97, 110, 101, 253, 190, 214}},
+			typ:    "DisplayString",
+			result: "sane�",
+		},
 	}
 	for _, c := range cases {
-		got := pduValueAsString(c.pdu, c.typ, internalMetrics{})
+		got := pduValueAsString(c.pdu, c.typ, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("pduValueAsString(%v, %q): got %q, want %q", c.pdu, c.typ, got, c.result)
 		}
@@ -1006,11 +1010,197 @@ func TestIndexesToLabels(t *testing.T) {
 			},
 			result: map[string]string{"a": "1", "chainable_id": "42", "targetlabel": "targetvalue"},
 		},
+		{
+			oid: []int{1, 8, 1},
+			metric: config.Metric{
+				Indexes: []*config.Index{
+					{Labelname: "lldpRemTimeMark", Type: "gauge"},
+					{Labelname: "lldpRemLocalPortNum", Type: "gauge"},
+					{Labelname: "lldpRemIndex", Type: "gauge"},
+				},
+				Lookups: []*config.Lookup{
+					{Labels: []string{"lldpRemLocalPortNum"}, Labelname: "lldpLocPortId", Oid: "1.1.3", Type: "LldpPortId"},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{
+				"1.1.9.1.8.1": gosnmp.SnmpPDU{Value: "hostname"},
+				"1.1.2.8":     gosnmp.SnmpPDU{Value: 3},
+				"1.1.3.8":     gosnmp.SnmpPDU{Value: []byte{4, 5, 6, 7, 8, 9}},
+			},
+			result: map[string]string{"lldpRemTimeMark": "1", "lldpRemLocalPortNum": "8", "lldpRemIndex": "1", "lldpLocPortId": "04:05:06:07:08:09"},
+		},
 	}
 	for _, c := range cases {
-		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, internalMetrics{})
+		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("indexesToLabels(%v, %v, %v): got %v, want %v", c.oid, c.metric, c.oidToPdu, got, c.result)
+		}
+	}
+}
+
+func TestConfigureTarget(t *testing.T) {
+	cases := []struct {
+		target     string
+		gTransport string
+		gTarget    string
+		gPort      uint16
+		shouldErr  bool
+	}{
+		{
+			target:     "localhost",
+			gTransport: "",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "localhost:1161",
+			gTransport: "",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://localhost",
+			gTransport: "udp",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://localhost:1161",
+			gTransport: "udp",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://localhost",
+			gTransport: "tcp",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://localhost:1161",
+			gTransport: "tcp",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "[::1]",
+			gTransport: "",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "[::1]:1161",
+			gTransport: "",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://[::1]",
+			gTransport: "udp",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://[::1]:1161",
+			gTransport: "udp",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://[::1]",
+			gTransport: "tcp",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://[::1]:1161",
+			gTransport: "tcp",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{ // this case is valid during parse but invalid during connect
+			target:     "tcp://udp://localhost:1161",
+			gTransport: "tcp",
+			gTarget:    "udp://localhost:1161",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "localhost:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "udp://localhost:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "tcp://localhost:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "[::1]:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "udp://[::1]:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "tcp://[::1]:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+	}
+
+	for _, c := range cases {
+		var g gosnmp.GoSNMP
+		err := configureTarget(&g, c.target)
+		if c.shouldErr {
+			if err == nil {
+				t.Fatalf("Was expecting error, but none returned for %q", c.target)
+			}
+			continue
+		}
+		if err != nil {
+			t.Fatalf("Error configuring target %q: %v", c.target, err)
+		}
+		if g.Transport != c.gTransport {
+			t.Fatalf("Bad SNMP transport for %q, got=%q, expected=%q", c.target, g.Transport, c.gTransport)
+		}
+		if g.Target != c.gTarget {
+			t.Fatalf("Bad SNMP target for %q, got=%q, expected=%q", c.target, g.Target, c.gTarget)
+		}
+		if g.Port != c.gPort {
+			t.Fatalf("Bad SNMP port for %q, got=%d, expected=%d", c.target, g.Port, c.gPort)
 		}
 	}
 }
@@ -1059,7 +1249,7 @@ func TestFilterAllowedIndices(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList, internalMetrics{})
+		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("filterAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}

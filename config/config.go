@@ -14,9 +14,9 @@
 package config
 
 import (
-	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"time"
 
@@ -24,18 +24,23 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func LoadFile(filename string) (*Config, error) {
-	content, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
+func LoadFile(paths []string) (*Config, error) {
 	cfg := &Config{}
-	err = yaml.UnmarshalStrict(content, cfg)
-	if err != nil {
-		return nil, err
-	}
-	if cfg.Version != 2 {
-		return cfg, ErrUnsupportedVersion
+	for _, p := range paths {
+		files, err := filepath.Glob(p)
+		if err != nil {
+			return nil, err
+		}
+		for _, f := range files {
+			content, err := os.ReadFile(f)
+			if err != nil {
+				return nil, err
+			}
+			err = yaml.UnmarshalStrict(content, cfg)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 	return cfg, nil
 }
@@ -63,15 +68,13 @@ var (
 	DefaultRegexpExtract = RegexpExtract{
 		Value: "$1",
 	}
-
-	ErrUnsupportedVersion = errors.New("unsupported config version")
 )
 
 // Config for the snmp_exporter.
 type Config struct {
 	Auths   map[string]*Auth   `yaml:"auths,omitempty"`
 	Modules map[string]*Module `yaml:"modules,omitempty"`
-	Version int                `yaml:"version"`
+	Version int                `yaml:"version,omitempty"`
 }
 
 type WalkParams struct {
@@ -94,10 +97,7 @@ type Module struct {
 func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultModule
 	type plain Module
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
+	return unmarshal((*plain)(c))
 }
 
 // ConfigureSNMP sets the various version and auth settings.
@@ -286,10 +286,7 @@ type RegexpExtract struct {
 func (c *RegexpExtract) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultRegexpExtract
 	type plain RegexpExtract
-	if err := unmarshal((*plain)(c)); err != nil {
-		return err
-	}
-	return nil
+	return unmarshal((*plain)(c))
 }
 
 // Regexp encapsulates a regexp.Regexp and makes it YAML marshalable.

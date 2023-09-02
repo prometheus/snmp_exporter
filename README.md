@@ -72,12 +72,44 @@ Start `snmp_exporter` as a daemon or from CLI:
 ./snmp_exporter
 ```
 
-Visit [http://localhost:9116/snmp?target=192.0.0.8] where `192.0.0.8` is the IP or
-FQDN of the SNMP device to get metrics from. Note that this will use the default auth (`public_v2`) and
-default module (`if_mib`). The auth and module must be defined in the `snmp.yml`.
+Visit <http://localhost:9116/snmp?target=192.0.0.8> where `192.0.0.8` is the IP or
+FQDN of the SNMP device to get metrics from. Note that this will use the default transport (`udp`),
+default port (`161`), default auth (`public_v2`) and default module (`if_mib`). The auth and module
+must be defined in the `snmp.yml` file.
 
 For example, if you have an auth named `my_secure_v3` for walking `ddwrt`, the URL would look like
-[http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=192.0.0.8].
+<http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=192.0.0.8>.
+
+To configure a different transport and/or port, use the syntax `[transport://]host[:port]`.
+
+For example, to scrape a device using `tcp` on port `1161`, the URL would look like
+<http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=tcp%3A%2F%2F192.0.0.8%3A1161>.
+
+Note that [URL encoding](https://en.wikipedia.org/wiki/URL_encoding) should be used for `target` due
+to the `:` and `/` characters. Prometheus encodes query parameters automatically and manual encoding
+is not necessary within the Prometheus configuration file.
+
+Metrics concerning the operation of the exporter itself are available at the
+endpoint <http://localhost:9116/metrics>.
+
+## Multi-Module Handling
+The multi-module functionality allows you to specify multiple modules, enabling the retrieval of information from several modules in a single scrape.
+The concurrency can be specified using the snmp-exporter option `--snmp.module-concurrency` (the default is 1).
+
+Note: This implementation does not perform any de-duplication of walks between different modules.
+
+There are two ways to specify multiple modules. You can either separate them with a comma or define multiple params_module.
+The URLs would look like this:
+
+For comma separation:
+```
+http://localhost:9116/snmp?module=if_mib,arista_sw&target=192.0.0.8
+```
+
+For multiple params_module:
+```
+http://localhost:9116/snmp?module=if_mib&module=arista_sw&target=192.0.0.8
+```
 
 ## Configuration
 
@@ -85,8 +117,13 @@ The default configuration file name is `snmp.yml` and should not be edited
 by hand. If you need to change it, see
 [Generating configuration](#generating-configuration).
 
-The default `snmp.yml` covers a variety of common hardware walking them
+The default `snmp.yml` file covers a variety of common hardware walking them
 using SNMP v2 GETBULK.
+
+The `--config.file` parameter can be used multiple times to load more than one file.
+It also supports [glob filename matching](https://pkg.go.dev/path/filepath#Glob), e.g. `snmp*.yml`.
+
+Duplicate `module` or `auth` entries are treated as invalid and can not be loaded.
 
 ## Prometheus Configuration
 
@@ -100,6 +137,7 @@ scrape_configs:
       - targets:
         - 192.168.1.2  # SNMP device.
         - switch.local # SNMP device.
+        - tcp://192.168.1.3:1161  # SNMP device using TCP transport and custom port.
     metrics_path: /snmp
     params:
       auth: [public_v2]
@@ -111,6 +149,11 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 127.0.0.1:9116  # The SNMP exporter's real hostname:port.
+
+  # Global exporter-level metrics
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets: ['localhost:9116']
 ```
 
 Similarly to [blackbox_exporter](https://github.com/prometheus/blackbox_exporter),
@@ -156,4 +199,4 @@ easier for others, please consider contributing back your configurations to
 us.
 `snmp.yml` config should be accompanied by generator config.
 For your dashboard, alerts, and recording rules, please consider
-contributing them to https://github.com/prometheus/snmp_exporter/tree/main/snmp-mixin
+contributing them to <https://github.com/prometheus/snmp_exporter/tree/main/snmp-mixin>.

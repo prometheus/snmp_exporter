@@ -1,4 +1,14 @@
-## 0.23.0 / TBD
+## 0.24.1 / 2023-09-01
+
+* [BUGFIX] Remove auth label from collection metric #981
+
+## 0.24.0 / 2023-08-29
+
+* [CHANGE] Sanitize invalid UTF-8 #968
+* [FEATURE] Support fetching multiple modules in one scrape #945
+* [FEATURE] Support loading multiple configuration files #970
+
+## 0.23.0 / 2023-07-20
 
 BREAKING CHANGES:
 
@@ -10,6 +20,9 @@ auth params without having to duplicate the full walk and metric mapping.
 See auth-split-migration.md for more details.
 
 * [CHANGE] Split config of auth and modules #859
+* [FEATURE] Add support for parsing SNMP transport from target #914
+* [ENHANCEMENT] Improved Lookup process for label information #908
+* [BUGFIX] Fix metrics path not using command-line argument value #904
 
 ## 0.22.0 / 2023-06-15
 
