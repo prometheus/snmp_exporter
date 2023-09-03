@@ -27,7 +27,10 @@ modules:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
-
+  # Default IP-MIB with ipv4InterfaceTable for example.
+  ip_mib:
+    walk: [ipv4InterfaceTable]
+  
 # Cisco Wireless LAN Controller
   cisco_wlc:
     walk:
@@ -569,7 +572,12 @@ modules:
         lookup: mtxrGaugeName
         drop_source_indexes: true
       - source_indexes: [mtxrNeighborIndex]
-        lookup: mtxrNeighborIpAddress
+        lookup: mtxrNeighborMacAddress
+        drop_source_indexes: true
+      - source_indexes: [mtxrNeighborIndex]
+        lookup: mtxrNeighborInterfaceID
+      - source_indexes: [mtxrNeighborInterfaceID]
+        lookup: ifName
         drop_source_indexes: true
       - source_indexes: [mtxrOpticalIndex]
         lookup: mtxrOpticalName
