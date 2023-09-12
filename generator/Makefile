@@ -22,7 +22,7 @@ DOCKER_REPO       ?= prom
 
 SANITIZED_DOCKER_IMAGE_TAG := $(subst +,-,$(DOCKER_IMAGE_TAG))
 
-APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet446.mib&p_Doc_Ref=APC_POWERNETMIB_446_EN
+APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet449.mib&p_Doc_Ref=APC_POWERNETMIB_449_EN
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/2d465cce2de4e67a3561d8e41e4c99b597558d4b/v2
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
