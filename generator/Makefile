@@ -22,7 +22,7 @@ DOCKER_REPO       ?= prom
 
 SANITIZED_DOCKER_IMAGE_TAG := $(subst +,-,$(DOCKER_IMAGE_TAG))
 
-APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet446.mib&p_Doc_Ref=APC_POWERNETMIB_446_EN
+APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet451.mib&p_Doc_Ref=APC_POWERNETMIB_451_EN
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/2d465cce2de4e67a3561d8e41e4c99b597558d4b/v2
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
@@ -50,6 +50,9 @@ LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/moni
 
 CYBERPOWER_VERSION := 2.10
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
+
+EAP_VERSION := 1.0
+EAP_URL     := http://static.tp-link.com/EAP_Private_Mibs_$(EAP_VERSION).zip
 
 .DEFAULT: all
 
@@ -126,7 +129,9 @@ mibs: \
   $(MIBDIR)/PDU2-MIB.txt \
   $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
-  $(MIBDIR)/CyberPower.MIB
+  $(MIBDIR)/CyberPower.MIB \
+  $(MIBDIR)/EAP.MIB \
+  $(MIBDIR)/EAP-Client.MIB
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib"
@@ -319,4 +324,13 @@ $(MIBDIR)/CyberPower.MIB:
 	# Workaround to make DisplayString available (#867)
 	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $@
 	@rm $@.bak
+	@rm -v $(TMP)
+
+$(MIBDIR)/EAP.MIB $(MIBDIR)/EAP-Client.MIB:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading EAP.MIB to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(EAP_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) EAP_Private-Mibs_$(EAP_VERSION)/TPLINK.mib EAP_Private-Mibs_$(EAP_VERSION)/EAP/clientMib/client.mib
+	@mv -v $(MIBDIR)/TPLINK.mib $(MIBDIR)/EAP.MIB
+	@mv -v $(MIBDIR)/client.mib $(MIBDIR)/EAP-Client.MIB
 	@rm -v $(TMP)
