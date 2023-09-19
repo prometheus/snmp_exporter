@@ -83,11 +83,34 @@ type ScrapeResults struct {
 }
 
 func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
+	timeSleep := time.Second * 1
+	maxRepetitions := module.WalkParams.MaxRepetitions
+
+	for {
+		results, timeout, err := scrapeTarget(ctx, target, auth, module, logger, metrics, maxRepetitions)
+		if err != nil {
+			if timeout {
+				if maxRepetitions == 0 {
+					return results, err
+				}
+				maxRepetitions--
+				level.Warn(logger).Log("msg", err)
+				level.Info(logger).Log("msg", fmt.Sprintf("Retrying again in %0.f seconds", timeSleep.Seconds()), "maxRepetitions", maxRepetitions)
+				time.Sleep(timeSleep)
+				continue
+			}
+			return results, err
+		}
+		return results, nil
+	}
+}
+
+func scrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics, maxRepetitions uint32) (ScrapeResults, bool, error) {
 	results := ScrapeResults{}
 	// Set the options.
 	snmp := gosnmp.GoSNMP{}
 	snmp.Context = ctx
-	snmp.MaxRepetitions = module.WalkParams.MaxRepetitions
+	snmp.MaxRepetitions = maxRepetitions
 	snmp.Retries = *module.WalkParams.Retries
 	snmp.Timeout = module.WalkParams.Timeout
 	snmp.UseUnconnectedUDPSocket = module.WalkParams.UseUnconnectedUDPSocket
@@ -115,7 +138,7 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 
 	// Configure target.
 	if err := configureTarget(&snmp, target); err != nil {
-		return results, err
+		return results, false, err
 	}
 
 	// Configure auth.
@@ -126,10 +149,10 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 	err := snmp.Connect()
 	if err != nil {
 		if err == context.Canceled {
-			return results, fmt.Errorf("scrape cancelled after %s (possible timeout) connecting to target %s",
+			return results, false, fmt.Errorf("scrape cancelled after %s (possible timeout) connecting to target %s",
 				time.Since(getInitialStart), snmp.Target)
 		}
-		return results, fmt.Errorf("error connecting to target %s: %s", target, err)
+		return results, false, fmt.Errorf("error connecting to target %s: %s", target, err)
 	}
 	defer snmp.Conn.Close()
 
@@ -166,7 +189,7 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 	}
 
 	getOids := newGet
-	maxOids := int(module.WalkParams.MaxRepetitions)
+	maxOids := int(maxRepetitions)
 	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only report one OID error per call.
 	if maxOids == 0 || snmp.Version == gosnmp.Version1 {
 		maxOids = 1
@@ -182,10 +205,10 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
 			if err == context.Canceled {
-				return results, fmt.Errorf("scrape cancelled after %s (possible timeout) getting target %s",
+				return results, true, fmt.Errorf("scrape cancelled after %s (possible timeout) getting target %s",
 					time.Since(getInitialStart), snmp.Target)
 			}
-			return results, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
+			return results, false, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Get of OIDs completed", "oids", oids, "duration_seconds", time.Since(getStart))
 		// SNMPv1 will return packet error for unsupported OIDs.
@@ -197,7 +220,7 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 		// Response received with errors.
 		// TODO: "stringify" gosnmp errors instead of showing error code.
 		if packet.Error != gosnmp.NoError {
-			return results, fmt.Errorf("error reported by target %s: Error Status %d", snmp.Target, packet.Error)
+			return results, false, fmt.Errorf("error reported by target %s: Error Status %d", snmp.Target, packet.Error)
 		}
 		for _, v := range packet.Variables {
 			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
@@ -220,16 +243,16 @@ func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 		}
 		if err != nil {
 			if err == context.Canceled {
-				return results, fmt.Errorf("scrape canceled after %s (possible timeout) walking target %s",
+				return results, true, fmt.Errorf("scrape canceled after %s (possible timeout) walking target %s",
 					time.Since(getInitialStart), snmp.Target)
 			}
-			return results, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
+			return results, false, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Walk of subtree completed", "oid", subtree, "duration_seconds", time.Since(walkStart))
 
 		results.pdus = append(results.pdus, pdus...)
 	}
-	return results, nil
+	return results, false, nil
 }
 
 func configureTarget(g *gosnmp.GoSNMP, target string) error {
