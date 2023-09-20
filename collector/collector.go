@@ -83,19 +83,31 @@ type ScrapeResults struct {
 }
 
 func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
+
 	timeSleep := time.Second * 1
 	maxRepetitions := module.WalkParams.MaxRepetitions
 
 	for {
 		results, timeout, err := scrapeTarget(ctx, target, auth, module, logger, metrics, maxRepetitions)
 		if err != nil {
-			if timeout {
+			//retry if error is timeout and module walk_retry_enabled config has been set to true
+			if timeout && module.WalkRetryEnabled {
+
+				//return error if last maxRepetitions equals to 0
 				if maxRepetitions == 0 {
 					return results, err
 				}
 				maxRepetitions--
+
+				//default to 1 if module walk_retry_delay_seconds config <= 0
+				if module.WalkRetryDelaySeconds > 0 {
+					timeSleep = time.Second * time.Duration(module.WalkRetryDelaySeconds)
+				}
+
 				level.Warn(logger).Log("msg", err)
-				level.Info(logger).Log("msg", fmt.Sprintf("Retrying again in %0.f seconds", timeSleep.Seconds()), "maxRepetitions", maxRepetitions)
+				level.Info(logger).Log("msg", fmt.Sprintf("Retrying again in %0.f seconds", timeSleep.Seconds()),
+					"maxRepetitions", maxRepetitions)
+
 				time.Sleep(timeSleep)
 				continue
 			}
@@ -208,6 +220,9 @@ func scrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 				return results, true, fmt.Errorf("scrape cancelled after %s (possible timeout) getting target %s",
 					time.Since(getInitialStart), snmp.Target)
 			}
+			if strings.Contains(strings.ToLower(err.Error()), "timeout") {
+				return results, true, err
+			}
 			return results, false, fmt.Errorf("error getting target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Get of OIDs completed", "oids", oids, "duration_seconds", time.Since(getStart))
@@ -220,6 +235,9 @@ func scrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 		// Response received with errors.
 		// TODO: "stringify" gosnmp errors instead of showing error code.
 		if packet.Error != gosnmp.NoError {
+			if strings.Contains(strings.ToLower(packet.Error.String()), "timeout") {
+				return results, true, err
+			}
 			return results, false, fmt.Errorf("error reported by target %s: Error Status %d", snmp.Target, packet.Error)
 		}
 		for _, v := range packet.Variables {
@@ -246,6 +264,9 @@ func scrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 				return results, true, fmt.Errorf("scrape canceled after %s (possible timeout) walking target %s",
 					time.Since(getInitialStart), snmp.Target)
 			}
+			if strings.Contains(strings.ToLower(err.Error()), "timeout") {
+				return results, true, err
+			}
 			return results, false, fmt.Errorf("error walking target %s: %s", snmp.Target, err)
 		}
 		level.Debug(logger).Log("msg", "Walk of subtree completed", "oid", subtree, "duration_seconds", time.Since(walkStart))
@@ -254,7 +275,6 @@ func scrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 	}
 	return results, false, nil
 }
-
 func configureTarget(g *gosnmp.GoSNMP, target string) error {
 	if s := strings.SplitN(target, "://", 2); len(s) == 2 {
 		g.Transport = s[0]
