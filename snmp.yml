@@ -2372,7 +2372,6 @@ modules:
       - labelname: rPDU2BankStatusIndex
         type: gauge
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   arista_sw:
     walk:
     - 1.3.6.1.2.1.25.2.3.1.6
@@ -2949,7 +2948,6 @@ modules:
           1: ipv4
           2: ipv6
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   cisco_wlc:
     walk:
     - 1.3.6.1.4.1.14179.2.1.1.1.2
@@ -3397,7 +3395,6 @@ modules:
       - labels: []
         labelname: bsnAPDot3MacAddress
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   cyberpower:
     walk:
     - 1.3.6.1.4.1.3808.1.1.1
@@ -6011,7 +6008,6 @@ modules:
         1: atsRedundancyLost
         2: atsFullyRedundant
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   ddwrt:
     walk:
     - 1.3.6.1.2.1.25.2
@@ -6448,7 +6444,6 @@ modules:
       help: Describes whether the amount of available swap space (as reported by 'memAvailSwap(4)'),
         is less than the desired minimum (specified by 'memMinimumSwap(12)'). - 1.3.6.1.4.1.2021.4.101
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   eap:
     get:
     - 1.3.6.1.4.1.11863.10.1.1.1.0
@@ -6458,7 +6453,6 @@ modules:
       type: gauge
       help: this used to get the count of clients - 1.3.6.1.4.1.11863.10.1.1.1
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   if_mib:
     walk:
     - 1.3.6.1.2.1.2
@@ -7717,7 +7711,6 @@ modules:
         oid: 1.3.6.1.2.1.31.1.1.1.1
         type: DisplayString
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   infrapower_pdu:
     walk:
     - 1.3.6.1.4.1.34550.20.2.1.1.1.1
@@ -7797,7 +7790,6 @@ modules:
         - value: 0.0$1
           regex: ^(?:^(\d))$
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   ip_mib:
     walk:
     - 1.3.6.1.2.1.4.28
@@ -7838,7 +7830,6 @@ modules:
       - labelname: ipv4InterfaceIfIndex
         type: gauge
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   keepalived:
     walk:
     - 1.3.6.1.2.1.207.1.2.5
@@ -9696,7 +9687,6 @@ modules:
       - labelname: realServerIndex
         type: gauge
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   kemp_loadmaster:
     walk:
     - 1.3.6.1.4.1.12196.13.0
@@ -10461,7 +10451,6 @@ modules:
       help: Describes whether the amount of available swap space (as reported by 'memAvailSwap(4)'),
         is less than the desired minimum (specified by 'memMinimumSwap(12)'). - 1.3.6.1.4.1.2021.4.101
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   liebert_pdu:
     walk:
     - 1.3.6.1.4.1.476.1.42.3.8.20
@@ -12969,7 +12958,6 @@ modules:
         oid: 1.3.6.1.4.1.476.1.42.3.8.60.10.1.15
         type: DisplayString
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   mikrotik:
     walk:
     - 1.3.6.1.2.1.25
@@ -16589,7 +16577,6 @@ modules:
       - labels: []
         labelname: laIndex
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   nec_ix:
     walk:
     - 1.3.6.1.4.1.119.2.3.84.11
@@ -18870,7 +18857,6 @@ modules:
       - labelname: picoNgnVpnIfIndex
         type: gauge
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   paloalto_fw:
     walk:
     - 1.3.6.1.2.1.25.1
@@ -19961,7 +19947,6 @@ modules:
       type: gauge
       help: Number of active tunnels - 1.3.6.1.4.1.25461.2.1.2.5.1.3
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   printer_mib:
     walk:
     - 1.3.6.1.2.1.25.3.5.1.1
@@ -20166,7 +20151,6 @@ modules:
         5: interlockOpen
         6: interlockClosed
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   raritan:
     walk:
     - 1.3.6.1.4.1.13742.4.1.2.2.1.3
@@ -20434,7 +20418,6 @@ modules:
       - labelname: sensorID
         type: gauge
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   servertech_sentry3:
     walk:
     - 1.3.6.1.4.1.1718.3.2.2
@@ -20965,7 +20948,6 @@ modules:
       - labelname: outletIndex
         type: gauge
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   servertech_sentry4:
     walk:
     - 1.3.6.1.4.1.1718.4.1.14.3
@@ -23300,7 +23282,6 @@ modules:
         22: profileError
         23: conflict
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   synology:
     walk:
     - 1.3.6.1.2.1.25.2
@@ -25077,7 +25058,6 @@ modules:
       - labels: []
         labelname: serviceInfoIndex
     walk_retry_enabled: true
-    walk_retry_delay_seconds: 1
   ubiquiti_airfiber:
     walk:
     - 1.3.6.1.4.1.41112.1.3
@@ -26263,6 +26243,7 @@ modules:
       indexes:
       - labelname: airFiberStatisticsIndex
         type: gauge
+    walk_retry_enabled: true
   ubiquiti_airmax:
     walk:
     - 1.3.6.1.4.1.41112.1.4
@@ -26907,6 +26888,7 @@ modules:
       oid: 1.3.6.1.4.1.41112.1.4.9.9
       type: DisplayString
       help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.4.9.9
+    walk_retry_enabled: true
   ubiquiti_unifi:
     walk:
     - 1.3.6.1.4.1.41112.1.6
@@ -27536,3 +27518,4 @@ modules:
       oid: 1.3.6.1.4.1.41112.1.6.3.6
       type: DisplayString
       help: ' - 1.3.6.1.4.1.41112.1.6.3.6'
+    walk_retry_enabled: true

@@ -84,37 +84,36 @@ type ScrapeResults struct {
 
 func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
 
-	timeSleep := time.Second * 1
 	maxRepetitions := module.WalkParams.MaxRepetitions
+	results, timeout, err := scrapeTarget(ctx, target, auth, module, logger, metrics, maxRepetitions)
 
-	for {
-		results, timeout, err := scrapeTarget(ctx, target, auth, module, logger, metrics, maxRepetitions)
-		if err != nil {
-			//retry if error is timeout and module walk_retry_enabled config has been set to true
-			if timeout && module.WalkRetryEnabled {
+	//retry if error is timeout and module walk_retry_enabled config has been set to true
+	if err != nil && timeout && module.WalkRetryEnabled {
 
-				//return error if last maxRepetitions equals to 0
-				if maxRepetitions == 0 {
-					return results, err
+		maxRetries := 10
+		maxRepetitionsSteps := fragmentMaxRepetitions(maxRepetitions, maxRetries)
+
+		for _, maxRepetitions := range maxRepetitionsSteps {
+			results, timeout, err = scrapeTarget(ctx, target, auth, module, logger, metrics, maxRepetitions)
+			if err != nil {
+
+				//retry if error is timeout
+				if timeout {
+					level.Warn(logger).Log("msg", err)
+					level.Info(logger).Log("msg", "Retrying scrape target...", "maxRepetitions", maxRepetitions)
+
+					//return error if last maxRepetitions equals to 0
+					if maxRepetitions == 0 {
+						return results, err
+					}
+					continue
 				}
-				maxRepetitions--
-
-				//default to 1 if module walk_retry_delay_seconds config <= 0
-				if module.WalkRetryDelaySeconds > 0 {
-					timeSleep = time.Second * time.Duration(module.WalkRetryDelaySeconds)
-				}
-
-				level.Warn(logger).Log("msg", err)
-				level.Info(logger).Log("msg", fmt.Sprintf("Retrying again in %0.f seconds", timeSleep.Seconds()),
-					"maxRepetitions", maxRepetitions)
-
-				time.Sleep(timeSleep)
-				continue
+				return results, err
 			}
-			return results, err
+			return results, nil
 		}
-		return results, nil
 	}
+	return results, err
 }
 
 func scrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics, maxRepetitions uint32) (ScrapeResults, bool, error) {
@@ -275,6 +274,7 @@ func scrapeTarget(ctx context.Context, target string, auth *config.Auth, module 
 	}
 	return results, false, nil
 }
+
 func configureTarget(g *gosnmp.GoSNMP, target string) error {
 	if s := strings.SplitN(target, "://", 2); len(s) == 2 {
 		g.Transport = s[0]
@@ -982,4 +982,30 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 	}
 
 	return labels
+}
+
+func fragmentMaxRepetitions(number uint32, numFragments int) []uint32 {
+	var result []uint32
+
+	var fragments []uint32
+	if number <= uint32(numFragments) {
+		for i := 0; i < int(number); i++ {
+			fragments = append(fragments, uint32(i))
+		}
+	} else {
+		for i := 0; i < numFragments; i++ {
+			if i == 0 {
+				fragments = append(fragments, uint32(0))
+				continue
+			}
+			fragment := float64(number) / float64(numFragments) * float64(i)
+			fragments = append(fragments, uint32(fragment))
+		}
+	}
+
+	//Reverse slice
+	for i := len(fragments) - 1; i >= 0; i-- {
+		result = append(result, fragments[i])
+	}
+	return result
 }

@@ -1349,3 +1349,53 @@ func TestAddAllowedIndices(t *testing.T) {
 		}
 	}
 }
+
+func TestFragmentMaxRepetitions(t *testing.T) {
+	cases := []struct {
+		maxRetries     int
+		maxRepetitions uint32
+		result         []uint32
+	}{
+		{
+			maxRetries:     1,
+			maxRepetitions: 5,
+			result: []uint32{
+				0,
+			},
+		},
+		{
+			maxRetries:     10,
+			maxRepetitions: 1,
+			result: []uint32{
+				0,
+			},
+		},
+		{
+			maxRetries:     5,
+			maxRepetitions: 5,
+			result: []uint32{
+				4, 3, 2, 1, 0,
+			},
+		},
+		{
+			maxRetries:     10,
+			maxRepetitions: 30,
+			result: []uint32{
+				27, 24, 21, 18, 15, 12, 9, 6, 3, 0,
+			},
+		},
+		{
+			maxRetries:     10,
+			maxRepetitions: 1400,
+			result: []uint32{
+				1260, 1120, 980, 840, 700, 560, 420, 280, 140, 0,
+			},
+		},
+	}
+	for _, c := range cases {
+		got := fragmentMaxRepetitions(c.maxRepetitions, c.maxRetries)
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("fragmentMaxRepetitions(%d, %d): got %v, want %v", c.maxRepetitions, c.maxRetries, got, c.result)
+		}
+	}
+}
