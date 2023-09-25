@@ -84,26 +84,27 @@ type ScrapeResults struct {
 
 func ScrapeTarget(ctx context.Context, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
 
+	maxRetries := module.WalkRetry.MaxRetires
+	retryEnabled := module.WalkRetry.Enabled
 	maxRepetitions := module.WalkParams.MaxRepetitions
 	results, timeout, err := scrapeTarget(ctx, target, auth, module, logger, metrics, maxRepetitions)
 
 	//retry if error is timeout and module walk_retry_enabled config has been set to true
-	if err != nil && timeout && module.WalkRetryEnabled {
+	if err != nil && timeout && retryEnabled && maxRetries > 0 {
 
-		maxRetries := 10
 		maxRepetitionsSteps := fragmentMaxRepetitions(maxRepetitions, maxRetries)
 
-		for _, maxRepetitions := range maxRepetitionsSteps {
-			results, timeout, err = scrapeTarget(ctx, target, auth, module, logger, metrics, maxRepetitions)
+		for _, _maxRepetitions := range maxRepetitionsSteps {
+			results, timeout, err = scrapeTarget(ctx, target, auth, module, logger, metrics, _maxRepetitions)
 			if err != nil {
 
 				//retry if error is timeout
 				if timeout {
 					level.Warn(logger).Log("msg", err)
-					level.Info(logger).Log("msg", "Retrying scrape target...", "maxRepetitions", maxRepetitions)
+					level.Info(logger).Log("msg", "Retrying scrape target...", "maxRepetitions", _maxRepetitions)
 
-					//return error if last maxRepetitions equals to 0
-					if maxRepetitions == 0 {
+					//return error if last maxRepetitionStep equals to 0
+					if _maxRepetitions == 0 {
 						return results, err
 					}
 					continue
@@ -984,16 +985,16 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 	return labels
 }
 
-func fragmentMaxRepetitions(number uint32, numFragments int) []uint32 {
+func fragmentMaxRepetitions(number uint32, numFragments uint32) []uint32 {
 	var result []uint32
 
 	var fragments []uint32
-	if number <= uint32(numFragments) {
+	if number <= numFragments {
 		for i := 0; i < int(number); i++ {
 			fragments = append(fragments, uint32(i))
 		}
 	} else {
-		for i := 0; i < numFragments; i++ {
+		for i := 0; i < int(numFragments); i++ {
 			if i == 0 {
 				fragments = append(fragments, uint32(0))
 				continue

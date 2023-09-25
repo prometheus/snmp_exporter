@@ -1352,7 +1352,7 @@ func TestAddAllowedIndices(t *testing.T) {
 
 func TestFragmentMaxRepetitions(t *testing.T) {
 	cases := []struct {
-		maxRetries     int
+		maxRetries     uint32
 		maxRepetitions uint32
 		result         []uint32
 	}{

@@ -85,14 +85,19 @@ type WalkParams struct {
 	AllowNonIncreasingOIDs  bool          `yaml:"allow_nonincreasing_oids,omitempty"`
 }
 
+type WalkRetry struct {
+	Enabled    bool   `yaml:"enabled,omitempty"`
+	MaxRetires uint32 `yaml:"max_retires,omitempty"`
+}
+
 type Module struct {
 	// A list of OIDs.
-	Walk             []string        `yaml:"walk,omitempty"`
-	Get              []string        `yaml:"get,omitempty"`
-	Metrics          []*Metric       `yaml:"metrics"`
-	WalkParams       WalkParams      `yaml:",inline"`
-	Filters          []DynamicFilter `yaml:"filters,omitempty"`
-	WalkRetryEnabled bool            `yaml:"walk_retry_enabled,omitempty"`
+	Walk       []string        `yaml:"walk,omitempty"`
+	Get        []string        `yaml:"get,omitempty"`
+	Metrics    []*Metric       `yaml:"metrics"`
+	WalkParams WalkParams      `yaml:",inline"`
+	Filters    []DynamicFilter `yaml:"filters,omitempty"`
+	WalkRetry  WalkRetry       `yaml:"walk_retry"`
 }
 
 func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
