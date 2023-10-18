@@ -2373,18 +2373,9 @@ modules:
         type: gauge
   arista_sw:
     walk:
-    - 1.3.6.1.2.1.25.2.3.1.6
     - 1.3.6.1.2.1.25.3.3.1.2
     - 1.3.6.1.4.1.30065.3.1.1
     metrics:
-    - name: hrStorageUsed
-      oid: 1.3.6.1.2.1.25.2.3.1.6
-      type: gauge
-      help: The amount of the storage represented by this entry that is allocated,
-        in units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
     - name: hrProcessorLoad
       oid: 1.3.6.1.2.1.25.3.3.1.2
       type: gauge
@@ -6006,128 +5997,12 @@ modules:
         2: atsFullyRedundant
   ddwrt:
     walk:
-    - 1.3.6.1.2.1.25.2
     - 1.3.6.1.4.1.2021.10.1.1
     - 1.3.6.1.4.1.2021.10.1.2
     - 1.3.6.1.4.1.2021.10.1.5
     - 1.3.6.1.4.1.2021.11
     - 1.3.6.1.4.1.2021.4
     metrics:
-    - name: hrMemorySize
-      oid: 1.3.6.1.2.1.25.2.2
-      type: gauge
-      help: The amount of physical read-write main memory, typically RAM, contained
-        by the host. - 1.3.6.1.2.1.25.2.2
-    - name: hrStorageIndex
-      oid: 1.3.6.1.2.1.25.2.3.1.1
-      type: gauge
-      help: A unique value for each logical storage area contained by the host. -
-        1.3.6.1.2.1.25.2.3.1.1
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageType
-      oid: 1.3.6.1.2.1.25.2.3.1.2
-      type: OctetString
-      help: The type of storage represented by this entry. - 1.3.6.1.2.1.25.2.3.1.2
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageDescr
-      oid: 1.3.6.1.2.1.25.2.3.1.3
-      type: DisplayString
-      help: A description of the type and instance of the storage described by this
-        entry. - 1.3.6.1.2.1.25.2.3.1.3
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageAllocationUnits
-      oid: 1.3.6.1.2.1.25.2.3.1.4
-      type: gauge
-      help: The size, in bytes, of the data objects allocated from this pool - 1.3.6.1.2.1.25.2.3.1.4
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageSize
-      oid: 1.3.6.1.2.1.25.2.3.1.5
-      type: gauge
-      help: The size of the storage represented by this entry, in units of hrStorageAllocationUnits
-        - 1.3.6.1.2.1.25.2.3.1.5
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageUsed
-      oid: 1.3.6.1.2.1.25.2.3.1.6
-      type: gauge
-      help: The amount of the storage represented by this entry that is allocated,
-        in units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageAllocationFailures
-      oid: 1.3.6.1.2.1.25.2.3.1.7
-      type: counter
-      help: The number of requests for storage represented by this entry that could
-        not be honored due to not enough storage - 1.3.6.1.2.1.25.2.3.1.7
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
     - name: laIndex
       oid: 1.3.6.1.4.1.2021.10.1.1
       type: gauge
@@ -6447,6 +6322,125 @@ modules:
       oid: 1.3.6.1.4.1.11863.10.1.1.1
       type: gauge
       help: this used to get the count of clients - 1.3.6.1.4.1.11863.10.1.1.1
+  hrStorage:
+    walk:
+    - 1.3.6.1.2.1.25.2
+    metrics:
+    - name: hrMemorySize
+      oid: 1.3.6.1.2.1.25.2.2
+      type: gauge
+      help: The amount of physical read-write main memory, typically RAM, contained
+        by the host. - 1.3.6.1.2.1.25.2.2
+    - name: hrStorageIndex
+      oid: 1.3.6.1.2.1.25.2.3.1.1
+      type: gauge
+      help: A unique value for each logical storage area contained by the host. -
+        1.3.6.1.2.1.25.2.3.1.1
+      indexes:
+      - labelname: hrStorageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageDescr
+        oid: 1.3.6.1.2.1.25.2.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrStorageIndex
+    - name: hrStorageType
+      oid: 1.3.6.1.2.1.25.2.3.1.2
+      type: OctetString
+      help: The type of storage represented by this entry. - 1.3.6.1.2.1.25.2.3.1.2
+      indexes:
+      - labelname: hrStorageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageDescr
+        oid: 1.3.6.1.2.1.25.2.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrStorageIndex
+    - name: hrStorageDescr
+      oid: 1.3.6.1.2.1.25.2.3.1.3
+      type: DisplayString
+      help: A description of the type and instance of the storage described by this
+        entry. - 1.3.6.1.2.1.25.2.3.1.3
+      indexes:
+      - labelname: hrStorageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageDescr
+        oid: 1.3.6.1.2.1.25.2.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrStorageIndex
+    - name: hrStorageAllocationUnits
+      oid: 1.3.6.1.2.1.25.2.3.1.4
+      type: gauge
+      help: The size, in bytes, of the data objects allocated from this pool - 1.3.6.1.2.1.25.2.3.1.4
+      indexes:
+      - labelname: hrStorageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageDescr
+        oid: 1.3.6.1.2.1.25.2.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrStorageIndex
+    - name: hrStorageSize
+      oid: 1.3.6.1.2.1.25.2.3.1.5
+      type: gauge
+      help: The size of the storage represented by this entry, in units of hrStorageAllocationUnits
+        - 1.3.6.1.2.1.25.2.3.1.5
+      indexes:
+      - labelname: hrStorageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageDescr
+        oid: 1.3.6.1.2.1.25.2.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrStorageIndex
+    - name: hrStorageUsed
+      oid: 1.3.6.1.2.1.25.2.3.1.6
+      type: gauge
+      help: The amount of the storage represented by this entry that is allocated,
+        in units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
+      indexes:
+      - labelname: hrStorageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageDescr
+        oid: 1.3.6.1.2.1.25.2.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrStorageIndex
+    - name: hrStorageAllocationFailures
+      oid: 1.3.6.1.2.1.25.2.3.1.7
+      type: counter
+      help: The number of requests for storage represented by this entry that could
+        not be honored due to not enough storage - 1.3.6.1.2.1.25.2.3.1.7
+      indexes:
+      - labelname: hrStorageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageDescr
+        oid: 1.3.6.1.2.1.25.2.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrStorageIndex
   if_mib:
     walk:
     - 1.3.6.1.2.1.2
@@ -12948,7 +12942,12 @@ modules:
         type: DisplayString
   mikrotik:
     walk:
-    - 1.3.6.1.2.1.25
+    - 1.3.6.1.2.1.25.1
+    - 1.3.6.1.2.1.25.3
+    - 1.3.6.1.2.1.25.4
+    - 1.3.6.1.2.1.25.5
+    - 1.3.6.1.2.1.25.6
+    - 1.3.6.1.2.1.25.7
     - 1.3.6.1.2.1.31.1.1.1.1
     - 1.3.6.1.4.1.14988
     - 1.3.6.1.4.1.2021.10.1.1
@@ -12992,107 +12991,6 @@ modules:
       oid: 1.3.6.1.2.1.25.1.7
       type: gauge
       help: The maximum number of process contexts this system can support - 1.3.6.1.2.1.25.1.7
-    - name: hrMemorySize
-      oid: 1.3.6.1.2.1.25.2.2
-      type: gauge
-      help: The amount of physical read-write main memory, typically RAM, contained
-        by the host. - 1.3.6.1.2.1.25.2.2
-    - name: hrStorageIndex
-      oid: 1.3.6.1.2.1.25.2.3.1.1
-      type: gauge
-      help: A unique value for each logical storage area contained by the host. -
-        1.3.6.1.2.1.25.2.3.1.1
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-    - name: hrStorageType
-      oid: 1.3.6.1.2.1.25.2.3.1.2
-      type: OctetString
-      help: The type of storage represented by this entry. - 1.3.6.1.2.1.25.2.3.1.2
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-    - name: hrStorageDescr
-      oid: 1.3.6.1.2.1.25.2.3.1.3
-      type: DisplayString
-      help: A description of the type and instance of the storage described by this
-        entry. - 1.3.6.1.2.1.25.2.3.1.3
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-    - name: hrStorageAllocationUnits
-      oid: 1.3.6.1.2.1.25.2.3.1.4
-      type: gauge
-      help: The size, in bytes, of the data objects allocated from this pool - 1.3.6.1.2.1.25.2.3.1.4
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-    - name: hrStorageSize
-      oid: 1.3.6.1.2.1.25.2.3.1.5
-      type: gauge
-      help: The size of the storage represented by this entry, in units of hrStorageAllocationUnits
-        - 1.3.6.1.2.1.25.2.3.1.5
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-    - name: hrStorageUsed
-      oid: 1.3.6.1.2.1.25.2.3.1.6
-      type: gauge
-      help: The amount of the storage represented by this entry that is allocated,
-        in units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-    - name: hrStorageAllocationFailures
-      oid: 1.3.6.1.2.1.25.2.3.1.7
-      type: counter
-      help: The number of requests for storage represented by this entry that could
-        not be honored due to not enough storage - 1.3.6.1.2.1.25.2.3.1.7
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
     - name: hrDeviceIndex
       oid: 1.3.6.1.2.1.25.3.2.1.1
       type: gauge
@@ -18848,7 +18746,6 @@ modules:
   paloalto_fw:
     walk:
     - 1.3.6.1.2.1.25.1
-    - 1.3.6.1.2.1.25.2
     - 1.3.6.1.2.1.25.3
     - 1.3.6.1.4.1.25461.2.1.2.1
     - 1.3.6.1.4.1.25461.2.1.2.3
@@ -18886,65 +18783,6 @@ modules:
       oid: 1.3.6.1.2.1.25.1.7
       type: gauge
       help: The maximum number of process contexts this system can support - 1.3.6.1.2.1.25.1.7
-    - name: hrMemorySize
-      oid: 1.3.6.1.2.1.25.2.2
-      type: gauge
-      help: The amount of physical read-write main memory, typically RAM, contained
-        by the host. - 1.3.6.1.2.1.25.2.2
-    - name: hrStorageIndex
-      oid: 1.3.6.1.2.1.25.2.3.1.1
-      type: gauge
-      help: A unique value for each logical storage area contained by the host. -
-        1.3.6.1.2.1.25.2.3.1.1
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-    - name: hrStorageType
-      oid: 1.3.6.1.2.1.25.2.3.1.2
-      type: OctetString
-      help: The type of storage represented by this entry. - 1.3.6.1.2.1.25.2.3.1.2
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-    - name: hrStorageDescr
-      oid: 1.3.6.1.2.1.25.2.3.1.3
-      type: DisplayString
-      help: A description of the type and instance of the storage described by this
-        entry. - 1.3.6.1.2.1.25.2.3.1.3
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-    - name: hrStorageAllocationUnits
-      oid: 1.3.6.1.2.1.25.2.3.1.4
-      type: gauge
-      help: The size, in bytes, of the data objects allocated from this pool - 1.3.6.1.2.1.25.2.3.1.4
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-    - name: hrStorageSize
-      oid: 1.3.6.1.2.1.25.2.3.1.5
-      type: gauge
-      help: The size of the storage represented by this entry, in units of hrStorageAllocationUnits
-        - 1.3.6.1.2.1.25.2.3.1.5
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-    - name: hrStorageUsed
-      oid: 1.3.6.1.2.1.25.2.3.1.6
-      type: gauge
-      help: The amount of the storage represented by this entry that is allocated,
-        in units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-    - name: hrStorageAllocationFailures
-      oid: 1.3.6.1.2.1.25.2.3.1.7
-      type: counter
-      help: The number of requests for storage represented by this entry that could
-        not be honored due to not enough storage - 1.3.6.1.2.1.25.2.3.1.7
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
     - name: hrDeviceIndex
       oid: 1.3.6.1.2.1.25.3.2.1.1
       type: gauge
@@ -23268,7 +23106,6 @@ modules:
         23: conflict
   synology:
     walk:
-    - 1.3.6.1.2.1.25.2
     - 1.3.6.1.4.1.2021.10.1.2
     - 1.3.6.1.4.1.2021.10.1.5
     - 1.3.6.1.4.1.2021.4
@@ -23286,121 +23123,6 @@ modules:
     - 1.3.6.1.4.1.2021.11.11.0
     - 1.3.6.1.4.1.2021.11.9.0
     metrics:
-    - name: hrMemorySize
-      oid: 1.3.6.1.2.1.25.2.2
-      type: gauge
-      help: The amount of physical read-write main memory, typically RAM, contained
-        by the host. - 1.3.6.1.2.1.25.2.2
-    - name: hrStorageIndex
-      oid: 1.3.6.1.2.1.25.2.3.1.1
-      type: gauge
-      help: A unique value for each logical storage area contained by the host. -
-        1.3.6.1.2.1.25.2.3.1.1
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageType
-      oid: 1.3.6.1.2.1.25.2.3.1.2
-      type: OctetString
-      help: The type of storage represented by this entry. - 1.3.6.1.2.1.25.2.3.1.2
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageDescr
-      oid: 1.3.6.1.2.1.25.2.3.1.3
-      type: DisplayString
-      help: A description of the type and instance of the storage described by this
-        entry. - 1.3.6.1.2.1.25.2.3.1.3
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageAllocationUnits
-      oid: 1.3.6.1.2.1.25.2.3.1.4
-      type: gauge
-      help: The size, in bytes, of the data objects allocated from this pool - 1.3.6.1.2.1.25.2.3.1.4
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageSize
-      oid: 1.3.6.1.2.1.25.2.3.1.5
-      type: gauge
-      help: The size of the storage represented by this entry, in units of hrStorageAllocationUnits
-        - 1.3.6.1.2.1.25.2.3.1.5
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageUsed
-      oid: 1.3.6.1.2.1.25.2.3.1.6
-      type: gauge
-      help: The amount of the storage represented by this entry that is allocated,
-        in units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageAllocationFailures
-      oid: 1.3.6.1.2.1.25.2.3.1.7
-      type: counter
-      help: The number of requests for storage represented by this entry that could
-        not be honored due to not enough storage - 1.3.6.1.2.1.25.2.3.1.7
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
     - name: laNames
       oid: 1.3.6.1.4.1.2021.10.1.2
       type: DisplayString

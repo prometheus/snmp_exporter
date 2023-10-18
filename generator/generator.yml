@@ -172,7 +172,6 @@ modules:
     walk:
       - hrDevice
       - hrSystem
-      - hrStorage
       - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
       - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
       - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
@@ -189,7 +188,6 @@ modules:
   arista_sw:
     walk:
       - 1.3.6.1.2.1.25.3.3.1.2 # hrProcessorLoad
-      - 1.3.6.1.2.1.25.2.3.1.6 # hrStorageUsed
       - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
 
 # Synology
@@ -208,7 +206,6 @@ modules:
       - ssCpuSystem
       - ssCpuIdle
       - memory
-      - hrStorage
       - 1.3.6.1.4.1.6574.1       # synoSystem
       - 1.3.6.1.4.1.6574.2       # synoDisk
       - 1.3.6.1.4.1.6574.3       # synoRaid
@@ -236,9 +233,6 @@ modules:
         drop_source_indexes: true
       - source_indexes: [laIndex]
         lookup: laNames
-        drop_source_indexes: true
-      - source_indexes: [hrStorageIndex]
-        lookup: hrStorageDescr
         drop_source_indexes: true
     overrides:
       diskModel:
@@ -274,7 +268,6 @@ modules:
 #
   ddwrt:
     walk:
-      - 1.3.6.1.2.1.25.2 # hrStorage
       - 1.3.6.1.4.1.2021.4 # memory
       - 1.3.6.1.4.1.2021.10.1.1 # laIndex
       - 1.3.6.1.4.1.2021.10.1.2 # laNames
@@ -283,9 +276,6 @@ modules:
     lookups:
       - source_indexes: [laIndex]
         lookup: laNames
-        drop_source_indexes: true
-      - source_indexes: [hrStorageIndex]
-        lookup: hrStorageDescr
         drop_source_indexes: true
 
 # Ubiquiti / AirFiber
@@ -563,15 +553,18 @@ modules:
     walk:
       - laIndex
       - sysDescr
-      - host
+      - hrSystem
+      - hrDevice
+      - hrSWRun
+      - hrSWRunPerf
+      - hrSWInstalled
+      - hrMIBAdminInfo
       - mikrotik
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifName
       - source_indexes: [mtxrInterfaceStatsIndex]
         lookup: ifName
-      - source_indexes: [hrStorageIndex]
-        lookup: hrStorageDescr
       - source_indexes: [laIndex]
         lookup: laNames
         drop_source_indexes: true
@@ -616,3 +609,18 @@ modules:
   eap:
     walk:
       - 1.3.6.1.4.1.11863.10.1.1.1  # client count
+
+#
+# HOST-RESOURCES-MIB
+#
+# http://www.net-snmp.org/docs/mibs/host.html
+  hrSystem:
+    walk:
+      - hrSystem
+  hrStorage:
+    walk:
+      - hrStorage
+    lookups:
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageDescr
+        drop_source_indexes: true
