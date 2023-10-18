@@ -6322,6 +6322,269 @@ modules:
       oid: 1.3.6.1.4.1.11863.10.1.1.1
       type: gauge
       help: this used to get the count of clients - 1.3.6.1.4.1.11863.10.1.1.1
+  hrDevice:
+    walk:
+    - 1.3.6.1.2.1.25.3
+    metrics:
+    - name: hrDeviceIndex
+      oid: 1.3.6.1.2.1.25.3.2.1.1
+      type: gauge
+      help: A unique value for each device contained by the host - 1.3.6.1.2.1.25.3.2.1.1
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrDeviceType
+      oid: 1.3.6.1.2.1.25.3.2.1.2
+      type: OctetString
+      help: An indication of the type of device - 1.3.6.1.2.1.25.3.2.1.2
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrDeviceDescr
+      oid: 1.3.6.1.2.1.25.3.2.1.3
+      type: DisplayString
+      help: A textual description of this device, including the device's manufacturer
+        and revision, and optionally, its serial number. - 1.3.6.1.2.1.25.3.2.1.3
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrDeviceID
+      oid: 1.3.6.1.2.1.25.3.2.1.4
+      type: OctetString
+      help: The product ID for this device. - 1.3.6.1.2.1.25.3.2.1.4
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrDeviceStatus
+      oid: 1.3.6.1.2.1.25.3.2.1.5
+      type: gauge
+      help: The current operational state of the device described by this row of the
+        table - 1.3.6.1.2.1.25.3.2.1.5
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      enum_values:
+        1: unknown
+        2: running
+        3: warning
+        4: testing
+        5: down
+    - name: hrDeviceErrors
+      oid: 1.3.6.1.2.1.25.3.2.1.6
+      type: counter
+      help: The number of errors detected on this device - 1.3.6.1.2.1.25.3.2.1.6
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrProcessorFrwID
+      oid: 1.3.6.1.2.1.25.3.3.1.1
+      type: OctetString
+      help: The product ID of the firmware associated with the processor. - 1.3.6.1.2.1.25.3.3.1.1
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrProcessorLoad
+      oid: 1.3.6.1.2.1.25.3.3.1.2
+      type: gauge
+      help: The average, over the last minute, of the percentage of time that this
+        processor was not idle - 1.3.6.1.2.1.25.3.3.1.2
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrNetworkIfIndex
+      oid: 1.3.6.1.2.1.25.3.4.1.1
+      type: gauge
+      help: The value of ifIndex which corresponds to this network device - 1.3.6.1.2.1.25.3.4.1.1
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrPrinterStatus
+      oid: 1.3.6.1.2.1.25.3.5.1.1
+      type: gauge
+      help: The current status of this printer device. - 1.3.6.1.2.1.25.3.5.1.1
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      enum_values:
+        1: other
+        2: unknown
+        3: idle
+        4: printing
+        5: warmup
+    - name: hrPrinterDetectedErrorState
+      oid: 1.3.6.1.2.1.25.3.5.1.2
+      type: OctetString
+      help: This object represents any error conditions detected by the printer -
+        1.3.6.1.2.1.25.3.5.1.2
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrDiskStorageAccess
+      oid: 1.3.6.1.2.1.25.3.6.1.1
+      type: gauge
+      help: An indication if this long-term storage device is readable and writable
+        or only readable - 1.3.6.1.2.1.25.3.6.1.1
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      enum_values:
+        1: readWrite
+        2: readOnly
+    - name: hrDiskStorageMedia
+      oid: 1.3.6.1.2.1.25.3.6.1.2
+      type: gauge
+      help: An indication of the type of media used in this long- term storage device.
+        - 1.3.6.1.2.1.25.3.6.1.2
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      enum_values:
+        1: other
+        2: unknown
+        3: hardDisk
+        4: floppyDisk
+        5: opticalDiskROM
+        6: opticalDiskWORM
+        7: opticalDiskRW
+        8: ramDisk
+    - name: hrDiskStorageRemoveble
+      oid: 1.3.6.1.2.1.25.3.6.1.3
+      type: gauge
+      help: Denotes whether or not the disk media may be removed from the drive. -
+        1.3.6.1.2.1.25.3.6.1.3
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: hrDiskStorageCapacity
+      oid: 1.3.6.1.2.1.25.3.6.1.4
+      type: gauge
+      help: The total size for this long-term storage device - 1.3.6.1.2.1.25.3.6.1.4
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+    - name: hrPartitionIndex
+      oid: 1.3.6.1.2.1.25.3.7.1.1
+      type: gauge
+      help: A unique value for each partition on this long-term storage device - 1.3.6.1.2.1.25.3.7.1.1
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      - labelname: hrPartitionIndex
+        type: gauge
+    - name: hrPartitionLabel
+      oid: 1.3.6.1.2.1.25.3.7.1.2
+      type: OctetString
+      help: A textual description of this partition. - 1.3.6.1.2.1.25.3.7.1.2
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      - labelname: hrPartitionIndex
+        type: gauge
+    - name: hrPartitionID
+      oid: 1.3.6.1.2.1.25.3.7.1.3
+      type: OctetString
+      help: A descriptor which uniquely represents this partition to the responsible
+        operating system - 1.3.6.1.2.1.25.3.7.1.3
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      - labelname: hrPartitionIndex
+        type: gauge
+    - name: hrPartitionSize
+      oid: 1.3.6.1.2.1.25.3.7.1.4
+      type: gauge
+      help: The size of this partition. - 1.3.6.1.2.1.25.3.7.1.4
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      - labelname: hrPartitionIndex
+        type: gauge
+    - name: hrPartitionFSIndex
+      oid: 1.3.6.1.2.1.25.3.7.1.5
+      type: gauge
+      help: The index of the file system mounted on this partition - 1.3.6.1.2.1.25.3.7.1.5
+      indexes:
+      - labelname: hrDeviceIndex
+        type: gauge
+      - labelname: hrPartitionIndex
+        type: gauge
+    - name: hrFSIndex
+      oid: 1.3.6.1.2.1.25.3.8.1.1
+      type: gauge
+      help: A unique value for each file system local to this host - 1.3.6.1.2.1.25.3.8.1.1
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+    - name: hrFSMountPoint
+      oid: 1.3.6.1.2.1.25.3.8.1.2
+      type: OctetString
+      help: The path name of the root of this file system. - 1.3.6.1.2.1.25.3.8.1.2
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+    - name: hrFSRemoteMountPoint
+      oid: 1.3.6.1.2.1.25.3.8.1.3
+      type: OctetString
+      help: A description of the name and/or address of the server that this file
+        system is mounted from - 1.3.6.1.2.1.25.3.8.1.3
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+    - name: hrFSType
+      oid: 1.3.6.1.2.1.25.3.8.1.4
+      type: OctetString
+      help: The value of this object identifies the type of this file system. - 1.3.6.1.2.1.25.3.8.1.4
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+    - name: hrFSAccess
+      oid: 1.3.6.1.2.1.25.3.8.1.5
+      type: gauge
+      help: An indication if this file system is logically configured by the operating
+        system to be readable and writable or only readable - 1.3.6.1.2.1.25.3.8.1.5
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+      enum_values:
+        1: readWrite
+        2: readOnly
+    - name: hrFSBootable
+      oid: 1.3.6.1.2.1.25.3.8.1.6
+      type: gauge
+      help: A flag indicating whether this file system is bootable. - 1.3.6.1.2.1.25.3.8.1.6
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: hrFSStorageIndex
+      oid: 1.3.6.1.2.1.25.3.8.1.7
+      type: gauge
+      help: The index of the hrStorageEntry that represents information about this
+        file system - 1.3.6.1.2.1.25.3.8.1.7
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+    - name: hrFSLastFullBackupDate
+      oid: 1.3.6.1.2.1.25.3.8.1.8
+      type: DateAndTime
+      help: The last date at which this complete file system was copied to another
+        storage device for backup - 1.3.6.1.2.1.25.3.8.1.8
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
+    - name: hrFSLastPartialBackupDate
+      oid: 1.3.6.1.2.1.25.3.8.1.9
+      type: DateAndTime
+      help: The last date at which a portion of this file system was copied to another
+        storage device for backup - 1.3.6.1.2.1.25.3.8.1.9
+      indexes:
+      - labelname: hrFSIndex
+        type: gauge
   hrStorage:
     walk:
     - 1.3.6.1.2.1.25.2
@@ -12978,7 +13241,6 @@ modules:
         type: DisplayString
   mikrotik:
     walk:
-    - 1.3.6.1.2.1.25.3
     - 1.3.6.1.2.1.25.4
     - 1.3.6.1.2.1.25.5
     - 1.3.6.1.2.1.25.6
@@ -12994,267 +13256,6 @@ modules:
       oid: 1.3.6.1.2.1.1.1
       type: DisplayString
       help: A textual description of the entity - 1.3.6.1.2.1.1.1
-    - name: hrDeviceIndex
-      oid: 1.3.6.1.2.1.25.3.2.1.1
-      type: gauge
-      help: A unique value for each device contained by the host - 1.3.6.1.2.1.25.3.2.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceType
-      oid: 1.3.6.1.2.1.25.3.2.1.2
-      type: OctetString
-      help: An indication of the type of device - 1.3.6.1.2.1.25.3.2.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceDescr
-      oid: 1.3.6.1.2.1.25.3.2.1.3
-      type: DisplayString
-      help: A textual description of this device, including the device's manufacturer
-        and revision, and optionally, its serial number. - 1.3.6.1.2.1.25.3.2.1.3
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceID
-      oid: 1.3.6.1.2.1.25.3.2.1.4
-      type: OctetString
-      help: The product ID for this device. - 1.3.6.1.2.1.25.3.2.1.4
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceStatus
-      oid: 1.3.6.1.2.1.25.3.2.1.5
-      type: gauge
-      help: The current operational state of the device described by this row of the
-        table - 1.3.6.1.2.1.25.3.2.1.5
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: unknown
-        2: running
-        3: warning
-        4: testing
-        5: down
-    - name: hrDeviceErrors
-      oid: 1.3.6.1.2.1.25.3.2.1.6
-      type: counter
-      help: The number of errors detected on this device - 1.3.6.1.2.1.25.3.2.1.6
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrProcessorFrwID
-      oid: 1.3.6.1.2.1.25.3.3.1.1
-      type: OctetString
-      help: The product ID of the firmware associated with the processor. - 1.3.6.1.2.1.25.3.3.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrProcessorLoad
-      oid: 1.3.6.1.2.1.25.3.3.1.2
-      type: gauge
-      help: The average, over the last minute, of the percentage of time that this
-        processor was not idle - 1.3.6.1.2.1.25.3.3.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrNetworkIfIndex
-      oid: 1.3.6.1.2.1.25.3.4.1.1
-      type: gauge
-      help: The value of ifIndex which corresponds to this network device - 1.3.6.1.2.1.25.3.4.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrPrinterStatus
-      oid: 1.3.6.1.2.1.25.3.5.1.1
-      type: gauge
-      help: The current status of this printer device. - 1.3.6.1.2.1.25.3.5.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: other
-        2: unknown
-        3: idle
-        4: printing
-        5: warmup
-    - name: hrPrinterDetectedErrorState
-      oid: 1.3.6.1.2.1.25.3.5.1.2
-      type: OctetString
-      help: This object represents any error conditions detected by the printer -
-        1.3.6.1.2.1.25.3.5.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDiskStorageAccess
-      oid: 1.3.6.1.2.1.25.3.6.1.1
-      type: gauge
-      help: An indication if this long-term storage device is readable and writable
-        or only readable - 1.3.6.1.2.1.25.3.6.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: readWrite
-        2: readOnly
-    - name: hrDiskStorageMedia
-      oid: 1.3.6.1.2.1.25.3.6.1.2
-      type: gauge
-      help: An indication of the type of media used in this long- term storage device.
-        - 1.3.6.1.2.1.25.3.6.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: other
-        2: unknown
-        3: hardDisk
-        4: floppyDisk
-        5: opticalDiskROM
-        6: opticalDiskWORM
-        7: opticalDiskRW
-        8: ramDisk
-    - name: hrDiskStorageRemoveble
-      oid: 1.3.6.1.2.1.25.3.6.1.3
-      type: gauge
-      help: Denotes whether or not the disk media may be removed from the drive. -
-        1.3.6.1.2.1.25.3.6.1.3
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: "true"
-        2: "false"
-      offset: 2
-      scale: -1
-    - name: hrDiskStorageCapacity
-      oid: 1.3.6.1.2.1.25.3.6.1.4
-      type: gauge
-      help: The total size for this long-term storage device - 1.3.6.1.2.1.25.3.6.1.4
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrPartitionIndex
-      oid: 1.3.6.1.2.1.25.3.7.1.1
-      type: gauge
-      help: A unique value for each partition on this long-term storage device - 1.3.6.1.2.1.25.3.7.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionLabel
-      oid: 1.3.6.1.2.1.25.3.7.1.2
-      type: OctetString
-      help: A textual description of this partition. - 1.3.6.1.2.1.25.3.7.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionID
-      oid: 1.3.6.1.2.1.25.3.7.1.3
-      type: OctetString
-      help: A descriptor which uniquely represents this partition to the responsible
-        operating system - 1.3.6.1.2.1.25.3.7.1.3
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionSize
-      oid: 1.3.6.1.2.1.25.3.7.1.4
-      type: gauge
-      help: The size of this partition. - 1.3.6.1.2.1.25.3.7.1.4
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionFSIndex
-      oid: 1.3.6.1.2.1.25.3.7.1.5
-      type: gauge
-      help: The index of the file system mounted on this partition - 1.3.6.1.2.1.25.3.7.1.5
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrFSIndex
-      oid: 1.3.6.1.2.1.25.3.8.1.1
-      type: gauge
-      help: A unique value for each file system local to this host - 1.3.6.1.2.1.25.3.8.1.1
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSMountPoint
-      oid: 1.3.6.1.2.1.25.3.8.1.2
-      type: OctetString
-      help: The path name of the root of this file system. - 1.3.6.1.2.1.25.3.8.1.2
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSRemoteMountPoint
-      oid: 1.3.6.1.2.1.25.3.8.1.3
-      type: OctetString
-      help: A description of the name and/or address of the server that this file
-        system is mounted from - 1.3.6.1.2.1.25.3.8.1.3
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSType
-      oid: 1.3.6.1.2.1.25.3.8.1.4
-      type: OctetString
-      help: The value of this object identifies the type of this file system. - 1.3.6.1.2.1.25.3.8.1.4
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSAccess
-      oid: 1.3.6.1.2.1.25.3.8.1.5
-      type: gauge
-      help: An indication if this file system is logically configured by the operating
-        system to be readable and writable or only readable - 1.3.6.1.2.1.25.3.8.1.5
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-      enum_values:
-        1: readWrite
-        2: readOnly
-    - name: hrFSBootable
-      oid: 1.3.6.1.2.1.25.3.8.1.6
-      type: gauge
-      help: A flag indicating whether this file system is bootable. - 1.3.6.1.2.1.25.3.8.1.6
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-      enum_values:
-        1: "true"
-        2: "false"
-    - name: hrFSStorageIndex
-      oid: 1.3.6.1.2.1.25.3.8.1.7
-      type: gauge
-      help: The index of the hrStorageEntry that represents information about this
-        file system - 1.3.6.1.2.1.25.3.8.1.7
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSLastFullBackupDate
-      oid: 1.3.6.1.2.1.25.3.8.1.8
-      type: DateAndTime
-      help: The last date at which this complete file system was copied to another
-        storage device for backup - 1.3.6.1.2.1.25.3.8.1.8
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSLastPartialBackupDate
-      oid: 1.3.6.1.2.1.25.3.8.1.9
-      type: DateAndTime
-      help: The last date at which a portion of this file system was copied to another
-        storage device for backup - 1.3.6.1.2.1.25.3.8.1.9
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
     - name: hrSWOSIndex
       oid: 1.3.6.1.2.1.25.4.1
       type: gauge
@@ -18748,270 +18749,10 @@ modules:
         type: gauge
   paloalto_fw:
     walk:
-    - 1.3.6.1.2.1.25.3
     - 1.3.6.1.4.1.25461.2.1.2.1
     - 1.3.6.1.4.1.25461.2.1.2.3
     - 1.3.6.1.4.1.25461.2.1.2.5
     metrics:
-    - name: hrDeviceIndex
-      oid: 1.3.6.1.2.1.25.3.2.1.1
-      type: gauge
-      help: A unique value for each device contained by the host - 1.3.6.1.2.1.25.3.2.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceType
-      oid: 1.3.6.1.2.1.25.3.2.1.2
-      type: OctetString
-      help: An indication of the type of device - 1.3.6.1.2.1.25.3.2.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceDescr
-      oid: 1.3.6.1.2.1.25.3.2.1.3
-      type: DisplayString
-      help: A textual description of this device, including the device's manufacturer
-        and revision, and optionally, its serial number. - 1.3.6.1.2.1.25.3.2.1.3
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceID
-      oid: 1.3.6.1.2.1.25.3.2.1.4
-      type: OctetString
-      help: The product ID for this device. - 1.3.6.1.2.1.25.3.2.1.4
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceStatus
-      oid: 1.3.6.1.2.1.25.3.2.1.5
-      type: gauge
-      help: The current operational state of the device described by this row of the
-        table - 1.3.6.1.2.1.25.3.2.1.5
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: unknown
-        2: running
-        3: warning
-        4: testing
-        5: down
-    - name: hrDeviceErrors
-      oid: 1.3.6.1.2.1.25.3.2.1.6
-      type: counter
-      help: The number of errors detected on this device - 1.3.6.1.2.1.25.3.2.1.6
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrProcessorFrwID
-      oid: 1.3.6.1.2.1.25.3.3.1.1
-      type: OctetString
-      help: The product ID of the firmware associated with the processor. - 1.3.6.1.2.1.25.3.3.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrProcessorLoad
-      oid: 1.3.6.1.2.1.25.3.3.1.2
-      type: gauge
-      help: The average, over the last minute, of the percentage of time that this
-        processor was not idle - 1.3.6.1.2.1.25.3.3.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrNetworkIfIndex
-      oid: 1.3.6.1.2.1.25.3.4.1.1
-      type: gauge
-      help: The value of ifIndex which corresponds to this network device - 1.3.6.1.2.1.25.3.4.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrPrinterStatus
-      oid: 1.3.6.1.2.1.25.3.5.1.1
-      type: gauge
-      help: The current status of this printer device. - 1.3.6.1.2.1.25.3.5.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: other
-        2: unknown
-        3: idle
-        4: printing
-        5: warmup
-    - name: hrPrinterDetectedErrorState
-      oid: 1.3.6.1.2.1.25.3.5.1.2
-      type: OctetString
-      help: This object represents any error conditions detected by the printer -
-        1.3.6.1.2.1.25.3.5.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDiskStorageAccess
-      oid: 1.3.6.1.2.1.25.3.6.1.1
-      type: gauge
-      help: An indication if this long-term storage device is readable and writable
-        or only readable - 1.3.6.1.2.1.25.3.6.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: readWrite
-        2: readOnly
-    - name: hrDiskStorageMedia
-      oid: 1.3.6.1.2.1.25.3.6.1.2
-      type: gauge
-      help: An indication of the type of media used in this long- term storage device.
-        - 1.3.6.1.2.1.25.3.6.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: other
-        2: unknown
-        3: hardDisk
-        4: floppyDisk
-        5: opticalDiskROM
-        6: opticalDiskWORM
-        7: opticalDiskRW
-        8: ramDisk
-    - name: hrDiskStorageRemoveble
-      oid: 1.3.6.1.2.1.25.3.6.1.3
-      type: gauge
-      help: Denotes whether or not the disk media may be removed from the drive. -
-        1.3.6.1.2.1.25.3.6.1.3
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: "true"
-        2: "false"
-    - name: hrDiskStorageCapacity
-      oid: 1.3.6.1.2.1.25.3.6.1.4
-      type: gauge
-      help: The total size for this long-term storage device - 1.3.6.1.2.1.25.3.6.1.4
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrPartitionIndex
-      oid: 1.3.6.1.2.1.25.3.7.1.1
-      type: gauge
-      help: A unique value for each partition on this long-term storage device - 1.3.6.1.2.1.25.3.7.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionLabel
-      oid: 1.3.6.1.2.1.25.3.7.1.2
-      type: OctetString
-      help: A textual description of this partition. - 1.3.6.1.2.1.25.3.7.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionID
-      oid: 1.3.6.1.2.1.25.3.7.1.3
-      type: OctetString
-      help: A descriptor which uniquely represents this partition to the responsible
-        operating system - 1.3.6.1.2.1.25.3.7.1.3
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionSize
-      oid: 1.3.6.1.2.1.25.3.7.1.4
-      type: gauge
-      help: The size of this partition. - 1.3.6.1.2.1.25.3.7.1.4
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrPartitionFSIndex
-      oid: 1.3.6.1.2.1.25.3.7.1.5
-      type: gauge
-      help: The index of the file system mounted on this partition - 1.3.6.1.2.1.25.3.7.1.5
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      - labelname: hrPartitionIndex
-        type: gauge
-    - name: hrFSIndex
-      oid: 1.3.6.1.2.1.25.3.8.1.1
-      type: gauge
-      help: A unique value for each file system local to this host - 1.3.6.1.2.1.25.3.8.1.1
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSMountPoint
-      oid: 1.3.6.1.2.1.25.3.8.1.2
-      type: OctetString
-      help: The path name of the root of this file system. - 1.3.6.1.2.1.25.3.8.1.2
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSRemoteMountPoint
-      oid: 1.3.6.1.2.1.25.3.8.1.3
-      type: OctetString
-      help: A description of the name and/or address of the server that this file
-        system is mounted from - 1.3.6.1.2.1.25.3.8.1.3
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSType
-      oid: 1.3.6.1.2.1.25.3.8.1.4
-      type: OctetString
-      help: The value of this object identifies the type of this file system. - 1.3.6.1.2.1.25.3.8.1.4
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSAccess
-      oid: 1.3.6.1.2.1.25.3.8.1.5
-      type: gauge
-      help: An indication if this file system is logically configured by the operating
-        system to be readable and writable or only readable - 1.3.6.1.2.1.25.3.8.1.5
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-      enum_values:
-        1: readWrite
-        2: readOnly
-    - name: hrFSBootable
-      oid: 1.3.6.1.2.1.25.3.8.1.6
-      type: gauge
-      help: A flag indicating whether this file system is bootable. - 1.3.6.1.2.1.25.3.8.1.6
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-      enum_values:
-        1: "true"
-        2: "false"
-    - name: hrFSStorageIndex
-      oid: 1.3.6.1.2.1.25.3.8.1.7
-      type: gauge
-      help: The index of the hrStorageEntry that represents information about this
-        file system - 1.3.6.1.2.1.25.3.8.1.7
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSLastFullBackupDate
-      oid: 1.3.6.1.2.1.25.3.8.1.8
-      type: DateAndTime
-      help: The last date at which this complete file system was copied to another
-        storage device for backup - 1.3.6.1.2.1.25.3.8.1.8
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
-    - name: hrFSLastPartialBackupDate
-      oid: 1.3.6.1.2.1.25.3.8.1.9
-      type: DateAndTime
-      help: The last date at which a portion of this file system was copied to another
-        storage device for backup - 1.3.6.1.2.1.25.3.8.1.9
-      indexes:
-      - labelname: hrFSIndex
-        type: gauge
     - name: panSysSwVersion
       oid: 1.3.6.1.4.1.25461.2.1.2.1.1
       type: DisplayString

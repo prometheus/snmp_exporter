@@ -170,7 +170,6 @@ modules:
 #
   paloalto_fw:
     walk:
-      - hrDevice
       - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
       - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
       - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
@@ -552,7 +551,6 @@ modules:
     walk:
       - laIndex
       - sysDescr
-      - hrDevice
       - hrSWRun
       - hrSWRunPerf
       - hrSWInstalled
@@ -622,3 +620,6 @@ modules:
       - source_indexes: [hrStorageIndex]
         lookup: hrStorageDescr
         drop_source_indexes: true
+  hrDevice:
+    walk:
+      - hrDevice
