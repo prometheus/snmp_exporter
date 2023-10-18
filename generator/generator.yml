@@ -171,7 +171,6 @@ modules:
   paloalto_fw:
     walk:
       - hrDevice
-      - hrSystem
       - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
       - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
       - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
@@ -553,7 +552,6 @@ modules:
     walk:
       - laIndex
       - sysDescr
-      - hrSystem
       - hrDevice
       - hrSWRun
       - hrSWRunPerf
