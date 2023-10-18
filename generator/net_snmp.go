@@ -162,16 +162,18 @@ func initSNMP(logger log.Logger) (string, error) {
 		return "", err
 	}
 	if *userMibsDir != "" {
-		err = level.Info(logger).Log("msg", "Loading MIBs from directories provided on command line")
+		// The user told us where to load the mibs 
+		err = level.Info(logger).Log("msg", "Loading MIBs", "from", *userMibsDir)
 		if err != nil {
 			return "", err
 		}
 		C.netsnmp_set_mib_directory(C.CString(*userMibsDir))
-	}
-	// Help the user find their MIB directories.
-	err = level.Info(logger).Log("msg", "Loading MIBs", "from", C.GoString(C.netsnmp_get_mib_directory()))
-	if err != nil {
-		return "", err
+	} else {
+		// Help the user find their MIB directories.
+		err = level.Info(logger).Log("msg", "Loading MIBs", "from", C.GoString(C.netsnmp_get_mib_directory()))
+		if err != nil {
+			return "", err
+		}
 	}
 	if *snmpMIBOpts != "" {
 		C.snmp_mib_toggle_options(C.CString(*snmpMIBOpts))

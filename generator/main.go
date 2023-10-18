@@ -107,7 +107,7 @@ var (
 	failOnParseErrors  = kingpin.Flag("fail-on-parse-errors", "Exit with a non-zero status if there are MIB parsing errors").Default("false").Bool()
 	snmpMIBOpts        = kingpin.Flag("snmp.mibopts", "Toggle various defaults controlling MIB parsing, see snmpwalk --help").String()
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
-	userMibsDir        = generateCommand.Flag("mibs-dir", "Path to mibs directory").Default("$HOME/.snmp/mibs:/usr/share/snmp/mibs:/usr/share/snmp/mibs/iana:/usr/share/snmp/mibs/ietf").Short('m').String()
+	userMibsDir        = generateCommand.Flag("mibs-dir", "Path to mibs directory").Default("").Short('m').String()
 	generatorYmlPath   = generateCommand.Flag("generator-path", "Path to the generator.yml file").Default("generator.yml").Short('g').String()
 	outputPath         = generateCommand.Flag("output-path", "Path to to write resulting config file").Default("snmp.yml").Short('o').String()
 	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")
