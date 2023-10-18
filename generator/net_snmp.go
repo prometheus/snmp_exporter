@@ -157,15 +157,27 @@ var (
 // Warning: This function plays with the stderr file descriptor.
 func initSNMP(logger log.Logger) (string, error) {
 	// Load all the MIBs.
-	os.Setenv("MIBS", "ALL")
+	err := os.Setenv("MIBS", "ALL")
+	if err != nil {
+		return "", err
+	}
+	if *userMibsDir != "" {
+		err = level.Info(logger).Log("msg", "Loading MIBs from directories provided on command line")
+		if err != nil {
+			return "", err
+		}
+		C.netsnmp_set_mib_directory(C.CString(*userMibsDir))
+	}
 	// Help the user find their MIB directories.
-	level.Info(logger).Log("msg", "Loading MIBs", "from", C.GoString(C.netsnmp_get_mib_directory()))
+	err = level.Info(logger).Log("msg", "Loading MIBs", "from", C.GoString(C.netsnmp_get_mib_directory()))
+	if err != nil {
+		return "", err
+	}
 	if *snmpMIBOpts != "" {
 		C.snmp_mib_toggle_options(C.CString(*snmpMIBOpts))
 	}
 	// We want the descriptions.
 	C.snmp_set_save_descriptions(1)
-
 	// Make stderr go to a pipe, as netsnmp tends to spew a
 	// lot of errors on startup that there's no apparent
 	// way to disable or redirect.
@@ -173,8 +185,18 @@ func initSNMP(logger log.Logger) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("error creating pipe: %s", err)
 	}
-	defer r.Close()
-	defer w.Close()
+	defer func(r *os.File) {
+		err := r.Close()
+		if err != nil {
+
+		}
+	}(r)
+	defer func(w *os.File) {
+		err := w.Close()
+		if err != nil {
+
+		}
+	}(w)
 	savedStderrFd := C.dup(2)
 	C.close(2)
 	C.dup2(C.int(w.Fd()), 2)
@@ -194,7 +216,10 @@ func initSNMP(logger log.Logger) (string, error) {
 	C.netsnmp_init_mib()
 
 	// Restore stderr to normal.
-	w.Close()
+	err = w.Close()
+	if err != nil {
+		return "", err
+	}
 	C.close(2)
 	C.dup2(savedStderrFd, 2)
 	C.close(savedStderrFd)

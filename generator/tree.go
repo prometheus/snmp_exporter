@@ -284,7 +284,10 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		// Find node to override.
 		n, ok := nameToNode[name]
 		if !ok {
-			level.Warn(logger).Log("msg", "Could not find node to override type", "node", name)
+			err := level.Warn(logger).Log("msg", "Could not find node to override type", "node", name)
+			if err != nil {
+				return nil, err
+			}
 			continue
 		}
 		// params.Type validated at generator configuration.
@@ -365,12 +368,18 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
 				if !ok {
-					level.Warn(logger).Log("msg", "Could not find index for node", "node", n.Label, "index", i)
+					err := level.Warn(logger).Log("msg", "Could not find index for node", "node", n.Label, "index", i)
+					if err != nil {
+						return
+					}
 					return
 				}
 				index.Type, ok = metricType(indexNode.Type)
 				if !ok {
-					level.Warn(logger).Log("msg", "Can't handle index type on node", "node", n.Label, "index", i, "type", indexNode.Type)
+					err := level.Warn(logger).Log("msg", "Can't handle index type on node", "node", n.Label, "index", i, "type", indexNode.Type)
+					if err != nil {
+						return
+					}
 					return
 				}
 				index.FixedSize = indexNode.FixedSize
@@ -384,7 +393,10 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					if prevType == subtype {
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
 					} else {
-						level.Warn(logger).Log("msg", "Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
+						err := level.Warn(logger).Log("msg", "Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
+						if err != nil {
+							return
+						}
 						return
 					}
 				}

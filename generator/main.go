@@ -36,7 +36,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 		return fmt.Errorf("unable to determine absolute path for output")
 	}
 
-	content, err := os.ReadFile("generator.yml")
+	content, err := os.ReadFile(*generatorYmlPath)
 	if err != nil {
 		return fmt.Errorf("error reading yml config: %s", err)
 	}
@@ -50,7 +50,10 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	outputConfig.Auths = cfg.Auths
 	outputConfig.Modules = make(map[string]*config.Module, len(cfg.Modules))
 	for name, m := range cfg.Modules {
-		level.Info(logger).Log("msg", "Generating config for module", "module", name)
+		err := level.Debug(logger).Log("msg", "Generating config for module", "module", name)
+		if err != nil {
+			return err
+		}
 		// Give each module a copy of the tree so that it can be modified.
 		mNodes := nodes.Copy()
 		// Build the map with new pointers.
@@ -65,7 +68,10 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 		}
 		outputConfig.Modules[name] = out
 		outputConfig.Modules[name].WalkParams = m.WalkParams
-		level.Info(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig.Modules[name].Metrics))
+		err = level.Debug(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig.Modules[name].Metrics))
+		if err != nil {
+			return err
+		}
 	}
 
 	config.DoNotHideSecrets = true
@@ -90,7 +96,10 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	if err != nil {
 		return fmt.Errorf("error writing to output file: %s", err)
 	}
-	level.Info(logger).Log("msg", "Config written", "file", outputPath)
+	err = level.Debug(logger).Log("msg", "Config written", "file", outputPath)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -98,6 +107,8 @@ var (
 	failOnParseErrors  = kingpin.Flag("fail-on-parse-errors", "Exit with a non-zero status if there are MIB parsing errors").Default("false").Bool()
 	snmpMIBOpts        = kingpin.Flag("snmp.mibopts", "Toggle various defaults controlling MIB parsing, see snmpwalk --help").String()
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
+	userMibsDir        = generateCommand.Flag("mibs-dir", "Path to mibs directory").Default("$HOME/.snmp/mibs:/usr/share/snmp/mibs:/usr/share/snmp/mibs/iana:/usr/share/snmp/mibs/ietf").Short('m').String()
+	generatorYmlPath   = generateCommand.Flag("generator-path", "Path to the generator.yml file").Default("generator.yml").Short('g').String()
 	outputPath         = generateCommand.Flag("output-path", "Path to to write resulting config file").Default("snmp.yml").Short('o').String()
 	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")
 	dumpCommand        = kingpin.Command("dump", "Debug: Dump the parsed and prepared MIBs")
