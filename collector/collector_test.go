@@ -235,6 +235,23 @@ func TestPduToSample(t *testing.T) {
 			pdu: &gosnmp.SnmpPDU{
 				Name:  "1.1.1.1.1",
 				Type:  gosnmp.Integer,
+				Value: 420,
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:  "test_metric",
+				Oid:   "1.1.1.1.1",
+				Type:  "gauge",
+				Help:  "Help string",
+				Scale: 0.1,
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []} gauge:{value:42}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
 				Value: -2,
 			},
 			indexOids: []int{},
