@@ -162,7 +162,7 @@ func initSNMP(logger log.Logger) (string, error) {
 		return "", err
 	}
 	if *userMibsDir != "" {
-		// The user told us where to load the mibs 
+		// The user told us where to load the mibs
 		err = level.Info(logger).Log("msg", "Loading MIBs", "from", *userMibsDir)
 		if err != nil {
 			return "", err
