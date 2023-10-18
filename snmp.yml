@@ -2373,17 +2373,8 @@ modules:
         type: gauge
   arista_sw:
     walk:
-    - 1.3.6.1.2.1.25.3.3.1.2
     - 1.3.6.1.4.1.30065.3.1.1
     metrics:
-    - name: hrProcessorLoad
-      oid: 1.3.6.1.2.1.25.3.3.1.2
-      type: gauge
-      help: The average, over the last minute, of the percentage of time that this
-        processor was not idle - 1.3.6.1.2.1.25.3.3.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
     - name: aristaSwFwdIpStatsIPVersion
       oid: 1.3.6.1.4.1.30065.3.1.1.1.1.1
       type: gauge
@@ -6400,7 +6391,7 @@ modules:
         type: gauge
     - name: hrPrinterStatus
       oid: 1.3.6.1.2.1.25.3.5.1.1
-      type: gauge
+      type: EnumAsStateSet
       help: The current status of this printer device. - 1.3.6.1.2.1.25.3.5.1.1
       indexes:
       - labelname: hrDeviceIndex
@@ -6584,6 +6575,152 @@ modules:
         storage device for backup - 1.3.6.1.2.1.25.3.8.1.9
       indexes:
       - labelname: hrFSIndex
+        type: gauge
+  hrSWInstalled:
+    walk:
+    - 1.3.6.1.2.1.25.6
+    metrics:
+    - name: hrSWInstalledLastChange
+      oid: 1.3.6.1.2.1.25.6.1
+      type: gauge
+      help: The value of sysUpTime when an entry in the hrSWInstalledTable was last
+        added, renamed, or deleted - 1.3.6.1.2.1.25.6.1
+    - name: hrSWInstalledLastUpdateTime
+      oid: 1.3.6.1.2.1.25.6.2
+      type: gauge
+      help: The value of sysUpTime when the hrSWInstalledTable was last completely
+        updated - 1.3.6.1.2.1.25.6.2
+    - name: hrSWInstalledIndex
+      oid: 1.3.6.1.2.1.25.6.3.1.1
+      type: gauge
+      help: A unique value for each piece of software installed on the host - 1.3.6.1.2.1.25.6.3.1.1
+      indexes:
+      - labelname: hrSWInstalledIndex
+        type: gauge
+    - name: hrSWInstalledName
+      oid: 1.3.6.1.2.1.25.6.3.1.2
+      type: OctetString
+      help: A textual description of this installed piece of software, including the
+        manufacturer, revision, the name by which it is commonly known, and optionally,
+        its serial number. - 1.3.6.1.2.1.25.6.3.1.2
+      indexes:
+      - labelname: hrSWInstalledIndex
+        type: gauge
+    - name: hrSWInstalledID
+      oid: 1.3.6.1.2.1.25.6.3.1.3
+      type: OctetString
+      help: The product ID of this installed piece of software. - 1.3.6.1.2.1.25.6.3.1.3
+      indexes:
+      - labelname: hrSWInstalledIndex
+        type: gauge
+    - name: hrSWInstalledType
+      oid: 1.3.6.1.2.1.25.6.3.1.4
+      type: gauge
+      help: The type of this software. - 1.3.6.1.2.1.25.6.3.1.4
+      indexes:
+      - labelname: hrSWInstalledIndex
+        type: gauge
+      enum_values:
+        1: unknown
+        2: operatingSystem
+        3: deviceDriver
+        4: application
+    - name: hrSWInstalledDate
+      oid: 1.3.6.1.2.1.25.6.3.1.5
+      type: DateAndTime
+      help: The last-modification date of this application as it would appear in a
+        directory listing - 1.3.6.1.2.1.25.6.3.1.5
+      indexes:
+      - labelname: hrSWInstalledIndex
+        type: gauge
+  hrSWRun:
+    walk:
+    - 1.3.6.1.2.1.25.4
+    metrics:
+    - name: hrSWOSIndex
+      oid: 1.3.6.1.2.1.25.4.1
+      type: gauge
+      help: The value of the hrSWRunIndex for the hrSWRunEntry that represents the
+        primary operating system running on this host - 1.3.6.1.2.1.25.4.1
+    - name: hrSWRunIndex
+      oid: 1.3.6.1.2.1.25.4.2.1.1
+      type: gauge
+      help: A unique value for each piece of software running on the host - 1.3.6.1.2.1.25.4.2.1.1
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+    - name: hrSWRunName
+      oid: 1.3.6.1.2.1.25.4.2.1.2
+      type: OctetString
+      help: A textual description of this running piece of software, including the
+        manufacturer, revision, and the name by which it is commonly known - 1.3.6.1.2.1.25.4.2.1.2
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+    - name: hrSWRunID
+      oid: 1.3.6.1.2.1.25.4.2.1.3
+      type: OctetString
+      help: The product ID of this running piece of software. - 1.3.6.1.2.1.25.4.2.1.3
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+    - name: hrSWRunPath
+      oid: 1.3.6.1.2.1.25.4.2.1.4
+      type: OctetString
+      help: A description of the location on long-term storage (e.g - 1.3.6.1.2.1.25.4.2.1.4
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+    - name: hrSWRunParameters
+      oid: 1.3.6.1.2.1.25.4.2.1.5
+      type: OctetString
+      help: A description of the parameters supplied to this software when it was
+        initially loaded. - 1.3.6.1.2.1.25.4.2.1.5
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+    - name: hrSWRunType
+      oid: 1.3.6.1.2.1.25.4.2.1.6
+      type: gauge
+      help: The type of this software. - 1.3.6.1.2.1.25.4.2.1.6
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+      enum_values:
+        1: unknown
+        2: operatingSystem
+        3: deviceDriver
+        4: application
+    - name: hrSWRunStatus
+      oid: 1.3.6.1.2.1.25.4.2.1.7
+      type: gauge
+      help: The status of this running piece of software - 1.3.6.1.2.1.25.4.2.1.7
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+      enum_values:
+        1: running
+        2: runnable
+        3: notRunnable
+        4: invalid
+  hrSWRunPerf:
+    walk:
+    - 1.3.6.1.2.1.25.5
+    metrics:
+    - name: hrSWRunPerfCPU
+      oid: 1.3.6.1.2.1.25.5.1.1.1
+      type: gauge
+      help: The number of centi-seconds of the total system's CPU resources consumed
+        by this process - 1.3.6.1.2.1.25.5.1.1.1
+      indexes:
+      - labelname: hrSWRunIndex
+        type: gauge
+    - name: hrSWRunPerfMem
+      oid: 1.3.6.1.2.1.25.5.1.1.2
+      type: gauge
+      help: The total amount of real system memory allocated to this process. - 1.3.6.1.2.1.25.5.1.1.2
+      indexes:
+      - labelname: hrSWRunIndex
         type: gauge
   hrStorage:
     walk:
@@ -13241,10 +13378,6 @@ modules:
         type: DisplayString
   mikrotik:
     walk:
-    - 1.3.6.1.2.1.25.4
-    - 1.3.6.1.2.1.25.5
-    - 1.3.6.1.2.1.25.6
-    - 1.3.6.1.2.1.25.7
     - 1.3.6.1.2.1.31.1.1.1.1
     - 1.3.6.1.4.1.14988
     - 1.3.6.1.4.1.2021.10.1.1
@@ -13256,140 +13389,6 @@ modules:
       oid: 1.3.6.1.2.1.1.1
       type: DisplayString
       help: A textual description of the entity - 1.3.6.1.2.1.1.1
-    - name: hrSWOSIndex
-      oid: 1.3.6.1.2.1.25.4.1
-      type: gauge
-      help: The value of the hrSWRunIndex for the hrSWRunEntry that represents the
-        primary operating system running on this host - 1.3.6.1.2.1.25.4.1
-    - name: hrSWRunIndex
-      oid: 1.3.6.1.2.1.25.4.2.1.1
-      type: gauge
-      help: A unique value for each piece of software running on the host - 1.3.6.1.2.1.25.4.2.1.1
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-    - name: hrSWRunName
-      oid: 1.3.6.1.2.1.25.4.2.1.2
-      type: OctetString
-      help: A textual description of this running piece of software, including the
-        manufacturer, revision, and the name by which it is commonly known - 1.3.6.1.2.1.25.4.2.1.2
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-    - name: hrSWRunID
-      oid: 1.3.6.1.2.1.25.4.2.1.3
-      type: OctetString
-      help: The product ID of this running piece of software. - 1.3.6.1.2.1.25.4.2.1.3
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-    - name: hrSWRunPath
-      oid: 1.3.6.1.2.1.25.4.2.1.4
-      type: OctetString
-      help: A description of the location on long-term storage (e.g - 1.3.6.1.2.1.25.4.2.1.4
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-    - name: hrSWRunParameters
-      oid: 1.3.6.1.2.1.25.4.2.1.5
-      type: OctetString
-      help: A description of the parameters supplied to this software when it was
-        initially loaded. - 1.3.6.1.2.1.25.4.2.1.5
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-    - name: hrSWRunType
-      oid: 1.3.6.1.2.1.25.4.2.1.6
-      type: gauge
-      help: The type of this software. - 1.3.6.1.2.1.25.4.2.1.6
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-      enum_values:
-        1: unknown
-        2: operatingSystem
-        3: deviceDriver
-        4: application
-    - name: hrSWRunStatus
-      oid: 1.3.6.1.2.1.25.4.2.1.7
-      type: gauge
-      help: The status of this running piece of software - 1.3.6.1.2.1.25.4.2.1.7
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-      enum_values:
-        1: running
-        2: runnable
-        3: notRunnable
-        4: invalid
-    - name: hrSWRunPerfCPU
-      oid: 1.3.6.1.2.1.25.5.1.1.1
-      type: gauge
-      help: The number of centi-seconds of the total system's CPU resources consumed
-        by this process - 1.3.6.1.2.1.25.5.1.1.1
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-    - name: hrSWRunPerfMem
-      oid: 1.3.6.1.2.1.25.5.1.1.2
-      type: gauge
-      help: The total amount of real system memory allocated to this process. - 1.3.6.1.2.1.25.5.1.1.2
-      indexes:
-      - labelname: hrSWRunIndex
-        type: gauge
-    - name: hrSWInstalledLastChange
-      oid: 1.3.6.1.2.1.25.6.1
-      type: gauge
-      help: The value of sysUpTime when an entry in the hrSWInstalledTable was last
-        added, renamed, or deleted - 1.3.6.1.2.1.25.6.1
-    - name: hrSWInstalledLastUpdateTime
-      oid: 1.3.6.1.2.1.25.6.2
-      type: gauge
-      help: The value of sysUpTime when the hrSWInstalledTable was last completely
-        updated - 1.3.6.1.2.1.25.6.2
-    - name: hrSWInstalledIndex
-      oid: 1.3.6.1.2.1.25.6.3.1.1
-      type: gauge
-      help: A unique value for each piece of software installed on the host - 1.3.6.1.2.1.25.6.3.1.1
-      indexes:
-      - labelname: hrSWInstalledIndex
-        type: gauge
-    - name: hrSWInstalledName
-      oid: 1.3.6.1.2.1.25.6.3.1.2
-      type: OctetString
-      help: A textual description of this installed piece of software, including the
-        manufacturer, revision, the name by which it is commonly known, and optionally,
-        its serial number. - 1.3.6.1.2.1.25.6.3.1.2
-      indexes:
-      - labelname: hrSWInstalledIndex
-        type: gauge
-    - name: hrSWInstalledID
-      oid: 1.3.6.1.2.1.25.6.3.1.3
-      type: OctetString
-      help: The product ID of this installed piece of software. - 1.3.6.1.2.1.25.6.3.1.3
-      indexes:
-      - labelname: hrSWInstalledIndex
-        type: gauge
-    - name: hrSWInstalledType
-      oid: 1.3.6.1.2.1.25.6.3.1.4
-      type: gauge
-      help: The type of this software. - 1.3.6.1.2.1.25.6.3.1.4
-      indexes:
-      - labelname: hrSWInstalledIndex
-        type: gauge
-      enum_values:
-        1: unknown
-        2: operatingSystem
-        3: deviceDriver
-        4: application
-    - name: hrSWInstalledDate
-      oid: 1.3.6.1.2.1.25.6.3.1.5
-      type: DateAndTime
-      help: The last-modification date of this application as it would appear in a
-        directory listing - 1.3.6.1.2.1.25.6.3.1.5
-      indexes:
-      - labelname: hrSWInstalledIndex
-        type: gauge
     - name: mtxrWlStatIndex
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.1
       type: gauge
@@ -19485,7 +19484,6 @@ modules:
       help: Number of active tunnels - 1.3.6.1.4.1.25461.2.1.2.5.1.3
   printer_mib:
     walk:
-    - 1.3.6.1.2.1.25.3.5.1.1
     - 1.3.6.1.2.1.43.11.1.1.5
     - 1.3.6.1.2.1.43.11.1.1.6
     - 1.3.6.1.2.1.43.11.1.1.8
@@ -19498,19 +19496,6 @@ modules:
     - 1.3.6.1.2.1.43.5.1.1.3
     - 1.3.6.1.2.1.43.6.1.1.3
     metrics:
-    - name: hrPrinterStatus
-      oid: 1.3.6.1.2.1.25.3.5.1.1
-      type: EnumAsStateSet
-      help: The current status of this printer device. - 1.3.6.1.2.1.25.3.5.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-      enum_values:
-        1: other
-        2: unknown
-        3: idle
-        4: printing
-        5: warmup
     - name: prtMarkerSuppliesType
       oid: 1.3.6.1.2.1.43.11.1.1.5
       type: gauge

@@ -185,7 +185,6 @@ modules:
 #
   arista_sw:
     walk:
-      - 1.3.6.1.2.1.25.3.3.1.2 # hrProcessorLoad
       - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
 
 # Synology
@@ -410,7 +409,6 @@ modules:
 # https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib.xhtml
   printer_mib:
     walk:
-      - hrPrinterStatus
       - prtGeneralReset
       - prtConsoleDisable
       - prtGeneralPrinterName
@@ -426,8 +424,6 @@ modules:
       - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
         lookup: prtMarkerSuppliesType
     overrides:
-      hrPrinterStatus:
-        type: EnumAsStateSet
       prtGeneralReset:
         type: EnumAsStateSet
       prtConsoleDisable:
@@ -551,10 +547,6 @@ modules:
     walk:
       - laIndex
       - sysDescr
-      - hrSWRun
-      - hrSWRunPerf
-      - hrSWInstalled
-      - hrMIBAdminInfo
       - mikrotik
     lookups:
       - source_indexes: [ifIndex]
@@ -623,3 +615,15 @@ modules:
   hrDevice:
     walk:
       - hrDevice
+    overrides:
+      hrPrinterStatus:
+        type: EnumAsStateSet
+  hrSWRun:
+    walk:
+      - hrSWRun
+  hrSWRunPerf:
+    walk:
+      - hrSWRunPerf
+  hrSWInstalled:
+    walk:
+      - hrSWInstalled
