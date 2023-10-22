@@ -146,6 +146,7 @@ modules:
               value: '1' # The first entry whose regex matches and whose value parses wins.
             - regex: '.*'
               value: '0'
+        offset: 1.0 # Add the value to the same. Applied after scale.
         scale: 1.0 # Scale the value of the sample by this value.
         type: DisplayString # Override the metric type, possible types are:
                              #   gauge:   An integer with type gauge.
