@@ -154,6 +154,10 @@ modules:
         lookup: st4AdcSensorName
         drop_source_indexes: true
 
+    overrides:
+      st4TempSensorValue:
+        scale: 0.1
+
 # Palo Alto Firewalls
 #
 # Palo Alto MIBs can be found here:
