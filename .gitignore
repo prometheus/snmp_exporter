@@ -31,3 +31,4 @@ dependencies-stamp
 
 generator/generator
 generator/mibs
+generator/snmp.yml

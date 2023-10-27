@@ -48,6 +48,9 @@ modules:
       - source_indexes: [bsnAPDot3MacAddress]
         lookup: bsnAPName
         drop_source_indexes: true
+    overrides:
+      bsnAPName:
+        type: DisplayString
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -150,6 +153,10 @@ modules:
       - source_indexes: [st4UnitIndex, st4AdcSensorIndex, st4FanSensorIndex]
         lookup: st4AdcSensorName
         drop_source_indexes: true
+
+    overrides:
+      st4TempSensorValue:
+        scale: 0.1
 
 # Palo Alto Firewalls
 #

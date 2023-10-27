@@ -2988,7 +2988,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDBNoisePower
@@ -3009,7 +3009,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnApIfNoOfUsers
@@ -3027,7 +3027,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfType
@@ -3045,7 +3045,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
       enum_values:
@@ -3067,7 +3067,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
       enum_values:
@@ -3138,7 +3138,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11MulticastTransmittedFrameCount
@@ -3157,7 +3157,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11RetryCount
@@ -3176,7 +3176,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11MultipleRetryCount
@@ -3195,7 +3195,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11FrameDuplicateCount
@@ -3214,7 +3214,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11RTSSuccessCount
@@ -3233,7 +3233,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11RTSFailureCount
@@ -3252,7 +3252,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11ACKFailureCount
@@ -3271,7 +3271,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11ReceivedFragmentCount
@@ -3290,7 +3290,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11MulticastReceivedFrameCount
@@ -3309,7 +3309,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11FCSErrorCount
@@ -3328,7 +3328,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11TransmittedFrameCount
@@ -3347,7 +3347,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11WEPUndecryptableCount
@@ -3369,7 +3369,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
     - name: bsnAPIfDot11FailedCount
@@ -3389,7 +3389,7 @@ modules:
         - bsnAPDot3MacAddress
         labelname: bsnAPName
         oid: 1.3.6.1.4.1.14179.2.2.1.1.3
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: bsnAPDot3MacAddress
   cyberpower:
@@ -23225,6 +23225,7 @@ modules:
         labelname: st4UnitName
         oid: 1.3.6.1.4.1.1718.4.1.2.2.1.3
         type: DisplayString
+      scale: 0.1
     - name: st4TempSensorStatus
       oid: 1.3.6.1.4.1.1718.4.1.9.3.1.2
       type: gauge
