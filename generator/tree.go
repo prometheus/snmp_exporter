@@ -251,6 +251,26 @@ func getMetricNode(oid string, node *Node, nameToNode map[string]*Node) (*Node, 
 	return n, oidInstance
 }
 
+// In the case of multiple nodes with the same label try to return the node
+// where the OID matches in every branch apart from the last one.
+func getIndexNode(lookup string, nameToNode map[string]*Node, metricOid string) *Node {
+	for _, node := range nameToNode {
+		if node.Label != lookup {
+			continue
+		}
+
+		oid := strings.Split(metricOid, ".")
+		oidPrefix := strings.Join(oid[:len(oid)-1], ".")
+
+		if strings.HasPrefix(node.Oid, oidPrefix) {
+			return node
+		}
+	}
+
+	// If no node matches, revert to previous behavior.
+	return nameToNode[lookup]
+}
+
 func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node, logger log.Logger) (*config.Module, error) {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
@@ -412,7 +432,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if _, ok := nameToNode[lookup.Lookup]; !ok {
 					return nil, fmt.Errorf("unknown index '%s'", lookup.Lookup)
 				}
-				indexNode := nameToNode[lookup.Lookup]
+				indexNode := getIndexNode(lookup.Lookup, nameToNode, metric.Oid)
 				typ, ok := metricType(indexNode.Type)
 				if !ok {
 					return nil, fmt.Errorf("unknown index type %s for %s", indexNode.Type, lookup.Lookup)
