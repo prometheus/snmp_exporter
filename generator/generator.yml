@@ -597,6 +597,10 @@ modules:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
+      # Remap enums where 1==true, 2==false to become 0==false, 1==true.
+      hrDiskStorageRemoveble:
+        scale: -1.0
+        offset: 2.0
 
 # CyberPower
 #

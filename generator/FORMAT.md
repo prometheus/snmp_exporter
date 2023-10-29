@@ -62,6 +62,7 @@ modules:
          Temp: # A new metric will be created appending this to the metricName to become metricNameTemp.
            - regex: '(.*)' # Regex to extract a value from the returned SNMP walks's value.
              value: '$1' # Parsed as float64, defaults to $1.
+       offset: 0.0  # Adds the value to the sample. Applied after scale.
        scale: 0.125 # Scale the sample by this value, for example bits to bytes.
        enum_values: # Enum for this metric. Only used with the enum types.
           0: true
