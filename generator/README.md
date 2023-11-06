@@ -35,14 +35,15 @@ by the snmp_exporter executable to collect data from the snmp enabled devices.
 
 Additional command are available for debugging, use the `help` command to see them.
 
-After building, you can pass a directory of mibs, a path to the `generator.yml`
+After building, you can pass a directories of mibs, a path to the `generator.yml`
 file and the intended path of your output file e.g. `snmp.yml` to the `generate`
 command like so,
 ```bash
 ./generator generate \
-  -m /tmp
+  -m /tmp/deviceFamilyMibs \
+  -m /tmp/sharedMibs \
   -g /tmp/generator.yml \
-  -o /tmp/snmp.yml \
+  -o /tmp/snmp.yml
 ```
 
 ### MIB Parsing options

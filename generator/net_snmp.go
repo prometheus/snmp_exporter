@@ -71,6 +71,7 @@ import (
 	"io"
 	"os"
 	"sort"
+	"strings"
 
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
@@ -152,6 +153,15 @@ var (
 	}
 )
 
+// getMibsDir joins the user-specified MIB directories into a single string; if the user didn't pass any,
+// the default netsnmp mibs directory is returned.
+func getMibsDir(paths []string) string {
+	if len(paths) == 1 && paths[0] == "" {
+		return C.GoString(C.netsnmp_get_mib_directory())
+	}
+	return strings.Join(paths, ":")
+}
+
 // Initialize NetSNMP. Returns MIB parse errors.
 //
 // Warning: This function plays with the stderr file descriptor.
@@ -161,20 +171,9 @@ func initSNMP(logger log.Logger) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if *userMibsDir != "" {
-		// The user told us where to load the mibs
-		err = level.Info(logger).Log("msg", "Loading MIBs", "from", *userMibsDir)
-		if err != nil {
-			return "", err
-		}
-		C.netsnmp_set_mib_directory(C.CString(*userMibsDir))
-	} else {
-		// Help the user find their MIB directories.
-		err = level.Info(logger).Log("msg", "Loading MIBs", "from", C.GoString(C.netsnmp_get_mib_directory()))
-		if err != nil {
-			return "", err
-		}
-	}
+	mibsDir := getMibsDir(*userMibsDir)
+	level.Info(logger).Log("msg", "Loading MIBs", "from", mibsDir)
+	C.netsnmp_set_mib_directory(C.CString(mibsDir))
 	if *snmpMIBOpts != "" {
 		C.snmp_mib_toggle_options(C.CString(*snmpMIBOpts))
 	}
