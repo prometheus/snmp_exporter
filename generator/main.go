@@ -68,10 +68,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 		}
 		outputConfig.Modules[name] = out
 		outputConfig.Modules[name].WalkParams = m.WalkParams
-		err = level.Debug(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig.Modules[name].Metrics))
-		if err != nil {
-			return err
-		}
+		level.Debug(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig.Modules[name].Metrics))
 	}
 
 	config.DoNotHideSecrets = true
@@ -96,10 +93,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	if err != nil {
 		return fmt.Errorf("error writing to output file: %s", err)
 	}
-	err = level.Debug(logger).Log("msg", "Config written", "file", outputPath)
-	if err != nil {
-		return err
-	}
+	level.Debug(logger).Log("msg", "Config written", "file", outputPath)
 	return nil
 }
 
