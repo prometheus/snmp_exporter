@@ -50,10 +50,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	outputConfig.Auths = cfg.Auths
 	outputConfig.Modules = make(map[string]*config.Module, len(cfg.Modules))
 	for name, m := range cfg.Modules {
-		err := level.Debug(logger).Log("msg", "Generating config for module", "module", name)
-		if err != nil {
-			return err
-		}
+		level.Debug(logger).Log("msg", "Generating config for module", "module", name)
 		// Give each module a copy of the tree so that it can be modified.
 		mNodes := nodes.Copy()
 		// Build the map with new pointers.
