@@ -284,10 +284,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		// Find node to override.
 		n, ok := nameToNode[name]
 		if !ok {
-			err := level.Warn(logger).Log("msg", "Could not find node to override type", "node", name)
-			if err != nil {
-				return nil, err
-			}
+			level.Warn(logger).Log("msg", "Could not find node to override type", "node", name)
 			continue
 		}
 		// params.Type validated at generator configuration.

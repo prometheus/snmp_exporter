@@ -50,7 +50,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	outputConfig.Auths = cfg.Auths
 	outputConfig.Modules = make(map[string]*config.Module, len(cfg.Modules))
 	for name, m := range cfg.Modules {
-		level.Debug(logger).Log("msg", "Generating config for module", "module", name)
+		level.Info(logger).Log("msg", "Generating config for module", "module", name)
 		// Give each module a copy of the tree so that it can be modified.
 		mNodes := nodes.Copy()
 		// Build the map with new pointers.
@@ -65,7 +65,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 		}
 		outputConfig.Modules[name] = out
 		outputConfig.Modules[name].WalkParams = m.WalkParams
-		level.Debug(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig.Modules[name].Metrics))
+		level.Info(logger).Log("msg", "Generated metrics", "module", name, "metrics", len(outputConfig.Modules[name].Metrics))
 	}
 
 	config.DoNotHideSecrets = true
@@ -90,7 +90,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 	if err != nil {
 		return fmt.Errorf("error writing to output file: %s", err)
 	}
-	level.Debug(logger).Log("msg", "Config written", "file", outputPath)
+	level.Info(logger).Log("msg", "Config written", "file", outputPath)
 	return nil
 }
 

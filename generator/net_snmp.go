@@ -186,18 +186,8 @@ func initSNMP(logger log.Logger) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("error creating pipe: %s", err)
 	}
-	defer func(r *os.File) {
-		err := r.Close()
-		if err != nil {
-
-		}
-	}(r)
-	defer func(w *os.File) {
-		err := w.Close()
-		if err != nil {
-
-		}
-	}(w)
+	defer r.Close()
+	defer w.Close()
 	savedStderrFd := C.dup(2)
 	C.close(2)
 	C.dup2(C.int(w.Fd()), 2)
@@ -217,10 +207,7 @@ func initSNMP(logger log.Logger) (string, error) {
 	C.netsnmp_init_mib()
 
 	// Restore stderr to normal.
-	err = w.Close()
-	if err != nil {
-		return "", err
-	}
+	w.Close()
 	C.close(2)
 	C.dup2(savedStderrFd, 2)
 	C.close(savedStderrFd)
