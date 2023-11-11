@@ -16,8 +16,10 @@ MIB_PATH := 'mibs'
 
 CURL_OPTS ?= -L --no-progress-meter --retry 3 --retry-delay 3 --fail
 
+REPO_TAG ?= $(shell git rev-parse --abbrev-ref HEAD)
+
 DOCKER_IMAGE_NAME ?= snmp-generator
-DOCKER_IMAGE_TAG  ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
+DOCKER_IMAGE_TAG  ?= $(subst /,-,$(REPO_TAG))
 DOCKER_REPO       ?= prom
 
 SANITIZED_DOCKER_IMAGE_TAG := $(subst +,-,$(DOCKER_IMAGE_TAG))
@@ -79,7 +81,7 @@ parse_errors: generator mibs
 
 .PHONY: docker
 docker:
-	docker build -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" .
+	docker build --build-arg REPO_TAG="$(REPO_TAG)" -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" .
 
 .PHONY: docker-generate
 docker-generate: docker mibs
