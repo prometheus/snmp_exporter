@@ -53,8 +53,8 @@ jobs:
     steps:
     - prometheus/setup_build_environment:
         docker_version: ""
-    - run: make -C generator docker DOCKER_IMAGE_TAG=main
-    - run: make -C generator docker DOCKER_REPO=quay.io/prometheus DOCKER_IMAGE_TAG=main
+    - run: make -C generator docker REPO_TAG=main DOCKER_IMAGE_TAG=main
+    - run: make -C generator docker REPO_TAG=main DOCKER_REPO=quay.io/prometheus DOCKER_IMAGE_TAG=main
     - run: docker images
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
     - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
@@ -67,8 +67,8 @@ jobs:
     steps:
     - prometheus/setup_build_environment:
         docker_version: ""
-    - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG
-    - run: make -C generator docker DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
+    - run: make -C generator docker REPO_TAG=$CIRCLE_TAG DOCKER_IMAGE_TAG=$CIRCLE_TAG
+    - run: make -C generator docker REPO_TAG=$CIRCLE_TAG DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
     - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
     - run: |
