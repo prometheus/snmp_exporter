@@ -61,7 +61,7 @@ func TestPduToSample(t *testing.T) {
 			},
 			oidToPdu: make(map[string]gosnmp.SnmpPDU),
 			expectedMetrics: []string{
-				`Desc{fqName: "TestMetricNameExtension", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: []} gauge:{value:5}`,
+				`Desc{fqName: "TestMetricNameExtension", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:5}`,
 			},
 		},
 		{
@@ -132,7 +132,7 @@ func TestPduToSample(t *testing.T) {
 				},
 			},
 			expectedMetrics: []string{
-				`Desc{fqName: "TestMetricNameStatus", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: []} gauge:{value:5}`,
+				`Desc{fqName: "TestMetricNameStatus", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:5}`,
 			},
 		},
 		{
@@ -194,9 +194,9 @@ func TestPduToSample(t *testing.T) {
 			},
 			oidToPdu: make(map[string]gosnmp.SnmpPDU),
 			expectedMetrics: []string{
-				`Desc{fqName: "TestMetricNameExtension", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: []} gauge:{value:5}`,
-				`Desc{fqName: "TestMetricNameMultipleRegexes", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: []} gauge:{value:999}`,
-				`Desc{fqName: "TestMetricNameTemplate", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: []} gauge:{value:4.42}`,
+				`Desc{fqName: "TestMetricNameExtension", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:5}`,
+				`Desc{fqName: "TestMetricNameMultipleRegexes", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:999}`,
+				`Desc{fqName: "TestMetricNameTemplate", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:4.42}`,
 			},
 		},
 		{
@@ -213,7 +213,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []} counter:{value:2}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {}} counter:{value:2}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -229,7 +229,59 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []} gauge:{value:2}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {}} gauge:{value:2}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 420,
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:  "test_metric",
+				Oid:   "1.1.1.1.1",
+				Type:  "gauge",
+				Help:  "Help string",
+				Scale: 0.1,
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {}} gauge:{value:42}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 70,
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:   "test_metric",
+				Oid:    "1.1.1.1.1",
+				Type:   "gauge",
+				Help:   "Help string",
+				Offset: -1.0,
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {}} gauge:{value:69}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Type:  gosnmp.Integer,
+				Value: 2,
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:   "test_metric",
+				Oid:    "1.1.1.1.1",
+				Type:   "gauge",
+				Help:   "Help string",
+				Offset: 2.0,
+				Scale:  -1.0,
+			},
+			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {}} gauge:{value:0}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -244,7 +296,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"-2"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"-2"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -260,7 +312,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []} gauge:{value:3}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {}} gauge:{value:3}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -276,7 +328,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: []} gauge:{value:3}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {}} gauge:{value:3}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -293,7 +345,7 @@ func TestPduToSample(t *testing.T) {
 				Indexes: []*config.Index{{Labelname: "foo", Type: "DisplayString"}},
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{foo <nil>}]} label:{name:"foo" value:"AA"} gauge:{value:3}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {foo}} label:{name:"foo" value:"AA"} gauge:{value:3}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -345,7 +397,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 1}},
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"4.5.6.7"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"4.5.6.7"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -360,7 +412,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 1}},
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"4.5.6.7"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"4.5.6.7"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -375,7 +427,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 2}},
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"0405:0607:0809:0A0B:0C0D:0E0F:1011:1213"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"0405:0607:0809:0A0B:0C0D:0E0F:1011:1213"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -390,7 +442,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 3}},
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"0x0405060708"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"0x0405060708"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -405,7 +457,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"0x04050607"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"0x04050607"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -420,7 +472,7 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": gosnmp.SnmpPDU{Value: 3}},
-			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"04:05:06:07:08:09"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"04:05:06:07:08:09"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -435,7 +487,7 @@ func TestPduToSample(t *testing.T) {
 				Help:       "Help string",
 				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
 			},
-			expectedMetrics: []string{`Desc{fqName: "test_metric_info", help: "Help string (EnumAsInfo)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"baz"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric_info", help: "Help string (EnumAsInfo)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"baz"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -450,7 +502,7 @@ func TestPduToSample(t *testing.T) {
 				Help:       "Help string",
 				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
 			},
-			expectedMetrics: []string{`Desc{fqName: "test_metric_info", help: "Help string (EnumAsInfo)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"3"} gauge:{value:1}`},
+			expectedMetrics: []string{`Desc{fqName: "test_metric_info", help: "Help string (EnumAsInfo)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"3"} gauge:{value:1}`},
 		},
 		{
 			pdu: &gosnmp.SnmpPDU{
@@ -466,9 +518,9 @@ func TestPduToSample(t *testing.T) {
 				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
 			},
 			expectedMetrics: []string{
-				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"foo"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"bar"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"baz"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"foo"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"bar"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"baz"} gauge:{value:1}`,
 			},
 		},
 		{
@@ -485,10 +537,10 @@ func TestPduToSample(t *testing.T) {
 				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz"},
 			},
 			expectedMetrics: []string{
-				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"foo"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"bar"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"baz"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"3"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"foo"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"bar"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"baz"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (EnumAsStateSet)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"3"} gauge:{value:1}`,
 			},
 		},
 		{
@@ -505,20 +557,20 @@ func TestPduToSample(t *testing.T) {
 				EnumValues: map[int]string{0: "foo", 1: "bar", 2: "baz", 8: "byte2msb", 15: "byte2lsb", 16: "byte3msb", 23: "byte3lsb", 24: "missing"},
 			},
 			expectedMetrics: []string{
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"foo"} gauge:{value:1}`,
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"bar"} gauge:{value:1}`,
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"baz"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"byte2msb"} gauge:{value:1}`,
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"byte2lsb"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"byte3msb"} gauge:{value:0}`,
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"byte3lsb"} gauge:{value:1}`,
-				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: [{test_metric <nil>}]} label:{name:"test_metric" value:"missing"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"foo"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"bar"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"baz"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"byte2msb"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"byte2lsb"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"byte3msb"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"byte3lsb"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"missing"} gauge:{value:0}`,
 			},
 		},
 	}
 
 	for _, c := range cases {
-		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger(), internalMetrics{})
+		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger(), Metrics{})
 		metric := &io_prometheus_client.Metric{}
 		expected := map[string]struct{}{}
 		for _, e := range c.expectedMetrics {
@@ -718,9 +770,14 @@ func TestPduValueAsString(t *testing.T) {
 			pdu:    &gosnmp.SnmpPDU{Value: 10.1, Type: gosnmp.OpaqueDouble},
 			result: "10.1",
 		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{115, 97, 110, 101, 253, 190, 214}},
+			typ:    "DisplayString",
+			result: "sane�",
+		},
 	}
 	for _, c := range cases {
-		got := pduValueAsString(c.pdu, c.typ, internalMetrics{})
+		got := pduValueAsString(c.pdu, c.typ, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("pduValueAsString(%v, %q): got %q, want %q", c.pdu, c.typ, got, c.result)
 		}
@@ -1026,9 +1083,176 @@ func TestIndexesToLabels(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, internalMetrics{})
+		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("indexesToLabels(%v, %v, %v): got %v, want %v", c.oid, c.metric, c.oidToPdu, got, c.result)
+		}
+	}
+}
+
+func TestConfigureTarget(t *testing.T) {
+	cases := []struct {
+		target     string
+		gTransport string
+		gTarget    string
+		gPort      uint16
+		shouldErr  bool
+	}{
+		{
+			target:     "localhost",
+			gTransport: "",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "localhost:1161",
+			gTransport: "",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://localhost",
+			gTransport: "udp",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://localhost:1161",
+			gTransport: "udp",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://localhost",
+			gTransport: "tcp",
+			gTarget:    "localhost",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://localhost:1161",
+			gTransport: "tcp",
+			gTarget:    "localhost",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "[::1]",
+			gTransport: "",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "[::1]:1161",
+			gTransport: "",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://[::1]",
+			gTransport: "udp",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "udp://[::1]:1161",
+			gTransport: "udp",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://[::1]",
+			gTransport: "tcp",
+			gTarget:    "[::1]",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "tcp://[::1]:1161",
+			gTransport: "tcp",
+			gTarget:    "::1",
+			gPort:      1161,
+			shouldErr:  false,
+		},
+		{ // this case is valid during parse but invalid during connect
+			target:     "tcp://udp://localhost:1161",
+			gTransport: "tcp",
+			gTarget:    "udp://localhost:1161",
+			gPort:      161,
+			shouldErr:  false,
+		},
+		{
+			target:     "localhost:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "udp://localhost:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "tcp://localhost:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "[::1]:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "udp://[::1]:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+		{
+			target:     "tcp://[::1]:badport",
+			gTransport: "",
+			gTarget:    "",
+			gPort:      0,
+			shouldErr:  true,
+		},
+	}
+
+	for _, c := range cases {
+		var g gosnmp.GoSNMP
+		err := configureTarget(&g, c.target)
+		if c.shouldErr {
+			if err == nil {
+				t.Fatalf("Was expecting error, but none returned for %q", c.target)
+			}
+			continue
+		}
+		if err != nil {
+			t.Fatalf("Error configuring target %q: %v", c.target, err)
+		}
+		if g.Transport != c.gTransport {
+			t.Fatalf("Bad SNMP transport for %q, got=%q, expected=%q", c.target, g.Transport, c.gTransport)
+		}
+		if g.Target != c.gTarget {
+			t.Fatalf("Bad SNMP target for %q, got=%q, expected=%q", c.target, g.Target, c.gTarget)
+		}
+		if g.Port != c.gPort {
+			t.Fatalf("Bad SNMP port for %q, got=%d, expected=%d", c.target, g.Port, c.gPort)
 		}
 	}
 }
@@ -1077,7 +1301,7 @@ func TestFilterAllowedIndices(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList, internalMetrics{})
+		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("filterAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}

@@ -19,7 +19,7 @@ make generator mibs
 ```
 ## Preparation
 
-It is recommended to have a directory per device family which contains the mibs dir for the device family, 
+It is recommended to have a directory per device family which contains the mibs dir for the device family,
 a logical link to the generator executable and the generator.yml configuration file. This is to avoid name space collisions
 in the MIB definition. Keep only the required MIBS in the mibs directory for the devices.
 Then merge all the resulting snmp.yml files into one main file that will be used by the snmp_exporter collector.
@@ -34,6 +34,17 @@ The generator reads in the simplified collection instructions from `generator.ym
 by the snmp_exporter executable to collect data from the snmp enabled devices.
 
 Additional command are available for debugging, use the `help` command to see them.
+
+After building, you can pass a directories of mibs, a path to the `generator.yml`
+file and the intended path of your output file e.g. `snmp.yml` to the `generate`
+command like so,
+```bash
+./generator generate \
+  -m /tmp/deviceFamilyMibs \
+  -m /tmp/sharedMibs \
+  -g /tmp/generator.yml \
+  -o /tmp/snmp.yml
+```
 
 ### MIB Parsing options
 
@@ -70,7 +81,6 @@ make docker-generate
 The simplest module is just a name and a set of OIDs to walk.
 
 ```yaml
-version: 2
 auths:
   auth_name:
     version: 2  # SNMP version to use. Defaults to 2.
@@ -147,6 +157,8 @@ modules:
               value: '1' # The first entry whose regex matches and whose value parses wins.
             - regex: '.*'
               value: '0'
+        offset: 1.0 # Add the value to the same. Applied after scale.
+        scale: 1.0 # Scale the value of the sample by this value.
         type: DisplayString # Override the metric type, possible types are:
                              #   gauge:   An integer with type gauge.
                              #   counter: An integer with type counter.
@@ -172,7 +184,7 @@ modules:
               # If one of the target OIDs is used in a lookup, the filter will apply ALL tables using this lookup
               # For a network switch, this could be used to collect a subset of interfaces such as uplinks
               # For a router, this could be used to collect all real ports but not vlans and other virtual interfaces
-              # Specifying ifAlias or ifName if they are used in lookups with ifIndex will apply to the filter to 
+              # Specifying ifAlias or ifName if they are used in lookups with ifIndex will apply to the filter to
               # all the OIDs that depend on the lookup, such as ifSpeed, ifInHcOctets, etc.
               # This feature applies to any table(s) OIDs using a common index
         - targets:

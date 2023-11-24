@@ -23,12 +23,14 @@ import (
 type Config struct {
 	Auths   map[string]*config.Auth  `yaml:"auths"`
 	Modules map[string]*ModuleConfig `yaml:"modules"`
-	Version int                      `yaml:"version"`
+	Version int                      `yaml:"version,omitempty"`
 }
 
 type MetricOverrides struct {
 	Ignore         bool                              `yaml:"ignore,omitempty"`
 	RegexpExtracts map[string][]config.RegexpExtract `yaml:"regex_extracts,omitempty"`
+	Offset         float64                           `yaml:"offset,omitempty"`
+	Scale          float64                           `yaml:"scale,omitempty"`
 	Type           string                            `yaml:"type,omitempty"`
 }
 

@@ -1,6 +1,6 @@
 # Module and Auth Split Migration
 
-In [version 0.23.0](https://github.com/prometheus/snmp_exporter/releases/tag/v0.23.0) the configuration for the `snmp_epxorter` the configuration file format has changed. Configuration files for versions v0.22.0 and before will not work. The configuration was split from a flat list of modules to separate metric walking/mapping modules and authentication configuratoins.
+Starting from `snmp_exporter` [release v0.23.0](https://github.com/prometheus/snmp_exporter/releases/tag/v0.23.0) the configuration file format for the `snmp_exporter` has been changed. Configuration files for [release v0.22.0](https://github.com/prometheus/snmp_exporter/releases/tag/v0.22.0) and before will not work. The configuration was split from a flat list of modules to separate metric walking/mapping modules and authentication configurations.
 
 This change necessitates migration of the generator config and `snmp_exporter` config to the new format.
 
