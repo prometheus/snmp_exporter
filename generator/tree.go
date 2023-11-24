@@ -386,7 +386,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if subtype, ok := combinedTypes[index.Type]; ok {
 					if prevType == subtype {
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
-					if prev2Type == subtype {
+					} else if prev2Type == subtype {
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-2]
 					} else {
 						level.Warn(logger).Log("msg", "Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
