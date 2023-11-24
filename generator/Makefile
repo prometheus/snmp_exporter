@@ -49,6 +49,8 @@ RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
+READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
+READYDATAOS_URL   := https://www.circitor.fr/Mibs/Mib/R/READYDATAOS-MIB.mib
 
 CYBERPOWER_VERSION := 2.10
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -68,7 +70,9 @@ clean:
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology \
-		$(MIBDIR)/.kemp-lm
+		$(MIBDIR)/.kemp-lm \
+		$(MIBDIR)/readynas \
+		$(MIBDIR)/readydataos
 
 generator: *.go
 	go build
@@ -97,6 +101,8 @@ docker-tag-latest:
 
 mibs: \
   $(MIBDIR)/apc-powernet-mib \
+  $(MIBDIR)/readynas \
+  $(MIBDIR)/readydataos \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
@@ -336,3 +342,11 @@ $(MIBDIR)/EAP.MIB $(MIBDIR)/EAP-Client.MIB:
 	@mv -v $(MIBDIR)/TPLINK.mib $(MIBDIR)/EAP.MIB
 	@mv -v $(MIBDIR)/client.mib $(MIBDIR)/EAP-Client.MIB
 	@rm -v $(TMP)
+
+$(MIBDIR)/readynas:
+	@echo ">> Downloading readynas"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/readynas "$(READYNAS_URL)"
+
+$(MIBDIR)/readydataos:
+	@echo ">> Downloading readydataos"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/readydataos "$(READYDATAOS_URL)"
