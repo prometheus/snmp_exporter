@@ -19947,6 +19947,556 @@ modules:
         type: gauge
       - labelname: sensorID
         type: gauge
+  readynas:
+    walk:
+    - 1.3.6.1.4.1.4526
+    metrics:
+    - name: nasMgrSoftwareVersion
+      oid: 1.3.6.1.4.1.4526.18.1
+      type: DisplayString
+      help: Version information for the ReadyNAS NAS Manager software. - 1.3.6.1.4.1.4526.18.1
+    - name: diskNumber
+      oid: 1.3.6.1.4.1.4526.18.3.1.1
+      type: gauge
+      help: Instance number of the disk entry. - 1.3.6.1.4.1.4526.18.3.1.1
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskChannel
+      oid: 1.3.6.1.4.1.4526.18.3.1.2
+      type: gauge
+      help: Channel number that the disk is connected to. - 1.3.6.1.4.1.4526.18.3.1.2
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskModel
+      oid: 1.3.6.1.4.1.4526.18.3.1.3
+      type: DisplayString
+      help: The disk drive's model name. - 1.3.6.1.4.1.4526.18.3.1.3
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskState
+      oid: 1.3.6.1.4.1.4526.18.3.1.4
+      type: DisplayString
+      help: The current state of the Disk - 1.3.6.1.4.1.4526.18.3.1.4
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskTemperature
+      oid: 1.3.6.1.4.1.4526.18.3.1.5
+      type: gauge
+      help: temperature of this disk. - 1.3.6.1.4.1.4526.18.3.1.5
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: fanNumber
+      oid: 1.3.6.1.4.1.4526.18.4.1.1
+      type: gauge
+      help: Instance number of this fan entry. - 1.3.6.1.4.1.4526.18.4.1.1
+      indexes:
+      - labelname: fanNumber
+        type: gauge
+    - name: fanRPM
+      oid: 1.3.6.1.4.1.4526.18.4.1.2
+      type: gauge
+      help: The current speed of the fan. - 1.3.6.1.4.1.4526.18.4.1.2
+      indexes:
+      - labelname: fanNumber
+        type: gauge
+    - name: fanType
+      oid: 1.3.6.1.4.1.4526.18.4.1.3
+      type: DisplayString
+      help: 'What fan is used for: SYS: for system board CPU: for CPU CAS: for system
+        case - 1.3.6.1.4.1.4526.18.4.1.3'
+      indexes:
+      - labelname: fanNumber
+        type: gauge
+    - name: temperatureNumber
+      oid: 1.3.6.1.4.1.4526.18.5.1.1
+      type: gauge
+      help: Instance number of this temperature probe entry. - 1.3.6.1.4.1.4526.18.5.1.1
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: temperatureValue
+      oid: 1.3.6.1.4.1.4526.18.5.1.2
+      type: gauge
+      help: The current temperature of this probe. - 1.3.6.1.4.1.4526.18.5.1.2
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: temperatureStatus
+      oid: 1.3.6.1.4.1.4526.18.5.1.3
+      type: DisplayString
+      help: The current temperature status. - 1.3.6.1.4.1.4526.18.5.1.3
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: volumeNumber
+      oid: 1.3.6.1.4.1.4526.18.7.1.1
+      type: gauge
+      help: Instance number of the volume entry. - 1.3.6.1.4.1.4526.18.7.1.1
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeName
+      oid: 1.3.6.1.4.1.4526.18.7.1.2
+      type: DisplayString
+      help: The name of the volume. - 1.3.6.1.4.1.4526.18.7.1.2
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeRAIDLevel
+      oid: 1.3.6.1.4.1.4526.18.7.1.3
+      type: DisplayString
+      help: The RAID level of the volume. - 1.3.6.1.4.1.4526.18.7.1.3
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeStatus
+      oid: 1.3.6.1.4.1.4526.18.7.1.4
+      type: DisplayString
+      help: The severity of the volume - 1.3.6.1.4.1.4526.18.7.1.4
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeSize
+      oid: 1.3.6.1.4.1.4526.18.7.1.5
+      type: gauge
+      help: The size of the volume in megabytes. - 1.3.6.1.4.1.4526.18.7.1.5
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeFreeSpace
+      oid: 1.3.6.1.4.1.4526.18.7.1.6
+      type: gauge
+      help: Free space on the volume in megabytes. - 1.3.6.1.4.1.4526.18.7.1.6
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: psuNumber
+      oid: 1.3.6.1.4.1.4526.18.8.1.1
+      type: gauge
+      help: Instance number of this power supply unit. - 1.3.6.1.4.1.4526.18.8.1.1
+      indexes:
+      - labelname: psuNumber
+        type: gauge
+    - name: psuDesc
+      oid: 1.3.6.1.4.1.4526.18.8.1.2
+      type: DisplayString
+      help: The description of this PSU. - 1.3.6.1.4.1.4526.18.8.1.2
+      indexes:
+      - labelname: psuNumber
+        type: gauge
+    - name: psuStatus
+      oid: 1.3.6.1.4.1.4526.18.8.1.3
+      type: DisplayString
+      help: The current PSU status. - 1.3.6.1.4.1.4526.18.8.1.3
+      indexes:
+      - labelname: psuNumber
+        type: gauge
+    - name: controllerNameEv
+      oid: 1.3.6.1.4.1.4526.18.200.201
+      type: DisplayString
+      help: Controller Name for which trap is generated. - 1.3.6.1.4.1.4526.18.200.201
+    - name: channelNumberEv
+      oid: 1.3.6.1.4.1.4526.18.200.202
+      type: gauge
+      help: Channel Number for which trap is generated. - 1.3.6.1.4.1.4526.18.200.202
+    - name: targetIDEv
+      oid: 1.3.6.1.4.1.4526.18.200.203
+      type: gauge
+      help: SCSI ID of the device for which trap is generated. - 1.3.6.1.4.1.4526.18.200.203
+    - name: virtualDiskNameEv
+      oid: 1.3.6.1.4.1.4526.18.200.204
+      type: DisplayString
+      help: Virtual Disk for which trap is generated. - 1.3.6.1.4.1.4526.18.200.204
+    - name: arrayDiskNameEv
+      oid: 1.3.6.1.4.1.4526.18.200.205
+      type: DisplayString
+      help: Array Disk for which trap is generated. - 1.3.6.1.4.1.4526.18.200.205
+    - name: oldVDConfigEv
+      oid: 1.3.6.1.4.1.4526.18.200.206
+      type: DisplayString
+      help: Current Virtual Disk configuration for which trap is generated - 1.3.6.1.4.1.4526.18.200.206
+    - name: newVDConfigEv
+      oid: 1.3.6.1.4.1.4526.18.200.207
+      type: DisplayString
+      help: New Virtual Disk configuration for which trap is generated. - 1.3.6.1.4.1.4526.18.200.207
+    - name: enclosureNumberEv
+      oid: 1.3.6.1.4.1.4526.18.200.208
+      type: gauge
+      help: Enclosure Number for which trap is generated. - 1.3.6.1.4.1.4526.18.200.208
+    - name: unitNumberEv
+      oid: 1.3.6.1.4.1.4526.18.200.209
+      type: gauge
+      help: Unit Number for which trap is generated - 1.3.6.1.4.1.4526.18.200.209
+    - name: enclosureNameEv
+      oid: 1.3.6.1.4.1.4526.18.200.210
+      type: DisplayString
+      help: Enclosure Name for which trap is generated. - 1.3.6.1.4.1.4526.18.200.210
+    - name: unitNameEv
+      oid: 1.3.6.1.4.1.4526.18.200.211
+      type: DisplayString
+      help: Unit Number for which trap is generated - 1.3.6.1.4.1.4526.18.200.211
+    - name: timeEv
+      oid: 1.3.6.1.4.1.4526.18.200.212
+      type: gauge
+      help: Amount of time specified in the trap message. - 1.3.6.1.4.1.4526.18.200.212
+    - name: volumeNameEv
+      oid: 1.3.6.1.4.1.4526.18.200.213
+      type: DisplayString
+      help: Volume Drive Letter for which trap is generated. - 1.3.6.1.4.1.4526.18.200.213
+    - name: fanFailureMesg
+      oid: 1.3.6.1.4.1.4526.18.400
+      type: DisplayString
+      help: Failure message for Fan - 1.3.6.1.4.1.4526.18.400
+    - name: tempFailureMesg
+      oid: 1.3.6.1.4.1.4526.18.401
+      type: DisplayString
+      help: Failure message for system temperature - 1.3.6.1.4.1.4526.18.401
+    - name: powerFailureMesg
+      oid: 1.3.6.1.4.1.4526.18.402
+      type: DisplayString
+      help: Failure message for system power - 1.3.6.1.4.1.4526.18.402
+    - name: raidMesg
+      oid: 1.3.6.1.4.1.4526.18.403
+      type: DisplayString
+      help: RAID hotplug event message - 1.3.6.1.4.1.4526.18.403
+    - name: snapshotMesg
+      oid: 1.3.6.1.4.1.4526.18.404
+      type: DisplayString
+      help: Snapshot messages - 1.3.6.1.4.1.4526.18.404
+    - name: upsMesg
+      oid: 1.3.6.1.4.1.4526.18.405
+      type: DisplayString
+      help: UPS status message - 1.3.6.1.4.1.4526.18.405
+    - name: sataMesg
+      oid: 1.3.6.1.4.1.4526.18.406
+      type: DisplayString
+      help: SATA hotplug event messages - 1.3.6.1.4.1.4526.18.406
+    - name: volumeMesg
+      oid: 1.3.6.1.4.1.4526.18.407
+      type: DisplayString
+      help: Disk usage warning - 1.3.6.1.4.1.4526.18.407
+    - name: diskTempWarningMesg
+      oid: 1.3.6.1.4.1.4526.18.408
+      type: DisplayString
+      help: Disk temperature warning messages - 1.3.6.1.4.1.4526.18.408
+    - name: backupMesg
+      oid: 1.3.6.1.4.1.4526.18.409
+      type: DisplayString
+      help: Backup job status messages - 1.3.6.1.4.1.4526.18.409
+    - name: smartMesg
+      oid: 1.3.6.1.4.1.4526.18.410
+      type: DisplayString
+      help: Disk SMART messages - 1.3.6.1.4.1.4526.18.410
+    - name: psuMesg
+      oid: 1.3.6.1.4.1.4526.18.411
+      type: DisplayString
+      help: PSU status messages - 1.3.6.1.4.1.4526.18.411
+    - name: nasMgrSoftwareVersion
+      oid: 1.3.6.1.4.1.4526.22.1
+      type: DisplayString
+      help: Version information for the ReadyDATAOS ngNasManager software. - 1.3.6.1.4.1.4526.22.1
+    - name: diskNumber
+      oid: 1.3.6.1.4.1.4526.22.3.1.1
+      type: gauge
+      help: Instance number of the disk entry. - 1.3.6.1.4.1.4526.22.3.1.1
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskID
+      oid: 1.3.6.1.4.1.4526.22.3.1.2
+      type: DisplayString
+      help: Disk ID. - 1.3.6.1.4.1.4526.22.3.1.2
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskSlotName
+      oid: 1.3.6.1.4.1.4526.22.3.1.3
+      type: DisplayString
+      help: The slot location of the disk. - 1.3.6.1.4.1.4526.22.3.1.3
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskSerial
+      oid: 1.3.6.1.4.1.4526.22.3.1.4
+      type: DisplayString
+      help: Disk Serial number. - 1.3.6.1.4.1.4526.22.3.1.4
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskModel
+      oid: 1.3.6.1.4.1.4526.22.3.1.5
+      type: DisplayString
+      help: The disk drive's model name. - 1.3.6.1.4.1.4526.22.3.1.5
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: ataError
+      oid: 1.3.6.1.4.1.4526.22.3.1.6
+      type: gauge
+      help: ATA error number for this disk from S.M.A.R.T read. - 1.3.6.1.4.1.4526.22.3.1.6
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskCapacity
+      oid: 1.3.6.1.4.1.4526.22.3.1.7
+      type: DisplayString
+      help: The capacity of the disk in bytes. - 1.3.6.1.4.1.4526.22.3.1.7
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskInterface
+      oid: 1.3.6.1.4.1.4526.22.3.1.8
+      type: DisplayString
+      help: The disk connect interface, such as SATA, USB etc. - 1.3.6.1.4.1.4526.22.3.1.8
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskState
+      oid: 1.3.6.1.4.1.4526.22.3.1.9
+      type: DisplayString
+      help: The current state of the Disk - 1.3.6.1.4.1.4526.22.3.1.9
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: diskTemperature
+      oid: 1.3.6.1.4.1.4526.22.3.1.10
+      type: gauge
+      help: temperature of this disk(in Fahrenheit unit). - 1.3.6.1.4.1.4526.22.3.1.10
+      indexes:
+      - labelname: diskNumber
+        type: gauge
+    - name: fanNumber
+      oid: 1.3.6.1.4.1.4526.22.4.1.1
+      type: gauge
+      help: Instance number of this fan entry. - 1.3.6.1.4.1.4526.22.4.1.1
+      indexes:
+      - labelname: fanNumber
+        type: gauge
+    - name: fanRPM
+      oid: 1.3.6.1.4.1.4526.22.4.1.2
+      type: gauge
+      help: The current speed of the fan. - 1.3.6.1.4.1.4526.22.4.1.2
+      indexes:
+      - labelname: fanNumber
+        type: gauge
+    - name: fanStatus
+      oid: 1.3.6.1.4.1.4526.22.4.1.3
+      type: DisplayString
+      help: The status of Fan - 1.3.6.1.4.1.4526.22.4.1.3
+      indexes:
+      - labelname: fanNumber
+        type: gauge
+    - name: fanType
+      oid: 1.3.6.1.4.1.4526.22.4.1.4
+      type: DisplayString
+      help: 'What fan is used for: SYS: for system board CPU: for CPU CASE: for system
+        case - 1.3.6.1.4.1.4526.22.4.1.4'
+      indexes:
+      - labelname: fanNumber
+        type: gauge
+    - name: temperatureNumber
+      oid: 1.3.6.1.4.1.4526.22.5.1.1
+      type: gauge
+      help: Instance number of this temperature probe entry. - 1.3.6.1.4.1.4526.22.5.1.1
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: temperatureValue
+      oid: 1.3.6.1.4.1.4526.22.5.1.2
+      type: gauge
+      help: The current temperature of this probe (in Fahrenheit unit). - 1.3.6.1.4.1.4526.22.5.1.2
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: temperatureTyoe
+      oid: 1.3.6.1.4.1.4526.22.5.1.3
+      type: DisplayString
+      help: The current temperature refer to - 1.3.6.1.4.1.4526.22.5.1.3
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: temperatureMin
+      oid: 1.3.6.1.4.1.4526.22.5.1.4
+      type: gauge
+      help: The min temperature of this probe (in Fahrenheit unit). - 1.3.6.1.4.1.4526.22.5.1.4
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: temperatureMax
+      oid: 1.3.6.1.4.1.4526.22.5.1.5
+      type: gauge
+      help: The max temperature of this probe (in Fahrenheit unit). - 1.3.6.1.4.1.4526.22.5.1.5
+      indexes:
+      - labelname: temperatureNumber
+        type: gauge
+    - name: volumeNumber
+      oid: 1.3.6.1.4.1.4526.22.7.1.1
+      type: gauge
+      help: Instance number of the volume entry. - 1.3.6.1.4.1.4526.22.7.1.1
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeName
+      oid: 1.3.6.1.4.1.4526.22.7.1.2
+      type: DisplayString
+      help: The name of the volume. - 1.3.6.1.4.1.4526.22.7.1.2
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeRAIDLevel
+      oid: 1.3.6.1.4.1.4526.22.7.1.3
+      type: DisplayString
+      help: The RAID level of the volume. - 1.3.6.1.4.1.4526.22.7.1.3
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeStatus
+      oid: 1.3.6.1.4.1.4526.22.7.1.4
+      type: DisplayString
+      help: The severity of the volume - 1.3.6.1.4.1.4526.22.7.1.4
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeSize
+      oid: 1.3.6.1.4.1.4526.22.7.1.5
+      type: gauge
+      help: The size of the volume in megabytes. - 1.3.6.1.4.1.4526.22.7.1.5
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: volumeFreeSpace
+      oid: 1.3.6.1.4.1.4526.22.7.1.6
+      type: gauge
+      help: Free space on the volume in megabytes. - 1.3.6.1.4.1.4526.22.7.1.6
+      indexes:
+      - labelname: volumeNumber
+        type: gauge
+    - name: psuNumber
+      oid: 1.3.6.1.4.1.4526.22.8.1.1
+      type: gauge
+      help: Instance number of this power supply unit. - 1.3.6.1.4.1.4526.22.8.1.1
+      indexes:
+      - labelname: psuNumber
+        type: gauge
+    - name: psuDesc
+      oid: 1.3.6.1.4.1.4526.22.8.1.2
+      type: DisplayString
+      help: The description of this PSU. - 1.3.6.1.4.1.4526.22.8.1.2
+      indexes:
+      - labelname: psuNumber
+        type: gauge
+    - name: psuStatus
+      oid: 1.3.6.1.4.1.4526.22.8.1.3
+      type: DisplayString
+      help: The current PSU status. - 1.3.6.1.4.1.4526.22.8.1.3
+      indexes:
+      - labelname: psuNumber
+        type: gauge
+    - name: controllerNameEv
+      oid: 1.3.6.1.4.1.4526.22.200.201
+      type: DisplayString
+      help: Controller Name for which trap is generated. - 1.3.6.1.4.1.4526.22.200.201
+    - name: channelNumberEv
+      oid: 1.3.6.1.4.1.4526.22.200.202
+      type: gauge
+      help: Channel Number for which trap is generated. - 1.3.6.1.4.1.4526.22.200.202
+    - name: targetIDEv
+      oid: 1.3.6.1.4.1.4526.22.200.203
+      type: gauge
+      help: SCSI ID of the device for which trap is generated. - 1.3.6.1.4.1.4526.22.200.203
+    - name: virtualDiskNameEv
+      oid: 1.3.6.1.4.1.4526.22.200.204
+      type: DisplayString
+      help: Virtual Disk for which trap is generated. - 1.3.6.1.4.1.4526.22.200.204
+    - name: arrayDiskNameEv
+      oid: 1.3.6.1.4.1.4526.22.200.205
+      type: DisplayString
+      help: Array Disk for which trap is generated. - 1.3.6.1.4.1.4526.22.200.205
+    - name: oldVDConfigEv
+      oid: 1.3.6.1.4.1.4526.22.200.206
+      type: DisplayString
+      help: Current Virtual Disk configuration for which trap is generated - 1.3.6.1.4.1.4526.22.200.206
+    - name: newVDConfigEv
+      oid: 1.3.6.1.4.1.4526.22.200.207
+      type: DisplayString
+      help: New Virtual Disk configuration for which trap is generated. - 1.3.6.1.4.1.4526.22.200.207
+    - name: enclosureNumberEv
+      oid: 1.3.6.1.4.1.4526.22.200.208
+      type: gauge
+      help: Enclosure Number for which trap is generated. - 1.3.6.1.4.1.4526.22.200.208
+    - name: unitNumberEv
+      oid: 1.3.6.1.4.1.4526.22.200.209
+      type: gauge
+      help: Unit Number for which trap is generated - 1.3.6.1.4.1.4526.22.200.209
+    - name: enclosureNameEv
+      oid: 1.3.6.1.4.1.4526.22.200.210
+      type: DisplayString
+      help: Enclosure Name for which trap is generated. - 1.3.6.1.4.1.4526.22.200.210
+    - name: unitNameEv
+      oid: 1.3.6.1.4.1.4526.22.200.211
+      type: DisplayString
+      help: Unit Number for which trap is generated - 1.3.6.1.4.1.4526.22.200.211
+    - name: timeEv
+      oid: 1.3.6.1.4.1.4526.22.200.212
+      type: gauge
+      help: Amount of time specified in the trap message. - 1.3.6.1.4.1.4526.22.200.212
+    - name: volumeNameEv
+      oid: 1.3.6.1.4.1.4526.22.200.213
+      type: DisplayString
+      help: Volume Drive Letter for which trap is generated. - 1.3.6.1.4.1.4526.22.200.213
+    - name: fanFailureMesg
+      oid: 1.3.6.1.4.1.4526.22.400
+      type: DisplayString
+      help: Failure message for Fan - 1.3.6.1.4.1.4526.22.400
+    - name: tempFailureMesg
+      oid: 1.3.6.1.4.1.4526.22.401
+      type: DisplayString
+      help: Failure message for system temperature - 1.3.6.1.4.1.4526.22.401
+    - name: powerVoltageMesg
+      oid: 1.3.6.1.4.1.4526.22.402
+      type: DisplayString
+      help: Failure message for system power - 1.3.6.1.4.1.4526.22.402
+    - name: raidEventNoticeMesg
+      oid: 1.3.6.1.4.1.4526.22.403
+      type: DisplayString
+      help: RAID hotplug event message - 1.3.6.1.4.1.4526.22.403
+    - name: snapshotEventNoticeMesg
+      oid: 1.3.6.1.4.1.4526.22.404
+      type: DisplayString
+      help: Snapshot messages - 1.3.6.1.4.1.4526.22.404
+    - name: upsEventNoticeMesg
+      oid: 1.3.6.1.4.1.4526.22.405
+      type: DisplayString
+      help: UPS status message - 1.3.6.1.4.1.4526.22.405
+    - name: hotplugDiskNoticeMesg
+      oid: 1.3.6.1.4.1.4526.22.406
+      type: DisplayString
+      help: Disk hotplug event messages - 1.3.6.1.4.1.4526.22.406
+    - name: volumeNoticeMesg
+      oid: 1.3.6.1.4.1.4526.22.407
+      type: DisplayString
+      help: Disk usage warning - 1.3.6.1.4.1.4526.22.407
+    - name: diskTempWarningMesg
+      oid: 1.3.6.1.4.1.4526.22.408
+      type: DisplayString
+      help: Disk temperature warning messages - 1.3.6.1.4.1.4526.22.408
+    - name: backupNoticeMesg
+      oid: 1.3.6.1.4.1.4526.22.409
+      type: DisplayString
+      help: Backup job status messages - 1.3.6.1.4.1.4526.22.409
+    - name: diskSmartWarningMesg
+      oid: 1.3.6.1.4.1.4526.22.410
+      type: DisplayString
+      help: Disk SMART messages - 1.3.6.1.4.1.4526.22.410
+    - name: psuWarningMesg
+      oid: 1.3.6.1.4.1.4526.22.411
+      type: DisplayString
+      help: PSU status messages - 1.3.6.1.4.1.4526.22.411
   servertech_sentry3:
     walk:
     - 1.3.6.1.4.1.1718.3.2.2
