@@ -1,3 +1,21 @@
+## 0.25.0 / 2023-11-24
+
+* [ENHANCEMENT] generator: Add support for subsequent address family #782
+* [ENHANCEMENT] generator: Fix lookups to match OIDs closer to the index OID. #828
+* [FEATURE] Add a scaling factor #1026
+* [FEATURE] generator: Enable passing input file, output file, and mibs dir as flags #1028
+* [FEATURE] Add an offset factor #1029
+* [BUGFIX] Fix and optimize generator Docker image building #1045
+
+snmp.yml changes:
+
+* Override `bsnAPName` to DisplayString #660
+* Import TP-Link EAP MIB  #833
+* Updated Mikrotik neighbor indexes make them unique #986
+* Update PowerNet MIB to v4.5.1 #1003
+* Refactor HOST-RESOURCES-MIB #1027
+* Update keepalived MIB files to latest version #1044
+
 ## 0.24.1 / 2023-09-01
 
 * [BUGFIX] Remove auth label from collection metric #981
