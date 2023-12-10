@@ -1,4 +1,4 @@
-## 0.25.0 / 2023-11-24
+## 0.25.0 / 2023-12-10
 
 * [ENHANCEMENT] generator: Add support for subsequent address family #782
 * [ENHANCEMENT] generator: Fix lookups to match OIDs closer to the index OID. #828
