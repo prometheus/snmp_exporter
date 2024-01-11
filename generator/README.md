@@ -86,8 +86,8 @@ auths:
     version: 2  # SNMP version to use. Defaults to 2.
                 # 1 will use GETNEXT, 2 and 3 use GETBULK.
 
-    # Community string is used with SNMP v1 and v2. Defaults to "public_v2".
-    community: public_v2
+    # Community string is used with SNMP v1 and v2. Defaults to "public".
+    community: public
 
     # v3 has different and more complex settings.
     # Which are required depends on the security_level.
