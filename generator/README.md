@@ -11,7 +11,7 @@ Due to the dynamic dependency on NetSNMP, you must build the generator yourself.
 # Debian-based distributions.
 sudo apt-get install unzip build-essential libsnmp-dev # Debian-based distros
 # Redhat-based distributions.
-sudo yum install gcc gcc-g++ make net-snmp net-snmp-utils net-snmp-libs net-snmp-devel # RHEL-based distros
+sudo yum install gcc make net-snmp net-snmp-utils net-snmp-libs net-snmp-devel # RHEL-based distros
 
 git clone https://github.com/prometheus/snmp_exporter.git
 cd snmp_exporter/generator
