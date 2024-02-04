@@ -530,6 +530,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				metric.RegexpExtracts = params.RegexpExtracts
 				metric.Offset = params.Offset
 				metric.Scale = params.Scale
+				if params.Help != "" {
+					metric.Help = params.Help
+				}
 			}
 		}
 	}

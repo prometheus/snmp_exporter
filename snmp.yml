@@ -23309,8 +23309,8 @@ modules:
     - name: st4TempSensorValue
       oid: 1.3.6.1.4.1.1718.4.1.9.3.1.1
       type: gauge
-      help: The measured temperature on the sensor in tenth degrees using the scale
-        selected by st4TempSensorScale - 1.3.6.1.4.1.1718.4.1.9.3.1.1
+      help: The measured temperature on the sensor in degrees using the scale selected
+        by st4TempSensorScale - 1.3.6.1.4.1.1718.4.1.9.3.1.1
       indexes:
       - labelname: st4UnitIndex
         type: gauge

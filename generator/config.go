@@ -32,6 +32,7 @@ type MetricOverrides struct {
 	Offset         float64                           `yaml:"offset,omitempty"`
 	Scale          float64                           `yaml:"scale,omitempty"`
 	Type           string                            `yaml:"type,omitempty"`
+	Help           string                            `yaml:"help,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.

@@ -182,6 +182,7 @@ func TestGenerateConfigModule(t *testing.T) {
 	overrides := make(map[string]MetricOverrides)
 	overrides["root"] = MetricOverrides{
 		RegexpExtracts: strMetrics,
+		Help:           "help override",
 	}
 
 	cases := []struct {
@@ -189,7 +190,7 @@ func TestGenerateConfigModule(t *testing.T) {
 		cfg  *ModuleConfig  // SNMP generator config.
 		out  *config.Module // SNMP exporter config.
 	}{
-		// Simple metric with Regexp override.
+		// Simple metric with Regexp and Help override.
 		{
 			node: &Node{Oid: "1", Access: "ACCESS_READONLY", Type: "INTEGER", Label: "root"},
 			cfg: &ModuleConfig{
@@ -203,7 +204,7 @@ func TestGenerateConfigModule(t *testing.T) {
 						Name:           "root",
 						Oid:            "1",
 						Type:           "gauge",
-						Help:           " - 1",
+						Help:           "help override",
 						RegexpExtracts: strMetrics,
 					},
 				},
