@@ -48,10 +48,6 @@ func (g *GoSNMPWrapper) SetOptions(fns ...func(*gosnmp.GoSNMP)) {
 	}
 }
 
-func (g *GoSNMPWrapper) GetVersion() gosnmp.SnmpVersion {
-	return g.c.Version
-}
-
 func (g *GoSNMPWrapper) Connect() error {
 	st := time.Now()
 	err := g.c.Connect()

@@ -81,7 +81,7 @@ type ScrapeResults struct {
 	pdus []gosnmp.SnmpPDU
 }
 
-func ScrapeTarget(snmp scraper.SNMPScraper, target string, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
+func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
 	results := ScrapeResults{}
 	// Evaluate rules.
 	newGet := module.Get
@@ -109,11 +109,11 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, module *config.Module
 		newGet = newCfg
 	}
 
-	version := snmp.GetVersion()
+	version := auth.Version
 	getOids := newGet
 	maxOids := int(module.WalkParams.MaxRepetitions)
 	// Max Repetition can be 0, maxOids cannot. SNMPv1 can only report one OID error per call.
-	if maxOids == 0 || version == gosnmp.Version1 {
+	if maxOids == 0 || version == 1 {
 		maxOids = 1
 	}
 	for len(getOids) > 0 {
@@ -127,7 +127,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, module *config.Module
 			return results, err
 		}
 		// SNMPv1 will return packet error for unsupported OIDs.
-		if packet.Error == gosnmp.NoSuchName && version == gosnmp.Version1 {
+		if packet.Error == gosnmp.NoSuchName && version == 1 {
 			level.Debug(logger).Log("msg", "OID not supported by target", "oids", getOids[0])
 			getOids = getOids[oids:]
 			continue
@@ -346,7 +346,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger log.Logger, clien
 	)
 	start := time.Now()
 	moduleLabel := prometheus.Labels{"module": module.name}
-	results, err := ScrapeTarget(client, c.target, module.Module, logger, c.metrics)
+	results, err := ScrapeTarget(client, c.target, c.auth, module.Module, logger, c.metrics)
 	if err != nil {
 		level.Info(logger).Log("msg", "Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, moduleLabel), err)

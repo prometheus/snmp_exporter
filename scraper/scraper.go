@@ -9,6 +9,5 @@ type SNMPScraper interface {
 	WalkAll(string) ([]gosnmp.SnmpPDU, error)
 	Connect() error
 	Close() error
-	GetVersion() gosnmp.SnmpVersion
 	SetOptions(...func(*gosnmp.GoSNMP))
 }
