@@ -95,7 +95,7 @@ docker:
 
 .PHONY: docker-generate
 docker-generate: docker mibs
-	docker run -ti -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" generate
+	docker run -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" generate
 
 .PHONY: docker-publish
 docker-publish:
