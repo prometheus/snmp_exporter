@@ -26,6 +26,7 @@ import (
 	io_prometheus_client "github.com/prometheus/client_model/go"
 
 	"github.com/prometheus/snmp_exporter/config"
+	"github.com/prometheus/snmp_exporter/scraper"
 )
 
 func TestPduToSample(t *testing.T) {
@@ -1399,5 +1400,41 @@ func TestAddAllowedIndices(t *testing.T) {
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("addAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}
+	}
+}
+
+func TestScrapeTarget(t *testing.T) {
+	mock := &scraper.MockSNMPScraper{
+		GetResponses: map[string]*gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Value: "Test Device"}, // sysDescr
+			// sysUpTime undefined
+		},
+		WalkAllResponses: map[string]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.2.2.1.2.1": {Type: gosnmp.OctetString, Value: "Interface 1"}, // ifDescr
+			"1.3.6.1.2.1.2.2.1.2.2": {Type: gosnmp.OctetString, Value: "Interface 2"}, // ifDescr
+			// ifType undefined
+		},
+	}
+
+	auth := &config.Auth{
+		Version: 2,
+	}
+	module := &config.Module{
+		Get: []string{
+			"1.3.6.1.2.1.1.1.0", // sysDescr
+			"1.3.6.1.2.1.1.3.0", // sysUpTime
+		},
+		Walk: []string{
+			"1.3.6.1.2.1.2.2.1.2", // ifDescr
+			"1.3.6.1.2.1.2.2.1.3", // ifType
+		},
+	}
+	results, err := ScrapeTarget(mock, "someTarget", auth, module, log.NewNopLogger(), Metrics{})
+	if err != nil {
+		t.Errorf("ScrapeTarget returned an error: %v", err)
+	}
+	expectedPdusLen := 3
+	if len(results.pdus) != expectedPdusLen {
+		t.Errorf("Expected %d PDUs, got %d", expectedPdusLen, len(results.pdus))
 	}
 }
