@@ -408,44 +408,57 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 	if workerCount < 1 {
 		workerCount = 1
 	}
+	ctx, cancel := context.WithCancel(c.ctx)
+	defer cancel()
 	workerChan := make(chan *NamedModule)
 	for i := 0; i < workerCount; i++ {
 		wg.Add(1)
 		go func(i int) {
+			defer wg.Done()
 			logger := log.With(c.logger, "worker", i)
 			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress)
 			if err != nil {
-				level.Info(logger).Log("msg", "Error creating scraper", "err", err)
-				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error creating GoSNMPWrapper", nil, nil), err)
+				level.Info(logger).Log("msg", err)
+				cancel()
+				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error during initialisation of the Worker", nil, nil), err)
 				return
 			}
 			// Set the options.
 			client.SetOptions(func(g *gosnmp.GoSNMP) {
-				g.Context = c.ctx
+				g.Context = ctx
 				c.auth.ConfigureSNMP(g)
 			})
-			err = client.Connect()
-			if err != nil {
+			if err = client.Connect(); err != nil {
 				level.Info(logger).Log("msg", "Error connecting to target", "err", err)
 				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error connecting to target", nil, nil), err)
+				cancel()
 				return
 			}
 			defer client.Close()
-			defer wg.Done()
 			for m := range workerChan {
-				logger := log.With(c.logger, "module", m.name)
-				level.Debug(logger).Log("msg", "Starting scrape")
+				_logger := log.With(logger, "module", m.name)
+				level.Debug(_logger).Log("msg", "Starting scrape")
 				start := time.Now()
-				c.collect(ch, logger, client, m)
+				c.collect(ch, _logger, client, m)
 				duration := time.Since(start).Seconds()
-				level.Debug(logger).Log("msg", "Finished scrape", "duration_seconds", duration)
+				level.Debug(_logger).Log("msg", "Finished scrape", "duration_seconds", duration)
 				c.metrics.SNMPCollectionDuration.WithLabelValues(m.name).Observe(duration)
 			}
 		}(i)
 	}
 
+	done := false
 	for _, module := range c.modules {
-		workerChan <- module
+		if done {
+			break
+		}
+		select {
+		case <-ctx.Done():
+			done = true
+			level.Debug(c.logger).Log("msg", "Context canceled", "err", ctx.Err(), "module", module.name)
+		case workerChan <- module:
+			level.Debug(c.logger).Log("msg", "Sent module to worker", "module", module.name)
+		}
 	}
 	close(workerChan)
 	wg.Wait()
