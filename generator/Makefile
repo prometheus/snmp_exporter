@@ -14,7 +14,7 @@
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-CURL_OPTS ?= -L --no-progress-meter --retry 3 --retry-delay 3 --fail
+CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail
 
 REPO_TAG ?= $(shell git rev-parse --abbrev-ref HEAD)
 
@@ -95,7 +95,7 @@ docker:
 
 .PHONY: docker-generate
 docker-generate: docker mibs
-	docker run -ti -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" generate
+	docker run -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" generate
 
 .PHONY: docker-publish
 docker-publish:

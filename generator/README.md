@@ -11,7 +11,7 @@ Due to the dynamic dependency on NetSNMP, you must build the generator yourself.
 # Debian-based distributions.
 sudo apt-get install unzip build-essential libsnmp-dev # Debian-based distros
 # Redhat-based distributions.
-sudo yum install gcc gcc-g++ make net-snmp net-snmp-utils net-snmp-libs net-snmp-devel # RHEL-based distros
+sudo yum install gcc make net-snmp net-snmp-utils net-snmp-libs net-snmp-devel # RHEL-based distros
 
 git clone https://github.com/prometheus/snmp_exporter.git
 cd snmp_exporter/generator
@@ -86,8 +86,8 @@ auths:
     version: 2  # SNMP version to use. Defaults to 2.
                 # 1 will use GETNEXT, 2 and 3 use GETBULK.
 
-    # Community string is used with SNMP v1 and v2. Defaults to "public_v2".
-    community: public_v2
+    # Community string is used with SNMP v1 and v2. Defaults to "public".
+    community: public
 
     # v3 has different and more complex settings.
     # Which are required depends on the security_level.
@@ -100,7 +100,7 @@ auths:
                     # Required if security_level is authNoPriv or authPriv.
     auth_protocol: MD5  # MD5, SHA, SHA224, SHA256, SHA384, or SHA512. Defaults to MD5. -a option to NetSNMP.
                         # Used if security_level is authNoPriv or authPriv.
-    priv_protocol: DES  # DES, AES, AES192, or AES256. Defaults to DES. -x option to NetSNMP.
+    priv_protocol: DES  # DES, AES, AES192, AES256, AES192C, or AES256C. Defaults to DES. -x option to NetSNMP.
                         # Used if security_level is authPriv.
     priv_password: otherPass # Has no default. Also known as privKey, -X option to NetSNMP.
                              # Required if security_level is authPriv.

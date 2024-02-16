@@ -45,10 +45,11 @@ const (
 )
 
 var (
-	configFile  = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").Strings()
-	dryRun      = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
-	concurrency = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
-	metricsPath = kingpin.Flag(
+	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").Strings()
+	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
+	concurrency   = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
+	expandEnvVars = kingpin.Flag("config.expand-environment-variables", "Expand environment variables to source secrets").Default("false").Bool()
+	metricsPath   = kingpin.Flag(
 		"web.telemetry-path",
 		"Path under which to expose metrics.",
 	).Default("/metrics").String()
@@ -165,8 +166,8 @@ type SafeConfig struct {
 	C *config.Config
 }
 
-func (sc *SafeConfig) ReloadConfig(configFile []string) (err error) {
-	conf, err := config.LoadFile(configFile)
+func (sc *SafeConfig) ReloadConfig(configFile []string, expandEnvVars bool) (err error) {
+	conf, err := config.LoadFile(configFile, expandEnvVars)
 	if err != nil {
 		return err
 	}
@@ -197,7 +198,7 @@ func main() {
 	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
 
 	// Bail early if the config is bad.
-	err := sc.ReloadConfig(*configFile)
+	err := sc.ReloadConfig(*configFile, *expandEnvVars)
 	if err != nil {
 		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
 		level.Error(logger).Log("msg", "Possible old config file, see https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
@@ -217,13 +218,13 @@ func main() {
 		for {
 			select {
 			case <-hup:
-				if err := sc.ReloadConfig(*configFile); err != nil {
+				if err := sc.ReloadConfig(*configFile, *expandEnvVars); err != nil {
 					level.Error(logger).Log("msg", "Error reloading config", "err", err)
 				} else {
 					level.Info(logger).Log("msg", "Loaded config file")
 				}
 			case rc := <-reloadCh:
-				if err := sc.ReloadConfig(*configFile); err != nil {
+				if err := sc.ReloadConfig(*configFile, *expandEnvVars); err != nil {
 					level.Error(logger).Log("msg", "Error reloading config", "err", err)
 					rc <- err
 				} else {

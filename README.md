@@ -123,6 +123,8 @@ using SNMP v2 GETBULK.
 The `--config.file` parameter can be used multiple times to load more than one file.
 It also supports [glob filename matching](https://pkg.go.dev/path/filepath#Glob), e.g. `snmp*.yml`.
 
+When `--config.expand-environment-variables` parameter is set to `true`, `username`, `password` & `priv_password` could be resolved from the environment variables. Defaults to false.
+
 Duplicate `module` or `auth` entries are treated as invalid and can not be loaded.
 
 ## Prometheus Configuration
@@ -154,6 +156,20 @@ scrape_configs:
   - job_name: 'snmp_exporter'
     static_configs:
       - targets: ['localhost:9116']
+```
+
+You could pass `username`, `password` & `priv_password` via environment variables of your choice in below format. 
+If the variables exist in the environment, they are resolved on the fly otherwise the string in the config file is passed as-is.
+```YAML
+auths:
+  with_secret:
+    community: mysecret
+    security_level: SomethingReadOnly
+    username: ${env.ARISTA_USERNAME}
+    password: ${env.ARISTA_PASSWORD}
+    auth_protocol: SHA256
+    priv_protocol: AES
+    priv_password: ${env.ARISTA_PRIV_PASSWORD}
 ```
 
 Similarly to [blackbox_exporter](https://github.com/prometheus/blackbox_exporter),
