@@ -14,23 +14,41 @@
 package scraper
 
 import (
-	"strings"
-
 	"github.com/gosnmp/gosnmp"
 )
 
-type MockSNMPScraper struct {
-	GetResponses     map[string]*gosnmp.SnmpPDU
-	WalkAllResponses map[string]gosnmp.SnmpPDU
-	ConnectError     error
-	CloseError       error
+func NewMockSNMPScraper(get map[string]gosnmp.SnmpPDU, walk map[string][]gosnmp.SnmpPDU) *mockSNMPScraper {
+	return &mockSNMPScraper{
+		GetResponses:  get,
+		WalkResponses: walk,
+		callGet:       make([]string, 0),
+		callWalk:      make([]string, 0),
+	}
 }
 
-func (m *MockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
+type mockSNMPScraper struct {
+	GetResponses  map[string]gosnmp.SnmpPDU
+	WalkResponses map[string][]gosnmp.SnmpPDU
+	ConnectError  error
+	CloseError    error
+
+	callGet  []string
+	callWalk []string
+}
+
+func (m *mockSNMPScraper) CallGet() []string {
+	return m.callGet
+}
+
+func (m *mockSNMPScraper) CallWalk() []string {
+	return m.callWalk
+}
+
+func (m *mockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 	pdus := make([]gosnmp.SnmpPDU, 0, len(oids))
 	for _, oid := range oids {
 		if response, exists := m.GetResponses[oid]; exists {
-			pdus = append(pdus, *response)
+			pdus = append(pdus, response)
 		} else {
 			pdus = append(pdus, gosnmp.SnmpPDU{
 				Name:  oid,
@@ -38,6 +56,7 @@ func (m *MockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 				Value: nil,
 			})
 		}
+		m.callGet = append(m.callGet, oid)
 	}
 	return &gosnmp.SnmpPacket{
 		Variables: pdus,
@@ -45,24 +64,21 @@ func (m *MockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 	}, nil
 }
 
-func (m *MockSNMPScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
-	var pdus []gosnmp.SnmpPDU
-	for k, v := range m.WalkAllResponses {
-		if strings.HasPrefix(k, baseOID) {
-			pdus = append(pdus, v)
-		}
+func (m *mockSNMPScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
+	m.callWalk = append(m.callWalk, baseOID)
+	if pdus, exists := m.WalkResponses[baseOID]; exists {
+		return pdus, nil
 	}
-	return pdus, nil
-
+	return nil, nil
 }
 
-func (m *MockSNMPScraper) Connect() error {
+func (m *mockSNMPScraper) Connect() error {
 	return m.ConnectError
 }
 
-func (m *MockSNMPScraper) Close() error {
+func (m *mockSNMPScraper) Close() error {
 	return m.CloseError
 }
 
-func (m *MockSNMPScraper) SetOptions(...func(*gosnmp.GoSNMP)) {
+func (m *mockSNMPScraper) SetOptions(...func(*gosnmp.GoSNMP)) {
 }

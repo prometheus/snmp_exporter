@@ -1404,37 +1404,108 @@ func TestAddAllowedIndices(t *testing.T) {
 }
 
 func TestScrapeTarget(t *testing.T) {
-	mock := &scraper.MockSNMPScraper{
-		GetResponses: map[string]*gosnmp.SnmpPDU{
-			"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Value: "Test Device"}, // sysDescr
-			// sysUpTime undefined
+	cases := []struct {
+		name          string
+		module        *config.Module
+		getResponse   map[string]gosnmp.SnmpPDU
+		walkResponses map[string][]gosnmp.SnmpPDU
+		expectPdus    []gosnmp.SnmpPDU
+		getCall       []string
+		walkCall      []string
+	}{
+		{
+			name: "basic",
+			module: &config.Module{
+				Get:  []string{"1.3.6.1.2.1.1.1.0"},
+				Walk: []string{"1.3.6.1.2.1.2.2.1.2", "1.3.6.1.2.1.31.1.1.1.18"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"}, // sysDescr
+			},
+			walkResponses: map[string][]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.2.2.1.2": {
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.1", Value: "lo"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.2", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.3", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+				},
+				"1.3.6.1.2.1.31.1.1.1.18": {
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.1", Value: "lo"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.3", Value: "swp1"},
+				},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.1", Value: "lo"},
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.2", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.3", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.1", Value: "lo"},
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.3", Value: "swp1"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0"},
+			walkCall: []string{"1.3.6.1.2.1.2.2.1.2", "1.3.6.1.2.1.31.1.1.1.18"},
 		},
-		WalkAllResponses: map[string]gosnmp.SnmpPDU{
-			"1.3.6.1.2.1.2.2.1.2.1": {Type: gosnmp.OctetString, Value: "Interface 1"}, // ifDescr
-			"1.3.6.1.2.1.2.2.1.2.2": {Type: gosnmp.OctetString, Value: "Interface 2"}, // ifDescr
-			// ifType undefined
+		{
+			name: "dynamic filter",
+			module: &config.Module{
+				Get:  []string{},
+				Walk: []string{"1.3.6.1.2.1.31.1.1.1.18"},
+				Filters: []config.DynamicFilter{
+					{
+						Oid: "1.3.6.1.2.1.2.2.1.2",
+						Targets: []string{
+							"1.3.6.1.2.1.31.1.1.1.18",
+						},
+						Values: []string{"Intel Corporation 82540EM Gigabit Ethernet Controller"},
+					},
+				},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.31.1.1.1.18.2": {Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+				"1.3.6.1.2.1.31.1.1.1.18.3": {Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.3", Value: "swp1"},
+			},
+			walkResponses: map[string][]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.2.2.1.2": {
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.1", Value: "lo"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.2", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.3", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+				},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.3", Value: "swp1"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.31.1.1.1.18.2", "1.3.6.1.2.1.31.1.1.1.18.3"},
+			walkCall: []string{"1.3.6.1.2.1.2.2.1.2"},
 		},
 	}
 
-	auth := &config.Auth{
-		Version: 2,
-	}
-	module := &config.Module{
-		Get: []string{
-			"1.3.6.1.2.1.1.1.0", // sysDescr
-			"1.3.6.1.2.1.1.3.0", // sysUpTime
-		},
-		Walk: []string{
-			"1.3.6.1.2.1.2.2.1.2", // ifDescr
-			"1.3.6.1.2.1.2.2.1.3", // ifType
-		},
-	}
-	results, err := ScrapeTarget(mock, "someTarget", auth, module, log.NewNopLogger(), Metrics{})
-	if err != nil {
-		t.Errorf("ScrapeTarget returned an error: %v", err)
-	}
-	expectedPdusLen := 3
-	if len(results.pdus) != expectedPdusLen {
-		t.Errorf("Expected %d PDUs, got %d", expectedPdusLen, len(results.pdus))
+	auth := &config.Auth{Version: 2}
+	for _, c := range cases {
+		tt := c
+		t.Run(tt.name, func(t *testing.T) {
+			mock := scraper.NewMockSNMPScraper(tt.getResponse, tt.walkResponses)
+			results, err := ScrapeTarget(mock, "someTarget", auth, tt.module, log.NewNopLogger(), Metrics{})
+			if err != nil {
+				t.Errorf("ScrapeTarget returned an error: %v", err)
+			}
+			if !reflect.DeepEqual(mock.CallGet(), tt.getCall) {
+				t.Errorf("Expected get call %v, got %v", tt.getCall, mock.CallGet())
+			}
+			if !reflect.DeepEqual(mock.CallWalk(), tt.walkCall) {
+				t.Errorf("Expected walk call %v, got %v", tt.walkCall, mock.CallWalk())
+			}
+			expectedPdusLen := len(tt.expectPdus)
+			if len(results.pdus) != expectedPdusLen {
+				t.Fatalf("Expected %d PDUs, got %d", expectedPdusLen, len(results.pdus))
+			}
+
+			for i, pdu := range tt.expectPdus {
+				if !reflect.DeepEqual(pdu, results.pdus[i]) {
+					t.Errorf("Expected %v, got %v", pdu, results.pdus[i])
+				}
+			}
+		})
 	}
 }
