@@ -14,6 +14,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -24,7 +25,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func LoadFile(paths []string) (*Config, error) {
+func LoadFile(paths []string, expandEnvVars bool) (*Config, error) {
 	cfg := &Config{}
 	for _, p := range paths {
 		files, err := filepath.Glob(p)
@@ -42,6 +43,27 @@ func LoadFile(paths []string) (*Config, error) {
 			}
 		}
 	}
+
+	if expandEnvVars {
+		var err error
+		for i, auth := range cfg.Auths {
+			cfg.Auths[i].Username, err = substituteEnvVariables(auth.Username)
+			if err != nil {
+				return nil, err
+			}
+			password, err := substituteEnvVariables(string(auth.Password))
+			if err != nil {
+				return nil, err
+			}
+			cfg.Auths[i].Password.Set(password)
+			privPassword, err := substituteEnvVariables(string(auth.PrivPassword))
+			if err != nil {
+				return nil, err
+			}
+			cfg.Auths[i].PrivPassword.Set(privPassword)
+		}
+	}
+
 	return cfg, nil
 }
 
@@ -131,7 +153,6 @@ func (c Auth) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		priv = true
 	}
 	if auth {
-		usm.AuthenticationPassphrase = string(c.Password)
 		switch c.AuthProtocol {
 		case "SHA":
 			usm.AuthenticationProtocol = gosnmp.SHA
@@ -148,7 +169,6 @@ func (c Auth) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		}
 	}
 	if priv {
-		usm.PrivacyPassphrase = string(c.PrivPassword)
 		switch c.PrivProtocol {
 		case "DES":
 			usm.PrivacyProtocol = gosnmp.DES
@@ -212,6 +232,10 @@ type Lookup struct {
 
 // Secret is a string that must not be revealed on marshaling.
 type Secret string
+
+func (s *Secret) Set(value string) {
+	*s = Secret(value)
+}
 
 // Hack for creating snmp.yml with the secret.
 var (
@@ -316,4 +340,14 @@ func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 	re.Regexp = regex
 	return nil
+}
+
+func substituteEnvVariables(value string) (string, error) {
+	result := os.Expand(value, func(s string) string {
+		return os.Getenv(s)
+	})
+	if result == "" {
+		return "", errors.New(value + " environment variable not found")
+	}
+	return result, nil
 }

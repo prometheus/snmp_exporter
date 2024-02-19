@@ -14,6 +14,7 @@
 package main
 
 import (
+	"os"
 	"strings"
 	"testing"
 
@@ -22,7 +23,7 @@ import (
 
 func TestHideConfigSecrets(t *testing.T) {
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig([]string{"testdata/snmp-auth.yml"})
+	err := sc.ReloadConfig([]string{"testdata/snmp-auth.yml"}, false)
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth.yml", err)
 	}
@@ -41,7 +42,7 @@ func TestHideConfigSecrets(t *testing.T) {
 
 func TestLoadConfigWithOverrides(t *testing.T) {
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig([]string{"testdata/snmp-with-overrides.yml"})
+	err := sc.ReloadConfig([]string{"testdata/snmp-with-overrides.yml"}, false)
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-with-overrides.yml", err)
 	}
@@ -56,7 +57,7 @@ func TestLoadConfigWithOverrides(t *testing.T) {
 func TestLoadMultipleConfigs(t *testing.T) {
 	sc := &SafeConfig{}
 	configs := []string{"testdata/snmp-auth.yml", "testdata/snmp-with-overrides.yml"}
-	err := sc.ReloadConfig(configs)
+	err := sc.ReloadConfig(configs, false)
 	if err != nil {
 		t.Errorf("Error loading configs %v: %v", configs, err)
 	}
@@ -65,5 +66,59 @@ func TestLoadMultipleConfigs(t *testing.T) {
 	sc.RUnlock()
 	if err != nil {
 		t.Errorf("Error marshaling config: %v", err)
+	}
+}
+
+// When all environment variables are present
+func TestEnvSecrets(t *testing.T) {
+	os.Setenv("ENV_USERNAME", "snmp_username")
+	os.Setenv("ENV_PASSWORD", "snmp_password")
+	os.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
+	defer os.Unsetenv("ENV_USERNAME")
+	defer os.Unsetenv("ENV_PASSWORD")
+	defer os.Unsetenv("ENV_PRIV_PASSWORD")
+
+	sc := &SafeConfig{}
+	err := sc.ReloadConfig([]string{"testdata/snmp-auth-envvars.yml"}, true)
+	if err != nil {
+		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-envvars.yml", err)
+	}
+
+	// String method must not reveal authentication credentials.
+	sc.RLock()
+	c, err := yaml.Marshal(sc.C)
+	sc.RUnlock()
+	if err != nil {
+		t.Errorf("Error marshaling config: %v", err)
+	}
+
+	if strings.Contains(string(c), "mysecret") {
+		t.Fatal("config's String method reveals authentication credentials.")
+	}
+
+	// we check whether vars we set are resolved correctly in config
+	for i := range sc.C.Auths {
+		if sc.C.Auths[i].Username != "snmp_username" || sc.C.Auths[i].Password != "snmp_password" || sc.C.Auths[i].PrivPassword != "snmp_priv_password" {
+			t.Fatal("failed to resolve secrets from env vars")
+		}
+	}
+}
+
+// When environment variable(s) are absent
+func TestEnvSecretsMissing(t *testing.T) {
+	os.Setenv("ENV_PASSWORD", "snmp_password")
+	os.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
+	defer os.Unsetenv("ENV_PASSWORD")
+	defer os.Unsetenv("ENV_PRIV_PASSWORD")
+
+	sc := &SafeConfig{}
+	err := sc.ReloadConfig([]string{"testdata/snmp-auth-envvars.yml"}, true)
+	if err != nil {
+		// we check the error message pattern to determine the error
+		if strings.Contains(err.Error(), "environment variable not found") {
+			t.Logf("Error loading config as env var is not set/missing %v: %v", "testdata/snmp-auth-envvars.yml", err)
+		} else {
+			t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-envvars.yml", err)
+		}
 	}
 }

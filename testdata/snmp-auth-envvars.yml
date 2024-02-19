@@ -1,0 +1,9 @@
+auths:
+  with_secret:
+    community: mysecret
+    security_level: SomethingReadOnly
+    username: ${ENV_USERNAME}
+    password: ${ENV_PASSWORD}
+    auth_protocol: SHA256
+    priv_protocol: AES
+    priv_password: ${ENV_PRIV_PASSWORD}
