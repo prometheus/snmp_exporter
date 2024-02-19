@@ -123,7 +123,7 @@ using SNMP v2 GETBULK.
 The `--config.file` parameter can be used multiple times to load more than one file.
 It also supports [glob filename matching](https://pkg.go.dev/path/filepath#Glob), e.g. `snmp*.yml`.
 
-When `--config.expand-environment-variables` parameter is set to `true`, `username`, `password` & `priv_password` could be resolved from the environment variables. Defaults to false.
+The `--config.expand-environment-variables` parameter allows passing environment variables into some fields of the configuration file. The `username`, `password` & `priv_password` fields in the auths section are supported. Defaults to disabled.
 
 Duplicate `module` or `auth` entries are treated as invalid and can not be loaded.
 
