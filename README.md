@@ -165,14 +165,14 @@ This requires the `--config.expand-environment-variables` flag be set.
 
 ```YAML
 auths:
-  with_secret:
+  example_with_envs:
     community: mysecret
     security_level: SomethingReadOnly
-    username: ${env.ARISTA_USERNAME}
-    password: ${env.ARISTA_PASSWORD}
+    username: ${ARISTA_USERNAME}
+    password: ${ARISTA_PASSWORD}
     auth_protocol: SHA256
     priv_protocol: AES
-    priv_password: ${env.ARISTA_PRIV_PASSWORD}
+    priv_password: ${ARISTA_PRIV_PASSWORD}
 ```
 
 Similarly to [blackbox_exporter](https://github.com/prometheus/blackbox_exporter),
