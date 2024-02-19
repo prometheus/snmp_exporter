@@ -160,6 +160,9 @@ scrape_configs:
 
 You could pass `username`, `password` & `priv_password` via environment variables of your choice in below format. 
 If the variables exist in the environment, they are resolved on the fly otherwise the string in the config file is passed as-is.
+
+This requires the `--config.expand-environment-variables` flag be set.
+
 ```YAML
 auths:
   with_secret:
