@@ -275,6 +275,7 @@ type Metrics struct {
 	SNMPDuration           prometheus.Histogram
 	SNMPPackets            prometheus.Counter
 	SNMPRetries            prometheus.Counter
+	SNMPInflight           prometheus.Gauge
 }
 
 type NamedModule struct {
@@ -403,6 +404,8 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger log.Logger, clien
 
 // Collect implements Prometheus.Collector.
 func (c Collector) Collect(ch chan<- prometheus.Metric) {
+	c.metrics.SNMPInflight.Inc()
+	defer c.metrics.SNMPInflight.Dec()
 	wg := sync.WaitGroup{}
 	workerCount := c.concurrency
 	if workerCount < 1 {
