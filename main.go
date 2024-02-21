@@ -267,6 +267,13 @@ func main() {
 				Help:      "Number of SNMP packet retries.",
 			},
 		),
+		SNMPInflight: promauto.NewGauge(
+			prometheus.GaugeOpts{
+				Namespace: namespace,
+				Name:      "request_in_flight",
+				Help:      "Current number of SNMP scrapes being requested.",
+			},
+		),
 	}
 
 	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
