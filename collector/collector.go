@@ -275,6 +275,7 @@ type Metrics struct {
 	SNMPDuration           prometheus.Histogram
 	SNMPPackets            prometheus.Counter
 	SNMPRetries            prometheus.Counter
+	SNMPInflight           prometheus.Gauge
 }
 
 type NamedModule struct {
@@ -346,7 +347,9 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger log.Logger, clien
 	)
 	start := time.Now()
 	moduleLabel := prometheus.Labels{"module": module.name}
+	c.metrics.SNMPInflight.Inc()
 	results, err := ScrapeTarget(client, c.target, c.auth, module.Module, logger, c.metrics)
+	c.metrics.SNMPInflight.Dec()
 	if err != nil {
 		level.Info(logger).Log("msg", "Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, moduleLabel), err)
