@@ -419,13 +419,14 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		go func(i int) {
 			defer wg.Done()
 			logger := log.With(c.logger, "worker", i)
-			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress)
+			scrape, err := scraper.NewGoSNMP(logger, c.target, *srcAddress)
 			if err != nil {
 				level.Info(logger).Log("msg", err)
 				cancel()
 				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error during initialisation of the Worker", nil, nil), err)
 				return
 			}
+			client := scraper.NewCacheClient(scrape)
 			// Set the options.
 			client.SetOptions(func(g *gosnmp.GoSNMP) {
 				g.Context = ctx
