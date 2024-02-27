@@ -153,6 +153,7 @@ func (c Auth) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		priv = true
 	}
 	if auth {
+		usm.AuthenticationPassphrase = string(c.Password)
 		switch c.AuthProtocol {
 		case "SHA":
 			usm.AuthenticationProtocol = gosnmp.SHA
@@ -169,6 +170,7 @@ func (c Auth) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		}
 	}
 	if priv {
+		usm.PrivacyPassphrase = string(c.PrivPassword)
 		switch c.PrivProtocol {
 		case "DES":
 			usm.PrivacyProtocol = gosnmp.DES
