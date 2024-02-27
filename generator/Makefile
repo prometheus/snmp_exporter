@@ -58,7 +58,7 @@ LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/moni
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.circitor.fr/Mibs/Mib/R/READYDATAOS-MIB.mib
 
-CYBERPOWER_VERSION := 2.10
+CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
 EAP_VERSION := 1.0

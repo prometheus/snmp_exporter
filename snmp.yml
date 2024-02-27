@@ -3378,6 +3378,7 @@ modules:
     walk:
     - 1.3.6.1.4.1.3808.1.1.1
     - 1.3.6.1.4.1.3808.1.1.4
+    - 1.3.6.1.4.1.3808.1.1.5
     - 1.3.6.1.4.1.3808.1.1.6
     metrics:
     - name: upsBaseIdentModel
@@ -3739,6 +3740,11 @@ modules:
       enum_values:
         1: noOperation
         2: reset
+    - name: upsAdvanceConfigBatteryRuntimeThreshold
+      oid: 1.3.6.1.4.1.3808.1.1.1.5.2.20
+      type: gauge
+      help: When the UPS supplies battery power and the remaining runtime is lower
+        than this threshold, the UPS will sound an alarm - 1.3.6.1.4.1.3808.1.1.1.5.2.20
     - name: upsBaseControlConserveBattery
       oid: 1.3.6.1.4.1.3808.1.1.1.6.1.1
       type: gauge
@@ -4266,6 +4272,927 @@ modules:
       enum_values:
         1: normalOpen
         2: normalClose
+    - name: atsIdentName
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.1
+      type: DisplayString
+      help: The name of the ATS - 1.3.6.1.4.1.3808.1.1.5.1.1
+    - name: atsIdentModelName
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.2
+      type: DisplayString
+      help: A string identifying the model name of the Automatic Transfer Switch -
+        1.3.6.1.4.1.3808.1.1.5.1.2
+    - name: atsIdentHardwareRev
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.3
+      type: DisplayString
+      help: The hardware revision of the Automatic Transfer Switch - 1.3.6.1.4.1.3808.1.1.5.1.3
+    - name: atsIdentFirmwareRev
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.4
+      type: DisplayString
+      help: A string identifying the Automatic Transfer Switch firmware revision.
+        - 1.3.6.1.4.1.3808.1.1.5.1.4
+    - name: atsIdentSerialNumber
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.5
+      type: DisplayString
+      help: A string identifying the serial number of the Automatic Transfer Switch
+        - 1.3.6.1.4.1.3808.1.1.5.1.5
+    - name: atsIdentDateOfManufacture
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.6
+      type: DisplayString
+      help: The date when the Automatic Transfer Switch was manufactured in mm/dd/yyyy
+        format - 1.3.6.1.4.1.3808.1.1.5.1.6
+    - name: atsIdentDeviceRatingVoltage
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.7
+      type: DisplayString
+      help: A string identifing the Automatic Transfer Switch rating voltage. - 1.3.6.1.4.1.3808.1.1.5.1.7
+    - name: atsIdentDeviceRatingCurrent
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.8
+      type: gauge
+      help: This gives the device rating current in Amps - 1.3.6.1.4.1.3808.1.1.5.1.8
+    - name: atsIdentDeviceOutletNum
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.9
+      type: gauge
+      help: This gives the outlet number of the device - 1.3.6.1.4.1.3808.1.1.5.1.9
+    - name: atsIdentAgentModelName
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.10
+      type: DisplayString
+      help: A string identifying the model name of the Agent. - 1.3.6.1.4.1.3808.1.1.5.1.10
+    - name: atsIdentAgentHardwareRevision
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.11
+      type: DisplayString
+      help: The hardware revision of the Agent. - 1.3.6.1.4.1.3808.1.1.5.1.11
+    - name: atsIdentAgentFirmwareRevision
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.12
+      type: DisplayString
+      help: A string identifying the Agent firmware revision. - 1.3.6.1.4.1.3808.1.1.5.1.12
+    - name: atsIdentAgentSerialNumber
+      oid: 1.3.6.1.4.1.3808.1.1.5.1.13
+      type: DisplayString
+      help: A string identifying the serial number of the Agent. - 1.3.6.1.4.1.3808.1.1.5.1.13
+    - name: atsStatusCommStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.1
+      type: gauge
+      help: This variable returns the current communication status between the Automatic
+        Transfer Switch and the Agent. - 1.3.6.1.4.1.3808.1.1.5.2.1.1
+      enum_values:
+        1: atsNeverDiscovered
+        2: atsCommEstablished
+        3: atsCommLost
+    - name: atsStatusSelectedSource
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.2
+      type: gauge
+      help: This variable returns the current source of power. - 1.3.6.1.4.1.3808.1.1.5.2.1.2
+      enum_values:
+        1: sourceA
+        2: sourceB
+    - name: atsStatusRedundancyState
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.3
+      type: gauge
+      help: This variable returns the current redundancy state of the ATS - 1.3.6.1.4.1.3808.1.1.5.2.1.3
+      enum_values:
+        1: atsRedundancyLost
+        2: atsFullyRedundant
+    - name: atsStatusPhaseSyncStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.4
+      type: gauge
+      help: This variable returns the status of the phase sync. - 1.3.6.1.4.1.3808.1.1.5.2.1.4
+      enum_values:
+        1: inSync
+        2: outOfSync
+    - name: atsStatusDevSourceRelayStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.5
+      type: gauge
+      help: This variable returns the status of the source relay. - 1.3.6.1.4.1.3808.1.1.5.2.1.5
+      enum_values:
+        1: sourceRelayNormal
+        2: sourceRelayFail
+    - name: atsStatusDevInRelayStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.6
+      type: gauge
+      help: This variable returns the status of the input relay. - 1.3.6.1.4.1.3808.1.1.5.2.1.6
+      enum_values:
+        1: inputRelayNormal
+        2: inputRelayFail
+    - name: atsStatusDevOutRelayStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.7
+      type: gauge
+      help: This variable returns the status of the Output relay. - 1.3.6.1.4.1.3808.1.1.5.2.1.7
+      enum_values:
+        1: outputRelayNormal
+        2: outputRelayFail
+    - name: atsStatusDevLCDCommStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.8
+      type: gauge
+      help: This variable returns the communication status of the LCD. - 1.3.6.1.4.1.3808.1.1.5.2.1.8
+      enum_values:
+        1: lcdCommNormal
+        2: lcdCommFail
+    - name: atsStatusDevDB9CommStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.9
+      type: gauge
+      help: This variable returns the communication status of the DB9. - 1.3.6.1.4.1.3808.1.1.5.2.1.9
+      enum_values:
+        1: db9CommNormal
+        2: db9CommFail
+    - name: atsStatusPowerSupplyTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.1
+      type: gauge
+      help: The input identifier. - 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.1
+      indexes:
+      - labelname: atsStatusPowerSupplyTableIndex
+        type: gauge
+    - name: atsStatusPowerSupplyInputSource
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.2
+      type: gauge
+      help: The input source to the power supply. - 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.2
+      indexes:
+      - labelname: atsStatusPowerSupplyTableIndex
+        type: gauge
+      enum_values:
+        1: sourceA
+        2: sourceB
+    - name: atsStatusPowerSupply12VStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.3
+      type: gauge
+      help: This variable returns the status of the power supply A 12V in system.
+        - 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.3
+      indexes:
+      - labelname: atsStatusPowerSupplyTableIndex
+        type: gauge
+      enum_values:
+        1: powerSupplyOK
+        2: powerSupplyFailure
+    - name: atsStatusPowerSupply5VStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.4
+      type: gauge
+      help: This variable returns the status of the power supply A 5V in system. -
+        1.3.6.1.4.1.3808.1.1.5.2.1.10.1.4
+      indexes:
+      - labelname: atsStatusPowerSupplyTableIndex
+        type: gauge
+      enum_values:
+        1: powerSupplyOK
+        2: powerSupplyFailure
+    - name: atsStatusPowerSupply3p3VStatus
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.5
+      type: gauge
+      help: This variable returns the status of the power supply A 3.3V in system.
+        - 1.3.6.1.4.1.3808.1.1.5.2.1.10.1.5
+      indexes:
+      - labelname: atsStatusPowerSupplyTableIndex
+        type: gauge
+      enum_values:
+        1: powerSupplyOK
+        2: powerSupplyFailure
+    - name: atsStatusInputNum
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.1
+      type: gauge
+      help: The number of input feeds to this device - 1.3.6.1.4.1.3808.1.1.5.2.2.1
+    - name: atsStatusInputTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.1
+      type: gauge
+      help: The input identifier. - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.1
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+    - name: atsStatusInputName
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.2
+      type: DisplayString
+      help: A name given to a particular input. - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.2
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+    - name: atsStatusNumInputPhase
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.3
+      type: gauge
+      help: The number of input phases utilized in this device - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.3
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+    - name: atsStatusInputVoltageOrientation
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.4
+      type: gauge
+      help: 'The input voltage orientation: 1: unknown for this Source 2: singlePhase
+        - phase 1 voltage is between Phase 1 and Neutral - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.4'
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+      enum_values:
+        1: unknown
+        2: singlePhase
+        3: splitPhase
+        4: threePhasePhaseToNeutral
+        5: threePhasePhaseToPhase
+    - name: atsStatusInputVoltage
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.5
+      type: gauge
+      help: The input voltage in 0.1 Volt. - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.5
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+    - name: atsStatusInputFrequency
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.6
+      type: gauge
+      help: The input frequency in 0.1 Hertz. - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.6
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+    - name: atsStatusInputVolState
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.7
+      type: gauge
+      help: The input voltage status. - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.7
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+      enum_values:
+        1: normal
+        2: overVoltage
+        3: underVoltage
+    - name: atsStatusInputFreqState
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.8
+      type: gauge
+      help: The input frequency status. - 1.3.6.1.4.1.3808.1.1.5.2.2.2.1.8
+      indexes:
+      - labelname: atsStatusInputTableIndex
+        type: gauge
+      enum_values:
+        1: normal
+        2: overFrequency
+        3: underFrequency
+    - name: atsStatusInputPhaseTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.1
+      type: gauge
+      help: The input identifier. - 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.1
+      indexes:
+      - labelname: atsStatusInputPhaseTableIndex
+        type: gauge
+      - labelname: atsStatusInputPhaseIndex
+        type: gauge
+    - name: atsStatusInputPhaseIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.2
+      type: gauge
+      help: The input phase identifier. - 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.2
+      indexes:
+      - labelname: atsStatusInputPhaseTableIndex
+        type: gauge
+      - labelname: atsStatusInputPhaseIndex
+        type: gauge
+    - name: atsStatusInputPhaseVoltage
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.3
+      type: gauge
+      help: The input voltage in VAC, or -1 if it's unsupported by this Source. -
+        1.3.6.1.4.1.3808.1.1.5.2.2.3.1.3
+      indexes:
+      - labelname: atsStatusInputPhaseTableIndex
+        type: gauge
+      - labelname: atsStatusInputPhaseIndex
+        type: gauge
+    - name: atsStatusInputPhaseCurrent
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.4
+      type: gauge
+      help: The input current in amperes, or -1 if it's unsupported by this Source.
+        - 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.4
+      indexes:
+      - labelname: atsStatusInputPhaseTableIndex
+        type: gauge
+      - labelname: atsStatusInputPhaseIndex
+        type: gauge
+    - name: atsStatusInputPhasePower
+      oid: 1.3.6.1.4.1.3808.1.1.5.2.2.3.1.5
+      type: gauge
+      help: The input power in Watts, or -1 if it's unsupported by this Source. -
+        1.3.6.1.4.1.3808.1.1.5.2.2.3.1.5
+      indexes:
+      - labelname: atsStatusInputPhaseTableIndex
+        type: gauge
+      - labelname: atsStatusInputPhaseIndex
+        type: gauge
+    - name: atsConfigPreferredSource
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.1
+      type: gauge
+      help: This variable returns the preferred source of power when both sources
+        are OK. - 1.3.6.1.4.1.3808.1.1.5.3.1
+      enum_values:
+        1: sourceA
+        2: sourceB
+        3: none
+    - name: atsConfigNominalVoltage
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.2
+      type: gauge
+      help: This variable returns the nominal voltage of the input. - 1.3.6.1.4.1.3808.1.1.5.3.2
+    - name: atsConfigVoltageSensitivity
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.3
+      type: gauge
+      help: 'This variable defines the sensitivity to changes in voltage: high(1)
+        for best protection, low(3) for frequent small line voltage changes. - 1.3.6.1.4.1.3808.1.1.5.3.3'
+      enum_values:
+        1: high
+        2: medium
+        3: low
+    - name: atsConfigTransferVoltageRange
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.4
+      type: gauge
+      help: This variable defines the range of acceptable voltage from a power source
+        - 1.3.6.1.4.1.3808.1.1.5.3.4
+      enum_values:
+        1: wide
+        2: medium
+        3: narrow
+    - name: atsConfigNarrowRangeValue
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.5
+      type: gauge
+      help: To configure the Narrow Range value of acceptable voltage from a power
+        source. - 1.3.6.1.4.1.3808.1.1.5.3.5
+    - name: atsConfigMediumRangeValue
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.6
+      type: gauge
+      help: To configure the Medium Range value of acceptable voltage from a power
+        source. - 1.3.6.1.4.1.3808.1.1.5.3.6
+    - name: atsConfigWideRangeValue
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.7
+      type: gauge
+      help: To configure the Wide Range value of acceptable voltage from a power source.
+        - 1.3.6.1.4.1.3808.1.1.5.3.7
+    - name: atsConfigFrequencyDeviation
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.8
+      type: gauge
+      help: To configure the frequency deviation. - 1.3.6.1.4.1.3808.1.1.5.3.8
+    - name: atsConfigDevLCDOffTime
+      oid: 1.3.6.1.4.1.3808.1.1.5.3.9
+      type: gauge
+      help: The amount of time (in seconds) which LCD turn off automatically after
+        it remains idle for. - 1.3.6.1.4.1.3808.1.1.5.3.9
+    - name: atsCtrlResetATS
+      oid: 1.3.6.1.4.1.3808.1.1.5.4.1
+      type: gauge
+      help: Setting this variable will cause the Automatic Transfer Switch to reboot
+        or reset relative setting to default value. - 1.3.6.1.4.1.3808.1.1.5.4.1
+      enum_values:
+        1: none
+        2: rboot
+        3: reset
+    - name: atsCtrlClearEventCounts
+      oid: 1.3.6.1.4.1.3808.1.1.5.4.2
+      type: gauge
+      help: Setting this variable will clear all event counts in Automatic Transfer
+        Switch - 1.3.6.1.4.1.3808.1.1.5.4.2
+      enum_values:
+        1: none
+        2: clear
+    - name: atsLoadDevPhaseTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.1.1
+      type: gauge
+      help: The size of the Phase Table. - 1.3.6.1.4.1.3808.1.1.5.5.1.1
+    - name: atsLoadDevPhaseTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.1.2.1.1
+      type: gauge
+      help: The index to ATS phase entry. - 1.3.6.1.4.1.3808.1.1.5.5.1.2.1.1
+      indexes:
+      - labelname: atsLoadDevPhaseTableIndex
+        type: gauge
+    - name: atsLoadDevPhase
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.1.2.1.2
+      type: gauge
+      help: For single phase devices, this object will always return phase1(1) - 1.3.6.1.4.1.3808.1.1.5.5.1.2.1.2
+      indexes:
+      - labelname: atsLoadDevPhaseTableIndex
+        type: gauge
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+        4: phase1-2
+        5: phase2-3
+        6: phase3-1
+    - name: atsLoadDevPhaseMaxLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.1.2.1.3
+      type: gauge
+      help: Getting this OID will return the maximum rated power that each phase of
+        the ATS can provide - 1.3.6.1.4.1.3808.1.1.5.5.1.2.1.3
+      indexes:
+      - labelname: atsLoadDevPhaseTableIndex
+        type: gauge
+    - name: atsLoadDevBankTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.1.3
+      type: gauge
+      help: The size of the Bank Table. - 1.3.6.1.4.1.3808.1.1.5.5.1.3
+    - name: atsLoadDevBankTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.1.4.1.1
+      type: gauge
+      help: The index to the ATS bank entry. - 1.3.6.1.4.1.3808.1.1.5.5.1.4.1.1
+      indexes:
+      - labelname: atsLoadDevBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+      enum_values:
+        1: total
+        2: bank1
+        3: bank2
+        4: bank3
+    - name: atsLoadDevBankMaxLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.1.4.1.2
+      type: gauge
+      help: Getting this OID will return the maximum rated power that each bank of
+        the ATS can provide - 1.3.6.1.4.1.3808.1.1.5.5.1.4.1.2
+      indexes:
+      - labelname: atsLoadDevBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadStatusPhaseTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.1
+      type: gauge
+      help: The size of the Phase Table. - 1.3.6.1.4.1.3808.1.1.5.5.2.1
+    - name: atsLoadStatusPhaseTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.1
+      type: gauge
+      help: The index to ATS phase entry. - 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.1
+      indexes:
+      - labelname: atsLoadStatusPhaseTableIndex
+        type: gauge
+    - name: atsLoadStatusPhase
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.2
+      type: gauge
+      help: For single phase devices, this object will always return phase1(1) - 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.2
+      indexes:
+      - labelname: atsLoadStatusPhaseTableIndex
+        type: gauge
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+        4: phase1-2
+        5: phase2-3
+        6: phase3-1
+    - name: atsLoadStatusPhaseLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.3
+      type: gauge
+      help: The output current in 0.1 amperes drawn by the load on the ATS - 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.3
+      indexes:
+      - labelname: atsLoadStatusPhaseTableIndex
+        type: gauge
+    - name: atsLoadStatusPhaseLoadState
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.4
+      type: gauge
+      help: Getting this OID will return the phase load state. - 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.4
+      indexes:
+      - labelname: atsLoadStatusPhaseTableIndex
+        type: gauge
+      enum_values:
+        1: normal
+        2: lowLoad
+        3: nearOverLoad
+        4: overLoad
+    - name: atsLoadStatusPhasePower
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.5
+      type: gauge
+      help: The output power in Watts. - 1.3.6.1.4.1.3808.1.1.5.5.2.2.1.5
+      indexes:
+      - labelname: atsLoadStatusPhaseTableIndex
+        type: gauge
+    - name: atsLoadStatusBankTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.3
+      type: gauge
+      help: The size of the Bank Table. - 1.3.6.1.4.1.3808.1.1.5.5.2.3
+    - name: atsLoadStatusBankTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.1
+      type: gauge
+      help: The index to ATS bank entry. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.1
+      indexes:
+      - labelname: atsLoadStatusBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+      enum_values:
+        1: total
+        2: bank1
+        3: bank2
+        4: bank3
+    - name: atsLoadStatusBankPhase
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.2
+      type: gauge
+      help: Getting this OID will return the phase number. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.2
+      indexes:
+      - labelname: atsLoadStatusBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+        4: phase1-2
+        5: phase2-3
+        6: phase3-1
+    - name: atsLoadStatusBankLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.3
+      type: gauge
+      help: The output current in 0.1 amperes drawn by the load on the ATS - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.3
+      indexes:
+      - labelname: atsLoadStatusBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadStatusBankLoadState
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.4
+      type: gauge
+      help: Getting this OID will return the bank load state. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.4
+      indexes:
+      - labelname: atsLoadStatusBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+      enum_values:
+        1: normal
+        2: lowLoad
+        3: nearOverLoad
+        4: overLoad
+    - name: atsLoadStatusBankPower
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.5
+      type: gauge
+      help: The output power in Watts. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.5
+      indexes:
+      - labelname: atsLoadStatusBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadStatusBankEnergy
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.6
+      type: gauge
+      help: Getting this OID will return the phase/bank apparent power measured in
+        0.1 kilowatt-hours. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.6
+      indexes:
+      - labelname: atsLoadStatusBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadStatusBankStartTime
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.7
+      type: gauge
+      help: Getting this OID will return the date and time of the last energy meter
+        reset - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.7
+      indexes:
+      - labelname: atsLoadStatusBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadCfgPhaseTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.1
+      type: gauge
+      help: The size of the Phase Table. - 1.3.6.1.4.1.3808.1.1.5.5.3.1
+    - name: atsLoadCfgPhaseTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.1
+      type: gauge
+      help: The index to the ATS phase entry. - 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.1
+      indexes:
+      - labelname: atsLoadCfgPhaseTableIndex
+        type: gauge
+    - name: atsLoadCfgPhase
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.2
+      type: gauge
+      help: For single phase devices, this object will always return phase1(1) - 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.2
+      indexes:
+      - labelname: atsLoadCfgPhaseTableIndex
+        type: gauge
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+        4: phase1-2
+        5: phase2-3
+        6: phase3-1
+    - name: atsLoadCfgPhaseLowLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.3
+      type: gauge
+      help: A threshold that indicates the power consumption of the load is nearing
+        a low consumption condition - 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.3
+      indexes:
+      - labelname: atsLoadCfgPhaseTableIndex
+        type: gauge
+    - name: atsLoadCfgPhaseNearOverLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.4
+      type: gauge
+      help: A threshold that indicates the power consumption of the load is nearing
+        an overload condition - 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.4
+      indexes:
+      - labelname: atsLoadCfgPhaseTableIndex
+        type: gauge
+    - name: atsLoadCfgPhaseOverLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.5
+      type: gauge
+      help: A threshold that indicates the power consumption of the load has entered
+        an overload condition - 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.5
+      indexes:
+      - labelname: atsLoadCfgPhaseTableIndex
+        type: gauge
+    - name: atsLoadCfgPhaseOutletRestriction
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.6
+      type: gauge
+      help: This OID controls the behavior of a ATS phase when an overload condition
+        is possible and additional outlets are requested to be turned on - 1.3.6.1.4.1.3808.1.1.5.5.3.2.1.6
+      indexes:
+      - labelname: atsLoadCfgPhaseTableIndex
+        type: gauge
+      enum_values:
+        1: alwaysAllowTurnON
+        2: restrictOnNearOverload
+        3: restrictOnOverload
+    - name: atsLoadCfgBankTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.3
+      type: gauge
+      help: The size of the Bank Table. - 1.3.6.1.4.1.3808.1.1.5.5.3.3
+    - name: atsLoadCfgBankTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.1
+      type: gauge
+      help: The index to the ATS bank entry. - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.1
+      indexes:
+      - labelname: atsLoadCfgBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+      enum_values:
+        1: total
+        2: bank1
+        3: bank2
+        4: bank3
+    - name: atsLoadCfgBankLowLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.2
+      type: gauge
+      help: A threshold that indicates the power consumption of the load is nearing
+        a low consumption condition - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.2
+      indexes:
+      - labelname: atsLoadCfgBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadCfgBankNearOverLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.3
+      type: gauge
+      help: A threshold that indicates the power consumption of the load is nearing
+        an overload condition - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.3
+      indexes:
+      - labelname: atsLoadCfgBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadCfgBankOverLoad
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.4
+      type: gauge
+      help: A threshold that indicates the power consumption of the load has entered
+        an overload condition - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.4
+      indexes:
+      - labelname: atsLoadCfgBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+    - name: atsLoadCfgBankOutletRestriction
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.5
+      type: gauge
+      help: This OID controls the behavior of a ATS phase when an overload condition
+        is possible and additional outlets are requested to be turned on - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.5
+      indexes:
+      - labelname: atsLoadCfgBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+      enum_values:
+        1: alwaysAllowTurnON
+        2: restrictOnNearOverload
+        3: restrictOnOverload
+    - name: atsLoadCfgBankEnergyReset
+      oid: 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.6
+      type: gauge
+      help: Setting this OID to reset (2) will cause the bank energy meter value to
+        be reset to zero - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.6
+      indexes:
+      - labelname: atsLoadCfgBankTableIndex
+        type: gauge
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+          4: bank3
+      enum_values:
+        1: noOperation
+        2: reset
+    - name: atsOutletDevTotalOutletNum
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.1.1
+      type: gauge
+      help: The total number of outlets on the ATS. - 1.3.6.1.4.1.3808.1.1.5.6.1.1
+    - name: atsOutletDevCtrlOutletNum
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.1.2
+      type: gauge
+      help: The number of controlled outlets on the ATS. - 1.3.6.1.4.1.3808.1.1.5.6.1.2
+    - name: atsOutletDevColdStartDelay
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.1.3
+      type: gauge
+      help: The amount of delay, in seconds, between when power is provided to the
+        ATS and when the ATS provides basic master power to the outlets - 1.3.6.1.4.1.3808.1.1.5.6.1.3
+    - name: atsOutletDevColdStartState
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.1.4
+      type: gauge
+      help: The ATS outlet state after coldstart - 1.3.6.1.4.1.3808.1.1.5.6.1.4
+      enum_values:
+        1: allOn
+        2: previous
+    - name: atsOutletDevLocalCtrl
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.1.5
+      type: gauge
+      help: To configure enable or disable outlet local control function. - 1.3.6.1.4.1.3808.1.1.5.6.1.5
+      enum_values:
+        1: enable
+        2: disable
+    - name: atsOutletDevCommand
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.1.6
+      type: gauge
+      help: Setting this OID to immediateAllOn (2) will turn all outlets on immediately
+        - 1.3.6.1.4.1.3808.1.1.5.6.1.6
+      enum_values:
+        1: noCommandAll
+        2: immediateAllOn
+        3: immediateAllOff
+        4: immediateAllReboot
+        5: delayedAllOn
+        6: delayedAllOff
+        7: delayedAllReboot
+        8: cancelAllPendingCommands
+    - name: atsOutletStatusTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.2
+      type: gauge
+      help: The size of the outlet status table. - 1.3.6.1.4.1.3808.1.1.5.6.2
+    - name: atsOutletStatusTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.3.1.1
+      type: gauge
+      help: The index to the outlet entry. - 1.3.6.1.4.1.3808.1.1.5.6.3.1.1
+      indexes:
+      - labelname: atsOutletStatusTableIndex
+        type: gauge
+    - name: atsOutletStatusOutletName
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.3.1.2
+      type: DisplayString
+      help: The name of the outlet - 1.3.6.1.4.1.3808.1.1.5.6.3.1.2
+      indexes:
+      - labelname: atsOutletStatusTableIndex
+        type: gauge
+    - name: atsOutletStatusOutletState
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.3.1.3
+      type: gauge
+      help: Getting this variable will return the outlet state - 1.3.6.1.4.1.3808.1.1.5.6.3.1.3
+      indexes:
+      - labelname: atsOutletStatusTableIndex
+        type: gauge
+      enum_values:
+        1: outletStatusOn
+        2: outletStatusOff
+    - name: atsOutletStatusOutletCmdPending
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.3.1.4
+      type: gauge
+      help: Getting this variable will return the command pending state of the outlet
+        - 1.3.6.1.4.1.3808.1.1.5.6.3.1.4
+      indexes:
+      - labelname: atsOutletStatusTableIndex
+        type: gauge
+      enum_values:
+        1: outletStatusCommandPending
+        2: outletStatusNoCommandPending
+    - name: atsOutletStatusOutletPhase
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.3.1.5
+      type: gauge
+      help: The phase/s associated with this outlet - 1.3.6.1.4.1.3808.1.1.5.6.3.1.5
+      indexes:
+      - labelname: atsOutletStatusTableIndex
+        type: gauge
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+        4: phase1-2
+        5: phase2-3
+        6: phase3-1
+    - name: atsOutletStatusOutletBank
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.3.1.6
+      type: gauge
+      help: The bank associated with this outlet. - 1.3.6.1.4.1.3808.1.1.5.6.3.1.6
+      indexes:
+      - labelname: atsOutletStatusTableIndex
+        type: gauge
+    - name: atsOutletCtrlTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.4
+      type: gauge
+      help: The size of the outlet control table. - 1.3.6.1.4.1.3808.1.1.5.6.4
+    - name: atsOutletCtrlTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.5.1.1
+      type: gauge
+      help: The index to the outlet entry. - 1.3.6.1.4.1.3808.1.1.5.6.5.1.1
+      indexes:
+      - labelname: atsOutletCtrlTableIndex
+        type: gauge
+    - name: atsOutletCtrlOutletName
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.5.1.2
+      type: DisplayString
+      help: The name of the outlet - 1.3.6.1.4.1.3808.1.1.5.6.5.1.2
+      indexes:
+      - labelname: atsOutletCtrlTableIndex
+        type: gauge
+    - name: atsOutletCtrlCommand
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.5.1.3
+      type: gauge
+      help: Getting this variable will return the outlet state - 1.3.6.1.4.1.3808.1.1.5.6.5.1.3
+      indexes:
+      - labelname: atsOutletCtrlTableIndex
+        type: gauge
+      enum_values:
+        1: none
+        2: immediateOn
+        3: immediateOff
+        4: immediateReboot
+        5: delayedOn
+        6: delayedOff
+        7: delayedReboot
+        8: cancelPendingCommand
+    - name: atsOutletCfgTableSize
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.6
+      type: gauge
+      help: The size of the outlet config table. - 1.3.6.1.4.1.3808.1.1.5.6.6
+    - name: atsOutletCfgTableIndex
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.7.1.1
+      type: gauge
+      help: The index to the outlet entry. - 1.3.6.1.4.1.3808.1.1.5.6.7.1.1
+      indexes:
+      - labelname: atsOutletCfgTableIndex
+        type: gauge
+    - name: atsOutletCfgOutletName
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.7.1.2
+      type: DisplayString
+      help: The name of the outlet - 1.3.6.1.4.1.3808.1.1.5.6.7.1.2
+      indexes:
+      - labelname: atsOutletCfgTableIndex
+        type: gauge
+    - name: atsOutletCfgPowerOnTime
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.7.1.3
+      type: gauge
+      help: The amount of time (in seconds) the outlet will delay powering on at coldstart
+        or when a command that requires a turn-on delay is issued - 1.3.6.1.4.1.3808.1.1.5.6.7.1.3
+      indexes:
+      - labelname: atsOutletCfgTableIndex
+        type: gauge
+    - name: atsOutletCfgPowerOffTime
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.7.1.4
+      type: gauge
+      help: The amount of time (in seconds) the outlet will delay powering off when
+        a command that requires a turn-off delay is issued - 1.3.6.1.4.1.3808.1.1.5.6.7.1.4
+      indexes:
+      - labelname: atsOutletCfgTableIndex
+        type: gauge
+    - name: atsOutletCfgRebootDuration
+      oid: 1.3.6.1.4.1.3808.1.1.5.6.7.1.5
+      type: gauge
+      help: During a reboot sequence, power is turned off and then back on - 1.3.6.1.4.1.3808.1.1.5.6.7.1.5
+      indexes:
+      - labelname: atsOutletCfgTableIndex
+        type: gauge
     - name: ePDU2Role
       oid: 1.3.6.1.4.1.3808.1.1.6.1
       type: gauge
@@ -4859,6 +5786,27 @@ modules:
       enum_values:
         1: noOperation
         2: reset
+    - name: ePDU2PhaseInfoIndex
+      oid: 1.3.6.1.4.1.3808.1.1.6.4.3.1.1
+      type: gauge
+      help: The index to the Rack PDU phase properties table entry. - 1.3.6.1.4.1.3808.1.1.6.4.3.1.1
+      indexes:
+      - labelname: ePDU2PhaseInfoIndex
+        type: gauge
+    - name: ePDU2PhaseInfoModuleIndex
+      oid: 1.3.6.1.4.1.3808.1.1.6.4.3.1.2
+      type: gauge
+      help: The Rack PDU numeric ID. - 1.3.6.1.4.1.3808.1.1.6.4.3.1.2
+      indexes:
+      - labelname: ePDU2PhaseInfoIndex
+        type: gauge
+    - name: ePDU2PhaseInfoNumber
+      oid: 1.3.6.1.4.1.3808.1.1.6.4.3.1.3
+      type: gauge
+      help: The numeric phase ID. - 1.3.6.1.4.1.3808.1.1.6.4.3.1.3
+      indexes:
+      - labelname: ePDU2PhaseInfoIndex
+        type: gauge
     - name: ePDU2PhaseStatusIndex
       oid: 1.3.6.1.4.1.3808.1.1.6.4.4.1.1
       type: gauge
