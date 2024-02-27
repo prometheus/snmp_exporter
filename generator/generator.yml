@@ -590,11 +590,12 @@ modules:
 
 # CyberPower
 #
-# https://www.cyberpowersystems.com/product/software/mib-files/mib-v29/
+# https://www.cyberpowersystems.com/product/software/mib-files/mib-v211/
   cyberpower:
     walk:
       - 1.3.6.1.4.1.3808.1.1.1 # ups
       - 1.3.6.1.4.1.3808.1.1.4 # environmentSensor
+      - 1.3.6.1.4.1.3808.1.1.5 # ats
       - 1.3.6.1.4.1.3808.1.1.6 # ePDU2
 #
 # TP LINK EAP
