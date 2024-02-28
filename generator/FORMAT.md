@@ -23,6 +23,9 @@ modules:
      - name:  sysUpTime
        oid:   1.3.6.1.2.1.1.3
        type:  gauge
+       # The HELP text included with the scrape metrics.
+       help: The value of sysUpTime on the most recent occasion at which any one or
+         more of this entry's counters suffered a discontinuity - 1.3.6.1.4.1.30065.3.1.1.1.1.46
        # See README.md type override for a list of valid types
        # Non-numeric types are represented as a gauge with value 1, and the rendered value
        # as a label value on that gauge.
