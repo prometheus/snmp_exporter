@@ -33,6 +33,7 @@ endif
 APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet451.mib&p_Doc_Ref=APC_POWERNETMIB_451_EN
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/2d465cce2de4e67a3561d8e41e4c99b597558d4b/v2
+DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
@@ -73,6 +74,7 @@ clean:
 	rm -rvf \
 		$(MIBDIR)/* \
 		$(MIBDIR)/.cisco_v2 \
+		$(MIBDIR)/.dell \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology \
@@ -114,6 +116,7 @@ mibs: \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
+  $(MIBDIR)/.dell \
   $(MIBDIR)/ENTITY-MIB \
   $(MIBDIR)/ENTITY-SENSOR-MIB \
   $(MIBDIR)/ENTITY-STATE-MIB \
@@ -173,6 +176,14 @@ $(MIBDIR)/AIRESPACE-REF-MIB:
 $(MIBDIR)/AIRESPACE-WIRELESS-MIB:
 	@echo ">> Downloading Cisco AIRESPACE-WIRELESS-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CISCO_URL)/AIRESPACE-WIRELESS-MIB.my"
+
+$(MIBDIR)/.dell:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading dell to $(TMP)"
+	@curl $(CURL_OPTS) -H "User-Agent: snmp_exporter" -o $(TMP) $(DELL_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-*.mib
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.dell
 
 $(MIBDIR)/ENTITY-MIB:
 	@echo ">> Downloading Cisco ENTITY-MIB"
