@@ -15,6 +15,7 @@ MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
 CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail
+CURL_USER_AGENT ?= -H "User-Agent: snmp_exporter generator"
 
 REPO_TAG ?= $(shell git rev-parse --abbrev-ref HEAD)
 
@@ -180,7 +181,7 @@ $(MIBDIR)/AIRESPACE-WIRELESS-MIB:
 $(MIBDIR)/.dell:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading dell to $(TMP)"
-	@curl $(CURL_OPTS) -H "User-Agent: snmp_exporter" -o $(TMP) $(DELL_URL)
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-*.mib
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.dell
@@ -263,15 +264,15 @@ $(MIBDIR)/.net-snmp:
 
 $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
 	@echo ">> Downloading PICO-IPSEC-FLOW-MONITOR-MIB.txt"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
 
 $(MIBDIR)/PICO-SMI-MIB.txt:
 	@echo ">> Downloading PICO-SMI-MIB.txt"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-MIB.txt "$(NEC_URL)/PICO-SMI-MIB.txt"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/PICO-SMI-MIB.txt "$(NEC_URL)/PICO-SMI-MIB.txt"
 
 $(MIBDIR)/PICO-SMI-ID-MIB.txt:
 	@echo ">> Downloading PICO-SMI-ID-MIB.txt"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/PICO-SMI-ID-MIB.txt "$(NEC_URL)/PICO-SMI-ID-MIB.txt"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/PICO-SMI-ID-MIB.txt "$(NEC_URL)/PICO-SMI-ID-MIB.txt"
 
 $(MIBDIR)/.paloalto_panos:
 	$(eval TMP := $(shell mktemp))
