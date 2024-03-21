@@ -59,6 +59,7 @@ INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IP
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.circitor.fr/Mibs/Mib/R/READYDATAOS-MIB.mib
+XUPS_URL          := https://www.circitor.fr/Mibs/Mib/X/XUPS-MIB.mib
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -112,6 +113,7 @@ mibs: \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/readynas \
   $(MIBDIR)/readydataos \
+  $(MIBDIR)/XUPS-MIB.mib \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
@@ -367,3 +369,7 @@ $(MIBDIR)/readynas:
 $(MIBDIR)/readydataos:
 	@echo ">> Downloading readydataos"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/readydataos "$(READYDATAOS_URL)"
+
+$(MIBDIR)/XUPS-MIB.mib:
+	@echo ">> Downloading XUPS-MIB.mib"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/XUPS-MIB.mib "$(XUPS_URL)"
