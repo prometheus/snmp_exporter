@@ -14,7 +14,6 @@
 package main
 
 import (
-	"os"
 	"strings"
 	"testing"
 
@@ -71,12 +70,9 @@ func TestLoadMultipleConfigs(t *testing.T) {
 
 // When all environment variables are present
 func TestEnvSecrets(t *testing.T) {
-	os.Setenv("ENV_USERNAME", "snmp_username")
-	os.Setenv("ENV_PASSWORD", "snmp_password")
-	os.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
-	defer os.Unsetenv("ENV_USERNAME")
-	defer os.Unsetenv("ENV_PASSWORD")
-	defer os.Unsetenv("ENV_PRIV_PASSWORD")
+	t.Setenv("ENV_USERNAME", "snmp_username")
+	t.Setenv("ENV_PASSWORD", "snmp_password")
+	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
 
 	sc := &SafeConfig{}
 	err := sc.ReloadConfig([]string{"testdata/snmp-auth-envvars.yml"}, true)
@@ -106,10 +102,8 @@ func TestEnvSecrets(t *testing.T) {
 
 // When environment variable(s) are absent
 func TestEnvSecretsMissing(t *testing.T) {
-	os.Setenv("ENV_PASSWORD", "snmp_password")
-	os.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
-	defer os.Unsetenv("ENV_PASSWORD")
-	defer os.Unsetenv("ENV_PRIV_PASSWORD")
+	t.Setenv("ENV_PASSWORD", "snmp_password")
+	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
 
 	sc := &SafeConfig{}
 	err := sc.ReloadConfig([]string{"testdata/snmp-auth-envvars.yml"}, true)
@@ -120,5 +114,14 @@ func TestEnvSecretsMissing(t *testing.T) {
 		} else {
 			t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-envvars.yml", err)
 		}
+	}
+}
+
+// When SNMPv2 was specified without credentials
+func TestEnvSecretsNotSpecified(t *testing.T) {
+	sc := &SafeConfig{}
+	err := sc.ReloadConfig([]string{"testdata/snmp-auth-v2nocreds.yml"}, true)
+	if err != nil {
+		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-v2nocreds.yml", err)
 	}
 }

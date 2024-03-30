@@ -1,0 +1,4 @@
+auths:
+  v2_without_secret:
+    community: mysecret
+    version: 2

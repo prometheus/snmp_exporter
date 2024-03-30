@@ -47,20 +47,26 @@ func LoadFile(paths []string, expandEnvVars bool) (*Config, error) {
 	if expandEnvVars {
 		var err error
 		for i, auth := range cfg.Auths {
-			cfg.Auths[i].Username, err = substituteEnvVariables(auth.Username)
-			if err != nil {
-				return nil, err
+			if auth.Username != "" {
+				cfg.Auths[i].Username, err = substituteEnvVariables(auth.Username)
+				if err != nil {
+					return nil, err
+				}
 			}
-			password, err := substituteEnvVariables(string(auth.Password))
-			if err != nil {
-				return nil, err
+			if auth.Password != "" {
+				password, err := substituteEnvVariables(string(auth.Password))
+				if err != nil {
+					return nil, err
+				}
+				cfg.Auths[i].Password.Set(password)
 			}
-			cfg.Auths[i].Password.Set(password)
-			privPassword, err := substituteEnvVariables(string(auth.PrivPassword))
-			if err != nil {
-				return nil, err
+			if auth.PrivPassword != "" {
+				privPassword, err := substituteEnvVariables(string(auth.PrivPassword))
+				if err != nil {
+					return nil, err
+				}
+				cfg.Auths[i].PrivPassword.Set(privPassword)
 			}
-			cfg.Auths[i].PrivPassword.Set(privPassword)
 		}
 	}
 
