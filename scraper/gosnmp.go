@@ -16,6 +16,7 @@ package scraper
 import (
 	"context"
 	"fmt"
+	stdlog "log"
 	"net"
 	"strconv"
 	"strings"
@@ -31,7 +32,7 @@ type GoSNMPWrapper struct {
 	logger log.Logger
 }
 
-func NewGoSNMP(logger log.Logger, target, srcAddress string) (*GoSNMPWrapper, error) {
+func NewGoSNMP(logger log.Logger, target, srcAddress string, debug bool) (*GoSNMPWrapper, error) {
 	transport := "udp"
 	if s := strings.SplitN(target, "://", 2); len(s) == 2 {
 		transport = s[0]
@@ -51,6 +52,9 @@ func NewGoSNMP(logger log.Logger, target, srcAddress string) (*GoSNMPWrapper, er
 		Target:    target,
 		Port:      port,
 		LocalAddr: srcAddress,
+	}
+	if debug {
+		g.Logger = gosnmp.NewLogger(stdlog.New(log.NewStdlibAdapter(level.Debug(logger)), "", 0))
 	}
 	return &GoSNMPWrapper{c: g, logger: logger}, nil
 }
