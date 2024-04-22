@@ -290,6 +290,10 @@ func NewNamedModule(name string, module *config.Module) *NamedModule {
 	}
 }
 
+type ScraperOptions struct {
+	doNotCheckOIDsReturnedInOrder bool
+}
+
 type Collector struct {
 	ctx         context.Context
 	target      string
@@ -299,10 +303,11 @@ type Collector struct {
 	logger      log.Logger
 	metrics     Metrics
 	concurrency int
+        scraperOptions ScraperOptions
 }
 
-func New(ctx context.Context, target, authName string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int) *Collector {
-	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: metrics, concurrency: conc}
+func New(ctx context.Context, target, authName string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int, scraperOptions ScraperOptions) *Collector {
+	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: metrics, concurrency: conc, scraperOptions: scraperOptions}
 }
 
 // Describe implements Prometheus.Collector.
@@ -419,7 +424,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		go func(i int) {
 			defer wg.Done()
 			logger := log.With(c.logger, "worker", i)
-			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress)
+			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress, c.scraperOptions.doNotCheckOIDsReturnedInOrder)
 			if err != nil {
 				level.Info(logger).Log("msg", err)
 				cancel()

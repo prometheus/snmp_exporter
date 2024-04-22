@@ -102,6 +102,10 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporter
 		authName = "public_v2"
 	}
 
+	var scraperOptions collector.ScraperOptions
+	oidsOutOfOrder = query.Get("oids-out-of-order")
+	scraperOptions.doNotCheckOIDsReturnedInOrder = (oidsOutOfOrder == "true")
+
 	queryModule := query["module"]
 	if len(queryModule) == 0 {
 		queryModule = append(queryModule, "if_mib")
@@ -141,7 +145,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporter
 	sc.RUnlock()
 	logger = log.With(logger, "auth", authName, "target", target)
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, authName, auth, nmodules, logger, exporterMetrics, *concurrency)
+	c := collector.New(r.Context(), target, authName, auth, nmodules, logger, exporterMetrics, *concurrency, scraperOptions)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
