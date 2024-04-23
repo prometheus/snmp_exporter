@@ -92,6 +92,10 @@ is not necessary within the Prometheus configuration file.
 Metrics concerning the operation of the exporter itself are available at the
 endpoint <http://localhost:9116/metrics>.
 
+It is possible to supply an optional `snmp_context` parameter in the URL, like this:
+<http://localhost:9116/snmp?auth=my_secure_v3&module=ddwrt&target=192.0.0.8&snmp_context=vrf-mgmt>
+The `snmp_context` parameter in the URL would override the `context_name` parameter in the `snmp.yml` file.
+
 ## Multi-Module Handling
 The multi-module functionality allows you to specify multiple modules, enabling the retrieval of information from several modules in a single scrape.
 The concurrency can be specified using the snmp-exporter option `--snmp.module-concurrency` (the default is 1).

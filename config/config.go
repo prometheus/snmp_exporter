@@ -129,7 +129,7 @@ func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 // ConfigureSNMP sets the various version and auth settings.
-func (c Auth) ConfigureSNMP(g *gosnmp.GoSNMP) {
+func (c Auth) ConfigureSNMP(g *gosnmp.GoSNMP, snmpContext string) {
 	switch c.Version {
 	case 1:
 		g.Version = gosnmp.Version1
@@ -139,7 +139,12 @@ func (c Auth) ConfigureSNMP(g *gosnmp.GoSNMP) {
 		g.Version = gosnmp.Version3
 	}
 	g.Community = string(c.Community)
-	g.ContextName = c.ContextName
+
+	if snmpContext == "" {
+		g.ContextName = c.ContextName
+	} else {
+		g.ContextName = snmpContext
+	}
 
 	// v3 security settings.
 	g.SecurityModel = gosnmp.UserSecurityModel

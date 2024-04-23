@@ -299,10 +299,11 @@ type Collector struct {
 	logger      log.Logger
 	metrics     Metrics
 	concurrency int
+	snmpContext string
 }
 
-func New(ctx context.Context, target, authName string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int) *Collector {
-	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: metrics, concurrency: conc}
+func New(ctx context.Context, target, authName, snmpContext string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int) *Collector {
+	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: metrics, concurrency: conc, snmpContext: snmpContext}
 }
 
 // Describe implements Prometheus.Collector.
@@ -429,7 +430,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 			// Set the options.
 			client.SetOptions(func(g *gosnmp.GoSNMP) {
 				g.Context = ctx
-				c.auth.ConfigureSNMP(g)
+				c.auth.ConfigureSNMP(g, c.snmpContext)
 			})
 			if err = client.Connect(); err != nil {
 				level.Info(logger).Log("msg", "Error connecting to target", "err", err)
