@@ -27,6 +27,7 @@ import (
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
+	versioncollector "github.com/prometheus/client_golang/prometheus/collectors/version"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/promlog"
@@ -202,7 +203,7 @@ func main() {
 	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency)
 	level.Info(logger).Log("build_context", version.BuildContext())
 
-	prometheus.MustRegister(version.NewCollector("snmp_exporter"))
+	prometheus.MustRegister(versioncollector.NewCollector("snmp_exporter"))
 
 	// Bail early if the config is bad.
 	err := sc.ReloadConfig(*configFile, *expandEnvVars)
