@@ -300,10 +300,22 @@ type Collector struct {
 	metrics     Metrics
 	concurrency int
 	snmpContext string
+	debugSNMP   bool
 }
 
-func New(ctx context.Context, target, authName, snmpContext string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int) *Collector {
-	return &Collector{ctx: ctx, target: target, authName: authName, auth: auth, modules: modules, logger: logger, metrics: metrics, concurrency: conc, snmpContext: snmpContext}
+func New(ctx context.Context, target, authName, snmpContext string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
+	return &Collector{
+		ctx:         ctx,
+		target:      target,
+		authName:    authName,
+		auth:        auth,
+		modules:     modules,
+		snmpContext: snmpContext,
+		logger:      log.With(logger, "source_address", *srcAddress),
+		metrics:     metrics,
+		concurrency: conc,
+		debugSNMP:   debugSNMP,
+	}
 }
 
 // Describe implements Prometheus.Collector.
@@ -420,7 +432,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		go func(i int) {
 			defer wg.Done()
 			logger := log.With(c.logger, "worker", i)
-			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress)
+			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress, c.debugSNMP)
 			if err != nil {
 				level.Info(logger).Log("msg", err)
 				cancel()

@@ -49,6 +49,7 @@ var (
 	configFile    = kingpin.Flag("config.file", "Path to configuration file.").Default("snmp.yml").Strings()
 	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
 	concurrency   = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
+	debugSNMP     = kingpin.Flag("snmp.debug-packets", "Include a full debug trace of SNMP packet traffics.").Default("false").Bool()
 	expandEnvVars = kingpin.Flag("config.expand-environment-variables", "Expand environment variables to source secrets").Default("false").Bool()
 	metricsPath   = kingpin.Flag(
 		"web.telemetry-path",
@@ -85,6 +86,14 @@ const (
 
 func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporterMetrics collector.Metrics) {
 	query := r.URL.Query()
+
+	debug := *debugSNMP
+	if query.Get("snmp_debug_packets") == "true" {
+		debug = true
+		// TODO: This doesn't work the way I want.
+		// logger = level.NewFilter(logger, level.AllowDebug())
+		level.Debug(logger).Log("msg", "Debug query param enabled")
+	}
 
 	target := query.Get("target")
 	if len(query["target"]) != 1 || target == "" {
@@ -149,7 +158,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporter
 	sc.RUnlock()
 	logger = log.With(logger, "auth", authName, "target", target)
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, authName, snmpContext, auth, nmodules, logger, exporterMetrics, *concurrency)
+	c := collector.New(r.Context(), target, authName, snmpContext, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
@@ -200,7 +209,7 @@ func main() {
 		*concurrency = 1
 	}
 
-	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency)
+	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency, "debug_snmp", debugSNMP)
 	level.Info(logger).Log("build_context", version.BuildContext())
 
 	prometheus.MustRegister(versioncollector.NewCollector("snmp_exporter"))
