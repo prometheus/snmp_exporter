@@ -17,6 +17,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/alecthomas/kingpin/v2"
@@ -27,6 +28,10 @@ import (
 	"gopkg.in/yaml.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
+)
+
+var (
+	cannotFindModuleRE = regexp.MustCompile(`Cannot find module \((.+)\): (.+)`)
 )
 
 // Generate a snmp_exporter config and write it out.
@@ -95,8 +100,8 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 }
 
 var (
-	failOnParseErrors  = kingpin.Flag("fail-on-parse-errors", "Exit with a non-zero status if there are MIB parsing errors").Default("false").Bool()
-	snmpMIBOpts        = kingpin.Flag("snmp.mibopts", "Toggle various defaults controlling MIB parsing, see snmpwalk --help").String()
+	failOnParseErrors  = kingpin.Flag("fail-on-parse-errors", "Exit with a non-zero status if there are MIB parsing errors").Default("true").Bool()
+	snmpMIBOpts        = kingpin.Flag("snmp.mibopts", "Toggle various defaults controlling MIB parsing, see snmpwalk --help").Default("e").String()
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
 	userMibsDir        = kingpin.Flag("mibs-dir", "Paths to mibs directory").Default("").Short('m').Strings()
 	generatorYmlPath   = generateCommand.Flag("generator-path", "Path to the input generator.yml file").Default("generator.yml").Short('g').String()
@@ -112,30 +117,35 @@ func main() {
 	command := kingpin.Parse()
 	logger := promlog.New(promlogConfig)
 
-	parseOutput, err := initSNMP(logger)
+	output, err := initSNMP(logger)
 	if err != nil {
 		level.Error(logger).Log("msg", "Error initializing netsnmp", "err", err)
 		os.Exit(1)
 	}
 
-	parseOutput = strings.TrimSpace(parseOutput)
-	parseErrors := len(parseOutput) != 0
-	if parseErrors {
-		level.Warn(logger).Log("msg", "NetSNMP reported parse error(s)", "errors", len(strings.Split(parseOutput, "\n")))
-	}
+	parseOutput := scanParseOutput(logger, output)
+	parseErrors := len(parseOutput)
 
 	nodes := getMIBTree()
 	nameToNode := prepareTree(nodes, logger)
 
 	switch command {
 	case generateCommand.FullCommand():
-		err := generateConfig(nodes, nameToNode, logger)
-		if err != nil {
-			level.Error(logger).Log("msg", "Error generating config netsnmp", "err", err)
-			os.Exit(1)
+		if *failOnParseErrors && parseErrors > 0 {
+			level.Error(logger).Log("msg", "Failing on reported parse error(s)", "help", "Use 'generator parse_errors' command to see errors, --no-fail-on-parse-errors to ignore")
+		} else {
+			err := generateConfig(nodes, nameToNode, logger)
+			if err != nil {
+				level.Error(logger).Log("msg", "Error generating config netsnmp", "err", err)
+				os.Exit(1)
+			}
 		}
 	case parseErrorsCommand.FullCommand():
-		fmt.Println(parseOutput)
+		if parseErrors > 0 {
+			fmt.Printf("%s\n", strings.Join(parseOutput, "\n"))
+		} else {
+			level.Info(logger).Log("msg", "No parse errors")
+		}
 	case dumpCommand.FullCommand():
 		walkNode(nodes, func(n *Node) {
 			t := n.Type
@@ -150,7 +160,28 @@ func main() {
 				n.Oid, n.Label, t, n.TextualConvention, n.Hint, n.Indexes, implied, n.EnumValues, n.Description)
 		})
 	}
-	if *failOnParseErrors && parseErrors {
+	if *failOnParseErrors && parseErrors > 0 {
 		os.Exit(1)
 	}
+}
+
+func scanParseOutput(logger log.Logger, output string) []string {
+	var parseOutput []string
+	output = strings.TrimSpace(strings.ToValidUTF8(output, "�"))
+	if len(output) > 0 {
+		parseOutput = strings.Split(output, "\n")
+	}
+	parseErrors := len(parseOutput)
+
+	if parseErrors > 0 {
+		level.Warn(logger).Log("msg", "NetSNMP reported parse error(s)", "errors", parseErrors)
+	}
+
+	for _, line := range parseOutput {
+		if strings.HasPrefix(line, "Cannot find module") {
+			missing := cannotFindModuleRE.FindStringSubmatch(line)
+			level.Error(logger).Log("msg", "Missing MIB", "mib", missing[1], "from", missing[2])
+		}
+	}
+	return parseOutput
 }
