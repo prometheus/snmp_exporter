@@ -183,6 +183,8 @@ $(MIBDIR)/.dell:
 	@echo ">> Downloading dell to $(TMP)"
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-*.mib
+	# There are some additional characters behind MIB end that break parsing
+	@sed -i '$ d' $(MIBDIR)/iDRAC-SMIv1.mib
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.dell
 
