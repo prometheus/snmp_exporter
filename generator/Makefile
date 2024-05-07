@@ -142,6 +142,7 @@ mibs: \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/readynas \
   $(MIBDIR)/readydataos \
+  $(MIBDIR)/SchneiderPM55xx_V01_13.mib \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
@@ -567,3 +568,10 @@ $(MIBDIR)/.yamaha-rt:
 	@find $(MIBDIR) -name 'yamaha-*.mib.txt' | xargs sed -i.bak -z -E 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/'
 	@rm $(MIBDIR)/yamaha-*.mib.txt.bak
 	@touch $(MIBDIR)/.yamaha-rt
+
+$(MIBDIR)/SchneiderPM55xx_V01_13.mib:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading SchneiderPM55xx_V01_13.mib to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(SCHNEIDER_PM55XX_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) PM5560_PM5563_v2.1.0/SchneiderPM55xx_V01_13.mib
+	@rm -v $(TMP)
