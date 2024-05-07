@@ -375,6 +375,4 @@ $(MIBDIR)/SchneiderPM55xx_V01_13.mib:
 	@echo ">> Downloading SchneiderPM55xx_V01_13.mib to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(SCHNEIDER_PM55XX_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) PM5560_PM5563_v2.1.0/SchneiderPM55xx_V01_13.mib
-	# Workaround invalid character in Schneider MIB
-	@sed -i 's/_//g' $(MIBDIR)/SchneiderPM55xx_V01_13.mib
 	@rm -v $(TMP)
