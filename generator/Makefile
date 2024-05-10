@@ -34,7 +34,7 @@ endif
 APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet451.mib&p_Doc_Ref=APC_POWERNETMIB_451_EN
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
-DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
+DELL_URL          := https://dl.dell.com/FOLDER09279711M/1/Dell-OM-MIBS-11000_A00.zip
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
@@ -183,8 +183,6 @@ $(MIBDIR)/.dell:
 	@echo ">> Downloading dell to $(TMP)"
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-*.mib
-	# There are some additional characters behind MIB end that break parsing
-	@sed -i '$ d' $(MIBDIR)/iDRAC-SMIv1.mib
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.dell
 
