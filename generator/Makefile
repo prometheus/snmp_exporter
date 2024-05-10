@@ -184,9 +184,8 @@ $(MIBDIR)/.dell:
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-*.mib
 	# There are some additional characters behind MIB end that break parsing
-	@sed '$ d' $(MIBDIR)/iDRAC-SMIv1.mib > $(MIBDIR)/iDRAC-SMIv1.mib.temp
-	@mv $(MIBDIR)/iDRAC-SMIv1.mib.temp $(MIBDIR)/iDRAC-SMIv1.mib
-	@rm -v $(TMP)
+	@sed -i.bak -E '$d' $(MIBDIR)/iDRAC-SMIv1.mib
+	@rm -v $(TMP) $(MIBDIR)/iDRAC-SMIv1.mib.bak
 	@touch $(MIBDIR)/.dell
 
 $(MIBDIR)/ENTITY-MIB:
