@@ -1,3 +1,26 @@
+## 0.26.0 / 2024-05-08
+
+* [CHANGE] Improve generator parse error handling #1167
+* [ENHANCEMENT] generator: Add generator HELP override #1106
+* [ENHANCEMENT] Refactoring of Scrape process, fixing multiple module issues #1111
+* [ENHANCEMENT] Skip using an interactive terminal in "make docker-generate". #1113
+* [ENHANCEMENT] Add SNMPInflight metric #1119
+* [FEATURE] Support for passing username, password & priv_password as env vars #1074
+* [FEATURE] Add GoSNMP logger #1157
+* [FEATURE] Add a "snmp_context" parameter to the URL #1163
+* [BUGFIX] generator: curl failed #1094
+* [BUGFIX] Fix SNMPv3 password configuration #1122
+* [BUGFIX] generator: Update generator User-Agent #1133
+* [BUGFIX] generator: fix mibs directory specification for parse_errors command #1135
+* [BUGFIX] generator: remove extra character from dell iDrac-SMIv1 MIB #1141
+* [BUGFIX] Fix do not expand envvars for empty config fields #1148
+
+snmp.yml changes:
+* Updated Cisco MIBs #1180
+* Updated Cyberpower MIBs #1124
+* Updated servertech_sentry3 #1090
+* Added support for Dell iDrac  #1125
+
 ## 0.25.0 / 2023-12-10
 
 * [ENHANCEMENT] generator: Add support for subsequent address family #782
