@@ -117,7 +117,7 @@ mibs: \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/.dell \
+  $(MIBDIR)/iDRAC-SMIv2.mib \
   $(MIBDIR)/ENTITY-MIB \
   $(MIBDIR)/ENTITY-SENSOR-MIB \
   $(MIBDIR)/ENTITY-STATE-MIB \
@@ -178,15 +178,12 @@ $(MIBDIR)/AIRESPACE-WIRELESS-MIB:
 	@echo ">> Downloading Cisco AIRESPACE-WIRELESS-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CISCO_URL)/AIRESPACE-WIRELESS-MIB.my"
 
-$(MIBDIR)/.dell:
+$(MIBDIR)/iDRAC-SMIv2.mib:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading dell to $(TMP)"
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-*.mib
-	# There are some additional characters behind MIB end that break parsing
-	@sed -i '$ d' $(MIBDIR)/iDRAC-SMIv1.mib
+	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-SMIv2.mib
 	@rm -v $(TMP)
-	@touch $(MIBDIR)/.dell
 
 $(MIBDIR)/ENTITY-MIB:
 	@echo ">> Downloading Cisco ENTITY-MIB"
