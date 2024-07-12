@@ -628,3 +628,46 @@ modules:
   hrSWInstalled:
     walk:
       - hrSWInstalled
+
+#
+# xups
+#
+# https://www.eaton.com/content/dam/eaton/products/backup-power-ups-surge-it-power-distribution/power-management-software-connectivity/eaton-network-card-ms/eaton-ups-power-mib-release-notes.txt
+  xups:
+    max_repetitions: 5
+    walk:
+      - xupsBatCapacity
+      - xupsBatTimeRemaining
+      - xupsBatVoltage
+      - xupsBatCurrent
+      - xupsEnvAmbientTemp
+      - xupsInputTable
+      - xupsInputVoltage
+      - xupsInputFrequency
+      - xupsOutputTable
+      - xupsOutputVoltage
+      - xupsOutputFrequency
+      - xupsBypassTable
+      - xupsBypassFrequency
+      - xupsBatteryAbmStatus
+    lookups:
+      - source_indexes: [xupsInputTable]
+        lookup: xupsInputVoltage
+      - source_indexes: [xupsOutputTable]
+        lookup: xupsOutputVoltage
+      - source_indexes: [xupsBypassTable]
+        lookup: xupsBypassFrequency
+    filters:
+      static:
+        - targets:
+            - xupsBatCapacity
+            - xupsBatTimeRemaining
+            - xupsBatVoltage
+            - xupsBatCurrent
+            - xupsEnvAmbientTemp
+            - xupsInputVoltage
+            - xupsInputFrequency
+            - xupsOutputVoltage
+            - xupsOutputFrequency
+            - xupsBatteryAbmStatus
+          indices: ["0"]
