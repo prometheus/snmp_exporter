@@ -628,3 +628,77 @@ modules:
   hrSWInstalled:
     walk:
       - hrSWInstalled
+
+#
+# Schneider pm5xx MIB i
+#
+# https://ckm-content.se.com/ckmContent/sfc/servlet.shepherd/document/download/0691H00000GYnUPQA1
+  schneider_pm5xx:
+    walk:
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.2.1 # frequency
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.1 # loadCurrent
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.2 # loadCurrent
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.3 # loadCurrent
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.1 # voltage
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2 # voltage
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2 # voltage
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.1 # power
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.2 # power
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.3 # power
+      - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.4 # power total
+    overrides:
+      vVan:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      vVbn:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      vVcn:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      lcIa:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      lcIb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      lcIC:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      fFrequency:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePa:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePtot:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
