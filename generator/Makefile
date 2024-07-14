@@ -59,6 +59,9 @@ INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IP
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.circitor.fr/Mibs/Mib/R/READYDATAOS-MIB.mib
+XUPS_URL          := https://www.eaton.com/content/dam/eaton/products/backup-power-ups-surge-it-power-distribution/power-management-software-connectivity/eaton-network-card-ms/eaton-ups-power-mib-release-notes.txt
+EATON_EMP_MIB_URL := http://m.eaton.com/ecm/groups/public/@pub/@electrical/documents/content/ct_141083.txt
+EATON_OIDS_URL    := https://www.circitor.fr/Mibs/Mib/E/EATON-OIDS.mib
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -112,6 +115,7 @@ mibs: \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/readynas \
   $(MIBDIR)/readydataos \
+  $(MIBDIR)/XUPS-MIB.mib \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
@@ -367,3 +371,11 @@ $(MIBDIR)/readynas:
 $(MIBDIR)/readydataos:
 	@echo ">> Downloading readydataos"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/readydataos "$(READYDATAOS_URL)"
+
+$(MIBDIR)/XUPS-MIB.mib:
+	@echo ">> Downloading XUPS-MIB.mib"
+	@curl $(CURL_OPTS) -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0" --compressed -o $(MIBDIR)/XUPS-MIB.mib $(XUPS_URL)
+	@echo ">> Downloading EATON-EMP-MIB"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/EATON-EMP-MIB $(EATON_EMP_MIB_URL)
+	@echo ">> Downloading EATON-OIDS"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/EATON-OIDS $(EATON_OIDS_URL)
