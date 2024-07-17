@@ -26968,6 +26968,820 @@ modules:
       oid: 1.3.6.1.4.1.4526.22.411
       type: DisplayString
       help: PSU status messages - 1.3.6.1.4.1.4526.22.411
+  schleifenbauer:
+    walk:
+    - 1.3.6.1.4.1.31034.12
+    metrics:
+    - name: sdbMgmtStsDevices
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.1.1
+      type: gauge
+      help: The number of devices on the databus. - 1.3.6.1.4.1.31034.12.1.1.1.1.1
+    - name: sdbMgmtStsAddressableDevices
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.1.2
+      type: gauge
+      help: The number of devices on the databus addressable by snmp. - 1.3.6.1.4.1.31034.12.1.1.1.1.2
+    - name: sdbMgmtStsNewDevices
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.1.3
+      type: gauge
+      help: The number of new devices on the databus. - 1.3.6.1.4.1.31034.12.1.1.1.1.3
+    - name: sdbMgmtStsDuplicateDevices
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.1.4
+      type: gauge
+      help: The number of duplicate devices on the databus. - 1.3.6.1.4.1.31034.12.1.1.1.1.4
+    - name: sdbMgmtStsRingState
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.1.5
+      type: gauge
+      help: If the device is in a bridge-like mode, this will indicate the actual
+        state of the databus. - 1.3.6.1.4.1.31034.12.1.1.1.1.5
+      enum_values:
+        0: open
+        1: closed
+    - name: sdbMgmtStsRingBreachIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.1.6
+      type: gauge
+      help: Indicates the breach index if the current state of the data bus is open
+        - 1.3.6.1.4.1.31034.12.1.1.1.1.6
+    - name: sdbMgmtCtrlScan
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.1
+      type: gauge
+      help: Perform a bus scan - 1.3.6.1.4.1.31034.12.1.1.1.2.1
+      enum_values:
+        0: idle
+        1: scan
+    - name: sdbMgmtCtrlRenumberAllFromN
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.2
+      type: gauge
+      help: Renumber all devices on the databus - 1.3.6.1.4.1.31034.12.1.1.1.2.2
+    - name: sdbMgmtCtrlRenumberZeros
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.3
+      type: gauge
+      help: Renumber all devices on the databus having address 0 - 1.3.6.1.4.1.31034.12.1.1.1.2.3
+      enum_values:
+        0: idle
+        1: renumber
+    - name: sdbMgmtCtrlDevIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.1
+      type: gauge
+      help: A unique value for each device - 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.1
+      indexes:
+      - labelname: sdbMgmtCtrlDevIndex
+        type: gauge
+    - name: sdbMgmtCtrlDevUnitAddress
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.2
+      type: gauge
+      help: User defined address - 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.2
+      indexes:
+      - labelname: sdbMgmtCtrlDevIndex
+        type: gauge
+    - name: sdbMgmtCtrlDevHardwareAddress
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.3
+      type: DisplayString
+      help: Hardware serial number - 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.3
+      indexes:
+      - labelname: sdbMgmtCtrlDevIndex
+        type: gauge
+    - name: sdbMgmtCtrlDevIsNew
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.4
+      type: gauge
+      help: Indication if the device is new on the databus. - 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.4
+      indexes:
+      - labelname: sdbMgmtCtrlDevIndex
+        type: gauge
+      enum_values:
+        0: "no"
+        1: "yes"
+    - name: sdbMgmtCtrlDevIsDuplicate
+      oid: 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.5
+      type: gauge
+      help: Indication if the device is conflicting with another device on the databus.
+        - 1.3.6.1.4.1.31034.12.1.1.1.2.4.1.5
+      indexes:
+      - labelname: sdbMgmtCtrlDevIndex
+        type: gauge
+      enum_values:
+        0: "no"
+        1: "yes"
+    - name: sdbDevIdSPDMVersion
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.1
+      type: gauge
+      help: Data model version. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdFirmwareVersion
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.2
+      type: gauge
+      help: The firmware revision number. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdBuildNumber
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.3
+      type: DisplayString
+      help: Date and time the firmware was built. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdSalesOrderNumber
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.4
+      type: DisplayString
+      help: SP sales order number. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdProductId
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.5
+      type: DisplayString
+      help: SP product id. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdSerialNumber
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.6
+      type: DisplayString
+      help: SP serial number. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.6
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdHardwareAddress
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.7
+      type: DisplayString
+      help: Hardware serial number - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.7
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdMacAddress
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.8
+      type: DisplayString
+      help: The MAC address - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.8
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdUnitAddress
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.9
+      type: gauge
+      help: User defined address - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.9
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdName
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.10
+      type: DisplayString
+      help: User configurable device name or identifier. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.10
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdLocation
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.11
+      type: DisplayString
+      help: User configurable device location identifier. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.11
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdVanityTag
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.12
+      type: DisplayString
+      help: Characters to be displayed as vanity text in display. - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.12
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevIdIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.13
+      type: gauge
+      help: A unique value for each device - 1.3.6.1.4.1.31034.12.1.1.2.1.1.1.13
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevCfPhases
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.1
+      type: gauge
+      help: Number of phases for input metering. - 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevCfOutletsTotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.2
+      type: gauge
+      help: Total number of outlets including hardwired without switch/metered modules.
+        - 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevCfOutletsSwitched
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.3
+      type: gauge
+      help: Number of switched outlets - 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevCfOutletsMetered
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.4
+      type: gauge
+      help: Number of metered outlets - 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevCfSensors
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.5
+      type: gauge
+      help: The number sensors. - 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevCfMaximumLoad
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.6
+      type: gauge
+      help: Maximum rated load of device per phase - 1.3.6.1.4.1.31034.12.1.1.2.2.1.1.6
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsDeviceStatusCode
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.1
+      type: gauge
+      help: Returns an internal status or error code - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsTemperatureAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.2
+      type: gauge
+      help: An alert has been raised due to temperature exceeding treshhold - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsInputCurrentAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.3
+      type: gauge
+      help: An alert has been raised due to current exceeding treshhold - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsOutletCurrentAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.4
+      type: gauge
+      help: An alert has been raised due to current exceeding treshhold - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsInputVoltageAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.5
+      type: gauge
+      help: An alert has been raised due to a voltage dip - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsOutletCurrentDropAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.6
+      type: gauge
+      help: An alert has been raised due to the current of a metered outlet suddenly
+        dropping to near zero, possibly indicating a blown fuse - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.6
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsInputCurrentDropAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.7
+      type: gauge
+      help: An alert has been raised due to the current of a metered input suddenly
+        dropping to near zero, possibly indicating a blown fuse - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.7
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsSensorChangeAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.8
+      type: gauge
+      help: An alert has been raised due to a change in the number of sensors - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.8
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSsOutletVoltageDropAlert
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.9
+      type: gauge
+      help: An alert has been raised due to voltage drop on this outlet - 1.3.6.1.4.1.31034.12.1.1.2.3.1.1.9
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevRsReboot
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.1
+      type: gauge
+      help: Warm reboot/reset of device controller - 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: reboot
+    - name: sdbDevRsResetAlerts
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.2
+      type: gauge
+      help: Reset all alert signals and device status code. - 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: reset
+    - name: sdbDevRsZeroInputKWhSubtotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.3
+      type: gauge
+      help: Reset of all input kWh subtotal counters to zero. - 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: zero
+    - name: sdbDevRsZeroOutletKWhSubtotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.4
+      type: gauge
+      help: Reset of all outlet kWh subtotal counter to zero. - 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: zero
+    - name: sdbDevRsResetPeaksAndDips
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.5
+      type: gauge
+      help: Reset all peak and dip values to zero. - 1.3.6.1.4.1.31034.12.1.1.2.4.1.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: reset
+    - name: sdbDevStAutoResetAlerts
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.2
+      type: gauge
+      help: Auto reset alerts configuration - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevStExtendedNames
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.3
+      type: gauge
+      help: Use original or longer names for inputs, outlets and sensors. - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: disabled
+        1: enabled
+    - name: sdbDevStPeakDuration
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.4
+      type: gauge
+      help: Amount of ms a current peak should last before an alert is raised. - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevStFixedOutletDelay
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.5
+      type: gauge
+      help: Minimal delay between two successive relay switches in milliseconds -
+        1.3.6.1.4.1.31034.12.1.1.2.5.1.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevStPowerSaverMode
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.6
+      type: gauge
+      help: Set backlight on time in seconds - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.6
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevStOutletPowerUpMode
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.7
+      type: gauge
+      help: Behaviour of outlets on power-up. - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.7
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: "off"
+        1: sameState
+        2: sameStateDelayed
+    - name: sdbDevStMaximumTemperature
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.8
+      type: gauge
+      help: Maximum temperature threshold An alert will be generated whenever the
+        temperature is above this value - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.8
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevStDisplayOrientation
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.9
+      type: gauge
+      help: Display orientation. - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.9
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: noDisplay
+        1: verticalDisplayOnTop
+        2: verticalDisplayUpsideDown
+        3: horizontalDisplayAtLeft
+        4: horizontalDisplayAtRight
+    - name: sdbDevStLocalAlertReset
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.10
+      type: gauge
+      help: Allow alerts to be reset locally on device by pushing one of the buttons.
+        - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.10
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: notAllowed
+        1: allowed
+    - name: sdbDevStCurrentDropDetection
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.11
+      type: gauge
+      help: Enables the current drop detection function. - 1.3.6.1.4.1.31034.12.1.1.2.5.1.1.11
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      enum_values:
+        0: "off"
+        1: inputsOnly
+        2: outletsOnly
+        3: inputsAndOutlets
+    - name: sdbDevInIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.1
+      type: gauge
+      help: A unique value for each input - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInKWhTotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.2
+      type: gauge
+      help: Total kWh value of an input - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInKWhSubtotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.3
+      type: gauge
+      help: Subtotal kWh value of an input - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInPowerFactor
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.4
+      type: gauge
+      help: Power factor of input - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInActualCurrent
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.5
+      type: gauge
+      help: Actual apparent, RMS current. - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInPeakCurrent
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.6
+      type: gauge
+      help: Peak apparent, RMS current - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.6
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInActualVoltage
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.7
+      type: gauge
+      help: The actual voltage. - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.7
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInMinVoltage
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.8
+      type: gauge
+      help: RMS voltage dip - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.8
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInPowerVoltAmpere
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.9
+      type: gauge
+      help: Calculated apparent power. - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.9
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInPowerWatt
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.10
+      type: gauge
+      help: Calculated real power. - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.10
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInMaxAmps
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.11
+      type: gauge
+      help: Maximum current per input phase - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.11
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInCTRatio
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.12
+      type: gauge
+      help: The multiplier to use for the input CTs. - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.12
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInName
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.13
+      type: DisplayString
+      help: User configurable naming of inputs or phases. - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.13
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+    - name: sdbDevInZeroKWhSubtotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.14
+      type: gauge
+      help: Reset input kWh subtotal counter of a single input to zero. - 1.3.6.1.4.1.31034.12.1.1.2.6.1.1.14
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevInIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: zero
+    - name: sdbDevOutIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.1.1.1
+      type: gauge
+      help: A unique value for each outlet - 1.3.6.1.4.1.31034.12.1.1.2.7.1.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutIndex
+        type: gauge
+    - name: sdbDevOutName
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.1.1.2
+      type: DisplayString
+      help: User configurable naming of individual outlets. - 1.3.6.1.4.1.31034.12.1.1.2.7.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutIndex
+        type: gauge
+    - name: sdbDevOutMtIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.1
+      type: gauge
+      help: A unique value for each outlet - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtKWhTotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.2
+      type: gauge
+      help: Total kWh value of an outlet - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtKWhSubtotal
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.3
+      type: gauge
+      help: Subotal kWh value of an outlet - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtPowerFactor
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.4
+      type: gauge
+      help: Power factor of outlet - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtActualCurrent
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.5
+      type: gauge
+      help: Actual apparent, RMS current. - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtPeakCurrent
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.6
+      type: gauge
+      help: Peak apparent, RMS current - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.6
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtActualVoltage
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.7
+      type: gauge
+      help: Actual voltage on outlet. - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.7
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtMaxAmps
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.8
+      type: gauge
+      help: Maximum current per outlet - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.8
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtCTRatio
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.9
+      type: gauge
+      help: The multiplier to use for the outlet CTs. - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.9
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtPowerVoltAmpere
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.10
+      type: gauge
+      help: Calculated apparent power. - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.10
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutMtPowerWatt
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.11
+      type: gauge
+      help: Calculated real power. - 1.3.6.1.4.1.31034.12.1.1.2.7.2.1.11
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutMtIndex
+        type: gauge
+    - name: sdbDevOutSwIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.1
+      type: gauge
+      help: A unique value for each outlet - 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutSwIndex
+        type: gauge
+    - name: sdbDevOutSwCurrentState
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.2
+      type: gauge
+      help: The actual state of the outlet relay - 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutSwIndex
+        type: gauge
+      enum_values:
+        0: "off"
+        1: "on"
+    - name: sdbDevOutSwScheduled
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.3
+      type: gauge
+      help: A one indicates pending activity; the switch delay has not yet expired.
+        - 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutSwIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: scheduled
+    - name: sdbDevOutSwUnlock
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.4
+      type: gauge
+      help: Switching and rebooting is unlocked for 10 seconds by writing a 1. - 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutSwIndex
+        type: gauge
+      enum_values:
+        0: locked
+        1: unlocked
+    - name: sdbDevOutSwIndividualOutletDelay
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.5
+      type: gauge
+      help: Delay before an individual outlet switches on at power-up. - 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.5
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutSwIndex
+        type: gauge
+    - name: sdbDevOutSwReboot
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.6
+      type: gauge
+      help: Reboot outlet relay if current state is on and outlet is unlocked; The
+        outlet will be turned on after 10 seconds. - 1.3.6.1.4.1.31034.12.1.1.2.7.3.1.6
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevOutSwIndex
+        type: gauge
+      enum_values:
+        0: idle
+        1: reboot
+    - name: sdbDevMsIntTemperature
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.1
+      type: gauge
+      help: Actual internal device temperature in deg C - 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevMsExtTemperature
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.2
+      type: gauge
+      help: Actual external device temperature sensor in deg C. - 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevMsIntTemperaturePeak
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.3
+      type: gauge
+      help: Peak internal device temperature since last reset of alerts. - 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevMsExtTemperaturePeak
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.4
+      type: gauge
+      help: Peak external device temperature since last reset of alerts. - 1.3.6.1.4.1.31034.12.1.1.2.8.1.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+    - name: sdbDevSnsIndex
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.1
+      type: gauge
+      help: A unique value for each sensor - 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.1
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevSnsIndex
+        type: gauge
+    - name: sdbDevSnsType
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.2
+      type: DisplayString
+      help: Type of connected sensor - 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.2
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevSnsIndex
+        type: gauge
+    - name: sdbDevSnsValue
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.3
+      type: gauge
+      help: Value of connected sensor - 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.3
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevSnsIndex
+        type: gauge
+    - name: sdbDevSnsName
+      oid: 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.4
+      type: DisplayString
+      help: User definable name for sensors. - 1.3.6.1.4.1.31034.12.1.1.2.8.2.1.4
+      indexes:
+      - labelname: sdbDevIdIndex
+        type: gauge
+      - labelname: sdbDevSnsIndex
+        type: gauge
   servertech_sentry3:
     walk:
     - 1.3.6.1.4.1.1718.3.2.2
