@@ -628,3 +628,11 @@ modules:
   hrSWInstalled:
     walk:
       - hrSWInstalled
+
+#
+# Schleifenbauer
+#
+# https://docs.schleifenbauer.eu/?dir=Interfaces/SNMP
+  schleifenbauer:
+    walk:
+      - 1.3.6.1.4.1.31034.12
