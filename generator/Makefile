@@ -58,7 +58,7 @@ RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
-READYDATAOS_URL   := https://www.circitor.fr/Mibs/Mib/R/READYDATAOS-MIB.mib
+READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -365,5 +365,10 @@ $(MIBDIR)/readynas:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/readynas "$(READYNAS_URL)"
 
 $(MIBDIR)/readydataos:
-	@echo ">> Downloading readydataos"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/readydataos "$(READYDATAOS_URL)"
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading readydataos to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) "$(READYDATAOS_URL)"
+	@unzip -j -d $(MIBDIR) $(TMP) READYDATAOS-MIB.txt
+	@mv -v $(MIBDIR)/READYDATAOS-MIB.txt $(MIBDIR)/readydataos
+	@rm -v $(TMP)
+        
