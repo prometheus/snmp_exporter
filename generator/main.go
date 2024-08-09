@@ -101,7 +101,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger log.Logger)
 
 var (
 	failOnParseErrors  = kingpin.Flag("fail-on-parse-errors", "Exit with a non-zero status if there are MIB parsing errors").Default("true").Bool()
-	snmpMIBOpts        = kingpin.Flag("snmp.mibopts", "Toggle various defaults controlling MIB parsing, see snmpwalk --help").Default("e").String()
+	snmpMIBOpts        = kingpin.Flag("snmp.mibopts", "Toggle various defaults controlling MIB parsing, see snmpwalk --help").Default("eu").String()
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
 	userMibsDir        = kingpin.Flag("mibs-dir", "Paths to mibs directory").Default("").Short('m').Strings()
 	generatorYmlPath   = generateCommand.Flag("generator-path", "Path to the input generator.yml file").Default("generator.yml").Short('g').String()
