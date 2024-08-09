@@ -367,17 +367,12 @@ $(MIBDIR)/readynas:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/readynas "$(READYNAS_URL)"
 
 $(MIBDIR)/readydataos:
-<<<<<<< HEAD
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading readydataos to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) "$(READYDATAOS_URL)"
 	@unzip -j -d $(MIBDIR) $(TMP) READYDATAOS-MIB.txt
 	@mv -v $(MIBDIR)/READYDATAOS-MIB.txt $(MIBDIR)/readydataos
 	@rm -v $(TMP)
-        
-=======
-	@echo ">> Downloading readydataos"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/readydataos "$(READYDATAOS_URL)"
 
 $(MIBDIR)/SchneiderPM55xx_V01_13.mib:
 	$(eval TMP := $(shell mktemp))
@@ -385,4 +380,3 @@ $(MIBDIR)/SchneiderPM55xx_V01_13.mib:
 	@curl $(CURL_OPTS) -o $(TMP) $(SCHNEIDER_PM55XX_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) PM5560_PM5563_v2.1.0/SchneiderPM55xx_V01_13.mib
 	@rm -v $(TMP)
->>>>>>> e6b4ed7 (add Schneider_PM55XX MIB to downloads for SNMP generator)
