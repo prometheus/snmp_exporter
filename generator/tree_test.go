@@ -130,6 +130,11 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Type: "DisplayString", TextualConvention: "DateAndTime"},
 			out: &Node{Oid: "1", Type: "DateAndTime", TextualConvention: "DateAndTime"},
 		},
+		// ParseDateAndTime
+		{
+			in:  &Node{Oid: "1", Type: "DisplayString", TextualConvention: "ParseDateAndTime"},
+			out: &Node{Oid: "1", Type: "ParseDateAndTime", TextualConvention: "ParseDateAndTime"},
+		},
 		// RFC 4100 InetAddress conventions.
 		{
 			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddressIPv4"},
@@ -340,6 +345,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.202", Access: "ACCESS_READONLY", Label: "DateAndTime", Type: "DisplayString", TextualConvention: "DateAndTime"},
 					{Oid: "1.203", Access: "ACCESS_READONLY", Label: "InetAddressIPv4", Type: "OCTETSTR", TextualConvention: "InetAddressIPv4"},
 					{Oid: "1.204", Access: "ACCESS_READONLY", Label: "InetAddressIPv6", Type: "OCTETSTR", TextualConvention: "InetAddressIPv6"},
+					{Oid: "1.205", Access: "ACCESS_READONLY", Label: "ParseDateAndTime", Type: "DisplayString", TextualConvention: "ParseDateAndTime"},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"root", "1.3"},
@@ -460,6 +466,12 @@ func TestGenerateConfigModule(t *testing.T) {
 						Oid:  "1.204",
 						Type: "InetAddressIPv6",
 						Help: " - 1.204",
+					},
+					{
+						Name: "ParseDateAndTime",
+						Oid:  "1.205",
+						Type: "ParseDateAndTime",
+						Help: " - 1.205",
 					},
 				},
 			},

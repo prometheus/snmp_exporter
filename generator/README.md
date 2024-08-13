@@ -158,6 +158,7 @@ modules:
               value: '1' # The first entry whose regex matches and whose value parses wins.
             - regex: '.*'
               value: '0'
+        datetime_pattern: # Used if type = ParseDateAndTime. Uses the go time.Parse() format https://pkg.go.dev/time#pkg-constants
         offset: 1.0 # Add the value to the same. Applied after scale.
         scale: 1.0 # Scale the value of the sample by this value.
         type: DisplayString # Override the metric type, possible types are:
@@ -165,6 +166,7 @@ modules:
                              #   counter: An integer with type counter.
                              #   OctetString: A bit string, rendered as 0xff34.
                              #   DateAndTime: An RFC 2579 DateAndTime byte sequence. If the device has no time zone data, UTC is used.
+                             #   ParseDateAndTime: Parse a DisplayString and return the timestamp. See datetime_pattern config option
                              #   DisplayString: An ASCII or UTF-8 string.
                              #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
                              #   Float: A 32 bit floating-point value with type gauge.

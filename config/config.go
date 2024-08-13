@@ -216,16 +216,17 @@ type DynamicFilter struct {
 }
 
 type Metric struct {
-	Name           string                     `yaml:"name"`
-	Oid            string                     `yaml:"oid"`
-	Type           string                     `yaml:"type"`
-	Help           string                     `yaml:"help"`
-	Indexes        []*Index                   `yaml:"indexes,omitempty"`
-	Lookups        []*Lookup                  `yaml:"lookups,omitempty"`
-	RegexpExtracts map[string][]RegexpExtract `yaml:"regex_extracts,omitempty"`
-	EnumValues     map[int]string             `yaml:"enum_values,omitempty"`
-	Offset         float64                    `yaml:"offset,omitempty"`
-	Scale          float64                    `yaml:"scale,omitempty"`
+	Name            string                     `yaml:"name"`
+	Oid             string                     `yaml:"oid"`
+	Type            string                     `yaml:"type"`
+	Help            string                     `yaml:"help"`
+	Indexes         []*Index                   `yaml:"indexes,omitempty"`
+	Lookups         []*Lookup                  `yaml:"lookups,omitempty"`
+	RegexpExtracts  map[string][]RegexpExtract `yaml:"regex_extracts,omitempty"`
+	DateTimePattern string                     `yaml:"datetime_pattern,omitempty"`
+	EnumValues      map[int]string             `yaml:"enum_values,omitempty"`
+	Offset          float64                    `yaml:"offset,omitempty"`
+	Scale           float64                    `yaml:"scale,omitempty"`
 }
 
 type Index struct {

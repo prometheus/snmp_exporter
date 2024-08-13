@@ -820,6 +820,40 @@ func TestParseDateAndTime(t *testing.T) {
 	}
 }
 
+func TestParseDateAndTimeWithPattern(t *testing.T) {
+	cases := []struct {
+		pdu       *gosnmp.SnmpPDU
+		metric    config.Metric
+		result    float64
+		shouldErr bool
+	}{
+		{
+			pdu:       &gosnmp.SnmpPDU{Value: "Apr 01 2025"},
+			metric:    config.Metric{DateTimePattern: "Jan 02 2006"},
+			result:    1.7434656e+09,
+			shouldErr: false,
+		},
+		{
+			pdu:       &gosnmp.SnmpPDU{Value: "ABC"},
+			metric:    config.Metric{DateTimePattern: "Jan 02 2006"},
+			result:    0,
+			shouldErr: true,
+		},
+	}
+	for _, c := range cases {
+		got, err := parseDateAndTimeWithPattern(&c.metric, c.pdu, Metrics{})
+		if c.shouldErr && err == nil {
+			t.Fatalf("Was expecting error, but none returned.")
+		}
+		if !c.shouldErr && err != nil {
+			t.Fatalf("Was expecting no error, but one returned.")
+		}
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("parseDateAndTime(%v) result: got %v, want %v", c.pdu, got, c.result)
+		}
+	}
+}
+
 func TestIndexesToLabels(t *testing.T) {
 	cases := []struct {
 		oid      []int

@@ -135,6 +135,9 @@ func prepareTree(nodes *Node, logger log.Logger) map[string]*Node {
 		if n.TextualConvention == "DateAndTime" {
 			n.Type = "DateAndTime"
 		}
+		if n.TextualConvention == "ParseDateAndTime" {
+			n.Type = "ParseDateAndTime"
+		}
 		// Convert RFC 4001 InetAddress types textual convention to type.
 		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" || n.TextualConvention == "InetAddress" {
 			n.Type = n.TextualConvention
@@ -166,6 +169,8 @@ func metricType(t string) (string, bool) {
 	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6":
 		return t, true
 	case "DateAndTime":
+		return t, true
+	case "ParseDateAndTime":
 		return t, true
 	case "EnumAsInfo", "EnumAsStateSet":
 		return t, true
@@ -528,6 +533,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		for _, metric := range out.Metrics {
 			if name == metric.Name || name == metric.Oid {
 				metric.RegexpExtracts = params.RegexpExtracts
+				metric.DateTimePattern = params.DateTimePattern
 				metric.Offset = params.Offset
 				metric.Scale = params.Scale
 				if params.Help != "" {
