@@ -7,7 +7,7 @@ auths:
     priv_protocol: DES
     version: 1
   public_v2:
-    community: public
+    community: Starved-Deserve-Devious9
     security_level: noAuthNoPriv
     auth_protocol: MD5
     priv_protocol: DES

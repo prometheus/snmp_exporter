@@ -1,0 +1,35 @@
+version: 2
+
+project_name: snmp_exporter
+
+release:
+  github:
+    owner: iaa-inc
+    name: snmp_exporter
+
+  make_latest: true
+
+builds:
+  - id: snmp_exporter
+    main: .
+    binary: snmp_exporter
+    env:
+      - CGO_ENABLED=0
+      - GOPRIVATE=github.com/iaa-inc/gosdk
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+dockers:
+  - id: snmp_exporter
+    dockerfile: Dockerfile
+    image_templates:
+      - "ghcr.io/iaa-inc/snmp_exporter:latest"
+      - "ghcr.io/iaa-inc/snmp_exporter:{{ .Tag }}"
+      - "ghcr.io/iaa-inc/snmp_exporter:v{{ .Major }}"
+
+source:
+  enabled: false

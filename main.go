@@ -26,6 +26,7 @@ import (
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
+	"github.com/iaa-inc/gosdk"
 	"github.com/prometheus/client_golang/prometheus"
 	versioncollector "github.com/prometheus/client_golang/prometheus/collectors/version"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -35,10 +36,11 @@ import (
 	"github.com/prometheus/common/version"
 	"github.com/prometheus/exporter-toolkit/web"
 	webflag "github.com/prometheus/exporter-toolkit/web/kingpinflag"
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 
 	"github.com/prometheus/snmp_exporter/collector"
 	"github.com/prometheus/snmp_exporter/config"
+	"github.com/prometheus/snmp_exporter/enricher"
 )
 
 const (
@@ -84,7 +86,7 @@ const (
 	configPath = "/config"
 )
 
-func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporterMetrics collector.Metrics) {
+func handler(w *enricher.Enricher, r *http.Request, logger log.Logger, exporterMetrics collector.Metrics) {
 	query := r.URL.Query()
 
 	debug := *debugSNMP
@@ -161,7 +163,10 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporter
 	c := collector.New(r.Context(), target, authName, snmpContext, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
-	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
+	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{
+		DisableCompression: true,
+	})
+
 	h.ServeHTTP(w, r)
 }
 
@@ -208,6 +213,15 @@ func main() {
 	if *concurrency < 1 {
 		*concurrency = 1
 	}
+
+	api := &gosdk.AdminClient{
+		URL:     os.Getenv("IAA_URL"),
+		TokenID: os.Getenv("IAA_TOKEN_ID"),
+		Token:   os.Getenv("IAA_TOKEN"),
+	}
+
+	cache := enricher.NewCache(api, logger)
+	e := enricher.NewEnricher(api, cache)
 
 	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency, "debug_snmp", debugSNMP)
 	level.Info(logger).Log("build_context", version.BuildContext())
@@ -296,7 +310,9 @@ func main() {
 	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	// Endpoint to do SNMP scrapes.
 	http.HandleFunc(proberPath, func(w http.ResponseWriter, r *http.Request) {
-		handler(w, r, logger, exporterMetrics)
+		e.SetWriter(w)
+		e.SetTarget(r.URL.Query().Get("target"))
+		handler(e, r, logger, exporterMetrics)
 	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 
