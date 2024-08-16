@@ -44,6 +44,11 @@ jobs:
           go-version: 1.22
           cache: true
 
+      - name: Configure git for private modules
+        env:
+          TOKEN: "${{ steps.generate-token.outputs.token }}"
+        run: git config --global url."https://iaa-inc:${TOKEN}@github.com".insteadOf "https://github.com"
+
       - name: Extract metadata for the Docker image
         id: meta
         uses: docker/metadata-action@v5
