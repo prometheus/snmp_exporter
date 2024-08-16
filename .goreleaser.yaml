@@ -26,6 +26,8 @@ builds:
 dockers:
   - id: snmp_exporter
     dockerfile: Dockerfile
+    extra_files:
+      - snmp.yml
     image_templates:
       - "ghcr.io/iaa-inc/snmp_exporter:latest"
       - "ghcr.io/iaa-inc/snmp_exporter:{{ .Tag }}"
