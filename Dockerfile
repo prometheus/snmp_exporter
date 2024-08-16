@@ -1,7 +1,7 @@
 FROM scratch
 
 COPY snmp_exporter /
-COPY snmp.yml       /snmp_exporter.yml
+COPY snmp.yml       /snmp.yml
 
 EXPOSE      9116
 ENTRYPOINT  [ "/bin/snmp_exporter" ]
