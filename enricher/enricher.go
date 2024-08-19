@@ -67,6 +67,7 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 	}
 
 	if port != nil {
+		labels["port_id"] = port.Service_id
 		labels["member"] = port.Account.Name
 		labels["exchange"] = port.Exchange.Name
 		labels["facility"] = port.Facility.Name
