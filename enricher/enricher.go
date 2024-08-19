@@ -37,8 +37,8 @@ func (e *Enricher) Write(bytes []byte) (int, error) {
 
 	metricFamilies, err := parser.TextToMetricFamilies(r)
 	if err != nil {
-		fmt.Printf("Error parsing metrics: %v\n", err)
-		return 0, err
+		// Probably no metrics here, just return the bytes
+		return e.w.Write(bytes)
 	}
 
 	// iterate over the metrics and add the IAA specific labels

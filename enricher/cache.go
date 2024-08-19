@@ -88,7 +88,7 @@ func (c *Cache) update() {
 		}
 	}
 
-	level.Info(c.logger).Log("msg", "Cache updated", "devices", len(c.devices), "ports", len(c.ports), "switchPorts", len(c.portsByName), "ignoredSwitchPorts", ignored)
+	level.Info(c.logger).Log("msg", "IAA Service cache updated", "devices", len(c.devices), "ports", len(c.ports), "switchPorts", len(c.portsByName), "ignoredSwitchPorts", ignored)
 }
 
 func (c *Cache) GetDevice(target string) *admin.Switch {

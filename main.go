@@ -141,10 +141,19 @@ func handler(w *enricher.Enricher, r *http.Request, logger log.Logger, exporterM
 	sc.RLock()
 	auth, authOk := sc.C.Auths[authName]
 	if !authOk {
-		sc.RUnlock()
-		http.Error(w, fmt.Sprintf("Unknown auth '%s'", authName), http.StatusBadRequest)
-		snmpRequestErrors.Inc()
-		return
+		// If we have a pipe character in the authName, split it, and use the first part as the template, the second as the community.
+		if strings.Contains(authName, "|") {
+			parts := strings.Split(authName, "|")
+			auth, authOk = sc.C.Auths[parts[0]]
+			if authOk {
+				auth.Community = config.Secret(parts[1])
+			}
+		} else {
+			sc.RUnlock()
+			http.Error(w, fmt.Sprintf("Unknown auth '%s'", authName), http.StatusBadRequest)
+			snmpRequestErrors.Inc()
+			return
+		}
 	}
 	var nmodules []*collector.NamedModule
 	for _, m := range modules {
