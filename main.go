@@ -86,7 +86,7 @@ const (
 	configPath = "/config"
 )
 
-func handler(w *enricher.Enricher, r *http.Request, logger log.Logger, exporterMetrics collector.Metrics) {
+func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporterMetrics collector.Metrics) {
 	query := r.URL.Query()
 
 	debug := *debugSNMP
@@ -172,9 +172,7 @@ func handler(w *enricher.Enricher, r *http.Request, logger log.Logger, exporterM
 	c := collector.New(r.Context(), target, authName, snmpContext, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
-	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{
-		DisableCompression: true,
-	})
+	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 
 	h.ServeHTTP(w, r)
 }
@@ -230,7 +228,7 @@ func main() {
 	}
 
 	cache := enricher.NewCache(api, logger)
-	e := enricher.NewEnricher(api, cache)
+	collector.Enrich = enricher.NewEnricher(api, cache)
 
 	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency, "debug_snmp", debugSNMP)
 	level.Info(logger).Log("build_context", version.BuildContext())
@@ -319,9 +317,7 @@ func main() {
 	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	// Endpoint to do SNMP scrapes.
 	http.HandleFunc(proberPath, func(w http.ResponseWriter, r *http.Request) {
-		e.SetWriter(w)
-		e.SetTarget(r.URL.Query().Get("target"))
-		handler(e, r, logger, exporterMetrics)
+		handler(w, r, logger, exporterMetrics)
 	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
 

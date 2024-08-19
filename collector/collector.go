@@ -31,8 +31,11 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/prometheus/snmp_exporter/config"
+	"github.com/prometheus/snmp_exporter/enricher"
 	"github.com/prometheus/snmp_exporter/scraper"
 )
+
+var Enrich *enricher.Enricher
 
 var (
 	// 64-bit float mantissa: https://en.wikipedia.org/wiki/Double-precision_floating-point_format
@@ -403,7 +406,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger log.Logger, clien
 			}
 			if head.metric != nil {
 				// Found a match.
-				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, logger, c.metrics)
+				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, logger, c.metrics, c.target)
 				for _, sample := range samples {
 					ch <- sample
 				}
@@ -544,10 +547,12 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 	return float64(t.Unix()), nil
 }
 
-func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger, metrics Metrics) []prometheus.Metric {
+func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger, metrics Metrics, target string) []prometheus.Metric {
 	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu, metrics)
+
+	labels = Enrich.Enrich(target, labels)
 
 	value := getPduValue(pdu)
 

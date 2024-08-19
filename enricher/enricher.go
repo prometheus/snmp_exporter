@@ -2,75 +2,20 @@
 package enricher
 
 import (
-	bytes2 "bytes"
-	"fmt"
-	"net/http"
 	"regexp"
-	"sync"
+	"strings"
 
 	"github.com/iaa-inc/gosdk"
 	"github.com/iaa-inc/gosdk/admin"
-	ioprometheusclient "github.com/prometheus/client_model/go"
-	"github.com/prometheus/common/expfmt"
 )
-
-var parser expfmt.TextParser
 
 // port_a1b2c3d
 var portParser = regexp.MustCompile(`port_([a-zA-Z0-9]{7})`)
+var extremePortRegex = regexp.MustCompile(`:`)
 
 type Enricher struct {
-	api    *gosdk.AdminClient
-	w      http.ResponseWriter
-	target string
-	cache  *Cache
-}
-
-func (e *Enricher) Header() http.Header {
-	return e.w.Header()
-}
-
-func (e *Enricher) Write(bytes []byte) (int, error) {
-	// push bytes to a reader and parse the metrics
-
-	r := bytes2.NewReader(bytes)
-
-	metricFamilies, err := parser.TextToMetricFamilies(r)
-	if err != nil {
-		// Probably no metrics here, just return the bytes
-		return e.w.Write(bytes)
-	}
-
-	// iterate over the metrics and add the IAA specific labels
-	var wg sync.WaitGroup
-	for _, mf := range metricFamilies {
-		for _, metric := range mf.GetMetric() {
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				e.processMetric(metric)
-			}()
-			// metric.Label = append(metric.Label, &io_prometheus_client.LabelPair{Name: &name, Value: &val})
-		}
-	}
-	wg.Wait()
-
-	// encode the metrics back to bytes
-	var buf bytes2.Buffer
-	encoder := expfmt.NewEncoder(&buf, expfmt.NewFormat(expfmt.TypeTextPlain))
-
-	for _, mf := range metricFamilies {
-		err := encoder.Encode(mf)
-		if err != nil {
-			fmt.Printf("Error encoding metrics: %v\n", err)
-		}
-	}
-
-	return e.w.Write(buf.Bytes())
-}
-
-func (e *Enricher) WriteHeader(statusCode int) {
-	e.w.WriteHeader(statusCode)
+	api   *gosdk.AdminClient
+	cache *Cache
 }
 
 func NewEnricher(
@@ -83,30 +28,19 @@ func NewEnricher(
 	}
 }
 
-// SetTarget sets the target of the enricher
-func (e *Enricher) SetTarget(target string) {
-	e.target = target
-}
+func (e *Enricher) Enrich(target string, labels map[string]string) map[string]string {
+	// strip "ix.asn.au" from target if it's there
+	target = strings.Replace(target, ".ix.asn.au", "", -1)
 
-func (e *Enricher) SetWriter(w http.ResponseWriter) {
-	e.w = w
-}
+	ifAlias := labels["ifAlias"]
+	ifName := labels["ifName"]
+	ifDescr := labels["ifDescr"]
 
-func (e *Enricher) processMetric(metric *ioprometheusclient.Metric) {
-	ifDescr := ""
 	portId := ""
-	for _, label := range metric.Label {
-		if *label.Name == "ifAlias" {
-			matches := portParser.FindStringSubmatch(label.GetValue())
-
-			if len(matches) > 1 {
-				portId = matches[0]
-			}
-		}
-
-		// Store the ifDescr for later use, if we don't find a port ID.
-		if *label.Name == "ifDescr" {
-			ifDescr = *label.Value
+	if ifAlias != "" {
+		matches := portParser.FindStringSubmatch(ifAlias)
+		if len(matches) > 1 {
+			portId = matches[1]
 		}
 	}
 
@@ -117,17 +51,26 @@ func (e *Enricher) processMetric(metric *ioprometheusclient.Metric) {
 	}
 
 	if port == nil {
-		port = e.cache.GetPortByIfDescr(ifDescr, e.target)
+		port = e.cache.GetPortByIfDescr(ifName, target)
+	}
+
+	if port == nil {
+		port = e.cache.GetPortByIfDescr(ifDescr, target)
+	}
+
+	if port == nil {
+		// if ifName has a ':' in it, it may be a dumb extreme, so let's split that and only use the second part
+		parts := extremePortRegex.Split(ifName, 2)
+		if len(parts) > 1 {
+			port = e.cache.GetPortByIfDescr(parts[1], target)
+		}
 	}
 
 	if port != nil {
-		name := "member"
-		metric.Label = append(metric.Label, &ioprometheusclient.LabelPair{Name: &name, Value: &port.Account.Name})
-
-		exchange := "exchange"
-		metric.Label = append(metric.Label, &ioprometheusclient.LabelPair{Name: &exchange, Value: &port.Exchange.Name})
-
-		facility := "facility"
-		metric.Label = append(metric.Label, &ioprometheusclient.LabelPair{Name: &facility, Value: &port.Facility.Name})
+		labels["member"] = port.Account.Name
+		labels["exchange"] = port.Exchange.Name
+		labels["facility"] = port.Facility.Name
 	}
+
+	return labels
 }

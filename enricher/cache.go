@@ -96,27 +96,7 @@ func (c *Cache) GetDevice(target string) *admin.Switch {
 }
 
 func (c *Cache) GetPort(id string) *admin.Port {
-	// If the port is not in the cache, we should fetch it from the API
-	port, ok := c.ports[id]
-	if !ok {
-		// Fetch the port from the API
-		port, err := admin.GetPortFromServiceID(context.Background(), c.api.Client(), id)
-		if err != nil {
-			return nil
-		}
-
-		c.Lock()
-		c.ports[id] = &port.Port.Port
-		for _, sp := range port.Port.Port.SwitchPorts {
-			c.portsByName[fmt.Sprintf("%s_%s", sp.Switch.Name, sp.Name)] = &port.Port.Port
-			c.portsByIp[fmt.Sprintf("%s_%s", sp.Switch.Ipv4_address, sp.Name)] = &port.Port.Port
-		}
-		c.Unlock()
-
-		return &port.Port.Port
-	}
-
-	return port
+	return c.ports[id]
 }
 
 func (c *Cache) GetPortByIfDescr(descr string, target string) *admin.Port {
