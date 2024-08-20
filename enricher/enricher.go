@@ -2,6 +2,7 @@
 package enricher
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 
@@ -40,7 +41,7 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 	if ifAlias != "" {
 		matches := portParser.FindStringSubmatch(ifAlias)
 		if len(matches) > 1 {
-			portId = matches[1]
+			portId = matches[0]
 		}
 	}
 
@@ -48,6 +49,7 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 
 	if portId != "" {
 		port = e.cache.GetPort(portId)
+		fmt.Printf("Port ID: %s - %+v\n", portId, port)
 	}
 
 	if port == nil {
