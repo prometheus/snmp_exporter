@@ -87,6 +87,8 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 		labels["facility"] = port.Facility.Name
 		labels["industry"] = industry
 		labels["public"] = pubgraphs
+
+		labels["join"] = port.Switch.Name + "/" + ifName
 	}
 
 	return labels
