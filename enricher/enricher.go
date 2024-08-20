@@ -2,7 +2,6 @@
 package enricher
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 
@@ -49,7 +48,6 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 
 	if portId != "" {
 		port = e.cache.GetPort(portId)
-		fmt.Printf("Port ID: %s - %+v\n", portId, port)
 	}
 
 	if port == nil {
@@ -69,10 +67,26 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 	}
 
 	if port != nil {
+		member := "Anonymous Participant"
+		pubgraphs := "0"
+		if port.Public_graphs {
+			pubgraphs = "1"
+			member = port.Account.Name
+		} else {
+			member = "Anonymous Participant " + port.Account.Id
+		}
+
+		industry := port.Account.Industry
+		if industry == "" {
+			industry = "Not provided"
+		}
+
 		labels["port_id"] = port.Service_id
-		labels["member"] = port.Account.Name
+		labels["member"] = member
 		labels["exchange"] = port.Exchange.Name
 		labels["facility"] = port.Facility.Name
+		labels["industry"] = industry
+		labels["public"] = pubgraphs
 	}
 
 	return labels
