@@ -158,7 +158,7 @@ modules:
               value: '1' # The first entry whose regex matches and whose value parses wins.
             - regex: '.*'
               value: '0'
-        datetime_pattern: # Used if type = ParseDateAndTime. Uses the go time.Parse() format https://pkg.go.dev/time#pkg-constants
+        datetime_pattern: # Used if type = ParseDateAndTime. Uses the strptime format (See: man 3 strptime)
         offset: 1.0 # Add the value to the same. Applied after scale.
         scale: 1.0 # Scale the value of the sample by this value.
         type: DisplayString # Override the metric type, possible types are:

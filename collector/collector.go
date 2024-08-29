@@ -28,6 +28,7 @@ import (
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/gosnmp/gosnmp"
+	"github.com/itchyny/timefmt-go"
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/prometheus/snmp_exporter/config"
@@ -546,7 +547,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 
 func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, metrics Metrics) (float64, error) {
 	pduValue := pduValueAsString(pdu, "DisplayString", metrics)
-	t, err := time.Parse(metric.DateTimePattern, pduValue)
+	t, err := timefmt.Parse(pduValue, metric.DateTimePattern)
 	if err != nil {
 		return 0, fmt.Errorf("error parsing date and time %q", err)
 	}

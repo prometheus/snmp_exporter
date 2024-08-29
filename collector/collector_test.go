@@ -829,13 +829,13 @@ func TestParseDateAndTimeWithPattern(t *testing.T) {
 	}{
 		{
 			pdu:       &gosnmp.SnmpPDU{Value: "Apr 01 2025"},
-			metric:    config.Metric{DateTimePattern: "Jan 02 2006"},
+			metric:    config.Metric{DateTimePattern: "%b %d %Y"},
 			result:    1.7434656e+09,
 			shouldErr: false,
 		},
 		{
 			pdu:       &gosnmp.SnmpPDU{Value: "ABC"},
-			metric:    config.Metric{DateTimePattern: "Jan 02 2006"},
+			metric:    config.Metric{DateTimePattern: "%b %d %Y"},
 			result:    0,
 			shouldErr: true,
 		},
