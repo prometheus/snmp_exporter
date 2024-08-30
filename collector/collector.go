@@ -28,6 +28,7 @@ import (
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/gosnmp/gosnmp"
+	"github.com/itchyny/timefmt-go"
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/prometheus/snmp_exporter/config"
@@ -544,6 +545,15 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 	return float64(t.Unix()), nil
 }
 
+func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, metrics Metrics) (float64, error) {
+	pduValue := pduValueAsString(pdu, "DisplayString", metrics)
+	t, err := timefmt.Parse(pduValue, metric.DateTimePattern)
+	if err != nil {
+		return 0, fmt.Errorf("error parsing date and time %q", err)
+	}
+	return float64(t.Unix()), nil
+}
+
 func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger, metrics Metrics) []prometheus.Metric {
 	var err error
 	// The part of the OID that is the indexes.
@@ -571,6 +581,13 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		value, err = parseDateAndTime(pdu)
 		if err != nil {
 			level.Debug(logger).Log("msg", "Error parsing DateAndTime", "err", err)
+			return []prometheus.Metric{}
+		}
+	case "ParseDateAndTime":
+		t = prometheus.GaugeValue
+		value, err = parseDateAndTimeWithPattern(metric, pdu, metrics)
+		if err != nil {
+			level.Debug(logger).Log("msg", "Error parsing ParseDateAndTime", "err", err)
 			return []prometheus.Metric{}
 		}
 	case "EnumAsInfo":
