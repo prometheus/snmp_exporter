@@ -31,34 +31,35 @@ ifeq ($(SELINUX_ENABLED),1)
   DOCKER_VOL_OPTS ?= :z
 endif
 
-APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet451.mib&p_Doc_Ref=APC_POWERNETMIB_451_EN
-ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
-CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
-DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
-IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
-IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
-IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
-KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/KEEPALIVED-MIB.txt
-VRRP_URL          := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRP-MIB.txt
-VRRPV3_URL        := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRPv3-MIB.txt
-KEMP_LM_URL       := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
-MIKROTIK_URL      := 'https://box.mikrotik.com/f/a41daf63d0c14347a088/?dl=1'
-NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
-NET_SNMP_URL      := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.9/mibs
-PALOALTO_URL      := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-10-0-snmp-mib-modules.zip
-PRINTER_URL       := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
-SERVERTECH_URL    := 'https://cdn10.servertech.com/assets/documents/documents/817/original/Sentry3.mib'
-SERVERTECH4_URL   := 'https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib'
-SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
-UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
-UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
-UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
-RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
-INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
-LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
-READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
-READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
+APC_URL              := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet451.mib&p_Doc_Ref=APC_POWERNETMIB_451_EN
+ARISTA_URL           := https://www.arista.com/assets/data/docs/MIBS
+CISCO_URL            := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
+DELL_URL             := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
+IANA_CHARSET_URL     := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
+IANA_IFTYPE_URL      := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
+IANA_PRINTER_URL     := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
+KEEPALIVED_URL       := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/KEEPALIVED-MIB.txt
+VRRP_URL             := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRP-MIB.txt
+VRRPV3_URL           := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRPv3-MIB.txt
+KEMP_LM_URL          := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
+MIKROTIK_URL         := 'https://box.mikrotik.com/f/a41daf63d0c14347a088/?dl=1'
+NEC_URL              := https://jpn.nec.com/univerge/ix/Manual/MIB
+NET_SNMP_URL         := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.9/mibs
+PALOALTO_URL         := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-10-0-snmp-mib-modules.zip
+PRINTER_URL          := https://ftp.pwg.org/pub/pwg/pmp/mibs/rfc3805b.mib
+SERVERTECH_URL       := 'https://cdn10.servertech.com/assets/documents/documents/817/original/Sentry3.mib'
+SERVERTECH4_URL      := 'https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib'
+SYNOLOGY_URL         := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
+UBNT_AIROS_URL       := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+UBNT_AIRFIBER_URL    := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
+UBNT_DL_URL          := http://dl.ubnt-ut.com/snmp
+RARITAN_URL          := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
+RARITAN2_URL         := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
+INFRAPOWER_URL       := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
+LIEBERT_URL          := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
+READYNAS_URL         := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
+READYDATAOS_URL      := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
+SCHNEIDER_PM55XX_URL := https://ckm-content.se.com/ckmContent/sfc/servlet.shepherd/document/download/0691H00000GYnUPQA1
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -112,6 +113,7 @@ mibs: \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/readynas \
   $(MIBDIR)/readydataos \
+  $(MIBDIR)/SchneiderPM55xx_V01_13.mib \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
@@ -371,4 +373,10 @@ $(MIBDIR)/readydataos:
 	@unzip -j -d $(MIBDIR) $(TMP) READYDATAOS-MIB.txt
 	@mv -v $(MIBDIR)/READYDATAOS-MIB.txt $(MIBDIR)/readydataos
 	@rm -v $(TMP)
-        
+
+$(MIBDIR)/SchneiderPM55xx_V01_13.mib:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading SchneiderPM55xx_V01_13.mib to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(SCHNEIDER_PM55XX_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) PM5560_PM5563_v2.1.0/SchneiderPM55xx_V01_13.mib
+	@rm -v $(TMP)
