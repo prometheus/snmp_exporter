@@ -7,7 +7,7 @@ require (
 	github.com/go-kit/log v0.2.1
 	github.com/gosnmp/gosnmp v1.37.0
 	github.com/itchyny/timefmt-go v0.1.6
-	github.com/prometheus/client_golang v1.20.0
+	github.com/prometheus/client_golang v1.20.3
 	github.com/prometheus/client_model v0.6.1
 	github.com/prometheus/common v0.57.0
 	github.com/prometheus/exporter-toolkit v0.11.0
