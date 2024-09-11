@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/go-kit/log v0.2.1
-	github.com/gosnmp/gosnmp v1.37.0
+	github.com/gosnmp/gosnmp v1.38.0
 	github.com/itchyny/timefmt-go v0.1.6
 	github.com/prometheus/client_golang v1.20.3
 	github.com/prometheus/client_model v0.6.1
