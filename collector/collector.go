@@ -440,9 +440,18 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error during initialisation of the Worker", nil, nil), err)
 				return
 			}
+			// Set UseUnconnectedSocket option if at least one module has it set
+			useUnconnectedUDPSocket := false
+			for _, m := range c.modules {
+				if m.WalkParams.UseUnconnectedUDPSocket {
+					useUnconnectedUDPSocket = true
+					break
+				}
+			}
 			// Set the options.
 			client.SetOptions(func(g *gosnmp.GoSNMP) {
 				g.Context = ctx
+				g.UseUnconnectedUDPSocket = useUnconnectedUDPSocket
 				c.auth.ConfigureSNMP(g, c.snmpContext)
 			})
 			if err = client.Connect(); err != nil {
