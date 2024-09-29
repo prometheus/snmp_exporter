@@ -18,7 +18,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/go-kit/log"
+	"github.com/prometheus/common/promslog"
 	"github.com/prometheus/snmp_exporter/config"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -157,7 +157,7 @@ func TestTreePrepare(t *testing.T) {
 			}
 		})
 
-		prepareTree(c.in, log.NewNopLogger())
+		prepareTree(c.in, promslog.NewNopLogger())
 
 		if !reflect.DeepEqual(c.in, c.out) {
 			t.Errorf("prepareTree: difference in case %d", i)
@@ -2021,8 +2021,8 @@ func TestGenerateConfigModule(t *testing.T) {
 			}
 		}
 
-		nameToNode := prepareTree(c.node, log.NewNopLogger())
-		got, err := generateConfigModule(c.cfg, c.node, nameToNode, log.NewNopLogger())
+		nameToNode := prepareTree(c.node, promslog.NewNopLogger())
+		got, err := generateConfigModule(c.cfg, c.node, nameToNode, promslog.NewNopLogger())
 		if err != nil {
 			t.Errorf("Error generating config in case %d: %s", i, err)
 		}
