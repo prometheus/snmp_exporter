@@ -21,9 +21,9 @@ import (
 	"testing"
 
 	kingpin "github.com/alecthomas/kingpin/v2"
-	"github.com/go-kit/log"
 	"github.com/gosnmp/gosnmp"
 	io_prometheus_client "github.com/prometheus/client_model/go"
+	"github.com/prometheus/common/promslog"
 
 	"github.com/prometheus/snmp_exporter/config"
 	"github.com/prometheus/snmp_exporter/scraper"
@@ -571,7 +571,7 @@ func TestPduToSample(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, log.NewNopLogger(), Metrics{})
+		metrics := pduToSamples(c.indexOids, c.pdu, c.metric, c.oidToPdu, promslog.NewNopLogger(), Metrics{})
 		metric := &io_prometheus_client.Metric{}
 		expected := map[string]struct{}{}
 		for _, e := range c.expectedMetrics {
@@ -1336,7 +1336,7 @@ func TestFilterAllowedIndices(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := filterAllowedIndices(log.NewNopLogger(), c.filter, pdus, c.allowedList, Metrics{})
+		got := filterAllowedIndices(promslog.NewNopLogger(), c.filter, pdus, c.allowedList, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("filterAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}
@@ -1367,7 +1367,7 @@ func TestUpdateWalkConfig(t *testing.T) {
 	}
 	walkConfig := []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5", "1.3.6.1.2.1.2.2.1.7"}
 	for _, c := range cases {
-		got := updateWalkConfig(walkConfig, c.filter, log.NewNopLogger())
+		got := updateWalkConfig(walkConfig, c.filter, promslog.NewNopLogger())
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("updateWalkConfig(%v): got %v, want %v", c.filter, got, c.result)
 		}
@@ -1398,7 +1398,7 @@ func TestUpdateGetConfig(t *testing.T) {
 	}
 	getConfig := []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5", "1.3.6.1.2.1.2.2.1.7"}
 	for _, c := range cases {
-		got := updateGetConfig(getConfig, c.filter, log.NewNopLogger())
+		got := updateGetConfig(getConfig, c.filter, promslog.NewNopLogger())
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("updateGetConfig(%v): got %v, want %v", c.filter, got, c.result)
 		}
@@ -1430,7 +1430,7 @@ func TestAddAllowedIndices(t *testing.T) {
 	allowedList := []string{"2", "3"}
 	newCfg := []string{"1.3.6.1.2.1.31.1.1.1.10", "1.3.6.1.2.1.31.1.1.1.11"}
 	for _, c := range cases {
-		got := addAllowedIndices(c.filter, allowedList, log.NewNopLogger(), newCfg)
+		got := addAllowedIndices(c.filter, allowedList, promslog.NewNopLogger(), newCfg)
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("addAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}
@@ -1520,7 +1520,7 @@ func TestScrapeTarget(t *testing.T) {
 		tt := c
 		t.Run(tt.name, func(t *testing.T) {
 			mock := scraper.NewMockSNMPScraper(tt.getResponse, tt.walkResponses)
-			results, err := ScrapeTarget(mock, "someTarget", auth, tt.module, log.NewNopLogger(), Metrics{})
+			results, err := ScrapeTarget(mock, "someTarget", auth, tt.module, promslog.NewNopLogger(), Metrics{})
 			if err != nil {
 				t.Errorf("ScrapeTarget returned an error: %v", err)
 			}

@@ -17,6 +17,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"log/slog"
 	"net"
 	"regexp"
 	"strconv"
@@ -25,8 +26,6 @@ import (
 	"time"
 
 	"github.com/alecthomas/kingpin/v2"
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
 	"github.com/gosnmp/gosnmp"
 	"github.com/itchyny/timefmt-go"
 	"github.com/prometheus/client_golang/prometheus"
@@ -82,7 +81,7 @@ type ScrapeResults struct {
 	pdus []gosnmp.SnmpPDU
 }
 
-func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, module *config.Module, logger log.Logger, metrics Metrics) (ScrapeResults, error) {
+func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, module *config.Module, logger *slog.Logger, metrics Metrics) (ScrapeResults, error) {
 	results := ScrapeResults{}
 	// Evaluate rules.
 	newGet := module.Get
@@ -92,7 +91,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		pdus, err := snmp.WalkAll(filter.Oid)
 		// Do not try to filter anything if we had errors.
 		if err != nil {
-			level.Info(logger).Log("msg", "Error getting OID, won't do any filter on this oid", "oid", filter.Oid)
+			logger.Info("Error getting OID, won't do any filter on this oid", "oid", filter.Oid)
 			continue
 		}
 
@@ -129,7 +128,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		}
 		// SNMPv1 will return packet error for unsupported OIDs.
 		if packet.Error == gosnmp.NoSuchName && version == 1 {
-			level.Debug(logger).Log("msg", "OID not supported by target", "oids", getOids[0])
+			logger.Debug("OID not supported by target", "oids", getOids[0])
 			getOids = getOids[oids:]
 			continue
 		}
@@ -140,7 +139,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		}
 		for _, v := range packet.Variables {
 			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
-				level.Debug(logger).Log("msg", "OID not supported by target", "oids", v.Name)
+				logger.Debug("OID not supported by target", "oids", v.Name)
 				continue
 			}
 			results.pdus = append(results.pdus, v)
@@ -176,13 +175,13 @@ func configureTarget(g *gosnmp.GoSNMP, target string) error {
 	return nil
 }
 
-func filterAllowedIndices(logger log.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
-	level.Debug(logger).Log("msg", "Evaluating rule for oid", "oid", filter.Oid)
+func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
+	logger.Debug("Evaluating rule for oid", "oid", filter.Oid)
 	for _, pdu := range pdus {
 		found := false
 		for _, val := range filter.Values {
 			snmpval := pduValueAsString(&pdu, "DisplayString", metrics)
-			level.Debug(logger).Log("config value", val, "snmp value", snmpval)
+			logger.Debug("evaluating filters", "config value", val, "snmp value", snmpval)
 
 			if regexp.MustCompile(val).MatchString(snmpval) {
 				found = true
@@ -192,20 +191,20 @@ func filterAllowedIndices(logger log.Logger, filter config.DynamicFilter, pdus [
 		if found {
 			pduArray := strings.Split(pdu.Name, ".")
 			index := pduArray[len(pduArray)-1]
-			level.Debug(logger).Log("msg", "Caching index", "index", index)
+			logger.Debug("Caching index", "index", index)
 			allowedList = append(allowedList, index)
 		}
 	}
 	return allowedList
 }
 
-func updateWalkConfig(walkConfig []string, filter config.DynamicFilter, logger log.Logger) []string {
+func updateWalkConfig(walkConfig []string, filter config.DynamicFilter, logger *slog.Logger) []string {
 	newCfg := []string{}
 	for _, elem := range walkConfig {
 		found := false
 		for _, targetOid := range filter.Targets {
 			if elem == targetOid {
-				level.Debug(logger).Log("msg", "Deleting for walk configuration", "oid", targetOid)
+				logger.Debug("Deleting for walk configuration", "oid", targetOid)
 				found = true
 				break
 			}
@@ -218,7 +217,7 @@ func updateWalkConfig(walkConfig []string, filter config.DynamicFilter, logger l
 	return newCfg
 }
 
-func updateGetConfig(getConfig []string, filter config.DynamicFilter, logger log.Logger) []string {
+func updateGetConfig(getConfig []string, filter config.DynamicFilter, logger *slog.Logger) []string {
 	newCfg := []string{}
 	for _, elem := range getConfig {
 		found := false
@@ -230,17 +229,17 @@ func updateGetConfig(getConfig []string, filter config.DynamicFilter, logger log
 		}
 		// Oid not found in targets, we keep it.
 		if !found {
-			level.Debug(logger).Log("msg", "Keeping get configuration", "oid", elem)
+			logger.Debug("Keeping get configuration", "oid", elem)
 			newCfg = append(newCfg, elem)
 		}
 	}
 	return newCfg
 }
 
-func addAllowedIndices(filter config.DynamicFilter, allowedList []string, logger log.Logger, newCfg []string) []string {
+func addAllowedIndices(filter config.DynamicFilter, allowedList []string, logger *slog.Logger, newCfg []string) []string {
 	for _, targetOid := range filter.Targets {
 		for _, index := range allowedList {
-			level.Debug(logger).Log("msg", "Adding get configuration", "oid", targetOid+"."+index)
+			logger.Debug("Adding get configuration", "oid", targetOid+"."+index)
 			newCfg = append(newCfg, targetOid+"."+index)
 		}
 	}
@@ -297,14 +296,14 @@ type Collector struct {
 	auth        *config.Auth
 	authName    string
 	modules     []*NamedModule
-	logger      log.Logger
+	logger      *slog.Logger
 	metrics     Metrics
 	concurrency int
 	snmpContext string
 	debugSNMP   bool
 }
 
-func New(ctx context.Context, target, authName, snmpContext string, auth *config.Auth, modules []*NamedModule, logger log.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
+func New(ctx context.Context, target, authName, snmpContext string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
 	return &Collector{
 		ctx:         ctx,
 		target:      target,
@@ -312,7 +311,7 @@ func New(ctx context.Context, target, authName, snmpContext string, auth *config
 		auth:        auth,
 		modules:     modules,
 		snmpContext: snmpContext,
-		logger:      log.With(logger, "source_address", *srcAddress),
+		logger:      logger.With("source_address", *srcAddress),
 		metrics:     metrics,
 		concurrency: conc,
 		debugSNMP:   debugSNMP,
@@ -324,7 +323,7 @@ func (c Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- prometheus.NewDesc("dummy", "dummy", nil, nil)
 }
 
-func (c Collector) collect(ch chan<- prometheus.Metric, logger log.Logger, client scraper.SNMPScraper, module *NamedModule) {
+func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, client scraper.SNMPScraper, module *NamedModule) {
 	var (
 		packets uint64
 		retries uint64
@@ -365,7 +364,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger log.Logger, clien
 	results, err := ScrapeTarget(client, c.target, c.auth, module.Module, logger, c.metrics)
 	c.metrics.SNMPInflight.Dec()
 	if err != nil {
-		level.Info(logger).Log("msg", "Error scraping target", "err", err)
+		logger.Info("Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, moduleLabel), err)
 		return
 	}
@@ -432,10 +431,10 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-			logger := log.With(c.logger, "worker", i)
+			logger := c.logger.With("worker", i)
 			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress, c.debugSNMP)
 			if err != nil {
-				level.Info(logger).Log("msg", err)
+				logger.Info("Failed to create snmp srape client", "err", err)
 				cancel()
 				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error during initialisation of the Worker", nil, nil), err)
 				return
@@ -446,19 +445,19 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				c.auth.ConfigureSNMP(g, c.snmpContext)
 			})
 			if err = client.Connect(); err != nil {
-				level.Info(logger).Log("msg", "Error connecting to target", "err", err)
+				logger.Info("Error connecting to target", "err", err)
 				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error connecting to target", nil, nil), err)
 				cancel()
 				return
 			}
 			defer client.Close()
 			for m := range workerChan {
-				_logger := log.With(logger, "module", m.name)
-				level.Debug(_logger).Log("msg", "Starting scrape")
+				_logger := logger.With("module", m.name)
+				_logger.Debug("Starting scrape")
 				start := time.Now()
 				c.collect(ch, _logger, client, m)
 				duration := time.Since(start).Seconds()
-				level.Debug(_logger).Log("msg", "Finished scrape", "duration_seconds", duration)
+				_logger.Debug("Finished scrape", "duration_seconds", duration)
 				c.metrics.SNMPCollectionDuration.WithLabelValues(m.name).Observe(duration)
 			}
 		}(i)
@@ -472,9 +471,9 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		select {
 		case <-ctx.Done():
 			done = true
-			level.Debug(c.logger).Log("msg", "Context canceled", "err", ctx.Err(), "module", module.name)
+			c.logger.Debug("Context canceled", "err", ctx.Err(), "module", module.name)
 		case workerChan <- module:
-			level.Debug(c.logger).Log("msg", "Sent module to worker", "module", module.name)
+			c.logger.Debug("Sent module to worker", "module", module.name)
 		}
 	}
 	close(workerChan)
@@ -554,7 +553,7 @@ func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, met
 	return float64(t.Unix()), nil
 }
 
-func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger log.Logger, metrics Metrics) []prometheus.Metric {
+func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger *slog.Logger, metrics Metrics) []prometheus.Metric {
 	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu, metrics)
@@ -580,14 +579,14 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t = prometheus.GaugeValue
 		value, err = parseDateAndTime(pdu)
 		if err != nil {
-			level.Debug(logger).Log("msg", "Error parsing DateAndTime", "err", err)
+			logger.Debug("Error parsing DateAndTime", "err", err)
 			return []prometheus.Metric{}
 		}
 	case "ParseDateAndTime":
 		t = prometheus.GaugeValue
 		value, err = parseDateAndTimeWithPattern(metric, pdu, metrics)
 		if err != nil {
-			level.Debug(logger).Log("msg", "Error parsing ParseDateAndTime", "err", err)
+			logger.Debug("Error parsing ParseDateAndTime", "err", err)
 			return []prometheus.Metric{}
 		}
 	case "EnumAsInfo":
@@ -611,11 +610,11 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 					metricType = t
 				} else {
 					metricType = "OctetString"
-					level.Debug(logger).Log("msg", "Unable to handle type value", "value", val, "oid", prevOid, "metric", metric.Name)
+					logger.Debug("Unable to handle type value", "value", val, "oid", prevOid, "metric", metric.Name)
 				}
 			} else {
 				metricType = "OctetString"
-				level.Debug(logger).Log("msg", "Unable to find type at oid for metric", "oid", prevOid, "metric", metric.Name)
+				logger.Debug("Unable to find type at oid for metric", "oid", prevOid, "metric", metric.Name)
 			}
 		}
 
@@ -645,19 +644,19 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 	return []prometheus.Metric{sample}
 }
 
-func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string, logger log.Logger) []prometheus.Metric {
+func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string, logger *slog.Logger) []prometheus.Metric {
 	results := []prometheus.Metric{}
 	for name, strMetricSlice := range metric.RegexpExtracts {
 		for _, strMetric := range strMetricSlice {
 			indexes := strMetric.Regex.FindStringSubmatchIndex(pduValue)
 			if indexes == nil {
-				level.Debug(logger).Log("msg", "No match found for regexp", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String())
+				logger.Debug("No match found for regexp", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String())
 				continue
 			}
 			res := strMetric.Regex.ExpandString([]byte{}, strMetric.Value, pduValue, indexes)
 			v, err := strconv.ParseFloat(string(res), 64)
 			if err != nil {
-				level.Debug(logger).Log("msg", "Error parsing float64 from value", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String(), "extracted_value", res)
+				logger.Debug("Error parsing float64 from value", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String(), "extracted_value", res)
 				continue
 			}
 			newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
