@@ -127,7 +127,7 @@ using SNMP v2 GETBULK.
 The `--config.file` parameter can be used multiple times to load more than one file.
 It also supports [glob filename matching](https://pkg.go.dev/path/filepath#Glob), e.g. `snmp*.yml`.
 
-The `--config.expand-environment-variables` parameter allows passing environment variables into some fields of the configuration file. The `username`, `password` & `priv_password` fields in the auths section are supported. Defaults to disabled.
+The `--config.expand-environment-variables` parameter allows passing environment variables into some fields of the configuration file. The `username`, `password`, `priv_password`, & `community` fields in the auths section are supported. Defaults to disabled.
 
 Duplicate `module` or `auth` entries are treated as invalid and can not be loaded.
 
@@ -162,7 +162,7 @@ scrape_configs:
       - targets: ['localhost:9116']
 ```
 
-You could pass `username`, `password` & `priv_password` via environment variables of your choice in below format. 
+You could pass `username`, `password`, `priv_password` & `community` via environment variables of your choice in below format.
 If the variables exist in the environment, they are resolved on the fly otherwise the string in the config file is passed as-is.
 
 This requires the `--config.expand-environment-variables` flag be set.
@@ -170,7 +170,7 @@ This requires the `--config.expand-environment-variables` flag be set.
 ```YAML
 auths:
   example_with_envs:
-    community: mysecret
+    community: ${ARISTA_COMMUNITY}
     security_level: SomethingReadOnly
     username: ${ARISTA_USERNAME}
     password: ${ARISTA_PASSWORD}
