@@ -67,6 +67,13 @@ func LoadFile(paths []string, expandEnvVars bool) (*Config, error) {
 				}
 				cfg.Auths[i].PrivPassword.Set(privPassword)
 			}
+			if auth.Community != "" {
+				community, err := substituteEnvVariables(string(auth.Community))
+				if err != nil {
+					return nil, err
+				}
+				cfg.Auths[i].Community.Set(community)
+			}
 		}
 	}
 
