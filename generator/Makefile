@@ -300,7 +300,7 @@ $(MIBDIR)/.sophos_xg:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading Sophos XG to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(SOPHOS_XG_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) SOPHOS-XG-MIB20.txt
+	@unzip -j -d $(MIBDIR) $(TMP) sophos-xg-mib/SOPHOS-XG-MIB20.txt
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.sophos_xg
 
