@@ -2,6 +2,7 @@ linters:
   enable:
     - misspell
     - revive
+    - sloglint
   disable:
     # Disable soon to deprecated[1] linters that lead to false
     # positives when build tags disable certain files[2]
@@ -24,8 +25,6 @@ linters-settings:
     exclude-functions:
       # Used in HTTP handlers, any error is handled by the server itself.
       - (net/http.ResponseWriter).Write
-      # Never check for logger errors.
-      - (github.com/go-kit/log.Logger).Log
   revive:
     rules:
       # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#unused-parameter

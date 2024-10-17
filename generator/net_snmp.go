@@ -69,12 +69,10 @@ import "C"
 import (
 	"fmt"
 	"io"
+	"log/slog"
 	"os"
 	"sort"
 	"strings"
-
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
 )
 
 // One entry in the tree of the MIB.
@@ -165,14 +163,14 @@ func getMibsDir(paths []string) string {
 // Initialize NetSNMP. Returns MIB parse errors.
 //
 // Warning: This function plays with the stderr file descriptor.
-func initSNMP(logger log.Logger) (string, error) {
+func initSNMP(logger *slog.Logger) (string, error) {
 	// Load all the MIBs.
 	err := os.Setenv("MIBS", "ALL")
 	if err != nil {
 		return "", err
 	}
 	mibsDir := getMibsDir(*userMibsDir)
-	level.Info(logger).Log("msg", "Loading MIBs", "from", mibsDir)
+	logger.Info("Loading MIBs", "from", mibsDir)
 	C.netsnmp_set_mib_directory(C.CString(mibsDir))
 	if *snmpMIBOpts != "" {
 		C.snmp_mib_toggle_options(C.CString(*snmpMIBOpts))

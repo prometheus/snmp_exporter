@@ -39,7 +39,7 @@ like:
 ```
 1.3.6.1.2.1.2.2.1.1.2 = INTEGER: 2         # ifIndex for '2' is literally just '2'
 1.3.6.1.2.1.2.2.1.2.2 = STRING: "eth0"     # ifDescr
-1.3.6.1.2.1.31.1.1.1.1 = STRING: "eth0"    # IfName
+1.3.6.1.2.1.31.1.1.1.1.2 = STRING: "eth0"  # IfName
 1.3.6.1.2.1.31.1.1.1.10.2 = INTEGER: 1000  # ifHCOutOctets, 1000 bytes
 1.3.6.1.2.1.31.1.1.1.18.2 = STRING: ""     # ifAlias
 ```

@@ -59,6 +59,7 @@ INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IP
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
+SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -79,6 +80,7 @@ clean:
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology \
+		$(MIBDIR)/.sophos_xg \
 		$(MIBDIR)/.kemp-lm \
 		$(MIBDIR)/readynas \
 		$(MIBDIR)/readydataos
@@ -140,6 +142,7 @@ mibs: \
   $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/servertech-sentry4-mib \
   $(MIBDIR)/.synology \
+  $(MIBDIR)/.sophos_xg \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
@@ -293,6 +296,14 @@ $(MIBDIR)/servertech-sentry4-mib:
 	@echo ">> Downloading servertech-sentry4-mib"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/servertech-sentry4-mib $(SERVERTECH4_URL)
 
+$(MIBDIR)/.sophos_xg:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Sophos XG to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(SOPHOS_XG_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) sophos-xg-mib/SOPHOS-XG-MIB20.txt
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.sophos_xg
+
 $(MIBDIR)/.synology:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading synology to $(TMP)"
@@ -371,4 +382,3 @@ $(MIBDIR)/readydataos:
 	@unzip -j -d $(MIBDIR) $(TMP) READYDATAOS-MIB.txt
 	@mv -v $(MIBDIR)/READYDATAOS-MIB.txt $(MIBDIR)/readydataos
 	@rm -v $(TMP)
-        

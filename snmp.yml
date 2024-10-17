@@ -29832,6 +29832,577 @@ modules:
         21: nvmFail
         22: profileError
         23: conflict
+  sophos_xg:
+    walk:
+    - 1.3.6.1.4.1.2604.5.1.1
+    - 1.3.6.1.4.1.2604.5.1.2
+    - 1.3.6.1.4.1.2604.5.1.3
+    - 1.3.6.1.4.1.2604.5.1.4
+    - 1.3.6.1.4.1.2604.5.1.5
+    metrics:
+    - name: sfosDeviceName
+      oid: 1.3.6.1.4.1.2604.5.1.1.1
+      type: DisplayString
+      help: hostname of the SFOS XG Device - 1.3.6.1.4.1.2604.5.1.1.1
+    - name: sfosDeviceType
+      oid: 1.3.6.1.4.1.2604.5.1.1.2
+      type: DisplayString
+      help: Type of Device like XG-85, XG-210 - 1.3.6.1.4.1.2604.5.1.1.2
+    - name: sfosDeviceFWVersion
+      oid: 1.3.6.1.4.1.2604.5.1.1.3
+      type: DisplayString
+      help: Current running firmware version of SFOS - 1.3.6.1.4.1.2604.5.1.1.3
+    - name: sfosDeviceAppKey
+      oid: 1.3.6.1.4.1.2604.5.1.1.4
+      type: DisplayString
+      help: Appliance Key of SFOS Device - 1.3.6.1.4.1.2604.5.1.1.4
+    - name: sfosWebcatVersion
+      oid: 1.3.6.1.4.1.2604.5.1.1.5
+      type: DisplayString
+      help: Current webcat version running in SFOS - 1.3.6.1.4.1.2604.5.1.1.5
+    - name: sfosIPSVersion
+      oid: 1.3.6.1.4.1.2604.5.1.1.6
+      type: DisplayString
+      help: Current snort version running in SFOS - 1.3.6.1.4.1.2604.5.1.1.6
+    - name: sfosCurrentDate
+      oid: 1.3.6.1.4.1.2604.5.1.2.1
+      type: ParseDateAndTime
+      help: Current system date and time - 1.3.6.1.4.1.2604.5.1.2.1
+      datetime_pattern: '%a %b %d %H:%M:%S %Y'
+    - name: sfosUpTime
+      oid: 1.3.6.1.4.1.2604.5.1.2.2
+      type: gauge
+      help: sysUpTime will display the SNMP agent up time - 1.3.6.1.4.1.2604.5.1.2.2
+    - name: sfosDiskCapacity
+      oid: 1.3.6.1.4.1.2604.5.1.2.4.1
+      type: gauge
+      help: Disk capacity in MB - 1.3.6.1.4.1.2604.5.1.2.4.1
+    - name: sfosDiskPercentUsage
+      oid: 1.3.6.1.4.1.2604.5.1.2.4.2
+      type: gauge
+      help: '% Disk usage - 1.3.6.1.4.1.2604.5.1.2.4.2'
+    - name: sfosMemoryCapacity
+      oid: 1.3.6.1.4.1.2604.5.1.2.5.1
+      type: gauge
+      help: Memory capacity in MB - 1.3.6.1.4.1.2604.5.1.2.5.1
+    - name: sfosMemoryPercentUsage
+      oid: 1.3.6.1.4.1.2604.5.1.2.5.2
+      type: gauge
+      help: '% usage of main memory - 1.3.6.1.4.1.2604.5.1.2.5.2'
+    - name: sfosSwapCapacity
+      oid: 1.3.6.1.4.1.2604.5.1.2.5.3
+      type: gauge
+      help: Swap Capacity in MB - 1.3.6.1.4.1.2604.5.1.2.5.3
+    - name: sfosSwapPercentUsage
+      oid: 1.3.6.1.4.1.2604.5.1.2.5.4
+      type: gauge
+      help: '% usage of swap - 1.3.6.1.4.1.2604.5.1.2.5.4'
+    - name: sfosLiveUsersCount
+      oid: 1.3.6.1.4.1.2604.5.1.2.6
+      type: gauge
+      help: Display live user count login into captive portal - 1.3.6.1.4.1.2604.5.1.2.6
+    - name: sfosHTTPHits
+      oid: 1.3.6.1.4.1.2604.5.1.2.7
+      type: counter
+      help: ' - 1.3.6.1.4.1.2604.5.1.2.7'
+    - name: sfosFTPHits
+      oid: 1.3.6.1.4.1.2604.5.1.2.8
+      type: counter
+      help: ' - 1.3.6.1.4.1.2604.5.1.2.8'
+    - name: sfosPOP3Hits
+      oid: 1.3.6.1.4.1.2604.5.1.2.9.1
+      type: counter
+      help: ' - 1.3.6.1.4.1.2604.5.1.2.9.1'
+    - name: sfosImapHits
+      oid: 1.3.6.1.4.1.2604.5.1.2.9.2
+      type: counter
+      help: ' - 1.3.6.1.4.1.2604.5.1.2.9.2'
+    - name: sfosSmtpHits
+      oid: 1.3.6.1.4.1.2604.5.1.2.9.3
+      type: counter
+      help: ' - 1.3.6.1.4.1.2604.5.1.2.9.3'
+    - name: sfosPoP3Service
+      oid: 1.3.6.1.4.1.2604.5.1.3.1
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.1'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosImap4Service
+      oid: 1.3.6.1.4.1.2604.5.1.3.2
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.2'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosSmtpService
+      oid: 1.3.6.1.4.1.2604.5.1.3.3
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.3'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosFtpService
+      oid: 1.3.6.1.4.1.2604.5.1.3.4
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.4'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosHttpService
+      oid: 1.3.6.1.4.1.2604.5.1.3.5
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.5'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosAVService
+      oid: 1.3.6.1.4.1.2604.5.1.3.6
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.6'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosASService
+      oid: 1.3.6.1.4.1.2604.5.1.3.7
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.7'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosDNSService
+      oid: 1.3.6.1.4.1.2604.5.1.3.8
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.8'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosHAService
+      oid: 1.3.6.1.4.1.2604.5.1.3.9
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.9'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosIPSService
+      oid: 1.3.6.1.4.1.2604.5.1.3.10
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.10'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosApacheService
+      oid: 1.3.6.1.4.1.2604.5.1.3.11
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.11'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosNtpService
+      oid: 1.3.6.1.4.1.2604.5.1.3.12
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.12'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosTomcatService
+      oid: 1.3.6.1.4.1.2604.5.1.3.13
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.13'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosSSLVpnService
+      oid: 1.3.6.1.4.1.2604.5.1.3.14
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.14'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosIPSecVpnService
+      oid: 1.3.6.1.4.1.2604.5.1.3.15
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.15'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosDatabaseservice
+      oid: 1.3.6.1.4.1.2604.5.1.3.16
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.16'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosNetworkService
+      oid: 1.3.6.1.4.1.2604.5.1.3.17
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.17'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosGarnerService
+      oid: 1.3.6.1.4.1.2604.5.1.3.18
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.18'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosDroutingService
+      oid: 1.3.6.1.4.1.2604.5.1.3.19
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.19'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosSSHdService
+      oid: 1.3.6.1.4.1.2604.5.1.3.20
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.20'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosDgdService
+      oid: 1.3.6.1.4.1.2604.5.1.3.21
+      type: EnumAsStateSet
+      help: ' - 1.3.6.1.4.1.2604.5.1.3.21'
+      enum_values:
+        0: untouched
+        1: stopped
+        2: initializing
+        3: running
+        4: exiting
+        5: dead
+        6: frozen
+        7: unregistered
+    - name: sfosHAStatus
+      oid: 1.3.6.1.4.1.2604.5.1.4.1
+      type: EnumAsInfo
+      help: ' - 1.3.6.1.4.1.2604.5.1.4.1'
+      enum_values:
+        0: disabled
+        1: enabled
+    - name: sfosDeviceCurrentHAState
+      oid: 1.3.6.1.4.1.2604.5.1.4.4
+      type: EnumAsStateSet
+      help: HA State of current Device - 1.3.6.1.4.1.2604.5.1.4.4
+      enum_values:
+        0: notapplicable
+        1: auxiliary
+        2: standAlone
+        3: primary
+        4: faulty
+        5: ready
+    - name: sfosDevicePeerHAState
+      oid: 1.3.6.1.4.1.2604.5.1.4.5
+      type: EnumAsStateSet
+      help: HA State of peer Device - 1.3.6.1.4.1.2604.5.1.4.5
+      enum_values:
+        0: notapplicable
+        1: auxiliary
+        2: standAlone
+        3: primary
+        4: faulty
+        5: ready
+    - name: sfosDeviceHAConfigMode
+      oid: 1.3.6.1.4.1.2604.5.1.4.6
+      type: DisplayString
+      help: HA State of peer Device - 1.3.6.1.4.1.2604.5.1.4.6
+    - name: sfosDeviceLoadBalancing
+      oid: 1.3.6.1.4.1.2604.5.1.4.7
+      type: EnumAsInfo
+      help: sfos device load device - 1.3.6.1.4.1.2604.5.1.4.7
+      enum_values:
+        0: notapplicable
+        1: loadBalanceOff
+        2: loadBalanceOn
+    - name: sfosDeviceHAPort
+      oid: 1.3.6.1.4.1.2604.5.1.4.8
+      type: DisplayString
+      help: SFOS dedciated port for HA - 1.3.6.1.4.1.2604.5.1.4.8
+    - name: sfosDeviceHACurrentIP
+      oid: 1.3.6.1.4.1.2604.5.1.4.9
+      type: InetAddressIPv4
+      help: IPAddress of current Device for HA - 1.3.6.1.4.1.2604.5.1.4.9
+    - name: sfosDeviceHAPeerIP
+      oid: 1.3.6.1.4.1.2604.5.1.4.10
+      type: InetAddressIPv4
+      help: Peer device IP Address - 1.3.6.1.4.1.2604.5.1.4.10
+    - name: sfosDeviceAuxAdminPort
+      oid: 1.3.6.1.4.1.2604.5.1.4.11.1
+      type: DisplayString
+      help: SFOS Auxiliary Admin Port - 1.3.6.1.4.1.2604.5.1.4.11.1
+    - name: sfosDeviceHAAuxAdminIP
+      oid: 1.3.6.1.4.1.2604.5.1.4.11.2
+      type: InetAddressIPv4
+      help: SFOS Auxiliary Admin IP - 1.3.6.1.4.1.2604.5.1.4.11.2
+    - name: sfosDeviceHAAuxAdminIPv6
+      oid: 1.3.6.1.4.1.2604.5.1.4.11.3
+      type: OctetString
+      help: SFOS Auxiliary Admin IPv6 - 1.3.6.1.4.1.2604.5.1.4.11.3
+    - name: sfosBaseFWLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.1.1
+      type: EnumAsStateSet
+      help: Base Firewall protection Lic status - 1.3.6.1.4.1.2604.5.1.5.1.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosBaseFWLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.1.2
+      type: ParseDateAndTime
+      help: Base Firewall protection Lic expiry date - 1.3.6.1.4.1.2604.5.1.5.1.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosNetProtectionLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.2.1
+      type: EnumAsStateSet
+      help: Network Protection registration Lic status - 1.3.6.1.4.1.2604.5.1.5.2.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosNetProtectionLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.2.2
+      type: ParseDateAndTime
+      help: Network Protection Lic Expiry Date - 1.3.6.1.4.1.2604.5.1.5.2.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosWebProtectionLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.3.1
+      type: EnumAsStateSet
+      help: Web Protection registration Lic status - 1.3.6.1.4.1.2604.5.1.5.3.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosWebProtectionLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.3.2
+      type: ParseDateAndTime
+      help: Web Protection Lic Expiry Date - 1.3.6.1.4.1.2604.5.1.5.3.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosMailProtectionLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.4.1
+      type: EnumAsStateSet
+      help: EMail Protection Lic Status - 1.3.6.1.4.1.2604.5.1.5.4.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosMailProtectionLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.4.2
+      type: ParseDateAndTime
+      help: EMail Protection Lic Expiry Date - 1.3.6.1.4.1.2604.5.1.5.4.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosWebServerProtectionLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.5.1
+      type: EnumAsStateSet
+      help: web server Protection Lic status - 1.3.6.1.4.1.2604.5.1.5.5.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosWebServerProtectionLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.5.2
+      type: ParseDateAndTime
+      help: web server Protection Lic Expiry Date - 1.3.6.1.4.1.2604.5.1.5.5.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosSandstromLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.6.1
+      type: EnumAsStateSet
+      help: sandstrom Protection Lic status - 1.3.6.1.4.1.2604.5.1.5.6.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosSandstromLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.6.2
+      type: ParseDateAndTime
+      help: sandstrom Protection Lic Expiry Date - 1.3.6.1.4.1.2604.5.1.5.6.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosEnhancedSupportLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.7.1
+      type: EnumAsStateSet
+      help: Enhanced Support Lic Status - 1.3.6.1.4.1.2604.5.1.5.7.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosEnhancedSupportLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.7.2
+      type: ParseDateAndTime
+      help: Enhanced Support Lic expiry date - 1.3.6.1.4.1.2604.5.1.5.7.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosEnhancedPlusLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.8.1
+      type: EnumAsStateSet
+      help: Enhanced Plus Support Lic Status - 1.3.6.1.4.1.2604.5.1.5.8.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosEnhancedPlusLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.8.2
+      type: ParseDateAndTime
+      help: Enhanced Plus Support Lic expiry date - 1.3.6.1.4.1.2604.5.1.5.8.2
+      datetime_pattern: '%b %d %Y'
+    - name: sfosCentralOrchestrationLicRegStatus
+      oid: 1.3.6.1.4.1.2604.5.1.5.9.1
+      type: EnumAsStateSet
+      help: Central Orchestration registration Lic Status - 1.3.6.1.4.1.2604.5.1.5.9.1
+      enum_values:
+        0: none
+        1: evaluating
+        2: notsubscribed
+        3: subscribed
+        4: expired
+        5: deactivated
+    - name: sfosCentralOrchestrationLicExpiryDate
+      oid: 1.3.6.1.4.1.2604.5.1.5.9.2
+      type: ParseDateAndTime
+      help: Central Orchestration Lic expiry date - 1.3.6.1.4.1.2604.5.1.5.9.2
+      datetime_pattern: '%b %d %Y'
   synology:
     walk:
     - 1.3.6.1.4.1.6574.1
