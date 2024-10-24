@@ -1,0 +1,124 @@
+-- SNMPv3 Traps for ICT Platinum Series
+--
+-- Date         Version
+-- =============================
+-- 4/22/22      1.00
+--
+
+ICT-PLATINUM-TRAP-V3-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises, MODULE-IDENTITY, NOTIFICATION-TYPE
+				FROM SNMPv2-SMI;
+
+ictPower			MODULE-IDENTITY
+	LAST-UPDATED		"202204220000Z"
+	ORGANIZATION		"Innovative Circuit Technology"
+	CONTACT-INFO		"www.ict-power.com"
+	DESCRIPTION		"SNMPv3 Traps for ICT Platinum Series"
+	::= { enterprises 39145 }
+
+platinumSeries			OBJECT IDENTIFIER ::= { ictPower 11 }
+
+platinumSeriesTraps		OBJECT IDENTIFIER ::= { platinumSeries 0 }
+
+--
+-- Trap definitions:
+--
+
+acFailAlarmTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the AC Failure Alarm is triggered"
+	::= { platinumSeriesTraps 101 }
+
+dcFailAlarmTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the DC Failure Alarm is triggered"
+	::= { platinumSeriesTraps 102 }
+
+sysFailAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the System Failure Alarm is triggered"
+	::= { platinumSeriesTraps 103 }
+
+overtemperatureAlarmTrap	NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the Over-Temperature Alarm is triggered"
+	::= { platinumSeriesTraps 104 }
+
+commFailAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when communications lost with a Parallel Unit"
+	::= { platinumSeriesTraps 105 }
+
+fanFailAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the Fan Failure Alarm is triggered"
+	::= { platinumSeriesTraps 106 }
+
+batteryAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Alarm is triggered"
+	::= { platinumSeriesTraps 107 }
+
+acFailAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the AC Failure Alarm is cleared"
+	::= { platinumSeriesTraps 111 }
+
+dcFailAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the DC Failure Alarm is cleared"
+	::= { platinumSeriesTraps 112 }
+
+sysFailAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the System Failure Alarm is cleared"
+	::= { platinumSeriesTraps 113 }
+
+overtemperatureAlarmClear	NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the Over-Temperature Alarm is cleared"
+	::= { platinumSeriesTraps 114 }
+
+commFailAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the Communications Failure Alarm is cleared"
+	::= { platinumSeriesTraps 115 }
+
+fanFailAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the Fan Failure Alarm is cleared"
+	::= { platinumSeriesTraps 116 }
+
+batteryAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the Battery Alarm is cleared"
+	::= { platinumSeriesTraps 117 }
+
+batteryTestStart		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Discharge Test is started"
+	::= { platinumSeriesTraps 121 }
+
+batteryTestComplete		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Discharge Test completes successfully"
+	::= { platinumSeriesTraps 122 }
+
+batteryTestFail			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Discharge Test fails"
+	::= { platinumSeriesTraps 123 }
+
+batteryEqualizeStart		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Equalize Charge is started"
+	::= { platinumSeriesTraps 124 }
+
+batteryEqualizeComplete		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Equalize Charge completes"
+	::= { platinumSeriesTraps 125 }
+
+END

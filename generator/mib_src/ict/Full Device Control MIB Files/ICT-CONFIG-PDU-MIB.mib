@@ -1,0 +1,385 @@
+-- ICT MIB file for ICT Distribution Panel Series - Device Configuration.
+--
+-- Date         Version
+-- =============================
+-- 10/18/21     1.00
+--
+
+ICT-CONFIG-PDU-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises, IpAddress	FROM RFC1155-SMI
+	DisplayString		FROM RFC1213-MIB
+	OBJECT-TYPE		FROM RFC-1212
+	TRAP-TYPE		FROM RFC-1215;
+
+ictPower			OBJECT IDENTIFIER ::= { enterprises 39145 }
+
+setup				OBJECT IDENTIFIER ::= { ictPower 2 }
+
+distPanelSetup			OBJECT IDENTIFIER ::= { setup 10 }
+
+
+-- DISTRIBUTION PANEL SETUP
+
+sequenceDelay			OBJECT-TYPE
+	SYNTAX			INTEGER (0..60)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Sequence/Cycle Delay (seconds)"
+	::= { distPanelSetup 1 }
+
+reverseSequenceOrder		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Reverse Sequence Order"
+	::= { distPanelSetup 2 }
+
+fuseAlarmEmail			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when Fuse/Circuit Breaker Alarm triggered"
+	::= { distPanelSetup 3 }
+
+fuseAlarmContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when Fuse/Circuit Breaker Alarm triggered"
+	::= { distPanelSetup 4 }
+
+outputSetupTable		OBJECT-TYPE
+	SYNTAX SEQUENCE OF OutputSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Output Setup Table"
+	::= { distPanelSetup 5 }
+
+outputSetupEntry		OBJECT-TYPE
+	SYNTAX			OutputSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { outNumber }
+	::= { outputSetupTable 1 }
+
+OutputSetupEntry ::=
+	SEQUENCE {
+		outNumber		Integer32,
+		outName			DisplayString,
+		outState		INTEGER,
+		outIgnoreFuseStatus	INTEGER,
+		outPowerCyclingEnable	INTEGER,
+		outLoadShedEnable	INTEGER,
+		outLoadShedThreshold	Integer32,
+		outRecoveryEnable	INTEGER,
+		outLoadShedRecovery	Integer32,
+		outOverCurrentThreshold	Integer32,
+		outOverCurrentContact	INTEGER,
+		outOverCurrentEmail	INTEGER,
+		outOverCurrentDisable	INTEGER,
+		outUndCurrentThreshold	Integer32,
+		outUndCurrentContact	INTEGER,
+		outUndCurrentEmail	INTEGER
+	}
+
+outNumber			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Output Number"
+	::= { outputSetupEntry 1 }
+
+outName				OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..16))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Name"
+	::= { outputSetupEntry 2 }
+
+outState			OBJECT-TYPE
+	SYNTAX			INTEGER { restoreLastState(1), enableOutput(2), disableOutput(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output State after Restart"
+	::= { outputSetupEntry 3 }
+
+outIgnoreFuseStatus		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Ignore Fuse/Circuit Breaker Status"
+	::= { outputSetupEntry 4 }
+
+outPowerCyclingEnable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Power Cycling"
+	::= { outputSetupEntry 5 }
+
+outLoadShedEnable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Load-Shedding"
+	::= { outputSetupEntry 6 }
+
+outLoadShedThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Load-Shedding Threshold (VDC X 100)"
+	::= { outputSetupEntry 7 }
+
+outRecoveryEnable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Load-Shedding Auto Recovery"
+	::= { outputSetupEntry 8 }
+
+outLoadShedRecovery		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Load-Shedding Auto Recovery Threshold (VDC X 100)"
+	::= { outputSetupEntry 9 }
+
+outOverCurrentThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Over-Current Alarm Threshold (Amps X 100)"
+	::= { outputSetupEntry 10 }
+
+outOverCurrentEmail		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when Output Over-Current Alarm triggered"
+	::= { outputSetupEntry 11 }
+
+outOverCurrentContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when Output Over-Current Alarm triggered"
+	::= { outputSetupEntry 12 }
+
+outOverCurrentDisable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Disable Output when Output Over-Current Alarm triggered"
+	::= { outputSetupEntry 13 }
+
+outUndCurrentThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Under-Current Alarm Threshold (Amps X 100)"
+	::= { outputSetupEntry 14 }
+
+outUndCurrentEmail		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when Output Under-Current Alarm triggered"
+	::= { outputSetupEntry 15 }
+
+outUndCurrentContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when Output Under-Current Alarm triggered"
+	::= { outputSetupEntry 16 }
+
+busSetupTable			OBJECT-TYPE
+	SYNTAX SEQUENCE OF BusSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Bus Setup Table"
+	::= { distPanelSetup 6 }
+
+busSetupEntry			OBJECT-TYPE
+	SYNTAX			BusSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { bsNumber }
+	::= { busSetupTable 1 }
+
+BusSetupEntry ::=
+	SEQUENCE {
+		bsNumber		Integer32,
+		bsName			DisplayString,
+		bsUnderVoltageThreshold	Integer32,
+		bsUnderVoltageRecovery	Integer32,
+		bsUnderVoltageEmail	INTEGER,
+		bsUnderVoltageContact	INTEGER,
+		bsOverVoltageThreshold	Integer32,
+		bsOverVoltageEmail	INTEGER,
+		bsOverVoltageContact	INTEGER,
+		bsOverCurrentThreshold	Integer32,
+		bsOverCurrentContact	INTEGER,
+		bsOverCurrentEmail	INTEGER
+	}
+
+bsNumber			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Bus Number"
+	::= { busSetupEntry 1 }
+
+bsName				OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..16))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Bus Name"
+	::= { busSetupEntry 2 }
+
+bsUnderVoltageThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Bus Under-Voltage Alarm Threshold (VDC X 100)"
+	::= { busSetupEntry 3 }
+
+bsUnderVoltageRecovery		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Bus Under-Voltage Recovery Threshold (VDC X 100)"
+	::= { busSetupEntry 4 }
+
+bsUnderVoltageEmail		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when Bus Under-Voltage Alarm triggered"
+	::= { busSetupEntry 5 }
+
+bsUnderVoltageContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when Bus Under-Voltage Alarm triggered"
+	::= { busSetupEntry 6 }
+
+bsOverVoltageThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Bus Over-Voltage Alarm Threshold (VDC X 100)"
+	::= { busSetupEntry 7 }
+
+bsOverVoltageEmail		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when Bus Over-Voltage Alarm triggered"
+	::= { busSetupEntry 8 }
+
+bsOverVoltageContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when Bus Over-Voltage Alarm triggered"
+	::= { busSetupEntry 9 }
+
+bsOverCurrentThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Bus Over-Current Alarm Threshold (Amps X 100)"
+	::= { busSetupEntry 10 }
+
+bsOverCurrentEmail		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when Bus Over-Current Alarm triggered"
+	::= { busSetupEntry 11 }
+
+bsOverCurrentContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when Bus Over-Current Alarm triggered"
+	::= { busSetupEntry 12 }
+
+watchdogSetupTable		OBJECT-TYPE
+	SYNTAX SEQUENCE OF WatchdogSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Setup Table"
+	::= { distPanelSetup 7 }
+
+watchdogSetupEntry		OBJECT-TYPE
+	SYNTAX			WatchdogSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { wdNumber }
+	::= { watchdogSetupTable 1 }
+
+WatchdogSetupEntry ::=
+	SEQUENCE {
+		wdNumber		Integer32,
+		wdEnable		INTEGER,
+		wdPrimaryAddr		IpAddress,
+		wdSecondaryAddr		IpAddress,
+		wdCycleOutputs		DisplayString
+	}
+
+wdNumber			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Number"
+	::= { watchdogSetupEntry 1 }
+
+wdEnable			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Network Watchdog"
+	::= { watchdogSetupEntry 2 }
+
+wdPrimaryAddr			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Primary IP Address"
+	::= { watchdogSetupEntry 3 }
+
+wdSecondaryAddr			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Secondary IP Address"
+	::= { watchdogSetupEntry 4 }
+
+wdCycleOutputs			OBJECT-TYPE
+	SYNTAX			DisplayString
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Outputs cycled when Network Watchdog triggered (One character in string per output. '1' indicates Output is CYCLED, and '2' indicates Output is NOT CYCLED)"
+	::= { watchdogSetupEntry 5 }
+
+watchdogTimeout			OBJECT-TYPE
+	SYNTAX			INTEGER (1..80)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Timeout (minutes)"
+	::= { distPanelSetup 8 }
+
+watchdogMaxRetries		OBJECT-TYPE
+	SYNTAX			INTEGER (0..999)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Maximum Cycle Attempts"
+	::= { distPanelSetup 9 }
+
+END

@@ -1,0 +1,609 @@
+-- ICT MIB file for ICT Modular Power System - Device Configuration.
+--
+-- Date		Version
+-- =============================
+-- 8/04/22	v1.00
+--
+
+ICT-CONFIG-POWERSYSTEM-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises, IpAddress	FROM RFC1155-SMI
+	DisplayString		FROM RFC1213-MIB
+	OBJECT-TYPE		FROM RFC-1212
+	TRAP-TYPE		FROM RFC-1215;
+
+ictPower			OBJECT IDENTIFIER ::= { enterprises 39145 }
+
+setup				OBJECT IDENTIFIER ::= { ictPower 2 }
+
+powerSystemSetup		OBJECT IDENTIFIER ::= { setup 13 }
+
+
+-- MODULAR POWER SYSTEM SETUP
+
+voltageSetpoint			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Voltage Setpoint (VDC x 100)"
+	::= { powerSystemSetup 1 }
+
+currentLimitSetpoint		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Current Limit Setpoint (VDC x 100)"
+	::= { powerSystemSetup 2 }
+
+autoRestartDelay		OBJECT-TYPE
+	SYNTAX			INTEGER (5..240)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Auto-Restart Delay (seconds)"
+	::= { powerSystemSetup 3 }
+
+outputTempComp			OBJECT-TYPE
+	SYNTAX			INTEGER (0..10)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Voltage Temperature Compensation (-mV/C)"
+	::= { powerSystemSetup 4 }
+
+batteryEqualizeVoltage		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Voltage (VDC x 100)"
+	::= { powerSystemSetup 5 }
+
+batteryEqualizeDuration		OBJECT-TYPE
+	SYNTAX			INTEGER (10..240)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Duration (minutes)"
+	::= { powerSystemSetup 6 }
+
+batteryEqualizeInterval		OBJECT-TYPE
+	SYNTAX			INTEGER (0..180)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Interval (days)"
+	::= { powerSystemSetup 7 }
+
+batteryEqualizeDow		OBJECT-TYPE
+	SYNTAX			INTEGER { sun(1), mon(2), tue(3), wed(4), thu(5), fri(6), sat(7), any(8) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Day of Week"
+	::= { powerSystemSetup 8 }
+
+batteryEqualizeStartTime	OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(4))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Start Time (HHmm)"
+	::= { powerSystemSetup 9 }
+
+batteryEqualizeControl		OBJECT-TYPE
+	SYNTAX			INTEGER { start(1), stop(2), notReady(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Manual Equalize Charge Control (Set value to '1' to start Equalize Charge, '2' to stop Equalize Charge)"
+	::= { powerSystemSetup 10 }
+
+batteryTestVoltage		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Voltage Limit (VDC x 100)"
+	::= { powerSystemSetup 11 }
+
+batteryTestDuration		OBJECT-TYPE
+	SYNTAX			INTEGER (10..240)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Maximum Time (minutes)"
+	::= { powerSystemSetup 12 }
+
+batteryTestInterval		OBJECT-TYPE
+	SYNTAX			INTEGER (0..180)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Interval (days)"
+	::= { powerSystemSetup 13 }
+
+batteryTestDow			OBJECT-TYPE
+	SYNTAX			INTEGER { sun(1), mon(2), tue(3), wed(4), thu(5), fri(6), sat(7), any(8) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Day of Week"
+	::= { powerSystemSetup 14 }
+
+batteryTestStartTime		OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(4))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Start Time (HHmm)"
+	::= { powerSystemSetup 15 }
+
+batteryTestControl		OBJECT-TYPE
+	SYNTAX			INTEGER { start(1), stop(2), notReady(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Manual Battery Discharge Test Control (Set value to '1' to start Battery Test, '2' to stop Battery Test)"
+	::= { powerSystemSetup 16 }
+
+bmmSetupTable			OBJECT-TYPE
+	SYNTAX SEQUENCE OF BmmSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Battery Management Module (BMM) Setup Table"
+	::= { powerSystemSetup 17 }
+
+bmmSetupEntry			OBJECT-TYPE
+	SYNTAX			BmmSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { bmmIndex }
+	::= { bmmSetupTable 1 }
+
+BmmSetupEntry ::=
+	SEQUENCE {
+		bmmIndex		Integer32,
+		bmmModuleNumber		INTEGER,
+		bmmInstalled		INTEGER,
+		bmmAlarmEmail		INTEGER,
+		bmmAlarmContact		INTEGER,
+		bmmDisconnectThreshold	Integer32,
+		bmmReconnectThreshold	Integer32,
+		bmmCurrentLimit		Integer32,
+		bmmBatteryCapacity	INTEGER,
+		bmmBatteryRate		INTEGER,
+		bmmOverCurrentThreshold	Integer32,
+		bmmLowSocThreshold	INTEGER,
+		bmmIgnoreBreakerStatus	INTEGER
+	}
+
+bmmIndex			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"BMM Index Number"
+	::= { bmmSetupEntry 1 }
+
+bmmModuleNumber			OBJECT-TYPE
+	SYNTAX			INTEGER (1..8)
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Module Number (1-8) of the BMM Module"
+	::= { bmmSetupEntry 2 }
+
+bmmInstalled			OBJECT-TYPE
+	SYNTAX			INTEGER { installed(1), notInstalled(2) }
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"a value of '1' indicates this module is Installed, and a value of '2' indicates this module is Not Installed"
+	::= { bmmSetupEntry 3 }
+
+bmmAlarmEmail			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when BMM Module triggers an Alarm"
+	::= { bmmSetupEntry 4 }
+
+bmmAlarmContact			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when BMM Module triggers an Alarm"
+	::= { bmmSetupEntry 5 }
+
+bmmDisconnectThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"LVD Disconnect Voltage (VDC x 100)"
+	::= { bmmSetupEntry 6 }
+
+bmmReconnectThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"LVD Reconnect Voltage (VDC x 100)"
+	::= { bmmSetupEntry 7 }
+
+bmmCurrentLimit			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Charge Current Limit Setpoint (Amps x 100)"
+	::= { bmmSetupEntry 8 }
+
+bmmBatteryCapacity		OBJECT-TYPE
+	SYNTAX			INTEGER (50..1000)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Capacity (Ah)"
+	::= { bmmSetupEntry 9 }
+
+bmmBatteryRate			OBJECT-TYPE
+	SYNTAX			INTEGER (5..20)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Rate (Hour Rate)"
+	::= { bmmSetupEntry 10 }
+
+bmmOverCurrentThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Over-Current Alarm Threshold (Amps x 100)"
+	::= { bmmSetupEntry 11 }
+
+bmmLowSocThreshold		OBJECT-TYPE
+	SYNTAX			INTEGER (0..100)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Low SOC Alarm Threshold (%)"
+	::= { bmmSetupEntry 12 }
+
+bmmIgnoreBreakerStatus		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Ignore Circuit Breaker 2 Status"
+	::= { bmmSetupEntry 13 }
+
+ldmSetupTable			OBJECT-TYPE
+	SYNTAX SEQUENCE OF LdmSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Load Distribution Module (LDM) Setup Table"
+	::= { powerSystemSetup 18 }
+
+ldmSetupEntry			OBJECT-TYPE
+	SYNTAX			LdmSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { ldmIndex }
+	::= { ldmSetupTable 1 }
+
+LdmSetupEntry ::=
+	SEQUENCE {
+		ldmIndex		Integer32,
+		ldmModuleNumber		INTEGER,
+		ldmInstalled		INTEGER,
+		ldmAlarmEmail		INTEGER,
+		ldmAlarmContact		INTEGER,
+		ldmSequenceDelay	INTEGER
+	}
+
+ldmIndex			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"LDM Index Number"
+	::= { ldmSetupEntry 1 }
+
+ldmModuleNumber			OBJECT-TYPE
+	SYNTAX			INTEGER (1..8)
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Module Number (1-8) of the LDM Module"
+	::= { ldmSetupEntry 2 }
+
+ldmInstalled			OBJECT-TYPE
+	SYNTAX			INTEGER { installed(1), notInstalled(2) }
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"a value of '1' indicates this module is Installed, and a value of '2' indicates this module is Not Installed"
+	::= { ldmSetupEntry 3 }
+
+ldmAlarmEmail			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when LDM Module triggers an Alarm"
+	::= { ldmSetupEntry 4 }
+
+ldmAlarmContact			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when LDM Module triggers an Alarm"
+	::= { ldmSetupEntry 5 }
+
+ldmSequenceDelay		OBJECT-TYPE
+	SYNTAX			INTEGER (0..60)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Sequence/Cycle Delay (seconds)"
+	::= { ldmSetupEntry 6 }
+
+ldmOutputTable			OBJECT-TYPE
+	SYNTAX SEQUENCE OF LdmOutputEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Load Distribution Module Output Setup Table"
+	::= { powerSystemSetup 19 }
+
+ldmOutputEntry			OBJECT-TYPE
+	SYNTAX			LdmOutputEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { outIndex }
+	::= { ldmOutputTable 1 }
+
+LdmOutputEntry ::=
+	SEQUENCE {
+		outIndex		Integer32,
+		outModuleNumber		INTEGER,
+		outInstalled		INTEGER,
+		outOutputNumber		INTEGER,
+		outName			DisplayString,
+		outState		INTEGER,
+		outIgnoreBreakerStatus	INTEGER,
+		outPowerCyclingEnable	INTEGER,
+		outLoadShedEnable	INTEGER,
+		outLoadShedThreshold	Integer32,
+		outRecoveryEnable	INTEGER,
+		outLoadShedRecovery	Integer32,
+		outOverCurrentThreshold	Integer32,
+		outOverCurrentDisable	INTEGER,
+		outUndCurrentThreshold	Integer32,
+		outLoadShedAcFailure	INTEGER
+	}
+
+outIndex			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"LDM Output Index Number"
+	::= { ldmOutputEntry 1 }
+
+outModuleNumber			OBJECT-TYPE
+	SYNTAX			INTEGER (1..8)
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Module Number (1-8) of the LDM Module"
+	::= { ldmOutputEntry 2 }
+
+outInstalled			OBJECT-TYPE
+	SYNTAX			INTEGER { installed(1), notInstalled(2) }
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"a value of '1' indicates this module is Installed, and a value of '2' indicates this module is Not Installed"
+	::= { ldmOutputEntry 3 }
+
+outOutputNumber			OBJECT-TYPE
+	SYNTAX			INTEGER (1..4)
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Output Number (1-4) of the Output on the LDM Module"
+	::= { ldmOutputEntry 4 }
+
+outName				OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..14))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Name"
+	::= { ldmOutputEntry 5 }
+
+outState			OBJECT-TYPE
+	SYNTAX			INTEGER { restoreLastState(1), enableOutput(2), disableOutput(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output State after Restart"
+	::= { ldmOutputEntry 6 }
+
+outIgnoreBreakerStatus		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Ignore Circuit Breaker Status"
+	::= { ldmOutputEntry 7 }
+
+outPowerCyclingEnable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Power Cycling"
+	::= { ldmOutputEntry 8 }
+
+outLoadShedEnable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Load-Shedding"
+	::= { ldmOutputEntry 9 }
+
+outLoadShedThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Load-Shedding Threshold (VDC X 100)"
+	::= { ldmOutputEntry 10 }
+
+outRecoveryEnable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Load-Shedding Auto Recovery"
+	::= { ldmOutputEntry 11 }
+
+outLoadShedRecovery		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Load-Shedding Auto Recovery Threshold (VDC X 100)"
+	::= { ldmOutputEntry 12 }
+
+outOverCurrentThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Over-Current Alarm Threshold (Amps X 100)"
+	::= { ldmOutputEntry 13 }
+
+outOverCurrentDisable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Disable Output when Output Over-Current Alarm triggered"
+	::= { ldmOutputEntry 14 }
+
+outUndCurrentThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Under-Current Alarm Threshold (Amps X 100)"
+	::= { ldmOutputEntry 15 }
+
+outLoadShedAcFailure		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Load-Shedding upon AC Failure condition"
+	::= { ldmOutputEntry 16 }
+
+watchdogSetupTable		OBJECT-TYPE
+	SYNTAX SEQUENCE OF WatchdogSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Setup Table"
+	::= { powerSystemSetup 20 }
+
+watchdogSetupEntry		OBJECT-TYPE
+	SYNTAX			WatchdogSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { wdNumber }
+	::= { watchdogSetupTable 1 }
+
+WatchdogSetupEntry ::=
+	SEQUENCE {
+		wdNumber		Integer32,
+		wdEnable		INTEGER,
+		wdPrimaryAddr		IpAddress,
+		wdSecondaryAddr		IpAddress,
+		wdTarget		INTEGER
+	}
+
+wdNumber			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Number"
+	::= { watchdogSetupEntry 1 }
+
+wdEnable			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Network Watchdog"
+	::= { watchdogSetupEntry 2 }
+
+wdPrimaryAddr			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Primary IP Address"
+	::= { watchdogSetupEntry 3 }
+
+wdSecondaryAddr			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Secondary IP Address"
+	::= { watchdogSetupEntry 4 }
+
+wdTarget			OBJECT-TYPE
+	SYNTAX			INTEGER { systemOutput(1), ldmOutputs(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Reset Target"
+	::= { watchdogSetupEntry 5 }
+
+watchdogTimeout			OBJECT-TYPE
+	SYNTAX			INTEGER (1..80)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Network Watchdog Timeout (minutes)"
+	::= { powerSystemSetup 21 }
+
+batteryType			OBJECT-TYPE
+	SYNTAX			INTEGER { leadAcid(1), lithiumIon(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Type (1:Lead Acid battery, 2:Lithium Ion battery)"
+	::= { powerSystemSetup 22 }
+
+dcdcSetupTable			OBJECT-TYPE
+	SYNTAX SEQUENCE OF DcdcSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"DC Converter Module Setup Table"
+	::= { powerSystemSetup 23 }
+
+dcdcSetupEntry			OBJECT-TYPE
+	SYNTAX			DcdcSetupEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { dcdcIndex }
+	::= { dcdcSetupTable 1 }
+
+DcdcSetupEntry ::=
+	SEQUENCE {
+		dcdcIndex		Integer32,
+		dcdcModuleNumber	INTEGER,
+		dcdcInstalled		INTEGER,
+		dcdcAlarmEmail		INTEGER,
+		dcdcOutputVoltage	Integer32,
+		dcdcCurrentLimit	Integer32
+	}
+
+dcdcIndex			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"DC Converter Index Number"
+	::= { dcdcSetupEntry 1 }
+
+dcdcModuleNumber		OBJECT-TYPE
+	SYNTAX			INTEGER (1..8)
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Module Number (1-8) of the DC Converter Module"
+	::= { dcdcSetupEntry 2 }
+
+dcdcInstalled			OBJECT-TYPE
+	SYNTAX			INTEGER { installed(1), notInstalled(2) }
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"a value of '1' indicates this module is Installed, and a value of '2' indicates this module is Not Installed"
+	::= { dcdcSetupEntry 3 }
+
+dcdcAlarmEmail			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when DC Converter Module triggers an Alarm"
+	::= { dcdcSetupEntry 4 }
+
+dcdcOutputVoltage		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"DC Converter Output Voltage (VDC X 100)"
+	::= { dcdcSetupEntry 5 }
+
+dcdcCurrentLimit		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"DC Converter Current Limit (Amps X 100)"
+	::= { dcdcSetupEntry 6 }
+
+END

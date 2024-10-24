@@ -1,0 +1,256 @@
+-- ICT MIB file for ICT Platinum Series - Device Configuration.
+--
+-- Date         Version
+-- =============================
+-- 9/30/21      1.00
+--
+
+ICT-CONFIG-PLATINUM-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises, IpAddress	FROM RFC1155-SMI
+	DisplayString		FROM RFC1213-MIB
+	OBJECT-TYPE		FROM RFC-1212
+	TRAP-TYPE		FROM RFC-1215;
+
+ictPower			OBJECT IDENTIFIER ::= { enterprises 39145 }
+
+setup				OBJECT IDENTIFIER ::= { ictPower 2 }
+
+platinumSeriesSetup		OBJECT IDENTIFIER ::= { setup 11 }
+
+
+-- PLATINUM SERIES SETUP
+
+voltageSetpoint			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Voltage Setpoint (VDC x 100)"
+	::= { platinumSeriesSetup 1 }
+
+currentLimitSetpoint		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Current Limit Setpoint (VDC x 100)"
+	::= { platinumSeriesSetup 2 }
+
+autoRestartDelay		OBJECT-TYPE
+	SYNTAX			INTEGER (5..240)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Auto-Restart Delay (seconds)"
+	::= { platinumSeriesSetup 3 }
+
+outputTempComp			OBJECT-TYPE
+	SYNTAX			INTEGER (0..10)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Output Voltage Temperature Compensation (-mV/C)"
+	::= { platinumSeriesSetup 4 }
+
+batteryEqualizeVoltage		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Voltage (VDC x 100)"
+	::= { platinumSeriesSetup 5 }
+
+batteryEqualizeDuration		OBJECT-TYPE
+	SYNTAX			INTEGER (10..240)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Duration (minutes)"
+	::= { platinumSeriesSetup 6 }
+
+batteryEqualizeInterval		OBJECT-TYPE
+	SYNTAX			INTEGER (0..180)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Interval (days)"
+	::= { platinumSeriesSetup 7 }
+
+batteryEqualizeDow		OBJECT-TYPE
+	SYNTAX			INTEGER { sun(1), mon(2), tue(3), wed(4), thu(5), fri(6), sat(7), any(8) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Day of Week"
+	::= { platinumSeriesSetup 8 }
+
+batteryEqualizeStartTime	OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(4))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Equalize Charge Start Time (HHmm)"
+	::= { platinumSeriesSetup 9 }
+
+batteryEqualizeControl		OBJECT-TYPE
+	SYNTAX			INTEGER { start(1), stop(2), notReady(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Manual Equalize Charge Control (Set value to '1' to start Equalize Charge, '2' to stop Equalize Charge)"
+	::= { platinumSeriesSetup 10 }
+
+batteryTestVoltage		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Voltage Limit (VDC x 100)"
+	::= { platinumSeriesSetup 11 }
+
+batteryTestDuration		OBJECT-TYPE
+	SYNTAX			INTEGER (10..240)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Maximum Time (minutes)"
+	::= { platinumSeriesSetup 12 }
+
+batteryTestInterval		OBJECT-TYPE
+	SYNTAX			INTEGER (0..180)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Interval (days)"
+	::= { platinumSeriesSetup 13 }
+
+batteryTestDow			OBJECT-TYPE
+	SYNTAX			INTEGER { sun(1), mon(2), tue(3), wed(4), thu(5), fri(6), sat(7), any(8) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Day of Week"
+	::= { platinumSeriesSetup 14 }
+
+batteryTestStartTime		OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(4))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Discharge Test Start Time (HHmm)"
+	::= { platinumSeriesSetup 15 }
+
+batteryTestControl		OBJECT-TYPE
+	SYNTAX			INTEGER { start(1), stop(2), notReady(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Manual Battery Discharge Test Control (Set value to '1' to start Battery Test, '2' to stop Battery Test)"
+	::= { platinumSeriesSetup 16 }
+
+lvdDisconnectThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"LVD Disconnect Voltage (VDC x 100)"
+	::= { platinumSeriesSetup 17 }
+
+lvdReconnectThreshold		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"LVD Reconnect Voltage (VDC x 100)"
+	::= { platinumSeriesSetup 18 }
+
+batteryCurrentLimit		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Charge Current Limit Setpoint (Amps x 100)"
+	::= { platinumSeriesSetup 19 }
+
+batteryCapacity			OBJECT-TYPE
+	SYNTAX			INTEGER (50..1000)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Capacity (Ah)"
+	::= { platinumSeriesSetup 20 }
+
+batteryRate			OBJECT-TYPE
+	SYNTAX			INTEGER (5..20)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Rate (Hour Rate)"
+	::= { platinumSeriesSetup 21 }
+
+batteryOverCurrentThreshold	OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Over-Current Alarm Threshold (Amps x 100)"
+	::= { platinumSeriesSetup 22 }
+
+batteryLowSocThreshold		OBJECT-TYPE
+	SYNTAX			INTEGER (0..100)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Low SOC Alarm Threshold (%)"
+	::= { platinumSeriesSetup 23 }
+
+parallelMode			OBJECT-TYPE
+	SYNTAX			INTEGER { standalone(1), secondary(2), primary(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Parallel Operation Mode"
+	::= { platinumSeriesSetup 24 }
+
+parallelId			OBJECT-TYPE
+	SYNTAX			INTEGER (0..5)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Parallel Device ID"
+	::= { platinumSeriesSetup 25 }
+
+parallelSecEmail		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Secondary Unit Alarm Emails"
+	::= { platinumSeriesSetup 26 }
+
+deviceAlarmTable		OBJECT-TYPE
+	SYNTAX SEQUENCE OF DeviceAlarmEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Device Alarm Notification Table"
+	::= { platinumSeriesSetup 27 }
+
+deviceAlarmEntry		OBJECT-TYPE
+	SYNTAX			DeviceAlarmEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { deviceAlarmNumber }
+	::= { deviceAlarmTable 1 }
+
+DeviceAlarmEntry ::=
+	SEQUENCE {
+		deviceAlarmNumber	INTEGER,
+		deviceAlarmEmail	INTEGER,
+		deviceAlarmContact	INTEGER,
+	}
+
+deviceAlarmNumber		OBJECT-TYPE
+	SYNTAX			INTEGER (1..8)
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Alarm Number (1:DC Output Failure, 2:AC Input Failure, 3:Over-Temperature, 4:Fan Failure, 5:Parallel Unit Offline, 6:LVD Disconnect, 7:Battery Over-Current, 8:Battery Low SOC)"
+	::= { deviceAlarmEntry 1 }
+
+deviceAlarmEmail		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send Email when Alarm triggered"
+	::= { deviceAlarmEntry 2 }
+
+deviceAlarmContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Alarm Form C Contact when Alarm triggered"
+	::= { deviceAlarmEntry 3 }
+
+batteryType			OBJECT-TYPE
+	SYNTAX			INTEGER { leadAcid(1), lithiumIon(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Battery Type (1:Lead Acid battery, 2:Lithium Ion battery)"
+	::= { platinumSeriesSetup 28 }
+
+END

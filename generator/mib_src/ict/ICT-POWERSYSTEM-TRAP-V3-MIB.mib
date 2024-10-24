@@ -1,0 +1,94 @@
+-- SNMPv3 Traps for ICT Modular Power System
+--
+-- Date         Version
+-- =============================
+-- 4/22/22      1.00
+--
+
+ICT-POWERSYSTEM-TRAP-V3-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises, MODULE-IDENTITY, NOTIFICATION-TYPE
+				FROM SNMPv2-SMI;
+
+ictPower			MODULE-IDENTITY
+	LAST-UPDATED		"202204220000Z"
+	ORGANIZATION		"Innovative Circuit Technology"
+	CONTACT-INFO		"www.ict-power.com"
+	DESCRIPTION		"SNMPv3 Traps for ICT Modular Power System"
+	::= { enterprises 39145 }
+
+powerSystem			OBJECT IDENTIFIER ::= { ictPower 13 }
+
+powerSystemTraps		OBJECT IDENTIFIER ::= { powerSystem 0 }
+
+--
+-- Trap definitions:
+--
+
+moduleAlarmTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Module Alarm is triggered"
+	::= { powerSystemTraps 101 }
+
+alarmInputTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Alarm Input is activated"
+	::= { powerSystemTraps 102 }
+
+acFailAlarmTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the AC Failure Alarm is triggered"
+	::= { powerSystemTraps 103 }
+
+sysCurrentLimitTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the System Current Limit Alarm is triggered"
+	::= { powerSystemTraps 104 }
+
+moduleAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Module Alarm is cleared"
+	::= { powerSystemTraps 111 }
+
+alarmInputClear			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Alarm Input is cleared"
+	::= { powerSystemTraps 112 }
+
+acFailAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the AC Failure Alarm is cleared"
+	::= { powerSystemTraps 113 }
+
+sysCurrentLimitClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when the System Current Limit Alarm is cleared"
+	::= { powerSystemTraps 114 }
+
+batteryTestStart		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Discharge Test is started"
+	::= { powerSystemTraps 121 }
+
+batteryTestComplete		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Discharge Test completes successfully"
+	::= { powerSystemTraps 122 }
+
+batteryTestFail			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Discharge Test fails"
+	::= { powerSystemTraps 123 }
+
+batteryEqualizeStart		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Equalize Charge is started"
+	::= { powerSystemTraps 124 }
+
+batteryEqualizeComplete		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a Battery Equalize Charge completes"
+	::= { powerSystemTraps 125 }
+
+END

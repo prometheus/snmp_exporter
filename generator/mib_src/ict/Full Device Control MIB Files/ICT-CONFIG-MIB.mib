@@ -1,0 +1,493 @@
+-- ICT MIB file for Common Device Settings Configuration.
+--
+-- Date         Version
+-- =============================
+-- 4/14/22      1.01
+--
+
+ICT-CONFIG-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises, IpAddress	FROM RFC1155-SMI
+	DisplayString		FROM RFC1213-MIB
+	OBJECT-TYPE		FROM RFC-1212
+	TRAP-TYPE		FROM RFC-1215;
+
+ictPower			OBJECT IDENTIFIER ::= { enterprises 39145 }
+
+setup				OBJECT IDENTIFIER ::= { ictPower 2 }
+maintenance			OBJECT IDENTIFIER ::= { ictPower 3 }
+
+generalSetup			OBJECT IDENTIFIER ::= { setup 1 }
+networkSetup			OBJECT IDENTIFIER ::= { setup 2 }
+snmpSetup			OBJECT IDENTIFIER ::= { setup 3 }
+userSetup			OBJECT IDENTIFIER ::= { setup 4 }
+emailSetup			OBJECT IDENTIFIER ::= { setup 5 }
+alarmSetup			OBJECT IDENTIFIER ::= { setup 6 }
+
+
+-- GENERAL SETUP
+
+siteName			OBJECT-TYPE
+	SYNTAX			DisplayString
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Site/Device Name"
+        ::= { generalSetup 1 }
+
+enableNtp			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable NTP"
+        ::= { generalSetup 2 }
+
+ntpServer			OBJECT-TYPE
+	SYNTAX			DisplayString
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"NTP Server"
+        ::= { generalSetup 3 }
+
+timeZone			OBJECT-TYPE
+	SYNTAX			INTEGER (-12..13)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Time Zone"
+        ::= { generalSetup 4 }
+
+devDateTime			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(12))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Current Date and Time (yyMMddHHmmss)"
+        ::= { generalSetup 5 }
+
+enableLog			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Data Logging"
+        ::= { generalSetup 6 }
+
+
+-- NETWORK SETUP
+
+enableDhcp			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable DHCP (change takes effect after restart)"
+        ::= { networkSetup 1 }
+
+ipAddr				OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"IP Address (change takes effect after restart)"
+        ::= { networkSetup 2 }
+
+subnetMask			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Subnet Mask (change takes effect after restart)"
+        ::= { networkSetup 3 }
+
+defGateway			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Default Gateway (change takes effect after restart)"
+        ::= { networkSetup 4 }
+
+dnsPrimaryAddr			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Primary DNS Server (change takes effect after restart)"
+        ::= { networkSetup 5 }
+
+dnsSecondaryAddr		OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Secondary DNS Server (change takes effect after restart)"
+        ::= { networkSetup 6 }
+
+httpPort			OBJECT-TYPE
+	SYNTAX			INTEGER (1..65535)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"HTTP Port (change takes effect after restart)"
+        ::= { networkSetup 7 }
+
+httpsPort			OBJECT-TYPE
+	SYNTAX			INTEGER (1..65535)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"HTTPS Port (change takes effect after restart)"
+        ::= { networkSetup 8 }
+
+
+-- SNMP SETUP
+
+enableSnmp			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable SNMP (change takes effect after restart)"
+        ::= { snmpSetup 1 }
+
+snmpVersion			OBJECT-TYPE
+	SYNTAX			INTEGER { v1v2c(1), v3(2), all(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMP Version (change takes effect after restart)"
+        ::= { snmpSetup 2 }
+
+snmpWriteAccess			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable SNMP Write Access (change takes effect after restart)"
+        ::= { snmpSetup 3 }
+
+readCommunity			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv1/v2c Read Community (write-only, change takes effect after restart)"
+        ::= { snmpSetup 4 }
+
+writeCommunity			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv1/v2c Write Community (write-only, change takes effect after restart)"
+        ::= { snmpSetup 5 }
+
+trapCommunity			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMP Trap Community (write-only, change takes effect after restart)"
+        ::= { snmpSetup 6 }
+
+trapPrimaryAddr			OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMP Trap Primary Destination IP Address (change takes effect after restart)"
+        ::= { snmpSetup 7 }
+
+trapSecondaryAddr		OBJECT-TYPE
+	SYNTAX			IpAddress
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMP Trap Secondary Destination IP Address (change takes effect after restart)"
+        ::= { snmpSetup 8 }
+
+authProtocol			OBJECT-TYPE
+	SYNTAX			INTEGER { none(1), md5(2), sha(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Authentication Protocol (change takes effect after restart)"
+        ::= { snmpSetup 9 }
+
+privProtocol			OBJECT-TYPE
+	SYNTAX			INTEGER { none(1), aes(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Privacy Protocol (change takes effect after restart)"
+        ::= { snmpSetup 10 }
+
+snmpUser			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 User Name (change takes effect after restart)"
+        ::= { snmpSetup 11 }
+
+authPassword			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Authentication Password (write-only, change takes effect after restart)"
+        ::= { snmpSetup 12 }
+
+privPassword			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Privacy Password (write-only, change takes effect after restart)"
+        ::= { snmpSetup 13 }
+
+secSnmpUser			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Secondary User Name - for SNMPv3 Traps (change takes effect after restart)"
+        ::= { snmpSetup 14 }
+
+secAuthPassword			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Secondary User Authentication Password (write-only, change takes effect after restart)"
+        ::= { snmpSetup 15 }
+
+secPrivPassword			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Secondary User Privacy Password (write-only, change takes effect after restart)"
+        ::= { snmpSetup 16 }
+
+secAuthProtocol			OBJECT-TYPE
+	SYNTAX			INTEGER { none(1), md5(2), sha(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Secondary User Authentication Protocol (change takes effect after restart)"
+        ::= { snmpSetup 17 }
+
+secPrivProtocol			OBJECT-TYPE
+	SYNTAX			INTEGER { none(1), aes(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMPv3 Secondary User Privacy Protocol (change takes effect after restart)"
+        ::= { snmpSetup 18 }
+
+trapVersion			OBJECT-TYPE
+	SYNTAX			INTEGER { v1(1), v3(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SNMP Trap Version (change takes effect after restart)"
+        ::= { snmpSetup 19 }
+
+
+-- USER SETUP
+
+userTable			OBJECT-TYPE
+	SYNTAX SEQUENCE OF UserEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Web Interface User Table"
+	::= { userSetup 1 }
+
+userEntry			OBJECT-TYPE
+	SYNTAX			UserEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { userNumber }
+	::= { userTable 1 }
+
+UserEntry ::=
+	SEQUENCE {
+		userNumber	Integer32,
+		userName	DisplayString,
+		userPassword	DisplayString,
+		accessLevel	INTEGER
+	}
+
+userNumber			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"User Number"
+	::= { userEntry 1 }
+
+userName			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..15))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"User Name"
+	::= { userEntry 2 }
+
+userPassword			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..32))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Password (write-only)"
+	::= { userEntry 3 }
+
+accessLevel			OBJECT-TYPE
+	SYNTAX			INTEGER { full(1), control(2), viewOnly(3), disabled(4) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"User Access Level"
+	::= { userEntry 4 }
+
+
+-- EMAIL SETUP
+
+smtpServer			OBJECT-TYPE
+	SYNTAX			DisplayString
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SMTP Server"
+        ::= { emailSetup 1 }
+
+smtpPort			OBJECT-TYPE
+	SYNTAX			INTEGER (1..65535)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SMTP Port"
+        ::= { emailSetup 2 }
+
+smtpSsl				OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SMTP Server Requires SSL"
+        ::= { emailSetup 3 }
+
+smtpUser			OBJECT-TYPE
+	SYNTAX			DisplayString
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SMTP User Name"
+        ::= { emailSetup 4 }
+
+smtpPassword			OBJECT-TYPE
+	SYNTAX			DisplayString
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"SMTP Password (write-only)"
+        ::= { emailSetup 5 }
+
+senderAddr			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..48))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Sender Email Address"
+        ::= { emailSetup 6 }
+
+recipientAddr			OBJECT-TYPE
+	SYNTAX			DisplayString (SIZE(0..111))
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Recipient Email Addresses"
+        ::= { emailSetup 7 }
+
+minInterval			OBJECT-TYPE
+	SYNTAX			INTEGER (0..60)
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Minimum Email Interval (minutes)"
+        ::= { emailSetup 8 }
+
+notificationTable		OBJECT-TYPE
+	SYNTAX SEQUENCE OF NotificationEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"General Email Notification Table"
+	::= { emailSetup 9 }
+
+notificationEntry		OBJECT-TYPE
+	SYNTAX			NotificationEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { notificationNumber }
+	::= { notificationTable 1 }
+
+NotificationEntry ::=
+	SEQUENCE {
+		notificationNumber	Integer32,
+		notificationEnable	INTEGER
+	}
+
+notificationNumber		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Email Notification Number"
+	::= { notificationEntry 1 }
+
+notificationEnable		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Enable Email Notification"
+	::= { notificationEntry 2 }
+
+
+-- ALARM SETUP
+
+alarmInputTable			OBJECT-TYPE
+	SYNTAX SEQUENCE OF AlarmInputEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	DESCRIPTION		"Alarm Input Table"
+	::= { alarmSetup 1 }
+
+alarmInputEntry			OBJECT-TYPE
+	SYNTAX			AlarmInputEntry
+	ACCESS			not-accessible
+	STATUS			mandatory
+	INDEX { alarmInputNumber }
+	::= { alarmInputTable 1 }
+
+AlarmInputEntry ::=
+	SEQUENCE {
+		alarmInputNumber	Integer32,
+		alarmInputName		DisplayString,
+		alarmInputType		INTEGER,
+		alarmInputEmail		INTEGER,
+		alarmInputContact	INTEGER,
+		alarmInputContactB	INTEGER
+	}
+
+alarmInputNumber		OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-only
+	STATUS			mandatory
+	DESCRIPTION		"Alarm Input Number"
+	::= { alarmInputEntry 1 }
+
+alarmInputName			OBJECT-TYPE
+	SYNTAX			DisplayString
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Alarm Input Name"
+	::= { alarmInputEntry 2 }
+
+alarmInputType			OBJECT-TYPE
+	SYNTAX			INTEGER { notUsed(1), normallyOpen(2), normallyClosed(3) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Alarm Input Contact Type"
+	::= { alarmInputEntry 3 }
+
+alarmInputEmail			OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Send email when Alarm Input triggered"
+	::= { alarmInputEntry 4 }
+
+alarmInputContact		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Form C Contact when Alarm Input triggered"
+	::= { alarmInputEntry 5 }
+
+alarmInputContactB		OBJECT-TYPE
+	SYNTAX			INTEGER { enabled(1), disabled(2) }
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Activate Form C Contact B when Alarm Input triggered (if available)"
+	::= { alarmInputEntry 6 }
+
+
+-- MAINTENANCE
+
+deviceRestart			OBJECT-TYPE
+	SYNTAX			Integer32
+	ACCESS			read-write
+	STATUS			mandatory
+	DESCRIPTION		"Set value '1' to save changes to Network/SNMP settings and restart the device"
+        ::= { maintenance 1 }
+
+END

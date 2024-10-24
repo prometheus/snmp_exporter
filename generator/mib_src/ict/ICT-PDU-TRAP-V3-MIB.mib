@@ -1,0 +1,109 @@
+-- SNMPv3 Traps for ICT Distribution Panel Series
+--
+-- Date         Version
+-- =============================
+-- 4/22/22      1.00
+--
+
+ICT-PDU-TRAP-V3-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises, MODULE-IDENTITY, NOTIFICATION-TYPE
+				FROM SNMPv2-SMI;
+
+ictPower			MODULE-IDENTITY
+	LAST-UPDATED		"202204220000Z"
+	ORGANIZATION		"Innovative Circuit Technology"
+	CONTACT-INFO		"www.ict-power.com"
+	DESCRIPTION		"SNMPv3 Traps for ICT Distribution Panel Series"
+	::= { enterprises 39145 }
+
+distPanel			OBJECT IDENTIFIER ::= { ictPower 10 }
+
+distPanelTraps			OBJECT IDENTIFIER ::= { distPanel 0 }
+
+--
+-- Trap definitions:
+--
+
+sysUndervoltageAlarmTrap	NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a System/Bus Undervoltage Alarm is triggered"
+	::= { distPanelTraps 101 }
+
+sysOvervoltageAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a System/Bus Overvoltage Alarm is triggered"
+	::= { distPanelTraps 102 }
+
+sysOvercurrentAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a System/Bus Overcurrent Alarm is triggered"
+	::= { distPanelTraps 103 }
+
+fuseAlarmTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Output Fuse Alarm is triggered"
+	::= { distPanelTraps 104 }
+
+undercurrentAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Output Undercurrent Alarm is triggered"
+	::= { distPanelTraps 105 }
+
+overcurrentAlarmTrap		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Output Overcurrent Alarm is triggered"
+	::= { distPanelTraps 106 }
+
+loadshedTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when Load-Shedding is activated on an Output"
+	::= { distPanelTraps 107 }
+
+alarmInputTrap			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Alarm Input is activated"
+	::= { distPanelTraps 108 }
+
+sysUndervoltageAlarmClear	NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a System/Bus Undervoltage Alarm is cleared"
+	::= { distPanelTraps 111 }
+
+sysOvervoltageAlarmClear	NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a System/Bus Overvoltage Alarm is cleared"
+	::= { distPanelTraps 112 }
+
+sysOvercurrentAlarmClear	NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when a System/Bus Overcurrent Alarm is cleared"
+	::= { distPanelTraps 113 }
+
+fuseAlarmClear			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Output Fuse Alarm is cleared"
+	::= { distPanelTraps 114 }
+
+undercurrentAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Output Undercurrent Alarm is cleared"
+	::= { distPanelTraps 115 }
+
+overcurrentAlarmClear		NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Output Overcurrent Alarm is cleared"
+	::= { distPanelTraps 116 }
+
+loadshedClear			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Output has recovered from a Load-Shedding condition"
+	::= { distPanelTraps 117 }
+
+alarmInputClear			NOTIFICATION-TYPE
+	STATUS			current
+	DESCRIPTION		"Trap generated when an Alarm Input is cleared"
+	::= { distPanelTraps 118 }
+
+END
