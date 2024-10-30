@@ -771,3 +771,17 @@ modules:
   hrSWInstalled:
     walk:
       - hrSWInstalled
+
+#
+# Powercom MIBs
+#
+# https://www.upspowercom.com/Card-DA807.jsp
+#
+  powercom:
+    walk:
+      - 1.3.6.1.4.1.935.1.1.1.1
+      - 1.3.6.1.4.1.935.1.1.1.2
+      - 1.3.6.1.4.1.935.1.1.1.3
+      - 1.3.6.1.4.1.935.1.1.1.4
+      - 1.3.6.1.4.1.935.1.1.1.9
+      - 1.3.6.1.4.1.476.1.42.3

@@ -61,6 +61,7 @@ LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/moni
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
+POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.mib
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -154,7 +155,8 @@ mibs: \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/CyberPower.MIB \
   $(MIBDIR)/EAP.MIB \
-  $(MIBDIR)/EAP-Client.MIB
+  $(MIBDIR)/EAP-Client.MIB \
+  $(MIBDIR)/powercom
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib"
@@ -393,3 +395,7 @@ $(MIBDIR)/readydataos:
 	@unzip -j -d $(MIBDIR) $(TMP) READYDATAOS-MIB.txt
 	@mv -v $(MIBDIR)/READYDATAOS-MIB.txt $(MIBDIR)/readydataos
 	@rm -v $(TMP)
+
+$(MIBDIR)/powercom:
+	@echo ">> Downloading powercom"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/powercom "$(POWERCOM_URL)"
