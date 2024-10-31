@@ -33497,7 +33497,16 @@ modules:
       help: Number of active tunnels - 1.3.6.1.4.1.25461.2.1.2.5.1.3
   powercom:
     walk:
-    - 1.3.6.1.4.1.935.1.1.1
+    - 1.3.6.1.4.1.935.1.1.1.1
+    - 1.3.6.1.4.1.935.1.1.1.2
+    - 1.3.6.1.4.1.935.1.1.1.3
+    - 1.3.6.1.4.1.935.1.1.1.4
+    - 1.3.6.1.4.1.935.1.1.1.5
+    - 1.3.6.1.4.1.935.1.1.1.6
+    - 1.3.6.1.4.1.935.1.1.1.7
+    - 1.3.6.1.4.1.935.1.1.1.8
+    - 1.3.6.1.4.1.935.1.1.1.9
+    - 1.3.6.1.4.1.935.2.1.2.1
     metrics:
     - name: upsBaseIdentModel
       oid: 1.3.6.1.4.1.935.1.1.1.1.1.1
@@ -34308,6 +34317,48 @@ modules:
       type: gauge
       help: Alarm dupsAlarmUnderHumidity on when the environment humidity below the
         value. - 1.3.6.1.4.1.935.1.1.1.9.2.4
+    - name: trapsIndex
+      oid: 1.3.6.1.4.1.935.2.1.2.1.1
+      type: gauge
+      help: The index to a trap receiver entry. - 1.3.6.1.4.1.935.2.1.2.1.1
+      indexes:
+      - labelname: trapsIndex
+        type: gauge
+    - name: trapsReceiverAddr
+      oid: 1.3.6.1.4.1.935.2.1.2.1.2
+      type: InetAddressIPv4
+      help: The IP address of the manager to send a trap to. - 1.3.6.1.4.1.935.2.1.2.1.2
+      indexes:
+      - labelname: trapsIndex
+        type: gauge
+    - name: receiverCommunityString
+      oid: 1.3.6.1.4.1.935.2.1.2.1.3
+      type: DisplayString
+      help: The community name to use in the trap when sent to the manager. - 1.3.6.1.4.1.935.2.1.2.1.3
+      indexes:
+      - labelname: trapsIndex
+        type: gauge
+    - name: severityLevel
+      oid: 1.3.6.1.4.1.935.2.1.2.1.4
+      type: gauge
+      help: The severity threshold of traps to send to the manager - 1.3.6.1.4.1.935.2.1.2.1.4
+      indexes:
+      - labelname: trapsIndex
+        type: gauge
+      enum_values:
+        1: information
+        2: warning
+        3: severe
+    - name: receiverAccept
+      oid: 1.3.6.1.4.1.935.2.1.2.1.5
+      type: gauge
+      help: An entry will become active if yes, and will be deleted if no. - 1.3.6.1.4.1.935.2.1.2.1.5
+      indexes:
+      - labelname: trapsIndex
+        type: gauge
+      enum_values:
+        1: "yes"
+        2: "no"
   printer_mib:
     walk:
     - 1.3.6.1.2.1.43.11.1.1.5
