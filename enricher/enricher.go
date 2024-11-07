@@ -66,6 +66,13 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 		}
 	}
 
+	aggregate := "true"
+
+	// If the ifName contains "Port-channel", or "Port-Channel", then we don't want to aggregate it
+	if strings.Contains(ifName, "Port-channel") || strings.Contains(ifName, "Port-Channel") {
+		aggregate = "false"
+	}
+
 	if port != nil {
 		member := "Anonymous Participant"
 		pubgraphs := "0"
@@ -87,6 +94,7 @@ func (e *Enricher) Enrich(target string, labels map[string]string) map[string]st
 		labels["facility"] = port.Facility.Name
 		labels["industry"] = industry
 		labels["public"] = pubgraphs
+		labels["aggregate"] = aggregate
 
 		labels["join"] = port.Switch.Name + "/" + ifName
 	}
