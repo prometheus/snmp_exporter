@@ -35,6 +35,7 @@ APC_URL           := https://download.schneider-electric.com/files?p_enDocType=F
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
+HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
@@ -59,6 +60,7 @@ INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IP
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
+SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -79,6 +81,7 @@ clean:
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology \
+		$(MIBDIR)/.sophos_xg \
 		$(MIBDIR)/.kemp-lm \
 		$(MIBDIR)/readynas \
 		$(MIBDIR)/readydataos
@@ -118,6 +121,7 @@ mibs: \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/iDRAC-SMIv2.mib \
+  $(MIBDIR)/HPE-MIB \
   $(MIBDIR)/ENTITY-MIB \
   $(MIBDIR)/ENTITY-SENSOR-MIB \
   $(MIBDIR)/ENTITY-STATE-MIB \
@@ -140,6 +144,7 @@ mibs: \
   $(MIBDIR)/servertech-sentry3-mib \
   $(MIBDIR)/servertech-sentry4-mib \
   $(MIBDIR)/.synology \
+  $(MIBDIR)/.sophos_xg \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
@@ -184,6 +189,15 @@ $(MIBDIR)/iDRAC-SMIv2.mib:
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-SMIv2.mib
 	@rm -v $(TMP)
+
+$(MIBDIR)/HPE-MIB:
+	$(eval TMP := $(shell mktemp))
+	$(eval TMP_DIR := $(shell mktemp -d))
+	@echo ">> Downloading HPE to $(TMP)"
+	@curl -L $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(HPE_URL)
+	@tar -xf $(TMP) -C $(TMP_DIR)
+	@mv $(TMP_DIR)/*cpq*.mib $(MIBDIR)
+	@rm -rf $(TMP_DIR) $(TMP)
 
 $(MIBDIR)/ENTITY-MIB:
 	@echo ">> Downloading Cisco ENTITY-MIB"
@@ -293,6 +307,14 @@ $(MIBDIR)/servertech-sentry4-mib:
 	@echo ">> Downloading servertech-sentry4-mib"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/servertech-sentry4-mib $(SERVERTECH4_URL)
 
+$(MIBDIR)/.sophos_xg:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Sophos XG to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(SOPHOS_XG_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) sophos-xg-mib/SOPHOS-XG-MIB20.txt
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.sophos_xg
+
 $(MIBDIR)/.synology:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading synology to $(TMP)"
@@ -371,4 +393,3 @@ $(MIBDIR)/readydataos:
 	@unzip -j -d $(MIBDIR) $(TMP) READYDATAOS-MIB.txt
 	@mv -v $(MIBDIR)/READYDATAOS-MIB.txt $(MIBDIR)/readydataos
 	@rm -v $(TMP)
-        

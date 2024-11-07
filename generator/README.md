@@ -121,6 +121,14 @@ modules:
     retries: 3   # How many times to retry a failed request, defaults to 3.
     timeout: 5s  # Timeout for each individual SNMP request, defaults to 5s.
 
+    allow_nonincreasing_oids: false # Do not check whether the returned OIDs are increasing, defaults to false
+                                    # Some agents return OIDs out of order, but can complete the walk anyway.
+                                    # -Cc option of NetSNMP
+
+    use_unconnected_udp_socket: false # Use a unconnected udp socket, defaults to false
+                                      # Some multi-homed network gear isn't smart enough to send SNMP responses
+                                      # from the address it received the requests on. To work around that,
+                                      # we can open unconnected UDP socket and use sendto/recvfrom
 
     lookups:  # Optional list of lookups to perform.
               # The default for `keep_source_indexes` is false. Indexes must be unique for this option to be used.
@@ -158,6 +166,7 @@ modules:
               value: '1' # The first entry whose regex matches and whose value parses wins.
             - regex: '.*'
               value: '0'
+        datetime_pattern: # Used if type = ParseDateAndTime. Uses the strptime format (See: man 3 strptime)
         offset: 1.0 # Add the value to the same. Applied after scale.
         scale: 1.0 # Scale the value of the sample by this value.
         type: DisplayString # Override the metric type, possible types are:
@@ -165,6 +174,7 @@ modules:
                              #   counter: An integer with type counter.
                              #   OctetString: A bit string, rendered as 0xff34.
                              #   DateAndTime: An RFC 2579 DateAndTime byte sequence. If the device has no time zone data, UTC is used.
+                             #   ParseDateAndTime: Parse a DisplayString and return the timestamp. See datetime_pattern config option
                              #   DisplayString: An ASCII or UTF-8 string.
                              #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.
                              #   Float: A 32 bit floating-point value with type gauge.

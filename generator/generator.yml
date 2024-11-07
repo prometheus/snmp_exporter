@@ -63,6 +63,25 @@ modules:
       - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
       - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
 
+# HPE MIBs
+  hpe:
+    walk:
+      - sysUpTime
+      - 1.3.6.1.4.1.232.1.2.2.1.1     # CPU
+      - 1.3.6.1.4.1.232.11            # Firmware version
+      - 1.3.6.1.4.1.232.14            # Asmd agent IDE/SATA
+      - 1.3.6.1.4.1.232.3.2.2.1       # RAID storage controller
+      - 1.3.6.1.4.1.232.3.2.3.1.1     # Logical drives
+      - 1.3.6.1.4.1.232.3.2.5.1.1     # Physical drives
+      - 1.3.6.1.4.1.232.5             # Asmd agent SCSI disks
+      - 1.3.6.1.4.1.232.6.2.14.13.1.6 # Memory size only
+      - 1.3.6.1.4.1.232.6.2.15        # Power meter
+      - 1.3.6.1.4.1.232.6.2.16        # BIOS state
+      - 1.3.6.1.4.1.232.6.2.17        # RAID controller battery
+      - 1.3.6.1.4.1.232.6.2.6.8.1     # Temperatures
+      - 1.3.6.1.4.1.232.6.2.9         # Power supply
+      - 1.3.6.1.4.1.232.9.2.2         # ILO Module
+
 # APC/Schneider UPS Network Management Cards
 #
 # Note: older management cards only support SNMP v1 (AP9606 and
@@ -199,6 +218,130 @@ modules:
   arista_sw:
     walk:
       - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
+
+# Sophos XG
+#
+# Sophos XG MIBs can be found here:
+#   https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
+#
+# Tested on Sophos XG v20
+#
+  sophos_xg:
+    walk:
+      - 1.3.6.1.4.1.2604.5.1.1 # sfosXGDeviceInfo
+      - 1.3.6.1.4.1.2604.5.1.2 # sfosXGDeviceStats
+      - 1.3.6.1.4.1.2604.5.1.3 # sfosXGServiceStatus
+      - 1.3.6.1.4.1.2604.5.1.4 # sfosXGHAStats
+      - 1.3.6.1.4.1.2604.5.1.5 # sfosXGLicenseDetails
+    overrides:
+      # Info
+      sfosCurrentDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%a %b %d %H:%M:%S %Y"
+      # Services
+      sfosPoP3Service:
+        type: EnumAsStateSet
+      sfosImap4Service:
+        type: EnumAsStateSet
+      sfosSmtpService:
+        type: EnumAsStateSet
+      sfosFtpService:
+        type: EnumAsStateSet
+      sfosHttpService:
+        type: EnumAsStateSet
+      sfosAVService:
+        type: EnumAsStateSet
+      sfosASService:
+        type: EnumAsStateSet
+      sfosDNSService:
+        type: EnumAsStateSet
+      sfosHAService:
+        type: EnumAsStateSet
+      sfosIPSService:
+        type: EnumAsStateSet
+      sfosApacheService:
+        type: EnumAsStateSet
+      sfosNtpService:
+        type: EnumAsStateSet
+      sfosTomcatService:
+        type: EnumAsStateSet
+      sfosSSLVpnService:
+        type: EnumAsStateSet
+      sfosIPSecVpnService:
+        type: EnumAsStateSet
+      sfosDatabaseservice:
+        type: EnumAsStateSet
+      sfosNetworkService:
+        type: EnumAsStateSet
+      sfosGarnerService:
+        type: EnumAsStateSet
+      sfosDroutingService:
+        type: EnumAsStateSet
+      sfosSSHdService:
+        type: EnumAsStateSet
+      sfosDgdService:
+        type: EnumAsStateSet
+
+      # HA
+      sfosHAStatus:
+        type: EnumAsInfo
+      sfosDeviceCurrentAppKey:
+        ignore: true
+      sfosDevicePeerAppKey:
+        ignore: true
+      sfosDeviceCurrentHAState:
+        type: EnumAsStateSet
+      sfosDevicePeerHAState:
+        type: EnumAsStateSet
+      sfosDeviceLoadBalancing:
+        type: EnumAsInfo
+
+      # License
+      sfosBaseFWLicRegStatus:
+        type: EnumAsStateSet
+      sfosBaseFWLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosNetProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosNetProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosWebProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosWebProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosMailProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosMailProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosWebServerProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosWebServerProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosSandstromLicRegStatus:
+        type: EnumAsStateSet
+      sfosSandstromLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosEnhancedSupportLicRegStatus:
+        type: EnumAsStateSet
+      sfosEnhancedSupportLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosEnhancedPlusLicRegStatus:
+        type: EnumAsStateSet
+      sfosEnhancedPlusLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosCentralOrchestrationLicRegStatus:
+        type: EnumAsStateSet
+      sfosCentralOrchestrationLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
 
 # Synology
 #

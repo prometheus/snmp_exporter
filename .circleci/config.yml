@@ -1,0 +1,156 @@
+---
+version: 2.1
+
+orbs:
+  prometheus: prometheus/prometheus@0.17.1
+
+executors:
+  # Whenever the Go version is updated here, .promu.yml
+  # should also be updated.
+  golang:
+    docker:
+    - image: cimg/go:1.22
+    parameters:
+      working_dir:
+        type: string
+        default: ~/project
+    working_directory: << parameters.working_dir >>
+
+jobs:
+  test:
+    executor: golang
+
+    steps:
+    - prometheus/setup_environment
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install build-essential libsnmp-dev
+    - run: make
+    - run: git diff --exit-code
+    - prometheus/store_artifact:
+        file: snmp_exporter
+
+  generator:
+    executor:
+      name: golang
+      working_dir: ~/project/generator
+
+    environment:
+      MIBDIRS: mibs
+    steps:
+    - checkout:
+        path: ~/project
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
+    - run: make mibs
+    - run: make generator
+    - run: make parse_errors
+    - run: make generate
+    - run: diff -u ../snmp.yml snmp.yml
+
+  publish_generator_main:
+    executor: golang
+
+    steps:
+    - prometheus/setup_build_environment:
+        docker_version: ""
+    - run: make -C generator docker REPO_TAG=main DOCKER_IMAGE_TAG=main
+    - run: make -C generator docker REPO_TAG=main DOCKER_REPO=quay.io/prometheus DOCKER_IMAGE_TAG=main
+    - run: docker images
+    - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+    - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
+    - run: make -C generator docker-publish DOCKER_IMAGE_TAG=main
+    - run: make -C generator docker-publish DOCKER_REPO=quay.io/prometheus DOCKER_IMAGE_TAG=main
+
+  publish_generator_release:
+    executor: golang
+
+    steps:
+    - prometheus/setup_build_environment:
+        docker_version: ""
+    - run: make -C generator docker REPO_TAG=$CIRCLE_TAG DOCKER_IMAGE_TAG=$CIRCLE_TAG
+    - run: make -C generator docker REPO_TAG=$CIRCLE_TAG DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
+    - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+    - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
+    - run: |
+        if [[ "$CIRCLE_TAG" =~ ^v[0-9]+(\.[0-9]+){2}$ ]]; then
+          make -C generator docker-tag-latest DOCKER_IMAGE_TAG="$CIRCLE_TAG"
+          make -C generator docker-tag-latest DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/prometheus
+        fi
+    - run: make -C generator docker-publish DOCKER_IMAGE_TAG=$CIRCLE_TAG
+    - run: make -C generator docker-publish DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
+    - run: |
+        if [[ "$CIRCLE_TAG" =~ ^v[0-9]+(\.[0-9]+){2}$ ]]; then
+          make -C generator docker-publish DOCKER_IMAGE_TAG="latest"
+          make -C generator docker-publish DOCKER_IMAGE_TAG="latest" DOCKER_REPO=quay.io/prometheus
+        fi
+
+  mixin:
+    executor: golang
+
+    steps:
+    - checkout
+    - run: go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest
+    - run: go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+    - run: make -C snmp-mixin lint build
+
+workflows:
+  version: 2
+  snmp_exporter:
+    jobs:
+    - test:
+        filters:
+          tags:
+            only: /.*/
+    - mixin:
+        filters:
+          tags:
+            only: /.*/
+    - prometheus/build:
+        name: build
+        filters:
+          tags:
+            only: /.*/
+    - generator:
+        filters:
+          tags:
+            only: /.*/
+    - prometheus/publish_main:
+        context: org-context
+        requires:
+        - test
+        - build
+        - generator
+        filters:
+          branches:
+            only: main
+    - prometheus/publish_release:
+        context: org-context
+        requires:
+        - test
+        - build
+        - generator
+        filters:
+          tags:
+            only: /^v[0-9]+(\.[0-9]+){2}(-.+|[^-.]*)$/
+          branches:
+            ignore: /.*/
+    - publish_generator_main:
+        context: org-context
+        requires:
+        - test
+        - build
+        - generator
+        filters:
+          branches:
+            only: main
+    - publish_generator_release:
+        context: org-context
+        requires:
+        - test
+        - build
+        - generator
+        filters:
+          tags:
+            only: /^v[0-9]+(\.[0-9]+){2}(-.+|[^-.]*)$/
+          branches:
+            ignore: /.*/

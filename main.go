@@ -15,6 +15,7 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
@@ -24,15 +25,12 @@ import (
 	"syscall"
 
 	"github.com/alecthomas/kingpin/v2"
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
-	"github.com/iaa-inc/gosdk"
 	"github.com/prometheus/client_golang/prometheus"
 	versioncollector "github.com/prometheus/client_golang/prometheus/collectors/version"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/prometheus/common/promlog"
-	"github.com/prometheus/common/promlog/flag"
+	"github.com/prometheus/common/promslog"
+	"github.com/prometheus/common/promslog/flag"
 	"github.com/prometheus/common/version"
 	"github.com/prometheus/exporter-toolkit/web"
 	webflag "github.com/prometheus/exporter-toolkit/web/kingpinflag"
@@ -86,7 +84,7 @@ const (
 	configPath = "/config"
 )
 
-func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporterMetrics collector.Metrics) {
+func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, exporterMetrics collector.Metrics) {
 	query := r.URL.Query()
 
 	debug := *debugSNMP
@@ -94,7 +92,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporter
 		debug = true
 		// TODO: This doesn't work the way I want.
 		// logger = level.NewFilter(logger, level.AllowDebug())
-		level.Debug(logger).Log("msg", "Debug query param enabled")
+		logger.Debug("Debug query param enabled")
 	}
 
 	target := query.Get("target")
@@ -167,13 +165,12 @@ func handler(w http.ResponseWriter, r *http.Request, logger log.Logger, exporter
 		nmodules = append(nmodules, collector.NewNamedModule(m, module))
 	}
 	sc.RUnlock()
-	logger = log.With(logger, "auth", authName, "target", target)
+	logger = logger.With("auth", authName, "target", target)
 	registry := prometheus.NewRegistry()
 	c := collector.New(r.Context(), target, authName, snmpContext, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
-
 	h.ServeHTTP(w, r)
 }
 
@@ -211,12 +208,12 @@ func (sc *SafeConfig) ReloadConfig(configFile []string, expandEnvVars bool) (err
 }
 
 func main() {
-	promlogConfig := &promlog.Config{}
-	flag.AddFlags(kingpin.CommandLine, promlogConfig)
+	promslogConfig := &promslog.Config{}
+	flag.AddFlags(kingpin.CommandLine, promslogConfig)
 	kingpin.Version(version.Print("snmp_exporter"))
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
-	logger := promlog.New(promlogConfig)
+	logger := promslog.New(promslogConfig)
 	if *concurrency < 1 {
 		*concurrency = 1
 	}
@@ -230,22 +227,23 @@ func main() {
 	cache := enricher.NewCache(api, logger)
 	collector.Enrich = enricher.NewEnricher(api, cache)
 
-	level.Info(logger).Log("msg", "Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency, "debug_snmp", debugSNMP)
-	level.Info(logger).Log("build_context", version.BuildContext())
+	logger.Info("Starting snmp_exporter", "version", version.Info(), "concurrency", concurrency, "debug_snmp", debugSNMP)
+	logger.Info("operational information", "build_context", version.BuildContext())
 
 	prometheus.MustRegister(versioncollector.NewCollector("snmp_exporter"))
 
 	// Bail early if the config is bad.
 	err := sc.ReloadConfig(*configFile, *expandEnvVars)
 	if err != nil {
-		level.Error(logger).Log("msg", "Error parsing config file", "err", err)
-		level.Error(logger).Log("msg", "Possible old config file, see https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
+		logger.Error("Error parsing config file", "err", err)
+		logger.Error("Possible version missmatch between generator and snmp_exporter. Make sure generator and snmp_exporter are the same version.")
+		logger.Error("See also: https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
 		os.Exit(1)
 	}
 
 	// Exit if in dry-run mode.
 	if *dryRun {
-		level.Info(logger).Log("msg", "Configuration parsed successfully")
+		logger.Info("Configuration parsed successfully")
 		return
 	}
 
@@ -257,16 +255,16 @@ func main() {
 			select {
 			case <-hup:
 				if err := sc.ReloadConfig(*configFile, *expandEnvVars); err != nil {
-					level.Error(logger).Log("msg", "Error reloading config", "err", err)
+					logger.Error("Error reloading config", "err", err)
 				} else {
-					level.Info(logger).Log("msg", "Loaded config file")
+					logger.Info("Loaded config file")
 				}
 			case rc := <-reloadCh:
 				if err := sc.ReloadConfig(*configFile, *expandEnvVars); err != nil {
-					level.Error(logger).Log("msg", "Error reloading config", "err", err)
+					logger.Error("Error reloading config", "err", err)
 					rc <- err
 				} else {
-					level.Info(logger).Log("msg", "Loaded config file")
+					logger.Info("Loaded config file")
 					rc <- nil
 				}
 			}
@@ -365,7 +363,7 @@ func main() {
 		}
 		landingPage, err := web.NewLandingPage(landingConfig)
 		if err != nil {
-			level.Error(logger).Log("err", err)
+			logger.Error("Error creating landing page", "err", err)
 			os.Exit(1)
 		}
 		http.Handle("/", landingPage)
@@ -376,7 +374,7 @@ func main() {
 		c, err := yaml.Marshal(sc.C)
 		sc.RUnlock()
 		if err != nil {
-			level.Error(logger).Log("msg", "Error marshaling configuration", "err", err)
+			logger.Error("Error marshaling configuration", "err", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -385,7 +383,7 @@ func main() {
 
 	srv := &http.Server{}
 	if err := web.ListenAndServe(srv, toolkitFlags, logger); err != nil {
-		level.Error(logger).Log("msg", "Error starting HTTP server", "err", err)
+		logger.Error("Error starting HTTP server", "err", err)
 		os.Exit(1)
 	}
 }

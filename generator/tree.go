@@ -15,13 +15,11 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
@@ -44,7 +42,7 @@ func walkNode(n *Node, f func(n *Node)) {
 }
 
 // Transform the tree.
-func prepareTree(nodes *Node, logger log.Logger) map[string]*Node {
+func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 	// Build a map from names and oids to nodes.
 	nameToNode := map[string]*Node{}
 	walkNode(nodes, func(n *Node) {
@@ -80,7 +78,7 @@ func prepareTree(nodes *Node, logger log.Logger) map[string]*Node {
 		}
 		augmented, ok := nameToNode[n.Augments]
 		if !ok {
-			level.Warn(logger).Log("msg", "Can't find augmenting node", "augments", n.Augments, "node", n.Label)
+			logger.Warn("Can't find augmenting node", "augments", n.Augments, "node", n.Label)
 			return
 		}
 		for _, c := range n.Children {
@@ -135,6 +133,9 @@ func prepareTree(nodes *Node, logger log.Logger) map[string]*Node {
 		if n.TextualConvention == "DateAndTime" {
 			n.Type = "DateAndTime"
 		}
+		if n.TextualConvention == "ParseDateAndTime" {
+			n.Type = "ParseDateAndTime"
+		}
 		// Convert RFC 4001 InetAddress types textual convention to type.
 		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" || n.TextualConvention == "InetAddress" {
 			n.Type = n.TextualConvention
@@ -166,6 +167,8 @@ func metricType(t string) (string, bool) {
 	case "PhysAddress48", "DisplayString", "Float", "Double", "InetAddressIPv6":
 		return t, true
 	case "DateAndTime":
+		return t, true
+	case "ParseDateAndTime":
 		return t, true
 	case "EnumAsInfo", "EnumAsStateSet":
 		return t, true
@@ -271,7 +274,7 @@ func getIndexNode(lookup string, nameToNode map[string]*Node, metricOid string) 
 	return nameToNode[lookup]
 }
 
-func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node, logger log.Logger) (*config.Module, error) {
+func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*Node, logger *slog.Logger) (*config.Module, error) {
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 	tableInstances := map[string][]string{}
@@ -284,7 +287,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		// Find node to override.
 		n, ok := nameToNode[name]
 		if !ok {
-			level.Warn(logger).Log("msg", "Could not find node to override type", "node", name)
+			logger.Warn("Could not find node to override type", "node", name)
 			continue
 		}
 		// params.Type validated at generator configuration.
@@ -368,12 +371,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
 				if !ok {
-					level.Warn(logger).Log("msg", "Could not find index for node", "node", n.Label, "index", i)
+					logger.Warn("Could not find index for node", "node", n.Label, "index", i)
 					return
 				}
 				index.Type, ok = metricType(indexNode.Type)
 				if !ok {
-					level.Warn(logger).Log("msg", "Can't handle index type on node", "node", n.Label, "index", i, "type", indexNode.Type)
+					logger.Warn("Can't handle index type on node", "node", n.Label, "index", i, "type", indexNode.Type)
 					return
 				}
 				index.FixedSize = indexNode.FixedSize
@@ -389,7 +392,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					} else if prev2Type == subtype {
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-2]
 					} else {
-						level.Warn(logger).Log("msg", "Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
+						logger.Warn("Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
 						return
 					}
 				}
@@ -528,6 +531,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		for _, metric := range out.Metrics {
 			if name == metric.Name || name == metric.Oid {
 				metric.RegexpExtracts = params.RegexpExtracts
+				metric.DateTimePattern = params.DateTimePattern
 				metric.Offset = params.Offset
 				metric.Scale = params.Scale
 				if params.Help != "" {
