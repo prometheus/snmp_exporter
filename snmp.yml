@@ -33495,6 +33495,424 @@ modules:
       oid: 1.3.6.1.4.1.25461.2.1.2.5.1.3
       type: gauge
       help: Number of active tunnels - 1.3.6.1.4.1.25461.2.1.2.5.1.3
+  powercom:
+    get:
+    - 1.3.6.1.4.1.935.1.1.1.1.1.1.0
+    - 1.3.6.1.4.1.935.1.1.1.1.2.1.0
+    - 1.3.6.1.4.1.935.1.1.1.1.2.2.0
+    - 1.3.6.1.4.1.935.1.1.1.1.2.4.0
+    - 1.3.6.1.4.1.935.1.1.1.2.1.1.0
+    - 1.3.6.1.4.1.935.1.1.1.2.1.2.0
+    - 1.3.6.1.4.1.935.1.1.1.2.2.1.0
+    - 1.3.6.1.4.1.935.1.1.1.2.2.2.0
+    - 1.3.6.1.4.1.935.1.1.1.2.2.3.0
+    - 1.3.6.1.4.1.935.1.1.1.2.2.6.0
+    - 1.3.6.1.4.1.935.1.1.1.3.2.1.0
+    - 1.3.6.1.4.1.935.1.1.1.3.2.2.0
+    - 1.3.6.1.4.1.935.1.1.1.3.2.3.0
+    - 1.3.6.1.4.1.935.1.1.1.3.2.4.0
+    - 1.3.6.1.4.1.935.1.1.1.3.2.5.0
+    - 1.3.6.1.4.1.935.1.1.1.4.1.1.0
+    - 1.3.6.1.4.1.935.1.1.1.4.2.1.0
+    - 1.3.6.1.4.1.935.1.1.1.4.2.2.0
+    - 1.3.6.1.4.1.935.1.1.1.4.2.3.0
+    - 1.3.6.1.4.1.935.1.1.1.4.2.7.0
+    - 1.3.6.1.4.1.935.1.1.1.4.2.8.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.1.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.10.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.11.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.2.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.3.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.4.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.5.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.6.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.7.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.8.0
+    - 1.3.6.1.4.1.935.1.1.1.5.2.9.0
+    - 1.3.6.1.4.1.935.1.1.1.7.2.1.0
+    - 1.3.6.1.4.1.935.1.1.1.7.2.3.0
+    - 1.3.6.1.4.1.935.1.1.1.8.5.1.0
+    - 1.3.6.1.4.1.935.1.1.1.8.5.2.0
+    - 1.3.6.1.4.1.935.1.1.1.8.5.3.0
+    - 1.3.6.1.4.1.935.1.1.1.8.5.5.0
+    - 1.3.6.1.4.1.935.1.1.1.8.5.6.0
+    - 1.3.6.1.4.1.935.1.1.1.8.5.7.0
+    - 1.3.6.1.4.1.935.1.1.1.8.6.1.0
+    - 1.3.6.1.4.1.935.1.1.1.8.6.2.0
+    - 1.3.6.1.4.1.935.1.1.1.8.6.3.0
+    - 1.3.6.1.4.1.935.1.1.1.8.6.4.0
+    - 1.3.6.1.4.1.935.1.1.1.8.6.5.0
+    - 1.3.6.1.4.1.935.1.1.1.8.7.1.0
+    - 1.3.6.1.4.1.935.1.1.1.8.7.2.0
+    - 1.3.6.1.4.1.935.1.1.1.8.7.3.0
+    - 1.3.6.1.4.1.935.1.1.1.8.7.4.0
+    - 1.3.6.1.4.1.935.1.1.1.8.7.5.0
+    - 1.3.6.1.4.1.935.1.1.1.8.7.6.0
+    - 1.3.6.1.4.1.935.1.1.1.8.7.7.0
+    - 1.3.6.1.4.1.935.1.1.1.9.1.1.0
+    - 1.3.6.1.4.1.935.1.1.1.9.1.2.0
+    - 1.3.6.1.4.1.935.1.1.1.9.2.1.0
+    - 1.3.6.1.4.1.935.1.1.1.9.2.2.0
+    - 1.3.6.1.4.1.935.1.1.1.9.2.3.0
+    - 1.3.6.1.4.1.935.1.1.1.9.2.4.0
+    metrics:
+    - name: upsBaseIdentModel
+      oid: 1.3.6.1.4.1.935.1.1.1.1.1.1
+      type: DisplayString
+      help: The UPS model name (e.g - 1.3.6.1.4.1.935.1.1.1.1.1.1
+    - name: upsSmartIdentFirmwareRevision
+      oid: 1.3.6.1.4.1.935.1.1.1.1.2.1
+      type: DisplayString
+      help: The firmware revision of the UPS system. - 1.3.6.1.4.1.935.1.1.1.1.2.1
+    - name: upsSmartIdentDateOfManufacture
+      oid: 1.3.6.1.4.1.935.1.1.1.1.2.2
+      type: DisplayString
+      help: The date when the UPS was manufactured in mm/dd/yy format. - 1.3.6.1.4.1.935.1.1.1.1.2.2
+    - name: upsSmartIdentAgentFirmwareRevision
+      oid: 1.3.6.1.4.1.935.1.1.1.1.2.4
+      type: DisplayString
+      help: The firmware revision of the UPS SNMP Proxy agent. - 1.3.6.1.4.1.935.1.1.1.1.2.4
+    - name: upsBaseBatteryStatus
+      oid: 1.3.6.1.4.1.935.1.1.1.2.1.1
+      type: gauge
+      help: The status of the UPS batteries - 1.3.6.1.4.1.935.1.1.1.2.1.1
+      enum_values:
+        1: unknown
+        2: batteryNormal
+        3: batteryLow
+    - name: upsBaseBatteryTimeOnBattery
+      oid: 1.3.6.1.4.1.935.1.1.1.2.1.2
+      type: gauge
+      help: The elapsed time in seconds since the UPS has switched to battery power.
+        - 1.3.6.1.4.1.935.1.1.1.2.1.2
+    - name: upsSmartBatteryCapacity
+      oid: 1.3.6.1.4.1.935.1.1.1.2.2.1
+      type: gauge
+      help: The remaining battery capacity expressed in percent of full capacity.
+        - 1.3.6.1.4.1.935.1.1.1.2.2.1
+    - name: upsSmartBatteryVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.2.2.2
+      type: gauge
+      help: The current battery voltage expressed in 1/10 VDC. - 1.3.6.1.4.1.935.1.1.1.2.2.2
+    - name: upsSmartBatteryTemperature
+      oid: 1.3.6.1.4.1.935.1.1.1.2.2.3
+      type: gauge
+      help: The current internal UPS temperature expressed in tenths of a Celsius
+        degree. - 1.3.6.1.4.1.935.1.1.1.2.2.3
+    - name: upsSmartBatteryFullChargeVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.2.2.6
+      type: gauge
+      help: The fully charged battery voltage of the battery system used in the UPS,
+        expressed in tenths of a volt. - 1.3.6.1.4.1.935.1.1.1.2.2.6
+    - name: upsSmartInputLineVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.3.2.1
+      type: gauge
+      help: The current utility line voltage in 1/10 VAC. - 1.3.6.1.4.1.935.1.1.1.3.2.1
+    - name: upsSmartInputMaxLineVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.3.2.2
+      type: gauge
+      help: The maximum utility line voltage in 1/10 VAC over the previous 1 minute
+        period. - 1.3.6.1.4.1.935.1.1.1.3.2.2
+    - name: upsSmartInputMinLineVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.3.2.3
+      type: gauge
+      help: The minimum utility line voltage in 1/10 VAC over the previous 1 minute
+        period. - 1.3.6.1.4.1.935.1.1.1.3.2.3
+    - name: upsSmartInputFrequency
+      oid: 1.3.6.1.4.1.935.1.1.1.3.2.4
+      type: gauge
+      help: The current input frequency to the UPS system in 1/10 Hz. - 1.3.6.1.4.1.935.1.1.1.3.2.4
+    - name: upsSmartInputLineFailCause
+      oid: 1.3.6.1.4.1.935.1.1.1.3.2.5
+      type: gauge
+      help: The reason for the occurrence of the last transfer to UPS battery power
+        - 1.3.6.1.4.1.935.1.1.1.3.2.5
+      enum_values:
+        1: noTransfer
+        2: highLineVoltage
+        3: brownout
+        4: blackout
+        5: smallMomentarySag
+        6: deepMomentarySag
+        7: smallMomentarySpike
+        8: largeMomentarySpike
+    - name: upsBaseOutputStatus
+      oid: 1.3.6.1.4.1.935.1.1.1.4.1.1
+      type: gauge
+      help: The current state of the UPS - 1.3.6.1.4.1.935.1.1.1.4.1.1
+      enum_values:
+        1: unknown
+        2: onLine
+        3: onBattery
+        4: onBoost
+        5: sleeping
+        6: onBypass
+        7: rebooting
+        8: standBy
+        9: onBuck
+    - name: upsSmartOutputVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.4.2.1
+      type: gauge
+      help: The output voltage of the UPS system in 1/10 VAC. - 1.3.6.1.4.1.935.1.1.1.4.2.1
+    - name: upsSmartOutputFrequency
+      oid: 1.3.6.1.4.1.935.1.1.1.4.2.2
+      type: gauge
+      help: The current output frequency of the UPS system in 1/10 Hz. - 1.3.6.1.4.1.935.1.1.1.4.2.2
+    - name: upsSmartOutputLoad
+      oid: 1.3.6.1.4.1.935.1.1.1.4.2.3
+      type: gauge
+      help: The current UPS load expressed in percent of rated capacity. - 1.3.6.1.4.1.935.1.1.1.4.2.3
+    - name: upsSmartOutputOverLoad
+      oid: 1.3.6.1.4.1.935.1.1.1.4.2.7
+      type: gauge
+      help: The UPS OverLoad information. - 1.3.6.1.4.1.935.1.1.1.4.2.7
+      enum_values:
+        0: unknown
+        1: normal
+        2: OverLoad
+    - name: upsSmartOutputOverVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.4.2.8
+      type: gauge
+      help: The UPS OverVoltage information. - 1.3.6.1.4.1.935.1.1.1.4.2.8
+      enum_values:
+        0: unknown
+        1: normal
+        2: OverVoltage
+    - name: upsSmartConfigRatedOutputVoltage
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.1
+      type: gauge
+      help: The nominal output voltage from the UPS in 1/10 VAC - 1.3.6.1.4.1.935.1.1.1.5.2.1
+    - name: upsSmartConfigShutoffDelay
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.10
+      type: gauge
+      help: The delay in seconds the UPS remains on after being told to turn off -
+        1.3.6.1.4.1.935.1.1.1.5.2.10
+    - name: upsSmartConfigUpsSleepTime
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.11
+      type: gauge
+      help: The time in minutes for the UPS to go to 'sleep' when instructed - 1.3.6.1.4.1.935.1.1.1.5.2.11
+    - name: upsSmartConfigHighTransferVolt
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.2
+      type: gauge
+      help: The maximum line voltage in 1/10 VAC allowed before the UPS system transfers
+        to battery backup - 1.3.6.1.4.1.935.1.1.1.5.2.2
+    - name: upsSmartConfigLowTransferVolt
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.3
+      type: gauge
+      help: The minimum line voltage in 1/10 VAC allowed before the UPS system transfers
+        to battery backup - 1.3.6.1.4.1.935.1.1.1.5.2.3
+    - name: upsSmartConfigAlarm
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.4
+      type: gauge
+      help: A flag indicating how the UPS should handle audible line fail alarms.
+        - 1.3.6.1.4.1.935.1.1.1.5.2.4
+      enum_values:
+        1: timed
+        2: atLowBattery
+        3: never
+    - name: upsSmartConfigAlarmTimer
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.5
+      type: gauge
+      help: The time in seconds after initial line failure at which the UPS begins
+        emitting audible alarms (beeping) - 1.3.6.1.4.1.935.1.1.1.5.2.5
+    - name: upsSmartConfigMinReturnCapacity
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.6
+      type: gauge
+      help: The minimum battery capacity as a percent of full capacity required before
+        the UPS will return from a low battery shutdown condition - 1.3.6.1.4.1.935.1.1.1.5.2.6
+    - name: upsSmartConfigSensitivity
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.7
+      type: gauge
+      help: The sensitivity of the UPS to utility line abnormalities or noises. -
+        1.3.6.1.4.1.935.1.1.1.5.2.7
+      enum_values:
+        1: auto
+        2: low
+        3: medium
+        4: high
+    - name: upsSmartConfigLowBatteryRunTime
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.8
+      type: gauge
+      help: The desired run time in seconds once the low battery condition is reached
+        - 1.3.6.1.4.1.935.1.1.1.5.2.8
+    - name: upsSmartConfigReturnDelay
+      oid: 1.3.6.1.4.1.935.1.1.1.5.2.9
+      type: gauge
+      help: The delay in seconds after utility line power returns before the UPS will
+        turn on - 1.3.6.1.4.1.935.1.1.1.5.2.9
+    - name: upsSmartTestDiagnosticSchedule
+      oid: 1.3.6.1.4.1.935.1.1.1.7.2.1
+      type: gauge
+      help: The UPS system's automatic battery test schedule. - 1.3.6.1.4.1.935.1.1.1.7.2.1
+      enum_values:
+        1: unknown
+        2: biweekly
+        3: weekly
+        4: never
+    - name: upsSmartTestDiagnosticsResults
+      oid: 1.3.6.1.4.1.935.1.1.1.7.2.3
+      type: gauge
+      help: The results of the last UPS diagnostics test performed. - 1.3.6.1.4.1.935.1.1.1.7.2.3
+      enum_values:
+        1: ok
+        2: failed
+        3: invalidTest
+        4: testInProgress
+    - name: upsThreePhaseDCandRectifierStatusRecRotError
+      oid: 1.3.6.1.4.1.935.1.1.1.8.5.1
+      type: gauge
+      help: Rectifier Rotation Error - 1.3.6.1.4.1.935.1.1.1.8.5.1
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseDCandRectifierStatusLowBatteryShutdown
+      oid: 1.3.6.1.4.1.935.1.1.1.8.5.2
+      type: gauge
+      help: Low Battery Shutdown - 1.3.6.1.4.1.935.1.1.1.8.5.2
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseDCandRectifierStatusLowBattery
+      oid: 1.3.6.1.4.1.935.1.1.1.8.5.3
+      type: gauge
+      help: Low Battery - 1.3.6.1.4.1.935.1.1.1.8.5.3
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseDCandRectifierStatusBatteryStatus
+      oid: 1.3.6.1.4.1.935.1.1.1.8.5.5
+      type: gauge
+      help: Back Status - 1.3.6.1.4.1.935.1.1.1.8.5.5
+      enum_values:
+        4: backup
+        5: acnormal
+    - name: upsThreePhaseDCandRectifierStatusChargeStatus
+      oid: 1.3.6.1.4.1.935.1.1.1.8.5.6
+      type: gauge
+      help: Charge Status - 1.3.6.1.4.1.935.1.1.1.8.5.6
+      enum_values:
+        6: boost
+        7: float
+        16: "no"
+    - name: upsThreePhaseDCandRectifierStatusRecOperating
+      oid: 1.3.6.1.4.1.935.1.1.1.8.5.7
+      type: gauge
+      help: Rectifier Operating - 1.3.6.1.4.1.935.1.1.1.8.5.7
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseUPSStatusBypassFreqFail
+      oid: 1.3.6.1.4.1.935.1.1.1.8.6.1
+      type: gauge
+      help: Bypass Status - 1.3.6.1.4.1.935.1.1.1.8.6.1
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseUPSStatusManualBypassBreaker
+      oid: 1.3.6.1.4.1.935.1.1.1.8.6.2
+      type: gauge
+      help: Breaker Status - 1.3.6.1.4.1.935.1.1.1.8.6.2
+      enum_values:
+        8: close
+        9: open
+    - name: upsThreePhaseUPSStatusACStatus
+      oid: 1.3.6.1.4.1.935.1.1.1.8.6.3
+      type: gauge
+      help: AC Status - 1.3.6.1.4.1.935.1.1.1.8.6.3
+      enum_values:
+        10: normal
+        11: abnormal
+    - name: upsThreePhaseUPSStaticSwitchMode
+      oid: 1.3.6.1.4.1.935.1.1.1.8.6.4
+      type: gauge
+      help: Switch Mode - 1.3.6.1.4.1.935.1.1.1.8.6.4
+      enum_values:
+        12: invermode
+        13: bypassmode
+    - name: upsThreePhaseUPSStatusInverterOperating
+      oid: 1.3.6.1.4.1.935.1.1.1.8.6.5
+      type: gauge
+      help: Operating - 1.3.6.1.4.1.935.1.1.1.8.6.5
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseFaultStatusEmergencyStop
+      oid: 1.3.6.1.4.1.935.1.1.1.8.7.1
+      type: gauge
+      help: Emergency Stop - 1.3.6.1.4.1.935.1.1.1.8.7.1
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseFaultStatusHighDCShutdown
+      oid: 1.3.6.1.4.1.935.1.1.1.8.7.2
+      type: gauge
+      help: High DC Shutdown - 1.3.6.1.4.1.935.1.1.1.8.7.2
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseFaultStatusBypassBreaker
+      oid: 1.3.6.1.4.1.935.1.1.1.8.7.3
+      type: gauge
+      help: Bypass Breaker - 1.3.6.1.4.1.935.1.1.1.8.7.3
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseFaultStatusOverLoad
+      oid: 1.3.6.1.4.1.935.1.1.1.8.7.4
+      type: gauge
+      help: Over Load - 1.3.6.1.4.1.935.1.1.1.8.7.4
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseFaultStatusInverterOutputFail
+      oid: 1.3.6.1.4.1.935.1.1.1.8.7.5
+      type: gauge
+      help: Output Fail - 1.3.6.1.4.1.935.1.1.1.8.7.5
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseFaultStatusOverTemperature
+      oid: 1.3.6.1.4.1.935.1.1.1.8.7.6
+      type: gauge
+      help: Over Temperature - 1.3.6.1.4.1.935.1.1.1.8.7.6
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsThreePhaseFaultStatusShortCircuit
+      oid: 1.3.6.1.4.1.935.1.1.1.8.7.7
+      type: gauge
+      help: Short Circuit - 1.3.6.1.4.1.935.1.1.1.8.7.7
+      enum_values:
+        14: "yes"
+        16: "no"
+    - name: upsEnvTemperature
+      oid: 1.3.6.1.4.1.935.1.1.1.9.1.1
+      type: gauge
+      help: The ambient environment temperature. - 1.3.6.1.4.1.935.1.1.1.9.1.1
+    - name: upsEnvHumidity
+      oid: 1.3.6.1.4.1.935.1.1.1.9.1.2
+      type: gauge
+      help: The environment humidity. - 1.3.6.1.4.1.935.1.1.1.9.1.2
+    - name: upsEnvOverTemperature
+      oid: 1.3.6.1.4.1.935.1.1.1.9.2.1
+      type: gauge
+      help: Alarm dupsAlarmOverTemperature on when the environment temperature over
+        the value. - 1.3.6.1.4.1.935.1.1.1.9.2.1
+    - name: upsEnvUnderTemperature
+      oid: 1.3.6.1.4.1.935.1.1.1.9.2.2
+      type: gauge
+      help: Alarm dupsAlarmUnderTemperature on when the environment temperature below
+        the value. - 1.3.6.1.4.1.935.1.1.1.9.2.2
+    - name: upsEnvOverHumidity
+      oid: 1.3.6.1.4.1.935.1.1.1.9.2.3
+      type: gauge
+      help: Alarm dupsAlarmOverHumidity on when the environment humidity over the
+        value. - 1.3.6.1.4.1.935.1.1.1.9.2.3
+    - name: upsEnvUnderHumidity
+      oid: 1.3.6.1.4.1.935.1.1.1.9.2.4
+      type: gauge
+      help: Alarm dupsAlarmUnderHumidity on when the environment humidity below the
+        value. - 1.3.6.1.4.1.935.1.1.1.9.2.4
   printer_mib:
     walk:
     - 1.3.6.1.2.1.43.11.1.1.5

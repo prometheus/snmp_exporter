@@ -771,3 +771,69 @@ modules:
   hrSWInstalled:
     walk:
       - hrSWInstalled
+
+#
+# Powercom MIBs
+#
+# https://www.upspowercom.com/Card-DA807.jsp
+#
+  powercom:
+    walk:
+      - 1.3.6.1.4.1.935.1.1.1.1.1.1   # upsBaseIdentModel
+      - 1.3.6.1.4.1.935.1.1.1.1.2.1   # upsSmartIdentFirmwareRevision
+      - 1.3.6.1.4.1.935.1.1.1.1.2.2   # upsSmartIdentDateOfManufacture
+      - 1.3.6.1.4.1.935.1.1.1.1.2.4   # upsSmartIdentAgentFirmwareRevision
+      - 1.3.6.1.4.1.935.1.1.1.2.1.1   # upsBaseBatteryStatus
+      - 1.3.6.1.4.1.935.1.1.1.2.1.2   # upsBaseBatteryTimeOnBattery
+      - 1.3.6.1.4.1.935.1.1.1.2.2.1   # upsSmartBatteryCapacity
+      - 1.3.6.1.4.1.935.1.1.1.2.2.2   # upsSmartBatteryVoltage
+      - 1.3.6.1.4.1.935.1.1.1.2.2.3   # upsSmartBatteryTemperature
+      - 1.3.6.1.4.1.935.1.1.1.2.2.6   # upsSmartBatteryFullChargeVoltage
+      - 1.3.6.1.4.1.935.1.1.1.3.2.1   # upsSmartInputLineVoltage
+      - 1.3.6.1.4.1.935.1.1.1.3.2.2   # upsSmartInputMaxLineVoltage
+      - 1.3.6.1.4.1.935.1.1.1.3.2.3   # upsSmartInputMinLineVoltage
+      - 1.3.6.1.4.1.935.1.1.1.3.2.4   # upsSmartInputFrequency
+      - 1.3.6.1.4.1.935.1.1.1.3.2.5   # upsSmartInputLineFailCause
+      - 1.3.6.1.4.1.935.1.1.1.4.1.1   # upsBaseOutputStatus
+      - 1.3.6.1.4.1.935.1.1.1.4.2.1   # upsSmartOutputVoltage
+      - 1.3.6.1.4.1.935.1.1.1.4.2.2   # upsSmartOutputFrequency
+      - 1.3.6.1.4.1.935.1.1.1.4.2.3   # upsSmartOutputLoad
+      - 1.3.6.1.4.1.935.1.1.1.4.2.7   # upsSmartOutputOverLoad
+      - 1.3.6.1.4.1.935.1.1.1.4.2.8   # upsSmartOutputOverVoltage
+      - 1.3.6.1.4.1.935.1.1.1.5.2.1   # upsSmartConfigRatedOutputVoltage
+      - 1.3.6.1.4.1.935.1.1.1.5.2.2   # upsSmartConfigHighTransferVolt
+      - 1.3.6.1.4.1.935.1.1.1.5.2.3   # upsSmartConfigLowTransferVolt
+      - 1.3.6.1.4.1.935.1.1.1.5.2.4   # upsSmartConfigAlarm
+      - 1.3.6.1.4.1.935.1.1.1.5.2.5   # upsSmartConfigAlarmTimer
+      - 1.3.6.1.4.1.935.1.1.1.5.2.6   # upsSmartConfigMinReturnCapacity
+      - 1.3.6.1.4.1.935.1.1.1.5.2.7   # upsSmartConfigSensitivity
+      - 1.3.6.1.4.1.935.1.1.1.5.2.8   # upsSmartConfigLowBatteryRunTime
+      - 1.3.6.1.4.1.935.1.1.1.5.2.9   # upsSmartConfigReturnDelay
+      - 1.3.6.1.4.1.935.1.1.1.5.2.10  # upsSmartConfigShutoffDelay
+      - 1.3.6.1.4.1.935.1.1.1.5.2.11  # upsSmartConfigUpsSleepTime
+      - 1.3.6.1.4.1.935.1.1.1.7.2.1   # upsSmartTestDiagnosticSchedule
+      - 1.3.6.1.4.1.935.1.1.1.7.2.3   # upsSmartTestDiagnosticsResults
+      - 1.3.6.1.4.1.935.1.1.1.8.5.1   # upsThreePhaseDCandRectifierStatusRecRotError
+      - 1.3.6.1.4.1.935.1.1.1.8.5.2   # upsThreePhaseDCandRectifierStatusLowBatteryShutdown
+      - 1.3.6.1.4.1.935.1.1.1.8.5.3   # upsThreePhaseDCandRectifierStatusLowBattery
+      - 1.3.6.1.4.1.935.1.1.1.8.5.5   # upsThreePhaseDCandRectifierStatusBatteryStatus
+      - 1.3.6.1.4.1.935.1.1.1.8.5.6   # upsThreePhaseDCandRectifierStatusChargeStatus
+      - 1.3.6.1.4.1.935.1.1.1.8.5.7   # upsThreePhaseDCandRectifierStatusRecOperating
+      - 1.3.6.1.4.1.935.1.1.1.8.6.1   # upsThreePhaseUPSStatusBypassFreqFail
+      - 1.3.6.1.4.1.935.1.1.1.8.6.2   # upsThreePhaseUPSStatusManualBypassBreaker
+      - 1.3.6.1.4.1.935.1.1.1.8.6.3   # upsThreePhaseUPSStatusACStatus
+      - 1.3.6.1.4.1.935.1.1.1.8.6.4   # upsThreePhaseUPSStaticSwitchMode
+      - 1.3.6.1.4.1.935.1.1.1.8.6.5   # upsThreePhaseUPSStatusInverterOperating
+      - 1.3.6.1.4.1.935.1.1.1.8.7.1   # upsThreePhaseFaultStatusEmergencyStop
+      - 1.3.6.1.4.1.935.1.1.1.8.7.2   # upsThreePhaseFaultStatusHighDCShutdown
+      - 1.3.6.1.4.1.935.1.1.1.8.7.3   # upsThreePhaseFaultStatusBypassBreaker
+      - 1.3.6.1.4.1.935.1.1.1.8.7.4   # upsThreePhaseFaultStatusOverLoad
+      - 1.3.6.1.4.1.935.1.1.1.8.7.5   # upsThreePhaseFaultStatusInverterOutputFail
+      - 1.3.6.1.4.1.935.1.1.1.8.7.6   # upsThreePhaseFaultStatusOverTemperature
+      - 1.3.6.1.4.1.935.1.1.1.8.7.7   # upsThreePhaseFaultStatusShortCircuit
+      - 1.3.6.1.4.1.935.1.1.1.9.1.1   # upsEnvTemperature
+      - 1.3.6.1.4.1.935.1.1.1.9.1.2   # upsEnvHumidity
+      - 1.3.6.1.4.1.935.1.1.1.9.2.1   # upsEnvOverTemperature
+      - 1.3.6.1.4.1.935.1.1.1.9.2.2   # upsEnvUnderTemperature
+      - 1.3.6.1.4.1.935.1.1.1.9.2.3   # upsEnvOverHumidity
+      - 1.3.6.1.4.1.935.1.1.1.9.2.4   # upsEnvUnderHumidity
