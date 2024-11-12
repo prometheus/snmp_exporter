@@ -837,3 +837,14 @@ modules:
       - 1.3.6.1.4.1.935.1.1.1.9.2.2   # upsEnvUnderTemperature
       - 1.3.6.1.4.1.935.1.1.1.9.2.3   # upsEnvOverHumidity
       - 1.3.6.1.4.1.935.1.1.1.9.2.4   # upsEnvUnderHumidity
+#
+# Cisco IMC (USC) MIBs
+#
+# https://github.com/cisco/cisco-mibs
+# 
+  cisco_imc:
+    walk:
+      - 1.3.6.1.4.1.9.9.13            # CISCO-ENVMON-MIB (environmental monitoring)
+      - 1.3.6.1.4.1.9.9.91            # CISCO-ENTITY-SENSOR-MIB (physical sensors)
+      - 1.3.6.1.4.1.9.9.117           # CISCO-UNIFIED-COMPUTING-FAULT-MIB (fault information)
+      - 1.3.6.1.4.1.9.9.719           # CISCO-UNIFIED-COMPUTING-MIB (general hardware monitoring)
