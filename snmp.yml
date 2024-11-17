@@ -2928,6 +2928,73 @@ modules:
           0: unknown
           1: ipv4
           2: ipv6
+  cisco_imc:
+    walk:
+    - 1.3.6.1.4.1.9.9.719.1.1.1.1.11
+    - 1.3.6.1.4.1.9.9.719.1.1.1.1.20
+    - 1.3.6.1.4.1.9.9.719.1.45.1.1.6
+    metrics:
+    - name: cucsFaultDescription
+      oid: 1.3.6.1.4.1.9.9.719.1.1.1.1.11
+      type: DisplayString
+      help: A human-readable message providing details about the fault. - 1.3.6.1.4.1.9.9.719.1.1.1.1.11
+      indexes:
+      - labelname: cucsFaultIndex
+        type: gauge
+    - name: cucsFaultSeverity
+      oid: 1.3.6.1.4.1.9.9.719.1.1.1.1.20
+      type: gauge
+      help: A code identifying the perceived severity of the fault. - 1.3.6.1.4.1.9.9.719.1.1.1.1.20
+      indexes:
+      - labelname: cucsFaultIndex
+        type: gauge
+      enum_values:
+        0: cleared
+        1: info
+        3: warning
+        4: minor
+        5: major
+        6: critical
+    - name: cucsStorageControllerOperState
+      oid: 1.3.6.1.4.1.9.9.719.1.45.1.1.6
+      type: gauge
+      help: Cisco UCS storage:Controller:operState managed object property - 1.3.6.1.4.1.9.9.719.1.45.1.1.6
+      indexes:
+      - labelname: cucsStorageControllerInstanceId
+        type: gauge
+      enum_values:
+        0: unknown
+        1: operable
+        2: inoperable
+        3: degraded
+        4: poweredOff
+        5: powerProblem
+        6: removed
+        7: voltageProblem
+        8: thermalProblem
+        9: performanceProblem
+        10: accessibilityProblem
+        11: identityUnestablishable
+        12: biosPostTimeout
+        13: disabled
+        14: malformedFru
+        15: backplanePortProblem
+        16: chassisIntrusion
+        51: fabricConnProblem
+        52: fabricUnsupportedConn
+        81: config
+        82: equipmentProblem
+        83: decomissioning
+        84: chassisLimitExceeded
+        100: notSupported
+        101: discovery
+        102: discoveryFailed
+        103: identify
+        104: postFailure
+        105: upgradeProblem
+        106: peerCommProblem
+        107: autoUpgrade
+        108: linkActivateBlocked
   cisco_wlc:
     walk:
     - 1.3.6.1.4.1.14179.2.1.1.1.2
@@ -2962,7 +3029,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -2981,7 +3047,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       - labelname: bsnAPIfNoiseChannelNo
@@ -3001,7 +3066,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3019,7 +3083,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3043,7 +3106,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3114,7 +3176,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3133,7 +3194,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3152,7 +3212,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3171,7 +3230,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3190,7 +3248,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3209,7 +3266,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3228,7 +3284,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3247,7 +3302,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3266,7 +3320,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3285,7 +3338,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3304,7 +3356,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3323,7 +3374,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3345,7 +3395,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -3365,7 +3414,6 @@ modules:
       indexes:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
-        fixed_size: 6
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -27494,7 +27542,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabIface
@@ -27504,7 +27551,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabStrength
@@ -27514,7 +27560,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabTxBytes
@@ -27524,7 +27569,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRxBytes
@@ -27534,7 +27578,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabTxPackets
@@ -27544,7 +27587,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRxPackets
@@ -27554,7 +27596,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabTxRate
@@ -27564,7 +27605,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRxRate
@@ -27574,7 +27614,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRouterOSVersion
@@ -27584,7 +27623,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabUptime
@@ -27594,7 +27632,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabSignalToNoise
@@ -27604,7 +27641,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabTxStrengthCh0
@@ -27614,7 +27650,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRxStrengthCh0
@@ -27624,7 +27659,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabTxStrengthCh1
@@ -27634,7 +27668,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRxStrengthCh1
@@ -27644,7 +27677,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabTxStrengthCh2
@@ -27654,7 +27686,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRxStrengthCh2
@@ -27664,7 +27695,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabTxStrength
@@ -27674,7 +27704,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlRtabRadioName
@@ -27684,7 +27713,6 @@ modules:
       indexes:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlRtabIface
         type: gauge
     - name: mtxrWlApIndex
@@ -27775,7 +27803,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabIface
@@ -27785,7 +27812,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabUptime
@@ -27795,7 +27821,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabTxBytes
@@ -27805,7 +27830,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabRxBytes
@@ -27815,7 +27839,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabTxPackets
@@ -27825,7 +27848,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabRxPackets
@@ -27835,7 +27857,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabTxRate
@@ -27845,7 +27866,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabRxRate
@@ -27855,7 +27875,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabTxStrength
@@ -27865,7 +27884,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabRxStrength
@@ -27875,7 +27893,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabSsid
@@ -27885,7 +27902,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabEapIdent
@@ -27895,7 +27911,6 @@ modules:
       indexes:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
-        fixed_size: 6
       - labelname: mtxrWlCMRtabIface
         type: gauge
     - name: mtxrWlCMRtabEntryCount
@@ -41391,7 +41406,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaName
       oid: 1.3.6.1.4.1.41112.1.4.7.1.2
       type: DisplayString
@@ -41401,7 +41415,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaSignal
       oid: 1.3.6.1.4.1.41112.1.4.7.1.3
       type: gauge
@@ -41411,7 +41424,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaNoiseFloor
       oid: 1.3.6.1.4.1.41112.1.4.7.1.4
       type: gauge
@@ -41421,7 +41433,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaDistance
       oid: 1.3.6.1.4.1.41112.1.4.7.1.5
       type: gauge
@@ -41431,7 +41442,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaCcq
       oid: 1.3.6.1.4.1.41112.1.4.7.1.6
       type: gauge
@@ -41441,7 +41451,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaAmp
       oid: 1.3.6.1.4.1.41112.1.4.7.1.7
       type: gauge
@@ -41451,7 +41460,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaAmq
       oid: 1.3.6.1.4.1.41112.1.4.7.1.8
       type: gauge
@@ -41461,7 +41469,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaAmc
       oid: 1.3.6.1.4.1.41112.1.4.7.1.9
       type: gauge
@@ -41471,7 +41478,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaLastIp
       oid: 1.3.6.1.4.1.41112.1.4.7.1.10
       type: InetAddressIPv4
@@ -41481,7 +41487,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaTxRate
       oid: 1.3.6.1.4.1.41112.1.4.7.1.11
       type: gauge
@@ -41491,7 +41496,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaRxRate
       oid: 1.3.6.1.4.1.41112.1.4.7.1.12
       type: gauge
@@ -41501,7 +41505,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaTxBytes
       oid: 1.3.6.1.4.1.41112.1.4.7.1.13
       type: counter
@@ -41511,7 +41514,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaRxBytes
       oid: 1.3.6.1.4.1.41112.1.4.7.1.14
       type: counter
@@ -41521,7 +41523,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaConnTime
       oid: 1.3.6.1.4.1.41112.1.4.7.1.15
       type: gauge
@@ -41531,7 +41532,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaLocalCINR
       oid: 1.3.6.1.4.1.41112.1.4.7.1.16
       type: gauge
@@ -41541,7 +41541,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaTxCapacity
       oid: 1.3.6.1.4.1.41112.1.4.7.1.17
       type: gauge
@@ -41551,7 +41550,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaRxCapacity
       oid: 1.3.6.1.4.1.41112.1.4.7.1.18
       type: gauge
@@ -41561,7 +41559,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaTxAirtime
       oid: 1.3.6.1.4.1.41112.1.4.7.1.19
       type: gauge
@@ -41571,7 +41568,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaRxAirtime
       oid: 1.3.6.1.4.1.41112.1.4.7.1.20
       type: gauge
@@ -41581,7 +41577,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntStaTxLatency
       oid: 1.3.6.1.4.1.41112.1.4.7.1.21
       type: gauge
@@ -41591,7 +41586,6 @@ modules:
         type: gauge
       - labelname: ubntStaMac
         type: PhysAddress48
-        fixed_size: 6
     - name: ubntHostLocaltime
       oid: 1.3.6.1.4.1.41112.1.4.8.1
       type: DisplayString

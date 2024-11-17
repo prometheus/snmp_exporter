@@ -62,6 +62,7 @@ READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-M
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
 POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.mib
+CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-C-Series-mibs/UCS_Cseries3.0.tar
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -399,3 +400,10 @@ $(MIBDIR)/readydataos:
 $(MIBDIR)/powercom:
 	@echo ">> Downloading powercom"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/powercom "$(POWERCOM_URL)"
+
+$(MIBDIR)/cisco_imc:
+	$(eval TMP := $(shell mktemp))
+	$(eval TMP_DIR := $(shell mktemp -d))
+	@echo ">> Downloading HPE to $(TMP)"
+	@curl -L $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(CISCO_CUCS_URL)
+	@tar -xf $(TMP) -C $(MIBDIR)/cisco_imc
