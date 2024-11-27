@@ -405,6 +405,7 @@ $(MIBDIR)/powercom:
 $(MIBDIR)/cisco_imc:
 	$(eval TMP := $(shell mktemp))
 	$(eval TMP_DIR := $(shell mktemp -d))
+	@mkdir -p $(MIBDIR)/cisco_imc
 	@echo ">> Downloading Cisco UCS to $(TMP)"
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(CISCO_CUCS_URL)
 	@tar -xf $(TMP) -C $(MIBDIR)/cisco_imc
