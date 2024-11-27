@@ -157,7 +157,8 @@ mibs: \
   $(MIBDIR)/CyberPower.MIB \
   $(MIBDIR)/EAP.MIB \
   $(MIBDIR)/EAP-Client.MIB \
-  $(MIBDIR)/powercom
+  $(MIBDIR)/powercom \ 
+  $(MIBDIR)/cisco_imc
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib"
