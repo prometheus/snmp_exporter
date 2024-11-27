@@ -2937,14 +2937,14 @@ modules:
     - name: cucsFaultDescription
       oid: 1.3.6.1.4.1.9.9.719.1.1.1.1.11
       type: DisplayString
-      help: A human-readable message providing details about the fault. - 1.3.6.1.4.1.9.9.719.1.1.1.1.11
+      help: Cisco UCS fault:Inst:descr managed object property - 1.3.6.1.4.1.9.9.719.1.1.1.1.11
       indexes:
       - labelname: cucsFaultIndex
         type: gauge
     - name: cucsFaultSeverity
       oid: 1.3.6.1.4.1.9.9.719.1.1.1.1.20
       type: gauge
-      help: A code identifying the perceived severity of the fault. - 1.3.6.1.4.1.9.9.719.1.1.1.1.20
+      help: Cisco UCS fault:Inst:severity managed object property - 1.3.6.1.4.1.9.9.719.1.1.1.1.20
       indexes:
       - labelname: cucsFaultIndex
         type: gauge
