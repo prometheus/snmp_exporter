@@ -21545,7 +21545,6 @@ modules:
     - name: ifPhysAddress
       oid: 1.3.6.1.2.1.2.2.1.6
       type: PhysAddress48
-      fixed_size: 6
       help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
       indexes:
       - labelname: ifIndex
