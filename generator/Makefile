@@ -31,7 +31,7 @@ ifeq ($(SELINUX_ENABLED),1)
   DOCKER_VOL_OPTS ?= :z
 endif
 
-APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet451.mib&p_Doc_Ref=APC_POWERNETMIB_451_EN
+APC_URL           := https://download.schneider-electric.com/files?p_File_Name=powernet452.mib&p_Doc_Ref=APC_POWERNETMIB_452_EN&p_enDocType=Firmware
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
@@ -162,7 +162,8 @@ mibs: \
   $(MIBDIR)/powercom
 
 $(MIBDIR)/apc-powernet-mib:
-	@echo ">> Downloading apc-powernet-mib"
+	@echo ">> Downloading apc-powernet-mib" 
+	@echo ">> if download fails please check https://www.se.com/at/de/search/?q=powernet+mib&submit+search+query=Search for the latest release"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib "$(APC_URL)"
 	# Workaround to make DisplayString available (#867)
 	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $(MIBDIR)/apc-powernet-mib
