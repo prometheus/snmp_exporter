@@ -839,6 +839,11 @@ modules:
       - 1.3.6.1.4.1.935.1.1.1.9.2.4   # upsEnvUnderHumidity
 
   # tplink ddm information for sfps
+  # 
+  # Downloads can be found here:
+  # https://www.tp-link.com/en/support/download/tl-sg3428x/
+  #
+  # tested against TL SG3428X 
   tplink-ddm:
     walk:
       - ddmStatusBiasCurrent
