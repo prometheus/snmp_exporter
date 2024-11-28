@@ -31,7 +31,7 @@ ifeq ($(SELINUX_ENABLED),1)
   DOCKER_VOL_OPTS ?= :z
 endif
 
-APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet455.mib&p_Doc_Ref=APC_POWERNETMIB_455_EN
+APC_URL           := https://download.schneider-electric.com/files?p_File_Name=powernet455.mib&p_Doc_Ref=APC_POWERNETMIB_EN&p_enDocType=Firmware
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
