@@ -39829,6 +39829,178 @@ modules:
         type: DisplayString
       - labels: []
         labelname: serviceInfoIndex
+  tplink-ddm:
+    walk:
+    - 1.3.6.1.2.1.31.1.1.1.1
+    - 1.3.6.1.2.1.31.1.1.1.18
+    - 1.3.6.1.4.1.11863.6.96.1.7.1.1.2
+    - 1.3.6.1.4.1.11863.6.96.1.7.1.1.3
+    - 1.3.6.1.4.1.11863.6.96.1.7.1.1.4
+    - 1.3.6.1.4.1.11863.6.96.1.7.1.1.5
+    - 1.3.6.1.4.1.11863.6.96.1.7.1.1.6
+    - 1.3.6.1.4.1.11863.6.96.1.7.1.1.8
+    - 1.3.6.1.4.1.11863.6.96.1.7.1.1.9
+    metrics:
+    - name: ddmStatusTemperature
+      oid: 1.3.6.1.4.1.11863.6.96.1.7.1.1.2
+      type: DisplayString
+      help: This object indicates the temperature of the port. - 1.3.6.1.4.1.11863.6.96.1.7.1.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:^(\d+\.\d+).*)$
+    - name: ddmStatusVoltage
+      oid: 1.3.6.1.4.1.11863.6.96.1.7.1.1.3
+      type: DisplayString
+      help: This object indicates the voltage of the port. - 1.3.6.1.4.1.11863.6.96.1.7.1.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:^(\d+\.\d+).*)$
+    - name: ddmStatusBiasCurrent
+      oid: 1.3.6.1.4.1.11863.6.96.1.7.1.1.4
+      type: DisplayString
+      help: This object indicates the bias current of the port. - 1.3.6.1.4.1.11863.6.96.1.7.1.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:^(\d+\.\d+).*)$
+    - name: ddmStatusTxPow
+      oid: 1.3.6.1.4.1.11863.6.96.1.7.1.1.5
+      type: DisplayString
+      help: This object indicates the tx power of the port. - 1.3.6.1.4.1.11863.6.96.1.7.1.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:^(\d+\.\d+).*)$
+    - name: ddmStatusRxPow
+      oid: 1.3.6.1.4.1.11863.6.96.1.7.1.1.6
+      type: DisplayString
+      help: This object indicates the rx power of the port. - 1.3.6.1.4.1.11863.6.96.1.7.1.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:^(\d+\.\d+).*)$
+    - name: ddmStatusLossSignal
+      oid: 1.3.6.1.4.1.11863.6.96.1.7.1.1.8
+      type: DisplayString
+      help: This object indicates whether local SFP reports signal loss or not. -
+        1.3.6.1.4.1.11863.6.96.1.7.1.1.8
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      regex_extracts:
+        "":
+        - value: "0"
+          regex: ^(?:False)$
+        - value: "1"
+          regex: ^(?:True)$
+    - name: ddmStatusTxFault
+      oid: 1.3.6.1.4.1.11863.6.96.1.7.1.1.9
+      type: DisplayString
+      help: This object indicates whether remote SFP reports signal loss or not. -
+        1.3.6.1.4.1.11863.6.96.1.7.1.1.9
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      regex_extracts:
+        "":
+        - value: "0"
+          regex: ^(?:False)$
+        - value: "1"
+          regex: ^(?:True)$
   ubiquiti_airfiber:
     walk:
     - 1.3.6.1.4.1.41112.1.3
