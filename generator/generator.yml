@@ -837,6 +837,73 @@ modules:
       - 1.3.6.1.4.1.935.1.1.1.9.2.2   # upsEnvUnderTemperature
       - 1.3.6.1.4.1.935.1.1.1.9.2.3   # upsEnvOverHumidity
       - 1.3.6.1.4.1.935.1.1.1.9.2.4   # upsEnvUnderHumidity
+  # tplink ddm information for sfps
+  # 
+  # Downloads can be found here:
+  # https://www.tp-link.com/en/support/download/tl-sg3428x/
+  #
+  # tested against TL SG3428X 
+  tplink-ddm:
+    walk:
+      - ddmStatusBiasCurrent
+      - ddmStatusLossSignal
+      - ddmStatusRxPow
+      - ddmStatusTemperature
+      - ddmStatusTxFault
+      - ddmStatusTxPow
+      - ddmStatusVoltage
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+    overrides:
+      ddmStatusBiasCurrent:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '^(\d+\.\d+).*'
+              value: '$1'
+      ddmStatusLossSignal:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: 'False'
+              value: '0'
+            - regex: 'True'
+              value: '1'
+      ddmStatusRxPow:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '^(\d+\.\d+).*'
+              value: '$1'
+      ddmStatusTemperature:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '^(\d+\.\d+).*'
+              value: '$1'
+      ddmStatusTxFault:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: 'False'
+              value: '0'
+            - regex: 'True'
+              value: '1'
+      ddmStatusTxPow:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '^(\d+\.\d+).*'
+              value: '$1'
+      ddmStatusVoltage:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '^(\d+\.\d+).*'
+              value: '$1'
   cisco_imc:
     walk:
     - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState

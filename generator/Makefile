@@ -62,6 +62,7 @@ READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-M
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
 POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.mib
+TPLINK_DDM        := https://static.tp-link.com/upload/software/2024/202402/20240229/L2-tplinkMibs.zip
 CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-C-Series-mibs/UCS_Cseries3.0.tar
 CISCO_FRU_URL     := https://raw.githubusercontent.com/cisco/cisco-mibs/26b38ac1b25a38510b6bb308465dd068e79df64b/v2/CISCO-ENTITY-FRU-CONTROL-MIB.my
 
@@ -86,6 +87,7 @@ clean:
 		$(MIBDIR)/.synology \
 		$(MIBDIR)/.sophos_xg \
 		$(MIBDIR)/.kemp-lm \
+		$(MIBDIR)/.tplinkddm \
 		$(MIBDIR)/readynas \
 		$(MIBDIR)/readydataos
 
@@ -148,6 +150,7 @@ mibs: \
   $(MIBDIR)/servertech-sentry4-mib \
   $(MIBDIR)/.synology \
   $(MIBDIR)/.sophos_xg \
+  $(MIBDIR)/.tplinkddm \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
@@ -328,6 +331,15 @@ $(MIBDIR)/.synology:
 	@unzip -j -d $(MIBDIR) $(TMP)
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.synology
+
+$(MIBDIR)/.tplinkddm:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading TPLINK Switch DDM to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(TPLINK_DDM)
+	@unzip -j -d $(MIBDIR) $(TMP) L2-tplinkMibs/tplink-ddmManage.mib  L2-tplinkMibs/tplink-ddmStatus.mib L2-tplinkMibs/tplink.mib
+	@mv $(MIBDIR)/tplink.mib $(MIBDIR)/tplink-main.mib # EAP.MIB contains another incompatible variant of the tplink enterprise mib with same name
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.tplinkddm
 
 $(MIBDIR)/UBNT-UniFi-MIB:
 	@echo ">> Downloading UBNT-UniFi-MIB"
