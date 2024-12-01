@@ -162,7 +162,7 @@ mibs: \
   $(MIBDIR)/EAP.MIB \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
-  $(MIBDIR)/cisco_imc
+  $(MIBDIR)/.cisco_imc
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -416,7 +416,7 @@ $(MIBDIR)/powercom:
 	@echo ">> Downloading powercom"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/powercom "$(POWERCOM_URL)"
 
-$(MIBDIR)/cisco_imc:
+$(MIBDIR)/.cisco_imc:
 	$(eval TMP := $(shell mktemp))
 	$(eval TMP_DIR := $(shell mktemp -d))
 	@echo ">> Downloading Cisco UCS to $(TMP)"
