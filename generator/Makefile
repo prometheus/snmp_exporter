@@ -63,8 +63,7 @@ READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDAT
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
 POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.mib
 TPLINK_DDM        := https://static.tp-link.com/upload/software/2024/202402/20240229/L2-tplinkMibs.zip
-CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-C-Series-mibs/UCS_Cseries3.0.tar
-CISCO_FRU_URL     := https://raw.githubusercontent.com/cisco/cisco-mibs/26b38ac1b25a38510b6bb308465dd068e79df64b/v2/CISCO-ENTITY-FRU-CONTROL-MIB.my
+CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-mibs
 
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
@@ -417,9 +416,8 @@ $(MIBDIR)/powercom:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/powercom "$(POWERCOM_URL)"
 
 $(MIBDIR)/.cisco_imc:
-	$(eval TMP := $(shell mktemp))
-	$(eval TMP_DIR := $(shell mktemp -d))
 	@echo ">> Downloading Cisco UCS to $(TMP)"
-	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(CISCO_CUCS_URL)
-	@tar --strip-components=1 -xf $(TMP) -C $(MIBDIR)
-	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENTITY-FRU-CONTROL-MIB.my "$(CISCO_FRU_URL)"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my "$(CISCO_FRU_URL)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-MIB.my "$(CISCO_FRU_URL)/CISCO-UNIFIED-COMPUTING-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my "$(CISCO_FRU_URL)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-TC-MIB.my "$(CISCO_FRU_URL)/CISCO-UNIFIED-COMPUTING-TC-MIB.my"
