@@ -63,7 +63,8 @@ READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDAT
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
 POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.mib
 TPLINK_DDM        := https://static.tp-link.com/upload/software/2024/202402/20240229/L2-tplinkMibs.zip
-
+CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-mibs
+CISCO_CUCS_URL_v2 := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/v2
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
@@ -159,7 +160,8 @@ mibs: \
   $(MIBDIR)/CyberPower.MIB \
   $(MIBDIR)/EAP.MIB \
   $(MIBDIR)/EAP-Client.MIB \
-  $(MIBDIR)/powercom
+  $(MIBDIR)/powercom \
+  $(MIBDIR)/.cisco_imc
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -412,3 +414,12 @@ $(MIBDIR)/readydataos:
 $(MIBDIR)/powercom:
 	@echo ">> Downloading powercom"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/powercom "$(POWERCOM_URL)"
+
+$(MIBDIR)/.cisco_imc:
+	@echo ">> Downloading Cisco UCS to $(TMP)"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-TC-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-TC-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC.my "$(CISCO_CUCS_URL_v2)/CISCO-TC.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-SMI.my "$(CISCO_CUCS_URL_v2)/CISCO-SMI.my"

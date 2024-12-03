@@ -2928,6 +2928,73 @@ modules:
           0: unknown
           1: ipv4
           2: ipv6
+  cisco_imc:
+    walk:
+    - 1.3.6.1.4.1.9.9.719.1.1.1.1.11
+    - 1.3.6.1.4.1.9.9.719.1.1.1.1.20
+    - 1.3.6.1.4.1.9.9.719.1.45.1.1.6
+    metrics:
+    - name: cucsFaultDescription
+      oid: 1.3.6.1.4.1.9.9.719.1.1.1.1.11
+      type: DisplayString
+      help: Cisco UCS fault:Inst:descr managed object property - 1.3.6.1.4.1.9.9.719.1.1.1.1.11
+      indexes:
+      - labelname: cucsFaultIndex
+        type: gauge
+    - name: cucsFaultSeverity
+      oid: 1.3.6.1.4.1.9.9.719.1.1.1.1.20
+      type: gauge
+      help: Cisco UCS fault:Inst:severity managed object property - 1.3.6.1.4.1.9.9.719.1.1.1.1.20
+      indexes:
+      - labelname: cucsFaultIndex
+        type: gauge
+      enum_values:
+        0: cleared
+        1: info
+        3: warning
+        4: minor
+        5: major
+        6: critical
+    - name: cucsStorageControllerOperState
+      oid: 1.3.6.1.4.1.9.9.719.1.45.1.1.6
+      type: gauge
+      help: Cisco UCS storage:Controller:operState managed object property - 1.3.6.1.4.1.9.9.719.1.45.1.1.6
+      indexes:
+      - labelname: cucsStorageControllerInstanceId
+        type: gauge
+      enum_values:
+        0: unknown
+        1: operable
+        2: inoperable
+        3: degraded
+        4: poweredOff
+        5: powerProblem
+        6: removed
+        7: voltageProblem
+        8: thermalProblem
+        9: performanceProblem
+        10: accessibilityProblem
+        11: identityUnestablishable
+        12: biosPostTimeout
+        13: disabled
+        14: malformedFru
+        15: backplanePortProblem
+        16: chassisIntrusion
+        51: fabricConnProblem
+        52: fabricUnsupportedConn
+        81: config
+        82: equipmentProblem
+        83: decomissioning
+        84: chassisLimitExceeded
+        100: notSupported
+        101: discovery
+        102: discoveryFailed
+        103: identify
+        104: postFailure
+        105: upgradeProblem
+        106: peerCommProblem
+        107: autoUpgrade
+        108: linkActivateBlocked
   cisco_wlc:
     walk:
     - 1.3.6.1.4.1.14179.2.1.1.1.2
