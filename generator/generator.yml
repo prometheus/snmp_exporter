@@ -4,6 +4,15 @@ auths:
     version: 1
   public_v2:
     version: 2
+  private_v3:
+    community: ${SNMP_V3_COMMUNITY}
+    version: 3
+    username: ${SNMP_V3_USERNAME}
+    password: ${SNMP_V3_PASSWORD}
+    auth_protocol: 'MD5'
+    priv_protocol: 'AES'
+    priv_password: ${SNMP_V3_PASSWORD}
+    security_level: 'authPriv'
 
 modules:
   # Default IF-MIB interfaces table with ifIndex.
@@ -31,56 +40,6 @@ modules:
   ip_mib:
     walk: [ipv4InterfaceTable]
 
-  readynas:
-    walk:
-      - 1.3.6.1.4.1.4526               # Raid/Disks status
-
-# Cisco Wireless LAN Controller
-  cisco_wlc:
-    walk:
-      - 1.3.6.1.4.1.14179.2.1.1.1.38   # bsnDot11EssNumberofMobileStations
-      - 1.3.6.1.4.1.14179.2.2.2.1.2    # bsnAPIfType
-      - 1.3.6.1.4.1.14179.2.2.2.1.4    # bsnAPIfPhyChannelNumber
-      - 1.3.6.1.4.1.14179.2.2.2.1.15   # bsnApIfNoOfUsers
-      - 1.3.6.1.4.1.14179.2.2.6.1      # bsnAPIfDot11CountersTable
-      - 1.3.6.1.4.1.14179.2.2.13.1.3   # bsnAPIfLoadChannelUtilization
-      - 1.3.6.1.4.1.14179.2.2.15.1.21  # bsnAPIfDBNoisePower
-    lookups:
-      - source_indexes: [bsnDot11EssIndex]
-        lookup: bsnDot11EssSsid
-        drop_source_indexes: true
-      - source_indexes: [bsnAPDot3MacAddress]
-        lookup: bsnAPName
-        drop_source_indexes: true
-    overrides:
-      bsnAPName:
-        type: DisplayString
-
-# Dell OpenManage MIBs
-  dell:
-    walk:
-      - 1.3.6.1.4.1.674.10892.5.2 # statusGroup
-      - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
-      - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
-
-# HPE MIBs
-  hpe:
-    walk:
-      - sysUpTime
-      - 1.3.6.1.4.1.232.1.2.2.1.1     # CPU
-      - 1.3.6.1.4.1.232.11            # Firmware version
-      - 1.3.6.1.4.1.232.14            # Asmd agent IDE/SATA
-      - 1.3.6.1.4.1.232.3.2.2.1       # RAID storage controller
-      - 1.3.6.1.4.1.232.3.2.3.1.1     # Logical drives
-      - 1.3.6.1.4.1.232.3.2.5.1.1     # Physical drives
-      - 1.3.6.1.4.1.232.5             # Asmd agent SCSI disks
-      - 1.3.6.1.4.1.232.6.2.14.13.1.6 # Memory size only
-      - 1.3.6.1.4.1.232.6.2.15        # Power meter
-      - 1.3.6.1.4.1.232.6.2.16        # BIOS state
-      - 1.3.6.1.4.1.232.6.2.17        # RAID controller battery
-      - 1.3.6.1.4.1.232.6.2.6.8.1     # Temperatures
-      - 1.3.6.1.4.1.232.6.2.9         # Power supply
-      - 1.3.6.1.4.1.232.9.2.2         # ILO Module
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -127,307 +86,6 @@ modules:
       upsAdvBatteryChargerStatus:
         type: EnumAsStateSet
 
-# ServerTech Sentry 3 MIB
-#
-# Used by ServerTech PDUs
-#
-# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3OIDTree.txt
-# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
-  servertech_sentry3:
-    max_repetitions: 4 # See https://github.com/prometheus/snmp_exporter/issues/1080
-    walk:
-      - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
-      - 1.3.6.1.4.1.1718.3.2.3  # outletTable
-    overrides:
-      infeedCapacityUsed:
-        ignore: true  # Composite metric: infeedLoadValue / infeedCapacity * 100
-      infeedVACapacityUsed:
-        ignore: true  # Composite metric: infeedApparentPower / infeedVACapacity * 100
-
-# ServerTech Sentry 4 MIB
-#
-# Used by ServerTech PDUs
-#
-# https://cdn10.servertech.com/assets/documents/documents/816/original/Sentry4OIDTree.txt
-# https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib
-  servertech_sentry4:
-    walk:
-      - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.7.3   # st4BranchMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.8.3   # st4OutletMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.9.3   # st4TempSensorMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.14.3  # st4FanSensorMonitorTable
-
-    lookups:
-      - source_indexes: [st4UnitIndex]
-        lookup: st4UnitName
-      - source_indexes: [st4UnitIndex, st4InputCordIndex]
-        lookup: st4InputCordName
-        drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
-        lookup: st4LineLabel
-        drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
-        lookup: st4PhaseLabel
-        drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
-        lookup: st4BranchLabel
-        drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
-        lookup: st4OutletName
-        drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
-        lookup: st4AdcSensorName
-        drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4AdcSensorIndex, st4FanSensorIndex]
-        lookup: st4AdcSensorName
-        drop_source_indexes: true
-
-    overrides:
-      st4TempSensorValue:
-        scale: 0.1
-        help: The measured temperature on the sensor in degrees using the scale selected by st4TempSensorScale - 1.3.6.1.4.1.1718.4.1.9.3.1.1
-
-# Palo Alto Firewalls
-#
-# Palo Alto MIBs can be found here:
-# https://www.paloaltonetworks.com/documentation/misc/snmp-mibs.html
-#
-# PanOS 7.0 enterprise MIBs:
-# https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip
-#
-# Tested on a Palo Alto Networks PA-3020 series firewall
-#
-  paloalto_fw:
-    walk:
-      - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
-      - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
-      - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
-
-# Arista Networks
-#
-# Arista Networks MIBs can be found here: https://www.arista.com/en/support/product-documentation/arista-snmp-mibs
-#
-# https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt
-# https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
-#
-# Tested on Arista DCS-7010T-48 switch
-#
-  arista_sw:
-    walk:
-      - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
-
-# Sophos XG
-#
-# Sophos XG MIBs can be found here:
-#   https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
-#
-# Tested on Sophos XG v20
-#
-  sophos_xg:
-    walk:
-      - 1.3.6.1.4.1.2604.5.1.1 # sfosXGDeviceInfo
-      - 1.3.6.1.4.1.2604.5.1.2 # sfosXGDeviceStats
-      - 1.3.6.1.4.1.2604.5.1.3 # sfosXGServiceStatus
-      - 1.3.6.1.4.1.2604.5.1.4 # sfosXGHAStats
-      - 1.3.6.1.4.1.2604.5.1.5 # sfosXGLicenseDetails
-    overrides:
-      # Info
-      sfosCurrentDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%a %b %d %H:%M:%S %Y"
-      # Services
-      sfosPoP3Service:
-        type: EnumAsStateSet
-      sfosImap4Service:
-        type: EnumAsStateSet
-      sfosSmtpService:
-        type: EnumAsStateSet
-      sfosFtpService:
-        type: EnumAsStateSet
-      sfosHttpService:
-        type: EnumAsStateSet
-      sfosAVService:
-        type: EnumAsStateSet
-      sfosASService:
-        type: EnumAsStateSet
-      sfosDNSService:
-        type: EnumAsStateSet
-      sfosHAService:
-        type: EnumAsStateSet
-      sfosIPSService:
-        type: EnumAsStateSet
-      sfosApacheService:
-        type: EnumAsStateSet
-      sfosNtpService:
-        type: EnumAsStateSet
-      sfosTomcatService:
-        type: EnumAsStateSet
-      sfosSSLVpnService:
-        type: EnumAsStateSet
-      sfosIPSecVpnService:
-        type: EnumAsStateSet
-      sfosDatabaseservice:
-        type: EnumAsStateSet
-      sfosNetworkService:
-        type: EnumAsStateSet
-      sfosGarnerService:
-        type: EnumAsStateSet
-      sfosDroutingService:
-        type: EnumAsStateSet
-      sfosSSHdService:
-        type: EnumAsStateSet
-      sfosDgdService:
-        type: EnumAsStateSet
-
-      # HA
-      sfosHAStatus:
-        type: EnumAsInfo
-      sfosDeviceCurrentAppKey:
-        ignore: true
-      sfosDevicePeerAppKey:
-        ignore: true
-      sfosDeviceCurrentHAState:
-        type: EnumAsStateSet
-      sfosDevicePeerHAState:
-        type: EnumAsStateSet
-      sfosDeviceLoadBalancing:
-        type: EnumAsInfo
-
-      # License
-      sfosBaseFWLicRegStatus:
-        type: EnumAsStateSet
-      sfosBaseFWLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosNetProtectionLicRegStatus:
-        type: EnumAsStateSet
-      sfosNetProtectionLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosWebProtectionLicRegStatus:
-        type: EnumAsStateSet
-      sfosWebProtectionLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosMailProtectionLicRegStatus:
-        type: EnumAsStateSet
-      sfosMailProtectionLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosWebServerProtectionLicRegStatus:
-        type: EnumAsStateSet
-      sfosWebServerProtectionLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosSandstromLicRegStatus:
-        type: EnumAsStateSet
-      sfosSandstromLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosEnhancedSupportLicRegStatus:
-        type: EnumAsStateSet
-      sfosEnhancedSupportLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosEnhancedPlusLicRegStatus:
-        type: EnumAsStateSet
-      sfosEnhancedPlusLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-      sfosCentralOrchestrationLicRegStatus:
-        type: EnumAsStateSet
-      sfosCentralOrchestrationLicExpiryDate:
-        type: ParseDateAndTime
-        datetime_pattern: "%b %d %Y"
-
-# Synology
-#
-# Synology MIBs can be found here:
-#   http://www.synology.com/support/snmp_mib.php
-#   http://dedl.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip
-#
-# Tested on RS2414rp+ NAS
-#
-  synology:
-    walk:
-      - 1.3.6.1.4.1.6574.1       # synoSystem
-      - 1.3.6.1.4.1.6574.2       # synoDisk
-      - 1.3.6.1.4.1.6574.3       # synoRaid
-      - 1.3.6.1.4.1.6574.4       # synoUPS
-      - 1.3.6.1.4.1.6574.5       # synologyDiskSMART
-      - 1.3.6.1.4.1.6574.6       # synologyService
-      - 1.3.6.1.4.1.6574.101     # storageIO
-      - 1.3.6.1.4.1.6574.102     # spaceIO
-      - 1.3.6.1.4.1.6574.104     # synologyiSCSILUN
-    lookups:
-      - source_indexes: [spaceIOIndex]
-        lookup: spaceIODevice
-        drop_source_indexes: true
-      - source_indexes: [storageIOIndex]
-        lookup: storageIODevice
-        drop_source_indexes: true
-      - source_indexes: [serviceInfoIndex]
-        lookup: serviceName
-        drop_source_indexes: true
-      - source_indexes: [diskIndex]
-        lookup: diskID
-        drop_source_indexes: true
-      - source_indexes: [raidIndex]
-        lookup: raidName
-        drop_source_indexes: true
-    overrides:
-      diskModel:
-        type: DisplayString
-      diskSMARTAttrName:
-        type: DisplayString
-      diskSMARTAttrStatus:
-        type: DisplayString
-      diskSMARTInfoDevName:
-        type: DisplayString
-      diskType:
-        type: DisplayString
-      modelName:
-        type: DisplayString
-      raidFreeSize:
-        type: gauge
-      raidName:
-        type: DisplayString
-      raidTotalSize:
-        type: gauge
-      serialNumber:
-        type: DisplayString
-      serviceName:
-        type: DisplayString
-      version:
-        type: DisplayString
-
-# UCD-SNMP-MIB
-#
-# University of California, Davis extensions. Commonly used for host
-# metrics. For example, Linux-based systems, DD-WRT, Synology,
-# Mikrotik, Kemp LoadMaster, etc.
-#
-# http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
-#
-  ucd_la_table:
-    walk:
-      - 1.3.6.1.4.1.2021.10.1.2 # laNames
-      - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
-      - 1.3.6.1.4.1.2021.10.1.6 # laLoadFloat
-    lookups:
-      - source_indexes: [laIndex]
-        lookup: laNames
-        drop_source_indexes: true
-  ucd_memory:
-    walk:
-      - 1.3.6.1.4.1.2021.4 # memory
-  ucd_system_stats:
-    walk:
-      - 1.3.6.1.4.1.2021.11 # systemStats
-
 # Ubiquiti / AirFiber
 #
 # https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
@@ -458,235 +116,6 @@ modules:
       - source_indexes: [unifiVapIndex]
         lookup: unifiVapEssId
 
-# keepalived
-#
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/KEEPALIVED-MIB.txt
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRP-MIB.txt
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRPv3-MIB.txt
-  keepalived:
-    walk:
-      - vrrpInstanceTable # Table of VRRP instances.
-      - vrrpSyncGroupTable # Table of sync groups.
-      - virtualServerGroupTable # Table of virtual server groups.
-      - virtualServerTable # Table of virtual servers.
-      - realServerTable # Table of real servers. This includes regular real servers and sorry servers.
-      - vrrpRouterStatsTable # Table of VRRP statistics.
-      - vrrpv3StatisticsTable # Table of VRRPv3 statistics.
-    overrides:
-      vrrpSyncGroupScriptMaster:
-        ignore: true # Non-metric display string.
-      vrrpSyncGroupScriptBackup:
-        ignore: true # Non-metric display string.
-      vrrpSyncGroupScriptFault:
-        ignore: true # Non-metric display string.
-      vrrpSyncGroupScript:
-        ignore: true # Non-metric display string.
-      vrrpSyncGroupScriptStop:
-        ignore: true # Non-metric display string.
-      vrrpInstanceLvsSyncDaemon:
-        ignore: true # Deprecated.
-      vrrpInstanceLvsSyncInterface:
-        ignore: true # Deprecated.
-      vrrpInstanceScriptMaster:
-        ignore: true # Non-metric display string.
-      vrrpInstanceScriptBackup:
-        ignore: true # Non-metric display string.
-      vrrpInstanceScriptFault:
-        ignore: true # Non-metric display string.
-      vrrpInstanceScriptStop:
-        ignore: true # Non-metric display string.
-      vrrpInstanceScript:
-        ignore: true # Non-metric display string.
-      vrrpInstanceScriptMstrRxLowerPri:
-        ignore: true # Non-metric display string.
-
-# Kemp Technologies LoadMaster
-#
-# https://kemptechnologies.com/files/packages/current/LM_mibs.zip
-# https://support.kemptechnologies.com/hc/en-us/articles/202375677-LoadMaster-SNMP-MIB-s
-  kemp_loadmaster:
-    walk:
-      - 1.3.6.1.4.1.12196.13.0 # VSdesc
-      - 1.3.6.1.4.1.12196.13.1 # VSentry
-      - 1.3.6.1.4.1.12196.13.2 # RSentry
-    lookups:
-      - source_indexes: [vSidx]
-        lookup: 1.3.6.1.4.1.12196.13.1.1.13 # vSName
-    overrides:
-      daemonState:
-        type: EnumAsInfo
-      haState:
-        type: EnumAsInfo
-      patchVersion:
-        type: DisplayString
-      rSAddrType:
-        type: EnumAsInfo
-      rSForwardingMethod:
-        type: DisplayString
-      rSIp:
-        type: DisplayString
-      rSState:
-        type: EnumAsInfo
-      vSAdaptiveMethod:
-        type: DisplayString
-      vSAddrtype:
-        type: EnumAsInfo
-      vSCheckerType:
-        type: DisplayString
-      vSIp:
-        type: DisplayString
-      vSL7cookieId:
-        type: DisplayString
-      vSL7persist:
-        type: DisplayString
-      vSName:
-        type: DisplayString
-      vSProtocol:
-        type: EnumAsInfo
-      vSSchedulingMethod:
-        type: DisplayString
-      vSState:
-        type: EnumAsInfo
-      version:
-        type: DisplayString
-
-# Printer: RFC 3805
-#
-# https://tools.ietf.org/html/rfc3805
-# https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib.xhtml
-  printer_mib:
-    walk:
-      - prtGeneralReset
-      - prtConsoleDisable
-      - prtGeneralPrinterName
-      - prtGeneralSerialNumber
-      - prtAlertCriticalEvents
-      - prtAlertAllEvents
-      - prtCoverStatus
-      - prtMarkerSuppliesDescription
-      - prtMarkerSuppliesLevel
-      - prtMarkerSuppliesMaxCapacity
-      - prtMarkerSuppliesType
-    lookups:
-      - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
-        lookup: prtMarkerSuppliesType
-    overrides:
-      prtGeneralReset:
-        type: EnumAsStateSet
-      prtConsoleDisable:
-        type: EnumAsStateSet
-      prtGeneralPrinterName:
-        type: DisplayString
-      prtGeneralSerialNumber:
-        type: DisplayString
-      prtCoverStatus:
-        type: EnumAsStateSet
-      prtMarkerSuppliesDescription:
-        type: DisplayString
-
-# NEC IX Router
-#
-# https://jpn.nec.com/univerge/ix/Manual/MIB/PICO-SMI-MIB.txt
-# https://jpn.nec.com/univerge/ix/Manual/MIB/PICO-SMI-ID-MIB.txt
-# https://jpn.nec.com/univerge/ix/Manual/MIB/PICO-IPSEC-FLOW-MONITOR-MIB.txt
-  nec_ix:
-    walk:
-      - picoSystem
-      - picoIpSecFlowMonitorMIB
-      - picoExtIfMIB
-      - picoNetworkMonitorMIB
-      - picoIsdnMIB
-      - picoNgnMIB
-      - picoMobileMIB
-      - picoIPv4MIB
-      - picoIPv6MIB
-
-# Raritan
-#
-# https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-# https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
-  raritan:
-    walk:
-      - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
-      - 1.3.6.1.4.1.13742.4.1.20.2.1.8 # inletVoltage
-      - 1.3.6.1.4.1.13742.4.1.20.2.1.9 # inletActivePower
-      - 1.3.6.1.4.1.13742.4.1.2.2.1.31 # outletWattHours
-      - 1.3.6.1.4.1.13742.4.1.2.2.1.3  # outletOperationalState
-      - 1.3.6.1.4.1.13742.4.1.2.2.1.4  # outletCurrent
-      - 1.3.6.1.4.1.13742.4.1.2.2.1.5  # outletMaxCurrent
-      - 1.3.6.1.4.1.13742.4.1.2.2.1.6  # outletVoltage
-      - 1.3.6.1.4.1.13742.4.1.2.2.1.7  # outletActivePower
-      - 1.3.6.1.4.1.13742.4.1.3.1.5    # unitCpuTemp
-      - 1.3.6.1.4.1.13742.6.5.5.3.1    # externalSensors
-    lookups:
-      - source_indexes: [outletIndex]
-        lookup: outletLabel
-    overrides:
-      outletOperationalState:
-        type: EnumAsStateSet
-
-# InfraPower PDU's
-#
-# https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
-# The circuit table in the infrapower MIB is invalid as it has a table (circuitTable) nested inside another table (pduTable), and this invalid setup then confuses the generator.
-  infrapower_pdu:
-    walk:
-      - 1.3.6.1.4.1.34550.20.2.1.1.1.1 # pduIndex
-      - 1.3.6.1.4.1.34550.20.2.1.1.1.6 # pduName
-      - 1.3.6.1.4.1.34550.20.2.1.1.1.7 # pduLocation
-      - 1.3.6.1.4.1.34550.20.2.1.1.1.13 # pduMainLoadVoltage
-      - 1.3.6.1.4.1.34550.20.2.1.1.1.14 # pduMainLoadAmp
-      - 1.3.6.1.4.1.34550.20.2.1.1.1.17 # pduMainActivePower
-    lookups:
-      - source_indexes: [pduIndex]
-        lookup: pduName
-      - source_indexes: [pduIndex]
-        lookup: pduLocation
-    overrides:
-      pduIndex:
-        ignore: true # Lookup metric
-      pduName:
-        ignore: true # Lookup metric
-      pduLocation:
-        ignore: true # Lookup metric
-      pduMainLoadAmp:
-        regex_extracts:
-          '':
-            - regex: '(.*)(.)'
-              value: '$1.$2'
-      pduMainLoadVoltage:
-        regex_extracts:
-          '':
-            - regex: '(.*)(.)'
-              value: '$1.$2'
-      pduMainActivePower:
-        regex_extracts:
-          '':
-            - regex: '(\d*?)(\d{2})'
-              value: '0$1.$2'
-            - regex: '^(\d)'
-              value: '0.0$1'
-
-# Liebert/Vertiv PDU's
-#
-# https://www.vertiv.com/en-us/support/software-download/monitoring/management-information-bases-mibs-for-liebert-products/
-# https://www.vertiv.com/492204/contentassets/b00273585e0a453a9c983523e8a0d6ff/lgpmib-unix_rev16.tar
-  liebert_pdu:
-    walk:
-      - lgpPduTable
-      - lgpPduPsTable
-      - lgpPduPsLineTable
-      - lgpPduRcpTable
-      - lgpPduAuxSensorTable
-    lookups:
-      - source_indexes: [lgpPduEntryIndex]
-        lookup: lgpPduEntrySysAssignLabel
-      - source_indexes: [lgpPduPsEntryIndex]
-        lookup: lgpPduPsEntrySysAssignLabel
-      - source_indexes: [lgpPduRcpEntryIndex]
-        lookup: lgpPduRcpEntrySysAssignLabel
-      - source_indexes: [lgpPduAuxSensorIndex]
-        lookup: lgpPduAuxSensorSysAssignLabel
 # Mikrotik Router
 #
 # http://download2.mikrotik.com/Mikrotik.mib
@@ -726,186 +155,486 @@ modules:
         scale: -1.0
         offset: 2.0
 
-# CyberPower
+# Axis camera
 #
-# https://www.cyberpowersystems.com/product/software/mib-files/mib-v211/
-  cyberpower:
-    walk:
-      - 1.3.6.1.4.1.3808.1.1.1 # ups
-      - 1.3.6.1.4.1.3808.1.1.4 # environmentSensor
-      - 1.3.6.1.4.1.3808.1.1.5 # ats
-      - 1.3.6.1.4.1.3808.1.1.6 # ePDU2
+# https://raw.githubusercontent.com/librenms/librenms/master/mibs/axis/AXIS-ROOT-MIB
+# https://raw.githubusercontent.com/librenms/librenms/master/mibs/axis/AXIS-VIDEO-MIB
 #
-# TP LINK EAP
-# http://static.tp-link.com/EAP_Private_Mibs_1.0.zip
-  eap:
+  axis_camera:
     walk:
-      - 1.3.6.1.4.1.11863.10.1.1.1  # client count
+      - sysDescr
+      - 1.3.6.1.4.1.368.4.1.3.1.3 #tempSensorStatus
+      - 1.3.6.1.4.1.368.4.1.3.1.4 #tempSensorValue
 
-#
-# HOST-RESOURCES-MIB
-#
-# http://www.net-snmp.org/docs/mibs/host.html
-  hrSystem:
-    walk:
-      - hrSystem
-  hrStorage:
-    walk:
-      - hrStorage
-    lookups:
-      - source_indexes: [hrStorageIndex]
-        lookup: hrStorageDescr
-        drop_source_indexes: true
-  hrDevice:
-    walk:
-      - hrDevice
     overrides:
-      hrPrinterStatus:
-        type: EnumAsStateSet
-  hrSWRun:
-    walk:
-      - hrSWRun
-  hrSWRunPerf:
-    walk:
-      - hrSWRunPerf
-  hrSWInstalled:
-    walk:
-      - hrSWInstalled
+      tempSensorStatus:
+        help: The status of the temperature sensor. - 1.3.6.1.4.1.368.4.1.3.1.3 (1=ok, 2=failure, 3=outOfBoundary)
 
+# Cambium Radio
 #
-# Powercom MIBs
-#
-# https://www.upspowercom.com/Card-DA807.jsp
-#
-  powercom:
+  cambium_450i:
     walk:
-      - 1.3.6.1.4.1.935.1.1.1.1.1.1   # upsBaseIdentModel
-      - 1.3.6.1.4.1.935.1.1.1.1.2.1   # upsSmartIdentFirmwareRevision
-      - 1.3.6.1.4.1.935.1.1.1.1.2.2   # upsSmartIdentDateOfManufacture
-      - 1.3.6.1.4.1.935.1.1.1.1.2.4   # upsSmartIdentAgentFirmwareRevision
-      - 1.3.6.1.4.1.935.1.1.1.2.1.1   # upsBaseBatteryStatus
-      - 1.3.6.1.4.1.935.1.1.1.2.1.2   # upsBaseBatteryTimeOnBattery
-      - 1.3.6.1.4.1.935.1.1.1.2.2.1   # upsSmartBatteryCapacity
-      - 1.3.6.1.4.1.935.1.1.1.2.2.2   # upsSmartBatteryVoltage
-      - 1.3.6.1.4.1.935.1.1.1.2.2.3   # upsSmartBatteryTemperature
-      - 1.3.6.1.4.1.935.1.1.1.2.2.6   # upsSmartBatteryFullChargeVoltage
-      - 1.3.6.1.4.1.935.1.1.1.3.2.1   # upsSmartInputLineVoltage
-      - 1.3.6.1.4.1.935.1.1.1.3.2.2   # upsSmartInputMaxLineVoltage
-      - 1.3.6.1.4.1.935.1.1.1.3.2.3   # upsSmartInputMinLineVoltage
-      - 1.3.6.1.4.1.935.1.1.1.3.2.4   # upsSmartInputFrequency
-      - 1.3.6.1.4.1.935.1.1.1.3.2.5   # upsSmartInputLineFailCause
-      - 1.3.6.1.4.1.935.1.1.1.4.1.1   # upsBaseOutputStatus
-      - 1.3.6.1.4.1.935.1.1.1.4.2.1   # upsSmartOutputVoltage
-      - 1.3.6.1.4.1.935.1.1.1.4.2.2   # upsSmartOutputFrequency
-      - 1.3.6.1.4.1.935.1.1.1.4.2.3   # upsSmartOutputLoad
-      - 1.3.6.1.4.1.935.1.1.1.4.2.7   # upsSmartOutputOverLoad
-      - 1.3.6.1.4.1.935.1.1.1.4.2.8   # upsSmartOutputOverVoltage
-      - 1.3.6.1.4.1.935.1.1.1.5.2.1   # upsSmartConfigRatedOutputVoltage
-      - 1.3.6.1.4.1.935.1.1.1.5.2.2   # upsSmartConfigHighTransferVolt
-      - 1.3.6.1.4.1.935.1.1.1.5.2.3   # upsSmartConfigLowTransferVolt
-      - 1.3.6.1.4.1.935.1.1.1.5.2.4   # upsSmartConfigAlarm
-      - 1.3.6.1.4.1.935.1.1.1.5.2.5   # upsSmartConfigAlarmTimer
-      - 1.3.6.1.4.1.935.1.1.1.5.2.6   # upsSmartConfigMinReturnCapacity
-      - 1.3.6.1.4.1.935.1.1.1.5.2.7   # upsSmartConfigSensitivity
-      - 1.3.6.1.4.1.935.1.1.1.5.2.8   # upsSmartConfigLowBatteryRunTime
-      - 1.3.6.1.4.1.935.1.1.1.5.2.9   # upsSmartConfigReturnDelay
-      - 1.3.6.1.4.1.935.1.1.1.5.2.10  # upsSmartConfigShutoffDelay
-      - 1.3.6.1.4.1.935.1.1.1.5.2.11  # upsSmartConfigUpsSleepTime
-      - 1.3.6.1.4.1.935.1.1.1.7.2.1   # upsSmartTestDiagnosticSchedule
-      - 1.3.6.1.4.1.935.1.1.1.7.2.3   # upsSmartTestDiagnosticsResults
-      - 1.3.6.1.4.1.935.1.1.1.8.5.1   # upsThreePhaseDCandRectifierStatusRecRotError
-      - 1.3.6.1.4.1.935.1.1.1.8.5.2   # upsThreePhaseDCandRectifierStatusLowBatteryShutdown
-      - 1.3.6.1.4.1.935.1.1.1.8.5.3   # upsThreePhaseDCandRectifierStatusLowBattery
-      - 1.3.6.1.4.1.935.1.1.1.8.5.5   # upsThreePhaseDCandRectifierStatusBatteryStatus
-      - 1.3.6.1.4.1.935.1.1.1.8.5.6   # upsThreePhaseDCandRectifierStatusChargeStatus
-      - 1.3.6.1.4.1.935.1.1.1.8.5.7   # upsThreePhaseDCandRectifierStatusRecOperating
-      - 1.3.6.1.4.1.935.1.1.1.8.6.1   # upsThreePhaseUPSStatusBypassFreqFail
-      - 1.3.6.1.4.1.935.1.1.1.8.6.2   # upsThreePhaseUPSStatusManualBypassBreaker
-      - 1.3.6.1.4.1.935.1.1.1.8.6.3   # upsThreePhaseUPSStatusACStatus
-      - 1.3.6.1.4.1.935.1.1.1.8.6.4   # upsThreePhaseUPSStaticSwitchMode
-      - 1.3.6.1.4.1.935.1.1.1.8.6.5   # upsThreePhaseUPSStatusInverterOperating
-      - 1.3.6.1.4.1.935.1.1.1.8.7.1   # upsThreePhaseFaultStatusEmergencyStop
-      - 1.3.6.1.4.1.935.1.1.1.8.7.2   # upsThreePhaseFaultStatusHighDCShutdown
-      - 1.3.6.1.4.1.935.1.1.1.8.7.3   # upsThreePhaseFaultStatusBypassBreaker
-      - 1.3.6.1.4.1.935.1.1.1.8.7.4   # upsThreePhaseFaultStatusOverLoad
-      - 1.3.6.1.4.1.935.1.1.1.8.7.5   # upsThreePhaseFaultStatusInverterOutputFail
-      - 1.3.6.1.4.1.935.1.1.1.8.7.6   # upsThreePhaseFaultStatusOverTemperature
-      - 1.3.6.1.4.1.935.1.1.1.8.7.7   # upsThreePhaseFaultStatusShortCircuit
-      - 1.3.6.1.4.1.935.1.1.1.9.1.1   # upsEnvTemperature
-      - 1.3.6.1.4.1.935.1.1.1.9.1.2   # upsEnvHumidity
-      - 1.3.6.1.4.1.935.1.1.1.9.2.1   # upsEnvOverTemperature
-      - 1.3.6.1.4.1.935.1.1.1.9.2.2   # upsEnvUnderTemperature
-      - 1.3.6.1.4.1.935.1.1.1.9.2.3   # upsEnvOverHumidity
-      - 1.3.6.1.4.1.935.1.1.1.9.2.4   # upsEnvUnderHumidity
-  # tplink ddm information for sfps
-  # 
-  # Downloads can be found here:
-  # https://www.tp-link.com/en/support/download/tl-sg3428x/
-  #
-  # tested against TL SG3428X 
-  tplink-ddm:
+      - 1.3.6.1.4.1.161.19.3.3.1.10 #boxFrequency
+      - 1.3.6.1.4.1.161.19.3.3.1.35 #boxTemperatureC
+      - 1.3.6.1.4.1.161.19.3.3.1.36 #boxTemperatureF
+      - 1.3.6.1.4.1.161.19.3.3.1.233 #activeTxPowerHdths
+      - 1.3.6.1.4.1.161.19.3.3.2.23 #transmitterOP
+      - 1.3.6.1.4.1.161.19.3.2.2.8 #radioDbm
+      - 1.3.6.1.4.1.161.19.3.2.2.21 #radioDbmInt
+      - 1.3.6.1.4.1.161.19.3.2.2.64 #airDelayns
+      - 1.3.6.1.4.1.161.19.3.3.2.14 #antennaGain
+      - 1.3.6.1.4.1.161.19.3.2.2.2 #rssi
+
+# Ubiquiti / AirFiber LTU
+#
+# https://www.ui.com/downloads/firmwares/afltu-mib/v1.5.0/snmp-mibs.zip
+#
+  ubiquiti_afltu:
     walk:
-      - ddmStatusBiasCurrent
-      - ddmStatusLossSignal
-      - ddmStatusRxPow
-      - ddmStatusTemperature
-      - ddmStatusTxFault
-      - ddmStatusTxPow
-      - ddmStatusVoltage
-    lookups:
-      - source_indexes: [ifIndex]
-        lookup: ifAlias
-      - source_indexes: [ifIndex]
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+      - 1.3.6.1.4.1.41112.1.10 #ubntAFLTU
+
+# Eaton UPS
+#
+  eaton5P_550:
+    walk:
+      - 1.3.6.1.4.1.534.1.2.1
+      - 1.3.6.1.4.1.534.1.2.2
+      - 1.3.6.1.4.1.534.1.2.4
+      - 1.3.6.1.4.1.534.1.2.5
+      - 1.3.6.1.4.1.534.1.2.7
+      - 1.3.6.1.4.1.534.1.2.10
+      - 1.3.6.1.4.1.534.1.3.1
+      - 1.3.6.1.4.1.534.1.3.4.1.2
+      - 1.3.6.1.4.1.534.1.4.1
+      - 1.3.6.1.4.1.534.1.3.9
+      - 1.3.6.1.4.1.534.1.4.4.1.2
+      - 1.3.6.1.4.1.534.1.12.2.1.2
     overrides:
-      ddmStatusBiasCurrent:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
-      ddmStatusLossSignal:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: 'False'
-              value: '0'
-            - regex: 'True'
-              value: '1'
-      ddmStatusRxPow:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
-      ddmStatusTemperature:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
-      ddmStatusTxFault:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: 'False'
-              value: '0'
-            - regex: 'True'
-              value: '1'
-      ddmStatusTxPow:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
-      ddmStatusVoltage:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
-  cisco_imc:
+      xupsBatteryAbmStatus:
+        type: EnumAsInfo
+
+# Morningstar Prostar Solar Controller
+#
+# https://www.morningstarcorp.com/wp-content/uploads/2019/12/MIB-folder-with-OID-tables-for-SNMP.zip
+#
+  prostar_mppt:
     walk:
-    - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
-    - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
-    - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - 1.3.6.1.4.1.33333.5.30 # batteryVoltage
+      - 1.3.6.1.4.1.33333.5.31 # arrayVoltage
+      - 1.3.6.1.4.1.33333.5.32 # loadVoltage
+      - 1.3.6.1.4.1.33333.5.33 # chargeCurrent
+      - 1.3.6.1.4.1.33333.5.34 # loadCurrent
+      - 1.3.6.1.4.1.33333.5.38 # heatSinkTemperature
+      - 1.3.6.1.4.1.33333.5.39 # batteryTemperature
+      - 1.3.6.1.4.1.33333.5.40 # ambientTemperature
+
+    overrides:
+      batteryTerminalVoltage:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      arrayVoltage:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      loadVoltage:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      chargeCurrent:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      loadCurrent:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      heatSinkTemperature:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      batteryTemperature:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      ambientTemperature:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+
+
+#Morningstar Genstar Solar Controller
+#
+  genstar_mppt:
+    walk:
+#      - sysUpTime
+#      - interfaces
+#      - ifXTable
+      - 1.3.6.1.4.1.33333.10  #all the things
+      - 1.3.6.1.4.1.33333.10.32  #vbsense
+      - 1.3.6.1.4.1.33333.10.31  #vload
+      - 1.3.6.1.4.1.33333.10.30  #vbterm
+      - 1.3.6.1.4.1.33333.10.40  #vbattRefCharge
+      - 1.3.6.1.4.1.33333.10.61  #vbattMinDaily
+      - 1.3.6.1.4.1.33333.10.42  #vbattMin
+      - 1.3.6.1.4.1.33333.10.62  #vbattMaxDaily
+      - 1.3.6.1.4.1.33333.10.43  #vbattMax
+      - 1.3.6.1.4.1.33333.10.63  #varrayMaxDaily
+      - 1.3.6.1.4.1.33333.10.33  #vCoin
+      - 1.3.6.1.4.1.33333.10.66  #timeFloatDaily
+      - 1.3.6.1.4.1.33333.10.65  #timeEqDaily
+      - 1.3.6.1.4.1.33333.10.64  #timeAbsorbDaily
+      - 1.3.6.1.4.1.33333.10.37  #tempRts
+      - 1.3.6.1.4.1.33333.10.38  #tempHeatsink
+      - 1.3.6.1.4.1.33333.10.36  #tempBatt
+      - 1.3.6.1.4.1.33333.10.35  #systemIload
+      - 1.3.6.1.4.1.33333.10.34  #systemIcharge
+      - 1.3.6.1.4.1.33333.10.94  #systemIbattDispfil
+      - 1.3.6.1.4.1.33333.10.68  #systemChargeKwhDaily
+      - 1.3.6.1.4.1.33333.10.71  #systemChargeAhDaily
+      - 1.3.6.1.4.1.33333.10.74  #systemBattAhDaily
+      - 1.3.6.1.4.1.33333.10.89  #load0AhDaily
+      - 1.3.6.1.4.1.33333.10.80  #internalChargeKwhDaily
+      - 1.3.6.1.4.1.33333.10.83  #interalChargeAhDaily
+      - 1.3.6.1.4.1.33333.10.86  #internalBattAhDaily
+      - 1.3.6.1.4.1.33333.10.126  #eload0vStartLVD
+      - 1.3.6.1.4.1.33333.10.132  #eload0currentComp
+      - 1.3.6.1.4.1.33333.10.125  #eload0VLVR
+      - 1.3.6.1.4.1.33333.10.124  #eload0VLVD0
+      - 1.3.6.1.4.1.33333.10.130  #eload0SOCReconnect
+      - 1.3.6.1.4.1.33333.10.129  #eload0SOCDisconnect
+      - 1.3.6.1.4.1.33333.10.128  #eload0HVR
+      - 1.3.6.1.4.1.33333.10.127  #eload0HVD
+      - 1.3.6.1.4.1.33333.10.113  #echargevTempComp
+      - 1.3.6.1.4.1.33333.10.108  #echargevHVR
+      - 1.3.6.1.4.1.33333.10.107  #echargevHVD25
+      - 1.3.6.1.4.1.33333.10.101  #echargevFloatExit
+      - 1.3.6.1.4.1.33333.10.102  #echargevFloatCancel
+      - 1.3.6.1.4.1.33333.10.105  #echargevEqualize
+      - 1.3.6.1.4.1.33333.10.97  #echargevBattRefLimit
+      - 1.3.6.1.4.1.33333.10.103  #echargevAbsorptionExt
+      - 1.3.6.1.4.1.33333.10.98  #echargevAbsorb
+      - 1.3.6.1.4.1.33333.10.118  #echargetemperatureFoldbackHot100
+      - 1.3.6.1.4.1.33333.10.119  #echargetemperatureFoldBackHot0
+      - 1.3.6.1.4.1.33333.10.117  #echargetemperatureFoldbackCold100
+      - 1.3.6.1.4.1.33333.10.116  #echargetemperatureFoldbackCold0
+      - 1.3.6.1.4.1.33333.10.106  #echargeiEqualizeLimit
+      - 1.3.6.1.4.1.33333.10.99  #echargeiBattAbsorbTerm
+      - 1.3.6.1.4.1.33333.10.114  #echargeTBattMinLim
+      - 1.3.6.1.4.1.33333.10.115  #echargeTBattMaxLim
+      - 1.3.6.1.4.1.33333.10.41  #battSoc
+      - 1.3.6.1.4.1.33333.10.45  #battSocMaxDaily
+      - 1.3.6.1.4.1.33333.10.44  #battSocMinDaily
+      - 1.3.6.1.4.1.33333.10.96  #adclarrayFSlowShadowDispfil
+      - 1.3.6.1.4.1.33333.10.92  #adclloadF1sDispfil
+      - 1.3.6.1.4.1.33333.10.95  #adcVarrayFSlowShadowDispfil
+      - 1.3.6.1.4.1.33333.10.93  #powerOutDispfil
+      - 1.3.6.1.4.1.33333.10.77  #systemLoadAhDaily
+
+    overrides:
+      vbsense:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vload:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbterm:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattRefCharge:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMinDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMin:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMaxDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMax:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      varrayMaxDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vCoin:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      timeFloatDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      timeEqDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      timeAbsorbDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      tempRts:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      tempHeatsink:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      tempBatt:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemIload:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemIcharge:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemIbattDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemChargeKwhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemChargeAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemBattAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      load0AhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      internalChargeKwhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      internalChargeAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      internalBattAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0vStartLVD:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0currentComp:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0VLVR:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0VLVD0:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0SOCReconnect:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0SOCDisconnect:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0HVR:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0HVD:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevTempComp:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevHVR:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevHVD25:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevFloatExit:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevFloatCancel:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevEqualize:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevBattRefLimit:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevAbsorptionExt:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevAbsorb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackHot100:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackHot0:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackCold100:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackCold0:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeiEqualizeLimit:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeiBattAbsorbTerm:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeTBattMinLim:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeTBattMaxLim:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      battSoc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      battSocMaxDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      battSocMinDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      adcIarrayFSlowShadowDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      adcIloadF1sDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      adcVarrayFSlowShadowDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      powerOutDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemLoadAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
