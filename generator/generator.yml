@@ -4,6 +4,15 @@ auths:
     version: 1
   public_v2:
     version: 2
+  private_v3:
+    community: ${SNMP_V3_COMMUNITY}
+    version: 3
+    username: ${SNMP_V3_USERNAME}
+    password: ${SNMP_V3_PASSWORD}
+    auth_protocol: 'MD5'
+    priv_protocol: 'AES'
+    priv_password: ${SNMP_V3_PASSWORD}
+    security_level: 'authPriv'
 
 modules:
   # Default IF-MIB interfaces table with ifIndex.
@@ -146,3 +155,486 @@ modules:
         scale: -1.0
         offset: 2.0
 
+# Axis camera
+#
+# https://raw.githubusercontent.com/librenms/librenms/master/mibs/axis/AXIS-ROOT-MIB
+# https://raw.githubusercontent.com/librenms/librenms/master/mibs/axis/AXIS-VIDEO-MIB
+#
+  axis_camera:
+    walk:
+      - sysDescr
+      - 1.3.6.1.4.1.368.4.1.3.1.3 #tempSensorStatus
+      - 1.3.6.1.4.1.368.4.1.3.1.4 #tempSensorValue
+
+    overrides:
+      tempSensorStatus:
+        help: The status of the temperature sensor. - 1.3.6.1.4.1.368.4.1.3.1.3 (1=ok, 2=failure, 3=outOfBoundary)
+
+# Cambium Radio
+#
+  cambium_450i:
+    walk:
+      - 1.3.6.1.4.1.161.19.3.3.1.10 #boxFrequency
+      - 1.3.6.1.4.1.161.19.3.3.1.35 #boxTemperatureC
+      - 1.3.6.1.4.1.161.19.3.3.1.36 #boxTemperatureF
+      - 1.3.6.1.4.1.161.19.3.3.1.233 #activeTxPowerHdths
+      - 1.3.6.1.4.1.161.19.3.3.2.23 #transmitterOP
+      - 1.3.6.1.4.1.161.19.3.2.2.8 #radioDbm
+      - 1.3.6.1.4.1.161.19.3.2.2.21 #radioDbmInt
+      - 1.3.6.1.4.1.161.19.3.2.2.64 #airDelayns
+      - 1.3.6.1.4.1.161.19.3.3.2.14 #antennaGain
+      - 1.3.6.1.4.1.161.19.3.2.2.2 #rssi
+
+# Ubiquiti / AirFiber LTU
+#
+# https://www.ui.com/downloads/firmwares/afltu-mib/v1.5.0/snmp-mibs.zip
+#
+  ubiquiti_afltu:
+    walk:
+      - 1.3.6.1.4.1.41112.1.10 #ubntAFLTU
+
+# Eaton UPS
+#
+  eaton5P_550:
+    walk:
+      - 1.3.6.1.4.1.534.1.2.1
+      - 1.3.6.1.4.1.534.1.2.2
+      - 1.3.6.1.4.1.534.1.2.4
+      - 1.3.6.1.4.1.534.1.2.5
+      - 1.3.6.1.4.1.534.1.2.7
+      - 1.3.6.1.4.1.534.1.2.10
+      - 1.3.6.1.4.1.534.1.3.1
+      - 1.3.6.1.4.1.534.1.3.4.1.2
+      - 1.3.6.1.4.1.534.1.4.1
+      - 1.3.6.1.4.1.534.1.3.9
+      - 1.3.6.1.4.1.534.1.4.4.1.2
+      - 1.3.6.1.4.1.534.1.12.2.1.2
+    overrides:
+      xupsBatteryAbmStatus:
+        type: EnumAsInfo
+
+# Morningstar Prostar Solar Controller
+#
+# https://www.morningstarcorp.com/wp-content/uploads/2019/12/MIB-folder-with-OID-tables-for-SNMP.zip
+#
+  prostar_mppt:
+    walk:
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - 1.3.6.1.4.1.33333.5.30 # batteryVoltage
+      - 1.3.6.1.4.1.33333.5.31 # arrayVoltage
+      - 1.3.6.1.4.1.33333.5.32 # loadVoltage
+      - 1.3.6.1.4.1.33333.5.33 # chargeCurrent
+      - 1.3.6.1.4.1.33333.5.34 # loadCurrent
+      - 1.3.6.1.4.1.33333.5.38 # heatSinkTemperature
+      - 1.3.6.1.4.1.33333.5.39 # batteryTemperature
+      - 1.3.6.1.4.1.33333.5.40 # ambientTemperature
+
+    overrides:
+      batteryTerminalVoltage:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      arrayVoltage:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      loadVoltage:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      chargeCurrent:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      loadCurrent:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      heatSinkTemperature:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      batteryTemperature:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      ambientTemperature:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+
+
+#Morningstar Genstar Solar Controller
+#
+  genstar_mppt:
+    walk:
+#      - sysUpTime
+#      - interfaces
+#      - ifXTable
+      - 1.3.6.1.4.1.33333.10  #all the things
+      - 1.3.6.1.4.1.33333.10.32  #vbsense
+      - 1.3.6.1.4.1.33333.10.31  #vload
+      - 1.3.6.1.4.1.33333.10.30  #vbterm
+      - 1.3.6.1.4.1.33333.10.40  #vbattRefCharge
+      - 1.3.6.1.4.1.33333.10.61  #vbattMinDaily
+      - 1.3.6.1.4.1.33333.10.42  #vbattMin
+      - 1.3.6.1.4.1.33333.10.62  #vbattMaxDaily
+      - 1.3.6.1.4.1.33333.10.43  #vbattMax
+      - 1.3.6.1.4.1.33333.10.63  #varrayMaxDaily
+      - 1.3.6.1.4.1.33333.10.33  #vCoin
+      - 1.3.6.1.4.1.33333.10.66  #timeFloatDaily
+      - 1.3.6.1.4.1.33333.10.65  #timeEqDaily
+      - 1.3.6.1.4.1.33333.10.64  #timeAbsorbDaily
+      - 1.3.6.1.4.1.33333.10.37  #tempRts
+      - 1.3.6.1.4.1.33333.10.38  #tempHeatsink
+      - 1.3.6.1.4.1.33333.10.36  #tempBatt
+      - 1.3.6.1.4.1.33333.10.35  #systemIload
+      - 1.3.6.1.4.1.33333.10.34  #systemIcharge
+      - 1.3.6.1.4.1.33333.10.94  #systemIbattDispfil
+      - 1.3.6.1.4.1.33333.10.68  #systemChargeKwhDaily
+      - 1.3.6.1.4.1.33333.10.71  #systemChargeAhDaily
+      - 1.3.6.1.4.1.33333.10.74  #systemBattAhDaily
+      - 1.3.6.1.4.1.33333.10.89  #load0AhDaily
+      - 1.3.6.1.4.1.33333.10.80  #internalChargeKwhDaily
+      - 1.3.6.1.4.1.33333.10.83  #interalChargeAhDaily
+      - 1.3.6.1.4.1.33333.10.86  #internalBattAhDaily
+      - 1.3.6.1.4.1.33333.10.126  #eload0vStartLVD
+      - 1.3.6.1.4.1.33333.10.132  #eload0currentComp
+      - 1.3.6.1.4.1.33333.10.125  #eload0VLVR
+      - 1.3.6.1.4.1.33333.10.124  #eload0VLVD0
+      - 1.3.6.1.4.1.33333.10.130  #eload0SOCReconnect
+      - 1.3.6.1.4.1.33333.10.129  #eload0SOCDisconnect
+      - 1.3.6.1.4.1.33333.10.128  #eload0HVR
+      - 1.3.6.1.4.1.33333.10.127  #eload0HVD
+      - 1.3.6.1.4.1.33333.10.113  #echargevTempComp
+      - 1.3.6.1.4.1.33333.10.108  #echargevHVR
+      - 1.3.6.1.4.1.33333.10.107  #echargevHVD25
+      - 1.3.6.1.4.1.33333.10.101  #echargevFloatExit
+      - 1.3.6.1.4.1.33333.10.102  #echargevFloatCancel
+      - 1.3.6.1.4.1.33333.10.105  #echargevEqualize
+      - 1.3.6.1.4.1.33333.10.97  #echargevBattRefLimit
+      - 1.3.6.1.4.1.33333.10.103  #echargevAbsorptionExt
+      - 1.3.6.1.4.1.33333.10.98  #echargevAbsorb
+      - 1.3.6.1.4.1.33333.10.118  #echargetemperatureFoldbackHot100
+      - 1.3.6.1.4.1.33333.10.119  #echargetemperatureFoldBackHot0
+      - 1.3.6.1.4.1.33333.10.117  #echargetemperatureFoldbackCold100
+      - 1.3.6.1.4.1.33333.10.116  #echargetemperatureFoldbackCold0
+      - 1.3.6.1.4.1.33333.10.106  #echargeiEqualizeLimit
+      - 1.3.6.1.4.1.33333.10.99  #echargeiBattAbsorbTerm
+      - 1.3.6.1.4.1.33333.10.114  #echargeTBattMinLim
+      - 1.3.6.1.4.1.33333.10.115  #echargeTBattMaxLim
+      - 1.3.6.1.4.1.33333.10.41  #battSoc
+      - 1.3.6.1.4.1.33333.10.45  #battSocMaxDaily
+      - 1.3.6.1.4.1.33333.10.44  #battSocMinDaily
+      - 1.3.6.1.4.1.33333.10.96  #adclarrayFSlowShadowDispfil
+      - 1.3.6.1.4.1.33333.10.92  #adclloadF1sDispfil
+      - 1.3.6.1.4.1.33333.10.95  #adcVarrayFSlowShadowDispfil
+      - 1.3.6.1.4.1.33333.10.93  #powerOutDispfil
+      - 1.3.6.1.4.1.33333.10.77  #systemLoadAhDaily
+
+    overrides:
+      vbsense:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vload:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbterm:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattRefCharge:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMinDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMin:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMaxDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vbattMax:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      varrayMaxDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      vCoin:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      timeFloatDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      timeEqDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      timeAbsorbDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      tempRts:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      tempHeatsink:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      tempBatt:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemIload:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemIcharge:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemIbattDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemChargeKwhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemChargeAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemBattAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      load0AhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      internalChargeKwhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      internalChargeAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      internalBattAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0vStartLVD:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0currentComp:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0VLVR:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0VLVD0:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0SOCReconnect:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0SOCDisconnect:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0HVR:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      eload0HVD:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevTempComp:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevHVR:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevHVD25:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevFloatExit:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevFloatCancel:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevEqualize:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevBattRefLimit:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevAbsorptionExt:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargevAbsorb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackHot100:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackHot0:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackCold100:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargetemperatureFoldbackCold0:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeiEqualizeLimit:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeiBattAbsorbTerm:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeTBattMinLim:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      echargeTBattMaxLim:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      battSoc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      battSocMaxDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      battSocMinDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      adcIarrayFSlowShadowDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      adcIloadF1sDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      adcVarrayFSlowShadowDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      powerOutDispfil:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      systemLoadAhDaily:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'

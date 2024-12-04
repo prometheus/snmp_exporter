@@ -1,5 +1,14 @@
 # WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.
 auths:
+  private_v3:
+    community: ${SNMP_V3_COMMUNITY}
+    security_level: authPriv
+    username: ${SNMP_V3_USERNAME}
+    password: ${SNMP_V3_PASSWORD}
+    auth_protocol: MD5
+    priv_protocol: AES
+    priv_password: ${SNMP_V3_PASSWORD}
+    version: 3
   public_v1:
     community: public
     security_level: noAuthNoPriv
@@ -2371,6 +2380,1411 @@ modules:
       indexes:
       - labelname: rPDU2BankStatusIndex
         type: gauge
+  axis_camera:
+    walk:
+    - 1.3.6.1.4.1.368.4.1.3.1.3
+    - 1.3.6.1.4.1.368.4.1.3.1.4
+    get:
+    - 1.3.6.1.2.1.1.1.0
+    metrics:
+    - name: sysDescr
+      oid: 1.3.6.1.2.1.1.1
+      type: DisplayString
+      help: A textual description of the entity - 1.3.6.1.2.1.1.1
+    - name: tempSensorStatus
+      oid: 1.3.6.1.4.1.368.4.1.3.1.3
+      type: gauge
+      help: The status of the temperature sensor. - 1.3.6.1.4.1.368.4.1.3.1.3 (1=ok,
+        2=failure, 3=outOfBoundary)
+      indexes:
+      - labelname: tempSensorType
+        type: gauge
+        enum_values:
+          1: common
+          2: housing
+          3: rack
+          4: cpu
+      - labelname: tempSensorId
+        type: gauge
+      enum_values:
+        1: ok
+        2: failure
+        3: outOfBoundary
+    - name: tempSensorValue
+      oid: 1.3.6.1.4.1.368.4.1.3.1.4
+      type: gauge
+      help: The temperature measured by a specific temperature sensor - 1.3.6.1.4.1.368.4.1.3.1.4
+      indexes:
+      - labelname: tempSensorType
+        type: gauge
+        enum_values:
+          1: common
+          2: housing
+          3: rack
+          4: cpu
+      - labelname: tempSensorId
+        type: gauge
+  cambium_450i:
+    get:
+    - 1.3.6.1.4.1.161.19.3.2.2.2.0
+    - 1.3.6.1.4.1.161.19.3.2.2.21.0
+    - 1.3.6.1.4.1.161.19.3.2.2.64.0
+    - 1.3.6.1.4.1.161.19.3.2.2.8.0
+    - 1.3.6.1.4.1.161.19.3.3.1.10.0
+    - 1.3.6.1.4.1.161.19.3.3.1.233.0
+    - 1.3.6.1.4.1.161.19.3.3.1.35.0
+    - 1.3.6.1.4.1.161.19.3.3.1.36.0
+    - 1.3.6.1.4.1.161.19.3.3.2.14.0
+    - 1.3.6.1.4.1.161.19.3.3.2.23.0
+    metrics:
+    - name: rssi
+      oid: 1.3.6.1.4.1.161.19.3.2.2.2
+      type: gauge
+      help: Radio signal strength index - 1.3.6.1.4.1.161.19.3.2.2.2
+    - name: radioDbmInt
+      oid: 1.3.6.1.4.1.161.19.3.2.2.21
+      type: gauge
+      help: Radio power level(integer) - 1.3.6.1.4.1.161.19.3.2.2.21
+    - name: airDelayns
+      oid: 1.3.6.1.4.1.161.19.3.2.2.64
+      type: gauge
+      help: Round trip delay in nanoseconds. - 1.3.6.1.4.1.161.19.3.2.2.64
+    - name: radioDbm
+      oid: 1.3.6.1.4.1.161.19.3.2.2.8
+      type: DisplayString
+      help: Rx Power level - 1.3.6.1.4.1.161.19.3.2.2.8
+    - name: boxFrequency
+      oid: 1.3.6.1.4.1.161.19.3.3.1.10
+      type: DisplayString
+      help: Frequency band of the device. - 1.3.6.1.4.1.161.19.3.3.1.10
+    - name: activeTxPowerHdths
+      oid: 1.3.6.1.4.1.161.19.3.3.1.233
+      type: gauge
+      help: Current transmit power level, in hundredths of dBm - 1.3.6.1.4.1.161.19.3.3.1.233
+    - name: boxTemperatureC
+      oid: 1.3.6.1.4.1.161.19.3.3.1.35
+      type: gauge
+      help: Radio temperature in Celsius. - 1.3.6.1.4.1.161.19.3.3.1.35
+    - name: boxTemperatureF
+      oid: 1.3.6.1.4.1.161.19.3.3.1.36
+      type: gauge
+      help: Radio temperature in Fahrenheit. - 1.3.6.1.4.1.161.19.3.3.1.36
+    - name: antennaGain
+      oid: 1.3.6.1.4.1.161.19.3.3.2.14
+      type: gauge
+      help: External Antenna Gain - 1.3.6.1.4.1.161.19.3.3.2.14
+    - name: transmitterOP
+      oid: 1.3.6.1.4.1.161.19.3.3.2.23
+      type: gauge
+      help: Transmitter output power - 1.3.6.1.4.1.161.19.3.3.2.23
+  eaton5P_550:
+    walk:
+    - 1.3.6.1.4.1.534.1.12.2.1.2
+    - 1.3.6.1.4.1.534.1.3.4.1.2
+    - 1.3.6.1.4.1.534.1.4.4.1.2
+    get:
+    - 1.3.6.1.4.1.534.1.2.1.0
+    - 1.3.6.1.4.1.534.1.2.10.0
+    - 1.3.6.1.4.1.534.1.2.2.0
+    - 1.3.6.1.4.1.534.1.2.4.0
+    - 1.3.6.1.4.1.534.1.2.5.0
+    - 1.3.6.1.4.1.534.1.2.7.0
+    - 1.3.6.1.4.1.534.1.3.1.0
+    - 1.3.6.1.4.1.534.1.3.9.0
+    - 1.3.6.1.4.1.534.1.4.1.0
+    metrics:
+    - name: xupsRecepStatus
+      oid: 1.3.6.1.4.1.534.1.12.2.1.2
+      type: gauge
+      help: The Recep Status 1=On/Close, 2=Off/Open, 3=On w/Pending Off, 4=Off w/Pending
+        ON, 5=Unknown, 6=Reserved for future, 7=Failed in Closed position, 8=Failed
+        in Open position. - 1.3.6.1.4.1.534.1.12.2.1.2
+      indexes:
+      - labelname: xupsRecepIndex
+        type: gauge
+      enum_values:
+        1: "on"
+        2: "off"
+        3: pendingOff
+        4: pendingOn
+        5: unknown
+        6: reserved
+        7: failedClosed
+        8: failedOpen
+    - name: xupsBatTimeRemaining
+      oid: 1.3.6.1.4.1.534.1.2.1
+      type: gauge
+      help: Battery run time in seconds before UPS turns off due to low battery. -
+        1.3.6.1.4.1.534.1.2.1
+    - name: xupsBatteryLowCapacity
+      oid: 1.3.6.1.4.1.534.1.2.10
+      type: gauge
+      help: Indicates if the battery capacity is below the threshold set in the UPS.
+        - 1.3.6.1.4.1.534.1.2.10
+      enum_values:
+        1: "yes"
+        2: "no"
+    - name: xupsBatVoltage
+      oid: 1.3.6.1.4.1.534.1.2.2
+      type: gauge
+      help: Battery voltage as reported by the UPS meters. - 1.3.6.1.4.1.534.1.2.2
+    - name: xupsBatCapacity
+      oid: 1.3.6.1.4.1.534.1.2.4
+      type: gauge
+      help: Battery percent charge. - 1.3.6.1.4.1.534.1.2.4
+    - name: xupsBatteryAbmStatus
+      oid: 1.3.6.1.4.1.534.1.2.5
+      type: EnumAsInfo
+      help: Gives the status of the Advanced Battery Management and Battery state;
+        batteryFloating(3) status means that the charger is temporarily charging the
+        battery to its float voltage; batteryResting(4) is the state when the battery
+        is fully charged and none of the other actions (charging/discharging/floating)
+        is being done - 1.3.6.1.4.1.534.1.2.5
+      enum_values:
+        1: batteryCharging
+        2: batteryDischarging
+        3: batteryFloating
+        4: batteryResting
+        5: unknown
+        6: batteryDisconnected
+        7: batteryUnderTest
+        8: checkBattery
+    - name: xupsBatteryFailure
+      oid: 1.3.6.1.4.1.534.1.2.7
+      type: gauge
+      help: Indicates if a battery fault detected or battery tests failed. - 1.3.6.1.4.1.534.1.2.7
+      enum_values:
+        1: "yes"
+        2: "no"
+    - name: xupsInputFrequency
+      oid: 1.3.6.1.4.1.534.1.3.1
+      type: gauge
+      help: The utility line frequency in tenths of Hz. - 1.3.6.1.4.1.534.1.3.1
+    - name: xupsInputVoltage
+      oid: 1.3.6.1.4.1.534.1.3.4.1.2
+      type: gauge
+      help: The measured input voltage from the UPS meters in volts. - 1.3.6.1.4.1.534.1.3.4.1.2
+      indexes:
+      - labelname: xupsInputPhase
+        type: gauge
+    - name: xupsInputStatus
+      oid: 1.3.6.1.4.1.534.1.3.9
+      type: gauge
+      help: The present status of the primary AC input of the UPS - 1.3.6.1.4.1.534.1.3.9
+      enum_values:
+        1: inputBad
+        2: inputGood
+    - name: xupsOutputLoad
+      oid: 1.3.6.1.4.1.534.1.4.1
+      type: gauge
+      help: The UPS output load in percent of rated capacity. - 1.3.6.1.4.1.534.1.4.1
+    - name: xupsOutputVoltage
+      oid: 1.3.6.1.4.1.534.1.4.4.1.2
+      type: gauge
+      help: The measured output voltage from the UPS metering in volts. - 1.3.6.1.4.1.534.1.4.4.1.2
+      indexes:
+      - labelname: xupsOutputPhase
+        type: gauge
+  genstar_mppt:
+    walk:
+    - 1.3.6.1.4.1.33333.10
+    metrics:
+    - name: subModel
+      oid: 1.3.6.1.4.1.33333.10.1
+      type: DisplayString
+      help: The device's exact model - 1.3.6.1.4.1.33333.10.1
+    - name: serialNumber
+      oid: 1.3.6.1.4.1.33333.10.2
+      type: DisplayString
+      help: Device Serial Number - 1.3.6.1.4.1.33333.10.2
+    - name: deviceVersion
+      oid: 1.3.6.1.4.1.33333.10.3
+      type: DisplayString
+      help: 'Hardware and firmware versions: vHW1.HW2.FW - 1.3.6.1.4.1.33333.10.3'
+    - name: vbterm
+      oid: 1.3.6.1.4.1.33333.10.30
+      type: DisplayString
+      help: 'VBTERM_F256 - Description: Battery voltage - Modbus address: 0x0021 -
+        1.3.6.1.4.1.33333.10.30'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: vload
+      oid: 1.3.6.1.4.1.33333.10.31
+      type: DisplayString
+      help: 'VLOAD_F256 - Description: Load voltage - Modbus address: 0x0023 - 1.3.6.1.4.1.33333.10.31'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: vbsense
+      oid: 1.3.6.1.4.1.33333.10.32
+      type: DisplayString
+      help: 'VBSENSE_F256 - Description: Battery sense voltage - Modbus address: 0x0025
+        - 1.3.6.1.4.1.33333.10.32'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: vCoin
+      oid: 1.3.6.1.4.1.33333.10.33
+      type: DisplayString
+      help: 'V_COIN_F256 - Description: Coincell battery voltage - Modbus address:
+        0x0036 - 1.3.6.1.4.1.33333.10.33'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: systemIcharge
+      oid: 1.3.6.1.4.1.33333.10.34
+      type: DisplayString
+      help: 'SYSTEM_ICHARGE - Description: System charging current - Modbus address:
+        0x0063 - 1.3.6.1.4.1.33333.10.34'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: systemIload
+      oid: 1.3.6.1.4.1.33333.10.35
+      type: DisplayString
+      help: 'SYSTEM_ILOAD - Description: System load current - Modbus address: 0x0065
+        - 1.3.6.1.4.1.33333.10.35'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: tempBatt
+      oid: 1.3.6.1.4.1.33333.10.36
+      type: DisplayString
+      help: 'TEMP_BATT - Description: Battery temperature - Modbus address: 0x0075
+        - 1.3.6.1.4.1.33333.10.36'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: tempRts
+      oid: 1.3.6.1.4.1.33333.10.37
+      type: DisplayString
+      help: 'TEMP_RTS - Description: Remote temperature sensor temperature - Modbus
+        address: 0x0076 - 1.3.6.1.4.1.33333.10.37'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: tempHeatsink
+      oid: 1.3.6.1.4.1.33333.10.38
+      type: DisplayString
+      help: 'TEMP_HEATSINK - Description: Heatsink temperature - Modbus address: 0x0077
+        - 1.3.6.1.4.1.33333.10.38'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: chargeState
+      oid: 1.3.6.1.4.1.33333.10.39
+      type: gauge
+      help: 'CHARGE_STATE - Description: Charge state - Modbus address: 0x0080 - 1.3.6.1.4.1.33333.10.39'
+      enum_values:
+        0: starting
+        1: nightCheck
+        2: disconnected
+        3: night
+        4: fault
+        5: bulk
+        6: absorption
+        7: float
+        8: equalize
+    - name: vbattRefCharge
+      oid: 1.3.6.1.4.1.33333.10.40
+      type: DisplayString
+      help: 'VBATT_REF_CHARGE - Description: Charging target voltage - Modbus address:
+        0x00b1 - 1.3.6.1.4.1.33333.10.40'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: battSoc
+      oid: 1.3.6.1.4.1.33333.10.41
+      type: DisplayString
+      help: 'BATT_SOC - Description: Battery state of charge - Modbus address: 0x00e0
+        - 1.3.6.1.4.1.33333.10.41'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: vbattMin
+      oid: 1.3.6.1.4.1.33333.10.42
+      type: DisplayString
+      help: 'VBATT_MIN - Description: Minimum battery voltage - Modbus address: 0x00e1
+        - 1.3.6.1.4.1.33333.10.42'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: vbattMax
+      oid: 1.3.6.1.4.1.33333.10.43
+      type: DisplayString
+      help: 'VBATT_MAX - Description: Maximum battery voltage - Modbus address: 0x00e2
+        - 1.3.6.1.4.1.33333.10.43'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: battSocMinDaily
+      oid: 1.3.6.1.4.1.33333.10.44
+      type: DisplayString
+      help: 'BATT_SOC_MIN_DAILY - Description: Minimum battery state of charge daily
+        - Modbus address: 0x00e9 - 1.3.6.1.4.1.33333.10.44'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: battSocMaxDaily
+      oid: 1.3.6.1.4.1.33333.10.45
+      type: DisplayString
+      help: 'BATT_SOC_MAX_DAILY - Description: Maximum battery state of charge daily
+        - Modbus address: 0x00ea - 1.3.6.1.4.1.33333.10.45'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: loadState
+      oid: 1.3.6.1.4.1.33333.10.46
+      type: gauge
+      help: 'LOAD_STATE - Description: Load state - Modbus address: 0x0100 - 1.3.6.1.4.1.33333.10.46'
+      enum_values:
+        0: start
+        1: norm
+        2: lvdwarn
+        3: lvd
+        4: fault
+        5: disc
+        6: norm-off
+        7: override
+    - name: loadFault
+      oid: 1.3.6.1.4.1.33333.10.47
+      type: Bits
+      help: 'LOAD_FAULT - Description: Load fault bitfield - Modbus address: 0x0101
+        - 1.3.6.1.4.1.33333.10.47'
+      enum_values:
+        0: load-software
+        1: load-overcurrent
+        2: load-ex-short
+        3: load-power-supply
+        4: load-hvd
+        5: load-heatsink-overtemp
+        6: load-fet-shorted
+    - name: loadFaultDaily
+      oid: 1.3.6.1.4.1.33333.10.48
+      type: Bits
+      help: 'LOAD_FAULT_DAILY - Description: Load fault daily bitfield - Modbus address:
+        0x0103 - 1.3.6.1.4.1.33333.10.48'
+      enum_values:
+        0: load-software
+        1: load-overcurrent
+        2: load-ex-short
+        3: load-power-supply
+        4: load-hvd
+        5: load-heatsink-overtemp
+        6: load-fet-shorted
+    - name: fault
+      oid: 1.3.6.1.4.1.33333.10.49
+      type: Bits
+      help: 'FAULT - Description: System fault bitfield - Modbus address: 0x0212 -
+        1.3.6.1.4.1.33333.10.49'
+      enum_values:
+        0: system-eeprom
+        2: software
+        3: no-model
+        6: system-setting-edit
+        8: system-bms
+        10: reset
+        15: adc-ovr
+        16: adc-no-inj-update
+        17: adc-double-update
+        18: battery-shunt-missing
+        29: system-setting-bad
+        30: hardware
+    - name: faultDaily
+      oid: 1.3.6.1.4.1.33333.10.50
+      type: Bits
+      help: 'FAULT_DAILY - Description: System fault daily bitfield - Modbus address:
+        0x0216 - 1.3.6.1.4.1.33333.10.50'
+      enum_values:
+        0: system-eeprom
+        2: software
+        3: no-model
+        6: system-setting-edit
+        8: system-bms
+        10: reset
+        15: adc-ovr
+        16: adc-no-inj-update
+        17: adc-double-update
+        18: battery-shunt-missing
+        29: system-setting-bad
+        30: hardware
+    - name: alarm
+      oid: 1.3.6.1.4.1.33333.10.51
+      type: Bits
+      help: 'ALARM - Description: Alarm bitfield - Modbus address: 0x021a - 1.3.6.1.4.1.33333.10.51'
+      enum_values:
+        0: rts-open
+        1: rts-short
+        2: rts-disc
+        3: ths-open
+        4: ths-short
+        5: ths-hot
+        6: i-limit
+        7: ibatt-offset
+        8: batt-sense
+        9: batt-sense-disconnect
+        10: uncal
+        11: rts-5v
+        13: factory
+        14: soc-invalid
+        17: va-high
+        23: ia-offset
+        24: eeprom
+        25: ethernet
+        26: load-lvd
+        27: software
+        29: extflash
+        32: i-l-offset
+        33: rtc-lowbatt
+        35: rtc-wrong
+        36: rtc-hardware
+        37: tindcasting-open
+        38: tindcasting-short
+        39: tindcasting-hot
+        41: wireless-fail
+        42: hardware
+        43: unknown-blocktype
+        44: block1-hardware
+        45: block2-hardware
+        46: block3-hardware
+        47: block4-hardware
+        48: block5-hardware
+        49: block6-hardware
+        50: genstart-primary-fail
+        51: genstart-secondary-fail
+        52: schedule-publisher-fail
+        53: uncal-up
+        54: i-load-offset
+        55: load-fet-open
+        56: bms-sense
+        57: bms-sense-disconnect
+    - name: alarmDaily
+      oid: 1.3.6.1.4.1.33333.10.52
+      type: Bits
+      help: 'ALARM_DAILY - Description: Alarm daily bitfield - Modbus address: 0x021e
+        - 1.3.6.1.4.1.33333.10.52'
+      enum_values:
+        0: rts-open
+        1: rts-short
+        2: rts-disc
+        3: ths-open
+        4: ths-short
+        5: ths-hot
+        6: i-limit
+        7: ibatt-offset
+        8: batt-sense
+        9: batt-sense-disconnect
+        10: uncal
+        11: rts-5v
+        13: factory
+        14: soc-invalid
+        17: va-high
+        23: ia-offset
+        24: eeprom
+        25: ethernet
+        26: load-lvd
+        27: software
+        29: extflash
+        32: i-l-offset
+        33: rtc-lowbatt
+        35: rtc-wrong
+        36: rtc-hardware
+        37: tindcasting-open
+        38: tindcasting-short
+        39: tindcasting-hot
+        41: wireless-fail
+        42: hardware
+        43: unknown-blocktype
+        44: block1-hardware
+        45: block2-hardware
+        46: block3-hardware
+        47: block4-hardware
+        48: block5-hardware
+        49: block6-hardware
+        50: genstart-primary-fail
+        51: genstart-secondary-fail
+        52: schedule-publisher-fail
+        53: uncal-up
+        54: i-load-offset
+        55: load-fet-open
+        56: bms-sense
+        57: bms-sense-disconnect
+    - name: chargeFault
+      oid: 1.3.6.1.4.1.33333.10.53
+      type: Bits
+      help: 'CHARGE_FAULT - Description: Charge fault bitfield - Modbus address: 0x0222
+        - 1.3.6.1.4.1.33333.10.53'
+      enum_values:
+        0: charge-software
+        1: charge-batt-hvd
+        2: charge-rts-short
+        3: charge-rts-disc
+        4: charge-slave-to
+    - name: chargeFaultDaily
+      oid: 1.3.6.1.4.1.33333.10.54
+      type: Bits
+      help: 'CHARGE_FAULT_DAILY - Description: Charge fault daily bitfield - Modbus
+        address: 0x0226 - 1.3.6.1.4.1.33333.10.54'
+      enum_values:
+        0: charge-software
+        1: charge-batt-hvd
+        2: charge-rts-short
+        3: charge-rts-disc
+        4: charge-slave-to
+    - name: faultPowersupply
+      oid: 1.3.6.1.4.1.33333.10.55
+      type: Bits
+      help: 'FAULT_POWERSUPPLY - Description: Power Supply fault bitfield - Modbus
+        address: 0x0232 - 1.3.6.1.4.1.33333.10.55'
+      enum_values:
+        0: p12
+        1: p5
+        2: p3
+        4: arrayn3
+        6: battn3
+        7: p12-extbb
+        8: p3-extbb
+        9: arrayp10
+        10: battp10
+    - name: faultPowersupplyDaily
+      oid: 1.3.6.1.4.1.33333.10.56
+      type: Bits
+      help: 'FAULT_POWERSUPPLY_DAILY - Description: Power Supply fault daily bitfield
+        - Modbus address: 0x0234 - 1.3.6.1.4.1.33333.10.56'
+      enum_values:
+        0: p12
+        1: p5
+        2: p3
+        4: arrayn3
+        6: battn3
+        7: p12-extbb
+        8: p3-extbb
+        9: arrayp10
+        10: battp10
+    - name: blockFault
+      oid: 1.3.6.1.4.1.33333.10.57
+      type: Bits
+      help: 'BLOCK_FAULT - Description: ReadyBlock subsystem fault bitfield - Modbus
+        address: 0x0236 - 1.3.6.1.4.1.33333.10.57'
+      enum_values:
+        0: block1-missing
+        1: block2-missing
+        2: block3-missing
+        3: block4-missing
+        4: block5-missing
+        5: block6-missing
+        8: block1-remote-fault
+        9: block2-remote-fault
+        10: block3-remote-fault
+        11: block4-remote-fault
+        12: block5-remote-fault
+        13: block6-remote-fault
+        16: block1-hardware-version
+        17: block2-hardware-version
+        18: block3-hardware-version
+        19: block4-hardware-version
+        20: block5-hardware-version
+        21: block6-hardware-version
+        24: block1-fixable-fault
+        25: block2-fixable-fault
+        26: block3-fixable-fault
+        27: block4-fixable-fault
+        28: block5-fixable-fault
+        29: block6-fixable-fault
+    - name: blockFaultDaily
+      oid: 1.3.6.1.4.1.33333.10.58
+      type: Bits
+      help: 'BLOCK_FAULT_DAILY - Description: ReadyBlock subsystem fault daily bitfield
+        - Modbus address: 0x0238 - 1.3.6.1.4.1.33333.10.58'
+      enum_values:
+        0: block1-missing
+        1: block2-missing
+        2: block3-missing
+        3: block4-missing
+        4: block5-missing
+        5: block6-missing
+        8: block1-remote-fault
+        9: block2-remote-fault
+        10: block3-remote-fault
+        11: block4-remote-fault
+        12: block5-remote-fault
+        13: block6-remote-fault
+        16: block1-hardware-version
+        17: block2-hardware-version
+        18: block3-hardware-version
+        19: block4-hardware-version
+        20: block5-hardware-version
+        21: block6-hardware-version
+        24: block1-fixable-fault
+        25: block2-fixable-fault
+        26: block3-fixable-fault
+        27: block4-fixable-fault
+        28: block5-fixable-fault
+        29: block6-fixable-fault
+    - name: faultPowerstage
+      oid: 1.3.6.1.4.1.33333.10.59
+      type: Bits
+      help: 'FAULT_POWERSTAGE - Description: Powerstage fault bitfield - Modbus address:
+        0x023a - 1.3.6.1.4.1.33333.10.59'
+      enum_values:
+        0: powerstage-overcurrent
+        1: powerstage-fet-short
+        2: powerstage-dn-short
+        3: powerstage-batt-hvd
+        4: powerstage-array-hvd
+        5: powerstage-software
+        6: powerstage-bad-setting
+        7: powerstage-batt-lvd
+        8: powerstage-power-supply
+        9: powerstage-h7rev
+        10: powerstage-hwrev
+        11: powerstage-inductor-temp
+        12: powerstage-hs-temp
+        13: powerstage-inductor-offset
+        14: powerstage-array-offset
+        15: powerstage-misc
+    - name: faultPowerstageDaily
+      oid: 1.3.6.1.4.1.33333.10.60
+      type: Bits
+      help: 'FAULT_POWERSTAGE_DAILY - Description: Powerstage fault daily bitfield
+        - Modbus address: 0x023e - 1.3.6.1.4.1.33333.10.60'
+      enum_values:
+        0: powerstage-overcurrent
+        1: powerstage-fet-short
+        2: powerstage-dn-short
+        3: powerstage-batt-hvd
+        4: powerstage-array-hvd
+        5: powerstage-software
+        6: powerstage-bad-setting
+        7: powerstage-batt-lvd
+        8: powerstage-power-supply
+        9: powerstage-h7rev
+        10: powerstage-hwrev
+        11: powerstage-inductor-temp
+        12: powerstage-hs-temp
+        13: powerstage-inductor-offset
+        14: powerstage-array-offset
+        15: powerstage-misc
+    - name: vbattMinDaily
+      oid: 1.3.6.1.4.1.33333.10.61
+      type: DisplayString
+      help: 'VBATT_MIN_DAILY - Description: Minimum battery voltage daily - Modbus
+        address: 0x026c - 1.3.6.1.4.1.33333.10.61'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: vbattMaxDaily
+      oid: 1.3.6.1.4.1.33333.10.62
+      type: DisplayString
+      help: 'VBATT_MAX_DAILY - Description: Maximum battery voltage daily - Modbus
+        address: 0x026d - 1.3.6.1.4.1.33333.10.62'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: varrayMaxDaily
+      oid: 1.3.6.1.4.1.33333.10.63
+      type: DisplayString
+      help: 'VARRAY_MAX_DAILY - Description: Maximum array voltage daily - Modbus
+        address: 0x026e - 1.3.6.1.4.1.33333.10.63'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: timeAbsorbDaily
+      oid: 1.3.6.1.4.1.33333.10.64
+      type: DisplayString
+      help: 'TIME_ABSORB_DAILY - Description: Time battery spent in absorption daily
+        - Modbus address: 0x0274 - 1.3.6.1.4.1.33333.10.64'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: timeEqDaily
+      oid: 1.3.6.1.4.1.33333.10.65
+      type: DisplayString
+      help: 'TIME_EQ_DAILY - Description: Time battery spent in equalize daily - Modbus
+        address: 0x0276 - 1.3.6.1.4.1.33333.10.65'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: timeFloatDaily
+      oid: 1.3.6.1.4.1.33333.10.66
+      type: DisplayString
+      help: 'TIME_FLOAT_DAILY - Description: Time battery spent in float daily - Modbus
+        address: 0x0278 - 1.3.6.1.4.1.33333.10.66'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: hourmeter
+      oid: 1.3.6.1.4.1.33333.10.67
+      type: gauge
+      help: 'HOURMETER - Description: How long the control has ever been on - Modbus
+        address: 0x02a6 - 1.3.6.1.4.1.33333.10.67'
+    - name: systemChargeKwhDaily
+      oid: 1.3.6.1.4.1.33333.10.68
+      type: DisplayString
+      help: 'SYSTEM_CHARGE_KWH_DAILY - Description: System charge kWh daily - Modbus
+        address: 0x02d0 - 1.3.6.1.4.1.33333.10.68'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: systemChargeKwhResettable10
+      oid: 1.3.6.1.4.1.33333.10.69
+      type: gauge
+      help: 'SYSTEM_CHARGE_KWH_RESETTABLE10 - Description: System charge kWh resettable
+        - Scaling Factor: 0.1 - Modbus address: 0x02d2 - 1.3.6.1.4.1.33333.10.69'
+    - name: systemChargeKwhTotal10
+      oid: 1.3.6.1.4.1.33333.10.70
+      type: gauge
+      help: 'SYSTEM_CHARGE_KWH_TOTAL10 - Description: System charge kWh total - Scaling
+        Factor: 0.1 - Modbus address: 0x02d4 - 1.3.6.1.4.1.33333.10.70'
+    - name: systemChargeAhDaily
+      oid: 1.3.6.1.4.1.33333.10.71
+      type: DisplayString
+      help: 'SYSTEM_CHARGE_AH_DAILY - Description: System charge Ah daily - Modbus
+        address: 0x02d6 - 1.3.6.1.4.1.33333.10.71'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: systemChargeAhResettable10
+      oid: 1.3.6.1.4.1.33333.10.72
+      type: gauge
+      help: 'SYSTEM_CHARGE_AH_RESETTABLE10 - Description: System charge Ah resettable
+        - Scaling Factor: 0.1 - Modbus address: 0x02d8 - 1.3.6.1.4.1.33333.10.72'
+    - name: systemChargeAhTotal10
+      oid: 1.3.6.1.4.1.33333.10.73
+      type: gauge
+      help: 'SYSTEM_CHARGE_AH_TOTAL10 - Description: System charge Ah total - Scaling
+        Factor: 0.1 - Modbus address: 0x02da - 1.3.6.1.4.1.33333.10.73'
+    - name: systemBattAhDaily
+      oid: 1.3.6.1.4.1.33333.10.74
+      type: DisplayString
+      help: 'SYSTEM_BATT_AH_DAILY - Description: System battery Ah daily - Modbus
+        address: 0x02dc - 1.3.6.1.4.1.33333.10.74'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: systemBattAhResettable10
+      oid: 1.3.6.1.4.1.33333.10.75
+      type: gauge
+      help: 'SYSTEM_BATT_AH_RESETTABLE10 - Description: System battery Ah resettable
+        - Scaling Factor: 0.1 - Modbus address: 0x02de - 1.3.6.1.4.1.33333.10.75'
+    - name: systemBattAhTotal10
+      oid: 1.3.6.1.4.1.33333.10.76
+      type: gauge
+      help: 'SYSTEM_BATT_AH_TOTAL10 - Description: System battery Ah total - Scaling
+        Factor: 0.1 - Modbus address: 0x02e0 - 1.3.6.1.4.1.33333.10.76'
+    - name: systemLoadAhDaily
+      oid: 1.3.6.1.4.1.33333.10.77
+      type: DisplayString
+      help: 'SYSTEM_LOAD_AH_DAILY - Description: System load Ah daily - Modbus address:
+        0x02e2 - 1.3.6.1.4.1.33333.10.77'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: systemLoadAhResettable10
+      oid: 1.3.6.1.4.1.33333.10.78
+      type: gauge
+      help: 'SYSTEM_LOAD_AH_RESETTABLE10 - Description: System load Ah resettable
+        - Scaling Factor: 0.1 - Modbus address: 0x02e4 - 1.3.6.1.4.1.33333.10.78'
+    - name: systemLoadAhTotal10
+      oid: 1.3.6.1.4.1.33333.10.79
+      type: gauge
+      help: 'SYSTEM_LOAD_AH_TOTAL10 - Description: System load Ah total - Scaling
+        Factor: 0.1 - Modbus address: 0x02e6 - 1.3.6.1.4.1.33333.10.79'
+    - name: internalChargeKwhDaily
+      oid: 1.3.6.1.4.1.33333.10.80
+      type: DisplayString
+      help: 'INTERNAL_CHARGE_KWH_DAILY - Description: Internal charge kWh daily -
+        Modbus address: 0x02e8 - 1.3.6.1.4.1.33333.10.80'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: internalChargeKwhResettable10
+      oid: 1.3.6.1.4.1.33333.10.81
+      type: gauge
+      help: 'INTERNAL_CHARGE_KWH_RESETTABLE10 - Description: Internal charge kWh resettable
+        - Scaling Factor: 0.1 - Modbus address: 0x02ea - 1.3.6.1.4.1.33333.10.81'
+    - name: internalChargeKwhTotal10
+      oid: 1.3.6.1.4.1.33333.10.82
+      type: gauge
+      help: 'INTERNAL_CHARGE_KWH_TOTAL10 - Description: Internal charge kWh total
+        - Scaling Factor: 0.1 - Modbus address: 0x02ec - 1.3.6.1.4.1.33333.10.82'
+    - name: internalChargeAhDaily
+      oid: 1.3.6.1.4.1.33333.10.83
+      type: DisplayString
+      help: 'INTERNAL_CHARGE_AH_DAILY - Description: Internal charge Ah daily - Modbus
+        address: 0x02ee - 1.3.6.1.4.1.33333.10.83'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: internalChargeAhResettable10
+      oid: 1.3.6.1.4.1.33333.10.84
+      type: gauge
+      help: 'INTERNAL_CHARGE_AH_RESETTABLE10 - Description: Internal charge Ah resettable
+        - Scaling Factor: 0.1 - Modbus address: 0x02f0 - 1.3.6.1.4.1.33333.10.84'
+    - name: internalChargeAhTotal10
+      oid: 1.3.6.1.4.1.33333.10.85
+      type: gauge
+      help: 'INTERNAL_CHARGE_AH_TOTAL10 - Description: Internal charge Ah total -
+        Scaling Factor: 0.1 - Modbus address: 0x02f2 - 1.3.6.1.4.1.33333.10.85'
+    - name: internalBattAhDaily
+      oid: 1.3.6.1.4.1.33333.10.86
+      type: DisplayString
+      help: 'INTERNAL_BATT_AH_DAILY - Description: Internal battery Ah daily - Modbus
+        address: 0x02f4 - 1.3.6.1.4.1.33333.10.86'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: internalBattAhResettable10
+      oid: 1.3.6.1.4.1.33333.10.87
+      type: gauge
+      help: 'INTERNAL_BATT_AH_RESETTABLE10 - Description: Internal battery Ah resettable
+        - Scaling Factor: 0.1 - Modbus address: 0x02f6 - 1.3.6.1.4.1.33333.10.87'
+    - name: internalBattAhTotal10
+      oid: 1.3.6.1.4.1.33333.10.88
+      type: gauge
+      help: 'INTERNAL_BATT_AH_TOTAL10 - Description: Internal battery Ah total - Scaling
+        Factor: 0.1 - Modbus address: 0x02f8 - 1.3.6.1.4.1.33333.10.88'
+    - name: load0AhDaily
+      oid: 1.3.6.1.4.1.33333.10.89
+      type: DisplayString
+      help: 'LOAD0_AH_DAILY - Description: Internal (load0) Ah daily - Modbus address:
+        0x02fa - 1.3.6.1.4.1.33333.10.89'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: load0AhResettable10
+      oid: 1.3.6.1.4.1.33333.10.90
+      type: gauge
+      help: 'LOAD0_AH_RESETTABLE10 - Description: Internal (load0) Ah resettable -
+        Scaling Factor: 0.1 - Modbus address: 0x02fc - 1.3.6.1.4.1.33333.10.90'
+    - name: load0AhTotal10
+      oid: 1.3.6.1.4.1.33333.10.91
+      type: gauge
+      help: 'LOAD0_AH_TOTAL10 - Description: Internal (load0) Ah total - Scaling Factor:
+        0.1 - Modbus address: 0x02fe - 1.3.6.1.4.1.33333.10.91'
+    - name: adcIloadF1sDispfil
+      oid: 1.3.6.1.4.1.33333.10.92
+      type: DisplayString
+      help: 'ADC_ILOAD_F_1S_DISPFIL - Description: Load current, slow filtered - Modbus
+        address: 0x0f30 - 1.3.6.1.4.1.33333.10.92'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: powerOutDispfil
+      oid: 1.3.6.1.4.1.33333.10.93
+      type: DisplayString
+      help: 'POWER_OUT_DISPFIL - Description: Charging power out of control to battery,
+        slow filtered - Modbus address: 0x0f31 - 1.3.6.1.4.1.33333.10.93'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: systemIbattDispfil
+      oid: 1.3.6.1.4.1.33333.10.94
+      type: DisplayString
+      help: 'SYSTEM_IBATT_DISPFIL - Description: System battery current, slow filtered
+        - Modbus address: 0x0f33 - 1.3.6.1.4.1.33333.10.94'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: adcVarrayFSlowShadowDispfil
+      oid: 1.3.6.1.4.1.33333.10.95
+      type: DisplayString
+      help: 'ADC_VARRAY_F_SLOW_SHADOW_DISPFIL - Description: Array voltage, slow filtered
+        - Modbus address: 0x0f34 - 1.3.6.1.4.1.33333.10.95'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: adcIarrayFSlowShadowDispfil
+      oid: 1.3.6.1.4.1.33333.10.96
+      type: DisplayString
+      help: 'ADC_IARRAY_F_SLOW_SHADOW_DISPFIL - Description: Array current, slow filtered
+        - Modbus address: 0x0f35 - 1.3.6.1.4.1.33333.10.96'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargevBattRefLimit
+      oid: 1.3.6.1.4.1.33333.10.97
+      type: DisplayString
+      help: 'EchargevBattRefLimit - Description: Maximum regulator voltage; 0==disable
+        - Modbus address: 0x1000 - 1.3.6.1.4.1.33333.10.97'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargevAbsorb
+      oid: 1.3.6.1.4.1.33333.10.98
+      type: DisplayString
+      help: 'EchargevAbsorb - Description: Absorption voltage target - Modbus address:
+        0x1002 - 1.3.6.1.4.1.33333.10.98'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargeiBattAbsorbTerm
+      oid: 1.3.6.1.4.1.33333.10.99
+      type: DisplayString
+      help: 'EchargeiBattAbsorbTerm - Description: Absorption end-amps; The net battery
+        current that will terminate absorption (based on timer) - Modbus address:
+        0x1004 - 1.3.6.1.4.1.33333.10.99'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargetIBattAbsorbTerm
+      oid: 1.3.6.1.4.1.33333.10.100
+      type: gauge
+      help: 'EchargetIBattAbsorbTerm - Description: Absorption end-amps time; Absorption
+        termination will occur when the net battery current is below the end-amps
+        threshold for this long - Modbus address: 0x1008 - 1.3.6.1.4.1.33333.10.100'
+    - name: echargevFloatExit
+      oid: 1.3.6.1.4.1.33333.10.101
+      type: DisplayString
+      help: 'EchargevFloatExit - Description: Voltage trip to exit float prematurely
+        - Modbus address: 0x100c - 1.3.6.1.4.1.33333.10.101'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargevFloatCancel
+      oid: 1.3.6.1.4.1.33333.10.102
+      type: DisplayString
+      help: 'EchargevFloatCancel - Description: Voltage trip to cancel float - Modbus
+        address: 0x100e - 1.3.6.1.4.1.33333.10.102'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargevAbsorptionExt
+      oid: 1.3.6.1.4.1.33333.10.103
+      type: DisplayString
+      help: 'EchargevAbsorptionExt - Description: Absorption extension threshold -
+        Modbus address: 0x1010 - 1.3.6.1.4.1.33333.10.103'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargetAbsorptionExt
+      oid: 1.3.6.1.4.1.33333.10.104
+      type: gauge
+      help: 'EchargetAbsorptionExt - Description: Time to spend in Absorption extension
+        - Modbus address: 0x1012 - 1.3.6.1.4.1.33333.10.104'
+    - name: echargevEqualize
+      oid: 1.3.6.1.4.1.33333.10.105
+      type: DisplayString
+      help: 'EchargevEqualize - Description: Equalize voltage target; 0==disable -
+        Modbus address: 0x1015 - 1.3.6.1.4.1.33333.10.105'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargeiEqualizeLimit
+      oid: 1.3.6.1.4.1.33333.10.106
+      type: DisplayString
+      help: 'EchargeiEqualizeLimit - Description: Equalize max current limit; 0==disable
+        - Modbus address: 0x1017 - 1.3.6.1.4.1.33333.10.106'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargevHVD25
+      oid: 1.3.6.1.4.1.33333.10.107
+      type: DisplayString
+      help: 'EchargevHVD25 - Description: High voltage disconnect voltage (25C) -
+        Modbus address: 0x101d - 1.3.6.1.4.1.33333.10.107'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargevHVR
+      oid: 1.3.6.1.4.1.33333.10.108
+      type: DisplayString
+      help: 'EchargevHVR - Description: High voltage reconnect voltage - Modbus address:
+        0x101f - 1.3.6.1.4.1.33333.10.108'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargetAbsorption
+      oid: 1.3.6.1.4.1.33333.10.109
+      type: gauge
+      help: 'EchargetAbsorption - Description: Time to spend in Absorption - Modbus
+        address: 0x1021 - 1.3.6.1.4.1.33333.10.109'
+    - name: echargetEqualize
+      oid: 1.3.6.1.4.1.33333.10.110
+      type: gauge
+      help: 'EchargetEqualize - Description: Time to spend equalizing - Modbus address:
+        0x1022 - 1.3.6.1.4.1.33333.10.110'
+    - name: echargetEqualizeCalendar
+      oid: 1.3.6.1.4.1.33333.10.111
+      type: gauge
+      help: 'EchargetEqualizeCalendar - Description: Interval between auto-equalize
+        cycles - Modbus address: 0x1023 - 1.3.6.1.4.1.33333.10.111'
+    - name: echargetEqualizeTO
+      oid: 1.3.6.1.4.1.33333.10.112
+      type: gauge
+      help: 'EchargetEqualizeTO - Description: Equalize timeout - Modbus address:
+        0x1024 - 1.3.6.1.4.1.33333.10.112'
+    - name: echargevTempComp
+      oid: 1.3.6.1.4.1.33333.10.113
+      type: DisplayString
+      help: 'EchargevTempComp - Description: Temperature compensation coefficient
+        - Modbus address: 0x1025 - 1.3.6.1.4.1.33333.10.113'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargeTBattMinLim
+      oid: 1.3.6.1.4.1.33333.10.114
+      type: DisplayString
+      help: 'EchargeTBattMinLim - Description: Minimum compensation temperature -
+        Modbus address: 0x1026 - 1.3.6.1.4.1.33333.10.114'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargeTBattMaxLim
+      oid: 1.3.6.1.4.1.33333.10.115
+      type: DisplayString
+      help: 'EchargeTBattMaxLim - Description: Maximum compensation temperature -
+        Modbus address: 0x1027 - 1.3.6.1.4.1.33333.10.115'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargetemperatureFoldbackCold0
+      oid: 1.3.6.1.4.1.33333.10.116
+      type: DisplayString
+      help: 'EchargetemperatureFoldbackCold0 - Description: the cold temperature below
+        which the charge controller current is 0%; NAN==disable - Modbus address:
+        0x1028 - 1.3.6.1.4.1.33333.10.116'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargetemperatureFoldbackCold100
+      oid: 1.3.6.1.4.1.33333.10.117
+      type: DisplayString
+      help: 'EchargetemperatureFoldbackCold100 - Description: the cold temperature
+        above which the charge controller current can be 100%; NAN==disable - Modbus
+        address: 0x1029 - 1.3.6.1.4.1.33333.10.117'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargetemperatureFoldbackHot100
+      oid: 1.3.6.1.4.1.33333.10.118
+      type: DisplayString
+      help: 'EchargetemperatureFoldbackHot100 - Description: the hot temperature below
+        which the charge controller current can be 100%; NAN==disable - Modbus address:
+        0x102a - 1.3.6.1.4.1.33333.10.118'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: echargetemperatureFoldbackHot0
+      oid: 1.3.6.1.4.1.33333.10.119
+      type: DisplayString
+      help: 'EchargetemperatureFoldbackHot0 - Description: the hot temperature above
+        which the charge controller current is 0%; NAN==disable - Modbus address:
+        0x102b - 1.3.6.1.4.1.33333.10.119'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: egreenMode
+      oid: 1.3.6.1.4.1.33333.10.120
+      type: gauge
+      help: 'Egreen_mode - Description: Ethernet green mode - 1.3.6.1.4.1.33333.10.120'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: eBatteryType
+      oid: 1.3.6.1.4.1.33333.10.121
+      type: gauge
+      help: 'EBatteryType - Description: Battery Type; See the latest revision manual
+        on our website for battery type definitions - Modbus address: 0x1060 - 1.3.6.1.4.1.33333.10.121'
+    - name: emodbusId
+      oid: 1.3.6.1.4.1.33333.10.122
+      type: gauge
+      help: 'Emodbus_id - Description: This device''s Modbus address (1 to 247) -
+        Modbus address: 0x1068 - 1.3.6.1.4.1.33333.10.122'
+    - name: ebaudrateMb232
+      oid: 1.3.6.1.4.1.33333.10.123
+      type: gauge
+      help: 'Ebaudrate_mb232 - Description: Baudrate for serial Modbus; E.g., 96 means
+        9600 baud - Scaling Factor: 100 - Modbus address: 0x1069 - 1.3.6.1.4.1.33333.10.123'
+    - name: eload0VLVD0
+      oid: 1.3.6.1.4.1.33333.10.124
+      type: DisplayString
+      help: 'Eload0VLVD0 - Description: Load low voltage disconnect - Modbus address:
+        0x10a0 - 1.3.6.1.4.1.33333.10.124'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eload0VLVR
+      oid: 1.3.6.1.4.1.33333.10.125
+      type: DisplayString
+      help: 'Eload0VLVR - Description: Load low voltage reconnect - Modbus address:
+        0x10a1 - 1.3.6.1.4.1.33333.10.125'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eload0vStartLVD
+      oid: 1.3.6.1.4.1.33333.10.126
+      type: DisplayString
+      help: 'Eload0vStartLVD - Description: Voltage at start to go straight into LVD
+        - Modbus address: 0x10a2 - 1.3.6.1.4.1.33333.10.126'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eload0HVD
+      oid: 1.3.6.1.4.1.33333.10.127
+      type: DisplayString
+      help: 'Eload0HVD - Description: The HVD used in the load controller - Modbus
+        address: 0x10a3 - 1.3.6.1.4.1.33333.10.127'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eload0HVR
+      oid: 1.3.6.1.4.1.33333.10.128
+      type: DisplayString
+      help: 'Eload0HVR - Description: The HVR used in the load controller - Modbus
+        address: 0x10a4 - 1.3.6.1.4.1.33333.10.128'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eload0SOCDisconnect
+      oid: 1.3.6.1.4.1.33333.10.129
+      type: DisplayString
+      help: 'Eload0SOCDisconnect - Description: Load low SOC disconnect - Modbus address:
+        0x10a5 - 1.3.6.1.4.1.33333.10.129'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eload0SOCReconnect
+      oid: 1.3.6.1.4.1.33333.10.130
+      type: DisplayString
+      help: 'Eload0SOCReconnect - Description: Load low SOC reconnect - Modbus address:
+        0x10a6 - 1.3.6.1.4.1.33333.10.130'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eload0tLVDWarn
+      oid: 1.3.6.1.4.1.33333.10.131
+      type: gauge
+      help: 'Eload0tLVDWarn - Description: Load low voltage disconnect warning timer
+        - 1.3.6.1.4.1.33333.10.131'
+    - name: eload0currentComp
+      oid: 1.3.6.1.4.1.33333.10.132
+      type: DisplayString
+      help: 'Eload0currentComp - Description: Battery resistance for LVD current compensation;
+        this value will always be positive - Modbus address: 0x10aa - 1.3.6.1.4.1.33333.10.132'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: eIPAddr
+      oid: 1.3.6.1.4.1.33333.10.133
+      type: InetAddressIPv4
+      help: 'EIPAddr - Description: This device''s static IP address, in host (little-endian)
+        order - 1.3.6.1.4.1.33333.10.133'
+    - name: eNetMask
+      oid: 1.3.6.1.4.1.33333.10.134
+      type: InetAddressIPv4
+      help: 'ENetMask - Description: This device''s static IP netmask - 1.3.6.1.4.1.33333.10.134'
+    - name: eGateway
+      oid: 1.3.6.1.4.1.33333.10.135
+      type: InetAddressIPv4
+      help: 'EGateway - Description: This device''s static IP gateway - 1.3.6.1.4.1.33333.10.135'
+    - name: ePrimaryDNSServer
+      oid: 1.3.6.1.4.1.33333.10.136
+      type: InetAddressIPv4
+      help: 'EPrimaryDNSServer - Description: This device''s static IP primary DNS
+        server to use - 1.3.6.1.4.1.33333.10.136'
+    - name: eSecondaryDNSServer
+      oid: 1.3.6.1.4.1.33333.10.137
+      type: InetAddressIPv4
+      help: 'ESecondaryDNSServer - Description: This device''s static IP secondary
+        DNS server to use - 1.3.6.1.4.1.33333.10.137'
+    - name: eIsDHCPEnabled
+      oid: 1.3.6.1.4.1.33333.10.138
+      type: gauge
+      help: 'EIsDHCPEnabled - Description: DHCP status - 1.3.6.1.4.1.33333.10.138'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: eHTTPPort
+      oid: 1.3.6.1.4.1.33333.10.139
+      type: gauge
+      help: 'EHTTPPort - Description: HTTP port number - Modbus address: 0x1125 -
+        1.3.6.1.4.1.33333.10.139'
+    - name: eMBIPPort
+      oid: 1.3.6.1.4.1.33333.10.140
+      type: gauge
+      help: 'EMBIPPort - Description: Modbus IP port number - Modbus address: 0x1126
+        - 1.3.6.1.4.1.33333.10.140'
+    - name: eModbusTcpBridgingEnabled
+      oid: 1.3.6.1.4.1.33333.10.141
+      type: gauge
+      help: 'EModbusTcpBridgingEnabled - Description: Modbus bridging status - 1.3.6.1.4.1.33333.10.141'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: eWirelessEnable
+      oid: 1.3.6.1.4.1.33333.10.142
+      type: gauge
+      help: 'EWirelessEnable - Description: Wireless communications status - 1.3.6.1.4.1.33333.10.142'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: eqtrig
+      oid: 1.3.6.1.4.1.33333.10.500
+      type: gauge
+      help: 'EQTRIG - Description: Manual equalize trigger; true==start equalize,
+        false==stop equalize - Modbus address: 0x0000 - 1.3.6.1.4.1.33333.10.500'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: loaddisconnect
+      oid: 1.3.6.1.4.1.33333.10.501
+      type: gauge
+      help: 'LOADDISCONNECT - Description: Load Disconnect (refers to DC load, this
+        shuts down inverting from the battery); true==disconnect, false==reconnect
+        - Modbus address: 0x0001 - 1.3.6.1.4.1.33333.10.501'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: chargedisconnect
+      oid: 1.3.6.1.4.1.33333.10.502
+      type: gauge
+      help: 'CHARGEDISCONNECT - Description: Charge disconnect; true==stop charge,
+        false==restart charge - Modbus address: 0x0002 - 1.3.6.1.4.1.33333.10.502'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: clearCountersResettable
+      oid: 1.3.6.1.4.1.33333.10.503
+      type: gauge
+      help: 'CLEAR_COUNTERS_RESETTABLE - Description: Resets all resettable counters;
+        true==do action - Modbus address: 0x0014 - 1.3.6.1.4.1.33333.10.503'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: clearCountersTotal
+      oid: 1.3.6.1.4.1.33333.10.504
+      type: gauge
+      help: 'CLEAR_COUNTERS_TOTAL - Description: Reset all total counters; true==do
+        action - Modbus address: 0x0015 - 1.3.6.1.4.1.33333.10.504'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: clearVbminmax
+      oid: 1.3.6.1.4.1.33333.10.505
+      type: gauge
+      help: 'CLEAR_VBMINMAX - Description: Clear Vbatt min and max saved values; true==do
+        action - Modbus address: 0x0016 - 1.3.6.1.4.1.33333.10.505'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: clearFaults
+      oid: 1.3.6.1.4.1.33333.10.506
+      type: gauge
+      help: 'CLEAR_FAULTS - Description: Clear faults; true==do action - Modbus address:
+        0x0017 - 1.3.6.1.4.1.33333.10.506'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: clearAlarms
+      oid: 1.3.6.1.4.1.33333.10.507
+      type: gauge
+      help: 'CLEAR_ALARMS - Description: Clear alarms; true==do action - Modbus address:
+        0x0018 - 1.3.6.1.4.1.33333.10.507'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: eeUpdate
+      oid: 1.3.6.1.4.1.33333.10.508
+      type: gauge
+      help: 'EE_UPDATE - Description: Forces eeprom update of logged variables (hourmeter/vbmin/vbmax/etc);
+        true== do action - Modbus address: 0x0020 - 1.3.6.1.4.1.33333.10.508'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: lvdOverride
+      oid: 1.3.6.1.4.1.33333.10.509
+      type: gauge
+      help: 'LVD_OVERRIDE - Description: Override low voltage disconnect; true==do
+        action - Modbus address: 0x0021 - 1.3.6.1.4.1.33333.10.509'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: eepromSessionApply
+      oid: 1.3.6.1.4.1.33333.10.510
+      type: gauge
+      help: 'EEPROM_SESSION_APPLY - Description: Applies or discards any EEPROM session
+        changes which are pending but not yet written to EE; true==apply changes,
+        false==discard changes - 1.3.6.1.4.1.33333.10.510'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: reset
+      oid: 1.3.6.1.4.1.33333.10.511
+      type: gauge
+      help: 'RESET - Description: Soft reboot - 1.3.6.1.4.1.33333.10.511'
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: setOrClearSoc
+      oid: 1.3.6.1.4.1.33333.10.512
+      type: gauge
+      help: 'SET_OR_CLEAR_SOC - Description: Tells the coulomb counting algorithm
+        to either set 100% SOC or clear it; true==set 100% SOC, false==clear SOC (SOC=NAN)
+        - Modbus address: 0x1104 - 1.3.6.1.4.1.33333.10.512'
+      enum_values:
+        1: "true"
+        2: "false"
   if_mib:
     walk:
     - 1.3.6.1.2.1.2
@@ -6708,6 +8122,1118 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+  prostar_mppt:
+    walk:
+    - 1.3.6.1.2.1.2
+    - 1.3.6.1.2.1.31.1.1
+    get:
+    - 1.3.6.1.2.1.1.3.0
+    - 1.3.6.1.4.1.33333.5.30.0
+    - 1.3.6.1.4.1.33333.5.31.0
+    - 1.3.6.1.4.1.33333.5.32.0
+    - 1.3.6.1.4.1.33333.5.33.0
+    - 1.3.6.1.4.1.33333.5.34.0
+    - 1.3.6.1.4.1.33333.5.38.0
+    - 1.3.6.1.4.1.33333.5.39.0
+    - 1.3.6.1.4.1.33333.5.40.0
+    metrics:
+    - name: sysUpTime
+      oid: 1.3.6.1.2.1.1.3
+      type: gauge
+      help: The time (in hundredths of a second) since the network management portion
+        of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+    - name: ifNumber
+      oid: 1.3.6.1.2.1.2.1
+      type: gauge
+      help: The number of network interfaces (regardless of their current state) present
+        on this system. - 1.3.6.1.2.1.2.1
+    - name: ifIndex
+      oid: 1.3.6.1.2.1.2.2.1.1
+      type: gauge
+      help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+      help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifType
+      oid: 1.3.6.1.2.1.2.2.1.3
+      type: gauge
+      help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: other
+        2: regular1822
+        3: hdh1822
+        4: ddnX25
+        5: rfc877x25
+        6: ethernetCsmacd
+        7: iso88023Csmacd
+        8: iso88024TokenBus
+        9: iso88025TokenRing
+        10: iso88026Man
+        11: starLan
+        12: proteon10Mbit
+        13: proteon80Mbit
+        14: hyperchannel
+        15: fddi
+        16: lapb
+        17: sdlc
+        18: ds1
+        19: e1
+        20: basicISDN
+        21: primaryISDN
+        22: propPointToPointSerial
+        23: ppp
+        24: softwareLoopback
+        25: eon
+        26: ethernet3Mbit
+        27: nsip
+        28: slip
+        29: ultra
+        30: ds3
+        31: sip
+        32: frameRelay
+        33: rs232
+        34: para
+        35: arcnet
+        36: arcnetPlus
+        37: atm
+        38: miox25
+        39: sonet
+        40: x25ple
+        41: iso88022llc
+        42: localTalk
+        43: smdsDxi
+        44: frameRelayService
+        45: v35
+        46: hssi
+        47: hippi
+        48: modem
+        49: aal5
+        50: sonetPath
+        51: sonetVT
+        52: smdsIcip
+        53: propVirtual
+        54: propMultiplexor
+        55: ieee80212
+        56: fibreChannel
+        57: hippiInterface
+        58: frameRelayInterconnect
+        59: aflane8023
+        60: aflane8025
+        61: cctEmul
+        62: fastEther
+        63: isdn
+        64: v11
+        65: v36
+        66: g703at64k
+        67: g703at2mb
+        68: qllc
+        69: fastEtherFX
+        70: channel
+        71: ieee80211
+        72: ibm370parChan
+        73: escon
+        74: dlsw
+        75: isdns
+        76: isdnu
+        77: lapd
+        78: ipSwitch
+        79: rsrb
+        80: atmLogical
+        81: ds0
+        82: ds0Bundle
+        83: bsc
+        84: async
+        85: cnr
+        86: iso88025Dtr
+        87: eplrs
+        88: arap
+        89: propCnls
+        90: hostPad
+        91: termPad
+        92: frameRelayMPI
+        93: x213
+        94: adsl
+        95: radsl
+        96: sdsl
+        97: vdsl
+        98: iso88025CRFPInt
+        99: myrinet
+        100: voiceEM
+        101: voiceFXO
+        102: voiceFXS
+        103: voiceEncap
+        104: voiceOverIp
+        105: atmDxi
+        106: atmFuni
+        107: atmIma
+        108: pppMultilinkBundle
+        109: ipOverCdlc
+        110: ipOverClaw
+        111: stackToStack
+        112: virtualIpAddress
+        113: mpc
+        114: ipOverAtm
+        115: iso88025Fiber
+        116: tdlc
+        117: gigabitEthernet
+        118: hdlc
+        119: lapf
+        120: v37
+        121: x25mlp
+        122: x25huntGroup
+        123: transpHdlc
+        124: interleave
+        125: fast
+        126: ip
+        127: docsCableMaclayer
+        128: docsCableDownstream
+        129: docsCableUpstream
+        130: a12MppSwitch
+        131: tunnel
+        132: coffee
+        133: ces
+        134: atmSubInterface
+        135: l2vlan
+        136: l3ipvlan
+        137: l3ipxvlan
+        138: digitalPowerline
+        139: mediaMailOverIp
+        140: dtm
+        141: dcn
+        142: ipForward
+        143: msdsl
+        144: ieee1394
+        145: if-gsn
+        146: dvbRccMacLayer
+        147: dvbRccDownstream
+        148: dvbRccUpstream
+        149: atmVirtual
+        150: mplsTunnel
+        151: srp
+        152: voiceOverAtm
+        153: voiceOverFrameRelay
+        154: idsl
+        155: compositeLink
+        156: ss7SigLink
+        157: propWirelessP2P
+        158: frForward
+        159: rfc1483
+        160: usb
+        161: ieee8023adLag
+        162: bgppolicyaccounting
+        163: frf16MfrBundle
+        164: h323Gatekeeper
+        165: h323Proxy
+        166: mpls
+        167: mfSigLink
+        168: hdsl2
+        169: shdsl
+        170: ds1FDL
+        171: pos
+        172: dvbAsiIn
+        173: dvbAsiOut
+        174: plc
+        175: nfas
+        176: tr008
+        177: gr303RDT
+        178: gr303IDT
+        179: isup
+        180: propDocsWirelessMaclayer
+        181: propDocsWirelessDownstream
+        182: propDocsWirelessUpstream
+        183: hiperlan2
+        184: propBWAp2Mp
+        185: sonetOverheadChannel
+        186: digitalWrapperOverheadChannel
+        187: aal2
+        188: radioMAC
+        189: atmRadio
+        190: imt
+        191: mvl
+        192: reachDSL
+        193: frDlciEndPt
+        194: atmVciEndPt
+        195: opticalChannel
+        196: opticalTransport
+        197: propAtm
+        198: voiceOverCable
+        199: infiniband
+        200: teLink
+        201: q2931
+        202: virtualTg
+        203: sipTg
+        204: sipSig
+        205: docsCableUpstreamChannel
+        206: econet
+        207: pon155
+        208: pon622
+        209: bridge
+        210: linegroup
+        211: voiceEMFGD
+        212: voiceFGDEANA
+        213: voiceDID
+        214: mpegTransport
+        215: sixToFour
+        216: gtp
+        217: pdnEtherLoop1
+        218: pdnEtherLoop2
+        219: opticalChannelGroup
+        220: homepna
+        221: gfp
+        222: ciscoISLvlan
+        223: actelisMetaLOOP
+        224: fcipLink
+        225: rpr
+        226: qam
+        227: lmp
+        228: cblVectaStar
+        229: docsCableMCmtsDownstream
+        230: adsl2
+        231: macSecControlledIF
+        232: macSecUncontrolledIF
+        233: aviciOpticalEther
+        234: atmbond
+        235: voiceFGDOS
+        236: mocaVersion1
+        237: ieee80216WMAN
+        238: adsl2plus
+        239: dvbRcsMacLayer
+        240: dvbTdm
+        241: dvbRcsTdma
+        242: x86Laps
+        243: wwanPP
+        244: wwanPP2
+        245: voiceEBS
+        246: ifPwType
+        247: ilan
+        248: pip
+        249: aluELP
+        250: gpon
+        251: vdsl2
+        252: capwapDot11Profile
+        253: capwapDot11Bss
+        254: capwapWtpVirtualRadio
+        255: bits
+        256: docsCableUpstreamRfPort
+        257: cableDownstreamRfPort
+        258: vmwareVirtualNic
+        259: ieee802154
+        260: otnOdu
+        261: otnOtu
+        262: ifVfiType
+        263: g9981
+        264: g9982
+        265: g9983
+        266: aluEpon
+        267: aluEponOnu
+        268: aluEponPhysicalUni
+        269: aluEponLogicalLink
+        270: aluGponOnu
+        271: aluGponPhysicalUni
+        272: vmwareNicTeam
+        277: docsOfdmDownstream
+        278: docsOfdmaUpstream
+        279: gfast
+        280: sdci
+        281: xboxWireless
+        282: fastdsl
+        283: docsCableScte55d1FwdOob
+        284: docsCableScte55d1RetOob
+        285: docsCableScte55d2DsOob
+        286: docsCableScte55d2UsOob
+        287: docsCableNdf
+        288: docsCableNdr
+        289: ptm
+        290: ghn
+        291: otnOtsi
+        292: otnOtuc
+        293: otnOduc
+        294: otnOtsig
+        295: microwaveCarrierTermination
+        296: microwaveRadioLinkTerminal
+        297: ieee8021axDrni
+        298: ax25
+        299: ieee19061nanocom
+        300: cpri
+        301: omni
+        302: roe
+        303: p2pOverLan
+    - name: ifMtu
+      oid: 1.3.6.1.2.1.2.2.1.4
+      type: gauge
+      help: The size of the largest packet which can be sent/received on the interface,
+        specified in octets - 1.3.6.1.2.1.2.2.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifSpeed
+      oid: 1.3.6.1.2.1.2.2.1.5
+      type: gauge
+      help: An estimate of the interface's current bandwidth in bits per second -
+        1.3.6.1.2.1.2.2.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifPhysAddress
+      oid: 1.3.6.1.2.1.2.2.1.6
+      type: PhysAddress48
+      help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifAdminStatus
+      oid: 1.3.6.1.2.1.2.2.1.7
+      type: gauge
+      help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: up
+        2: down
+        3: testing
+    - name: ifOperStatus
+      oid: 1.3.6.1.2.1.2.2.1.8
+      type: gauge
+      help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: up
+        2: down
+        3: testing
+        4: unknown
+        5: dormant
+        6: notPresent
+        7: lowerLayerDown
+    - name: ifLastChange
+      oid: 1.3.6.1.2.1.2.2.1.9
+      type: gauge
+      help: The value of sysUpTime at the time the interface entered its current operational
+        state - 1.3.6.1.2.1.2.2.1.9
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInOctets
+      oid: 1.3.6.1.2.1.2.2.1.10
+      type: counter
+      help: The total number of octets received on the interface, including framing
+        characters - 1.3.6.1.2.1.2.2.1.10
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.11
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were not addressed to a multicast or broadcast address at this sub-layer
+        - 1.3.6.1.2.1.2.2.1.11
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.12
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a multicast or broadcast address at this sub-layer
+        - 1.3.6.1.2.1.2.2.1.12
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInDiscards
+      oid: 1.3.6.1.2.1.2.2.1.13
+      type: counter
+      help: The number of inbound packets which were chosen to be discarded even though
+        no errors had been detected to prevent their being deliverable to a higher-layer
+        protocol - 1.3.6.1.2.1.2.2.1.13
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInErrors
+      oid: 1.3.6.1.2.1.2.2.1.14
+      type: counter
+      help: For packet-oriented interfaces, the number of inbound packets that contained
+        errors preventing them from being deliverable to a higher-layer protocol -
+        1.3.6.1.2.1.2.2.1.14
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInUnknownProtos
+      oid: 1.3.6.1.2.1.2.2.1.15
+      type: counter
+      help: For packet-oriented interfaces, the number of packets received via the
+        interface which were discarded because of an unknown or unsupported protocol
+        - 1.3.6.1.2.1.2.2.1.15
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutOctets
+      oid: 1.3.6.1.2.1.2.2.1.16
+      type: counter
+      help: The total number of octets transmitted out of the interface, including
+        framing characters - 1.3.6.1.2.1.2.2.1.16
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.17
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were not addressed to a multicast or broadcast address at this sub-layer,
+        including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutNUcastPkts
+      oid: 1.3.6.1.2.1.2.2.1.18
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a multicast or broadcast address at this sub-layer,
+        including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutDiscards
+      oid: 1.3.6.1.2.1.2.2.1.19
+      type: counter
+      help: The number of outbound packets which were chosen to be discarded even
+        though no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutErrors
+      oid: 1.3.6.1.2.1.2.2.1.20
+      type: counter
+      help: For packet-oriented interfaces, the number of outbound packets that could
+        not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutQLen
+      oid: 1.3.6.1.2.1.2.2.1.21
+      type: gauge
+      help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifSpecific
+      oid: 1.3.6.1.2.1.2.2.1.22
+      type: OctetString
+      help: A reference to MIB definitions specific to the particular media being
+        used to realize the interface - 1.3.6.1.2.1.2.2.1.22
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+      help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.2
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.3
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.4
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a multicast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.5
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a broadcast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.6
+      type: counter
+      help: The total number of octets received on the interface, including framing
+        characters - 1.3.6.1.2.1.31.1.1.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.7
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were not addressed to a multicast or broadcast address at this sub-layer
+        - 1.3.6.1.2.1.31.1.1.1.7
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.8
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCInBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.9
+      type: counter
+      help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+        which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.10
+      type: counter
+      help: The total number of octets transmitted out of the interface, including
+        framing characters - 1.3.6.1.2.1.31.1.1.1.10
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutUcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.11
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were not addressed to a multicast or broadcast address at this sub-layer,
+        including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutMulticastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.12
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a multicast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifHCOutBroadcastPkts
+      oid: 1.3.6.1.2.1.31.1.1.1.13
+      type: counter
+      help: The total number of packets that higher-level protocols requested be transmitted,
+        and which were addressed to a broadcast address at this sub-layer, including
+        those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifLinkUpDownTrapEnable
+      oid: 1.3.6.1.2.1.31.1.1.1.14
+      type: gauge
+      help: Indicates whether linkUp/linkDown traps should be generated for this interface
+        - 1.3.6.1.2.1.31.1.1.1.14
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: enabled
+        2: disabled
+    - name: ifHighSpeed
+      oid: 1.3.6.1.2.1.31.1.1.1.15
+      type: gauge
+      help: An estimate of the interface's current bandwidth in units of 1,000,000
+        bits per second - 1.3.6.1.2.1.31.1.1.1.15
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifPromiscuousMode
+      oid: 1.3.6.1.2.1.31.1.1.1.16
+      type: gauge
+      help: This object has a value of false(2) if this interface only accepts packets/frames
+        that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: ifConnectorPresent
+      oid: 1.3.6.1.2.1.31.1.1.1.17
+      type: gauge
+      help: This object has the value 'true(1)' if the interface sublayer has a physical
+        connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: ifAlias
+      oid: 1.3.6.1.2.1.31.1.1.1.18
+      type: DisplayString
+      help: This object is an 'alias' name for the interface as specified by a network
+        manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: ifCounterDiscontinuityTime
+      oid: 1.3.6.1.2.1.31.1.1.1.19
+      type: gauge
+      help: The value of sysUpTime on the most recent occasion at which any one or
+        more of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: batteryTerminalVoltage
+      oid: 1.3.6.1.4.1.33333.5.30
+      type: DisplayString
+      help: 'Battery Terminal Voltage - Description: Battery Terminal Voltage - Scaling
+        Factor: 1.0 - Units: V - Range: [0.0, 80.0] - Modbus address: 0x0012 - 1.3.6.1.4.1.33333.5.30'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: arrayVoltage
+      oid: 1.3.6.1.4.1.33333.5.31
+      type: DisplayString
+      help: 'Array Voltage - Description: Array Voltage - Scaling Factor: 1.0 - Units:
+        V - Range: [0, 80] - Modbus address: 0x0013 - 1.3.6.1.4.1.33333.5.31'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: loadVoltage
+      oid: 1.3.6.1.4.1.33333.5.32
+      type: DisplayString
+      help: 'Load Voltage - Description: Load Voltage - Scaling Factor: 1.0 - Units:
+        V - Range: [0, 80] - Modbus address: 0x0014 - 1.3.6.1.4.1.33333.5.32'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: chargeCurrent
+      oid: 1.3.6.1.4.1.33333.5.33
+      type: DisplayString
+      help: 'Charge Current - Description: Charge Current - Scaling Factor: 1.0 -
+        Units: A - Range: [0, 40] - Modbus address: 0x0010 - 1.3.6.1.4.1.33333.5.33'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: loadCurrent
+      oid: 1.3.6.1.4.1.33333.5.34
+      type: DisplayString
+      help: 'Load Current - Description: Load Current - Scaling Factor: 1.0 - Units:
+        A - Range: [0, 60] - Modbus address: 0x0016 - 1.3.6.1.4.1.33333.5.34'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: heatsinkTemperature
+      oid: 1.3.6.1.4.1.33333.5.38
+      type: DisplayString
+      help: 'Heatsink Temperature - Description: Heatsink Temperature - Scaling Factor:
+        1.0 - Units: deg C - Range: [-128, 127] - Modbus address: 0x001A - 1.3.6.1.4.1.33333.5.38'
+    - name: batteryTemperature
+      oid: 1.3.6.1.4.1.33333.5.39
+      type: DisplayString
+      help: 'Battery Temperature - Description: Battery Temperature - Scaling Factor:
+        1.0 - Units: deg C - Range: [-128, 127] - Modbus address: 0x001B - 1.3.6.1.4.1.33333.5.39'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: ambientTemperature
+      oid: 1.3.6.1.4.1.33333.5.40
+      type: DisplayString
+      help: 'Ambient Temperature - Description: Ambient Temperature - Scaling Factor:
+        1.0 - Units: deg C - Range: [-128, 127] - Modbus address: 0x001C - 1.3.6.1.4.1.33333.5.40'
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+  ubiquiti_afltu:
+    walk:
+    - 1.3.6.1.4.1.41112.1.10
+    metrics:
+    - name: afLTURole
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.1
+      type: gauge
+      help: Wireless Role (ap/cpe) - 1.3.6.1.4.1.41112.1.10.1.2.1
+      enum_values:
+        0: ap
+        1: cpe
+    - name: afLTUFrequency
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.2
+      type: gauge
+      help: The main frequency to use in MHz. - 1.3.6.1.4.1.41112.1.10.1.2.2
+    - name: afLTUAltFreqList
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.3
+      type: DisplayString
+      help: The list of alternative frequencies in MHz - 1.3.6.1.4.1.41112.1.10.1.2.3
+    - name: afLTUBandwidth
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.4
+      type: gauge
+      help: Wireless channel bandwidth in MHz. - 1.3.6.1.4.1.41112.1.10.1.2.4
+      enum_values:
+        10: bw10M
+        20: bw20M
+        30: bw30M
+        40: bw40M
+        50: bw50M
+        60: bw60M
+        80: bw80M
+        100: bw100M
+    - name: afLTUSsid
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.5
+      type: DisplayString
+      help: Radio SSID - 1.3.6.1.4.1.41112.1.10.1.2.5
+    - name: afLTUTxEIRP
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.6
+      type: gauge
+      help: Tx EIRP in dBm. - 1.3.6.1.4.1.41112.1.10.1.2.6
+    - name: afLTUAntennaGain
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.7
+      type: gauge
+      help: Antenna gain in dBi. - 1.3.6.1.4.1.41112.1.10.1.2.7
+    - name: afLTUCableLoss
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.8
+      type: gauge
+      help: Cable loss in dB. - 1.3.6.1.4.1.41112.1.10.1.2.8
+    - name: afLTUTxRate
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.9
+      type: gauge
+      help: Tx modulation. - 1.3.6.1.4.1.41112.1.10.1.2.9
+    - name: afLTUTxRateAuto
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.10
+      type: gauge
+      help: Automatic Tx moduleation selection - 1.3.6.1.4.1.41112.1.10.1.2.10
+      enum_values:
+        0: disabled
+        1: enabled
+    - name: afLTUDistanceScale
+      oid: 1.3.6.1.4.1.41112.1.10.1.2.11
+      type: gauge
+      help: 'Distance Scale, options are: 0 = 0km 1 = <1km 2 = <5km 3 = <10km 4 =
+        <20km 5 = <40km - 1.3.6.1.4.1.41112.1.10.1.2.11'
+    - name: afLTUMac
+      oid: 1.3.6.1.4.1.41112.1.10.1.3.1
+      type: PhysAddress48
+      help: The MAC address of this device - 1.3.6.1.4.1.41112.1.10.1.3.1
+    - name: afLTUDevModel
+      oid: 1.3.6.1.4.1.41112.1.10.1.3.2
+      type: DisplayString
+      help: The device model. - 1.3.6.1.4.1.41112.1.10.1.3.2
+    - name: afLTUDevName
+      oid: 1.3.6.1.4.1.41112.1.10.1.3.3
+      type: DisplayString
+      help: The device name. - 1.3.6.1.4.1.41112.1.10.1.3.3
+    - name: afLTUFirmwareVersion
+      oid: 1.3.6.1.4.1.41112.1.10.1.3.4
+      type: DisplayString
+      help: The firmware version running. - 1.3.6.1.4.1.41112.1.10.1.3.4
+    - name: afLTUMemoryUsage
+      oid: 1.3.6.1.4.1.41112.1.10.1.3.5
+      type: gauge
+      help: The percentage of total memory usage. - 1.3.6.1.4.1.41112.1.10.1.3.5
+    - name: afLTUCpuUsage
+      oid: 1.3.6.1.4.1.41112.1.10.1.3.6
+      type: gauge
+      help: The percentage of total CPU usage. - 1.3.6.1.4.1.41112.1.10.1.3.6
+    - name: afLTUUptime
+      oid: 1.3.6.1.4.1.41112.1.10.1.3.7
+      type: counter
+      help: The uptime of the device in seconds. - 1.3.6.1.4.1.41112.1.10.1.3.7
+    - name: afLTUStaTxRate
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.1
+      type: gauge
+      help: Current select Tx modulation - 1.3.6.1.4.1.41112.1.10.1.4.1.1
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRxRate
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.2
+      type: gauge
+      help: Current select Rx modulation - 1.3.6.1.4.1.41112.1.10.1.4.1.2
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaTxCapacity
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.3
+      type: gauge
+      help: Transmit Capacity. - 1.3.6.1.4.1.41112.1.10.1.4.1.3
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRxCapacity
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.4
+      type: gauge
+      help: Receive Capacity. - 1.3.6.1.4.1.41112.1.10.1.4.1.4
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRxPower0
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.5
+      type: gauge
+      help: Measured receive chain0 strength in dBm - 1.3.6.1.4.1.41112.1.10.1.4.1.5
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRxPower1
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.6
+      type: gauge
+      help: Measured receive chain1 strength in dBm - 1.3.6.1.4.1.41112.1.10.1.4.1.6
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaIdealRxPower0
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.7
+      type: gauge
+      help: The ideal chain0 receive power in dBm. - 1.3.6.1.4.1.41112.1.10.1.4.1.7
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaIdealRxPower1
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.8
+      type: gauge
+      help: The ideal chain1 receive power in dBm. - 1.3.6.1.4.1.41112.1.10.1.4.1.8
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRxPowerLevel0
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.9
+      type: gauge
+      help: Measuared receive chain0 strength in % measured - 1.3.6.1.4.1.41112.1.10.1.4.1.9
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRxPowerLevel1
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.10
+      type: gauge
+      help: Mresuared receive chain1 strength in % - 1.3.6.1.4.1.41112.1.10.1.4.1.10
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteMac
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.11
+      type: PhysAddress48
+      help: The MAC address of the remote station - 1.3.6.1.4.1.41112.1.10.1.4.1.11
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteDevModel
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.12
+      type: DisplayString
+      help: The device model of the remote station - 1.3.6.1.4.1.41112.1.10.1.4.1.12
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteDevName
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.13
+      type: DisplayString
+      help: The device name of the remote station. - 1.3.6.1.4.1.41112.1.10.1.4.1.13
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteFirmwareVersion
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.14
+      type: DisplayString
+      help: The firmware version of the remote station. - 1.3.6.1.4.1.41112.1.10.1.4.1.14
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteTxEIRP
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.15
+      type: gauge
+      help: Remote Station transmit signal strength in dBm. - 1.3.6.1.4.1.41112.1.10.1.4.1.15
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteRxPower0
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.16
+      type: gauge
+      help: Measured receive chain0 strength in dBm at remote - 1.3.6.1.4.1.41112.1.10.1.4.1.16
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteRxPower1
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.17
+      type: gauge
+      help: Measured receive chain1 strength in dBm at remote - 1.3.6.1.4.1.41112.1.10.1.4.1.17
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteIdealRxPower0
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.18
+      type: gauge
+      help: The ideal chain0 receive power in dBm at remote. - 1.3.6.1.4.1.41112.1.10.1.4.1.18
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteIdealRxPower1
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.19
+      type: gauge
+      help: The ideal chain1 receive power in dBm at remote. - 1.3.6.1.4.1.41112.1.10.1.4.1.19
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteRxPowerLevel0
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.20
+      type: gauge
+      help: Remoate measuared receive chain0 strength in % measured - 1.3.6.1.4.1.41112.1.10.1.4.1.20
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteRxPowerLevel1
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.21
+      type: gauge
+      help: Remoate measuared receive chain1 strength in % measured - 1.3.6.1.4.1.41112.1.10.1.4.1.21
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteLatency
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.22
+      type: gauge
+      help: Remote Station latency in milliseconds. - 1.3.6.1.4.1.41112.1.10.1.4.1.22
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteDistance
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.23
+      type: gauge
+      help: Remote Station distance in kilometers. - 1.3.6.1.4.1.41112.1.10.1.4.1.23
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteConnectionTime
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.24
+      type: counter
+      help: Remote Station connection time of current session. - 1.3.6.1.4.1.41112.1.10.1.4.1.24
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteLastIp
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.25
+      type: InetAddressIPv4
+      help: Remote Station last known IP address. - 1.3.6.1.4.1.41112.1.10.1.4.1.25
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUStaRemoteRegistrationAttempts
+      oid: 1.3.6.1.4.1.41112.1.10.1.4.1.26
+      type: gauge
+      help: Remote Station registration attempts. - 1.3.6.1.4.1.41112.1.10.1.4.1.26
+      indexes:
+      - labelname: afLTUStaRemoteMac
+        type: PhysAddress48
+    - name: afLTUTxBytes
+      oid: 1.3.6.1.4.1.41112.1.10.1.5.1
+      type: counter
+      help: Total tx bytes. - 1.3.6.1.4.1.41112.1.10.1.5.1
+    - name: afLTUTxPps
+      oid: 1.3.6.1.4.1.41112.1.10.1.5.2
+      type: gauge
+      help: packet per second for tx. - 1.3.6.1.4.1.41112.1.10.1.5.2
+    - name: afLTURxBytes
+      oid: 1.3.6.1.4.1.41112.1.10.1.5.3
+      type: counter
+      help: Total tx bytes. - 1.3.6.1.4.1.41112.1.10.1.5.3
+    - name: afLTURxPps
+      oid: 1.3.6.1.4.1.41112.1.10.1.5.4
+      type: gauge
+      help: packet per second for rx. - 1.3.6.1.4.1.41112.1.10.1.5.4
+    - name: afLTUConnected
+      oid: 1.3.6.1.4.1.41112.1.10.1.5.5
+      type: gauge
+      help: Radio connected - 1.3.6.1.4.1.41112.1.10.1.5.5
+      enum_values:
+        0: disconnected
+        1: connected
+    - name: afLTUethTxBytes
+      oid: 1.3.6.1.4.1.41112.1.10.1.6.1
+      type: counter
+      help: Total tx bytes. - 1.3.6.1.4.1.41112.1.10.1.6.1
+    - name: afLTUethTxPps
+      oid: 1.3.6.1.4.1.41112.1.10.1.6.2
+      type: gauge
+      help: packet per second for tx. - 1.3.6.1.4.1.41112.1.10.1.6.2
+    - name: afLTUethRxBytes
+      oid: 1.3.6.1.4.1.41112.1.10.1.6.3
+      type: counter
+      help: Total tx bytes. - 1.3.6.1.4.1.41112.1.10.1.6.3
+    - name: afLTUethRxPps
+      oid: 1.3.6.1.4.1.41112.1.10.1.6.4
+      type: gauge
+      help: packet per second for rx. - 1.3.6.1.4.1.41112.1.10.1.6.4
+    - name: afLTUethConnected
+      oid: 1.3.6.1.4.1.41112.1.10.1.6.5
+      type: gauge
+      help: Ethernet Data port plugged - 1.3.6.1.4.1.41112.1.10.1.6.5
+      enum_values:
+        0: disconnected
+        1: connected
+    - name: afLTUgpsStatus
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.1
+      type: gauge
+      help: GPS status - 1.3.6.1.4.1.41112.1.10.1.7.1
+      enum_values:
+        0: absent
+        1: "off"
+        2: "on"
+    - name: afLTUgpsDimensions
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.2
+      type: gauge
+      help: GPS Fix Obtained - 1.3.6.1.4.1.41112.1.10.1.7.2
+      enum_values:
+        0: unknown
+        1: nofix
+        2: fix2d
+        3: fix3d
+    - name: afLTUgpsLat
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.3
+      type: DisplayString
+      help: GPS Latitude - 1.3.6.1.4.1.41112.1.10.1.7.3
+    - name: afLTUgpsLon
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.4
+      type: DisplayString
+      help: GPS Longitude - 1.3.6.1.4.1.41112.1.10.1.7.4
+    - name: afLTUgpsAltMeter
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.5
+      type: DisplayString
+      help: GPS Altitude (m) - 1.3.6.1.4.1.41112.1.10.1.7.5
+    - name: afLTUgpsAltFeet
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.6
+      type: DisplayString
+      help: GPS Altitude (ft) - 1.3.6.1.4.1.41112.1.10.1.7.6
+    - name: afLTUgpsSatsVisible
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.7
+      type: gauge
+      help: GPS Satellites Visible - 1.3.6.1.4.1.41112.1.10.1.7.7
+    - name: afLTUgpsSatsTracked
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.8
+      type: gauge
+      help: GPS Satellites Tracked - 1.3.6.1.4.1.41112.1.10.1.7.8
+    - name: afLTUgpsHDOP
+      oid: 1.3.6.1.4.1.41112.1.10.1.7.9
+      type: DisplayString
+      help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.10.1.7.9
   ubiquiti_airfiber:
     walk:
     - 1.3.6.1.4.1.41112.1.3
