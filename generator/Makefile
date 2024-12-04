@@ -117,51 +117,12 @@ docker-tag-latest:
 
 mibs: \
   $(MIBDIR)/apc-powernet-mib \
-  $(MIBDIR)/readynas \
-  $(MIBDIR)/readydataos \
-  $(MIBDIR)/AIRESPACE-REF-MIB \
-  $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
-  $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
-  $(MIBDIR)/ARISTA-SMI-MIB \
-  $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/iDRAC-SMIv2.mib \
-  $(MIBDIR)/HPE-MIB \
-  $(MIBDIR)/ENTITY-MIB \
-  $(MIBDIR)/ENTITY-SENSOR-MIB \
-  $(MIBDIR)/ENTITY-STATE-MIB \
-  $(MIBDIR)/ENTITY-STATE-TC-MIB \
-  $(MIBDIR)/IANA-CHARSET-MIB.txt \
-  $(MIBDIR)/IANA-IFTYPE-MIB.txt \
-  $(MIBDIR)/IANA-PRINTER-MIB.txt \
-  $(MIBDIR)/ISDN-MIB \
-  $(MIBDIR)/KEEPALIVED-MIB \
-  $(MIBDIR)/VRRP-MIB \
-  $(MIBDIR)/VRRPv3-MIB \
-  $(MIBDIR)/.kemp-lm \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/.net-snmp \
-  $(MIBDIR)/.paloalto_panos \
-  $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt \
-  $(MIBDIR)/PICO-SMI-ID-MIB.txt \
-  $(MIBDIR)/PICO-SMI-MIB.txt \
-  $(MIBDIR)/PRINTER-MIB-V2.txt \
-  $(MIBDIR)/servertech-sentry3-mib \
-  $(MIBDIR)/servertech-sentry4-mib \
-  $(MIBDIR)/.synology \
-  $(MIBDIR)/.sophos_xg \
-  $(MIBDIR)/.tplinkddm \
   $(MIBDIR)/UBNT-UniFi-MIB \
   $(MIBDIR)/UBNT-AirFiber-MIB \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  $(MIBDIR)/PDU-MIB.txt \
-  $(MIBDIR)/PDU2-MIB.txt \
-  $(MIBDIR)/Infrapower-MIB.mib \
-  $(MIBDIR)/LIEBERT_GP_PDU.MIB \
-  $(MIBDIR)/CyberPower.MIB \
-  $(MIBDIR)/EAP.MIB \
-  $(MIBDIR)/EAP-Client.MIB \
-  $(MIBDIR)/powercom \
-  $(MIBDIR)/.cisco_imc
+  $(MIBDIR)/IANA-IFTYPE-MIB.txt
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
