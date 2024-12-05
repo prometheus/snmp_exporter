@@ -102,20 +102,6 @@ modules:
     walk:
       - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
 
-# Ubiquiti / UniFi
-#
-# http://dl.ubnt-ut.com/snmp/UBNT-MIB
-# http://dl.ubnt-ut.com/snmp/UBNT-UniFi-MIB
-#
-  ubiquiti_unifi:
-    walk:
-      - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
-    lookups:
-      - source_indexes: [unifiVapIndex]
-        lookup: unifiVapName
-      - source_indexes: [unifiVapIndex]
-        lookup: unifiVapEssId
-
 # Mikrotik Router
 #
 # http://download2.mikrotik.com/Mikrotik.mib

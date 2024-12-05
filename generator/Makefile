@@ -54,6 +54,8 @@ SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Sof
 UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
+UBNT_ZIP_URL	  := https://www.ui.com/downloads/firmwares/afltu-mib/v1.1.2/snmp-mibs.zip
+UBNT_PREFIX       := snmp-mib-master
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
@@ -88,7 +90,8 @@ clean:
 		$(MIBDIR)/.kemp-lm \
 		$(MIBDIR)/.tplinkddm \
 		$(MIBDIR)/readynas \
-		$(MIBDIR)/readydataos
+		$(MIBDIR)/readydataos \
+		$(MIBDIR)/.ubnt-zip
 
 generator: *.go
 	go build
@@ -119,10 +122,8 @@ mibs: \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/MIKROTIK-MIB \
   $(MIBDIR)/.net-snmp \
-  $(MIBDIR)/UBNT-UniFi-MIB \
-  $(MIBDIR)/UBNT-AirFiber-MIB \
-  $(MIBDIR)/UBNT-AirMAX-MIB.txt \
-  $(MIBDIR)/IANA-IFTYPE-MIB.txt
+  $(MIBDIR)/IANA-IFTYPE-MIB.txt \
+  $(MIBDIR)/.ubnt-zip
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -167,6 +168,14 @@ $(MIBDIR)/HPE-MIB:
 	@tar -xf $(TMP) -C $(TMP_DIR)
 	@mv $(TMP_DIR)/*cpq*.mib $(MIBDIR)
 	@rm -rf $(TMP_DIR) $(TMP)
+
+$(MIBDIR)/.ubnt-zip:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading UBNT zip file with MIBs"
+	@curl $(CURL_OPTS) -o $(TMP) "$(UBNT_ZIP_URL)"
+	@unzip -j -d $(MIBDIR) $(TMP) "$(UBNT_PREFIX)/UBNT-MIB.txt" "$(UBNT_PREFIX)/UBNT-AirMAX-MIB.txt" "$(UBNT_PREFIX)/UBNT-AirFIBER-MIB.txt" "$(UBNT_PREFIX)/UBNT-AFLTU-MIB.txt" "$(UBNT_PREFIX)/IEEE802dot11-MIB.txt"
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.ubnt-zip
 
 $(MIBDIR)/ENTITY-MIB:
 	@echo ">> Downloading Cisco ENTITY-MIB"
