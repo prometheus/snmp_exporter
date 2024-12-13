@@ -644,6 +644,29 @@ func TestGetPduLargeValue(t *testing.T) {
 	}
 }
 
+func TestNtpTimestamp(t *testing.T) {
+	cases := []struct {
+		pdu    *gosnmp.SnmpPDU
+		result float64
+		err    error
+	}{
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{235, 6, 119, 246, 48, 209, 11, 59}},
+			result: 1.734080886e+09,
+			err:    nil,
+		},
+	}
+	for _, c := range cases {
+		got, err := parseNtpTimestamp(c.pdu)
+		if !reflect.DeepEqual(err, c.err) {
+			t.Errorf("parseNtpTimestamp(%v) error: got %v, want %v", c.pdu, err, c.err)
+		}
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("parseNtpTimestamp(%v) result: got %v, want %v", c.pdu, got, c.result)
+		}
+	}
+}
+
 func TestOidToList(t *testing.T) {
 	cases := []struct {
 		oid    string
