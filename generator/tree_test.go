@@ -148,6 +148,11 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddress"},
 			out: &Node{Oid: "1", Type: "InetAddress", TextualConvention: "InetAddress"},
 		},
+		// NTPTimeStamp
+		{
+			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "NTPTimeStamp"},
+			out: &Node{Oid: "1", Type: "NTPTimeStamp", TextualConvention: "NTPTimeStamp"},
+		},
 	}
 	for i, c := range cases {
 		// Indexes always end up initialized.
@@ -346,6 +351,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.203", Access: "ACCESS_READONLY", Label: "InetAddressIPv4", Type: "OCTETSTR", TextualConvention: "InetAddressIPv4"},
 					{Oid: "1.204", Access: "ACCESS_READONLY", Label: "InetAddressIPv6", Type: "OCTETSTR", TextualConvention: "InetAddressIPv6"},
 					{Oid: "1.205", Access: "ACCESS_READONLY", Label: "ParseDateAndTime", Type: "DisplayString", TextualConvention: "ParseDateAndTime"},
+					{Oid: "1.206", Access: "ACCESS_READONLY", Label: "NTPTimeStamp", Type: "NTPTimeStamp", TextualConvention: "NTPTimeStamp"},
 				}},
 			cfg: &ModuleConfig{
 				Walk: []string{"root", "1.3"},
@@ -472,6 +478,12 @@ func TestGenerateConfigModule(t *testing.T) {
 						Oid:  "1.205",
 						Type: "ParseDateAndTime",
 						Help: " - 1.205",
+					},
+					{
+						Name: "NTPTimeStamp",
+						Oid:  "1.206",
+						Type: "NTPTimeStamp",
+						Help: " - 1.206",
 					},
 				},
 			},

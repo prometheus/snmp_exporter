@@ -562,6 +562,17 @@ func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, met
 	return float64(t.Unix()), nil
 }
 
+func parseNtpTimestamp(pdu *gosnmp.SnmpPDU) (float64, error) {
+	var data []byte = pdu.Value.([]byte)
+
+	// 2208988800 is the Unix Epoch in NTP Seconds (1970 - 1900)
+	secs := int64(binary.BigEndian.Uint32(data[:4])) - 2208988800
+	nanos := (int64(binary.BigEndian.Uint32(data[4:])) * 1e9) >> 32
+
+	t := time.Unix(secs, nanos)
+	return float64(t.Unix()), nil
+}
+
 func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger *slog.Logger, metrics Metrics) []prometheus.Metric {
 	var err error
 	// The part of the OID that is the indexes.
@@ -596,6 +607,13 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		value, err = parseDateAndTimeWithPattern(metric, pdu, metrics)
 		if err != nil {
 			logger.Debug("Error parsing ParseDateAndTime", "err", err)
+			return []prometheus.Metric{}
+		}
+	case "NTPTimeStamp":
+		t = prometheus.GaugeValue
+		value, err = parseNtpTimestamp(pdu)
+		if err != nil {
+			logger.Debug("Error parsing NTPTimeStamp", "err", err)
 			return []prometheus.Metric{}
 		}
 	case "EnumAsInfo":
