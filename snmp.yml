@@ -2492,6 +2492,7 @@ modules:
     - 1.3.6.1.4.1.534.1.3.1.0
     - 1.3.6.1.4.1.534.1.3.9.0
     - 1.3.6.1.4.1.534.1.4.1.0
+    - 1.3.6.1.4.1.534.1.4.9.3.0
     metrics:
     - name: xupsRecepStatus
       oid: 1.3.6.1.4.1.534.1.12.2.1.2
@@ -2585,6 +2586,10 @@ modules:
       indexes:
       - labelname: xupsOutputPhase
         type: gauge
+    - name: xupsOutputTotalWatts
+      oid: 1.3.6.1.4.1.534.1.4.9.3
+      type: gauge
+      help: The measured output active power in watts - 1.3.6.1.4.1.534.1.4.9.3
   genstar_mppt:
     walk:
     - 1.3.6.1.4.1.33333.10
