@@ -2535,7 +2535,7 @@ modules:
       help: Battery percent charge. - 1.3.6.1.4.1.534.1.2.4
     - name: xupsBatteryAbmStatus
       oid: 1.3.6.1.4.1.534.1.2.5
-      type: EnumAsInfo
+      type: gauge
       help: Gives the status of the Advanced Battery Management and Battery state;
         batteryFloating(3) status means that the charger is temporarily charging the
         battery to its float voltage; batteryResting(4) is the state when the battery
