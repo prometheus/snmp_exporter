@@ -77,7 +77,7 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 1,
   "id": 6,
