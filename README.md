@@ -115,6 +115,17 @@ For multiple params_module:
 http://localhost:9116/snmp?module=if_mib&module=arista_sw&target=192.0.0.8
 ```
 
+Prometheus Example:
+```YAML
+
+  - job_name: 'my'
+    params:
+      module: 
+        - if_mib
+        - synology
+        - ucd_la_table
+```
+
 ## Configuration
 
 The default configuration file name is `snmp.yml` and should not be edited
