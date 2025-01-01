@@ -120,7 +120,10 @@ Prometheus Example:
 
   - job_name: 'my'
     params:
-      module: [if_mib,synology,ucd_la_table]
+      module: 
+        - if_mib
+        - synology
+        - ucd_la_table
 ```
 
 ## Configuration
