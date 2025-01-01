@@ -80,7 +80,9 @@ clean:
 	rm -rvf \
 		$(MIBDIR)/* \
 		$(MIBDIR)/.cisco_v2 \
+		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
+		$(MIBDIR)/.hpe-mib \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
 		$(MIBDIR)/.synology \
@@ -125,7 +127,7 @@ mibs: \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/iDRAC-SMIv2.mib \
-  $(MIBDIR)/HPE-MIB \
+  $(MIBDIR)/.hpe-mib \
   $(MIBDIR)/ENTITY-MIB \
   $(MIBDIR)/ENTITY-SENSOR-MIB \
   $(MIBDIR)/ENTITY-STATE-MIB \
@@ -198,7 +200,7 @@ $(MIBDIR)/iDRAC-SMIv2.mib:
 	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-SMIv2.mib
 	@rm -v $(TMP)
 
-$(MIBDIR)/HPE-MIB:
+$(MIBDIR)/.hpe-mib:
 	$(eval TMP := $(shell mktemp))
 	$(eval TMP_DIR := $(shell mktemp -d))
 	@echo ">> Downloading HPE to $(TMP)"
@@ -206,6 +208,7 @@ $(MIBDIR)/HPE-MIB:
 	@tar -xf $(TMP) -C $(TMP_DIR)
 	@mv $(TMP_DIR)/*cpq*.mib $(MIBDIR)
 	@rm -rf $(TMP_DIR) $(TMP)
+	@touch $(MIBDIR)/.hpe-mib
 
 $(MIBDIR)/ENTITY-MIB:
 	@echo ">> Downloading Cisco ENTITY-MIB"
@@ -423,3 +426,4 @@ $(MIBDIR)/.cisco_imc:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-TC-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-TC-MIB.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC.my "$(CISCO_CUCS_URL_v2)/CISCO-TC.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-SMI.my "$(CISCO_CUCS_URL_v2)/CISCO-SMI.my"
+	@touch $(MIBDIR)/.cisco_imc
