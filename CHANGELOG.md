@@ -1,3 +1,36 @@
+## 0.27.0 / 2025-01-03
+BREAKING CHANGES:
+
+This version of the exporter introduces a cleaned up default snmp.yml that moved all
+ucd-snmp-mib oids into a separate module.
+
+If you used one of the following modules:
+* synology
+* ddwrt
+* kemp_loadmaster 
+
+you will need to change your scrape config to also include the ucd_la_table module as well.
+See https://github.com/prometheus/snmp_exporter/tree/main?tab=readme-ov-file#multi-module-handling for further instructions.
+
+* [CHANGE] generator: Update generator default MIBOPTS #1231
+* [CHANGE] adopt log/slog, drop go-kit/log #1249
+* [ENHANCEMENT] generator: Improve config error message #1274
+* [FEATURE] add ParseDateAndTime type #1234 
+* [FEATURE] Set UseUnconnectedUDPSocket option if one of the modules has if set #1247
+* [FEATURE] add NTPTimeStamp type #1315
+* [DOCS] added allow_nonincreasing_oids and use_unconnected_udp_socket to existing docs #1270
+* [BUGFIX] fixed dashboard mixins #1319
+
+snmp.yml changes:
+* cleanup ucd-snmp-mibs #1200
+  * moved oids from synology,ddwrt and kemp_loadmaster to new module ucd_la_table 
+* Added support for Sophos XG Series #1239
+* Added support for HPE #1267
+* Added support for powercom #1275
+* Added support for Cisco IMC #1293
+* Updated mib for apc #1303
+* Added support for TPLink DDM #1304
+
 ## 0.26.0 / 2024-05-08
 
 * [CHANGE] Improve generator parse error handling #1167
