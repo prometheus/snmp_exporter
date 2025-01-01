@@ -208,7 +208,7 @@ $(MIBDIR)/.hpe-mib:
 	@tar -xf $(TMP) -C $(TMP_DIR)
 	@mv $(TMP_DIR)/*cpq*.mib $(MIBDIR)
 	@rm -rf $(TMP_DIR) $(TMP)
-	@touch $(MIBDIR)/.HPE-MIB
+	@touch $(MIBDIR)/.hpe-mib
 
 $(MIBDIR)/ENTITY-MIB:
 	@echo ">> Downloading Cisco ENTITY-MIB"
