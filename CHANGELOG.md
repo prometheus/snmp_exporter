@@ -18,7 +18,6 @@ See https://github.com/prometheus/snmp_exporter/tree/main?tab=readme-ov-file#mul
 * [FEATURE] add ParseDateAndTime type #1234 
 * [FEATURE] Set UseUnconnectedUDPSocket option if one of the modules has if set #1247
 * [FEATURE] add NTPTimeStamp type #1315
-* [DOCS] added allow_nonincreasing_oids and use_unconnected_udp_socket to existing docs #1270
 * [BUGFIX] fixed dashboard mixins #1319
 
 snmp.yml changes:
