@@ -13,7 +13,7 @@ unencrypted in SNMP v1 and v2c. For secure access, SNMP v3 is required.
 # Concepts
 
 While SNMP uses a hierarchical data structure and Prometheus uses an
-n-dimnensional matrix, the two systems map perfectly, and without the need
+n-dimensional matrix, the two systems map perfectly, and without the need
 to walk through data by hand. `snmp_exporter` maps the data for you.
 
 ## Prometheus
