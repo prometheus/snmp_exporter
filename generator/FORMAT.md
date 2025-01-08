@@ -13,8 +13,8 @@ modules:
   module_name:
     walk:
       # List of OID subtrees to walk.
-      - 1.3.6.1.2.1.2
-      - 1.3.6.1.2.1.31.1.1
+      - "IF-MIB::interfaces" # 1.3.6.1.2.1.2 from IF-MIB
+      - ifXTable             # 1.3.6.1.2.1.31.1.1 from IF-MIB
     get:
       # List of OIDs to get directly.
       - 1.3.6.1.2.1.1.3
