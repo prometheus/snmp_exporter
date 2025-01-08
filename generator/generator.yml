@@ -13,11 +13,11 @@ modules:
       - source_indexes: [ifIndex]
         lookup: ifAlias
       - source_indexes: [ifIndex]
-        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
-        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+        # Disambiguate from PaloAlto PAN-COMMON-MIB::ifDescr.
+        lookup: "IF-MIB::ifDescr"
       - source_indexes: [ifIndex]
-        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        # Disambiguate from Netscaler NS-ROOT-MIB::ifName.
+        lookup: "IF-MIB::ifName"
     overrides:
       ifAlias:
         ignore: true # Lookup metric
@@ -856,7 +856,7 @@ modules:
       - source_indexes: [ifIndex]
         lookup: ifAlias
       - source_indexes: [ifIndex]
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        lookup: "IF-MIB::ifName"
     overrides:
       ddmStatusBiasCurrent:
         type: DisplayString
