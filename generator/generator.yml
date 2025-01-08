@@ -6,12 +6,21 @@ auths:
     version: 2
 
 modules:
+  # SNMPv2-MIB for things like sysDescr, sysUpTime, etc.
+  system:
+    walk:
+      - "SNMPv2-MIB::system"
+    lookups:
+      - source_indexes: [sysORIndex]
+        lookup: "SNMPv2-MIB::sysORDescr"
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
-    walk: [sysUpTime, interfaces, ifXTable]
+    walk:
+      - "IF-MIB::interfaces"
+      - "IF-MIB::ifXTable"
     lookups:
       - source_indexes: [ifIndex]
-        lookup: ifAlias
+        lookup: "IF-MIB::ifAlias"
       - source_indexes: [ifIndex]
         # Disambiguate from PaloAlto PAN-COMMON-MIB::ifDescr.
         lookup: "IF-MIB::ifDescr"
@@ -66,7 +75,6 @@ modules:
 # HPE MIBs
   hpe:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.232.1.2.2.1.1     # CPU
       - 1.3.6.1.4.1.232.11            # Firmware version
       - 1.3.6.1.4.1.232.14            # Asmd agent IDE/SATA
@@ -692,8 +700,7 @@ modules:
 # http://download2.mikrotik.com/Mikrotik.mib
   mikrotik:
     walk:
-      - sysDescr
-      - mikrotik
+      - "MIKROTIK-MIB::mikrotik"
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifName

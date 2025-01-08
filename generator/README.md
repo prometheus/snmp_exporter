@@ -109,9 +109,11 @@ auths:
 
 modules:
   module_name:  # The module name. You can have as many modules as you want.
-    walk:       # List of OIDs to walk. Can also be SNMP object names or specific instances.
+    # List of OIDs to walk. Can also be SNMP object names or specific instances.
+    # Object names can be fully-qualified with the MIB name separated by `::`.
+    walk:
       - 1.3.6.1.2.1.2              # Same as "interfaces"
-      - sysUpTime                  # Same as "1.3.6.1.2.1.1.3"
+      - "SNMPv2-MIB::sysUpTime"    # Same as "1.3.6.1.2.1.1.3"
       - 1.3.6.1.2.1.31.1.1.1.6.40  # Instance of "ifHCInOctets" with index "40"
       - 1.3.6.1.2.1.2.2.1.4        # Same as ifMtu (used for filter example)
       - bsnDot11EssSsid            # Same as 1.3.6.1.4.1.14179.2.1.1.1.2 (used for filter example)
