@@ -6,18 +6,27 @@ auths:
     version: 2
 
 modules:
+  # SNMPv2-MIB for things like sysDescr, sysUpTime, etc.
+  system:
+    walk:
+      - "SNMPv2-MIB::system"
+    lookups:
+      - source_indexes: [sysORIndex]
+        lookup: "SNMPv2-MIB::sysORDescr"
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
-    walk: [sysUpTime, interfaces, ifXTable]
+    walk:
+      - "IF-MIB::interfaces"
+      - "IF-MIB::ifXTable"
     lookups:
       - source_indexes: [ifIndex]
-        lookup: ifAlias
+        lookup: "IF-MIB::ifAlias"
       - source_indexes: [ifIndex]
-        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
-        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+        # Disambiguate from PaloAlto PAN-COMMON-MIB::ifDescr.
+        lookup: "IF-MIB::ifDescr"
       - source_indexes: [ifIndex]
-        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        # Disambiguate from Netscaler NS-ROOT-MIB::ifName.
+        lookup: "IF-MIB::ifName"
     overrides:
       ifAlias:
         ignore: true # Lookup metric
@@ -66,7 +75,6 @@ modules:
 # HPE MIBs
   hpe:
     walk:
-      - sysUpTime
       - 1.3.6.1.4.1.232.1.2.2.1.1     # CPU
       - 1.3.6.1.4.1.232.11            # Firmware version
       - 1.3.6.1.4.1.232.14            # Asmd agent IDE/SATA
@@ -692,8 +700,7 @@ modules:
 # http://download2.mikrotik.com/Mikrotik.mib
   mikrotik:
     walk:
-      - sysDescr
-      - mikrotik
+      - "MIKROTIK-MIB::mikrotik"
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifName
@@ -856,7 +863,7 @@ modules:
       - source_indexes: [ifIndex]
         lookup: ifAlias
       - source_indexes: [ifIndex]
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        lookup: "IF-MIB::ifName"
     overrides:
       ddmStatusBiasCurrent:
         type: DisplayString

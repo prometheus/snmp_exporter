@@ -79,6 +79,7 @@ import (
 type Node struct {
 	Oid               string
 	subid             int64
+	Module            string
 	Label             string
 	Augments          string
 	Children          []*Node
@@ -222,6 +223,9 @@ func buildMIBTree(t *C.struct_tree, n *Node, oid string) {
 		n.Oid = fmt.Sprintf("%s.%d", oid, t.subid)
 	} else {
 		n.Oid = fmt.Sprintf("%d", t.subid)
+	}
+	if m := C.find_module(t.modid); m != nil {
+		n.Module = C.GoString(m.name)
 	}
 	n.Label = C.GoString(t.label)
 	if typ, ok := netSnmptypeMap[int(t._type)]; ok {

@@ -62,6 +62,9 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logge
 		walkNode(mNodes, func(n *Node) {
 			mNameToNode[n.Oid] = n
 			mNameToNode[n.Label] = n
+			if n.Module != "" {
+				mNameToNode[n.Module+"::"+n.Label] = n
+			}
 		})
 		out, err := generateConfigModule(m, mNodes, mNameToNode, logger)
 		if err != nil {
