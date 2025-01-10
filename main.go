@@ -16,7 +16,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/alecthomas/kingpin/v2"
 	"log/slog"
 	"net"
 	"net/http"
@@ -28,6 +27,8 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+
+	"github.com/alecthomas/kingpin/v2"
 
 	"github.com/prometheus/client_golang/prometheus"
 	versioncollector "github.com/prometheus/client_golang/prometheus/collectors/version"
@@ -350,36 +351,53 @@ func main() {
 	http.HandleFunc(path.Join(*routePrefix, "/-/reload"), updateConfiguration) // Endpoint to reload configuration.
 
 	if *metricsPath != "/" && *metricsPath != "" {
-		http.HandleFunc(*routePrefix, func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte(`<html>
-            <head>
-                <title>SNMP Exporter</title>
-                <style>
-                    label{
-                        display:inline-block;
-                        width:75px;
-                    }
-                    form label {
-                        margin: 10px;
-                    }
-                    form input {
-                        margin: 10px;
-                    }
-                </style>
-            </head>
-            <body>
-                <h1>SNMP Exporter</h1>
-                <form action="` + path.Join(*routePrefix, proberPath) + `">
-                    <label>Target:</label> <input type="text" name="target" placeholder="X.X.X.X/[::X]" value="::1"><br>
-                    <label>Auth:</label> <input type="text" name="auth" placeholder="auth" value="public_v2"><br>
-                    <label>Module:</label> <input type="text" name="module" placeholder="module" value="if_mib"><br>
-                    <input type="submit" value="Submit">
-                </form>
-                <p><a href="` + path.Join(*routePrefix, configPath) + `">Config</a></p>
-                <p><a href="` + path.Join(*routePrefix, *metricsPath) + `">Metrics</a></p>
-            </body>
-            </html>`))
-		})
+		landingConfig := web.LandingConfig{
+			Name:        "SNMP Exporter",
+			Description: "Prometheus Exporter for SNMP targets",
+			Version:     version.Info(),
+			Form: web.LandingForm{
+				Action: proberPath,
+				Inputs: []web.LandingFormInput{
+					{
+						Label:       "Target",
+						Type:        "text",
+						Name:        "target",
+						Placeholder: "X.X.X.X/[::X]",
+						Value:       "::1",
+					},
+					{
+						Label:       "Auth",
+						Type:        "text",
+						Name:        "auth",
+						Placeholder: "auth",
+						Value:       "public_v2",
+					},
+					{
+						Label:       "Module",
+						Type:        "text",
+						Name:        "module",
+						Placeholder: "module",
+						Value:       "if_mib",
+					},
+				},
+			},
+			Links: []web.LandingLinks{
+				{
+					Address: path.Join(*routePrefix, configPath),
+					Text:    "Config",
+				},
+				{
+					Address: path.Join(*routePrefix, *metricsPath),
+					Text:    "Metrics",
+				},
+			},
+		}
+		landingPage, err := web.NewLandingPage(landingConfig, *routePrefix != "")
+		if err != nil {
+			logger.Error("Error creating landing page", "err", err)
+			os.Exit(1)
+		}
+		http.Handle(*routePrefix, landingPage)
 	}
 
 	http.HandleFunc(path.Join(*routePrefix, configPath), func(w http.ResponseWriter, r *http.Request) {
