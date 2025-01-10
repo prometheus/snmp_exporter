@@ -14,17 +14,22 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	_ "net/http/pprof"
+	"net/url"
 	"os"
 	"os/signal"
+	"path"
 	"strings"
 	"sync"
 	"syscall"
 
 	"github.com/alecthomas/kingpin/v2"
+
 	"github.com/prometheus/client_golang/prometheus"
 	versioncollector "github.com/prometheus/client_golang/prometheus/collectors/version"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -50,6 +55,8 @@ var (
 	concurrency   = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
 	debugSNMP     = kingpin.Flag("snmp.debug-packets", "Include a full debug trace of SNMP packet traffics.").Default("false").Bool()
 	expandEnvVars = kingpin.Flag("config.expand-environment-variables", "Expand environment variables to source secrets").Default("false").Bool()
+	externalURL   = kingpin.Flag("web.external-url", "The URL under which snmp exporter is externally reachable (for example, if snmp exporter is served via a reverse proxy). Used for generating relative and absolute links back to snmp exporter itself. If the URL has a path portion, it will be used to prefix all HTTP endpoints served by snmp exporter. If omitted, relevant URL components will be derived automatically.").PlaceHolder("<url>").String()
+	routePrefix   = kingpin.Flag("web.route-prefix", "Prefix for the internal routes of web endpoints. Defaults to path of --web.external-url.").PlaceHolder("<path>").String()
 	metricsPath   = kingpin.Flag(
 		"web.telemetry-path",
 		"Path under which to expose metrics.",
@@ -228,6 +235,37 @@ func main() {
 		return
 	}
 
+	// Infer or set snmp exporter externalURL
+	listenAddrs := toolkitFlags.WebListenAddresses
+	if *externalURL == "" && *toolkitFlags.WebSystemdSocket {
+		logger.Error("Cannot automatically infer external URL with systemd socket listener. Please provide --web.external-url")
+		os.Exit(1)
+	} else if *externalURL == "" && len(*listenAddrs) > 1 {
+		logger.Info("Inferring external URL from first provided listen address")
+	}
+
+	beURL, err := computeExternalURL(*externalURL, (*listenAddrs)[0])
+	if err != nil {
+		logger.Error("Failed to determine external URL", "err", err)
+		os.Exit(1)
+	}
+	logger.Debug("External URL", "url", beURL.String())
+
+	// Default -web.route-prefix to path of -web.external-url
+	if *routePrefix == "" {
+		*routePrefix = beURL.Path
+	}
+
+	// routePrefix must always be at least '/'
+	*routePrefix = "/" + strings.Trim(*routePrefix, "/")
+	logger.Debug("Route prefix", "prefix", *routePrefix)
+	// routePrefix requires path to have trailing "/" in order
+	// for browsers to interpret the path-relative path correctly, instead of stripping it.
+	if *routePrefix != "/" {
+		*routePrefix = *routePrefix + "/"
+	}
+	logger.Debug(*routePrefix)
+
 	hup := make(chan os.Signal, 1)
 	reloadCh = make(chan chan error)
 	signal.Notify(hup, syscall.SIGHUP)
@@ -293,12 +331,24 @@ func main() {
 		),
 	}
 
-	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
+	// Match Prometheus behavior and redirect over externalURL for root path only
+	// if routePrefix is different from "/"
+	if *routePrefix != "/" {
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			if r.URL.Path != "/" {
+				http.NotFound(w, r)
+				return
+			}
+			http.Redirect(w, r, beURL.String(), http.StatusFound)
+		})
+	}
+
+	http.Handle(path.Join(*routePrefix, *metricsPath), promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
 	// Endpoint to do SNMP scrapes.
-	http.HandleFunc(proberPath, func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(path.Join(*routePrefix, proberPath), func(w http.ResponseWriter, r *http.Request) {
 		handler(w, r, logger, exporterMetrics)
 	})
-	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
+	http.HandleFunc(path.Join(*routePrefix, "/-/reload"), updateConfiguration) // Endpoint to reload configuration.
 
 	if *metricsPath != "/" && *metricsPath != "" {
 		landingConfig := web.LandingConfig{
@@ -333,24 +383,24 @@ func main() {
 			},
 			Links: []web.LandingLinks{
 				{
-					Address: configPath,
+					Address: path.Join(*routePrefix, configPath),
 					Text:    "Config",
 				},
 				{
-					Address: *metricsPath,
+					Address: path.Join(*routePrefix, *metricsPath),
 					Text:    "Metrics",
 				},
 			},
 		}
-		landingPage, err := web.NewLandingPage(landingConfig)
+		landingPage, err := web.NewLandingPage(landingConfig, *routePrefix != "")
 		if err != nil {
 			logger.Error("Error creating landing page", "err", err)
 			os.Exit(1)
 		}
-		http.Handle("/", landingPage)
+		http.Handle(*routePrefix, landingPage)
 	}
 
-	http.HandleFunc(configPath, func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(path.Join(*routePrefix, configPath), func(w http.ResponseWriter, r *http.Request) {
 		sc.RLock()
 		c, err := yaml.Marshal(sc.C)
 		sc.RUnlock()
@@ -367,4 +417,42 @@ func main() {
 		logger.Error("Error starting HTTP server", "err", err)
 		os.Exit(1)
 	}
+}
+
+func startsOrEndsWithQuote(s string) bool {
+	return strings.HasPrefix(s, "\"") || strings.HasPrefix(s, "'") ||
+		strings.HasSuffix(s, "\"") || strings.HasSuffix(s, "'")
+}
+
+// computeExternalURL computes a sanitized external URL from a raw input. It infers unset
+// URL parts from the OS and the given listen address.
+func computeExternalURL(u, listenAddr string) (*url.URL, error) {
+	if u == "" {
+		hostname, err := os.Hostname()
+		if err != nil {
+			return nil, err
+		}
+		_, port, err := net.SplitHostPort(listenAddr)
+		if err != nil {
+			return nil, err
+		}
+		u = fmt.Sprintf("http://%s:%s/", hostname, port)
+	}
+
+	if startsOrEndsWithQuote(u) {
+		return nil, errors.New("URL must not begin or end with quotes")
+	}
+
+	eu, err := url.Parse(u)
+	if err != nil {
+		return nil, err
+	}
+
+	ppref := strings.TrimRight(eu.Path, "/")
+	if ppref != "" && !strings.HasPrefix(ppref, "/") {
+		ppref = "/" + ppref
+	}
+	eu.Path = ppref
+
+	return eu, nil
 }
