@@ -19,7 +19,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
-	_ "net/http/pprof"
+	"net/http/pprof"
 	"net/url"
 	"os"
 	"os/signal"
@@ -349,12 +349,16 @@ func main() {
 		handler(w, r, logger, exporterMetrics)
 	})
 	http.HandleFunc(path.Join(*routePrefix, "/-/reload"), updateConfiguration) // Endpoint to reload configuration.
+	// Serve pprof under the route prefix. These links are displayed on the landing page.
+	http.HandleFunc(path.Join(*routePrefix, "debug/pprof/"), pprof.Index)
+	http.HandleFunc(path.Join(*routePrefix, "debug/pprof/heap"), pprof.Handler("heap").ServeHTTP)
 
 	if *metricsPath != "/" && *metricsPath != "" {
 		landingConfig := web.LandingConfig{
 			Name:        "SNMP Exporter",
 			Description: "Prometheus Exporter for SNMP targets",
 			Version:     version.Info(),
+			RoutePrefix: *routePrefix,
 			Form: web.LandingForm{
 				Action: proberPath,
 				Inputs: []web.LandingFormInput{
@@ -383,16 +387,16 @@ func main() {
 			},
 			Links: []web.LandingLinks{
 				{
-					Address: path.Join(*routePrefix, configPath),
+					Address: configPath,
 					Text:    "Config",
 				},
 				{
-					Address: path.Join(*routePrefix, *metricsPath),
+					Address: *metricsPath,
 					Text:    "Metrics",
 				},
 			},
 		}
-		landingPage, err := web.NewLandingPage(landingConfig, *routePrefix != "")
+		landingPage, err := web.NewLandingPage(landingConfig)
 		if err != nil {
 			logger.Error("Error creating landing page", "err", err)
 			os.Exit(1)
