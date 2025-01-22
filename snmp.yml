@@ -20627,7 +20627,7 @@ modules:
         labelname: hrDeviceIndex
     - name: hrDeviceStatus
       oid: 1.3.6.1.2.1.25.3.2.1.5
-      type: gauge
+      type: EnumAsStateSet
       help: The current operational state of the device described by this row of the
         table - 1.3.6.1.2.1.25.3.2.1.5
       indexes:

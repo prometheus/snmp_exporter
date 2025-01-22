@@ -773,6 +773,8 @@ modules:
     overrides:
       hrPrinterStatus:
         type: EnumAsStateSet
+      hrDeviceStatus:
+        type: EnumAsStateSet
   hrSWRun:
     walk:
       - hrSWRun
