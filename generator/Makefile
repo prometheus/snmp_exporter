@@ -35,7 +35,7 @@ APC_URL           := https://download.schneider-electric.com/files?p_File_Name=p
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
-DLINK_URL         := https://github.com/pgmillon/observium/raw/refs/heads/master/mibs/d-link/
+DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
 ELTEX_MES_URL     := https://eltex-co.com/upload/iblock/93c/80760x03yv4m8crugf0b8ab5yo8tel34/mibs_10.3.6.6.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
@@ -367,10 +367,21 @@ $(MIBDIR)/FROGFOOT-RESOURCES-MIB:
 
 $(MIBDIR)/.dlink-mibs:
 	@echo ">> Downloading DLINK mibs"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/DLINK-AGENT-MIB $(DLINK_URL)/DLINK-AGENT-MIB
-	@curl $(CURL_OPTS) -o $(MIBDIR)/DLINK-ID-REC-MIB $(DLINK_URL)/DLINK-ID-REC-MIB
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading DLINK DES mibs to $(TMP)"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DLINK_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) \
+		DES3200_V4.04_MIB_20120906/standardMIB/RMON2-MIB.MIB \
+		DES3200_V4.04_MIB_20120906/standardMIB/RMON-MIB.mib \
+		DES3200_V4.04_MIB_20120906/standardMIB/token-ring-rmon-mib.MIB \
+		DES3200_V4.04_MIB_20120906/standardMIB/P-BRIDGE-MIB.mib \
+		DES3200_V4.04_MIB_20120906/standardMIB/BRIDGE-MIB.mib \
+		DES3200_V4.04_MIB_20120906/standardMIB/Q-BRIDGE-MIB.mib \
+		DES3200_V4.04_MIB_20120906/proprietaryMIB/Dlink-common-mgmt/Genmgmt.mib \
+		DES3200_V4.04_MIB_20120906/proprietaryMIB/Dlink-mgmt/DLINK-ID-REC-MIB.mib
+	@rm -v $(TMP)
 	@touch $(MIBDIR)/.dlink-mibs
-	
+
 
 $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	$(eval TMP := $(shell mktemp))
@@ -455,5 +466,4 @@ $(MIBDIR)/.eltex-mes:
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(ELTEX_MES_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) fsiss.mib eltex/ELTEX-SMI-ACTUAL.mib eltex/ELTEX-MES-ISS-CPU-UTIL-MIB.mib eltex/ELTEX-MES-ISS-MIB.mib CISCO-QOS-PIB-MIB.mib
 	@rm -v $(TMP)
-	# @curl $(CURL_OPTS) -o $(MIBDIR)/SYSLOG-TC-MIB $(MIB_BROWSER_URL)/SYSLOG-TC-MIB.mib
 	@touch $(MIBDIR)/.eltex-mes

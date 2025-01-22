@@ -75,8 +75,8 @@ modules:
 # D-Link managed switches (DES-3200)
   dlink:
     walk:
-      - DLINK-AGENT-MIB::agentCPUutilization
-      - DLINK-AGENT-MIB::agentDRAMutilizationTable
+      - AGENT-GENERAL-MIB::agentCPUutilization
+      - AGENT-GENERAL-MIB::agentDRAMutilizationTable
     overrides:
       agentDRAMutilizationUnitID:
         ignore: true
