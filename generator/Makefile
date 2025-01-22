@@ -35,6 +35,7 @@ APC_URL           := https://download.schneider-electric.com/files?p_File_Name=p
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
+DLINK_URL         := https://github.com/pgmillon/observium/raw/refs/heads/master/mibs/d-link/
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
@@ -83,6 +84,7 @@ clean:
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
+		$(MIBDIR)/.dlink-mibs \
 		$(MIBDIR)/.hpe-mib \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
@@ -165,7 +167,8 @@ mibs: \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
   $(MIBDIR)/.cisco_imc \
-  $(MIBDIR)/FROGFOOT-RESOURCES-MIB
+  $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
+  $(MIBDIR)/.dlink-mibs
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -356,6 +359,13 @@ $(MIBDIR)/UBNT-AirFiber-MIB:
 $(MIBDIR)/FROGFOOT-RESOURCES-MIB:
 	@echo ">> Downloading FROGFOOT-RESOURCES-MIB (UBNT AirOS)"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/FROGFOOT-RESOURCES-MIB $(UBNT_AIROS_OLD_URL)
+
+$(MIBDIR)/.dlink-mibs:
+	@echo ">> Downloading DLINK mibs"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/DLINK-AGENT-MIB $(DLINK_URL)/DLINK-AGENT-MIB
+	@curl $(CURL_OPTS) -o $(MIBDIR)/DLINK-ID-REC-MIB $(DLINK_URL)/DLINK-ID-REC-MIB
+	@touch $(MIBDIR)/.dlink-mibs
+	
 
 $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	$(eval TMP := $(shell mktemp))
