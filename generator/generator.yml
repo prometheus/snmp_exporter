@@ -80,6 +80,13 @@ modules:
     overrides:
       agentDRAMutilizationUnitID:
         ignore: true
+# MES 2448P
+  eltex_mes:
+    walk: 
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
+     - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
 
 # HPE MIBs
   hpe:

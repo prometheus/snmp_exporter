@@ -36,6 +36,7 @@ ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://github.com/pgmillon/observium/raw/refs/heads/master/mibs/d-link/
+ELTEX_MES_URL     := https://eltex-co.com/upload/iblock/93c/80760x03yv4m8crugf0b8ab5yo8tel34/mibs_10.3.6.6.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
@@ -72,6 +73,8 @@ CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_M
 
 EAP_VERSION := 1.0
 EAP_URL     := http://static.tp-link.com/EAP_Private_Mibs_$(EAP_VERSION).zip
+MIB_BROWSER_URL   := https://mibbrowser.online/mibs
+
 
 .DEFAULT: all
 
@@ -93,7 +96,8 @@ clean:
 		$(MIBDIR)/.kemp-lm \
 		$(MIBDIR)/.tplinkddm \
 		$(MIBDIR)/readynas \
-		$(MIBDIR)/readydataos
+		$(MIBDIR)/readydataos \
+		$(MIBDIR)/.eltex-mes
 
 generator: *.go
 	go build
@@ -168,7 +172,8 @@ mibs: \
   $(MIBDIR)/powercom \
   $(MIBDIR)/.cisco_imc \
   $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
-  $(MIBDIR)/.dlink-mibs
+  $(MIBDIR)/.dlink-mibs \
+  $(MIBDIR)/.eltex-mes
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -443,3 +448,12 @@ $(MIBDIR)/.cisco_imc:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC.my "$(CISCO_CUCS_URL_v2)/CISCO-TC.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-SMI.my "$(CISCO_CUCS_URL_v2)/CISCO-SMI.my"
 	@touch $(MIBDIR)/.cisco_imc
+
+$(MIBDIR)/.eltex-mes:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Eltex MES device mibs to $(TMP)"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(ELTEX_MES_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) fsiss.mib eltex/ELTEX-SMI-ACTUAL.mib eltex/ELTEX-MES-ISS-CPU-UTIL-MIB.mib eltex/ELTEX-MES-ISS-MIB.mib CISCO-QOS-PIB-MIB.mib
+	@rm -v $(TMP)
+	# @curl $(CURL_OPTS) -o $(MIBDIR)/SYSLOG-TC-MIB $(MIB_BROWSER_URL)/SYSLOG-TC-MIB.mib
+	@touch $(MIBDIR)/.eltex-mes
