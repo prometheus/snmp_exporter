@@ -20571,6 +20571,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrDeviceType
       oid: 1.3.6.1.2.1.25.3.2.1.2
       type: OctetString
@@ -20578,6 +20586,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrDeviceDescr
       oid: 1.3.6.1.2.1.25.3.2.1.3
       type: DisplayString
@@ -20586,6 +20602,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrDeviceID
       oid: 1.3.6.1.2.1.25.3.2.1.4
       type: OctetString
@@ -20593,6 +20617,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrDeviceStatus
       oid: 1.3.6.1.2.1.25.3.2.1.5
       type: gauge
@@ -20601,6 +20633,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
       enum_values:
         1: unknown
         2: running
@@ -20614,6 +20654,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrProcessorFrwID
       oid: 1.3.6.1.2.1.25.3.3.1.1
       type: OctetString
@@ -20621,6 +20669,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrProcessorLoad
       oid: 1.3.6.1.2.1.25.3.3.1.2
       type: gauge
@@ -20629,6 +20685,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrNetworkIfIndex
       oid: 1.3.6.1.2.1.25.3.4.1.1
       type: gauge
@@ -20636,6 +20700,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrPrinterStatus
       oid: 1.3.6.1.2.1.25.3.5.1.1
       type: EnumAsStateSet
@@ -20643,6 +20715,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
       enum_values:
         1: other
         2: unknown
@@ -20657,6 +20737,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrDiskStorageAccess
       oid: 1.3.6.1.2.1.25.3.6.1.1
       type: gauge
@@ -20665,6 +20753,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
       enum_values:
         1: readWrite
         2: readOnly
@@ -20676,6 +20772,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
       enum_values:
         1: other
         2: unknown
@@ -20693,6 +20797,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
       enum_values:
         1: "true"
         2: "false"
@@ -20703,6 +20815,14 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrPartitionIndex
       oid: 1.3.6.1.2.1.25.3.7.1.1
       type: gauge
@@ -20712,6 +20832,14 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrPartitionLabel
       oid: 1.3.6.1.2.1.25.3.7.1.2
       type: OctetString
@@ -20721,6 +20849,14 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrPartitionID
       oid: 1.3.6.1.2.1.25.3.7.1.3
       type: OctetString
@@ -20731,6 +20867,14 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrPartitionSize
       oid: 1.3.6.1.2.1.25.3.7.1.4
       type: gauge
@@ -20740,6 +20884,14 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrPartitionFSIndex
       oid: 1.3.6.1.2.1.25.3.7.1.5
       type: gauge
@@ -20749,6 +20901,14 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels: []
+        labelname: hrDeviceIndex
     - name: hrFSIndex
       oid: 1.3.6.1.2.1.25.3.8.1.1
       type: gauge

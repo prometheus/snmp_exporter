@@ -766,6 +766,10 @@ modules:
   hrDevice:
     walk:
       - hrDevice
+    lookups:
+      - source_indexes: [hrDeviceIndex]
+        lookup: hrDeviceDescr
+        drop_source_indexes: true
     overrides:
       hrPrinterStatus:
         type: EnumAsStateSet
