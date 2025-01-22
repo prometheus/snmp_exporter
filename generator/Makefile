@@ -52,6 +52,7 @@ SERVERTECH_URL    := 'https://cdn10.servertech.com/assets/documents/documents/81
 SERVERTECH4_URL   := 'https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib'
 SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
 UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+UBNT_AIROS_OLD_URL:= https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/FROGFOOT-RESOURCES-MIB
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
@@ -163,7 +164,8 @@ mibs: \
   $(MIBDIR)/EAP.MIB \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
-  $(MIBDIR)/.cisco_imc
+  $(MIBDIR)/.cisco_imc \
+  $(MIBDIR)/FROGFOOT-RESOURCES-MIB
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -350,6 +352,10 @@ $(MIBDIR)/UBNT-UniFi-MIB:
 $(MIBDIR)/UBNT-AirFiber-MIB:
 	@echo ">> Downloading UBNT-AirFiber-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-AirFiber-MIB $(UBNT_AIRFIBER_URL)
+
+$(MIBDIR)/FROGFOOT-RESOURCES-MIB:
+	@echo ">> Downloading FROGFOOT-RESOURCES-MIB (UBNT AirOS)"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/FROGFOOT-RESOURCES-MIB $(UBNT_AIROS_OLD_URL)
 
 $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	$(eval TMP := $(shell mktemp))
