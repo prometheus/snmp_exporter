@@ -455,9 +455,17 @@ modules:
 # Ubiquiti / AirOS (nanoStation etc, old firmwares)
   ubiquiti_airos:
     walk:
-      - FROGFOOT-RESOURCES-MIB::loadValue
-      - FROGFOOT-RESOURCES-MIB::memTotal
-      - FROGFOOT-RESOURCES-MIB::memFree
+      - FROGFOOT-RESOURCES-MIB::loadTable
+      - FROGFOOT-RESOURCES-MIB::memory
+    lookups:
+      - source_indexes: [loadIndex]
+        lookup: "FROGFOOT-RESOURCES-MIB::loadDescr"
+    overrides:
+      loadIndex:
+        ignore: true # Lookup metric
+      loadDescr:
+        ignore: true
+        
 
 # Ubiquiti / UniFi
 #

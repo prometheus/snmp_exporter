@@ -41978,10 +41978,8 @@ modules:
       help: GPS Horizontal Dilution of Precision - 1.3.6.1.4.1.41112.1.4.9.9
   ubiquiti_airos:
     walk:
-    - 1.3.6.1.4.1.10002.1.1.1.4.2.1.3
-    get:
-    - 1.3.6.1.4.1.10002.1.1.1.1.1.0
-    - 1.3.6.1.4.1.10002.1.1.1.1.2.0
+    - 1.3.6.1.4.1.10002.1.1.1.1
+    - 1.3.6.1.4.1.10002.1.1.1.4.2
     metrics:
     - name: memTotal
       oid: 1.3.6.1.4.1.10002.1.1.1.1.1
@@ -41991,6 +41989,14 @@ modules:
       oid: 1.3.6.1.4.1.10002.1.1.1.1.2
       type: gauge
       help: Available physical memory (in KB) - 1.3.6.1.4.1.10002.1.1.1.1.2
+    - name: memBuffer
+      oid: 1.3.6.1.4.1.10002.1.1.1.1.3
+      type: gauge
+      help: Physical memory used by buffers (in KB) - 1.3.6.1.4.1.10002.1.1.1.1.3
+    - name: memCache
+      oid: 1.3.6.1.4.1.10002.1.1.1.1.4
+      type: gauge
+      help: Physical memory used for caching (in KB) - 1.3.6.1.4.1.10002.1.1.1.1.4
     - name: loadValue
       oid: 1.3.6.1.4.1.10002.1.1.1.4.2.1.3
       type: gauge
@@ -41998,6 +42004,12 @@ modules:
       indexes:
       - labelname: loadIndex
         type: gauge
+      lookups:
+      - labels:
+        - loadIndex
+        labelname: loadDescr
+        oid: 1.3.6.1.4.1.10002.1.1.1.4.2.1.2
+        type: DisplayString
   ubiquiti_unifi:
     walk:
     - 1.3.6.1.4.1.41112.1.6
