@@ -73,8 +73,6 @@ CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_M
 
 EAP_VERSION := 1.0
 EAP_URL     := http://static.tp-link.com/EAP_Private_Mibs_$(EAP_VERSION).zip
-MIB_BROWSER_URL   := https://mibbrowser.online/mibs
-
 
 .DEFAULT: all
 
