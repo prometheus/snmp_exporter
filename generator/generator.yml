@@ -916,3 +916,22 @@ modules:
     - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
+  juniper:
+    walk:
+      - JUNIPER-ALARM-MIB::jnxRedAlarmState
+      - JUNIPER-MIB::jnxOperatingTable
+    lookups:
+      - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]
+        lookup: jnxOperatingDescr
+        drop_source_indexes: false
+    overrides:
+      jnxOperatingContentsIndex:
+        ignore: true
+      jnxOperatingL1Index:
+        ignore: true
+      jnxOperatingL2Index:
+        ignore: true
+      jnxOperatingL3Index:
+        ignore: true
+      jnxOperatingDescr:
+        ignore: true
