@@ -542,6 +542,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if params.Help != "" {
 					metric.Help = params.Help
 				}
+				if params.Name != "" {
+					metric.Name = params.Name
+				}
 			}
 		}
 	}
