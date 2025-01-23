@@ -159,6 +159,7 @@ modules:
       metricName:
         ignore: true # Drops the metric from the output.
         help: "string" # Override the generated HELP text provided by the MIB Description.
+        name: "string" # Override the OID name provided in the MIB Description.
         regex_extracts:
           Temp: # A new metric will be created appending this to the metricName to become metricNameTemp.
             - regex: '(.*)' # Regex to extract a value from the returned SNMP walks's value.
