@@ -22494,8 +22494,8 @@ modules:
   juniper:
     walk:
     - 1.3.6.1.4.1.2636.3.1.13
-    get:
-    - 1.3.6.1.4.1.2636.3.4.2.3.1.0
+    - 1.3.6.1.4.1.2636.3.4.2.2
+    - 1.3.6.1.4.1.2636.3.4.2.3
     metrics:
     - name: jnxOperatingState
       oid: 1.3.6.1.4.1.2636.3.1.13.1.6
@@ -23126,6 +23126,23 @@ modules:
         labelname: jnxOperatingDescr
         oid: 1.3.6.1.4.1.2636.3.1.13.1.5
         type: DisplayString
+    - name: jnxYellowAlarmState
+      oid: 1.3.6.1.4.1.2636.3.4.2.2.1
+      type: gauge
+      help: The yellow alarm state on the craft interface panel - 1.3.6.1.4.1.2636.3.4.2.2.1
+      enum_values:
+        1: other
+        2: "off"
+        3: "on"
+    - name: jnxYellowAlarmCount
+      oid: 1.3.6.1.4.1.2636.3.4.2.2.2
+      type: gauge
+      help: The number of currently active and non-silent yellow alarms - 1.3.6.1.4.1.2636.3.4.2.2.2
+    - name: jnxYellowAlarmLastChange
+      oid: 1.3.6.1.4.1.2636.3.4.2.2.3
+      type: gauge
+      help: The value of sysUpTime when the yellow alarm last changed - either from
+        off to on or vice versa - 1.3.6.1.4.1.2636.3.4.2.2.3
     - name: jnxRedAlarmState
       oid: 1.3.6.1.4.1.2636.3.4.2.3.1
       type: gauge
@@ -23134,6 +23151,15 @@ modules:
         1: other
         2: "off"
         3: "on"
+    - name: jnxRedAlarmCount
+      oid: 1.3.6.1.4.1.2636.3.4.2.3.2
+      type: gauge
+      help: The number of currently active and non-silent red alarms - 1.3.6.1.4.1.2636.3.4.2.3.2
+    - name: jnxRedAlarmLastChange
+      oid: 1.3.6.1.4.1.2636.3.4.2.3.3
+      type: gauge
+      help: The value of sysUpTime when the red alarm last changed - either from off
+        to on or vice versa - 1.3.6.1.4.1.2636.3.4.2.3.3
   keepalived:
     walk:
     - 1.3.6.1.2.1.207.1.2.5
