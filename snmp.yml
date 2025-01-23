@@ -22491,6 +22491,649 @@ modules:
       indexes:
       - labelname: ipv4InterfaceIfIndex
         type: gauge
+  juniper:
+    walk:
+    - 1.3.6.1.4.1.2636.3.1.13
+    get:
+    - 1.3.6.1.4.1.2636.3.4.2.3.1.0
+    metrics:
+    - name: jnxOperatingState
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.6
+      type: gauge
+      help: The operating state of this subject. - 1.3.6.1.4.1.2636.3.1.13.1.6
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+      enum_values:
+        1: unknown
+        2: running
+        3: ready
+        4: reset
+        5: runningAtFullSpeed
+        6: down
+        7: standby
+    - name: jnxOperatingTemp
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.7
+      type: gauge
+      help: The temperature in Celsius (degrees C) of this subject - 1.3.6.1.4.1.2636.3.1.13.1.7
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingCPU
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.8
+      type: gauge
+      help: The CPU utilization in percentage of this subject - 1.3.6.1.4.1.2636.3.1.13.1.8
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingISR
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.9
+      type: gauge
+      help: The CPU utilization in percentage of this subject spending in interrupt
+        service routine (ISR) - 1.3.6.1.4.1.2636.3.1.13.1.9
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingDRAMSize
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.10
+      type: gauge
+      help: The DRAM size in bytes of this subject - 1.3.6.1.4.1.2636.3.1.13.1.10
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingBuffer
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.11
+      type: gauge
+      help: The buffer pool utilization in percentage of this subject - 1.3.6.1.4.1.2636.3.1.13.1.11
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingHeap
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.12
+      type: gauge
+      help: The heap utilization in percentage of this subject - 1.3.6.1.4.1.2636.3.1.13.1.12
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingUpTime
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.13
+      type: gauge
+      help: The time interval in 10-millisecond period that this subject has been
+        up and running - 1.3.6.1.4.1.2636.3.1.13.1.13
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingLastRestart
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.14
+      type: gauge
+      help: The value of sysUpTime when this subject last restarted - 1.3.6.1.4.1.2636.3.1.13.1.14
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingMemory
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.15
+      type: gauge
+      help: The installed memory size in Megabytes of this subject - 1.3.6.1.4.1.2636.3.1.13.1.15
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingStateOrdered
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.16
+      type: gauge
+      help: The operating state of this subject - 1.3.6.1.4.1.2636.3.1.13.1.16
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+      enum_values:
+        1: running
+        2: standby
+        3: ready
+        4: runningAtFullSpeed
+        5: reset
+        6: down
+        7: unknown
+    - name: jnxOperatingChassisId
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.17
+      type: gauge
+      help: Identifies the chassis on which the contents of this row exists. - 1.3.6.1.4.1.2636.3.1.13.1.17
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+      enum_values:
+        1: unknown
+        2: singleChassis
+        3: scc
+        4: lcc0
+        5: lcc1
+        6: lcc2
+        7: lcc3
+        8: jcs1
+        9: jcs2
+        10: jcs3
+        11: jcs4
+        12: node0
+        13: node1
+        14: sfc0
+        15: sfc1
+        16: sfc2
+        17: sfc3
+        18: sfc4
+        19: lcc4
+        20: lcc5
+        21: lcc6
+        22: lcc7
+        23: lcc8
+        24: lcc9
+        25: lcc10
+        26: lcc11
+        27: lcc12
+        28: lcc13
+        29: lcc14
+        30: lcc15
+        31: member0
+        32: member1
+        33: member2
+        34: member3
+        35: member4
+        36: member5
+        37: member6
+        38: member7
+        39: nodeDevice
+        40: interconnectDevice
+        41: controlPlaneDevice
+        42: directorDevice
+        43: gnf1
+        44: gnf2
+        45: gnf3
+        46: gnf4
+        47: gnf5
+        48: gnf6
+        49: gnf7
+        50: gnf8
+        51: gnf9
+        52: gnf10
+    - name: jnxOperatingChassisDescr
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.18
+      type: DisplayString
+      help: A textual description of the chassis on which the contents of this row
+        exists. - 1.3.6.1.4.1.2636.3.1.13.1.18
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingRestartTime
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.19
+      type: DateAndTime
+      help: The time at which this entity last restarted. - 1.3.6.1.4.1.2636.3.1.13.1.19
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperating1MinLoadAvg
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.20
+      type: gauge
+      help: The CPU Load Average over the last 1 minutes Here it will be shown as
+        percentage value Zero if unavailable or inapplicable. - 1.3.6.1.4.1.2636.3.1.13.1.20
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperating5MinLoadAvg
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.21
+      type: gauge
+      help: The CPU Load Average over the last 5 minutes Here it will be shown as
+        percentage value Zero if unavailable or inapplicable. - 1.3.6.1.4.1.2636.3.1.13.1.21
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperating15MinLoadAvg
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.22
+      type: gauge
+      help: The CPU Load Average over the last 15 minutes Here it will be shown as
+        percentage value Zero if unavailable or inapplicable. - 1.3.6.1.4.1.2636.3.1.13.1.22
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperating1MinAvgCPU
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.23
+      type: gauge
+      help: The CPU utilization in percentage of this subject averaged over last 1
+        minutes - 1.3.6.1.4.1.2636.3.1.13.1.23
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperating5MinAvgCPU
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.24
+      type: gauge
+      help: The CPU utilization in percentage of this subject averaged over last 5
+        minutes - 1.3.6.1.4.1.2636.3.1.13.1.24
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperating15MinAvgCPU
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.25
+      type: gauge
+      help: The CPU utilization in percentage of this subject averaged over last 15
+        minutes - 1.3.6.1.4.1.2636.3.1.13.1.25
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingFRUPower
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.26
+      type: gauge
+      help: The present power of each FRU - 1.3.6.1.4.1.2636.3.1.13.1.26
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingBufferCP
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.27
+      type: gauge
+      help: The buffer pool utilization in percentage of this subject in control plane
+        - 1.3.6.1.4.1.2636.3.1.13.1.27
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingMemoryCP
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.28
+      type: gauge
+      help: The Allocated memory size for control plane in Megabytes - 1.3.6.1.4.1.2636.3.1.13.1.28
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingBufferExt
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.29
+      type: gauge
+      help: The buffer pool utilization in percentage of this subject - 1.3.6.1.4.1.2636.3.1.13.1.29
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxOperatingTemperature
+      oid: 1.3.6.1.4.1.2636.3.1.13.1.30
+      type: gauge
+      help: The temperature in Celsius (degrees C) of this subject - 1.3.6.1.4.1.2636.3.1.13.1.30
+      indexes:
+      - labelname: jnxOperatingContentsIndex
+        type: gauge
+      - labelname: jnxOperatingL1Index
+        type: gauge
+      - labelname: jnxOperatingL2Index
+        type: gauge
+      - labelname: jnxOperatingL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxOperatingContentsIndex
+        - jnxOperatingL1Index
+        - jnxOperatingL2Index
+        - jnxOperatingL3Index
+        labelname: jnxOperatingDescr
+        oid: 1.3.6.1.4.1.2636.3.1.13.1.5
+        type: DisplayString
+    - name: jnxRedAlarmState
+      oid: 1.3.6.1.4.1.2636.3.4.2.3.1
+      type: gauge
+      help: The red alarm indication on the craft interface panel - 1.3.6.1.4.1.2636.3.4.2.3.1
+      enum_values:
+        1: other
+        2: "off"
+        3: "on"
   keepalived:
     walk:
     - 1.3.6.1.2.1.207.1.2.5
