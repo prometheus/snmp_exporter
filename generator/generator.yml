@@ -918,7 +918,8 @@ modules:
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
   juniper:
     walk:
-      - JUNIPER-ALARM-MIB::jnxRedAlarmState
+      - JUNIPER-ALARM-MIB::jnxRedAlarms
+      - JUNIPER-ALARM-MIB::jnxYellowAlarms
       - JUNIPER-MIB::jnxOperatingTable
     lookups:
       - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]

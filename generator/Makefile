@@ -440,8 +440,12 @@ $(MIBDIR)/.juniper:
 	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL) 
 	@unzip -j -d $(MIBDIR) $(TMP) \
 		StandardMibs/mib-alarmmib.txt \
+		StandardMibs/mib-rfc2819a.txt \
+		StandardMibs/mib-rfc4502.txt \
+		StandardMibs/mib-rfc1513.txt \
 		JuniperMibs/mib-jnx-smi.txt \
 		JuniperMibs/mib-jnx-chassis.txt \
-		JuniperMibs/mib-jnx-alarm.txt 
+		JuniperMibs/mib-jnx-alarm.txt \
+		JuniperMibs/mib-jnx-chassis-alarm.txt
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.juniper
