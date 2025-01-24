@@ -71,6 +71,10 @@ CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_M
 EAP_VERSION := 1.0
 EAP_URL     := http://static.tp-link.com/EAP_Private_Mibs_$(EAP_VERSION).zip
 
+# https://apps.juniper.net/mib-explorer/download
+JUNIPER_VERSION := 24.4R1.10
+JUNIPER_URL := https://www.juniper.net/documentation/software/junos/junos244/juniper-mibs-$(JUNIPER_VERSION).zip
+
 .DEFAULT: all
 
 .PHONY: all
@@ -90,7 +94,8 @@ clean:
 		$(MIBDIR)/.kemp-lm \
 		$(MIBDIR)/.tplinkddm \
 		$(MIBDIR)/readynas \
-		$(MIBDIR)/readydataos
+		$(MIBDIR)/readydataos \
+		$(MIBDIR)/.juniper
 
 generator: *.go
 	go build
@@ -163,7 +168,8 @@ mibs: \
   $(MIBDIR)/EAP.MIB \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
-  $(MIBDIR)/.cisco_imc
+  $(MIBDIR)/.cisco_imc \
+  $(MIBDIR)/.juniper
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -427,3 +433,19 @@ $(MIBDIR)/.cisco_imc:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC.my "$(CISCO_CUCS_URL_v2)/CISCO-TC.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-SMI.my "$(CISCO_CUCS_URL_v2)/CISCO-SMI.my"
 	@touch $(MIBDIR)/.cisco_imc
+
+$(MIBDIR)/.juniper:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Juniper mibs to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL) 
+	@unzip -j -d $(MIBDIR) $(TMP) \
+		StandardMibs/mib-alarmmib.txt \
+		StandardMibs/mib-rfc2819a.txt \
+		StandardMibs/mib-rfc4502.txt \
+		StandardMibs/mib-rfc1513.txt \
+		JuniperMibs/mib-jnx-smi.txt \
+		JuniperMibs/mib-jnx-chassis.txt \
+		JuniperMibs/mib-jnx-alarm.txt \
+		JuniperMibs/mib-jnx-chassis-alarm.txt
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.juniper
