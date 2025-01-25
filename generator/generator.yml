@@ -921,10 +921,14 @@ modules:
       - JUNIPER-ALARM-MIB::jnxRedAlarms
       - JUNIPER-ALARM-MIB::jnxYellowAlarms
       - JUNIPER-MIB::jnxOperatingTable
+      - JUNIPER-MIB::jnxFruState
     lookups:
       - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]
         lookup: jnxOperatingDescr
         drop_source_indexes: false
+      - source_indexes: [jnxFruContentsIndex,jnxFruL1Index,jnxFruL2Index,jnxFruL3Index]
+        lookup: jnxFruName
+        drop_source_indexes: true
     overrides:
       jnxOperatingContentsIndex:
         ignore: true
@@ -939,5 +943,7 @@ modules:
       jnxYellowAlarmState:
         type: EnumAsStateSet
       jnxRedAlarmState:
+        type: EnumAsStateSet
+      jnxFruState:
         type: EnumAsStateSet
 
