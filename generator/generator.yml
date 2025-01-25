@@ -936,3 +936,8 @@ modules:
         ignore: true
       jnxOperatingDescr:
         ignore: true
+      jnxYellowAlarmState:
+        type: EnumAsStateSet
+      jnxRedAlarmState:
+        type: EnumAsStateSet
+
