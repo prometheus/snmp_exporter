@@ -22494,8 +22494,11 @@ modules:
   juniper:
     walk:
     - 1.3.6.1.4.1.2636.3.1.13
+    - 1.3.6.1.4.1.2636.3.1.15.1.5
+    - 1.3.6.1.4.1.2636.3.1.15.1.8
     - 1.3.6.1.4.1.2636.3.4.2.2
     - 1.3.6.1.4.1.2636.3.4.2.3
+    - 1.3.6.1.4.1.2636.3.64.1.1.1.5.1.3
     metrics:
     - name: jnxOperatingState
       oid: 1.3.6.1.4.1.2636.3.1.13.1.6
@@ -23126,9 +23129,50 @@ modules:
         labelname: jnxOperatingDescr
         oid: 1.3.6.1.4.1.2636.3.1.13.1.5
         type: DisplayString
+    - name: jnxFruState
+      oid: 1.3.6.1.4.1.2636.3.1.15.1.8
+      type: EnumAsStateSet
+      help: The current state for this subject. - 1.3.6.1.4.1.2636.3.1.15.1.8
+      indexes:
+      - labelname: jnxFruContentsIndex
+        type: gauge
+      - labelname: jnxFruL1Index
+        type: gauge
+      - labelname: jnxFruL2Index
+        type: gauge
+      - labelname: jnxFruL3Index
+        type: gauge
+      lookups:
+      - labels:
+        - jnxFruContentsIndex
+        - jnxFruL1Index
+        - jnxFruL2Index
+        - jnxFruL3Index
+        labelname: jnxFruName
+        oid: 1.3.6.1.4.1.2636.3.1.15.1.5
+        type: DisplayString
+      - labels: []
+        labelname: jnxFruContentsIndex
+      - labels: []
+        labelname: jnxFruL1Index
+      - labels: []
+        labelname: jnxFruL2Index
+      - labels: []
+        labelname: jnxFruL3Index
+      enum_values:
+        1: unknown
+        2: empty
+        3: present
+        4: ready
+        5: announceOnline
+        6: online
+        7: anounceOffline
+        8: offline
+        9: diagnostic
+        10: standby
     - name: jnxYellowAlarmState
       oid: 1.3.6.1.4.1.2636.3.4.2.2.1
-      type: gauge
+      type: EnumAsStateSet
       help: The yellow alarm state on the craft interface panel - 1.3.6.1.4.1.2636.3.4.2.2.1
       enum_values:
         1: other
@@ -23145,7 +23189,7 @@ modules:
         off to on or vice versa - 1.3.6.1.4.1.2636.3.4.2.2.3
     - name: jnxRedAlarmState
       oid: 1.3.6.1.4.1.2636.3.4.2.3.1
-      type: gauge
+      type: EnumAsStateSet
       help: The red alarm indication on the craft interface panel - 1.3.6.1.4.1.2636.3.4.2.3.1
       enum_values:
         1: other
@@ -23160,6 +23204,165 @@ modules:
       type: gauge
       help: The value of sysUpTime when the red alarm last changed - either from off
         to on or vice versa - 1.3.6.1.4.1.2636.3.4.2.3.3
+    - name: jnxSubscriberPortTerminatedCounter
+      oid: 1.3.6.1.4.1.2636.3.64.1.1.1.5.1.3
+      type: counter
+      help: Number of active Tunneled subscribers present on the port - 1.3.6.1.4.1.2636.3.64.1.1.1.5.1.3
+      indexes:
+      - labelname: jnxSubscriberPort
+        type: DisplayString
+  juniper_optics:
+    walk:
+    - 1.3.6.1.2.1.31.1.1.1.1
+    - 1.3.6.1.2.1.31.1.1.1.18
+    - 1.3.6.1.4.1.2636.3.60.1.1.1.1.1
+    - 1.3.6.1.4.1.2636.3.60.1.1.1.1.4
+    - 1.3.6.1.4.1.2636.3.60.1.1.1.1.5
+    - 1.3.6.1.4.1.2636.3.60.1.1.1.1.6
+    - 1.3.6.1.4.1.2636.3.60.1.1.1.1.7
+    metrics:
+    - name: jnxDomCurrentAlarms
+      oid: 1.3.6.1.4.1.2636.3.60.1.1.1.1.1
+      type: Bits
+      help: This object identifies all the active DOM alarms on a SFF physical interface
+        on this router. - 1.3.6.1.4.1.2636.3.60.1.1.1.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels: []
+        labelname: ifIndex
+      enum_values:
+        0: domRxLossSignalAlarm
+        1: domRxCDRLossLockAlarm
+        2: domRxNotReadyAlarm
+        3: domRxLaserPowerHighAlarm
+        4: domRxLaserPowerLowAlarm
+        5: domTxLaserBiasCurrentHighAlarm
+        6: domTxLaserBiasCurrentLowAlarm
+        7: domTxLaserOutputPowerHighAlarm
+        8: domTxLaserOutputPowerLowAlarm
+        9: domTxDataNotReadyAlarm
+        10: domTxNotReadyAlarm
+        11: domTxLaserFaultAlarm
+        12: domTxCDRLossLockAlarm
+        13: domModuleTemperatureHighAlarm
+        14: domModuleTemperatureLowAlarm
+        15: domModuleNotReadyAlarm
+        16: domModulePowerDownAlarm
+        17: domLinkDownAlarm
+        18: domModuleRemovedAlarm
+        19: domModuleVoltageHighAlarm
+        20: domModuleVoltageLowAlarm
+        21: domTxDither
+        22: domTecFault
+        23: domWavelengthUnlocked
+        24: domTxTuned
+    - name: jnxDomCurrentWarnings
+      oid: 1.3.6.1.4.1.2636.3.60.1.1.1.1.4
+      type: Bits
+      help: This object identifies all the active DOM warnings on a SFF physical interface
+        on this router. - 1.3.6.1.4.1.2636.3.60.1.1.1.1.4
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels: []
+        labelname: ifIndex
+      enum_values:
+        0: domRxLaserPowerHighWarning
+        1: domRxLaserPowerLowWarning
+        2: domTxLaserBiasCurrentHighWarning
+        3: domTxLaserBiasCurrentLowWarning
+        4: domTxLaserOutputPowerHighWarning
+        5: domTxLaserOutputPowerLowWarning
+        6: domModuleTemperatureHighWarning
+        7: domModuleTemperatureLowWarning
+        8: domModuleVoltageHighWarning
+        9: domModuleVoltageLowWarning
+    - name: jnxDomCurrentRxLaserPower
+      oid: 1.3.6.1.4.1.2636.3.60.1.1.1.1.5
+      type: gauge
+      help: Receiver laser power. - 1.3.6.1.4.1.2636.3.60.1.1.1.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels: []
+        labelname: ifIndex
+      scale: 0.01
+    - name: jnxDomCurrentTxLaserBiasCurrent
+      oid: 1.3.6.1.4.1.2636.3.60.1.1.1.1.6
+      type: gauge
+      help: Transmitter laser bias current. - 1.3.6.1.4.1.2636.3.60.1.1.1.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels: []
+        labelname: ifIndex
+      scale: 0.001
+    - name: jnxDomCurrentTxLaserOutputPower
+      oid: 1.3.6.1.4.1.2636.3.60.1.1.1.1.7
+      type: gauge
+      help: Transmitter laser output power. - 1.3.6.1.4.1.2636.3.60.1.1.1.1.7
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+      - labels: []
+        labelname: ifIndex
+      scale: 0.01
   keepalived:
     walk:
     - 1.3.6.1.2.1.207.1.2.5
