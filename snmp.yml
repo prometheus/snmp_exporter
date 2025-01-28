@@ -20564,28 +20564,6 @@ modules:
     walk:
     - 1.3.6.1.2.1.25.3
     metrics:
-    - name: hrDeviceIndex
-      oid: 1.3.6.1.2.1.25.3.2.1.1
-      type: gauge
-      help: A unique value for each device contained by the host - 1.3.6.1.2.1.25.3.2.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceType
-      oid: 1.3.6.1.2.1.25.3.2.1.2
-      type: OctetString
-      help: An indication of the type of device - 1.3.6.1.2.1.25.3.2.1.2
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
-    - name: hrDeviceDescr
-      oid: 1.3.6.1.2.1.25.3.2.1.3
-      type: DisplayString
-      help: A textual description of this device, including the device's manufacturer
-        and revision, and optionally, its serial number. - 1.3.6.1.2.1.25.3.2.1.3
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
     - name: hrDeviceID
       oid: 1.3.6.1.2.1.25.3.2.1.4
       type: OctetString
@@ -20593,6 +20571,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrDeviceStatus
       oid: 1.3.6.1.2.1.25.3.2.1.5
       type: gauge
@@ -20601,6 +20590,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
       enum_values:
         1: unknown
         2: running
@@ -20614,13 +20614,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
-    - name: hrProcessorFrwID
-      oid: 1.3.6.1.2.1.25.3.3.1.1
-      type: OctetString
-      help: The product ID of the firmware associated with the processor. - 1.3.6.1.2.1.25.3.3.1.1
-      indexes:
-      - labelname: hrDeviceIndex
-        type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrProcessorLoad
       oid: 1.3.6.1.2.1.25.3.3.1.2
       type: gauge
@@ -20629,6 +20633,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrNetworkIfIndex
       oid: 1.3.6.1.2.1.25.3.4.1.1
       type: gauge
@@ -20636,6 +20651,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrPrinterStatus
       oid: 1.3.6.1.2.1.25.3.5.1.1
       type: EnumAsStateSet
@@ -20643,6 +20669,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
       enum_values:
         1: other
         2: unknown
@@ -20657,6 +20694,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrDiskStorageAccess
       oid: 1.3.6.1.2.1.25.3.6.1.1
       type: gauge
@@ -20665,6 +20713,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
       enum_values:
         1: readWrite
         2: readOnly
@@ -20676,6 +20735,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
       enum_values:
         1: other
         2: unknown
@@ -20693,6 +20763,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
       enum_values:
         1: "true"
         2: "false"
@@ -20703,6 +20784,17 @@ modules:
       indexes:
       - labelname: hrDeviceIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrPartitionIndex
       oid: 1.3.6.1.2.1.25.3.7.1.1
       type: gauge
@@ -20712,6 +20804,17 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrPartitionLabel
       oid: 1.3.6.1.2.1.25.3.7.1.2
       type: OctetString
@@ -20721,6 +20824,17 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrPartitionID
       oid: 1.3.6.1.2.1.25.3.7.1.3
       type: OctetString
@@ -20731,6 +20845,17 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrPartitionSize
       oid: 1.3.6.1.2.1.25.3.7.1.4
       type: gauge
@@ -20740,6 +20865,17 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrPartitionFSIndex
       oid: 1.3.6.1.2.1.25.3.7.1.5
       type: gauge
@@ -20749,6 +20885,17 @@ modules:
         type: gauge
       - labelname: hrPartitionIndex
         type: gauge
+      lookups:
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceDescr
+        oid: 1.3.6.1.2.1.25.3.2.1.3
+        type: DisplayString
+      - labels:
+        - hrDeviceIndex
+        labelname: hrDeviceType
+        oid: 1.3.6.1.2.1.25.3.2.1.2
+        type: OctetString
     - name: hrFSIndex
       oid: 1.3.6.1.2.1.25.3.8.1.1
       type: gauge
@@ -20978,53 +21125,6 @@ modules:
       type: gauge
       help: The amount of physical read-write main memory, typically RAM, contained
         by the host. - 1.3.6.1.2.1.25.2.2
-    - name: hrStorageIndex
-      oid: 1.3.6.1.2.1.25.2.3.1.1
-      type: gauge
-      help: A unique value for each logical storage area contained by the host. -
-        1.3.6.1.2.1.25.2.3.1.1
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageType
-      oid: 1.3.6.1.2.1.25.2.3.1.2
-      type: OctetString
-      help: The type of storage represented by this entry. - 1.3.6.1.2.1.25.2.3.1.2
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
-    - name: hrStorageDescr
-      oid: 1.3.6.1.2.1.25.2.3.1.3
-      type: DisplayString
-      help: A description of the type and instance of the storage described by this
-        entry. - 1.3.6.1.2.1.25.2.3.1.3
-      indexes:
-      - labelname: hrStorageIndex
-        type: gauge
-      lookups:
-      - labels:
-        - hrStorageIndex
-        labelname: hrStorageDescr
-        oid: 1.3.6.1.2.1.25.2.3.1.3
-        type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
     - name: hrStorageAllocationUnits
       oid: 1.3.6.1.2.1.25.2.3.1.4
       type: gauge
@@ -21038,8 +21138,11 @@ modules:
         labelname: hrStorageDescr
         oid: 1.3.6.1.2.1.25.2.3.1.3
         type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageType
+        oid: 1.3.6.1.2.1.25.2.3.1.2
+        type: OctetString
     - name: hrStorageSize
       oid: 1.3.6.1.2.1.25.2.3.1.5
       type: gauge
@@ -21054,8 +21157,11 @@ modules:
         labelname: hrStorageDescr
         oid: 1.3.6.1.2.1.25.2.3.1.3
         type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageType
+        oid: 1.3.6.1.2.1.25.2.3.1.2
+        type: OctetString
     - name: hrStorageUsed
       oid: 1.3.6.1.2.1.25.2.3.1.6
       type: gauge
@@ -21070,8 +21176,11 @@ modules:
         labelname: hrStorageDescr
         oid: 1.3.6.1.2.1.25.2.3.1.3
         type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageType
+        oid: 1.3.6.1.2.1.25.2.3.1.2
+        type: OctetString
     - name: hrStorageAllocationFailures
       oid: 1.3.6.1.2.1.25.2.3.1.7
       type: counter
@@ -21086,8 +21195,11 @@ modules:
         labelname: hrStorageDescr
         oid: 1.3.6.1.2.1.25.2.3.1.3
         type: DisplayString
-      - labels: []
-        labelname: hrStorageIndex
+      - labels:
+        - hrStorageIndex
+        labelname: hrStorageType
+        oid: 1.3.6.1.2.1.25.2.3.1.2
+        type: OctetString
   hrSystem:
     walk:
     - 1.3.6.1.2.1.25.1

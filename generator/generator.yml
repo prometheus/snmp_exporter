@@ -724,10 +724,6 @@ modules:
       - source_indexes: [mtxrPartitionIndex]
         lookup: mtxrPartitionName
     overrides:
-      ifName:
-        ignore: true # Lookup metric
-      ifType:
-        type: EnumAsInfo
       # Remap enums where 1==true, 2==false to become 0==false, 1==true.
       hrDiskStorageRemoveble:
         scale: -1.0
@@ -762,13 +758,34 @@ modules:
     lookups:
       - source_indexes: [hrStorageIndex]
         lookup: hrStorageDescr
-        drop_source_indexes: true
+      - source_indexes: [hrStorageIndex]
+        lookup: hrStorageType
+    overrides:
+      hrStorageIndex:
+        ignore: true
+      hrStorageType:
+        ignore: true
+      hrStorageDescr:
+        ignore: true
   hrDevice:
     walk:
       - hrDevice
+    lookups:
+      - source_indexes: [hrDeviceIndex]
+        lookup: hrDeviceDescr
+      - source_indexes: [hrDeviceIndex]
+        lookup: hrDeviceType
     overrides:
       hrPrinterStatus:
         type: EnumAsStateSet
+      hrDeviceIndex:
+        ignore: true
+      hrDeviceType:
+        ignore: true
+      hrDeviceDescr:
+        ignore: true
+      hrProcessorFrwID:
+        ignore: true
   hrSWRun:
     walk:
       - hrSWRun
