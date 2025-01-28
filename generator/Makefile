@@ -447,6 +447,7 @@ $(MIBDIR)/.juniper:
 		JuniperMibs/mib-jnx-chassis.txt \
 		JuniperMibs/mib-jnx-alarm.txt \
 		JuniperMibs/mib-jnx-chassis-alarm.txt \
-		JuniperMibs/mib-jnx-dom.txt
+		JuniperMibs/mib-jnx-dom.txt \
+		JuniperMibs/mib-jnx-subscriber.txt
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.juniper

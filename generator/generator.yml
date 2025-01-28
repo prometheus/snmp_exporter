@@ -923,10 +923,11 @@ modules:
   # https://www.juniper.net/documentation/software/junos/junos244/juniper-mibs-24.4R1.10.zip
   juniper:
     walk:
-      - JUNIPER-ALARM-MIB::jnxRedAlarms
-      - JUNIPER-ALARM-MIB::jnxYellowAlarms
       - JUNIPER-MIB::jnxOperatingTable
       - JUNIPER-MIB::jnxFruState
+      - JUNIPER-ALARM-MIB::jnxRedAlarms
+      - JUNIPER-ALARM-MIB::jnxYellowAlarms
+      - JUNIPER-SUBSCRIBER-MIB::jnxSubscriberPortTerminatedCounter
     lookups:
       - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]
         lookup: jnxOperatingDescr
