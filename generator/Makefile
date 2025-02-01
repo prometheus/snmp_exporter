@@ -74,6 +74,10 @@ CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_M
 EAP_VERSION := 1.0
 EAP_URL     := http://static.tp-link.com/EAP_Private_Mibs_$(EAP_VERSION).zip
 
+# https://apps.juniper.net/mib-explorer/download
+JUNIPER_VERSION := 24.4R1.10
+JUNIPER_URL := https://www.juniper.net/documentation/software/junos/junos244/juniper-mibs-$(JUNIPER_VERSION).zip
+
 .DEFAULT: all
 
 .PHONY: all
@@ -95,7 +99,8 @@ clean:
 		$(MIBDIR)/.tplinkddm \
 		$(MIBDIR)/readynas \
 		$(MIBDIR)/readydataos \
-		$(MIBDIR)/.eltex-mes
+		$(MIBDIR)/.eltex-mes \
+		$(MIBDIR)/.juniper
 
 generator: *.go
 	go build
@@ -171,7 +176,8 @@ mibs: \
   $(MIBDIR)/.cisco_imc \
   $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
   $(MIBDIR)/.dlink-mibs \
-  $(MIBDIR)/.eltex-mes
+  $(MIBDIR)/.eltex-mes \
+  $(MIBDIR)/.juniper
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -465,3 +471,19 @@ $(MIBDIR)/.eltex-mes:
 	@unzip -j -d $(MIBDIR) $(TMP) fsiss.mib eltex/ELTEX-SMI-ACTUAL.mib eltex/ELTEX-MES-ISS-CPU-UTIL-MIB.mib eltex/ELTEX-MES-ISS-MIB.mib CISCO-QOS-PIB-MIB.mib
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.eltex-mes
+
+$(MIBDIR)/.juniper:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Juniper mibs to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL) 
+	@unzip -j -d $(MIBDIR) $(TMP) \
+		StandardMibs/mib-alarmmib.txt \
+		StandardMibs/mib-rfc2819a.txt \
+		StandardMibs/mib-rfc4502.txt \
+		StandardMibs/mib-rfc1513.txt \
+		JuniperMibs/mib-jnx-smi.txt \
+		JuniperMibs/mib-jnx-chassis.txt \
+		JuniperMibs/mib-jnx-alarm.txt \
+		JuniperMibs/mib-jnx-chassis-alarm.txt
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.juniper
