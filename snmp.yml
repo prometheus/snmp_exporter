@@ -39224,11 +39224,11 @@ modules:
       help: The Model name of this NAS - 1.3.6.1.4.1.6574.1.5.1
     - name: serialNumber
       oid: 1.3.6.1.4.1.6574.1.5.2
-      type: OctetString
+      type: DisplayString
       help: The serial number of this NAS - 1.3.6.1.4.1.6574.1.5.2
     - name: version
       oid: 1.3.6.1.4.1.6574.1.5.3
-      type: OctetString
+      type: DisplayString
       help: The version of this DSM - 1.3.6.1.4.1.6574.1.5.3
     - name: upgradeAvailable
       oid: 1.3.6.1.4.1.6574.1.5.4
