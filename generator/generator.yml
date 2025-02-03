@@ -183,6 +183,12 @@ modules:
 #
   eaton5P_550:
     walk:
+      - 1.3.6.1.4.1.534.1.1.1 # xupsIdentManufacturer
+      - 1.3.6.1.4.1.534.1.1.2 # xupsIdentModel
+      - 1.3.6.1.4.1.534.1.1.3 # xupsIdentSoftwareVersion
+      - 1.3.6.1.4.1.534.1.1.4 # xupsIdentOemCode
+      - 1.3.6.1.4.1.534.1.1.5 # xupsIdentPartNumber
+      - 1.3.6.1.4.1.534.1.1.6 # xupsIdentSerialNumber
       - 1.3.6.1.4.1.534.1.2.1
       - 1.3.6.1.4.1.534.1.2.2
       - 1.3.6.1.4.1.534.1.2.4
