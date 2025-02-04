@@ -361,15 +361,15 @@ modules:
 #
   synology:
     walk:
-      - 1.3.6.1.4.1.6574.1       # synoSystem
-      - 1.3.6.1.4.1.6574.2       # synoDisk
-      - 1.3.6.1.4.1.6574.3       # synoRaid
-      - 1.3.6.1.4.1.6574.4       # synoUPS
-      - 1.3.6.1.4.1.6574.5       # synologyDiskSMART
-      - 1.3.6.1.4.1.6574.6       # synologyService
-      - 1.3.6.1.4.1.6574.101     # storageIO
-      - 1.3.6.1.4.1.6574.102     # spaceIO
-      - 1.3.6.1.4.1.6574.104     # synologyiSCSILUN
+      - SYNOLOGY-SYSTEM-MIB::synoSystem         # 1.3.6.1.4.1.6574.1
+      - SYNOLOGY-DISK-MIB::synoDisk             # 1.3.6.1.4.1.6574.2
+      - SYNOLOGY-RAID-MIB::synoRaid             # 1.3.6.1.4.1.6574.3
+      - SYNOLOGY-UPS-MIB::synoUPS               # 1.3.6.1.4.1.6574.4
+      - SYNOLOGY-SMART-MIB::synologyDiskSMART   # 1.3.6.1.4.1.6574.5
+      - SYNOLOGY-SERVICES-MIB::synologyService  # 1.3.6.1.4.1.6574.6
+      - SYNOLOGY-STORAGEIO-MIB::storageIO       # 1.3.6.1.4.1.6574.101
+      - SYNOLOGY-SPACEIO-MIB::spaceIO           # 1.3.6.1.4.1.6574.102
+      - SYNOLOGY-ISCSILUN-MIB::synologyiSCSILUN # 1.3.6.1.4.1.6574.104
     lookups:
       - source_indexes: [spaceIOIndex]
         lookup: spaceIODevice
@@ -387,29 +387,29 @@ modules:
         lookup: raidName
         drop_source_indexes: true
     overrides:
-      diskModel:
+      SYNOLOGY-DISK-MIB::diskModel:
         type: DisplayString
-      diskSMARTAttrName:
+      SYNOLOGY-DISK-MIB::diskType:
         type: DisplayString
-      diskSMARTAttrStatus:
-        type: DisplayString
-      diskSMARTInfoDevName:
-        type: DisplayString
-      diskType:
-        type: DisplayString
-      modelName:
-        type: DisplayString
-      raidFreeSize:
+      SYNOLOGY-RAID-MIB::raidFreeSize:
         type: gauge
-      raidName:
+      SYNOLOGY-RAID-MIB::raidName:
         type: DisplayString
-      raidTotalSize:
+      SYNOLOGY-RAID-MIB::raidTotalSize:
         type: gauge
-      serialNumber:
+      SYNOLOGY-SERVICES-MIB::serviceName:
         type: DisplayString
-      serviceName:
+      SYNOLOGY-SMART-MIB::diskSMARTAttrName:
         type: DisplayString
-      version:
+      SYNOLOGY-SMART-MIB::diskSMARTAttrStatus:
+        type: DisplayString
+      SYNOLOGY-SMART-MIB::diskSMARTInfoDevName:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::modelName:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::serialNumber:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::version:
         type: DisplayString
 
 # UCD-SNMP-MIB
