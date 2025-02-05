@@ -299,6 +299,11 @@ func main() {
 		handler(w, r, logger, exporterMetrics)
 	})
 	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
+	// Endpoint to respond to health checks
+	http.HandleFunc("/-/healthy", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Healthy"))
+	})
 
 	if *metricsPath != "/" && *metricsPath != "" {
 		landingConfig := web.LandingConfig{
