@@ -35,6 +35,8 @@ APC_URL           := https://download.schneider-electric.com/files?p_File_Name=p
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
+DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
+ELTEX_MES_URL     := https://eltex-co.com/upload/iblock/93c/80760x03yv4m8crugf0b8ab5yo8tel34/mibs_10.3.6.6.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
@@ -52,6 +54,7 @@ SERVERTECH_URL    := 'https://cdn10.servertech.com/assets/documents/documents/81
 SERVERTECH4_URL   := 'https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib'
 SYNOLOGY_URL      := 'https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip'
 UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+UBNT_AIROS_OLD_URL:= https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/FROGFOOT-RESOURCES-MIB
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
@@ -86,6 +89,7 @@ clean:
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
+		$(MIBDIR)/.dlink-mibs \
 		$(MIBDIR)/.hpe-mib \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
@@ -95,6 +99,7 @@ clean:
 		$(MIBDIR)/.tplinkddm \
 		$(MIBDIR)/readynas \
 		$(MIBDIR)/readydataos \
+		$(MIBDIR)/.eltex-mes \
 		$(MIBDIR)/.juniper
 
 generator: *.go
@@ -169,6 +174,9 @@ mibs: \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
   $(MIBDIR)/.cisco_imc \
+  $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
+  $(MIBDIR)/.dlink-mibs \
+  $(MIBDIR)/.eltex-mes \
   $(MIBDIR)/.juniper
 
 $(MIBDIR)/apc-powernet-mib:
@@ -357,6 +365,28 @@ $(MIBDIR)/UBNT-AirFiber-MIB:
 	@echo ">> Downloading UBNT-AirFiber-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UBNT-AirFiber-MIB $(UBNT_AIRFIBER_URL)
 
+$(MIBDIR)/FROGFOOT-RESOURCES-MIB:
+	@echo ">> Downloading FROGFOOT-RESOURCES-MIB (UBNT AirOS)"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/FROGFOOT-RESOURCES-MIB $(UBNT_AIROS_OLD_URL)
+
+$(MIBDIR)/.dlink-mibs:
+	@echo ">> Downloading DLINK mibs"
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading DLINK DES mibs to $(TMP)"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DLINK_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) \
+		DES3200_V4.04_MIB_20120906/standardMIB/RMON2-MIB.MIB \
+		DES3200_V4.04_MIB_20120906/standardMIB/RMON-MIB.mib \
+		DES3200_V4.04_MIB_20120906/standardMIB/token-ring-rmon-mib.MIB \
+		DES3200_V4.04_MIB_20120906/standardMIB/P-BRIDGE-MIB.mib \
+		DES3200_V4.04_MIB_20120906/standardMIB/BRIDGE-MIB.mib \
+		DES3200_V4.04_MIB_20120906/standardMIB/Q-BRIDGE-MIB.mib \
+		DES3200_V4.04_MIB_20120906/proprietaryMIB/Dlink-common-mgmt/Genmgmt.mib \
+		DES3200_V4.04_MIB_20120906/proprietaryMIB/Dlink-mgmt/DLINK-ID-REC-MIB.mib
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.dlink-mibs
+
+
 $(MIBDIR)/UBNT-AirMAX-MIB.txt:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading ubnt-airos to $(TMP)"
@@ -433,6 +463,14 @@ $(MIBDIR)/.cisco_imc:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC.my "$(CISCO_CUCS_URL_v2)/CISCO-TC.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-SMI.my "$(CISCO_CUCS_URL_v2)/CISCO-SMI.my"
 	@touch $(MIBDIR)/.cisco_imc
+
+$(MIBDIR)/.eltex-mes:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Eltex MES device mibs to $(TMP)"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(ELTEX_MES_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) fsiss.mib eltex/ELTEX-SMI-ACTUAL.mib eltex/ELTEX-MES-ISS-CPU-UTIL-MIB.mib eltex/ELTEX-MES-ISS-MIB.mib CISCO-QOS-PIB-MIB.mib
+	@rm -v $(TMP)
+	@touch $(MIBDIR)/.eltex-mes
 
 $(MIBDIR)/.juniper:
 	$(eval TMP := $(shell mktemp))

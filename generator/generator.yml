@@ -72,6 +72,22 @@ modules:
       - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
       - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
 
+# D-Link managed switches (DES-3200)
+  dlink:
+    walk:
+      - AGENT-GENERAL-MIB::agentCPUutilization
+      - AGENT-GENERAL-MIB::agentDRAMutilizationTable
+    overrides:
+      agentDRAMutilizationUnitID:
+        ignore: true
+# MES 2448P
+  eltex_mes:
+    walk: 
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
+     - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
+
 # HPE MIBs
   hpe:
     walk:
@@ -451,6 +467,21 @@ modules:
   ubiquiti_airmax:
     walk:
       - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
+
+# Ubiquiti / AirOS (nanoStation etc, old firmwares)
+  ubiquiti_airos:
+    walk:
+      - FROGFOOT-RESOURCES-MIB::loadTable
+      - FROGFOOT-RESOURCES-MIB::memory
+    lookups:
+      - source_indexes: [loadIndex]
+        lookup: "FROGFOOT-RESOURCES-MIB::loadDescr"
+    overrides:
+      loadIndex:
+        ignore: true # Lookup metric
+      loadDescr:
+        ignore: true
+        
 
 # Ubiquiti / UniFi
 #
