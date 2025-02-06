@@ -1,3 +1,24 @@
+## 0.28.0 / 2025-05-07
+
+BREAKING CHANGES:
+
+In this version of the exporter the sysUpTime metric has been removed from the if_mib module and 
+is now part of the new system module, along with other useful system related metrics.
+Please update your scrape definitions to include the system module if you need sysUpTime.
+
+* [ENHANCEMENT] allow module-qualified labels in generator #1333
+* [ENHANCEMENT] add healthcheck endpoint #1358
+* [ENHANCEMENT] Override Metric Name in Generator #1341
+* [BUGFIX] cleanup docker container after running #1330
+
+snmp.yml changes:
+* moved system related oids to the new system module #1334
+* add UBNT AirOS module, DLink and Eltex MES #1344
+* add JunOS module #1348
+* enhancements on the hrStorage module, cleanup unused lookups for mikrotik module #1349
+* update JunOS module and add Juniper Optics (DOM) module #1351
+* added page counters to the printer module #1353
+
 ## 0.27.0 / 2025-01-03
 BREAKING CHANGES:
 
