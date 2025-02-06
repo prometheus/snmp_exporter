@@ -72,6 +72,22 @@ modules:
       - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
       - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
 
+# D-Link managed switches (DES-3200)
+  dlink:
+    walk:
+      - AGENT-GENERAL-MIB::agentCPUutilization
+      - AGENT-GENERAL-MIB::agentDRAMutilizationTable
+    overrides:
+      agentDRAMutilizationUnitID:
+        ignore: true
+# MES 2448P
+  eltex_mes:
+    walk: 
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
+     - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
+
 # HPE MIBs
   hpe:
     walk:
@@ -361,15 +377,15 @@ modules:
 #
   synology:
     walk:
-      - 1.3.6.1.4.1.6574.1       # synoSystem
-      - 1.3.6.1.4.1.6574.2       # synoDisk
-      - 1.3.6.1.4.1.6574.3       # synoRaid
-      - 1.3.6.1.4.1.6574.4       # synoUPS
-      - 1.3.6.1.4.1.6574.5       # synologyDiskSMART
-      - 1.3.6.1.4.1.6574.6       # synologyService
-      - 1.3.6.1.4.1.6574.101     # storageIO
-      - 1.3.6.1.4.1.6574.102     # spaceIO
-      - 1.3.6.1.4.1.6574.104     # synologyiSCSILUN
+      - SYNOLOGY-SYSTEM-MIB::synoSystem         # 1.3.6.1.4.1.6574.1
+      - SYNOLOGY-DISK-MIB::synoDisk             # 1.3.6.1.4.1.6574.2
+      - SYNOLOGY-RAID-MIB::synoRaid             # 1.3.6.1.4.1.6574.3
+      - SYNOLOGY-UPS-MIB::synoUPS               # 1.3.6.1.4.1.6574.4
+      - SYNOLOGY-SMART-MIB::synologyDiskSMART   # 1.3.6.1.4.1.6574.5
+      - SYNOLOGY-SERVICES-MIB::synologyService  # 1.3.6.1.4.1.6574.6
+      - SYNOLOGY-STORAGEIO-MIB::storageIO       # 1.3.6.1.4.1.6574.101
+      - SYNOLOGY-SPACEIO-MIB::spaceIO           # 1.3.6.1.4.1.6574.102
+      - SYNOLOGY-ISCSILUN-MIB::synologyiSCSILUN # 1.3.6.1.4.1.6574.104
     lookups:
       - source_indexes: [spaceIOIndex]
         lookup: spaceIODevice
@@ -387,29 +403,29 @@ modules:
         lookup: raidName
         drop_source_indexes: true
     overrides:
-      diskModel:
+      SYNOLOGY-DISK-MIB::diskModel:
         type: DisplayString
-      diskSMARTAttrName:
+      SYNOLOGY-DISK-MIB::diskType:
         type: DisplayString
-      diskSMARTAttrStatus:
-        type: DisplayString
-      diskSMARTInfoDevName:
-        type: DisplayString
-      diskType:
-        type: DisplayString
-      modelName:
-        type: DisplayString
-      raidFreeSize:
+      SYNOLOGY-RAID-MIB::raidFreeSize:
         type: gauge
-      raidName:
+      SYNOLOGY-RAID-MIB::raidName:
         type: DisplayString
-      raidTotalSize:
+      SYNOLOGY-RAID-MIB::raidTotalSize:
         type: gauge
-      serialNumber:
+      SYNOLOGY-SERVICES-MIB::serviceName:
         type: DisplayString
-      serviceName:
+      SYNOLOGY-SMART-MIB::diskSMARTAttrName:
         type: DisplayString
-      version:
+      SYNOLOGY-SMART-MIB::diskSMARTAttrStatus:
+        type: DisplayString
+      SYNOLOGY-SMART-MIB::diskSMARTInfoDevName:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::modelName:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::serialNumber:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::version:
         type: DisplayString
 
 # UCD-SNMP-MIB
@@ -451,6 +467,21 @@ modules:
   ubiquiti_airmax:
     walk:
       - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
+
+# Ubiquiti / AirOS (nanoStation etc, old firmwares)
+  ubiquiti_airos:
+    walk:
+      - FROGFOOT-RESOURCES-MIB::loadTable
+      - FROGFOOT-RESOURCES-MIB::memory
+    lookups:
+      - source_indexes: [loadIndex]
+        lookup: "FROGFOOT-RESOURCES-MIB::loadDescr"
+    overrides:
+      loadIndex:
+        ignore: true # Lookup metric
+      loadDescr:
+        ignore: true
+        
 
 # Ubiquiti / UniFi
 #
@@ -933,15 +964,25 @@ modules:
     - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
+  
+  # Juniper
+  #
+  # https://apps.juniper.net/mib-explorer/
+  # https://www.juniper.net/documentation/software/junos/junos244/juniper-mibs-24.4R1.10.zip
   juniper:
     walk:
+      - JUNIPER-MIB::jnxOperatingTable
+      - JUNIPER-MIB::jnxFruState
       - JUNIPER-ALARM-MIB::jnxRedAlarms
       - JUNIPER-ALARM-MIB::jnxYellowAlarms
-      - JUNIPER-MIB::jnxOperatingTable
+      - JUNIPER-SUBSCRIBER-MIB::jnxSubscriberPortTerminatedCounter
     lookups:
       - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]
         lookup: jnxOperatingDescr
         drop_source_indexes: false
+      - source_indexes: [jnxFruContentsIndex,jnxFruL1Index,jnxFruL2Index,jnxFruL3Index]
+        lookup: jnxFruName
+        drop_source_indexes: true
     overrides:
       jnxOperatingContentsIndex:
         ignore: true
@@ -953,3 +994,29 @@ modules:
         ignore: true
       jnxOperatingDescr:
         ignore: true
+      jnxYellowAlarmState:
+        type: EnumAsStateSet
+      jnxRedAlarmState:
+        type: EnumAsStateSet
+      jnxFruState:
+        type: EnumAsStateSet
+  juniper_optics:
+    walk:
+      - JUNIPER-DOM-MIB::jnxDomCurrentWarnings
+      - JUNIPER-DOM-MIB::jnxDomCurrentAlarms
+      - JUNIPER-DOM-MIB::jnxDomCurrentRxLaserPower
+      - JUNIPER-DOM-MIB::jnxDomCurrentTxLaserOutputPower
+      - JUNIPER-DOM-MIB::jnxDomCurrentTxLaserBiasCurrent
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+        drop_source_indexes: true
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+    overrides:
+      jnxDomCurrentRxLaserPower:
+        scale: .01
+      jnxDomCurrentTxLaserOutputPower:
+        scale: .01
+      jnxDomCurrentTxLaserBiasCurrent:
+        scale: .001
