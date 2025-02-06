@@ -353,7 +353,7 @@ func main() {
 	http.HandleFunc(path.Join(*routePrefix, "debug/pprof/"), pprof.Index)
 	http.HandleFunc(path.Join(*routePrefix, "debug/pprof/heap"), pprof.Handler("heap").ServeHTTP)
 	// Endpoint to respond to health checks
-  http.HandleFunc(path.Join(*routePrefix,"/-/healthy"), func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(path.Join(*routePrefix, "/-/healthy"), func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Healthy"))
 	})
