@@ -602,6 +602,8 @@ modules:
       - prtAlertCriticalEvents
       - prtAlertAllEvents
       - prtCoverStatus
+      - prtMarkerLifeCount
+      - prtMarkerPowerOnCount
       - prtMarkerSuppliesDescription
       - prtMarkerSuppliesLevel
       - prtMarkerSuppliesMaxCapacity
