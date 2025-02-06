@@ -351,12 +351,8 @@ func main() {
 	http.HandleFunc(path.Join(*routePrefix, "/-/reload"), updateConfiguration) // Endpoint to reload configuration.
 	// Serve pprof under the route prefix. These links are displayed on the landing page.
 	http.HandleFunc(path.Join(*routePrefix, "debug/pprof/"), pprof.Index)
+	http.HandleFunc(path.Join(*routePrefix, "debug/pprof/profile"), pprof.Profile)
 	http.HandleFunc(path.Join(*routePrefix, "debug/pprof/heap"), pprof.Handler("heap").ServeHTTP)
-	// Endpoint to respond to health checks
-	http.HandleFunc(path.Join(*routePrefix, "/-/healthy"), func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Healthy"))
-	})
 
 	if *metricsPath != "/" && *metricsPath != "" {
 		landingConfig := web.LandingConfig{
