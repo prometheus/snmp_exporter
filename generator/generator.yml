@@ -71,6 +71,16 @@ modules:
       - 1.3.6.1.4.1.674.10892.5.2 # statusGroup
       - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
       - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
+# Dell network (Force10)
+  dell_network:
+    walk:
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetCpuUtilTable
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetPowerSupplyTable
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetSwModuleTable
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetFlashStorageTable
+    overrides:
+      dellNetPowerSupplyIndex:
+        ignore: true
 
 # D-Link managed switches (DES-3200)
   dlink:
