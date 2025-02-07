@@ -81,6 +81,13 @@ modules:
     overrides:
       dellNetPowerSupplyIndex:
         ignore: true
+      dellNetFanDeviceType:
+        type: EnumAsInfo
+      dellNetPowerDeviceType:
+        type: EnumAsInfo
+      dellNetProcessorDeviceType:
+        type: EnumAsInfo
+
 
 # D-Link managed switches (DES-3200)
   dlink:
