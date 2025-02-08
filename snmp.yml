@@ -13027,6 +13027,465 @@ modules:
       indexes:
       - labelname: virtualDiskNumber
         type: gauge
+  dell_network:
+    walk:
+    - 1.3.6.1.4.1.6027.3.26.1.4.4
+    - 1.3.6.1.4.1.6027.3.26.1.4.5
+    - 1.3.6.1.4.1.6027.3.26.1.4.6
+    - 1.3.6.1.4.1.6027.3.26.1.4.8
+    metrics:
+    - name: dellNetCpuUtil5Sec
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.4.1.1
+      type: gauge
+      help: CPU utilization in percentage for last 5 seconds. - 1.3.6.1.4.1.6027.3.26.1.4.4.1.1
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+      - labelname: dellNetProcessorIndex
+        type: gauge
+    - name: dellNetCpuUtil1Min
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.4.1.4
+      type: gauge
+      help: CPU utilization in percentage for last 1 minute. - 1.3.6.1.4.1.6027.3.26.1.4.4.1.4
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+      - labelname: dellNetProcessorIndex
+        type: gauge
+    - name: dellNetCpuUtil5Min
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.4.1.5
+      type: gauge
+      help: CPU utilization in percentage for last 5 minutes. - 1.3.6.1.4.1.6027.3.26.1.4.4.1.5
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+      - labelname: dellNetProcessorIndex
+        type: gauge
+    - name: dellNetCpuUtilMemUsage
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.4.1.6
+      type: gauge
+      help: Total Memory usage in percentage. - 1.3.6.1.4.1.6027.3.26.1.4.4.1.6
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+      - labelname: dellNetProcessorIndex
+        type: gauge
+    - name: dellNetCpuFlashUsage
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.4.1.7
+      type: gauge
+      help: Total flash usage in percentage. - 1.3.6.1.4.1.6027.3.26.1.4.4.1.7
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+      - labelname: dellNetProcessorIndex
+        type: gauge
+    - name: dellNetSwModuleRuntimeImgVersion
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.1
+      type: DisplayString
+      help: Current Dell Networking OS image version running in the system - 1.3.6.1.4.1.6027.3.26.1.4.5.1.1
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+    - name: dellNetSwModuleRuntimeImgDate
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.2
+      type: OctetString
+      help: The release date of this software module. - 1.3.6.1.4.1.6027.3.26.1.4.5.1.2
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+    - name: dellNetSwModuleBootFlashImgVersion
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.3
+      type: DisplayString
+      help: This provides the Grub image version that is currently running in the
+        processor. - 1.3.6.1.4.1.6027.3.26.1.4.5.1.3
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+    - name: dellNetSwModuleBootSelectorImgVersion
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.4
+      type: DisplayString
+      help: This provides the BIOS image version that is currently running in the
+        processor. - 1.3.6.1.4.1.6027.3.26.1.4.5.1.4
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+    - name: dellNetSwModuleNextRebootImage
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.5
+      type: gauge
+      help: The image selection, when the chassis is rebooted - 1.3.6.1.4.1.6027.3.26.1.4.5.1.5
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+      enum_values:
+        1: partitionA
+        2: partitionB
+        3: networkBoot
+    - name: dellNetSwModuleCurrentBootImage
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.6
+      type: gauge
+      help: The current image is booted from - 1.3.6.1.4.1.6027.3.26.1.4.5.1.6
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+      enum_values:
+        1: partitionA
+        2: partitionB
+        3: networkBoot
+    - name: dellNetSwModuleInPartitionAImgVers
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.7
+      type: DisplayString
+      help: 'This provides the Dell Networking OS system image version that is stored
+        in partition A: and The version string has Major and Minor release numbers
+        - 1.3.6.1.4.1.6027.3.26.1.4.5.1.7'
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+    - name: dellNetSwModuleInPartitionBImgVers
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.5.1.8
+      type: DisplayString
+      help: 'This provides the Dell Networking OS system image version that is stored
+        in partition B: and The version string has Major and Minor release numbers
+        - 1.3.6.1.4.1.6027.3.26.1.4.5.1.8'
+      indexes:
+      - labelname: dellNetProcessorDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetProcessorDeviceIndex
+        type: gauge
+    - name: dellNetPowerDeviceType
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.1
+      type: EnumAsInfo
+      help: Identify the type of device the power supply units reside (chassis,port
+        extender etc..) - 1.3.6.1.4.1.6027.3.26.1.4.6.1.1
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+      enum_values:
+        1: chassis
+        2: stack
+        3: rpm
+        4: supervisor
+        5: linecard
+        6: port-extender
+    - name: dellNetPowerDeviceIndex
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.2
+      type: gauge
+      help: A unique device index within the device type. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.2
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+    - name: dellNetPowerSupplyOperStatus
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.4
+      type: gauge
+      help: The status of the power supply. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.4
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+      enum_values:
+        1: up
+        2: down
+        3: absent
+    - name: dellNetPowerSupplyType
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.5
+      type: gauge
+      help: The type of the power supply. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.5
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+      enum_values:
+        1: unknown
+        2: ac
+        3: dc
+    - name: dellNetPowerSupplyPiecePartID
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.6
+      type: DisplayString
+      help: The power supply's piece part id. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.6
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+    - name: dellNetPowerSupplyPPIDRevision
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.7
+      type: DisplayString
+      help: The power supply's PPID revision. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.7
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+    - name: dellNetPowerSupplyServiceTag
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.8
+      type: DisplayString
+      help: The power supply's service tag. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.8
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+    - name: dellNetPowerSupplyExpressServiceCode
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.9
+      type: DisplayString
+      help: The power supply's express service code. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.9
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+    - name: dellNetPowerSupplyUsage
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.6.1.10
+      type: gauge
+      help: Power usage of this Power Supply in Watts. - 1.3.6.1.4.1.6027.3.26.1.4.6.1.10
+      indexes:
+      - labelname: dellNetPowerDeviceType
+        type: EnumAsInfo
+        enum_values:
+          1: chassis
+          2: stack
+          3: rpm
+          4: supervisor
+          5: linecard
+          6: port-extender
+      - labelname: dellNetPowerDeviceIndex
+        type: gauge
+      - labelname: dellNetPowerSupplyIndex
+        type: gauge
+    - name: dellNetFlashPartitionNumber
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.8.1.1
+      type: gauge
+      help: Partition number. - 1.3.6.1.4.1.6027.3.26.1.4.8.1.1
+      indexes:
+      - labelname: dellNetFlashPartitionNumber
+        type: gauge
+    - name: dellNetFlashPartitionName
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.8.1.2
+      type: DisplayString
+      help: The partition name on the flash. - 1.3.6.1.4.1.6027.3.26.1.4.8.1.2
+      indexes:
+      - labelname: dellNetFlashPartitionNumber
+        type: gauge
+    - name: dellNetFlashPartitionSize
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.8.1.3
+      type: gauge
+      help: The size of the parition. - 1.3.6.1.4.1.6027.3.26.1.4.8.1.3
+      indexes:
+      - labelname: dellNetFlashPartitionNumber
+        type: gauge
+    - name: dellNetFlashPartitionUsed
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.8.1.4
+      type: gauge
+      help: The used space on the specified parition. - 1.3.6.1.4.1.6027.3.26.1.4.8.1.4
+      indexes:
+      - labelname: dellNetFlashPartitionNumber
+        type: gauge
+    - name: dellNetFlashPartitionFree
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.8.1.5
+      type: gauge
+      help: The free space on the specified parition - 1.3.6.1.4.1.6027.3.26.1.4.8.1.5
+      indexes:
+      - labelname: dellNetFlashPartitionNumber
+        type: gauge
+    - name: dellNetFlashPartitionMountPoint
+      oid: 1.3.6.1.4.1.6027.3.26.1.4.8.1.6
+      type: DisplayString
+      help: The mount point for the partition on the flash. - 1.3.6.1.4.1.6027.3.26.1.4.8.1.6
+      indexes:
+      - labelname: dellNetFlashPartitionNumber
+        type: gauge
   dlink:
     walk:
     - 1.3.6.1.4.1.171.12.1.1.6

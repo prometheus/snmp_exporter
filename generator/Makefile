@@ -37,6 +37,7 @@ CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
 ELTEX_MES_URL     := https://eltex-co.com/upload/iblock/93c/80760x03yv4m8crugf0b8ab5yo8tel34/mibs_10.3.6.6.zip
+DELL_NETWORK_URL  := https://supportkb.dell.com/attachment/ka02R000000I7TFQA0/Current_MIBs_pkb_en_US_1.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
@@ -90,6 +91,7 @@ clean:
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
 		$(MIBDIR)/.dlink-mibs \
+		$(MIBDIR)/.dell-network \
 		$(MIBDIR)/.hpe-mib \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
@@ -177,7 +179,8 @@ mibs: \
   $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
   $(MIBDIR)/.dlink-mibs \
   $(MIBDIR)/.eltex-mes \
-  $(MIBDIR)/.juniper
+  $(MIBDIR)/.juniper \
+  $(MIBDIR)/.dell-network
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -489,3 +492,16 @@ $(MIBDIR)/.juniper:
 		JuniperMibs/mib-jnx-subscriber.txt
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.juniper
+
+$(MIBDIR)/.dell-network:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Dell network mibs to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(DELL_NETWORK_URL)
+	@unzip -j -d $(MIBDIR)/dell $(TMP) DELL-NETWORKING-MIB-9.14.2.1.zip
+	@unzip -j -d $(MIBDIR) $(MIBDIR)/dell/DELL-NETWORKING-MIB-9.14.2.1.zip \
+		DELL-NETWORKING-CHASSIS-MIB.mib \
+		DELL-NETWORKING-TC.mib \
+		DELL-NETWORKING-SMI.mib
+	@rm -rfv $(TMP) $(MIBDIR)/dell
+	@touch $(MIBDIR)/.dell-network
+
