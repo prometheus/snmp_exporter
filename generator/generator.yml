@@ -65,6 +65,57 @@ modules:
       bsnAPName:
         type: DisplayString
 
+  cisco_device:
+    walk:
+      - CISCO-PROCESS-MIB::cpmCPUTotal1minRev
+      - CISCO-PROCESS-MIB::cpmCPUTotal5minRev
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolUsed
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolFree
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolType
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolName
+      - CISCO-ENTITY-SENSOR-MIB::entSensorValueTable
+      - CISCO-ENTITY-FRU-CONTROL-MIB::cefcFRUPowerOperStatus
+    lookups:
+      - source_indexes: [entPhysicalIndex]
+        lookup: CISCO-ENTITY-SENSOR-MIB::entSensorScale
+      - source_indexes: [entPhysicalIndex]
+        lookup: CISCO-ENTITY-SENSOR-MIB::entSensorType
+      - source_indexes: [entPhysicalIndex]
+        lookup: ENTITY-MIB::entPhysicalName
+      - source_indexes: [ciscoMemoryPoolType]
+        lookup: ciscoMemoryPoolName
+    overrides:
+      entSensorScale:
+        ignore: true
+      entSensorType:
+        ignore: true
+      entSensorValueTimeStamp:
+        ignore: true
+      entSensorValueUpdateRate:
+        ignore: true
+      entSensorMeasuredEntity:
+        ignore: true
+      ciscoMemoryPoolType:
+        type: EnumAsInfo
+        ignore: true
+      cefcFRUPowerOperStatus:
+        type: EnumAsStateSet
+      ciscoMemoryPoolName:
+        type: DisplayString
+        ignore: true
+
+  cisco_fc_fe:
+    walk:
+      - CISCO-FC-FE-MIB::fcIfInvalidCrcs
+      - CISCO-FC-FE-MIB::fcIfFramesDiscard
+      - CISCO-FC-FE-MIB::fcIfInvalidTxWords
+      - CISCO-FC-FE-MIB::fcHCIfBBCreditTransistionToZero
+      - CISCO-FC-FE-MIB::fcHCIfBBCreditTransistionFromZero
+      - CISCO-FC-FE-MIB::fcIfTxWtAvgBBCreditTransitionToZero
+      - CISCO-FC-FE-MIB::fcIfTxWaitCount
+      - CISCO-FC-FE-MIB::fcIfCurrRxBbCredit
+      - CISCO-FC-FE-MIB::fcIfCurrTxBbCredit
+
 # Dell OpenManage MIBs
   dell:
     walk:
