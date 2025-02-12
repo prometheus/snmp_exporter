@@ -1,4 +1,5 @@
-module github.com/prometheus/snmp_exporter
+// module github.com/prometheus/snmp_exporter
+module github.com/mengxifl/snmp_exporter
 
 go 1.22
 
