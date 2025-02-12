@@ -17,14 +17,15 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
-	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"path"
 	"strings"
 	"sync"
 	"syscall"
 
 	"github.com/alecthomas/kingpin/v2"
+
 	"github.com/prometheus/client_golang/prometheus"
 	versioncollector "github.com/prometheus/client_golang/prometheus/collectors/version"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -50,6 +51,8 @@ var (
 	concurrency   = kingpin.Flag("snmp.module-concurrency", "The number of modules to fetch concurrently per scrape").Default("1").Int()
 	debugSNMP     = kingpin.Flag("snmp.debug-packets", "Include a full debug trace of SNMP packet traffics.").Default("false").Bool()
 	expandEnvVars = kingpin.Flag("config.expand-environment-variables", "Expand environment variables to source secrets").Default("false").Bool()
+	externalURL   = kingpin.Flag("web.external-url", "The URL under which snmp exporter is externally reachable (for example, if snmp exporter is served via a reverse proxy). Used for generating relative and absolute links back to snmp exporter itself. If the URL has a path portion, it will be used to prefix all HTTP endpoints served by snmp exporter. If omitted, relevant URL components will be derived automatically.").PlaceHolder("<url>").String()
+	routePrefix   = kingpin.Flag("web.route-prefix", "Prefix for the internal routes of web endpoints. Defaults to path of --web.external-url.").PlaceHolder("<path>").String()
 	metricsPath   = kingpin.Flag(
 		"web.telemetry-path",
 		"Path under which to expose metrics.",
@@ -293,23 +296,16 @@ func main() {
 		),
 	}
 
-	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
-	// Endpoint to do SNMP scrapes.
-	http.HandleFunc(proberPath, func(w http.ResponseWriter, r *http.Request) {
-		handler(w, r, logger, exporterMetrics)
-	})
-	http.HandleFunc("/-/reload", updateConfiguration) // Endpoint to reload configuration.
-	// Endpoint to respond to health checks
-	http.HandleFunc("/-/healthy", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Healthy"))
-	})
-
 	if *metricsPath != "/" && *metricsPath != "" {
 		landingConfig := web.LandingConfig{
-			Name:        "SNMP Exporter",
-			Description: "Prometheus Exporter for SNMP targets",
-			Version:     version.Info(),
+			Name:             "SNMP Exporter",
+			Description:      "Prometheus Exporter for SNMP targets",
+			Version:          version.Info(),
+			RoutePrefix:      *routePrefix,
+			ExternalURL:      *externalURL,
+			ListenAddresses:  *toolkitFlags.WebListenAddresses,
+			UseSystemdSocket: *toolkitFlags.WebSystemdSocket,
+			Logger:           logger,
 			Form: web.LandingForm{
 				Action: proberPath,
 				Inputs: []web.LandingFormInput{
@@ -347,15 +343,25 @@ func main() {
 				},
 			},
 		}
-		landingPage, err := web.NewLandingPage(landingConfig)
+		landingPage, processedRoutePrefix, err := web.NewLandingPage(landingConfig)
 		if err != nil {
 			logger.Error("Error creating landing page", "err", err)
 			os.Exit(1)
 		}
-		http.Handle("/", landingPage)
+		*routePrefix = processedRoutePrefix
+		http.Handle(*routePrefix, landingPage)
 	}
 
-	http.HandleFunc(configPath, func(w http.ResponseWriter, r *http.Request) {
+	http.Handle(path.Join(*routePrefix, *metricsPath), promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.
+
+	// Endpoint to do SNMP scrapes.
+	http.HandleFunc(path.Join(*routePrefix, proberPath), func(w http.ResponseWriter, r *http.Request) {
+		handler(w, r, logger, exporterMetrics)
+	})
+
+	http.HandleFunc(path.Join(*routePrefix, "/-/reload"), updateConfiguration) // Endpoint to reload configuration.
+
+	http.HandleFunc(path.Join(*routePrefix, configPath), func(w http.ResponseWriter, r *http.Request) {
 		sc.RLock()
 		c, err := yaml.Marshal(sc.C)
 		sc.RUnlock()

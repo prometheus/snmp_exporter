@@ -4,6 +4,8 @@ go 1.22
 
 toolchain go1.23.1
 
+replace github.com/prometheus/exporter-toolkit => /home/knapdev/exporter-toolkit
+
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/gosnmp/gosnmp v1.38.0
