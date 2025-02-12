@@ -177,26 +177,39 @@ func configureTarget(g *gosnmp.GoSNMP, target string) error {
 
 func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
 	logger.Debug("Evaluating rule for oid", "oid", filter.Oid)
+	var isRegMatch = strings.Contains(filter.Operation, `reg`)
+	var isEquals   = !strings.Contains(filter.Operation, `otEquals`)
 	for _, pdu := range pdus {
 		found := false
 		for _, val := range filter.Values {
 			snmpval := pduValueAsString(&pdu, "DisplayString", metrics)
-			logger.Debug("evaluating filters", "config value", val, "snmp value", snmpval)
-
-			if regexp.MustCompile(val).MatchString(snmpval) {
+			// "regNotEquals" / "regEquals" / "equals" / notEquals
+			logger.Debug("evaluating filters", "config value", val, "snmp value", snmpval, "filter operation", filter.Operation)
+			if regexp.MustCompile(val).MatchString(snmpval) && isRegMatch {
+				found = true
+				break
+			}
+			if val == snmpval && !isRegMatch {
 				found = true
 				break
 			}
 		}
-		if found {
+		if found && isEquals {
 			pduArray := strings.Split(pdu.Name, ".")
 			index := pduArray[len(pduArray)-1]
-			logger.Debug("Caching index", "index", index)
+			logger.Debug("Caching index equals", "index", index)
+			allowedList = append(allowedList, index)
+		}
+		if !found && !isEquals {
+			pduArray := strings.Split(pdu.Name, ".")
+			index := pduArray[len(pduArray)-1]
+			logger.Debug("Caching index notEquals", "index", index)
 			allowedList = append(allowedList, index)
 		}
 	}
 	return allowedList
 }
+
 
 func updateWalkConfig(walkConfig []string, filter config.DynamicFilter, logger *slog.Logger) []string {
 	newCfg := []string{}
