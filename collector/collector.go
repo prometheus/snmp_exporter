@@ -177,8 +177,12 @@ func configureTarget(g *gosnmp.GoSNMP, target string) error {
 
 func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
 	logger.Debug("Evaluating rule for oid", "oid", filter.Oid)
+	var operationErr = !regexp.MustCompile(`(?i)equals`).MatchString(filter.Operation)
 	var isRegMatch = strings.Contains(filter.Operation, `reg`)
 	var isEquals   = !strings.Contains(filter.Operation, `otEquals`)
+	if operationErr {
+		return allowedList
+	}
 	for _, pdu := range pdus {
 		found := false
 		for _, val := range filter.Values {
