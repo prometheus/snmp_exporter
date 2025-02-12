@@ -37,7 +37,8 @@ import (
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/prometheus/snmp_exporter/collector"
-	"github.com/prometheus/snmp_exporter/config"
+	"github.com/mengxifl/snmp_exporter/config"
+	// "github.com/prometheus/snmp_exporter/config"
 )
 
 const (
