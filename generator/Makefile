@@ -88,6 +88,7 @@ clean:
 	rm -rvf \
 		$(MIBDIR)/* \
 		$(MIBDIR)/.cisco-device \
+		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
 		$(MIBDIR)/.dlink-mibs \
