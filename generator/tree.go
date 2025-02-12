@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/snmp_exporter/config"
+	"github.com/mengxifl/snmp_exporter/config"
 )
 
 // These types have one following the other.
@@ -283,6 +283,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	out := &config.Module{}
 	needToWalk := map[string]struct{}{}
 	tableInstances := map[string][]string{}
+	// nameToNode[name]
 
 	// Apply type overrides for the current module.
 	for name, params := range cfg.Overrides {
@@ -565,7 +566,8 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	}
 
 	out.Filters = cfg.Filters.Dynamic
-
+	// fmt.Printf( "%+T", out.Filters )
+	buildDynamicFilter( &cfg.Filters.Dynamic, nameToNode )
 	oids := []string{}
 	for k := range needToWalk {
 		oids = append(oids, k)
@@ -587,4 +589,24 @@ var (
 
 func sanitizeLabelName(name string) string {
 	return invalidLabelCharRE.ReplaceAllString(name, "_")
+}
+
+
+func buildDynamicFilter( confFilter *[]config.DynamicFilter, nameToNode map[string]*Node ) {
+	// nameToNode[name]
+	for _, val := range ( *confFilter ) {
+		if !isOid( val.Oid ) {
+			val.Oid = nameToNode[ val.Oid ].Oid
+		}
+		for index, target := range val.Targets {
+			if !isOid( target ) {
+				val.Targets[index] = nameToNode[ target ].Oid
+			}
+		}
+	}
+}
+
+
+func isOid( matchString string ) bool {
+	return regexp.MustCompile(`^(\d+\.)+\d*\.?$`).MatchString(matchString) 
 }
