@@ -26,7 +26,8 @@ import (
 	"github.com/prometheus/common/promslog/flag"
 	"gopkg.in/yaml.v2"
 
-	"github.com/prometheus/snmp_exporter/config"
+	"github.com/mengxifl/snmp_exporter/config"
+	// "github.com/prometheus/snmp_exporter/config"
 )
 
 var (
@@ -66,6 +67,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logge
 				mNameToNode[n.Module+"::"+n.Label] = n
 			}
 		})
+		// fmt.Println( m )
 		out, err := generateConfigModule(m, mNodes, mNameToNode, logger)
 		if err != nil {
 			return err
