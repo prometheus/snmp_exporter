@@ -481,7 +481,7 @@ $(MIBDIR)/.dell-network:
 	@rm -rfv $(TMP) $(MIBDIR)/dell
 	@touch $(MIBDIR)/.dell-network
 
-# and fan + temp
+# sed below fixes CISCO-FC-FE-MIB mib (ref: https://github.com/cisco/cisco-mibs/issues/136)
 $(MIBDIR)/.cisco-device:
 	@echo ">> Downloading Cisco device mibs"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC $(CISCO_URL)/CISCO-TC.my
