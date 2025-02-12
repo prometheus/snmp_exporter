@@ -1,0 +1,53 @@
+modules:
+  default:
+    walk:
+    - 1.3.6.1.2.1.31.1.1.1.6
+    metrics:
+    - name: ifHCInOctets
+      oid: 1.3.6.1.2.1.31.1.1.1.6
+      type: counter
+      help: The total number of octets received on the interface, including framing
+        characters - 1.3.6.1.2.1.31.1.1.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+      lookups:
+      - labels:
+        - ifIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - ifIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+    filters:
+    # filter 1.3.6.1.2.1.31.1.1.1.6 that 1.3.6.1.2.1.31.1.1.1.6  value is notEquals 0
+    - oid: 1.3.6.1.2.1.31.1.1.1.6
+      operation: notEquals
+      targets:
+      - 1.3.6.1.2.1.31.1.1.1.6
+      values:
+      - "0"
+    # filter 1.3.6.1.2.1.31.1.1.1.6 that 1.3.6.1.2.1.31.1.1.1.6  value is equals 0
+    - oid: 1.3.6.1.2.1.31.1.1.1.6
+      operation: equals
+      targets:
+      - 1.3.6.1.2.1.31.1.1.1.6
+      values:
+      - "0"
+    # filter 1.3.6.1.2.1.31.1.1.1.6 that 1.3.6.1.2.1.31.1.1.1.6  value mean is contain 0
+    - oid: 1.3.6.1.2.1.31.1.1.1.6
+      operation: regEquals
+      targets:
+      - 1.3.6.1.2.1.31.1.1.1.6
+      values:
+      - "0"
+    # filter 1.3.6.1.2.1.31.1.1.1.6 that 1.3.6.1.2.1.31.1.1.1.6  value mean is not contain 0
+    - oid: 1.3.6.1.2.1.31.1.1.1.6
+      operation: regNotEquals
+      targets:
+      - 1.3.6.1.2.1.31.1.1.1.6
+      values:
+      - "0"
