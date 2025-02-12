@@ -29,8 +29,10 @@ import (
 	"github.com/gosnmp/gosnmp"
 	"github.com/itchyny/timefmt-go"
 	"github.com/prometheus/client_golang/prometheus"
-
-	"github.com/prometheus/snmp_exporter/config"
+	
+	"github.com/mengxifl/snmp_exporter/config"
+	
+	// "github.com/prometheus/snmp_exporter/config"
 	"github.com/prometheus/snmp_exporter/scraper"
 )
 
