@@ -87,6 +87,7 @@ all: mibs
 clean:
 	rm -rvf \
 		$(MIBDIR)/* \
+		$(MIBDIR)/.cisco-device \
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
@@ -140,14 +141,9 @@ mibs: \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/iDRAC-SMIv2.mib \
   $(MIBDIR)/.hpe-mib \
-  $(MIBDIR)/ENTITY-MIB \
-  $(MIBDIR)/ENTITY-SENSOR-MIB \
-  $(MIBDIR)/ENTITY-STATE-MIB \
-  $(MIBDIR)/ENTITY-STATE-TC-MIB \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
-  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/VRRP-MIB \
   $(MIBDIR)/VRRPv3-MIB \
@@ -176,6 +172,7 @@ mibs: \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
   $(MIBDIR)/.cisco_imc \
+  $(MIBDIR)/.cisco-device \
   $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
   $(MIBDIR)/.dlink-mibs \
   $(MIBDIR)/.eltex-mes \
@@ -226,26 +223,6 @@ $(MIBDIR)/.hpe-mib:
 	@mv $(TMP_DIR)/*cpq*.mib $(MIBDIR)
 	@rm -rf $(TMP_DIR) $(TMP)
 	@touch $(MIBDIR)/.hpe-mib
-
-$(MIBDIR)/ENTITY-MIB:
-	@echo ">> Downloading Cisco ENTITY-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-MIB "$(CISCO_URL)/ENTITY-MIB.my"
-
-$(MIBDIR)/ENTITY-SENSOR-MIB:
-	@echo ">> Downloading Cisco ENTITY-SENSOR-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-SENSOR-MIB "$(CISCO_URL)/ENTITY-SENSOR-MIB.my"
-
-$(MIBDIR)/ENTITY-STATE-MIB:
-	@echo ">> Downloading Cisco ENTITY-STATE-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-MIB "$(CISCO_URL)/ENTITY-STATE-MIB.my"
-
-$(MIBDIR)/ENTITY-STATE-TC-MIB:
-	@echo ">> Downloading Cisco ENTITY-STATE-TC-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-TC-MIB "$(CISCO_URL)/ENTITY-STATE-TC-MIB.my"
-
-$(MIBDIR)/ISDN-MIB:
-	@echo ">> Downloading Cisco ISDN-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB "$(CISCO_URL)/ISDN-MIB.my"
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Downloading IANA charset MIB"
@@ -458,7 +435,7 @@ $(MIBDIR)/powercom:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/powercom "$(POWERCOM_URL)"
 
 $(MIBDIR)/.cisco_imc:
-	@echo ">> Downloading Cisco UCS to $(TMP)"
+	@echo ">> Downloading Cisco UCS"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-MIB.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my"
@@ -505,3 +482,29 @@ $(MIBDIR)/.dell-network:
 	@rm -rfv $(TMP) $(MIBDIR)/dell
 	@touch $(MIBDIR)/.dell-network
 
+# sed below fixes CISCO-FC-FE-MIB mib (ref: https://github.com/cisco/cisco-mibs/issues/136)
+$(MIBDIR)/.cisco-device:
+	@echo ">> Downloading Cisco device mibs"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC $(CISCO_URL)/CISCO-TC.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-SMI $(CISCO_URL)/CISCO-SMI.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-PROCESS-MIB $(CISCO_URL)/CISCO-PROCESS-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENVMON-MIB $(CISCO_URL)/CISCO-ENVMON-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENTITY-SENSOR-MIB $(CISCO_URL)/CISCO-ENTITY-SENSOR-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-MEMORY-POOL-MIB $(CISCO_URL)/CISCO-MEMORY-POOL-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-MIB $(CISCO_URL)/ENTITY-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-SENSOR-MIB $(CISCO_URL)/ENTITY-SENSOR-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-MIB $(CISCO_URL)/ENTITY-STATE-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-TC-MIB $(CISCO_URL)/ENTITY-STATE-TC-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB "$(CISCO_URL)/ISDN-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-MEMORY-POOL-MIB $(CISCO_URL)/CISCO-MEMORY-POOL-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENTITY-FRU-CONTROL-MIB $(CISCO_URL)/CISCO-ENTITY-FRU-CONTROL-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-FC-FE-MIB $(CISCO_URL)/CISCO-FC-FE-MIB.my
+	@sed -i -E 's/OBJECT.+TransceiverPowerControl/OBJECT          fcIfTransceiverPowerControl/' $(MIBDIR)/CISCO-FC-FE-MIB
+	@sed -i -E -z 's/(fcIfSysTransceiverPowerControlCapability,\n.+fcIfSysTransceiverPowerControl),/\1/' $(MIBDIR)/CISCO-FC-FE-MIB
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ST-TC $(CISCO_URL)/CISCO-ST-TC.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-VSAN-MIB $(CISCO_URL)/CISCO-VSAN-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ZS-MIB $(CISCO_URL)/CISCO-ZS-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-IF-EXTENSION-MIB $(CISCO_URL)/CISCO-IF-EXTENSION-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-NS-MIB $(CISCO_URL)/CISCO-NS-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-QOS-PIB-MIB $(CISCO_URL)/CISCO-QOS-PIB-MIB.my
+	@touch $(MIBDIR)/.cisco-device

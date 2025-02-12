@@ -2928,6 +2928,253 @@ modules:
           0: unknown
           1: ipv4
           2: ipv6
+  cisco_device:
+    walk:
+    - 1.3.6.1.2.1.47.1.1.1.1.7
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.7
+    - 1.3.6.1.4.1.9.9.109.1.1.1.1.8
+    - 1.3.6.1.4.1.9.9.117.1.1.2.1.2
+    - 1.3.6.1.4.1.9.9.48.1.1.1.1
+    - 1.3.6.1.4.1.9.9.48.1.1.1.2
+    - 1.3.6.1.4.1.9.9.48.1.1.1.5
+    - 1.3.6.1.4.1.9.9.48.1.1.1.6
+    - 1.3.6.1.4.1.9.9.91.1.1.1
+    metrics:
+    - name: cpmCPUTotal1minRev
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.7
+      type: gauge
+      help: The overall CPU busy percentage in the last 1 minute period - 1.3.6.1.4.1.9.9.109.1.1.1.1.7
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+    - name: cpmCPUTotal5minRev
+      oid: 1.3.6.1.4.1.9.9.109.1.1.1.1.8
+      type: gauge
+      help: The overall CPU busy percentage in the last 5 minute period - 1.3.6.1.4.1.9.9.109.1.1.1.1.8
+      indexes:
+      - labelname: cpmCPUTotalIndex
+        type: gauge
+    - name: cefcFRUPowerOperStatus
+      oid: 1.3.6.1.4.1.9.9.117.1.1.2.1.2
+      type: EnumAsStateSet
+      help: Operational FRU power state. - 1.3.6.1.4.1.9.9.117.1.1.2.1.2
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      lookups:
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorScale
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorType
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entPhysicalName
+        oid: 1.3.6.1.2.1.47.1.1.1.1.7
+        type: DisplayString
+      enum_values:
+        1: offEnvOther
+        2: "on"
+        3: offAdmin
+        4: offDenied
+        5: offEnvPower
+        6: offEnvTemp
+        7: offEnvFan
+        8: failed
+        9: onButFanFail
+        10: offCooling
+        11: offConnectorRating
+        12: onButInlinePowerFail
+    - name: ciscoMemoryPoolUsed
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.5
+      type: gauge
+      help: Indicates the number of bytes from the memory pool that are currently
+        in use by applications on the managed device. - 1.3.6.1.4.1.9.9.48.1.1.1.5
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: EnumAsInfo
+      lookups:
+      - labels:
+        - ciscoMemoryPoolType
+        labelname: ciscoMemoryPoolName
+        oid: 1.3.6.1.4.1.9.9.48.1.1.1.2
+        type: DisplayString
+    - name: ciscoMemoryPoolFree
+      oid: 1.3.6.1.4.1.9.9.48.1.1.1.6
+      type: gauge
+      help: Indicates the number of bytes from the memory pool that are currently
+        unused on the managed device - 1.3.6.1.4.1.9.9.48.1.1.1.6
+      indexes:
+      - labelname: ciscoMemoryPoolType
+        type: EnumAsInfo
+      lookups:
+      - labels:
+        - ciscoMemoryPoolType
+        labelname: ciscoMemoryPoolName
+        oid: 1.3.6.1.4.1.9.9.48.1.1.1.2
+        type: DisplayString
+    - name: entSensorPrecision
+      oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.3
+      type: gauge
+      help: This variable indicates the number of decimal places of precision in fixed-point
+        sensor values reported by entSensorValue - 1.3.6.1.4.1.9.9.91.1.1.1.1.3
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      lookups:
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorScale
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorType
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entPhysicalName
+        oid: 1.3.6.1.2.1.47.1.1.1.1.7
+        type: DisplayString
+    - name: entSensorValue
+      oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.4
+      type: gauge
+      help: This variable reports the most recent measurement seen by the sensor -
+        1.3.6.1.4.1.9.9.91.1.1.1.1.4
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      lookups:
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorScale
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorType
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entPhysicalName
+        oid: 1.3.6.1.2.1.47.1.1.1.1.7
+        type: DisplayString
+    - name: entSensorStatus
+      oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.5
+      type: gauge
+      help: This variable indicates the present operational status of the sensor.
+        - 1.3.6.1.4.1.9.9.91.1.1.1.1.5
+      indexes:
+      - labelname: entPhysicalIndex
+        type: gauge
+      lookups:
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorScale
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entSensorType
+        oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
+        type: gauge
+      - labels:
+        - entPhysicalIndex
+        labelname: entPhysicalName
+        oid: 1.3.6.1.2.1.47.1.1.1.1.7
+        type: DisplayString
+      enum_values:
+        1: ok
+        2: unavailable
+        3: nonoperational
+  cisco_fc_fe:
+    walk:
+    - 1.3.6.1.4.1.9.9.289.1.2.1.1.15
+    - 1.3.6.1.4.1.9.9.289.1.2.1.1.26
+    - 1.3.6.1.4.1.9.9.289.1.2.1.1.38
+    - 1.3.6.1.4.1.9.9.289.1.2.1.1.40
+    - 1.3.6.1.4.1.9.9.289.1.2.1.1.41
+    - 1.3.6.1.4.1.9.9.289.1.2.1.1.5
+    - 1.3.6.1.4.1.9.9.289.1.2.1.1.6
+    - 1.3.6.1.4.1.9.9.289.1.2.5.1.1
+    - 1.3.6.1.4.1.9.9.289.1.2.5.1.2
+    metrics:
+    - name: fcIfTxWaitCount
+      oid: 1.3.6.1.4.1.9.9.289.1.2.1.1.15
+      type: counter
+      help: The number of times the FC-port waited due to lack of transmit credits.
+        - 1.3.6.1.4.1.9.9.289.1.2.1.1.15
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcIfFramesDiscard
+      oid: 1.3.6.1.4.1.9.9.289.1.2.1.1.26
+      type: counter
+      help: The number of frames discarded by the FC-port. - 1.3.6.1.4.1.9.9.289.1.2.1.1.26
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcIfTxWtAvgBBCreditTransitionToZero
+      oid: 1.3.6.1.4.1.9.9.289.1.2.1.1.38
+      type: counter
+      help: fcIfTxWtAvgBBCreditTransitionToZero increments if the credit available
+        is zero for 100 ms. - 1.3.6.1.4.1.9.9.289.1.2.1.1.38
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcHCIfBBCreditTransistionFromZero
+      oid: 1.3.6.1.4.1.9.9.289.1.2.1.1.40
+      type: counter
+      help: fcHCIfBBCreditTransistionFromZero increments if the transmit b2b credit
+        is zero. - 1.3.6.1.4.1.9.9.289.1.2.1.1.40
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcHCIfBBCreditTransistionToZero
+      oid: 1.3.6.1.4.1.9.9.289.1.2.1.1.41
+      type: counter
+      help: fcHCIfBBCreditTransistionToZero increments if the receive b2b credit is
+        zero. - 1.3.6.1.4.1.9.9.289.1.2.1.1.41
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcIfInvalidTxWords
+      oid: 1.3.6.1.4.1.9.9.289.1.2.1.1.5
+      type: counter
+      help: The number of invalid transmission words detected by the FC-Port. - 1.3.6.1.4.1.9.9.289.1.2.1.1.5
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcIfInvalidCrcs
+      oid: 1.3.6.1.4.1.9.9.289.1.2.1.1.6
+      type: counter
+      help: The number of invalid CRCs detected by the FC-Port - 1.3.6.1.4.1.9.9.289.1.2.1.1.6
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcIfCurrRxBbCredit
+      oid: 1.3.6.1.4.1.9.9.289.1.2.5.1.1
+      type: gauge
+      help: The current value of receive buffer-to-buffer credits for this port. -
+        1.3.6.1.4.1.9.9.289.1.2.5.1.1
+      indexes:
+      - labelname: ifIndex
+        type: gauge
+    - name: fcIfCurrTxBbCredit
+      oid: 1.3.6.1.4.1.9.9.289.1.2.5.1.2
+      type: gauge
+      help: The current value of transmit buffer-to-buffer credits for this port.
+        - 1.3.6.1.4.1.9.9.289.1.2.5.1.2
+      indexes:
+      - labelname: ifIndex
+        type: gauge
   cisco_imc:
     walk:
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.11
