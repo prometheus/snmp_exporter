@@ -1090,3 +1090,15 @@ modules:
         scale: .01
       jnxDomCurrentTxLaserBiasCurrent:
         scale: .001
+  # Fortigate
+  fortigate:
+    walk:
+      - 1.3.6.1.2.1.1      # System
+      - 1.3.6.1.2.1.2      # Interfaces
+      - 1.3.6.1.2.1.4      # IP
+      - 1.3.6.1.4.1.12356  # Fortinet specific OIDs
+    version: 2
+    auth: public_auth  # Referencia a la autenticación definida abajo
+    community: public
+    timeout: 5s
+    retries: 3
