@@ -210,9 +210,10 @@ type StaticFilter struct {
 	Indices []string `yaml:"indices,omitempty"`
 }
 type DynamicFilter struct {
-	Oid     string   `yaml:"oid"`
-	Targets []string `yaml:"targets,omitempty"`
-	Values  []string `yaml:"values,omitempty"`
+	Oid       string   `yaml:"oid"`
+	Operation string   `yaml:"operation,omitempty"`
+	Targets   []string `yaml:"targets,omitempty"`
+	Values    []string `yaml:"values,omitempty"`
 }
 
 type Metric struct {
