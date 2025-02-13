@@ -592,9 +592,9 @@ func sanitizeLabelName(name string) string {
 }
 
 
-func buildDynamicFilter( confFilter *[]config.DynamicFilter, nameToNode map[string]*Node ) {
-	// nameToNode[name]
-	for _, val := range ( *confFilter ) {
+func buildDynamicFilter( confFilter *[]config.DynamicFilter, nameToNode map[string]*Node ) *[]config.DynamicFilter {
+	for filterIndex, _ := range  ( *confFilter )  {
+		val := &( *confFilter )[ filterIndex ]
 		if !isOid( val.Oid ) {
 			val.Oid = nameToNode[ val.Oid ].Oid
 		}
@@ -604,6 +604,7 @@ func buildDynamicFilter( confFilter *[]config.DynamicFilter, nameToNode map[stri
 			}
 		}
 	}
+	return confFilter
 }
 
 
