@@ -69,6 +69,8 @@ POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.
 TPLINK_DDM        := https://static.tp-link.com/upload/software/2024/202402/20240229/L2-tplinkMibs.zip
 CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-mibs
 CISCO_CUCS_URL_v2 := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/v2
+YAMAHA_URL        := https://www.rtpro.yamaha.co.jp/RT/docs/mib/
+
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
@@ -103,7 +105,8 @@ clean:
 		$(MIBDIR)/readynas \
 		$(MIBDIR)/readydataos \
 		$(MIBDIR)/.eltex-mes \
-		$(MIBDIR)/.juniper
+		$(MIBDIR)/.juniper \
+		$(MIBDIR)/.yamaha-rt
 
 generator: *.go
 	go build
@@ -120,7 +123,7 @@ docker:
 
 .PHONY: docker-generate
 docker-generate: docker mibs
-	docker run --rm -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" generate 
+	docker run --rm -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" --no-fail-on-parse-errors generate
 
 .PHONY: docker-publish
 docker-publish:
@@ -177,7 +180,8 @@ mibs: \
   $(MIBDIR)/.dlink-mibs \
   $(MIBDIR)/.eltex-mes \
   $(MIBDIR)/.juniper \
-  $(MIBDIR)/.dell-network
+  $(MIBDIR)/.dell-network \
+	$(MIBDIR)/.yamaha-rt
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -508,3 +512,18 @@ $(MIBDIR)/.cisco-device:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-NS-MIB $(CISCO_URL)/CISCO-NS-MIB.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-QOS-PIB-MIB $(CISCO_URL)/CISCO-QOS-PIB-MIB.my
 	@touch $(MIBDIR)/.cisco-device
+
+$(MIBDIR)/.yamaha-rt:
+	@echo ">> Downloading Yamaha RT Series MIBs"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-product.mib.txt $(YAMAHA_URL)/yamaha-product.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt.mib.txt $(YAMAHA_URL)/yamaha-rt.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-firmware.mib.txt $(YAMAHA_URL)/yamaha-rt-firmware.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-hardware.mib.txt $(YAMAHA_URL)/yamaha-rt-hardware.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-interfaces.mib.txt $(YAMAHA_URL)/yamaha-rt-interfaces.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-ip.mib.txt $(YAMAHA_URL)/yamaha-rt-ip.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-switch.mib.txt $(YAMAHA_URL)/yamaha-rt-switch.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-smi.mib.txt $(YAMAHA_URL)/yamaha-smi.mib.txt
+	# Workaround to make DisplayString available (#867)
+	@find $(MIBDIR) -name 'yamaha-*.mib.txt' | xargs sed -i.bak -z -E 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/'
+	@rm $(MIBDIR)/yamaha-*.mib.txt.bak
+	@touch $(MIBDIR)/.yamaha-rt
