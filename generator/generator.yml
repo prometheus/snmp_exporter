@@ -73,6 +73,11 @@ modules:
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolFree
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolType
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolName
+      # 32bit counters (for ASA 9.18 and above or NX-OS)
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolUsed
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolFree
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolType
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolName
       - CISCO-ENTITY-SENSOR-MIB::entSensorValueTable
       - CISCO-ENTITY-FRU-CONTROL-MIB::cefcFRUPowerOperStatus
     lookups:
@@ -84,6 +89,10 @@ modules:
         lookup: ENTITY-MIB::entPhysicalName
       - source_indexes: [ciscoMemoryPoolType]
         lookup: ciscoMemoryPoolName
+      - source_indexes: [cempMemPoolIndex]
+        lookup: cempMemPoolType
+      - source_indexes: [cempMemPoolIndex]
+        lookup: cempMemPoolName
     overrides:
       entSensorScale:
         ignore: true
@@ -103,6 +112,8 @@ modules:
       ciscoMemoryPoolName:
         type: DisplayString
         ignore: true
+      cempMemPoolName:
+        type: DisplayString
 
   cisco_fc_fe:
     walk:
