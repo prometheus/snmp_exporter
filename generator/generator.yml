@@ -1101,3 +1101,37 @@ modules:
         scale: .01
       jnxDomCurrentTxLaserBiasCurrent:
         scale: .001
+
+# Yamaha RT Series
+#
+# http://www.rtpro.yamaha.co.jp/RT/docs/mib/yamaha-private-mib.zip
+  yamaha_rt:
+    walk:
+      - yrhMemorySize
+      - yrhMemoryUtil
+      - yrhCpuUtil5sec
+      - yrhCpuUtil1min
+      - yrhCpuUtil5min
+      - yrhMultiCpuUtil5sec
+      - yrhMultiCpuUtil1min
+      - yrhMultiCpuUtil5min
+      - yrfRevision
+      - yrfUpTime
+    overrides:
+      yrhMemoryUtil:
+        scale: 0.01
+      yrhCpuUtil5sec:
+        scale: 0.01
+      yrhCpuUtil1min:
+        scale: 0.01
+      yrhCpuUtil5min:
+        scale: 0.01
+      yrhMultiCpuUtil5sec:
+        scale: 0.01
+      yrhMultiCpuUtil1min:
+        scale: 0.01
+      yrhMultiCpuUtil5min:
+        scale: 0.01
+      yrfUpTime:
+        help: The time (in seconds) since the network management portion of the system was last re-initialized - 1.3.6.1.4.1.1182.2.2.4
+        scale: 0.01
