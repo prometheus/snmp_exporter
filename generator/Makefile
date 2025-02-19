@@ -37,6 +37,7 @@ CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
 ELTEX_MES_URL     := https://eltex-co.com/upload/iblock/93c/80760x03yv4m8crugf0b8ab5yo8tel34/mibs_10.3.6.6.zip
+DELL_NETWORK_URL  := https://supportkb.dell.com/attachment/ka02R000000I7TFQA0/Current_MIBs_pkb_en_US_1.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
@@ -68,6 +69,8 @@ POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.
 TPLINK_DDM        := https://static.tp-link.com/upload/software/2024/202402/20240229/L2-tplinkMibs.zip
 CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-mibs
 CISCO_CUCS_URL_v2 := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/v2
+YAMAHA_URL        := https://www.rtpro.yamaha.co.jp/RT/docs/mib/
+
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
@@ -86,10 +89,12 @@ all: mibs
 clean:
 	rm -rvf \
 		$(MIBDIR)/* \
+		$(MIBDIR)/.cisco-device \
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
 		$(MIBDIR)/.dlink-mibs \
+		$(MIBDIR)/.dell-network \
 		$(MIBDIR)/.hpe-mib \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
@@ -100,7 +105,8 @@ clean:
 		$(MIBDIR)/readynas \
 		$(MIBDIR)/readydataos \
 		$(MIBDIR)/.eltex-mes \
-		$(MIBDIR)/.juniper
+		$(MIBDIR)/.juniper \
+		$(MIBDIR)/.yamaha-rt
 
 generator: *.go
 	go build
@@ -117,7 +123,7 @@ docker:
 
 .PHONY: docker-generate
 docker-generate: docker mibs
-	docker run --rm -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" generate 
+	docker run --rm -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" --no-fail-on-parse-errors generate
 
 .PHONY: docker-publish
 docker-publish:
@@ -138,14 +144,9 @@ mibs: \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
   $(MIBDIR)/iDRAC-SMIv2.mib \
   $(MIBDIR)/.hpe-mib \
-  $(MIBDIR)/ENTITY-MIB \
-  $(MIBDIR)/ENTITY-SENSOR-MIB \
-  $(MIBDIR)/ENTITY-STATE-MIB \
-  $(MIBDIR)/ENTITY-STATE-TC-MIB \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
-  $(MIBDIR)/ISDN-MIB \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/VRRP-MIB \
   $(MIBDIR)/VRRPv3-MIB \
@@ -174,10 +175,13 @@ mibs: \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
   $(MIBDIR)/.cisco_imc \
+  $(MIBDIR)/.cisco-device \
   $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
   $(MIBDIR)/.dlink-mibs \
   $(MIBDIR)/.eltex-mes \
-  $(MIBDIR)/.juniper
+  $(MIBDIR)/.juniper \
+  $(MIBDIR)/.dell-network \
+	$(MIBDIR)/.yamaha-rt
 
 $(MIBDIR)/apc-powernet-mib:
 	@echo ">> Downloading apc-powernet-mib" 
@@ -223,26 +227,6 @@ $(MIBDIR)/.hpe-mib:
 	@mv $(TMP_DIR)/*cpq*.mib $(MIBDIR)
 	@rm -rf $(TMP_DIR) $(TMP)
 	@touch $(MIBDIR)/.hpe-mib
-
-$(MIBDIR)/ENTITY-MIB:
-	@echo ">> Downloading Cisco ENTITY-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-MIB "$(CISCO_URL)/ENTITY-MIB.my"
-
-$(MIBDIR)/ENTITY-SENSOR-MIB:
-	@echo ">> Downloading Cisco ENTITY-SENSOR-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-SENSOR-MIB "$(CISCO_URL)/ENTITY-SENSOR-MIB.my"
-
-$(MIBDIR)/ENTITY-STATE-MIB:
-	@echo ">> Downloading Cisco ENTITY-STATE-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-MIB "$(CISCO_URL)/ENTITY-STATE-MIB.my"
-
-$(MIBDIR)/ENTITY-STATE-TC-MIB:
-	@echo ">> Downloading Cisco ENTITY-STATE-TC-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-TC-MIB "$(CISCO_URL)/ENTITY-STATE-TC-MIB.my"
-
-$(MIBDIR)/ISDN-MIB:
-	@echo ">> Downloading Cisco ISDN-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB "$(CISCO_URL)/ISDN-MIB.my"
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Downloading IANA charset MIB"
@@ -455,7 +439,7 @@ $(MIBDIR)/powercom:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/powercom "$(POWERCOM_URL)"
 
 $(MIBDIR)/.cisco_imc:
-	@echo ">> Downloading Cisco UCS to $(TMP)"
+	@echo ">> Downloading Cisco UCS"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-FAULT-MIB.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-MIB.my"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my "$(CISCO_CUCS_URL)/CISCO-UNIFIED-COMPUTING-STORAGE-MIB.my"
@@ -489,3 +473,58 @@ $(MIBDIR)/.juniper:
 		JuniperMibs/mib-jnx-subscriber.txt
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.juniper
+
+$(MIBDIR)/.dell-network:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading Dell network mibs to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(DELL_NETWORK_URL)
+	@unzip -j -d $(MIBDIR)/dell $(TMP) DELL-NETWORKING-MIB-9.14.2.1.zip
+	@unzip -j -d $(MIBDIR) $(MIBDIR)/dell/DELL-NETWORKING-MIB-9.14.2.1.zip \
+		DELL-NETWORKING-CHASSIS-MIB.mib \
+		DELL-NETWORKING-TC.mib \
+		DELL-NETWORKING-SMI.mib
+	@rm -rfv $(TMP) $(MIBDIR)/dell
+	@touch $(MIBDIR)/.dell-network
+
+# sed below fixes CISCO-FC-FE-MIB mib (ref: https://github.com/cisco/cisco-mibs/issues/136)
+$(MIBDIR)/.cisco-device:
+	@echo ">> Downloading Cisco device mibs"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC $(CISCO_URL)/CISCO-TC.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-SMI $(CISCO_URL)/CISCO-SMI.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-PROCESS-MIB $(CISCO_URL)/CISCO-PROCESS-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENVMON-MIB $(CISCO_URL)/CISCO-ENVMON-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENTITY-SENSOR-MIB $(CISCO_URL)/CISCO-ENTITY-SENSOR-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-MEMORY-POOL-MIB $(CISCO_URL)/CISCO-MEMORY-POOL-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-MIB $(CISCO_URL)/ENTITY-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-SENSOR-MIB $(CISCO_URL)/ENTITY-SENSOR-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-MIB $(CISCO_URL)/ENTITY-STATE-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ENTITY-STATE-TC-MIB $(CISCO_URL)/ENTITY-STATE-TC-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/ISDN-MIB "$(CISCO_URL)/ISDN-MIB.my"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-MEMORY-POOL-MIB $(CISCO_URL)/CISCO-MEMORY-POOL-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENHANCED-MEMPOOL-MIB $(CISCO_URL)/CISCO-ENHANCED-MEMPOOL-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENTITY-FRU-CONTROL-MIB $(CISCO_URL)/CISCO-ENTITY-FRU-CONTROL-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-FC-FE-MIB $(CISCO_URL)/CISCO-FC-FE-MIB.my
+	@sed -i -E 's/OBJECT.+TransceiverPowerControl/OBJECT          fcIfTransceiverPowerControl/' $(MIBDIR)/CISCO-FC-FE-MIB
+	@sed -i -E -z 's/(fcIfSysTransceiverPowerControlCapability,\n.+fcIfSysTransceiverPowerControl),/\1/' $(MIBDIR)/CISCO-FC-FE-MIB
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ST-TC $(CISCO_URL)/CISCO-ST-TC.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-VSAN-MIB $(CISCO_URL)/CISCO-VSAN-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ZS-MIB $(CISCO_URL)/CISCO-ZS-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-IF-EXTENSION-MIB $(CISCO_URL)/CISCO-IF-EXTENSION-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-NS-MIB $(CISCO_URL)/CISCO-NS-MIB.my
+	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-QOS-PIB-MIB $(CISCO_URL)/CISCO-QOS-PIB-MIB.my
+	@touch $(MIBDIR)/.cisco-device
+
+$(MIBDIR)/.yamaha-rt:
+	@echo ">> Downloading Yamaha RT Series MIBs"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-product.mib.txt $(YAMAHA_URL)/yamaha-product.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt.mib.txt $(YAMAHA_URL)/yamaha-rt.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-firmware.mib.txt $(YAMAHA_URL)/yamaha-rt-firmware.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-hardware.mib.txt $(YAMAHA_URL)/yamaha-rt-hardware.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-interfaces.mib.txt $(YAMAHA_URL)/yamaha-rt-interfaces.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-ip.mib.txt $(YAMAHA_URL)/yamaha-rt-ip.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-switch.mib.txt $(YAMAHA_URL)/yamaha-rt-switch.mib.txt
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-smi.mib.txt $(YAMAHA_URL)/yamaha-smi.mib.txt
+	# Workaround to make DisplayString available (#867)
+	@find $(MIBDIR) -name 'yamaha-*.mib.txt' | xargs sed -i.bak -z -E 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/'
+	@rm $(MIBDIR)/yamaha-*.mib.txt.bak
+	@touch $(MIBDIR)/.yamaha-rt
