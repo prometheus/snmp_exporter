@@ -16,8 +16,9 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"github.com/mengxifl/snmp_exporter/config"
+	// "github.com/prometheus/snmp_exporter/config"
 
-	"github.com/prometheus/snmp_exporter/config"
 )
 
 // The generator config.
