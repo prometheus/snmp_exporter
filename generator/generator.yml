@@ -80,6 +80,8 @@ modules:
       - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolName
       - CISCO-ENTITY-SENSOR-MIB::entSensorValueTable
       - CISCO-ENTITY-FRU-CONTROL-MIB::cefcFRUPowerOperStatus
+      - CISCO-IMAGE-MIB::ciscoImageString
+      - CISCO-ENHANCED-IMAGE-MIB::ceImageTable
     lookups:
       - source_indexes: [entPhysicalIndex]
         lookup: CISCO-ENTITY-SENSOR-MIB::entSensorScale
