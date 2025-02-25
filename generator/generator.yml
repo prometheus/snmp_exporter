@@ -128,6 +128,13 @@ modules:
       - CISCO-FC-FE-MIB::fcIfTxWaitCount
       - CISCO-FC-FE-MIB::fcIfCurrRxBbCredit
       - CISCO-FC-FE-MIB::fcIfCurrTxBbCredit
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifAlias"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifDescr"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifName"
 
 # Dell OpenManage MIBs
   dell:
