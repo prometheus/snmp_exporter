@@ -40,7 +40,28 @@ modules:
   apcpdus:
     walk:
     - 1.3.6.1.4.1.318.1.1.32
-
+    lookups:
+      - source_indexes: [pduNamePlateIndex]
+        lookup: pduNamePlateName
+        drop_source_indexes: true
+      - source_indexes: [pduNamePlateIndex]
+        lookup: pduNamePlateLocation
+        drop_source_indexes: true
+      - source_indexes: [pduNamePlateIndex]
+        lookup: pduNamePlateIPAddress
+        drop_source_indexes: true
+      - source_indexes: [pduNamePlateIndex]
+        lookup: pduNamePlateInetNetMask
+        drop_source_indexes: true
+      - source_indexes: [pduNamePlateIndex]
+        lookup: pduNamePlateInetGateway
+        drop_source_indexes: true
+      - source_indexes: [pduNamePlateIndex]
+        lookup: pduNamePlateMACAddress
+        drop_source_indexes: true
+      - source_indexes: [pduNamePlateIndex]
+        lookup: pduNamePlateModelNumber
+        drop_source_indexes: true
 
 # APC/Schneider UPS Network Management Cards
 #
@@ -57,33 +78,33 @@ modules:
 # MIB: https://download.schneider-electric.com/files?p_File_Name=powernet426.mib
 # Guide: http://www.apc.com/salestools/ASTE-6Z5QEY/ASTE-6Z5QEY_R0_EN.pdf
 # Download site: http://www.apc.com/us/en/tools/download/index.cfm
-  apcups:
-    walk:
-      - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
-      - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
-      - 1.3.6.1.4.1.318.1.1.1.4       # upsOutput
-      - 1.3.6.1.4.1.318.1.1.1.7.2     # upsAdvTest
-      - 1.3.6.1.4.1.318.1.1.1.8.1     # upsCommStatus
-      - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
-      - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
-      - 1.3.6.1.4.1.318.1.1.26.4.3    # rPDU2DeviceStatusTable
-      - 1.3.6.1.4.1.318.1.1.26.6.3    # rPDU2PhaseStatusTable
-      - 1.3.6.1.4.1.318.1.1.26.8.3    # rPDU2BankStatusTable
-      - 1.3.6.1.4.1.318.1.1.26.10.2.2 # rPDU2SensorTempHumidityStatusTable
-    lookups:
-      - source_indexes: [upsOutletGroupStatusIndex]
-        lookup: upsOutletGroupStatusName
-        drop_source_indexes: true
-      - source_indexes: [iemStatusProbeIndex]
-        lookup: iemStatusProbeName
-        drop_source_indexes: true
-    overrides:
-      rPDU2BankStatusLoadState:
-        type: EnumAsStateSet
-      upsAdvBatteryCondition:
-        type: EnumAsStateSet
-      upsAdvBatteryChargingCurrentRestricted:
-        type: EnumAsStateSet
-      upsAdvBatteryChargerStatus:
-        type: EnumAsStateSet
+  #  apcups:
+  #    walk:
+  #      - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
+  #      - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
+  #      - 1.3.6.1.4.1.318.1.1.1.4       # upsOutput
+  #      - 1.3.6.1.4.1.318.1.1.1.7.2     # upsAdvTest
+  #      - 1.3.6.1.4.1.318.1.1.1.8.1     # upsCommStatus
+  #      - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
+  #      - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
+  #      - 1.3.6.1.4.1.318.1.1.26.4.3    # rPDU2DeviceStatusTable
+  #      - 1.3.6.1.4.1.318.1.1.26.6.3    # rPDU2PhaseStatusTable
+  #      - 1.3.6.1.4.1.318.1.1.26.8.3    # rPDU2BankStatusTable
+  #      - 1.3.6.1.4.1.318.1.1.26.10.2.2 # rPDU2SensorTempHumidityStatusTable
+  #    lookups:
+  #      - source_indexes: [upsOutletGroupStatusIndex]
+  #        lookup: upsOutletGroupStatusName
+  #        drop_source_indexes: true
+  #      - source_indexes: [iemStatusProbeIndex]
+  #        lookup: iemStatusProbeName
+  #        drop_source_indexes: true
+  #    overrides:
+  #      rPDU2BankStatusLoadState:
+  #        type: EnumAsStateSet
+  #      upsAdvBatteryCondition:
+  #        type: EnumAsStateSet
+  #      upsAdvBatteryChargingCurrentRestricted:
+  #        type: EnumAsStateSet
+  #      upsAdvBatteryChargerStatus:
+  #        type: EnumAsStateSet
   
