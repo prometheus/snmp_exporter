@@ -119,19 +119,19 @@ parse_errors: generator mibs
 
 .PHONY: docker
 docker:
-	docker build --build-arg REPO_TAG="$(REPO_TAG)" -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" .
+	podman build --build-arg REPO_TAG="$(REPO_TAG)" -t "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" .
 
 .PHONY: docker-generate
 docker-generate: docker mibs
-	docker run --rm -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" --no-fail-on-parse-errors generate
+	podman run --rm -v "${PWD}:/opt$(DOCKER_VOL_OPTS)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" --no-fail-on-parse-errors generate
 
 .PHONY: docker-publish
 docker-publish:
-	docker push "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)"
+	podman push "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)"
 
 .PHONY: docker-tag-latest
 docker-tag-latest:
-	docker tag "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):latest"
+	podman tag "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):$(SANITIZED_DOCKER_IMAGE_TAG)" "$(DOCKER_REPO)/$(DOCKER_IMAGE_NAME):latest"
 
 mibs: \
   $(MIBDIR)/apc-powernet-mib \
@@ -188,7 +188,7 @@ $(MIBDIR)/apc-powernet-mib:
 	@echo ">> if download fails please check https://www.se.com/at/de/search/?q=powernet+mib&submit+search+query=Search for the latest release"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib "$(APC_URL)"
 	# Workaround to make DisplayString available (#867)
-	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $(MIBDIR)/apc-powernet-mib
+	@gsed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $(MIBDIR)/apc-powernet-mib
 	@rm $(MIBDIR)/apc-powernet-mib.bak
 
 $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB:
@@ -258,7 +258,7 @@ $(MIBDIR)/.kemp-lm:
 	@curl $(CURL_OPTS) -L -o $(TMP) $(KEMP_LM_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) *.txt
 	# Workaround invalid timestamps.
-	@sed -i.bak -E 's/"([0-9]{12})[0-9]{2}Z"/"\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
+	@gsed -i.bak -E 's/"([0-9]{12})[0-9]{2}Z"/"\1Z"/' $(MIBDIR)/*.RELEASE-B100-MIB.txt
 	@rm $(MIBDIR)/*.RELEASE-B100-MIB.txt.bak
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.kemp-lm
@@ -409,7 +409,7 @@ $(MIBDIR)/CyberPower.MIB:
 	@unzip -j -d $(MIBDIR) $(TMP) CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB
 	@mv -v $(MIBDIR)/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB $@
 	# Workaround to make DisplayString available (#867)
-	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $@
+	@gsed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $@
 	@rm $@.bak
 	@rm -v $(TMP)
 
@@ -486,7 +486,7 @@ $(MIBDIR)/.dell-network:
 	@rm -rfv $(TMP) $(MIBDIR)/dell
 	@touch $(MIBDIR)/.dell-network
 
-# sed below fixes CISCO-FC-FE-MIB mib (ref: https://github.com/cisco/cisco-mibs/issues/136)
+# gsed below fixes CISCO-FC-FE-MIB mib (ref: https://github.com/cisco/cisco-mibs/issues/136)
 $(MIBDIR)/.cisco-device:
 	@echo ">> Downloading Cisco device mibs"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-TC $(CISCO_URL)/CISCO-TC.my
@@ -504,8 +504,8 @@ $(MIBDIR)/.cisco-device:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENHANCED-MEMPOOL-MIB $(CISCO_URL)/CISCO-ENHANCED-MEMPOOL-MIB.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENTITY-FRU-CONTROL-MIB $(CISCO_URL)/CISCO-ENTITY-FRU-CONTROL-MIB.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-FC-FE-MIB $(CISCO_URL)/CISCO-FC-FE-MIB.my
-	@sed -i -E 's/OBJECT.+TransceiverPowerControl/OBJECT          fcIfTransceiverPowerControl/' $(MIBDIR)/CISCO-FC-FE-MIB
-	@sed -i -E -z 's/(fcIfSysTransceiverPowerControlCapability,\n.+fcIfSysTransceiverPowerControl),/\1/' $(MIBDIR)/CISCO-FC-FE-MIB
+	@gsed -i -E 's/OBJECT.+TransceiverPowerControl/OBJECT          fcIfTransceiverPowerControl/' $(MIBDIR)/CISCO-FC-FE-MIB
+	@gsed -i -E -z 's/(fcIfSysTransceiverPowerControlCapability,\n.+fcIfSysTransceiverPowerControl),/\1/' $(MIBDIR)/CISCO-FC-FE-MIB
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ST-TC $(CISCO_URL)/CISCO-ST-TC.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-VSAN-MIB $(CISCO_URL)/CISCO-VSAN-MIB.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ZS-MIB $(CISCO_URL)/CISCO-ZS-MIB.my
@@ -528,6 +528,6 @@ $(MIBDIR)/.yamaha-rt:
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-switch.mib.txt $(YAMAHA_URL)/yamaha-rt-switch.mib.txt
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-smi.mib.txt $(YAMAHA_URL)/yamaha-smi.mib.txt
 	# Workaround to make DisplayString available (#867)
-	@find $(MIBDIR) -name 'yamaha-*.mib.txt' | xargs sed -i.bak -z -E 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/'
+	@find $(MIBDIR) -name 'yamaha-*.mib.txt' | xargs gsed -i.bak -z -E 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/'
 	@rm $(MIBDIR)/yamaha-*.mib.txt.bak
 	@touch $(MIBDIR)/.yamaha-rt
