@@ -14174,6 +14174,69 @@ modules:
       oid: 1.3.6.1.4.1.35265.1.139.6.1.1.2.3
       type: gauge
       help: Percentage of the device CPU utilization during the last 5 minutes - 1.3.6.1.4.1.35265.1.139.6.1.1.2.3
+  fieldserver:
+    walk:
+    - 1.3.6.1.4.1.6347.2.2
+    - 1.3.6.1.4.1.6347.2.3
+    - 1.3.6.1.4.1.6347.2.4
+    - 1.3.6.1.4.1.6347.2.5
+    - 1.3.6.1.4.1.6347.2.6
+    - 1.3.6.1.4.1.6347.2.7
+    metrics:
+    - name: aiValue
+      oid: 1.3.6.1.4.1.6347.2.2.1.1
+      type: gauge
+      help: Value - 1.3.6.1.4.1.6347.2.2.1.1
+      indexes:
+      - labelname: aiValue
+        type: gauge
+      - labelname: aiDescription
+        type: OctetString
+    - name: aoValue
+      oid: 1.3.6.1.4.1.6347.2.3.1.1
+      type: gauge
+      help: Value - 1.3.6.1.4.1.6347.2.3.1.1
+      indexes:
+      - labelname: aoValue
+        type: gauge
+      - labelname: aoDescription
+        type: OctetString
+    - name: avValue
+      oid: 1.3.6.1.4.1.6347.2.4.1.1
+      type: gauge
+      help: Value - 1.3.6.1.4.1.6347.2.4.1.1
+      indexes:
+      - labelname: avValue
+        type: gauge
+      - labelname: avDescription
+        type: OctetString
+    - name: biValue
+      oid: 1.3.6.1.4.1.6347.2.5.1.1
+      type: gauge
+      help: Value - 1.3.6.1.4.1.6347.2.5.1.1
+      indexes:
+      - labelname: biValue
+        type: gauge
+      - labelname: biDescription
+        type: OctetString
+    - name: boValue
+      oid: 1.3.6.1.4.1.6347.2.6.1.1
+      type: gauge
+      help: Value - 1.3.6.1.4.1.6347.2.6.1.1
+      indexes:
+      - labelname: boValue
+        type: gauge
+      - labelname: boDescription
+        type: OctetString
+    - name: bvValue
+      oid: 1.3.6.1.4.1.6347.2.7.1.1
+      type: gauge
+      help: Value - 1.3.6.1.4.1.6347.2.7.1.1
+      indexes:
+      - labelname: bvValue
+        type: gauge
+      - labelname: bvDescription
+        type: OctetString
   hpe:
     walk:
     - 1.3.6.1.4.1.232.1.2.2.1.1
