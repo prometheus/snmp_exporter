@@ -1152,12 +1152,12 @@ modules:
 # * SNMP: see "Protocol Driver Manual - SNMP STD" at https://us.msasafety.com/smc/protocols
   fieldserver:
     walk:
-      - analogInputsTable
-      - analogOutputsTable
-      - analogValuesTable
-      - binaryInputsTable
-      - binaryOutputsTable
-      - binaryValuesTable
+      - "FIELDSERVER-STD-MIB-v1-00aF::analogInputsTable"
+      - "FIELDSERVER-STD-MIB-v1-00aF::analogOutputsTable"
+      - "FIELDSERVER-STD-MIB-v1-00aF::analogValuesTable"
+      - "FIELDSERVER-STD-MIB-v1-00aF::binaryInputsTable"
+      - "FIELDSERVER-STD-MIB-v1-00aF::binaryOutputsTable"
+      - "FIELDSERVER-STD-MIB-v1-00aF::binaryValuesTable"
     overrides:
       # NOTE: snmp-exporter cannot parse these OCTET STRINGs
       # See https://github.com/prometheus/snmp_exporter/issues/264
