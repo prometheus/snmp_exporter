@@ -235,7 +235,13 @@ $(MIBDIR)/FServer-Std.MIB:
 	@echo ">> Downloading FIELDSERVER MIB to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(FIELDSERVER_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) FServer-Std.MIB
-	@sed -i.bak -E '/----/d' $(MIBDIR)/FServer-Std.MIB
+	# Remove invalid line in the MIB
+	@sed -i.bak '/----/d' $(MIBDIR)/FServer-Std.MIB
+	# Fix MIB - it claims that these tables have two indices but the data returned
+	# from the device only has a single index.
+	@sed -i -r \
+		'/(analog|binary)(Inputs|Outputs|Values)Entry OBJECT-TYPE/,/::=/ { /[ab][iov]Description/d }' \
+		$(MIBDIR)/FServer-Std.MIB
 	@rm -v $(TMP)
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:

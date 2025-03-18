@@ -14190,8 +14190,12 @@ modules:
       indexes:
       - labelname: aiValue
         type: gauge
-      - labelname: aiDescription
-        type: OctetString
+      lookups:
+      - labels:
+        - aiValue
+        labelname: aiDescription
+        oid: 1.3.6.1.4.1.6347.2.2.1.2
+        type: DisplayString
     - name: aoValue
       oid: 1.3.6.1.4.1.6347.2.3.1.1
       type: gauge
@@ -14199,8 +14203,12 @@ modules:
       indexes:
       - labelname: aoValue
         type: gauge
-      - labelname: aoDescription
-        type: OctetString
+      lookups:
+      - labels:
+        - aoValue
+        labelname: aoDescription
+        oid: 1.3.6.1.4.1.6347.2.3.1.2
+        type: DisplayString
     - name: avValue
       oid: 1.3.6.1.4.1.6347.2.4.1.1
       type: gauge
@@ -14208,8 +14216,12 @@ modules:
       indexes:
       - labelname: avValue
         type: gauge
-      - labelname: avDescription
-        type: OctetString
+      lookups:
+      - labels:
+        - avValue
+        labelname: avDescription
+        oid: 1.3.6.1.4.1.6347.2.4.1.2
+        type: DisplayString
     - name: biValue
       oid: 1.3.6.1.4.1.6347.2.5.1.1
       type: gauge
@@ -14217,8 +14229,12 @@ modules:
       indexes:
       - labelname: biValue
         type: gauge
-      - labelname: biDescription
-        type: OctetString
+      lookups:
+      - labels:
+        - biValue
+        labelname: biDescription
+        oid: 1.3.6.1.4.1.6347.2.5.1.2
+        type: DisplayString
     - name: boValue
       oid: 1.3.6.1.4.1.6347.2.6.1.1
       type: gauge
@@ -14226,8 +14242,12 @@ modules:
       indexes:
       - labelname: boValue
         type: gauge
-      - labelname: boDescription
-        type: OctetString
+      lookups:
+      - labels:
+        - boValue
+        labelname: boDescription
+        oid: 1.3.6.1.4.1.6347.2.6.1.2
+        type: DisplayString
     - name: bvValue
       oid: 1.3.6.1.4.1.6347.2.7.1.1
       type: gauge
@@ -14235,8 +14255,12 @@ modules:
       indexes:
       - labelname: bvValue
         type: gauge
-      - labelname: bvDescription
-        type: OctetString
+      lookups:
+      - labels:
+        - bvValue
+        labelname: bvDescription
+        oid: 1.3.6.1.4.1.6347.2.7.1.2
+        type: DisplayString
   hpe:
     walk:
     - 1.3.6.1.4.1.232.1.2.2.1.1
