@@ -80,6 +80,8 @@ modules:
       - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolName
       - CISCO-ENTITY-SENSOR-MIB::entSensorValueTable
       - CISCO-ENTITY-FRU-CONTROL-MIB::cefcFRUPowerOperStatus
+      - CISCO-IMAGE-MIB::ciscoImageString
+      - CISCO-ENHANCED-IMAGE-MIB::ceImageTable
     lookups:
       - source_indexes: [entPhysicalIndex]
         lookup: CISCO-ENTITY-SENSOR-MIB::entSensorScale
@@ -126,6 +128,13 @@ modules:
       - CISCO-FC-FE-MIB::fcIfTxWaitCount
       - CISCO-FC-FE-MIB::fcIfCurrRxBbCredit
       - CISCO-FC-FE-MIB::fcIfCurrTxBbCredit
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifAlias"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifDescr"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifName"
 
 # Dell OpenManage MIBs
   dell:
