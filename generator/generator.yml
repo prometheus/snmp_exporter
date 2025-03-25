@@ -1159,16 +1159,40 @@ modules:
       - "FIELDSERVER-STD-MIB-v1-00aF::binaryOutputsTable"
       - "FIELDSERVER-STD-MIB-v1-00aF::binaryValuesTable"
     overrides:
-      aiDescription: { type: DisplayString, ignore: true }
-      aoDescription: { type: DisplayString, ignore: true }
-      avDescription: { type: DisplayString, ignore: true }
-      biDescription: { type: DisplayString, ignore: true }
-      boDescription: { type: DisplayString, ignore: true }
-      bvDescription: { type: DisplayString, ignore: true }
+      aiDescription:
+        type: DisplayString
+        ignore: true
+      aoDescription:
+        type: DisplayString
+        ignore: true
+      avDescription:
+        type: DisplayString
+        ignore: true
+      biDescription:
+        type: DisplayString
+        ignore: true
+      boDescription:
+        type: DisplayString
+        ignore: true
+      bvDescription:
+        type: DisplayString
+        ignore: true
     lookups:
-      - { source_indexes: [ aiValue ], lookup: aiDescription }
-      - { source_indexes: [ aoValue ], lookup: aoDescription }
-      - { source_indexes: [ avValue ], lookup: avDescription }
-      - { source_indexes: [ biValue ], lookup: biDescription }
-      - { source_indexes: [ boValue ], lookup: boDescription }
-      - { source_indexes: [ bvValue ], lookup: bvDescription }
+      - source_indexes:
+        - aiValue
+        lookup: aiDescription
+      - source_indexes:
+        - aoValue
+        lookup: aoDescription
+      - source_indexes:
+        - avValue
+        lookup: avDescription
+      - source_indexes:
+        - biValue
+        lookup: biDescription
+      - source_indexes:
+        - boValue
+        lookup: boDescription
+      - source_indexes:
+        - bvValue
+        lookup: bvDescription
