@@ -42,6 +42,7 @@ HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linu
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
+FIELDSERVER_URL   := https://media.msanet.com/NA/USA/SMC/SoftwareDownloads/FS-8704-26%20SNMP%20Standard%20MIB%20File.zip
 KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/KEEPALIVED-MIB.txt
 VRRP_URL          := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRP-MIB.txt
 VRRPV3_URL        := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRPv3-MIB.txt
@@ -147,6 +148,7 @@ mibs: \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
   $(MIBDIR)/IANA-PRINTER-MIB.txt \
+  $(MIBDIR)/FServer-Std.MIB \
   $(MIBDIR)/KEEPALIVED-MIB \
   $(MIBDIR)/VRRP-MIB \
   $(MIBDIR)/VRRPv3-MIB \
@@ -227,6 +229,20 @@ $(MIBDIR)/.hpe-mib:
 	@mv $(TMP_DIR)/*cpq*.mib $(MIBDIR)
 	@rm -rf $(TMP_DIR) $(TMP)
 	@touch $(MIBDIR)/.hpe-mib
+
+$(MIBDIR)/FServer-Std.MIB:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading FIELDSERVER MIB to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(FIELDSERVER_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) FServer-Std.MIB
+	# Remove invalid line in the MIB
+	@sed -i.bak '/----/d' $(MIBDIR)/FServer-Std.MIB
+	# Fix MIB - it claims that these tables have two indices but the data returned
+	# from the device only has a single index.
+	@sed -i -r \
+		'/(analog|binary)(Inputs|Outputs|Values)Entry OBJECT-TYPE/,/::=/ { /[ab][iov]Description/d }' \
+		$(MIBDIR)/FServer-Std.MIB
+	@rm -v $(TMP)
 
 $(MIBDIR)/IANA-CHARSET-MIB.txt:
 	@echo ">> Downloading IANA charset MIB"
