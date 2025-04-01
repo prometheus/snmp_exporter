@@ -844,11 +844,6 @@ modules:
         lookup: mtxrPOEName
       - source_indexes: [mtxrPartitionIndex]
         lookup: mtxrPartitionName
-    overrides:
-      # Remap enums where 1==true, 2==false to become 0==false, 1==true.
-      hrDiskStorageRemoveble:
-        scale: -1.0
-        offset: 2.0
 
 # CyberPower
 #
@@ -872,15 +867,15 @@ modules:
 # http://www.net-snmp.org/docs/mibs/host.html
   hrSystem:
     walk:
-      - hrSystem
+      - "HOST-RESOURCES-MIB::hrSystem"
   hrStorage:
     walk:
-      - hrStorage
+      - "HOST-RESOURCES-MIB::hrStorage"
     lookups:
       - source_indexes: [hrStorageIndex]
-        lookup: hrStorageDescr
+        lookup: "HOST-RESOURCES-MIB::hrStorageDescr"
       - source_indexes: [hrStorageIndex]
-        lookup: hrStorageType
+        lookup: "HOST-RESOURCES-MIB::hrStorageType"
     overrides:
       hrStorageIndex:
         ignore: true
@@ -890,13 +885,17 @@ modules:
         ignore: true
   hrDevice:
     walk:
-      - hrDevice
+      - "HOST-RESOURCES-MIB::hrDevice"
     lookups:
       - source_indexes: [hrDeviceIndex]
-        lookup: hrDeviceDescr
+        lookup: "HOST-RESOURCES-MIB::hrDeviceDescr"
       - source_indexes: [hrDeviceIndex]
-        lookup: hrDeviceType
+        lookup: "HOST-RESOURCES-MIB::hrDeviceType"
     overrides:
+      # Remap enums where 1==true, 2==false to become 0==false, 1==true.
+      hrDiskStorageRemoveble:
+        scale: -1.0
+        offset: 2.0
       hrPrinterStatus:
         type: EnumAsStateSet
       hrDeviceIndex:
@@ -909,13 +908,13 @@ modules:
         ignore: true
   hrSWRun:
     walk:
-      - hrSWRun
+      - "HOST-RESOURCES-MIB::hrSWRun"
   hrSWRunPerf:
     walk:
-      - hrSWRunPerf
+      - "HOST-RESOURCES-MIB::hrSWRunPerf"
   hrSWInstalled:
     walk:
-      - hrSWInstalled
+      - "HOST-RESOURCES-MIB::hrSWInstalled"
 
 #
 # Powercom MIBs
