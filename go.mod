@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
-	github.com/gosnmp/gosnmp v1.38.0
+	github.com/gosnmp/gosnmp v1.39.0
 	github.com/itchyny/timefmt-go v0.1.6
 	github.com/prometheus/client_golang v1.21.1
 	github.com/prometheus/client_model v0.6.1
