@@ -1,33 +1,40 @@
+version: "2"
 linters:
   enable:
     - misspell
     - revive
     - sloglint
   disable:
-    # Disable soon to deprecated[1] linters that lead to false
-    # positives when build tags disable certain files[2]
-    # 1: https://github.com/golangci/golangci-lint/issues/1841
-    # 2: https://github.com/prometheus/node_exporter/issues/1545
-    - deadcode
     - unused
-    - structcheck
-    - varcheck
-
-issues:
-  exclude-rules:
-    - path: _test.go
-      linters:
-        - errcheck
-        - govet
-
-linters-settings:
-  errcheck:
-    exclude-functions:
-      # Used in HTTP handlers, any error is handled by the server itself.
-      - (net/http.ResponseWriter).Write
-  revive:
+  settings:
+    errcheck:
+      exclude-functions:
+        - (net/http.ResponseWriter).Write
+    revive:
+      rules:
+        - name: unused-parameter
+          severity: warning
+          disabled: true
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
     rules:
-      # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#unused-parameter
-      - name: unused-parameter
-        severity: warning
-        disabled: true
+      - linters:
+          - errcheck
+          - govet
+        path: _test.go
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
