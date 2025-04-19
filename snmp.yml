@@ -32952,6 +32952,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrRemoteCapAddress
       oid: 1.3.6.1.4.1.14988.1.1.21.3.1.2
       type: DisplayString
@@ -32959,13 +32967,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
-    - name: mtxrRemoteCapIdentity
-      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
-      type: DisplayString
-      help: Identity name of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.3
-      indexes:
-      - labelname: mtxrRemoteCapId
-        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrRemoteCapBoardName
       oid: 1.3.6.1.4.1.14988.1.1.21.3.1.4
       type: DisplayString
@@ -32973,6 +32982,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrRemoteCapSerial
       oid: 1.3.6.1.4.1.14988.1.1.21.3.1.5
       type: DisplayString
@@ -32980,6 +32997,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrRemoteCapVersion
       oid: 1.3.6.1.4.1.14988.1.1.21.3.1.6
       type: DisplayString
@@ -32987,6 +33012,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrRemoteCapBaseMac
       oid: 1.3.6.1.4.1.14988.1.1.21.3.1.7
       type: PhysAddress48
@@ -32994,6 +33027,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrRemoteCapCommonName
       oid: 1.3.6.1.4.1.14988.1.1.21.3.1.8
       type: DisplayString
@@ -33001,6 +33042,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrRemoteCapState
       oid: 1.3.6.1.4.1.14988.1.1.21.3.1.9
       type: DisplayString
@@ -33008,16 +33057,14 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
-    - name: mtxrWifiRegistrationMacAddress
-      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.1
-      type: PhysAddress48
-      help: MAC address of the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.1
-      indexes:
-      - labelname: mtxrWifiRegistrationMacAddress
-        type: PhysAddress48
-        fixed_size: 6
-      - labelname: mtxrWifiRegistrationInterface
-        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
     - name: mtxrWifiRegistrationInterface
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.2
       type: gauge
@@ -33028,6 +33075,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationSsid
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.3
       type: DisplayString
@@ -33038,6 +33093,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationUptime
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.4
       type: gauge
@@ -33048,6 +33111,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationLastActivity
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.5
       type: gauge
@@ -33058,6 +33129,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationSignal
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.6
       type: gauge
@@ -33068,6 +33147,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationAuthType
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.7
       type: DisplayString
@@ -33078,6 +33165,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationBand
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.8
       type: DisplayString
@@ -33088,6 +33183,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationTxRate
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.9
       type: gauge
@@ -33098,6 +33201,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationRxRate
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.10
       type: gauge
@@ -33108,6 +33219,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationTxPackets
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.11
       type: counter
@@ -33118,6 +33237,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationRxPackets
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.12
       type: counter
@@ -33128,6 +33255,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationTxBytes
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.13
       type: counter
@@ -33138,6 +33273,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationRxBytes
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.14
       type: counter
@@ -33148,6 +33291,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationTxBitsPerSecond
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.15
       type: gauge
@@ -33158,6 +33309,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationRxBitsPerSecond
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.16
       type: gauge
@@ -33168,6 +33327,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationVlanId
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.17
       type: gauge
@@ -33178,6 +33345,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
     - name: mtxrWifiRegistrationAuthorized
       oid: 1.3.6.1.4.1.14988.1.1.21.4.1.18
       type: gauge
@@ -33188,6 +33363,14 @@ modules:
         fixed_size: 6
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
       enum_values:
         1: "true"
         2: "false"
@@ -33198,13 +33381,14 @@ modules:
       indexes:
       - labelname: mtxrWifiInterfacesId
         type: gauge
-    - name: mtxrWifiInterfacesName
-      oid: 1.3.6.1.4.1.14988.1.1.21.5.1.2
-      type: DisplayString
-      help: Name of the WiFi interface - 1.3.6.1.4.1.14988.1.1.21.5.1.2
-      indexes:
-      - labelname: mtxrWifiInterfacesId
-        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiInterfacesId
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiInterfacesId
     - name: mtxrWifiInterfacesSsid
       oid: 1.3.6.1.4.1.14988.1.1.21.5.1.3
       type: DisplayString
@@ -33212,6 +33396,14 @@ modules:
       indexes:
       - labelname: mtxrWifiInterfacesId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiInterfacesId
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiInterfacesId
     - name: mtxrWifiInterfacesFreq
       oid: 1.3.6.1.4.1.14988.1.1.21.5.1.4
       type: DisplayString
@@ -33219,6 +33411,14 @@ modules:
       indexes:
       - labelname: mtxrWifiInterfacesId
         type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiInterfacesId
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiInterfacesId
   nec_ix:
     walk:
     - 1.3.6.1.4.1.119.2.3.84.11
