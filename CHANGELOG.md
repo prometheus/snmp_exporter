@@ -1,3 +1,17 @@
+## 0.29.0 / 2025-04-23
+
+* [ENHANCEMENT] generator: fail early for bad walk OID #1411
+* [CHANGE] update golangci-lint to v2 #1406
+
+snmp.yml changes:
+* added Yamaha RT Series module #1369
+* updated APC Powernet MIB #1376
+* added cisco_device and cisco_fc_fe modules #1367 - #1374 #1375
+* added MSA fieldserver gateway module fieldserver #1392
+* update Mikrotik MIB to 7.18.2 #1417
+* fixed hrDevice override #1398
+* update Eltex MIB to 10.3.6.11 #1415
+
 ## 0.28.0 / 2025-02-07
 
 BREAKING CHANGES:
