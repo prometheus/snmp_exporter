@@ -844,6 +844,22 @@ modules:
         lookup: mtxrPOEName
       - source_indexes: [mtxrPartitionIndex]
         lookup: mtxrPartitionName
+      - source_indexes: [mtxrRemoteCapId]
+        lookup: mtxrRemoteCapIdentity
+        drop_source_indexes: true
+      - source_indexes: [mtxrWifiInterfacesId]
+        lookup: ifName
+        drop_source_indexes: true
+      - source_indexes: [mtxrWifiRegistrationInterface]
+        lookup: ifName
+        drop_source_indexes: true
+    overrides:
+      mtxrRemoteCapIdentity:
+        ignore: true # information is redundant
+      mtxrWifiInterfacesName:
+        ignore: true # information is redundant
+      mtxrWifiRegistrationMacAddress:
+        ignore: true # information is redundant
 
 # CyberPower
 #
