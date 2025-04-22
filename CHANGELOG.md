@@ -1,7 +1,6 @@
 ## 0.29.0 / 2025-04-23
 
-* [ENHANCEMENT] generator: fail early for bad walk OID #1411
-* [CHANGE] update golangci-lint to v2 #1406
+* [CHANGE] generator: fail early for bad walk OID #1411
 
 snmp.yml changes:
 * added Yamaha RT Series module #1369
