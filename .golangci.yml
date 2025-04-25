@@ -1,22 +1,12 @@
-version: "2"
 linters:
+  disable:
+    - unused
   enable:
     - misspell
     - revive
     - sloglint
-  disable:
-    - unused
-  settings:
-    errcheck:
-      exclude-functions:
-        - (net/http.ResponseWriter).Write
-    revive:
-      rules:
-        - name: unused-parameter
-          severity: warning
-          disabled: true
   exclusions:
-    generated: lax
+    generated: strict
     presets:
       - comments
       - common-false-positives
@@ -27,14 +17,13 @@ linters:
           - errcheck
           - govet
         path: _test.go
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
-formatters:
-  exclusions:
-    generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
+  settings:
+    errcheck:
+      exclude-functions:
+        - (net/http.ResponseWriter).Write
+    revive:
+      rules:
+        - name: unused-parameter
+          severity: warning
+          disabled: true
+version: "2"
