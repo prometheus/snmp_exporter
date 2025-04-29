@@ -9,12 +9,96 @@ auths:
     version: 2
     community: public
 
-  ccf_v2:
+  prom_v2:
     version: 2
-    community: ccf
+    community: prom
 
 
 modules:
+  jnpr_mx:
+    walk:
+      - sysDescr
+      - sysUpTime
+      - ifTable
+      - inetCidrRouteNumber
+      - jnxBgpM2PeerCounters
+   
+
+
+    lookups:
+     - source_indexes: [ifIndex]
+       lookup: ifName
+     - source_indexes: [ifIndex]
+       lookup: ifDescr
+     - source_indexes: [ifIndex]
+       lookup: ifAlias
+     - source_indexes: [ifIndex]
+       lookup: ifType
+     - source_indexes: [ifIndex]
+       lookup: ifAdminStatus
+     - source_indexes: [ifIndex]
+       lookup: ifOperStatus
+    
+    overrides: 
+      ifAlias:
+        ignore: true 
+      ifDescr:
+        ignore: true
+      ifName:
+        ignore: true
+      ifAdminStatus:
+        ignore: true
+      ifOperStatus:
+        ignore: true
+      ifType:
+        ignore: true
+        type: EnumAsInfo
+
+  jnpr_ex:
+    walk:
+      - sysDescr
+      - sysUpTime
+      - inetCidrRouteNumber
+      - ifSpeed
+      - ifInOctets
+      - ifOutOctets
+      - ifInErrors
+      - ifOutErrors
+      - ifInDiscards
+      - ifOutDiscards
+
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName 
+      - source_indexes: [ifIndex]
+        lookup: ifDescr
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        lookup: ifType
+      - source_indexes: [ifIndex]
+        lookup: ifAdminStatus
+      - source_indexes: [ifIndex]
+        lookup: ifOperStatus
+      
+  
+    overrides: 
+      ifAlias:
+        ignore: true 
+      ifDescr:
+        ignore: true
+      ifName:
+        ignore: true
+      ifAdminStatus:
+        ignore: true
+      ifOperStatus:
+        ignore: true
+      ifType:
+        ignore: true
+        type: EnumAsInfo
+
+
+    
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
     walk: 
@@ -50,6 +134,8 @@ modules:
   mikrotik:
     walk:
       - sysDescr
+      - sysUpTime
+      - interfaces
       - mikrotik
     lookups:
       - source_indexes: [ifIndex]
@@ -95,19 +181,20 @@ modules:
       - batterySoc
       - batteryNetAh
       - batteryRunTime
+      - batteryTemperature
       - 1.3.6.1.4.1.39145.13.10.1.2
 
 # modified for ta5k
 
-  ta5k:
-    walk: 
-      - sysDescr
-      - sysUpTime
-      - 1.3.6.1.2.1.31.1.1.1.6
-      - 1.3.6.1.2.1.31.1.1.1.10
-    lookups:
-      - source_indexes: [ifIndex]
-        lookup: ifName
-    overrides:
-      ifType:
-        type: EnumAsInfo
+#  ta5k:
+#    walk: 
+#      - sysDescr
+#      - sysUpTime
+#      - 1.3.6.1.2.1.2.2.1.16
+#      - 1.3.6.1.2.1.2.2.1.10
+#    lookups:
+#      - source_indexes: [ifIndex]
+#        lookup: ifName
+#    overrides:
+#      ifType:
+#        type: EnumAsInfo
