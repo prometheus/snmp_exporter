@@ -1,0 +1,504 @@
+       ADTRAN-GENTRAPINFORM-MIB   DEFINITIONS ::= BEGIN
+
+     -- TITLE:       Generic Trap/Inform MIB
+     -- PRODUCT:     All products that need to send confirmed traps in SNMPv1,
+     --                 unconfirmed traps/NOTIFICATIONS in SNMPv1 or SNMPv2, or
+     --                 confirmed INFORMs in SNMPv2.
+     -- DESCRIPTION: Managed objects are provided for identifying host management
+        --              stations that are to receive trap notifications, and to
+        --              control device-wide trap enablement. Confirmation is optional.
+        --              No limit on management station trap receivers is specified,
+        --              and the index for each is the IP address of the NMS.
+        --              Default values are defined to minimize complexity for
+        --              simple traps and notifications.
+        --           This module can be used to define all trap provisioning
+        --              objects regardless of SNMP version, or notification
+        --              type of Trap or Inform.
+        --           This module provides the managed objects necessary to
+        --              implement confirmed traps (called Informs in SNMPv2) in
+        --              SNMPv1. This methodology requires a corresponding functionality
+        --              to be implemented in the network management system. However,
+        --              confirmed traps in SNMPv2 are only supported by the agent via
+        --              the SNMPv2 INFORM mechanism. Since SNMPv2 only defines the
+        --              datagram message, and not the necessary procedural protocol,
+        --              this module will be used for SNMPv2 Inform management too.
+        --           No traps or Informs are defined in this module.
+
+     -- VERSION:     1.0
+     -- DATE:        00/06/13
+     -- AUTHOR:      Phil Bergstresser
+     -- SNMP:        SNMPv1
+     -- MIB ARC:     adtran.adShared.adTrapInform
+     -- FILE:        gentrap.mib
+
+     -- HISTORY:
+        -- 06/13/00 pnb Extract from generic chassis MIB and make standalone
+           --           for universal use. Rename and use temporary node of
+           --           { adShared 99 } until assigned by Steve Shown.
+        -- 06/19/00 pnb Incorporate official adShared assignment, augment the
+           --           description, and reassign initial OIDs.
+        -- 07/17/00 pnb Replace confirmation enablement object with SNMP version
+           --           provisioning, and let confirmation enablement be
+           --           implied by retry limit.
+        -- 09/20/00 pnb Add clarification to introductory description, and correct
+           --           SNMP version object to be settable by the NMS (read-write).
+        -- 09/28/00 pnb add default clause to disable traps initially.
+           --
+        -- 06/05/01 ap  Change adTrapInformConfirmation from obsolete to mandatory
+           --
+        -- 07/06/01 ap  Change adTrapInformConfirmation from mandatory to deprecated.
+           --           If adTrapInformConfirmation is disabled, the agent will set
+           --           adTrapInformRetryLimit to zero.  If adTrapInformConfirmation
+           --           is enabled, the agent will set adTrapInformRetryLimit to
+           --           at least one.  Backwards compatibility is still maintained
+           --           with this change.  Setting adTrapInformRetryLimit to zero
+           --           will set adTrapInformConfirmation to disabled and setting
+           --           adTrapInformRetryLimit greater than zero will enable
+           --           adTrapInformConfirmation.
+           --
+        -- 06/01/05 rk  Phase 1 conversion to SMIv2
+           --
+        -- 06/17/05 pnb Phase 2 conversion to SMIv2 with new imports
+           --
+
+
+      IMPORTS
+           IpAddress,
+           OBJECT-TYPE, MODULE-IDENTITY,
+           Integer32, TimeTicks
+               FROM SNMPv2-SMI
+           InetAddressType,
+           InetAddress
+               FROM INET-ADDRESS-MIB
+           RowStatus
+               FROM SNMPv2-TC
+           adShared,
+           adIdentityShared
+               FROM ADTRAN-MIB
+           EntryStatus
+               FROM ADTRAN-TC;
+
+     adTrapInformID MODULE-IDENTITY
+        LAST-UPDATED "201511040000Z"
+        ORGANIZATION "ADTRAN, Inc."
+        CONTACT-INFO
+               "        Technical Support Dept.
+                Postal: ADTRAN, Inc.
+                        901 Explorer Blvd.
+                        Huntsville, AL 35806
+
+                   Tel: +1 800 726-8663
+                   Fax: +1 256 963 6217
+                E-mail: support@adtran.com"
+        DESCRIPTION
+               "The MIB module that describes the generic objects
+                used to control how traps/notification are reported by
+                units developed by ADTRAN, Inc."
+
+        REVISION "201511040000Z"
+        DESCRIPTION "Added a new trap host table (adTrapHostTable)
+        that supports a variety of address types (including IPv4
+        and IPv6)."
+       ::= { adIdentityShared 101601 }
+
+     adTrapInform  OBJECT IDENTIFIER ::= { adShared 16 }
+
+     adTrapInformScalars  OBJECT IDENTIFIER ::= { adTrapInform 1 }
+     adTrapInformTables   OBJECT IDENTIFIER ::= { adTrapInform 2 }
+
+   -- Provisioning group
+
+   adTrapEnable OBJECT-TYPE
+        SYNTAX     INTEGER {
+            enableTraps(1),
+            disableTraps(2)
+        }
+        MAX-ACCESS      read-write
+        STATUS      current
+        DESCRIPTION
+            "Enables/Disables traps initiated from this chassis"
+        DEFVAL { disableTraps }
+        ::= { adTrapInformScalars 1 }
+
+   -- Status group
+
+    adTrapInformSeqNum  OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS      read-only
+        STATUS      current
+        DESCRIPTION
+            "The sequence number included in the last trap originated by
+            this device. This can be used to confirm receipt of the
+            latest traps. Not needed by SNMPv2 Informs."
+        ::= { adTrapInformScalars 2 }
+
+    adTrapHostEntriesUsed  OBJECT-TYPE
+        SYNTAX  Integer32
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+            "The current number of trap host entries in adTrapHostTable,
+             regardless of the value of adTrapHostRowStatus."
+        ::= { adTrapInformScalars 3 }
+
+    adTrapHostEntryCapacity  OBJECT-TYPE
+        SYNTAX  Integer32
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+            "The maximum number of supported trap host entries in adTrapHostTable,
+            regardless of the value of adTrapHostRowStatus."
+        ::= { adTrapInformScalars 4 }
+
+   -- Trap/Inform table group
+
+   -- This trap table permits specifying multiple NMS hosts to receive traps,
+   -- and also enables selection of confirmation of traps by host under SNMPv1.
+
+   adTrapInformHostTable OBJECT-TYPE
+       SYNTAX  SEQUENCE OF AdTrapInformHostEntry
+       MAX-ACCESS  not-accessible
+       STATUS  current
+       DESCRIPTION
+               "Table of network management hosts to receive traps."
+       ::= { adTrapInformTables 1 }
+
+   adTrapInformHostEntry OBJECT-TYPE
+       SYNTAX  AdTrapInformHostEntry
+       MAX-ACCESS  not-accessible
+       STATUS  current
+       DESCRIPTION
+               ""
+       INDEX   { adTrapInformHostIP }
+       ::= { adTrapInformHostTable 1 }
+
+   AdTrapInformHostEntry ::=
+       SEQUENCE {
+           adTrapInformHostIP
+               IpAddress,
+           adTrapInformConfirmation
+               INTEGER,
+           adTrapInformSeqNumConfirmed
+               Integer32,
+           adTrapInformSeqNumRequested
+               Integer32,
+           adTrapInformRetryLimit
+               Integer32,
+           adTrapInformInitialTimeout
+               Integer32,
+           adTrapInformCache
+               Integer32,
+           adTrapInformHostStatus
+               EntryStatus,
+           adTrapInformVersion
+               INTEGER
+       }
+
+   adTrapInformHostIP OBJECT-TYPE
+       SYNTAX  IpAddress
+       MAX-ACCESS  read-only
+       STATUS  current
+       DESCRIPTION
+               "The IP address of the host for network management traps.
+               This is set by the agent when the row is created."
+       ::= { adTrapInformHostEntry 1 }
+
+    adTrapInformConfirmation  OBJECT-TYPE
+        SYNTAX      INTEGER  {
+            enabled  (1),
+            disabled (2)
+            }
+        MAX-ACCESS      read-write
+        STATUS      deprecated
+        DESCRIPTION
+            "If enabled by the NMS, the agent will retransmit traps to this
+            host until confirmed or the retry limit is reached. On row
+            creation it is initialized by the device SNMP agent to the
+            disabled mode.  If disabled, the agent will set adTrapInformRetryLimit
+            to zero.  If enabled, the agent will set adTrapInformRetryLimit
+            to atleast one."
+        DEFVAL { disabled }
+        ::= { adTrapInformHostEntry 2 }
+
+    adTrapInformSeqNumConfirmed  OBJECT-TYPE
+        SYNTAX      Integer32 ( 0..'ffffff'h )
+        MAX-ACCESS      read-write
+        STATUS      current
+        DESCRIPTION
+            "The last trap sequence number confirmed by this host. On row
+            creation it is initialized by the device SNMP agent to the
+            last trap sequence number value. The NMS sets this instance for
+            each trap received to confirm reception and prevent additional
+            retries. The agent will accept and act on out-of-order sets,
+            but will only set a lower value if its trap sequence number value
+            rolls over or restarts."
+        ::= { adTrapInformHostEntry 3 }
+
+    adTrapInformSeqNumRequested  OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS      read-write
+        STATUS      current
+        DESCRIPTION
+            "Setting this object to a trap sequence number will cause the agent
+            to retransmit this trap if it is still in it's memory. No retries
+            will be performed on this poll request, unless the trap requested
+            is currently still in transit to the host, in which case the retry
+            count will be restarted."
+        ::= { adTrapInformHostEntry 4 }
+
+    adTrapInformRetryLimit  OBJECT-TYPE
+        SYNTAX      Integer32  (0..10)
+        MAX-ACCESS      read-write
+        STATUS      current
+        DESCRIPTION
+            "The maximum number of times that the agent should send a trap to this
+            host. On row creation it is initialized by the device SNMP agent to 0.
+            If set to zero the agent will disable trap confirmation.  If set greater than zero
+            the agent will enable trap confirmation."
+        DEFVAL      { 0 }
+        ::= { adTrapInformHostEntry 5 }
+
+    adTrapInformInitialTimeout  OBJECT-TYPE
+        SYNTAX      Integer32  (1..10)
+        MAX-ACCESS      read-write
+        STATUS      current
+        DESCRIPTION
+            "The initial timeout in seconds for each trap sent to a host management
+            station if confirmations are enabled. On each subsequent retry, the timeout
+            will be doubled. On row creation it is initialized by the device SNMP
+            agent to 3."
+        DEFVAL      { 3 }
+        ::= { adTrapInformHostEntry 6 }
+
+    adTrapInformCache  OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS      read-only
+        STATUS      current
+        DESCRIPTION
+            "The maximum number of unconfirmed traps that will be retained in the
+            device SNMP agent for this host. On row creation it is initialized
+            by the device SNMP agent."
+        ::= { adTrapInformHostEntry 7 }
+
+    adTrapInformHostStatus  OBJECT-TYPE
+        SYNTAX      EntryStatus
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "The NMS sets this object to 'createRequest' to establish a new trap
+            host, sets any other columnar instances as needed, and then sets this
+            object to 'valid' to initiate its operation. This can all be done in
+            one PDU. If all default values are acceptable, the NMS can create this
+            row by simply setting this single object to 'valid'. The NMS sets this
+            object to 'invalid' to remove this row and terminate trap reporting to
+            this host."
+        ::= { adTrapInformHostEntry 8 }
+
+    adTrapInformVersion  OBJECT-TYPE
+        SYNTAX      INTEGER {
+            snmpV1 (1),       -- traps, unconfirmed, or confirmed (private protocol)
+            snmpV2 (2),       -- notifications (unconfirmed), or informs (confirmed)
+            snmpV3 (3)        -- same as snmpV2
+            }
+        MAX-ACCESS      read-write
+        STATUS      current
+        DESCRIPTION
+            "The SNMP version to be used by the agent for reporting traps to each
+            management station. The default is SNMPv2. Confirmations are determined
+            by the presence of a non zero retry limit."
+        DEFVAL      { snmpV2 }
+        ::= { adTrapInformHostEntry 9 }
+
+   adTrapHostTable OBJECT-TYPE
+       SYNTAX  SEQUENCE OF AdTrapHostEntry
+       MAX-ACCESS  not-accessible
+       STATUS  current
+       DESCRIPTION
+               "Table of network management hosts to receive traps.
+               This trap table permits specifying multiple NMS hosts to receive traps.
+               The table is indexed to support entries of multiple address types."
+       ::= { adTrapInformTables 2 }
+
+   adTrapHostEntry OBJECT-TYPE
+       SYNTAX  AdTrapHostEntry
+       MAX-ACCESS  not-accessible
+       STATUS  current
+       DESCRIPTION
+               ""
+       INDEX  { adTrapHostAddressType, adTrapHostAddressSize, adTrapHostAddress }
+       ::= { adTrapHostTable 1 }
+
+   AdTrapHostEntry ::=
+       SEQUENCE {
+           adTrapHostAddressType
+               InetAddressType,
+           adTrapHostAddressSize
+               INTEGER,
+           adTrapHostAddress
+               InetAddress,
+           adTrapHostConfirmation
+               INTEGER,
+           adTrapHostSeqNumConfirmed
+               Integer32,
+           adTrapHostSeqNumRequested
+               Integer32,
+           adTrapHostRetryLimit
+               Integer32,
+           adTrapHostInitialTimeout
+               Integer32,
+           adTrapHostCache
+               Integer32,
+           adTrapHostVersion
+               INTEGER,
+           adTrapHostRowStatus
+               RowStatus
+       }
+
+   adTrapHostAddressType OBJECT-TYPE
+       SYNTAX  InetAddressType
+       MAX-ACCESS  not-accessible
+       STATUS  current
+       DESCRIPTION
+               "The Internet Address type of the host for network management traps.
+
+                The network element will accept values that are supported. Relevant
+                feature flags (per genSystems.mi2) may be used to determine the level
+                of support on the network element.
+
+                IPv4-capable agents will support the ipv4(1) value.
+                IPv6-capable agents will support the ipv6(2) value.
+                DNS-capable agents will support the dns(16) value.
+               "
+       ::= { adTrapHostEntry 1 }
+
+   adTrapHostAddressSize OBJECT-TYPE
+       SYNTAX  INTEGER ( 1..255 )
+       MAX-ACCESS  not-accessible
+       STATUS  current
+       DESCRIPTION
+               "The Internet Address size (in octets) of the host for network management traps."
+       ::= { adTrapHostEntry 2 }
+
+   adTrapHostAddress OBJECT-TYPE
+       SYNTAX  InetAddress
+       MAX-ACCESS  not-accessible
+       STATUS  current
+       DESCRIPTION
+               "The Internet address value of the host for network management traps.
+
+                The octet string size must accurately correspond to the value of
+                adTrapHostAddressType for this entry.
+
+                An address of type ipv4(1) must have a size of 4 octets.
+                An address of type ipv6(2) must have a size of 16 octets.
+                An address of type dns(16) must have a minimum size of 1 octet."
+       ::= { adTrapHostEntry 3 }
+
+    adTrapHostConfirmation  OBJECT-TYPE
+        SYNTAX  INTEGER  {
+            enabled  (1),
+            disabled (2)
+            }
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+            "If enabled by the NMS, the agent will retransmit traps to this
+            host until confirmed or the retry limit is reached. On row
+            creation it is initialized by the device SNMP agent to the
+            disabled mode.  If disabled, the agent will set adTrapInformRetryLimit
+            to zero.  If enabled, the agent will set adTrapInformRetryLimit
+            to at least one."
+        DEFVAL { disabled }
+        ::= { adTrapHostEntry 4 }
+
+    adTrapHostSeqNumConfirmed  OBJECT-TYPE
+        SYNTAX  Integer32 ( 0..'ffffff'h )
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+            "The last trap sequence number confirmed by this host. On row
+            creation it is initialized by the device SNMP agent to the
+            last trap sequence number value. The NMS sets this instance for
+            each trap received to confirm reception and prevent additional
+            retries. The agent will accept and act on out-of-order sets,
+            but will only set a lower value if its trap sequence number value
+            rolls over or restarts."
+        ::= { adTrapHostEntry 5 }
+
+    adTrapHostSeqNumRequested  OBJECT-TYPE
+        SYNTAX  Integer32
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+            "Setting this object to a trap sequence number will cause the agent
+            to retransmit this trap if it is still in its memory. No retries
+            will be performed on this poll request, unless the trap requested
+            is currently still in transit to the host, in which case the retry
+            count will be restarted."
+        ::= { adTrapHostEntry 6 }
+
+    adTrapHostRetryLimit  OBJECT-TYPE
+        SYNTAX  Integer32  (0..10)
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+            "The maximum number of times that the agent should send a trap to this
+            host. On row creation it is initialized by the device SNMP agent to 0.
+            If set to zero the agent will disable trap confirmation. If set greater than zero
+            the agent will enable trap confirmation."
+        DEFVAL  { 0 }
+        ::= { adTrapHostEntry 7 }
+
+    adTrapHostInitialTimeout  OBJECT-TYPE
+        SYNTAX  Integer32  (1..10)
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+            "The initial timeout in seconds for each trap sent to a host management
+            station if confirmations are enabled. On each subsequent retry, the timeout
+            will be doubled. On row creation it is initialized by the device SNMP
+            agent to 3."
+        DEFVAL  { 3 }
+        ::= { adTrapHostEntry 8 }
+
+    adTrapHostCache  OBJECT-TYPE
+        SYNTAX  Integer32
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+            "The maximum number of unconfirmed traps that will be retained in the
+            device SNMP agent for this host. On row creation it is initialized
+            by the device SNMP agent."
+        ::= { adTrapHostEntry 9 }
+
+    adTrapHostVersion  OBJECT-TYPE
+        SYNTAX  INTEGER {
+            snmpV1 (1),  -- traps, unconfirmed, or confirmed (private protocol)
+            snmpV2 (2),  -- notifications (unconfirmed), or informs (confirmed)
+            snmpV3 (3)   -- same as snmpV2
+            }
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+            "The SNMP version to be used by the agent for reporting traps to each
+            management station. The default is SNMPv2. Confirmations are determined
+            by the presence of a non-zero retry limit."
+        DEFVAL  { snmpV2 }
+        ::= { adTrapHostEntry 10 }
+
+    adTrapHostRowStatus  OBJECT-TYPE
+        SYNTAX  RowStatus
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+            "The NMS sets this object to 'createAndWait' to establish a new trap
+            host, sets any other columnar instances as needed, and then sets this
+            object to 'active' to initiate its operation. This can all be done in
+            one PDU. If all default values are acceptable, the NMS can create this
+            row by simply setting this object to 'createAndGo'. The NMS sets this
+            object to 'destroy' to remove this row and terminate trap reporting to
+            this host."
+        ::= { adTrapHostEntry 11 }
+
+    END
+

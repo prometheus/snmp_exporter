@@ -1,0 +1,297 @@
+       ADTRAN-GENCHASSIS-MIB   DEFINITIONS ::= BEGIN
+
+     -- TITLE:       Generic chassis MIB  (SMIv2)
+     -- PRODUCT:     All chassis type products
+     -- DATE:        99/12/29
+     -- AUTHOR:      Phil Bergstresser
+     -- SNMP:        SNMPv2
+     -- MIB ARC:     adtran.adShared.adGenericShelves.adGenChassis
+     -- FILE:        genchass.mib
+     -- NOTE:        Traps for the generic chassis are defined in genctrap.mib.  The genctrap.mib file
+     --              contains imports from genchass.mib, genslot.mib, and genport.mib, so it must be
+     --              compiled after these other files on which it depends.
+
+
+     -- HISTORY:
+     	-- 03/10/00 pnb add hyphens to module name & expand commentary.
+        -- 03/23/00 pnb add adProductID textual convention
+        -- 03/24/00 pnb add alarm, visual, and host objects
+        -- 03/27/00 pnb unify name consistency and add faceplate cache
+        -- 03/29/00 pnb Add ifIndex to slot mapping table
+        -- 03/30/00 pnb convert object identifiers to imports from ADTRAN-TC
+        -- 04/04/00 pnb update map to include port number, and use ifIndex.
+        -- 04/10/00 pnb factor out chassis array for proxied chassis
+        -- 04/12/00 pnb transfer mapping table to be part of port mib.
+        -- 04/18/00 pnb make indexes visible ala SNMPv1
+        -- 04/24/00 pnb remove obsolete imports
+        -- 04/27/00 pnb change name of trap varbinds
+        -- 05/03/00 pnb clarify description of ViewAll object
+        -- 05/15/00 pnb change trap hosts from limited list to variable table,
+        --              and add confirmed traps feature.
+        -- 05/16/00 pnb revise new OIDs to maintain historical consistency and
+        --              restore deleted objects as obsolete.
+        -- 05/17/00 pnb Add trap confirmation initial timeout object.
+        -- 05/22/00 pnb Clarify that no confirmation is to be sent for trap
+        --              retransmission requests.
+        --              Add DEFVAL clauses
+        -- 06/13/00 pnb Remove objects related to traps and informs and establish
+        --              a universal generic trap/inform MIB for all products,
+        --              not just chassis products.
+        -- 09/27/00 pnb remove obsolete trap table & scalar from file.
+        -- 09/28/00 pnb add date and time strings for common card use.
+        -- 01/04/01 pnb add download server object
+        -- 02/02/01 pnb Add active Mux indicator, and change provisioning
+        --              checksum to sum of slot counters.
+        -- 05/18/01 pnb add format conventions for faceplate LEDs and switches,
+        --              into chassis cache tables.
+        -- 12/11/01 ap  add enhance explanation for adGenChassisAlarmStatus.
+        -- 06/13/03 dcc Converted to SMIv2
+
+    -- *** ENSURE ANY UPDATES TO THIS FILE ARE ALSO REFLECTED IN GENCHASS.MIB ***
+
+    IMPORTS
+           OBJECT-TYPE, MODULE-IDENTITY,
+           Integer32, IpAddress
+               FROM SNMPv2-SMI
+          DisplayString
+               FROM SNMPv2-TC
+           MODULE-COMPLIANCE, OBJECT-GROUP
+               FROM SNMPv2-CONF
+           adShared
+               FROM ADTRAN-MIB
+           AdProductIdentifier
+               FROM ADTRAN-TC;
+
+
+      -- Define generic chassis components.
+
+   adGenericShelves MODULE-IDENTITY
+        LAST-UPDATED "200306130000Z"
+        ORGANIZATION "ADTRAN, Inc."
+        CONTACT-INFO
+               "        Technical Support Dept.
+                Postal: ADTRAN, Inc.
+                        901 Explorer Blvd.
+                        Huntsville, AL 35806
+
+                   Tel: +1 800 726-8663
+                   Fax: +1 256 963 6217
+                E-mail: support@adtran.com"
+        DESCRIPTION
+               "The MIB module that describes the generic objects
+               used to mananage shelves/banks developed by ADTRAN, Inc."
+       ::= { adShared 13 }
+
+   -- groups
+
+   adGenChassis             OBJECT IDENTIFIER ::= { adGenericShelves 1 }
+       adGenChassisScalars      OBJECT IDENTIFIER ::= { adGenChassis 1 }
+       adGenChassisTables       OBJECT IDENTIFIER ::= { adGenChassis 2 }
+   adGenChassisConformance  OBJECT IDENTIFIER ::= { adGenericShelves 99 }
+
+
+   -- Configuration Group
+
+   adGenChassisProduct OBJECT-TYPE
+       SYNTAX      AdProductIdentifier
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The ADTRAN Product code for this chassis. Agent reports
+               actual product, which may or may not be synonomous with
+               bank controller. Some chassis products use a common
+               controller."
+       ::= { adGenChassisScalars 1 }
+
+
+   -- Provisioning group
+
+   adGenChassisDate OBJECT-TYPE
+        SYNTAX      DisplayString (SIZE (10))
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "Current date string in format mm/dd/yyyy"
+        ::= { adGenChassisScalars 5 }
+
+   adGenChassisTime OBJECT-TYPE
+        SYNTAX      DisplayString (SIZE (8))
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "Current 24 hour time string in format hh:mm:ss"
+        ::= { adGenChassisScalars 6 }
+
+    adGenChassisTftpAddr OBJECT-TYPE
+        SYNTAX      IpAddress
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "Tftp server IP Address for software uploads. Upgrade is initiated
+             and filename specified via objects in genslot.mib."
+        ::= { adGenChassisScalars 7 }
+
+
+   -- Status group
+
+    adGenChassisAlarmStatus OBJECT-TYPE
+        SYNTAX      OCTET STRING
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "A bit encoded string representing a summary of the
+            alarm state of the chassis.  The
+            definition of each alarm status string is defined in the generic
+            slot MIB object adGenSlotAlarmStatus. The strings from
+            all the slots are concatenated into this one object, after
+            prefixing each card indicator string with two bytes. The
+            first byte contains the slot number as an integer, and
+            the second byte contains the remaining string length for that
+            slot."
+        ::= { adGenChassisScalars 9 }
+
+    adGenChassisProvVersion OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The sum of all the card Provisioning Counters in the generic
+             slot MIB that can be used by an EMS to detect local changes to
+             card provisioning that need to be investigated for synchronization."
+        ::= { adGenChassisScalars 10 }
+
+    adGenChassisActiveMux OBJECT-TYPE
+        SYNTAX      Integer32 (1..255)
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The slot number of the active (online) multiplexor. SNMP requests
+             addressed to the active mux interfaces will be directed to this
+             physical slot."
+        ::= { adGenChassisScalars 11 }
+
+
+   -- Front panel high speed access cache
+   --  This object permits retrieval of the entire chassis front panel
+   --   indicators in one SNMP object. See product MIBs for support level.
+
+   adGenChassisViewAll OBJECT-TYPE
+        SYNTAX      OCTET STRING
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "A bit encoded string representing the status of faceplate
+            indicators, LEDs, & switches for GUI visualization. The
+            definition of the faceplate string is defined in the generic
+            slot MIB object adGenSlotFaceplate. The strings from
+            all the slots are concatenated into this one object, after
+            prefixing each card indicator string with two bytes. The
+            first byte contains the slot number as an integer, and
+            the second byte contains the remaining string length for that
+            slot. This object provides highest speed access for chassis
+            views to overcome multiple varbind SNMP inefficiency."
+        ::= { adGenChassisScalars 12 }
+
+
+   -- Front panel medium speed access cache
+   --  This table is provided in case the agent caches individual
+   --   card front panel indicators for access efficiency.
+
+   adGenChassisViewTable OBJECT-TYPE
+       SYNTAX      SEQUENCE OF AdGenChassisViewEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               "Table of front panel indicators cached by agent."
+       ::= { adGenChassisTables 1 }
+
+   adGenChassisViewEntry OBJECT-TYPE
+       SYNTAX      AdGenChassisViewEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               ""
+       INDEX   { adGenChassisViewIndex }
+       ::= { adGenChassisViewTable 1 }
+
+   AdGenChassisViewEntry ::=
+       SEQUENCE {
+           adGenChassisViewIndex
+               Integer32,
+           adGenChassisFaceplates
+               OCTET STRING
+       }
+
+   adGenChassisViewIndex OBJECT-TYPE
+       SYNTAX      Integer32 (1..255)
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The index for each card slot in the specified chassis,
+               for efficiently accessing cached faceplate information."
+       ::= { adGenChassisViewEntry 1 }
+
+   adGenChassisFaceplates OBJECT-TYPE
+       SYNTAX      OCTET STRING
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+           "A bit encoded string representing the status of faceplate
+           indicators, LEDs, & switches for GUI visualization. The
+           definition of the faceplate string is defined in the generic
+           slot MIB object adGenSlotFaceplate. There is one object
+           for each slot in the chassis. This table provides higher
+           speed access for chassis views by providing this cache
+           to avoid serial PDU accesses for each slot."
+       ::= { adGenChassisViewEntry 2 }
+
+   -- compliance statements
+   -- These two subidentifiers are for local use in this MIB only
+   adGenChassisCompliances   OBJECT IDENTIFIER ::= { adGenChassisConformance  1 }
+   adGenChassisMIBGroups     OBJECT IDENTIFIER ::= { adGenChassisConformance  2 }
+
+   adGenChassisCompliance MODULE-COMPLIANCE
+      STATUS  current
+      DESCRIPTION
+          "The compliance statement for SNMPv2 entities which implement the
+          adtran generic chassis MIB."
+
+      MODULE  -- this module
+      MANDATORY-GROUPS {
+          adGenChassisBaseGroup
+          }
+
+      GROUP  adGenChassisOptionalGroup
+          DESCRIPTION
+              "Group of objects which are supported by some products."
+   ::= { adGenChassisCompliances 1 }
+
+   adGenChassisBaseGroup OBJECT-GROUP
+       OBJECTS {
+           adGenChassisProduct,
+           adGenChassisDate,
+           adGenChassisTime,
+           adGenChassisTftpAddr,
+           adGenChassisAlarmStatus,
+           adGenChassisProvVersion,
+           adGenChassisActiveMux,
+           adGenChassisViewIndex,
+           adGenChassisFaceplates
+           }
+       STATUS  current
+       DESCRIPTION
+          "The ADTRAN Generic Chassis Base Group."
+       ::= { adGenChassisMIBGroups 1 }
+
+   adGenChassisOptionalGroup OBJECT-GROUP
+       OBJECTS {
+           adGenChassisViewAll
+           }
+       STATUS  current
+       DESCRIPTION
+          "The ADTRAN Generic Chassis Optional Group."
+       ::= { adGenChassisMIBGroups 2 }
+
+
+      END
+

@@ -1,0 +1,61 @@
+ADTRAN-GENGPONCONTAINER-MIB
+
+  DEFINITIONS ::= BEGIN
+
+  -- TITLE:     Adtran Gpon Container MIB
+  -- DATE:      May 06, 2008
+  -- AUTHOR:    Seetha Subramanian
+  -- REVISION HISTORY: Date           Comments
+  --                   08/22/2008 pnb Add conformance definition for dependent MIB,
+  --                                  and rename file to genGponContainer.mi2,
+  --                                  and restructure dependent MIB scheme,
+  --                                  and correct spelling of module name.
+  --                   03/26/2009 twc Changed adShared for adGenGpon from 73 to 76 due to a conflict with 
+  --                                  adGenXDSL, since SeltDelt has already been releaseed with EMS B05SP2
+
+
+  -- This MIB defines the generic container MIB for products developed for the GPON Group.
+
+    IMPORTS
+        MODULE-IDENTITY
+            FROM SNMPv2-SMI
+
+      adShared,
+      adIdentityShared,
+      adComplianceShared
+          FROM ADTRAN-MIB;
+
+     adGenGponModuleIdentity MODULE-IDENTITY
+        LAST-UPDATED "200808220000Z"
+        ORGANIZATION
+            "ADTRAN, Inc."
+        CONTACT-INFO
+            "CND Tech Support
+                Postal: ADTRAN, Inc.
+                        901 Explorer Blvd.
+                        Huntsville, AL  35806
+                        Tel: +1 800 726-8663
+                        Fax: +1 256 963 6217
+                        E-mail: support@adtran.com"
+        DESCRIPTION
+            "GPON Shared Definitions MIB"
+        ::= { adIdentityShared 76 }
+
+
+  -- OBJECT IDENTIFIERS for container level OIDs
+
+  adGenGpon                     OBJECT IDENTIFIER ::= { adShared 76  }
+  adGenGponConformance          OBJECT IDENTIFIER ::= { adComplianceShared 76 }
+
+  -- OBJECT IDENTIFIERS for lower level MIBs        
+  
+  -- DIDs 0x6700 - 0x6C00
+
+  -- ADTRAN-GENGPON-MIB (adGenGpon.mi2)
+  adGenGponProduct              OBJECT IDENTIFIER ::= { adGenGpon 1  }
+  adGenGponProductID            OBJECT IDENTIFIER ::= { adGenGponModuleIdentity 1 }
+  adGenGponProductConformance   OBJECT IDENTIFIER ::= { adGenGponConformance 1 }
+
+  -- Follow this scheme for additional MIBs with 2, 3, 4...
+
+  END

@@ -1,0 +1,401 @@
+     ADTRAN-GENPORT-MIB   DEFINITIONS ::= BEGIN
+
+     -- TITLE:       Generic chassis slot port MIB (SMIv2)
+     -- PRODUCT:     All chassis type products
+     -- VERSION:     1.0
+     -- DATE:        99/12/29
+     -- AUTHOR:      Phil Bergstresser
+     -- SNMP:        SNMPv2
+     -- MIB ARC:     adtran.adShared.adGenericShelves.adGenPort
+
+     -- HISTORY:
+     	-- 03/10/00 pnb add hyphens to module name
+        -- 03/23/00 pnb add adProductID textual convention
+        -- 03/27/00 pnb add port objects, and unify names
+        -- 04/10/00 pnb remove chassis & slot qualifiers to ifIndex
+        -- 04/12/00 pnb add maps
+        -- 04/18/00 pnb remove redundant slot/port references in port map
+        -- 04/24/00 pnb restore chassis & slot qualifiers from ifIndex
+        -- 04/25/00 pnb Revise map to reverse lookup
+        -- 05/01/00 tgc changed AlarmCondition to AlarmStatus
+        -- 05/03/00 pnb migrated number of ports to genslot MIB.
+        -- 05/04/00 tgc changed adGenPortTrapPortIdentifier to adGenPortTrapIdentifier
+        -- 08/23/00 pnb add port selector virtual object for legacy line cards
+        -- 09/27/00 pnb change port identifier from R/O to R/W and define default.
+        -- 11/03/00 pnb Change ifIndex IMPORT from RFC1213 to IF-MIB
+        -- 11/28/00 pnb Rollback previous IMPORT change to stay SNMPv1 compatible
+        -- 12/19/00 pnb Add ifType to mapping tables to support layered interfaces
+        --              Didn't import IANAIfType to retain SMIv1 compatibility.
+        -- 12/22/00 pnb Reorganize new table for more logical OIDs and add clarifying
+        --              comments.
+        -- 03/01/01 pnb deprecate portSelector and transfer repeaterNumber to genh2tuc.mib
+        -- 04/02/01 pnb change comment on port trap identifier to limit to port only reference.
+        -- 06/08/01 tgc added adGenPortFarEndID to be used to identify end devices without IPs.
+        -- 01/14/02 pnb commented out obsolete adGenPortRepeaterNumber
+        -- 06/13/03 dcc converted to SMIv2; commented out deprecated adGenPortSelector
+	-- 05/14/10 jb	Removed DisplayString limit of 20 for adGenPortCustomerUse and adGenIfCustomerUse.
+
+     IMPORTS
+          OBJECT-TYPE, MODULE-IDENTITY,
+          Integer32, IpAddress
+               FROM SNMPv2-SMI
+          DisplayString
+               FROM SNMPv2-TC
+          MODULE-COMPLIANCE, OBJECT-GROUP
+               FROM SNMPv2-CONF
+          ifIndex
+               FROM IF-MIB
+          AdPresence,
+          AdAlarmSeverity,
+          AdProductIdentifier
+               FROM ADTRAN-TC
+          adGenericShelves
+               FROM ADTRAN-GENCHASSIS-MIB
+          adGenSlotInfoIndex
+               FROM ADTRAN-GENSLOT-MIB
+          ;
+
+   -- Port Group
+   adGenPort MODULE-IDENTITY
+        LAST-UPDATED "200306130000Z"
+        ORGANIZATION "ADTRAN, Inc."
+        CONTACT-INFO
+               "        Technical Support Dept.
+                Postal: ADTRAN, Inc.
+                        901 Explorer Blvd.
+                        Huntsville, AL 35806
+
+                   Tel: +1 800 726-8663
+                   Fax: +1 256 963 6217
+                E-mail: support@adtran.com"
+        DESCRIPTION
+               "The MIB module that describes the generic objects
+               used to mananage individual ports on cards in a
+               shelf/bank developed by ADTRAN, Inc."
+       ::= { adGenericShelves 3 }
+
+   adGenPortConformance  OBJECT IDENTIFIER ::= { adGenPort 99 }
+
+
+   adGenPortInfoTable OBJECT-TYPE
+       SYNTAX      SEQUENCE OF AdGenPortInfoEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               "A table of hardware oriented port information on each card. This
+                only includes actual card ports, and not layered logical interfaces.
+                See the adGenPortIfTable for layered interfaces."
+       ::= { adGenPort 3 }
+
+   adGenPortInfoEntry OBJECT-TYPE
+       SYNTAX      AdGenPortInfoEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               ""
+       INDEX   { adGenSlotInfoIndex,
+                 adGenPortInfoIndex }
+       ::= { adGenPortInfoTable 1 }
+
+   AdGenPortInfoEntry ::=
+       SEQUENCE {
+           adGenPortInfoIndex
+               Integer32,
+           adGenPortInfoState
+               AdPresence,
+           adGenPortIfIndex
+               Integer32,
+           adGenPortDataRate
+               Integer32,
+           -- adGenPortRepeaterNumber
+           --     Integer32,
+           adGenPortFarEndIP
+               IpAddress,
+           adGenPortAlarmStatus
+               OCTET STRING,
+           adGenPortCustomerUse
+               DisplayString,
+           adGenPortTrapIdentifier
+               DisplayString,
+           adGenPortTrapSeverity
+               AdAlarmSeverity,
+           -- adGenPortSelector
+           --     OCTET STRING,
+           adGenPortFarEndID
+               AdProductIdentifier
+       }
+
+    adGenPortInfoIndex OBJECT-TYPE
+       SYNTAX      Integer32 (1..255)
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "A unique value for each physical port on a card.
+               "
+       ::= { adGenPortInfoEntry 1 }
+
+    adGenPortInfoState OBJECT-TYPE
+       SYNTAX      AdPresence
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The state of the card port. Initially it is empty."
+       ::= { adGenPortInfoEntry 3 }
+
+    adGenPortIfIndex OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The interface number identified as ifIndex from the
+            MIB-II interfaces table as defined by the slot and port
+            numbers in this device."
+        ::= { adGenPortInfoEntry 4  }
+
+    adGenPortDataRate    OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+        "Sets physical port bit rate in bit per second.
+        Zero may imply auto detection."
+        ::= { adGenPortInfoEntry 6 }
+
+    -- adGenPortRepeaterNumber   OBJECT-TYPE
+    --     SYNTAX    Integer32
+    --     MAX-ACCESS    read-write
+    --     STATUS    obsolete
+    --     DESCRIPTION
+    --     "Moved to genh2tuc.mib"
+    --     ::= { adGenPortInfoEntry 7 }
+
+
+    adGenPortFarEndIP   OBJECT-TYPE
+        SYNTAX      IpAddress
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+        "IP address of subtended product, or zero."
+        ::= { adGenPortInfoEntry 8 }
+
+     adGenPortAlarmStatus OBJECT-TYPE
+        SYNTAX      OCTET STRING
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "A bit encoded string representing the
+            alarm state of the port."
+        ::= { adGenPortInfoEntry 9 }
+
+     adGenPortCustomerUse OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "A character string for any customer use to identify
+            some attribute of the port."
+        ::= { adGenPortInfoEntry 10 }
+
+     adGenPortTrapIdentifier OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "A character string to identify the name of a port.
+            Used for trap varbind in last trap sent.
+            Should default to port number string.
+            Can be overridden by customer as desired."
+        ::= { adGenPortInfoEntry 11 }
+
+     adGenPortTrapSeverity OBJECT-TYPE
+        SYNTAX      AdAlarmSeverity
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The value for the severity of an alarm trap sent.
+            Used for trap varbind in last trap sent."
+        ::= { adGenPortInfoEntry 12 }
+
+    -- adGenPortSelector OBJECT-TYPE
+    --     SYNTAX      OCTET STRING (SIZE (0|1))
+    --     MAX-ACCESS  read-write
+    --     STATUS      deprecated      (not ever implemented)
+    --     DESCRIPTION
+    --         "Include this object in a PDU to imply a port for compatibility
+    --         support for legacy products that used community name suffixes."
+    --     ::= { adGenPortInfoEntry 13 }
+
+   adGenPortFarEndID OBJECT-TYPE
+       SYNTAX      AdProductIdentifier
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+            "The ADTRAN Product code, 0 if empty. Agent will report
+            real product code when installed or pre-provisioned.
+            This object is visible for all rows. It is defined in the ADTRAN-TC."
+       ::= { adGenPortInfoEntry 14 }
+
+
+   -- Slot/Port/Type interface map group
+
+   -- This table maps the slot, port, & type number from their interface number.
+   --   This optimizes slot, port & type translation from the ifIndex of the
+   --   MIB-2 interfaces table.
+
+   adGenPortSlotMapTable OBJECT-TYPE
+       SYNTAX      SEQUENCE OF AdGenPortSlotMapEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               "Table to map ifIndex to slot, port & type."
+       ::= { adGenPort 4 }
+
+   adGenPortSlotMapEntry OBJECT-TYPE
+       SYNTAX      AdGenPortSlotMapEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               ""
+       INDEX   { ifIndex }
+       ::= { adGenPortSlotMapTable 1 }
+
+   AdGenPortSlotMapEntry ::=
+       SEQUENCE {
+           adGenSlotAddress
+               Integer32,
+           adGenPortAddress
+               Integer32,
+           adGenPortIfType
+               Integer32
+       }
+
+
+    adGenSlotAddress OBJECT-TYPE
+       SYNTAX      Integer32 (1..255)
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The slot in which this port is contained."
+       ::= { adGenPortSlotMapEntry 2 }
+
+    adGenPortAddress OBJECT-TYPE
+       SYNTAX      Integer32 (1..255)
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The port number within the slot."
+       ::= { adGenPortSlotMapEntry 3 }
+
+    adGenPortIfType OBJECT-TYPE
+       SYNTAX      Integer32
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The IANAIfType of this port"
+       ::= { adGenPortSlotMapEntry 4 }
+
+
+   -- Interface Group
+
+    adGenPortIfInfoTable OBJECT-TYPE
+       SYNTAX      SEQUENCE OF AdGenPortIfInfoEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               "This table maps the MIB-2 interfaces table index from
+                ADTRAN slot, port, and IANA type."
+       ::= { adGenPort 5 }
+
+   adGenPortIfInfoEntry OBJECT-TYPE
+       SYNTAX      AdGenPortIfInfoEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               ""
+       INDEX   { adGenSlotInfoIndex,
+                 adGenPortInfoIndex,
+                 adGenIfTypeIndex }
+       ::= { adGenPortIfInfoTable 1 }
+
+   AdGenPortIfInfoEntry ::=
+       SEQUENCE {
+           adGenIfTypeIndex
+               Integer32,
+           adGenIfIfIndex
+               Integer32,
+           adGenIfCustomerUse
+               DisplayString
+       }
+
+    adGenIfTypeIndex OBJECT-TYPE
+       SYNTAX      Integer32
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The IANAIfType.  It is the ifType of the interface table."
+       ::= { adGenPortIfInfoEntry 1 }
+
+    adGenIfIfIndex OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The interface number identified as ifIndex from the
+            MIB-II interfaces table as defined by the ifType, slot
+            and port numbers in this device."
+        ::= { adGenPortIfInfoEntry 4  }
+
+     adGenIfCustomerUse OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "A character string for any customer use to identify
+            some attribute of the port."
+        ::= { adGenPortIfInfoEntry 10 }
+
+
+   -- compliance statements
+   -- These two subidentifiers are for local use in this MIB only
+   adGenPortCompliances   OBJECT IDENTIFIER ::= { adGenPortConformance  1 }
+   adGenPortMIBGroups     OBJECT IDENTIFIER ::= { adGenPortConformance  2 }
+
+   adGenPortCompliance MODULE-COMPLIANCE
+      STATUS  current
+      DESCRIPTION
+          "The compliance statement for SNMPv2 entities which implement the
+          adtran generic slot MIB."
+
+      MODULE  -- this module
+      MANDATORY-GROUPS {
+          adGenPortBaseGroup
+          }
+
+   ::= { adGenPortCompliances 1 }
+
+   adGenPortBaseGroup OBJECT-GROUP
+       OBJECTS {
+           adGenPortInfoState,
+           adGenPortIfIndex,
+           adGenPortDataRate,
+           adGenPortFarEndIP,
+           adGenPortAlarmStatus,
+           adGenPortCustomerUse,
+           adGenPortTrapIdentifier,
+           adGenPortTrapSeverity,
+           adGenPortFarEndID,
+           adGenSlotAddress,
+           adGenPortAddress,
+           adGenPortIfType,
+           adGenIfTypeIndex,
+           adGenIfIfIndex,
+           adGenIfCustomerUse
+           }
+       STATUS  current
+       DESCRIPTION
+          "The ADTRAN Generic Port Base Group."
+       ::= { adGenPortMIBGroups 1 }
+
+
+    END
+

@@ -19,9 +19,13 @@ modules:
     walk:
       - sysDescr
       - sysUpTime
-      - ifTable
+      - sysLocation
+      - sysContact
+      - interfaces
+      - ifXTable
       - inetCidrRouteNumber
       - jnxBgpM2PeerCounters
+      - jnxOperatingTable
    
 
 
@@ -58,14 +62,17 @@ modules:
     walk:
       - sysDescr
       - sysUpTime
+      - sysLocation
+      - sysContact
       - inetCidrRouteNumber
-      - ifSpeed
-      - ifInOctets
-      - ifOutOctets
+      - ifHighSpeed
+      - ifHCInOctets
+      - ifHCOutOctets
       - ifInErrors
       - ifOutErrors
       - ifInDiscards
       - ifOutDiscards
+      - jnxOperatingTable
 
     lookups:
       - source_indexes: [ifIndex]
@@ -80,7 +87,6 @@ modules:
         lookup: ifAdminStatus
       - source_indexes: [ifIndex]
         lookup: ifOperStatus
-      
   
     overrides: 
       ifAlias:
@@ -99,11 +105,134 @@ modules:
 
 
     
-  # Default IF-MIB interfaces table with ifIndex.
+ 
+# Mikrotik Router
+#
+# http://download2.mikrotik.com/Mikrotik.mib
+  utik:
+    walk:
+      - sysDescr
+      - sysUpTime
+      - sysLocation
+      - sysContact
+      - ipCidrRouteNumber
+      - interfaces
+      - ifXTable
+      - mtxrHealth
+
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName 
+      - source_indexes: [ifIndex]
+        lookup: ifDescr
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        lookup: ifType
+      - source_indexes: [ifIndex]
+        lookup: ifAdminStatus
+      - source_indexes: [ifIndex]
+        lookup: ifOperStatus
+      - source_indexes: [mtxrGaugeIndex]
+        lookup: mtxrGaugeName
+      
+  
+    overrides: 
+      ifAlias:
+        ignore: true 
+      ifDescr:
+        ignore: true
+      ifName:
+        ignore: true
+      ifAdminStatus:
+        ignore: true
+      ifOperStatus:
+        ignore: true
+      ifType:
+        ignore: true
+        type: EnumAsInfo
+      mtxrGaugeName:
+        ignore: true
+
+# ICT Modular Power System
+#
+  ictpower:
+    walk:
+      - sysDescr
+      - sysUpTime
+      - sysLocation
+      - sysContact
+      - inputVoltage
+      - outputVoltage
+      - outputCurrent
+      - batterySoc
+      - batteryNetAh
+      - batteryRunTime
+      - batteryTemperature
+      - 1.3.6.1.4.1.39145.13.10.1.2
+
+
+
+# specific walk for TA5k 10G interfaces.  The whole if-mib is too large to walk.  This is for the device at 1010.
+# 25200001 is the first 10G interface, 25200002 is the second, etc and are based upon the slot number in the device
+  ta5k-1010-if_mib:
+    walk: 
+      - sysDescr
+      - sysUpTime
+      - sysLocation
+      - sysContact
+      # ifHCOctets
+      - 1.3.6.1.2.1.31.1.1.1.6.25200001
+      - 1.3.6.1.2.1.31.1.1.1.10.25200001
+      - 1.3.6.1.2.1.31.1.1.1.6.25200002
+      - 1.3.6.1.2.1.31.1.1.1.10.25200002
+      - 1.3.6.1.2.1.31.1.1.1.6.25200003
+      - 1.3.6.1.2.1.31.1.1.1.10.25200003
+      - 1.3.6.1.2.1.31.1.1.1.6.25200004
+      - 1.3.6.1.2.1.31.1.1.1.10.25200004
+      - 1.3.6.1.2.1.31.1.1.1.6.25300001
+      - 1.3.6.1.2.1.31.1.1.1.10.25300001
+      - 1.3.6.1.2.1.31.1.1.1.6.25300002
+      - 1.3.6.1.2.1.31.1.1.1.10.25300002
+      - 1.3.6.1.2.1.31.1.1.1.6.25300003
+      - 1.3.6.1.2.1.31.1.1.1.10.25300003
+      - 1.3.6.1.2.1.31.1.1.1.6.25300004
+      - 1.3.6.1.2.1.31.1.1.1.10.25300004
+      #ifHighSpeed
+      - 1.3.6.1.2.1.31.1.1.1.15.25200001
+      - 1.3.6.1.2.1.31.1.1.1.15.25200002
+      - 1.3.6.1.2.1.31.1.1.1.15.25200003
+      - 1.3.6.1.2.1.31.1.1.1.15.25200004
+      - 1.3.6.1.2.1.31.1.1.1.15.25300001
+      - 1.3.6.1.2.1.31.1.1.1.15.25300002
+      - 1.3.6.1.2.1.31.1.1.1.15.25300003
+      - 1.3.6.1.2.1.31.1.1.1.15.25300005
+
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+    overrides:
+      sysUpTime:
+        type: counter 
+      ifType:
+        type: EnumAsInfo
+
+# Dont use, still takes too long to run.
+  ta5k-gpon-mib:
+    walk:
+      - adGenGponPon15MinPMTable
+
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+
+
+ # Sample Default IF-MIB interfaces table with ifIndex.
   if_mib:
     walk: 
       - sysDescr
       - sysUpTime
+
       - interfaces
       - ifXTable
     lookups:
@@ -124,77 +253,6 @@ modules:
         ignore: true # Lookup metric
       ifType:
         type: EnumAsInfo
-  # Default IP-MIB with ipv4InterfaceTable for example.
+  # Sample Default IP-MIB with ipv4InterfaceTable for example.
   ip_mib:
     walk: [ipv4InterfaceTable]
-
-# Mikrotik Router
-#
-# http://download2.mikrotik.com/Mikrotik.mib
-  mikrotik:
-    walk:
-      - sysDescr
-      - sysUpTime
-      - interfaces
-      - mikrotik
-    lookups:
-      - source_indexes: [ifIndex]
-        lookup: ifName
-      - source_indexes: [mtxrInterfaceStatsIndex]
-        lookup: ifName
-      - source_indexes: [mtxrGaugeIndex]
-        lookup: mtxrGaugeName
-        drop_source_indexes: true
-      - source_indexes: [mtxrNeighborIndex]
-        lookup: mtxrNeighborMacAddress
-        drop_source_indexes: true
-      - source_indexes: [mtxrNeighborIndex]
-        lookup: mtxrNeighborInterfaceID
-      - source_indexes: [mtxrNeighborInterfaceID]
-        lookup: ifName
-        drop_source_indexes: true
-      - source_indexes: [mtxrOpticalIndex]
-        lookup: mtxrOpticalName
-      - source_indexes: [mtxrPOEInterfaceIndex]
-        lookup: mtxrPOEName
-      - source_indexes: [mtxrPartitionIndex]
-        lookup: mtxrPartitionName
-    overrides:
-      ifName:
-        ignore: true # Lookup metric
-      ifType:
-        type: EnumAsInfo
-      # Remap enums where 1==true, 2==false to become 0==false, 1==true.
-      hrDiskStorageRemoveble:
-        scale: -1.0
-        offset: 2.0
-
-# ICT Modular Power System
-#
-  ictpower:
-    walk:
-      - sysDescr
-      - sysUpTime
-      - inputVoltage
-      - outputVoltage
-      - outputCurrent
-      - batterySoc
-      - batteryNetAh
-      - batteryRunTime
-      - batteryTemperature
-      - 1.3.6.1.4.1.39145.13.10.1.2
-
-# modified for ta5k
-
-#  ta5k:
-#    walk: 
-#      - sysDescr
-#      - sysUpTime
-#      - 1.3.6.1.2.1.2.2.1.16
-#      - 1.3.6.1.2.1.2.2.1.10
-#    lookups:
-#      - source_indexes: [ifIndex]
-#        lookup: ifName
-#    overrides:
-#      ifType:
-#        type: EnumAsInfo

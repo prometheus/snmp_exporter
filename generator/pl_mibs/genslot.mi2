@@ -1,0 +1,761 @@
+                ADTRAN-GENSLOT-MIB   DEFINITIONS ::= BEGIN
+
+     -- TITLE:       Generic chassis slot MIB (SMIv2)
+     -- PRODUCT:     All chassis type products
+     -- VERSION:     1.0
+     -- DATE:        99/12/29
+     -- AUTHOR:      Phil Bergstresser
+     -- SNMP:        SNMPv2
+     -- MIB ARC:     adtran.adShared.adGenericShelves.adGenSlot
+
+     -- HISTORY:
+     	-- 03/10/00 pnb add hyphens to module name
+        -- 03/23/00 pnb add adProductID textual convention
+        -- 03/24/00 pnb add alarm & visual objects
+        -- 03/27/00 pnb remove dynamic slot creation and unify names
+        -- 04/10/00 pnb remove chassis qualifiers
+        -- 04/18/00 pnb make indexes visible ala SNMPv1, and correct sequence
+        -- 04/27/00 pnb change name of alarm state
+        -- 05/03/00 pnb migrate number of ports/slot from genport MIB to here
+        -- 05/24/00 pnb add slot selector virtual object for legacy line cards
+        -- 09/15/00 pnb add comment clarification for alarm status format
+        -- 01/04/01 pnb add objects for firmware upgrade
+        -- 02/02/01 pnb change checksum to Provisioning Version for reliability
+        --              add comments about row accessibility in empty slots
+        -- 02/07/01 pnb add sysUpTime equivalentfor each card, which imports from rfc1155
+        -- 03/01/01 pnb deprecate slotSelector
+        -- 05/18/01 pnb add format conventions for faceplate LEDs and switches,
+        --              and make other clarifications in descriptions.
+        --              Changed adGenSlotSelector status from deprecated to obsolete.
+        -- 09/04/01 wss Added filename length requirement to adGenSlotTFileName in
+        --              description field.
+        -- 08/01/02 ked Changed description field of adGenSlotProduct to remove the '0' requirement
+        --              for empty slots.
+        -- 06/13/03 dcc Converted to SMIv2; commented out obsolete adGenSlotSelector
+        -- 09/19/08 pnb Remove index range from adGenSlotInfoIndex
+        -- 09/25/08 pnb Augment description of adGenSlotFaceplate for consistency, & remove adGenSlotumber limit
+        -- 09/22/09 twc Added traps for slot service state OOS-MA active/clear and an OID for enabling/disabling this alarm.
+        -- 10/28/09 srao Interchanged the values of enable/disable of the OID adGenSlotServiceStateOOSMAAlarmEnable
+        -- 07/21/10 tas Added adGenSlotPrimaryBuildDate
+        -- "DO NOT MAKE HISTORY COMMENTS HERE!!!! Revision history now in REVISION/DESCRIPTION clauses below"
+
+     IMPORTS
+          OBJECT-TYPE, MODULE-IDENTITY,
+          Integer32, TimeTicks,Counter32,
+          NOTIFICATION-TYPE
+               FROM SNMPv2-SMI
+          DisplayString,
+          PhysAddress,
+	  	  TruthValue
+               FROM SNMPv2-TC
+          MODULE-COMPLIANCE, OBJECT-GROUP
+               FROM SNMPv2-CONF
+          sysName
+            FROM SNMPv2-MIB
+          AdPresence,
+          AdProductIdentifier
+               FROM ADTRAN-TC
+          adTrapInformSeqNum
+            FROM ADTRAN-GENTRAPINFORM-MIB
+           ifIndex, ifDescr
+               FROM IF-MIB
+          adGenericShelves
+               FROM ADTRAN-GENCHASSIS-MIB;
+
+   -- Slot Group
+   adGenSlot MODULE-IDENTITY
+        LAST-UPDATED "201608120000Z"
+        ORGANIZATION "ADTRAN, Inc."
+        CONTACT-INFO
+               "        Technical Support Dept.
+                Postal: ADTRAN, Inc.
+                        901 Explorer Blvd.
+                        Huntsville, AL 35806
+
+                   Tel: +1 800 726-8663
+                   Fax: +1 256 963 6217
+                E-mail: support@adtran.com"
+        DESCRIPTION
+               "The MIB module that describes the generic objects
+               used to mananage individual cards in a shelf/bank
+               developed by ADTRAN, Inc."
+        REVISION "201703290000Z"
+        DESCRIPTION "add adGenSlotUpTimeSeconds to allow the Web and AOE retrieve the uptime in seconds"
+        REVISION "201608120000Z"
+        DESCRIPTION "Changed severity varbind for adGenSlotCpuRateLimitAlarmClear and adGenSlotCpuRateLimitAlarmActive to an
+        existing OID already defined for provisioning the alarm severity.  This resolves the issue of circular dependency if
+        adTAeSCUTrapAlarmLevel is used for the same purpose."
+        REVISION "201603140000Z"
+        DESCRIPTION "Added adGenSlotCpuRateLimitAlarmClear and adGenSlotCpuRateLimitAlarmActive for CPU rate limit alarm.
+        Added adGenSlotProvCpuRateLimitAlarmSlotSeverity and adGenSlotProvCpuRateLimitAlarmSlotEnableCPU for setting severity
+        and enabling the CPU Rate Limit alarm."
+        REVISION "201305310000Z"
+        DESCRIPTION "Obsolete the Slot OOS-MA alarm and the associated enable/disable provisioning."
+        REVISION "201212060000Z"
+        DESCRIPTION "add adGenSlotWarmStartCause/IsValid to identify reason for a warm start"
+        REVISION "201209210000Z"
+        DESCRIPTION "add adGenSlotResetCause to identify reason for module restart"
+        REVISION "201110130000Z"
+        DESCRIPTION "add FPGA BIST failure alarm"
+
+       ::= { adGenericShelves 2 }
+
+   adGenSlotConformance  OBJECT IDENTIFIER ::= { adGenSlot 99 }
+
+     adGenSlotNumber OBJECT-TYPE
+         SYNTAX      Integer32
+         MAX-ACCESS  read-only
+         STATUS      current
+         DESCRIPTION
+               "The number of slots (regardless of
+               their current state) present on this system.
+               This may be inferred by the product ID also."
+         ::= { adGenSlot 1 }
+
+   -- Slot table
+   -- Rows exist for all physical slots as defined by adGenSlotNumber.
+   --   The first three objects (columns) in each row are always visible,
+   --   but the remaining columnar objects are non-existant for empty slots,
+   --   and will return no such name on gets or will be skipped on getnexts.
+
+   adGenSlotInfoTable OBJECT-TYPE
+       SYNTAX      SEQUENCE OF AdGenSlotInfoEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               "Table of slots available for boards."
+       ::= { adGenSlot 3 }
+
+   adGenSlotInfoEntry OBJECT-TYPE
+       SYNTAX      AdGenSlotInfoEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               ""
+       INDEX   { adGenSlotInfoIndex }
+       ::= { adGenSlotInfoTable 1 }
+
+   AdGenSlotInfoEntry ::=
+       SEQUENCE {
+           adGenSlotInfoIndex
+               Integer32,
+           adGenSlotInfoState
+               AdPresence,
+           adGenSlotProduct
+               AdProductIdentifier,
+           adGenSlotTrapEnable
+               INTEGER,
+           adGenSlotAlarmStatus
+               OCTET STRING,
+           adGenSlotFaceplate
+               OCTET STRING,
+           adGenSlotStatServiceState
+               INTEGER,
+           adGenSlotPortNumber
+               Integer32,
+           adGenSlotProvVersion
+               Integer32,
+           -- adGenSlotSelector
+           --     OCTET STRING,
+           adGenSlotTFileName
+               DisplayString,
+           adGenSlotUpdateSoftware
+               INTEGER,
+           adGenSlotUpdateStatus
+               DisplayString,
+           adGenSlotUpTime
+               TimeTicks,
+	   adGenSlotServiceStateOOSMAAlarmEnable
+               INTEGER,
+         adGenSlotPrimaryBuildDate
+               DisplayString,
+         adGenSlotResetCause
+               DisplayString,
+         adGenSlotWarmStartCauseIsValid
+               TruthValue,
+         adGenSlotWarmStartCause
+               DisplayString,
+           adGenSlotUpTimeSeconds
+               Counter32
+       }
+
+   adGenSlotInfoIndex OBJECT-TYPE
+       SYNTAX      Integer32
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "A unique value for each slot.  Its value may exceed
+               the value of adGenSlotNumber if pseudo slot numbers
+               are used for some bank commons or multiplexers.
+               This object is visible for all rows."
+       ::= { adGenSlotInfoEntry 1 }
+
+   adGenSlotInfoState OBJECT-TYPE
+       SYNTAX      AdPresence
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The state of the card slot. Initially it is empty.
+               When a card is inserted, it becomes occupied, and the
+               Slot Type is determined by the card Product Code.
+               When a card is removed, it changes to virtual,
+               and retains the SlotType characteristics until a
+               different kind of card is inserted, or a different
+               preconfiguration is established.
+               This object is visible for all rows."
+       ::= { adGenSlotInfoEntry 3 }
+
+   adGenSlotProduct OBJECT-TYPE
+       SYNTAX      AdProductIdentifier
+       MAX-ACCESS  read-only
+       STATUS      current
+       DESCRIPTION
+               "The ADTRAN Product code. Agent will report
+               real product code when installed or pre-provisioned.
+               This object is visible for all rows. It is defined in the ADTRAN-TC."
+       ::= { adGenSlotInfoEntry 4 }
+
+   adGenSlotTrapEnable OBJECT-TYPE
+        SYNTAX     INTEGER {
+            enableTraps(1),
+            disableTraps(2)
+        }
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "Enables/Disables traps initiated from this slot. Note that
+             cards out of service will not generate traps."
+        ::= { adGenSlotInfoEntry 5 }
+
+    adGenSlotAlarmStatus OBJECT-TYPE
+        SYNTAX      OCTET STRING
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "A bit encoded string representing the alarm state of
+             the slot. The LSB should be 1 for No Alarm, else 0 and
+             the higher order bits will indicate which alarms are
+             present. The specific alarm conditions may be found in
+             more specific generic MIBs or in the device MIB.
+             This may report the same status as xxxLineStatus in
+             internet standard line MIBs."
+        ::= { adGenSlotInfoEntry 6 }
+
+    adGenSlotFaceplate OBJECT-TYPE
+        SYNTAX      OCTET STRING
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "A bit encoded string representing the status of faceplate
+            indicators, LEDs, buttons & switches for GUI visualization.
+            The first byte will be the number of LED/switches encoded.
+            The following bytes will contain 2 bit sequences in network order
+            for each LED or switch, from the top to the bottom of the faceplate.
+            The final byte may be padded with zeros.
+            The meaning of each pair of bits for LEDs is:
+              00 - off
+              01 - color A on only
+              10 - color B on only (not used for mono-colors)
+              11 - both A & B on (not used for mono-colors)
+            The meaning of each pair of bits for switches or buttons is:
+              00 - not pressed if button
+              01 - up or right switch position, or pressed if button
+              10 - down or left switch position
+              11 - middle switch position
+            The definition of colors and/or on/off switch values will be
+            defined in the product specific MIB.
+            This may be cached at the chassis level.
+
+            Conventions proposed 1/18/2006 for common reuse and consistency.
+            1. Use values of 0 for Black, 1 for Green, 2 for Red and 3 for Yellow,
+            which maps to the OID definition of Green for color A, Red for color B,
+            and Yellow for Both on.
+
+            2. The MIB is not specific about multi-column LED displays,
+            so follow the common convention of Left column first, followed by Right column,
+            always top to bottom as the MIB requires.
+
+            3. Blink is occasionally desired, but impossible to implement effectively for
+            rate or duty cycle on raster graphic GUIs. Alternate the status value on successive
+            SNMP gets if the bit has changed state multiple times. This will simulate the
+            changing of state even though the frequency cannot be represented accurately."
+        ::= { adGenSlotInfoEntry 7 }
+
+    adGenSlotStatServiceState OBJECT-TYPE
+        SYNTAX  INTEGER {
+                is(1),          -- In Service
+                oosUas(2),      -- Out of Service, Unassigned
+                oosMA(3),       -- Out of Service, Maintenance mode
+                fault(5),       -- autonomous fault
+                isStbyHot(8),   -- In Service, standby hot (prot only)
+                isActLock(9),   -- In Service, active locked (prot only)
+                isStbyLock(10)  -- In Service, standby locked (prot only)
+                }
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "Module service state. Port service states are commanded via
+             ifAdminStatus and reported via ifOperStatus in the IF-MIB.
+             Those states of up, down, & testing correspond to the first
+             three states defined here for the card."
+        ::= { adGenSlotInfoEntry 8 }
+
+     adGenSlotPortNumber OBJECT-TYPE
+         SYNTAX      Integer32
+         MAX-ACCESS  read-only
+         STATUS      current
+         DESCRIPTION
+                 "The number of physical ports (regardless of
+                 their current state) present in this slot."
+         ::= { adGenSlotInfoEntry 9 }
+
+    adGenSlotProvVersion OBJECT-TYPE
+        SYNTAX      Integer32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "A counter starting at 0 which is incremented by the agent
+             after each provisioning change so that an EMS can detect that
+             a change has been made locally that needs further investigation
+             to achieve synchronization."
+        ::= { adGenSlotInfoEntry 10 }
+
+    -- adGenSlotSelector OBJECT-TYPE
+    --     SYNTAX      OCTET STRING (SIZE (0|1))
+    --     MAX-ACCESS  read-write
+    --     STATUS      obsolete
+    --     DESCRIPTION
+    --         "Include this object in a PDU to imply a slot for compatibility
+    --         support for legacy products that used community name suffixes."
+    --     ::= { adGenSlotInfoEntry 11 }
+
+    adGenSlotTFileName OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "Filename for tftp software update. A minimum of length of 25
+            characters must be supported. Server is defined in genchass.mib"
+        ::= { adGenSlotInfoEntry 13 }
+
+    adGenSlotUpdateSoftware OBJECT-TYPE
+        SYNTAX      INTEGER {
+                    initiate(1)
+                    }
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+            "A set command will initiate tftp download.
+             Get has no meaning and will always return 1."
+        ::= { adGenSlotInfoEntry 15 }
+
+    adGenSlotUpdateStatus OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "A progress indication during download which can be polled."
+        ::= { adGenSlotInfoEntry 16 }
+
+    adGenSlotUpTime OBJECT-TYPE
+        SYNTAX      TimeTicks
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The time (in hundredths of a second) since the
+             card was powered up. This is comparable to the
+             mib-2.system.sysUpTime timer object for the IP
+             addressable agent, but is unique for each card."
+        ::= { adGenSlotInfoEntry 17 }
+
+
+    adGenSlotServiceStateOOSMAAlarmEnable OBJECT-TYPE
+   	SYNTAX  INTEGER {
+        	enable(1),
+           	disable(2)
+           	}
+    	MAX-ACCESS  read-write
+        STATUS      obsolete
+    	DESCRIPTION
+       	    "Enables/disables the card service state OOS-MA alarm."
+    	::= { adGenSlotInfoEntry 18 }
+
+	adGenSlotPrimaryBuildDate OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Gives the most recent build date of the slot."
+        ::= { adGenSlotInfoEntry 19 }
+
+	adGenSlotResetCause OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Gives the reason why this slot restarted."
+        ::= { adGenSlotInfoEntry 20 }
+
+        adGenSlotWarmStartCauseIsValid OBJECT-TYPE
+        SYNTAX      TruthValue
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "Indicates whether the DisplayString returned by adGenSlotWarmStartCause is valid."
+        ::= { adGenSlotInfoEntry 21 }
+
+        adGenSlotWarmStartCause OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "If a warm start condition occurred, returns the reason for the warm start.
+             This object is only valid if adGenSlotWarmStartCauseIsValid is true."
+        ::= { adGenSlotInfoEntry 22 }
+
+    adGenSlotUpTimeSeconds OBJECT-TYPE
+        SYNTAX      Counter32
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The time (in seconds) since the card was powered up."
+        ::= { adGenSlotInfoEntry 23 }
+
+
+
+    --
+    -- Product Information group
+    --
+    -- This group contains information common for most all Adtran
+    --  products. It is a slot addressable copy of the multi-scoped
+    --  ADTRAN-MIB. It augments the slot info table.
+    --
+
+   adGenSlotProdTable OBJECT-TYPE
+       SYNTAX      SEQUENCE OF AdGenSlotProdEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               "Table of slots available for boards."
+       ::= { adGenSlot 4 }
+
+   adGenSlotProdEntry OBJECT-TYPE
+       SYNTAX      AdGenSlotProdEntry
+       MAX-ACCESS  not-accessible
+       STATUS      current
+       DESCRIPTION
+               ""
+       INDEX   { adGenSlotInfoIndex }
+       ::= { adGenSlotProdTable 1 }
+
+   AdGenSlotProdEntry ::=
+       SEQUENCE {
+           adGenSlotProdName
+               DisplayString,
+           adGenSlotProdPartNumber
+               DisplayString,
+           adGenSlotProdCLEIcode
+               DisplayString,
+           adGenSlotProdSerialNumber
+               DisplayString,
+           adGenSlotProdRevision
+               DisplayString,
+           adGenSlotProdSwVersion
+               DisplayString,
+           adGenSlotProdPhysAddress
+               PhysAddress,
+           adGenSlotProdProductID
+               OBJECT IDENTIFIER,
+           adGenSlotProdTransType
+               DisplayString
+       }
+
+    adGenSlotProdName  OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The Adtran Product Name"
+        ::= { adGenSlotProdEntry 1 }
+
+    adGenSlotProdPartNumber  OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The Adtran Product Part Number"
+        ::= { adGenSlotProdEntry 2 }
+
+    adGenSlotProdCLEIcode  OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The Adtran Product CLEI Code"
+        ::= { adGenSlotProdEntry 3 }
+
+    adGenSlotProdSerialNumber  OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The Adtran Product Serial Number"
+        ::= { adGenSlotProdEntry 4 }
+
+    adGenSlotProdRevision  OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The Adtran Product Revision Number"
+        ::= { adGenSlotProdEntry 5 }
+
+    adGenSlotProdSwVersion  OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The Adtran Product Software Version Number"
+        ::= { adGenSlotProdEntry 6 }
+
+    adGenSlotProdPhysAddress   OBJECT-TYPE
+        SYNTAX      PhysAddress
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "This octet string variable is the same as the ifPhysAddress
+             in IF-MIB. THe SCU will report MAC address, else 0 for other cards."
+        ::= { adGenSlotProdEntry 7 }
+
+    adGenSlotProdProductID  OBJECT-TYPE
+        SYNTAX      OBJECT IDENTIFIER
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The Adtran Product ID equivalent to sysObjectID"
+        ::= { adGenSlotProdEntry 8 }
+
+    adGenSlotProdTransType OBJECT-TYPE
+        SYNTAX      DisplayString
+        MAX-ACCESS  read-only
+        STATUS      current
+        DESCRIPTION
+            "The data transmission circuit/facility/payload level of the
+             device (see Appendix A of GR-833-CORE).  Common examples are:
+             T0, T1, T2, T3, STS1, and OC3. For the SCU and other common
+             equipment cards, the code should be EQPT."
+        ::= { adGenSlotProdEntry 9 }
+
+    --
+    -- Alarms
+    --
+    adGenSlotAlarmsPrefix     OBJECT IDENTIFIER ::= { adGenSlot 5 }
+    adGenSlotAlarms           OBJECT IDENTIFIER ::= { adGenSlotAlarmsPrefix 0 }
+
+    adGenSlotServiceStateOOSMAClear  NOTIFICATION-TYPE
+	    OBJECTS	{
+	        adTrapInformSeqNum,
+	        sysName,
+	        adGenSlotInfoIndex
+	        }
+            STATUS          obsolete
+	    DESCRIPTION    "Indicates Slot Service State is no longer OOS-MA"
+		--#TYPE        "Warning - Slot Service OOS-MA Alarm Clear"
+		--#SUMMARY     "Shelf: %s, Slot: %d"
+		--#SEVERITY    WARNING
+    		--#ARGUMENTS    {1,2}
+    	  ::= {adGenSlotAlarms 1}
+
+    adGenSlotServiceStateOOSMAActive  NOTIFICATION-TYPE
+	    OBJECTS	{
+	        adTrapInformSeqNum,
+	        sysName,
+	        adGenSlotInfoIndex
+		}
+            STATUS          obsolete
+	    DESCRIPTION    "Indicates Slot Service State is currently OOS-MA. This alarm is the single exception to the rule of 'no alarms are active when in OOS-MA' "
+		--#TYPE        "Warning - Slot Service State OOS-MA Alarm Active"
+		--#SUMMARY     "Shelf: %s, Slot: %d"
+		--#SEVERITY    WARNING
+    		--#ARGUMENTS    {1,2}
+    	  ::= {adGenSlotAlarms 2}
+
+    adGenSlotFpgaBistFailureClear  NOTIFICATION-TYPE
+            OBJECTS     {
+                adTrapInformSeqNum,
+                sysName,
+                adGenSlotInfoIndex
+                }
+            STATUS          current
+            DESCRIPTION    "Indicates FPGA built-in self-test failure cleared"
+                --#TYPE        "Critical - Slot FPGA built-in self-test failure cleared"
+                --#SEVERITY     CRITICAL
+          ::= {adGenSlotAlarms 3}
+
+    adGenSlotFpgaBistFailureActive  NOTIFICATION-TYPE
+            OBJECTS     {
+                adTrapInformSeqNum,
+                sysName,
+                adGenSlotInfoIndex
+                }
+            STATUS          current
+            DESCRIPTION    "Indicates FPGA built-in self-test failed"
+                --#TYPE        "Critical - FPGA built-in self-test failed"
+                --#SEVERITY     CRITICAL
+          ::= {adGenSlotAlarms 4}
+
+    adGenSlotCpuRateLimitAlarmClear  NOTIFICATION-TYPE
+            OBJECTS     {
+                adTrapInformSeqNum,
+                sysName,
+                ifDescr,
+	         ifIndex,
+	         adGenSlotProvCpuRateLimitAlarmSlotSeverity
+            }
+            STATUS          current
+            DESCRIPTION    "Exception rate parameters are within bounds and alarm has cleared."
+                --#TYPE        "Status - SA CPU Rate Limit Alarm Clear"
+		  --#SUMMARY      "Shelf: %s, Details: %s"
+                --#ARGUMENTS    {1,2}
+                --#SEVERITY     MAJOR
+	         --#GENERIC      6
+	         --#CATEGORY     "Error Events"
+	         --#SOURCE_ID    "A"
+	         --#TIMEINDEX    0
+          ::= {adGenSlotAlarms 5}
+
+    adGenSlotCpuRateLimitAlarmActive  NOTIFICATION-TYPE
+            OBJECTS     {
+                adTrapInformSeqNum,
+                sysName,
+                ifDescr,
+	         ifIndex,
+	         adGenSlotProvCpuRateLimitAlarmSlotSeverity
+            }
+            STATUS          current
+            DESCRIPTION    "Exception rate parameters are out of bounds and alarm has activated"
+                --#TYPE        "Status - SA CPU Rate Limit Alarm Active"
+                --#SUMMARY      "Shelf: %s, Details: %s"
+                --#ARGUMENTS    {1,2}
+                --#SEVERITY     MAJOR
+	         --#GENERIC      6
+	         --#CATEGORY     "Error Events"
+	         --#SOURCE_ID    "A"
+	         --#TIMEINDEX    0
+          ::= {adGenSlotAlarms 6}
+
+    --
+    --  CPU Rate Limit Alarm Provisioning Group
+    --
+    adGenSlotProvCpuRateLimitAlarmSlotTable OBJECT-TYPE
+        SYNTAX  SEQUENCE OF AdGenSlotProvCpuRateLimitAlarmSlotEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+             "This Table sets severity and suppression for CPU Rate Limit Alarm."
+        ::= { adGenSlot 9 }
+
+    adGenSlotProvCpuRateLimitAlarmSlotEntry  OBJECT-TYPE
+        SYNTAX  AdGenSlotProvCpuRateLimitAlarmSlotEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+            ""
+        INDEX    { adGenSlotInfoIndex }
+        ::= { adGenSlotProvCpuRateLimitAlarmSlotTable 1 }
+
+    AdGenSlotProvCpuRateLimitAlarmSlotEntry ::=
+        SEQUENCE {
+        		adGenSlotProvCpuRateLimitAlarmSlotSeverity			INTEGER,
+         		adGenSlotProvCpuRateLimitAlarmSlotEnable			TruthValue
+		}
+
+    adGenSlotProvCpuRateLimitAlarmSlotSeverity OBJECT-TYPE
+        SYNTAX INTEGER {
+			   minor(4),
+			   major(5),
+			   critical(6)
+        }
+
+    	MAX-ACCESS read-write
+    	STATUS current
+    	DESCRIPTION
+        	"Sets the Service Affecting Severity for CPU rate limit alarm."
+    	DEFVAL    { major }
+        ::= { adGenSlotProvCpuRateLimitAlarmSlotEntry 1 }
+
+    adGenSlotProvCpuRateLimitAlarmSlotEnable OBJECT-TYPE
+        SYNTAX TruthValue
+    	 MAX-ACCESS  read-write
+    	 STATUS      current
+     	 DESCRIPTION
+        	"True - Enables the alarm, False - disables the alarm"
+
+        DEFVAL {true}
+        ::= { adGenSlotProvCpuRateLimitAlarmSlotEntry 2 }
+
+   -- compliance statements
+   -- These two subidentifiers are for local use in this MIB only
+   adGenSlotCompliances   OBJECT IDENTIFIER ::= { adGenSlotConformance  1 }
+   adGenSlotMIBGroups     OBJECT IDENTIFIER ::= { adGenSlotConformance  2 }
+
+   adGenSlotCompliance MODULE-COMPLIANCE
+      STATUS  current
+      DESCRIPTION
+          "The compliance statement for SNMPv2 entities which implement the
+          adtran generic slot MIB."
+
+      MODULE  -- this module
+      MANDATORY-GROUPS {
+          adGenSlotBaseGroup
+          }
+
+      GROUP  adGenSlotOptionalGroup
+          DESCRIPTION
+              "Group of objects which are supported by some products."
+
+   ::= { adGenSlotCompliances 1 }
+
+   adGenSlotBaseGroup OBJECT-GROUP
+       OBJECTS {
+           adGenSlotNumber,
+           adGenSlotInfoIndex,
+           adGenSlotInfoState,
+           adGenSlotProduct,
+           adGenSlotTrapEnable,
+           adGenSlotAlarmStatus,
+           adGenSlotFaceplate,
+           adGenSlotStatServiceState,
+           adGenSlotPortNumber,
+           adGenSlotProvVersion,
+           adGenSlotTFileName,
+           adGenSlotUpdateSoftware,
+           adGenSlotUpdateStatus,
+           adGenSlotUpTime,
+           adGenSlotProdName,
+           adGenSlotProdPartNumber,
+           adGenSlotProdCLEIcode,
+           adGenSlotProdSerialNumber,
+           adGenSlotProdRevision,
+           adGenSlotProdSwVersion,
+           adGenSlotProdPhysAddress
+           }
+       STATUS  current
+       DESCRIPTION
+          "The ADTRAN Generic Slot Base Group."
+       ::= { adGenSlotMIBGroups 1 }
+
+   adGenSlotOptionalGroup OBJECT-GROUP
+       OBJECTS {
+           adGenSlotProdProductID,
+           adGenSlotProdTransType
+           }
+       STATUS  current
+       DESCRIPTION
+          "The ADTRAN Generic Slot Optional Group."
+       ::= { adGenSlotMIBGroups 2 }
+
+
+    END
+
+
