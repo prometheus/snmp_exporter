@@ -276,6 +276,7 @@ type Metrics struct {
 	SNMPPackets            prometheus.Counter
 	SNMPRetries            prometheus.Counter
 	SNMPInflight           prometheus.Gauge
+	SNMPSubtreeWalkErrorsTotal prometheus.Counter
 }
 
 type NamedModule struct {

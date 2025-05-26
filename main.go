@@ -291,6 +291,13 @@ func main() {
 				Help:      "Current number of SNMP scrapes being requested.",
 			},
 		),
+		SNMPSubtreeWalkErrorsTotal: promauto.NewCounter(
+			prometheus.CounterOpts{
+				Namespace: namespace,
+				Name:      "subtree_walk_errors_total",
+				Help:      "Total number of errors during OID subtree walks.",
+			},
+		),
 	}
 
 	http.Handle(*metricsPath, promhttp.Handler()) // Normal metrics endpoint for SNMP exporter itself.

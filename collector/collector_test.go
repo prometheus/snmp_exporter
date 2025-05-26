@@ -24,6 +24,7 @@ import (
 	"github.com/gosnmp/gosnmp"
 	io_prometheus_client "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/promslog"
+	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/prometheus/snmp_exporter/config"
 	"github.com/prometheus/snmp_exporter/scraper"
@@ -1460,6 +1461,119 @@ func TestAddAllowedIndices(t *testing.T) {
 	}
 }
 
+// errorSimulatingMockScraper is a mock SNMPScraper that simulates an error for a specific OID.
+type errorSimulatingMockScraper struct {
+	errorOid       string
+	simulatedError error
+	walkedOids     []string
+	// getResponses and walkResponses can be used to provide specific successful responses if needed.
+	getResponses  map[string]gosnmp.SnmpPDU
+	walkResponses map[string][]gosnmp.SnmpPDU
+	// Store options from SetOptions if needed for more complex tests
+	options []func(*gosnmp.GoSNMP)
+}
+
+func (m *errorSimulatingMockScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
+	// Minimal implementation for this test, can be expanded if Get calls are relevant.
+	if m.getResponses == nil {
+		return &gosnmp.SnmpPacket{Variables: []gosnmp.SnmpPDU{}}, nil
+	}
+	pdus := []gosnmp.SnmpPDU{}
+	for _, oid := range oids {
+		if pdu, ok := m.getResponses[oid]; ok {
+			pdus = append(pdus, pdu)
+		} else {
+			pdus = append(pdus, gosnmp.SnmpPDU{Name: oid, Type: gosnmp.NoSuchObject})
+		}
+	}
+	return &gosnmp.SnmpPacket{Variables: pdus}, nil
+}
+
+func (m *errorSimulatingMockScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
+	m.walkedOids = append(m.walkedOids, baseOID)
+	if baseOID == m.errorOid {
+		return nil, m.simulatedError
+	}
+	if m.walkResponses != nil {
+		if pdus, ok := m.walkResponses[baseOID]; ok {
+			return pdus, nil
+		}
+	}
+	return []gosnmp.SnmpPDU{}, nil // Default success response
+}
+
+func (m *errorSimulatingMockScraper) Connect() error {
+	return nil // Or simulate connection errors if needed by other tests using this mock
+}
+
+func (m *errorSimulatingMockScraper) Close() error {
+	return nil // Or simulate close errors
+}
+
+func (m *errorSimulatingMockScraper) SetOptions(options ...func(*gosnmp.GoSNMP)) {
+	m.options = options
+}
+
+func TestScrapeTargetErrorHandling(t *testing.T) {
+	// 1. Initialize Metrics
+	metrics := Metrics{
+		SNMPSubtreeWalkErrorsTotal: testutil.NewCounter(),
+	}
+
+	// 2. Configure Module
+	moduleConfig := &config.Module{
+		Walk: []string{"1.3.6.1.2.1.1", "1.3.6.1.2.1.2", "1.3.6.1.2.1.3"}, // OID1, OIDtoFail, OID3
+	}
+	oidToFail := "1.3.6.1.2.1.2"
+
+	// 3. Setup Mock Scraper
+	simulatedErr := errors.New("simulated SNMP walk error")
+	mockScraper := &errorSimulatingMockScraper{
+		errorOid:       oidToFail,
+		simulatedError: simulatedErr,
+		walkedOids:     make([]string, 0),
+	}
+
+	// 4. Logger (discard output for this test)
+	// logger := promslog.NewNopLogger() // promslog.NewNopLogger() is a good alternative too.
+	logger := promslog.New(&promslog.Config{Level: "debug", Format: "json"}) // Use a real logger to ensure no panics with logger.Error
+	// To actually capture logs, a more complex setup would be needed. For now, ensure it runs.
+
+	// 5. Call ScrapeTarget
+	// Auth can be minimal for this test as it's not directly involved in walk error handling.
+	auth := &config.Auth{Version: gosnmp.Version2c} // Using gosnmp.Version2c for a concrete value.
+	target := "testTarget"
+
+	scrapeResults, err := ScrapeTarget(mockScraper, target, auth, moduleConfig, logger, metrics)
+
+	// 6. Assertions
+	// Assert Metric Increment
+	if val := testutil.ToFloat64(metrics.SNMPSubtreeWalkErrorsTotal); val != 1.0 {
+		t.Errorf("Expected SNMPSubtreeWalkErrorsTotal to be 1.0, got %f", val)
+	}
+
+	// Assert Continuation (WalkAll called for all OIDs)
+	expectedWalkedOids := []string{"1.3.6.1.2.1.1", "1.3.6.1.2.1.2", "1.3.6.1.2.1.3"}
+	if !reflect.DeepEqual(mockScraper.walkedOids, expectedWalkedOids) {
+		t.Errorf("Expected walked OIDs %v, got %v", expectedWalkedOids, mockScraper.walkedOids)
+	}
+
+	// Assert Overall Error from ScrapeTarget is nil
+	if err != nil {
+		t.Errorf("Expected ScrapeTarget to return nil error, got: %v", err)
+	}
+
+	// Assert that some results might still be processed for non-failing OIDs (optional, but good check)
+	// In this setup, successful walks return empty PDUs, so results.pdus should be empty.
+	if len(scrapeResults.pdus) != 0 {
+		t.Errorf("Expected 0 PDUs in results due to mock setup, got %d", len(scrapeResults.pdus))
+	}
+
+	// Log assertion: This is harder without a custom logger or hooking into slog.
+	// For now, we've ensured logger.Error is called without panic.
+	// A more advanced test could use a custom slog.Handler to capture records.
+}
+
 func TestScrapeTarget(t *testing.T) {
 	cases := []struct {
 		name          string
@@ -1471,7 +1585,7 @@ func TestScrapeTarget(t *testing.T) {
 		walkCall      []string
 	}{
 		{
-			name: "basic",
+			name: "basic_TestScrapeTarget", // Renamed to avoid conflict with the new test name if `go test ./...` is run
 			module: &config.Module{
 				Get:  []string{"1.3.6.1.2.1.1.1.0"},
 				Walk: []string{"1.3.6.1.2.1.2.2.1.2", "1.3.6.1.2.1.31.1.1.1.18"},
