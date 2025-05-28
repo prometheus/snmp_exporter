@@ -1161,7 +1161,7 @@ func TestConfigureTarget(t *testing.T) {
 			gTransport: "",
 			gTarget:    "localhost",
 			gPort:      161,
-			shouldErr:  false,
+			shouldErr:  true,
 		},
 		{
 			target:     "localhost:1161",
@@ -1175,7 +1175,7 @@ func TestConfigureTarget(t *testing.T) {
 			gTransport: "udp",
 			gTarget:    "localhost",
 			gPort:      161,
-			shouldErr:  false,
+			shouldErr:  true,
 		},
 		{
 			target:     "udp://localhost:1161",
@@ -1189,7 +1189,7 @@ func TestConfigureTarget(t *testing.T) {
 			gTransport: "tcp",
 			gTarget:    "localhost",
 			gPort:      161,
-			shouldErr:  false,
+			shouldErr:  true,
 		},
 		{
 			target:     "tcp://localhost:1161",
@@ -1203,7 +1203,7 @@ func TestConfigureTarget(t *testing.T) {
 			gTransport: "",
 			gTarget:    "[::1]",
 			gPort:      161,
-			shouldErr:  false,
+			shouldErr:  true,
 		},
 		{
 			target:     "[::1]:1161",
@@ -1217,7 +1217,7 @@ func TestConfigureTarget(t *testing.T) {
 			gTransport: "udp",
 			gTarget:    "[::1]",
 			gPort:      161,
-			shouldErr:  false,
+			shouldErr:  true,
 		},
 		{
 			target:     "udp://[::1]:1161",
@@ -1231,7 +1231,7 @@ func TestConfigureTarget(t *testing.T) {
 			gTransport: "tcp",
 			gTarget:    "[::1]",
 			gPort:      161,
-			shouldErr:  false,
+			shouldErr:  true,
 		},
 		{
 			target:     "tcp://[::1]:1161",
@@ -1245,7 +1245,7 @@ func TestConfigureTarget(t *testing.T) {
 			gTransport: "tcp",
 			gTarget:    "udp://localhost:1161",
 			gPort:      161,
-			shouldErr:  false,
+			shouldErr:  true,
 		},
 		{
 			target:     "localhost:badport",
