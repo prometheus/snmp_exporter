@@ -162,17 +162,30 @@ func configureTarget(g *gosnmp.GoSNMP, target string) error {
 		g.Transport = s[0]
 		target = s[1]
 	}
+
 	g.Target = target
 	g.Port = 161
-	if host, port, err := net.SplitHostPort(target); err == nil {
-		g.Target = host
-		p, err := strconv.Atoi(port)
-		if err != nil {
-			return fmt.Errorf("error converting port number to int for target %q: %w", target, err)
-		}
-		g.Port = uint16(p)
+
+	host, port, err := parseHostPort(target, g)
+	if err != nil {
+		return err
 	}
+	g.Target = host
+	g.Port = port
+
 	return nil
+}
+
+func parseHostPort(target string, g *gosnmp.GoSNMP) (string, uint16, error) {
+	host, portStr, err := net.SplitHostPort(target)
+	if err != nil {
+		return "", 0, err
+	}
+	port, err := strconv.Atoi(portStr)
+	if err != nil {
+		return "", 0, fmt.Errorf("error converting port number to int for target %q: %w", target, err)
+	}
+	return host, uint16(port), nil
 }
 
 func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
