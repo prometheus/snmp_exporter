@@ -30639,6 +30639,13 @@ modules:
       oid: 1.3.6.1.4.1.14988.1.1.3.18
       type: gauge
       help: rpm - 1.3.6.1.4.1.14988.1.1.3.18
+    - name: mtxrAlarmSocketStatus
+      oid: 1.3.6.1.4.1.14988.1.1.3.19
+      type: gauge
+      help: Alarm socket status - 1.3.6.1.4.1.14988.1.1.3.19
+      enum_values:
+        0: inactive
+        1: active
     - name: mtxrGaugeIndex
       oid: 1.3.6.1.4.1.14988.1.1.3.100.1.1
       type: gauge
@@ -30898,10 +30905,14 @@ modules:
       oid: 1.3.6.1.4.1.14988.1.1.7.7
       type: DisplayString
       help: Upgrade firmware version - 1.3.6.1.4.1.14988.1.1.7.7
-    - name: mtxrBoardName
+    - name: mtxrDisplayName
       oid: 1.3.6.1.4.1.14988.1.1.7.8
       type: DisplayString
-      help: board name - 1.3.6.1.4.1.14988.1.1.7.8
+      help: display name - 1.3.6.1.4.1.14988.1.1.7.8
+    - name: mtxrBoardName
+      oid: 1.3.6.1.4.1.14988.1.1.7.9
+      type: DisplayString
+      help: board name - 1.3.6.1.4.1.14988.1.1.7.9
     - name: mtxrScriptIndex
       oid: 1.3.6.1.4.1.14988.1.1.8.1.1.1
       type: gauge
@@ -31233,6 +31244,46 @@ modules:
       oid: 1.3.6.1.4.1.14988.1.1.13.2
       type: gauge
       help: signal EC/IO in dB (if first ppp-client modem supports) - 1.3.6.1.4.1.14988.1.1.13.2
+    - name: mtxrWirelessModemManufacturer
+      oid: 1.3.6.1.4.1.14988.1.1.13.3
+      type: DisplayString
+      help: Modem manufacturer name - 1.3.6.1.4.1.14988.1.1.13.3
+    - name: mtxrWirelessModemModel
+      oid: 1.3.6.1.4.1.14988.1.1.13.4
+      type: DisplayString
+      help: Modem model name - 1.3.6.1.4.1.14988.1.1.13.4
+    - name: mtxrWirelessModemRevision
+      oid: 1.3.6.1.4.1.14988.1.1.13.5
+      type: DisplayString
+      help: Modem firmware revision - 1.3.6.1.4.1.14988.1.1.13.5
+    - name: mtxrWirelessModemIMEI
+      oid: 1.3.6.1.4.1.14988.1.1.13.6
+      type: DisplayString
+      help: Modem serial number - 1.3.6.1.4.1.14988.1.1.13.6
+    - name: mtxrWirelessModemIMSI
+      oid: 1.3.6.1.4.1.14988.1.1.13.7
+      type: DisplayString
+      help: International mobile subscriber identity - 1.3.6.1.4.1.14988.1.1.13.7
+    - name: mtxrWirelessModemAccessTechnology
+      oid: 1.3.6.1.4.1.14988.1.1.13.8
+      type: DisplayString
+      help: Access technology - 1.3.6.1.4.1.14988.1.1.13.8
+    - name: mtxrWirelessModemFrameErrorRate
+      oid: 1.3.6.1.4.1.14988.1.1.13.9
+      type: DisplayString
+      help: Signal frame error rate - 1.3.6.1.4.1.14988.1.1.13.9
+    - name: mtxrWirelessModemRSRP
+      oid: 1.3.6.1.4.1.14988.1.1.13.10
+      type: gauge
+      help: Reference Signal Receive Power - 1.3.6.1.4.1.14988.1.1.13.10
+    - name: mtxrWirelessModemRSRQ
+      oid: 1.3.6.1.4.1.14988.1.1.13.11
+      type: gauge
+      help: Reference Signal Received Quality - 1.3.6.1.4.1.14988.1.1.13.11
+    - name: mtxrWirelessModemSINR
+      oid: 1.3.6.1.4.1.14988.1.1.13.12
+      type: gauge
+      help: Signal-to-Interference-plus-Noise Ratio - 1.3.6.1.4.1.14988.1.1.13.12
     - name: mtxrInterfaceStatsIndex
       oid: 1.3.6.1.4.1.14988.1.1.14.1.1.1
       type: gauge
@@ -32117,6 +32168,19 @@ modules:
         labelname: ifName
         oid: 1.3.6.1.2.1.31.1.1.1.1
         type: DisplayString
+    - name: mtxrInterfaceStatsTxRx1024ToMax
+      oid: 1.3.6.1.4.1.14988.1.1.14.1.1.91
+      type: counter
+      help: ' - 1.3.6.1.4.1.14988.1.1.14.1.1.91'
+      indexes:
+      - labelname: mtxrInterfaceStatsIndex
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrInterfaceStatsIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
     - name: mtxrPOEInterfaceIndex
       oid: 1.3.6.1.4.1.14988.1.1.15.1.1.1
       type: gauge
@@ -32161,6 +32225,17 @@ modules:
         2: waitingForLoad
         3: poweredOn
         4: overload
+        5: shortCircuit
+        6: voltageTooLow
+        7: currentTooLow
+        8: powerReset
+        9: voltageTooHigh
+        10: controllerError
+        11: controllerUpgrade
+        12: poeInDetected
+        13: noValidPsu
+        14: controllerInit
+        15: lowVoltageTooLow
     - name: mtxrPOEVoltage
       oid: 1.3.6.1.4.1.14988.1.1.15.1.1.4
       type: gauge
@@ -32252,6 +32327,8 @@ modules:
         5: hsupa
         6: hsdpahsupa
         7: eutran
+        11: nr-sa
+        13: nr-nsa
     - name: mtxrLTEModemSignalSINR
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.7
       type: gauge
@@ -32542,6 +32619,32 @@ modules:
         labelname: mtxrOpticalName
         oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
         type: DisplayString
+    - name: mtxrOpticalVendorName
+      oid: 1.3.6.1.4.1.14988.1.1.19.1.1.11
+      type: DisplayString
+      help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.11'
+      indexes:
+      - labelname: mtxrOpticalIndex
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
+    - name: mtxrOpticalVendorSerial
+      oid: 1.3.6.1.4.1.14988.1.1.19.1.1.12
+      type: DisplayString
+      help: ' - 1.3.6.1.4.1.14988.1.1.19.1.1.12'
+      indexes:
+      - labelname: mtxrOpticalIndex
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrOpticalIndex
+        labelname: mtxrOpticalName
+        oid: 1.3.6.1.4.1.14988.1.1.19.1.1.2
+        type: DisplayString
     - name: mtxrIkeSACount
       oid: 1.3.6.1.4.1.14988.1.1.20.1
       type: gauge
@@ -32739,6 +32842,583 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+    - name: mtxrWifiCapsmanEnabled
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.1
+      type: gauge
+      help: Indicates whether the Capsman is enabled. - 1.3.6.1.4.1.14988.1.1.21.1.1
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: mtxrWifiCapsmanInterfaces
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.2
+      type: DisplayString
+      help: List of interfaces associated with Capsman. - 1.3.6.1.4.1.14988.1.1.21.1.2
+    - name: mtxrWifiCapsmanCACertificate
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.3
+      type: DisplayString
+      help: The CA certificate used by Capsman. - 1.3.6.1.4.1.14988.1.1.21.1.3
+    - name: mtxrWifiCapsmanCertificate
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.4
+      type: DisplayString
+      help: The local certificate used by Capsman. - 1.3.6.1.4.1.14988.1.1.21.1.4
+    - name: mtxrWifiCapsmanRequirePeerCertificate
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.5
+      type: gauge
+      help: Whether a peer certificate is required. - 1.3.6.1.4.1.14988.1.1.21.1.5
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: mtxrWifiCapsmanPackagePath
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.6
+      type: DisplayString
+      help: Path to the Capsman package directory. - 1.3.6.1.4.1.14988.1.1.21.1.6
+    - name: mtxrWifiCapsmanUpgradePolicy
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.7
+      type: gauge
+      help: Capsman upgrade policy. - 1.3.6.1.4.1.14988.1.1.21.1.7
+    - name: mtxrWifiCapsmanGeneratedCaCertificate
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.8
+      type: DisplayString
+      help: Automatically generated CA certificate. - 1.3.6.1.4.1.14988.1.1.21.1.8
+    - name: mtxrWifiCapsmanGeneratedCertificate
+      oid: 1.3.6.1.4.1.14988.1.1.21.1.9
+      type: DisplayString
+      help: Automatically generated local certificate. - 1.3.6.1.4.1.14988.1.1.21.1.9
+    - name: mtxrCapEnabled
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.1
+      type: gauge
+      help: Indicates whether the CAP is enabled. - 1.3.6.1.4.1.14988.1.1.21.2.1
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: mtxrCapInterfaces
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.2
+      type: DisplayString
+      help: List of interfaces used by the CAP. - 1.3.6.1.4.1.14988.1.1.21.2.2
+    - name: mtxrCapCertificate
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.3
+      type: DisplayString
+      help: The local certificate used by the CAP. - 1.3.6.1.4.1.14988.1.1.21.2.3
+    - name: mtxrCapCapsManAddresses
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.4
+      type: DisplayString
+      help: Addresses of associated CapsMan controllers. - 1.3.6.1.4.1.14988.1.1.21.2.4
+    - name: mtxrCapCapsManNames
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.5
+      type: DisplayString
+      help: Names of associated CapsMan controllers. - 1.3.6.1.4.1.14988.1.1.21.2.5
+    - name: mtxrCapCapsManCertificateCommonNames
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.6
+      type: DisplayString
+      help: Common names of CapsMan certificates. - 1.3.6.1.4.1.14988.1.1.21.2.6
+    - name: mtxrCapLockToCapsMan
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.7
+      type: gauge
+      help: Indicates if the CAP is locked to a specific CapsMan. - 1.3.6.1.4.1.14988.1.1.21.2.7
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: mtxrCapSlavesStatic
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.8
+      type: gauge
+      help: Indicates if CAP slaves are set to static mode. - 1.3.6.1.4.1.14988.1.1.21.2.8
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: mtxrCapSlavesDatapath
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.9
+      type: DisplayString
+      help: Datapath configuration of CAP slaves. - 1.3.6.1.4.1.14988.1.1.21.2.9
+    - name: mtxrCapRequestedCertificate
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.10
+      type: DisplayString
+      help: Requested certificate for the CAP. - 1.3.6.1.4.1.14988.1.1.21.2.10
+    - name: mtxrCapLockedCapsManCommonName
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.11
+      type: DisplayString
+      help: Locked CapsMan common name. - 1.3.6.1.4.1.14988.1.1.21.2.11
+    - name: mtxrCapCurrentCapsManAddress
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.12
+      type: DisplayString
+      help: Current CapsMan address being used. - 1.3.6.1.4.1.14988.1.1.21.2.12
+    - name: mtxrCapCurrentCapsManIdentity
+      oid: 1.3.6.1.4.1.14988.1.1.21.2.13
+      type: DisplayString
+      help: Current identity of the connected CapsMan. - 1.3.6.1.4.1.14988.1.1.21.2.13
+    - name: mtxrRemoteCapId
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.1
+      type: gauge
+      help: ID of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.1
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrRemoteCapAddress
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.2
+      type: DisplayString
+      help: IP address of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.2
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrRemoteCapBoardName
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.4
+      type: DisplayString
+      help: Board name of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.4
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrRemoteCapSerial
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.5
+      type: DisplayString
+      help: Serial number of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.5
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrRemoteCapVersion
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.6
+      type: DisplayString
+      help: RouterOS version of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.6
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrRemoteCapBaseMac
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.7
+      type: PhysAddress48
+      help: Base MAC address of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.7
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrRemoteCapCommonName
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.8
+      type: DisplayString
+      help: Certificate common name of the remote CAP. - 1.3.6.1.4.1.14988.1.1.21.3.1.8
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrRemoteCapState
+      oid: 1.3.6.1.4.1.14988.1.1.21.3.1.9
+      type: DisplayString
+      help: State of the remote CAP (e.g., connected, disconnected). - 1.3.6.1.4.1.14988.1.1.21.3.1.9
+      indexes:
+      - labelname: mtxrRemoteCapId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrRemoteCapId
+        labelname: mtxrRemoteCapIdentity
+        oid: 1.3.6.1.4.1.14988.1.1.21.3.1.3
+        type: DisplayString
+      - labels: []
+        labelname: mtxrRemoteCapId
+    - name: mtxrWifiRegistrationInterface
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.2
+      type: gauge
+      help: Interface id of the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.2
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationSsid
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.3
+      type: DisplayString
+      help: SSID of the connected access point. - 1.3.6.1.4.1.14988.1.1.21.4.1.3
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationUptime
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.4
+      type: gauge
+      help: Uptime of the registered connection. - 1.3.6.1.4.1.14988.1.1.21.4.1.4
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationLastActivity
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.5
+      type: gauge
+      help: Time since the last activity of the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.5
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationSignal
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.6
+      type: gauge
+      help: Signal strength of the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.6
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationAuthType
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.7
+      type: DisplayString
+      help: Authentication type used by the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.7
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationBand
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.8
+      type: DisplayString
+      help: Wireless band used by the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.8
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationTxRate
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.9
+      type: gauge
+      help: Transmission rate of the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.9
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationRxRate
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.10
+      type: gauge
+      help: Reception rate of the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.10
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationTxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.11
+      type: counter
+      help: Number of transmitted packets. - 1.3.6.1.4.1.14988.1.1.21.4.1.11
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationRxPackets
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.12
+      type: counter
+      help: Number of received packets. - 1.3.6.1.4.1.14988.1.1.21.4.1.12
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationTxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.13
+      type: counter
+      help: Number of transmitted bytes. - 1.3.6.1.4.1.14988.1.1.21.4.1.13
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationRxBytes
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.14
+      type: counter
+      help: Number of received bytes. - 1.3.6.1.4.1.14988.1.1.21.4.1.14
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationTxBitsPerSecond
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.15
+      type: gauge
+      help: Transmission rate in bits per second. - 1.3.6.1.4.1.14988.1.1.21.4.1.15
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationRxBitsPerSecond
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.16
+      type: gauge
+      help: Reception rate in bits per second. - 1.3.6.1.4.1.14988.1.1.21.4.1.16
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationVlanId
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.17
+      type: gauge
+      help: VLAN ID of the registered device. - 1.3.6.1.4.1.14988.1.1.21.4.1.17
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+    - name: mtxrWifiRegistrationAuthorized
+      oid: 1.3.6.1.4.1.14988.1.1.21.4.1.18
+      type: gauge
+      help: Indicates whether the device is authorized. - 1.3.6.1.4.1.14988.1.1.21.4.1.18
+      indexes:
+      - labelname: mtxrWifiRegistrationMacAddress
+        type: PhysAddress48
+        fixed_size: 6
+      - labelname: mtxrWifiRegistrationInterface
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiRegistrationInterface
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiRegistrationInterface
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: mtxrWifiInterfacesId
+      oid: 1.3.6.1.4.1.14988.1.1.21.5.1.1
+      type: gauge
+      help: Unique identifier for each WiFi interface - 1.3.6.1.4.1.14988.1.1.21.5.1.1
+      indexes:
+      - labelname: mtxrWifiInterfacesId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiInterfacesId
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiInterfacesId
+    - name: mtxrWifiInterfacesSsid
+      oid: 1.3.6.1.4.1.14988.1.1.21.5.1.3
+      type: DisplayString
+      help: SSID associated with the WiFi interface - 1.3.6.1.4.1.14988.1.1.21.5.1.3
+      indexes:
+      - labelname: mtxrWifiInterfacesId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiInterfacesId
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiInterfacesId
+    - name: mtxrWifiInterfacesFreq
+      oid: 1.3.6.1.4.1.14988.1.1.21.5.1.4
+      type: DisplayString
+      help: Frequency used by the WiFi interface - 1.3.6.1.4.1.14988.1.1.21.5.1.4
+      indexes:
+      - labelname: mtxrWifiInterfacesId
+        type: gauge
+      lookups:
+      - labels:
+        - mtxrWifiInterfacesId
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels: []
+        labelname: mtxrWifiInterfacesId
   nec_ix:
     walk:
     - 1.3.6.1.4.1.119.2.3.84.11

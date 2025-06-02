@@ -302,6 +302,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Remove redundant OIDs to be walked.
 	toWalk := []string{}
 	for _, oid := range cfg.Walk {
+		if strings.HasPrefix(oid, ".") {
+			return nil, fmt.Errorf("invalid OID %s, prefix of '.' should be removed", oid)
+		}
 		// Resolve name to OID if possible.
 		n, ok := nameToNode[oid]
 		if ok {
