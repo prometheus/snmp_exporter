@@ -85,4 +85,5 @@ type Lookup struct {
 	SourceIndexes     []string `yaml:"source_indexes"`
 	Lookup            string   `yaml:"lookup"`
 	DropSourceIndexes bool     `yaml:"drop_source_indexes,omitempty"`
+	CustomLabelName   string   `yaml:"custom_label_name,omitempty"`
 }
