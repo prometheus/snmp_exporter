@@ -445,6 +445,13 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					}
 				}
 			}
+			if foundIndexes != len(lookup.SourceIndexes) {
+				for _, index := range lookup.SourceIndexes {
+					if _, err := strconv.ParseUint(index, 10, 64); err == nil {
+						foundIndexes++
+					}
+				}
+			}
 			if foundIndexes == len(lookup.SourceIndexes) {
 				if _, ok := nameToNode[lookup.Lookup]; !ok {
 					return nil, fmt.Errorf("unknown index '%s'", lookup.Lookup)
@@ -458,6 +465,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					Labelname: sanitizeLabelName(indexNode.Label),
 					Type:      typ,
 					Oid:       indexNode.Oid,
+				}
+				if len(lookup.CustomLabelName) > 0 {
+					l.Labelname = sanitizeLabelName(lookup.CustomLabelName)
 				}
 				for _, oldIndex := range lookup.SourceIndexes {
 					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
