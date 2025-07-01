@@ -38,6 +38,16 @@ func LoadFile(paths []string, expandEnvVars bool) (*Config, error) {
 				return nil, err
 			}
 			err = yaml.UnmarshalStrict(content, cfg)
+			foundDefault := false
+			for name, auth := range cfg.Auths {
+				if auth.Default {
+					if foundDefault {
+						return nil, fmt.Errorf("multiple auths marked as default: already set, found again in %s", name)
+					}
+					DefaultAuth = *auth
+					foundDefault = true
+				}
+			}
 			if err != nil {
 				return nil, err
 			}
@@ -69,7 +79,6 @@ func LoadFile(paths []string, expandEnvVars bool) (*Config, error) {
 			}
 		}
 	}
-
 	return cfg, nil
 }
 
@@ -277,6 +286,7 @@ type Auth struct {
 	PrivPassword  Secret `yaml:"priv_password,omitempty"`
 	ContextName   string `yaml:"context_name,omitempty"`
 	Version       int    `yaml:"version,omitempty"`
+	Default       bool   `yaml:"default,omitempty"`
 }
 
 func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
