@@ -182,8 +182,8 @@ type SafeConfig struct {
 	C *config.Config
 }
 
-func (sc *SafeConfig) ReloadConfig(configFile []string, expandEnvVars bool) (err error) {
-	conf, err := config.LoadFile(configFile, expandEnvVars)
+func (sc *SafeConfig) ReloadConfig(logger *slog.Logger, configFile []string, expandEnvVars bool) (err error) {
+	conf, err := config.LoadFile(logger, configFile, expandEnvVars)
 	if err != nil {
 		return err
 	}
@@ -214,10 +214,20 @@ func main() {
 	prometheus.MustRegister(versioncollector.NewCollector("snmp_exporter"))
 
 	// Bail early if the config is bad.
-	err := sc.ReloadConfig(*configFile, *expandEnvVars)
+	err := sc.ReloadConfig(logger, *configFile, *expandEnvVars)
 	if err != nil {
 		logger.Error("Error parsing config file", "err", err)
-		logger.Error("Possible version missmatch between generator and snmp_exporter. Make sure generator and snmp_exporter are the same version.")
+		logger.Error("Possible version mismatch between generator and snmp_exporter. Make sure generator and snmp_exporter are the same version.")
+		logger.Error("See also: https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
+		os.Exit(1)
+	}
+	if len(sc.C.Modules) == 0 {
+		logger.Error("Configuration is missing Modules. Did you provide any configuration file?")
+		os.Exit(1)
+	}
+	if len(sc.C.Auths) == 0 {
+		logger.Error("Configuration is missing Auths.")
+		logger.Error("Possible version mismatch between generator and snmp_exporter. Make sure generator and snmp_exporter are the same version.")
 		logger.Error("See also: https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
 		os.Exit(1)
 	}
@@ -235,13 +245,13 @@ func main() {
 		for {
 			select {
 			case <-hup:
-				if err := sc.ReloadConfig(*configFile, *expandEnvVars); err != nil {
+				if err := sc.ReloadConfig(logger, *configFile, *expandEnvVars); err != nil {
 					logger.Error("Error reloading config", "err", err)
 				} else {
 					logger.Info("Loaded config file")
 				}
 			case rc := <-reloadCh:
-				if err := sc.ReloadConfig(*configFile, *expandEnvVars); err != nil {
+				if err := sc.ReloadConfig(logger, *configFile, *expandEnvVars); err != nil {
 					logger.Error("Error reloading config", "err", err)
 					rc <- err
 				} else {
