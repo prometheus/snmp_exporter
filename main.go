@@ -217,7 +217,7 @@ func main() {
 	err := sc.ReloadConfig(*configFile, *expandEnvVars)
 	if err != nil {
 		logger.Error("Error parsing config file", "err", err)
-		logger.Error("Possible version missmatch between generator and snmp_exporter. Make sure generator and snmp_exporter are the same version.")
+		logger.Error("Possible version mismatch between generator and snmp_exporter. Make sure generator and snmp_exporter are the same version.")
 		logger.Error("See also: https://github.com/prometheus/snmp_exporter/blob/main/auth-split-migration.md")
 		os.Exit(1)
 	}
