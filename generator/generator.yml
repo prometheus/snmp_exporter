@@ -1225,3 +1225,5 @@ modules:
         scale: 0.1
       upsBypassFrequency:
         scale: 0.1
+      upsBatteryVoltage:
+        scale: 0.1
