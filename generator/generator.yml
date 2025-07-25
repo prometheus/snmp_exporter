@@ -1211,3 +1211,19 @@ modules:
       - source_indexes:
         - bvValue
         lookup: bvDescription
+
+# Generic UPS Mibs from Observioum covering 
+# 1.3.6.1.2.1.33.1
+
+  ups_mib:
+    walk:
+      - 1.3.6.1.2.1.33.1
+    overrides:
+      upsInputFrequency:
+        scale: 0.1
+      upsOutputFrequency:
+        scale: 0.1
+      upsBypassFrequency:
+        scale: 0.1
+      upsBatteryVoltage:
+        scale: 0.1
