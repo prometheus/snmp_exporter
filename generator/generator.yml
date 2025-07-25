@@ -587,9 +587,9 @@ modules:
 
 # keepalived
 #
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/KEEPALIVED-MIB.txt
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRP-MIB.txt
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRPv3-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.3.4/doc/KEEPALIVED-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.3.4/doc/VRRP-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.3.4/doc/VRRPv3-MIB.txt
   keepalived:
     walk:
       - vrrpInstanceTable # Table of VRRP instances.
