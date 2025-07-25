@@ -26036,6 +26036,55 @@ modules:
       indexes:
       - labelname: virtualServerIndex
         type: gauge
+    - name: virtualServerQuorumUpPath
+      oid: 1.3.6.1.4.1.9586.100.5.3.3.1.72
+      type: DisplayString
+      help: Path to command to execute when the quorum is met. - 1.3.6.1.4.1.9586.100.5.3.3.1.72
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+    - name: virtualServerQuorumDownPath
+      oid: 1.3.6.1.4.1.9586.100.5.3.3.1.73
+      type: DisplayString
+      help: Path to command to execute when the quorum is not met. - 1.3.6.1.4.1.9586.100.5.3.3.1.73
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+    - name: virtualServerRateCps64
+      oid: 1.3.6.1.4.1.9586.100.5.3.3.1.74
+      type: counter
+      help: Current connection rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.74
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+    - name: virtualServerRateInPPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.3.1.75
+      type: counter
+      help: Current in packet rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.75
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+    - name: virtualServerRateOutPPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.3.1.76
+      type: counter
+      help: Current out packet rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.76
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+    - name: virtualServerRateInBPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.3.1.77
+      type: counter
+      help: Current incoming rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.77
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+    - name: virtualServerRateOutBPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.3.1.78
+      type: counter
+      help: Current outgoing rate for this virtual server. - 1.3.6.1.4.1.9586.100.5.3.3.1.78
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
     - name: realServerIndex
       oid: 1.3.6.1.4.1.9586.100.5.3.4.1.1
       type: gauge
@@ -26564,6 +26613,69 @@ modules:
       oid: 1.3.6.1.4.1.9586.100.5.3.4.1.55
       type: DisplayString
       help: Optional SNMP name of this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.55
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+      - labelname: realServerIndex
+        type: gauge
+    - name: realServerNotifyUpPath
+      oid: 1.3.6.1.4.1.9586.100.5.3.4.1.56
+      type: DisplayString
+      help: Path to command to execute when this server becomes alive. - 1.3.6.1.4.1.9586.100.5.3.4.1.56
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+      - labelname: realServerIndex
+        type: gauge
+    - name: realServerNotifyDownPath
+      oid: 1.3.6.1.4.1.9586.100.5.3.4.1.57
+      type: DisplayString
+      help: Path to command to execute when this server becomes dead. - 1.3.6.1.4.1.9586.100.5.3.4.1.57
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+      - labelname: realServerIndex
+        type: gauge
+    - name: realServerRateCps64
+      oid: 1.3.6.1.4.1.9586.100.5.3.4.1.58
+      type: counter
+      help: Current connection rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.58
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+      - labelname: realServerIndex
+        type: gauge
+    - name: realServerRateInPPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.4.1.59
+      type: counter
+      help: Current in packet rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.59
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+      - labelname: realServerIndex
+        type: gauge
+    - name: realServerRateOutPPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.4.1.60
+      type: counter
+      help: Current out packet rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.60
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+      - labelname: realServerIndex
+        type: gauge
+    - name: realServerRateInBPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.4.1.61
+      type: counter
+      help: Current incoming rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.61
+      indexes:
+      - labelname: virtualServerIndex
+        type: gauge
+      - labelname: realServerIndex
+        type: gauge
+    - name: realServerRateOutBPS64
+      oid: 1.3.6.1.4.1.9586.100.5.3.4.1.62
+      type: counter
+      help: Current outgoing rate for this real server. - 1.3.6.1.4.1.9586.100.5.3.4.1.62
       indexes:
       - labelname: virtualServerIndex
         type: gauge
