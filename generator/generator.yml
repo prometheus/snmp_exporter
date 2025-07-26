@@ -107,8 +107,12 @@ modules:
 # http://download2.mikrotik.com/Mikrotik.mib
   mikrotik:
     walk:
+      - mikrotik
       - sysDescr
       - mikrotik
+      - hrSystem
+      - hrStorage
+      - hrDevice
     lookups:
       - source_indexes: [ifIndex]
         lookup: ifName
