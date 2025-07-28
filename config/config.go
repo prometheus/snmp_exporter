@@ -16,6 +16,7 @@ package config
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -25,12 +26,15 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func LoadFile(paths []string, expandEnvVars bool) (*Config, error) {
+func LoadFile(logger *slog.Logger, paths []string, expandEnvVars bool) (*Config, error) {
 	cfg := &Config{}
 	for _, p := range paths {
 		files, err := filepath.Glob(p)
 		if err != nil {
 			return nil, err
+		}
+		if len(files) == 0 {
+			logger.Warn("No file found matching pattern", "file", p)
 		}
 		for _, f := range files {
 			content, err := os.ReadFile(f)
