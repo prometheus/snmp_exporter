@@ -45992,6 +45992,371 @@ modules:
       oid: 1.3.6.1.4.1.2021.11.67
       type: gauge
       help: The number of processors, as counted by the agent - 1.3.6.1.4.1.2021.11.67
+  ups_mib:
+    walk:
+    - 1.3.6.1.2.1.33.1.1
+    - 1.3.6.1.2.1.33.1.2
+    - 1.3.6.1.2.1.33.1.3
+    - 1.3.6.1.2.1.33.1.4
+    - 1.3.6.1.2.1.33.1.5
+    - 1.3.6.1.2.1.33.1.6
+    - 1.3.6.1.2.1.33.1.7
+    - 1.3.6.1.2.1.33.1.8
+    - 1.3.6.1.2.1.33.1.9
+    metrics:
+    - name: upsIdentManufacturer
+      oid: 1.3.6.1.2.1.33.1.1.1
+      type: DisplayString
+      help: The name of the UPS manufacturer. - 1.3.6.1.2.1.33.1.1.1
+    - name: upsIdentModel
+      oid: 1.3.6.1.2.1.33.1.1.2
+      type: DisplayString
+      help: The UPS Model designation. - 1.3.6.1.2.1.33.1.1.2
+    - name: upsIdentUPSSoftwareVersion
+      oid: 1.3.6.1.2.1.33.1.1.3
+      type: DisplayString
+      help: The UPS firmware/software version(s) - 1.3.6.1.2.1.33.1.1.3
+    - name: upsIdentAgentSoftwareVersion
+      oid: 1.3.6.1.2.1.33.1.1.4
+      type: DisplayString
+      help: The UPS agent software version - 1.3.6.1.2.1.33.1.1.4
+    - name: upsIdentName
+      oid: 1.3.6.1.2.1.33.1.1.5
+      type: DisplayString
+      help: A string identifying the UPS - 1.3.6.1.2.1.33.1.1.5
+    - name: upsIdentAttachedDevices
+      oid: 1.3.6.1.2.1.33.1.1.6
+      type: DisplayString
+      help: A string identifying the devices attached to the output(s) of the UPS
+        - 1.3.6.1.2.1.33.1.1.6
+    - name: upsBatteryStatus
+      oid: 1.3.6.1.2.1.33.1.2.1
+      type: gauge
+      help: The indication of the capacity remaining in the UPS system's batteries
+        - 1.3.6.1.2.1.33.1.2.1
+      enum_values:
+        1: unknown
+        2: batteryNormal
+        3: batteryLow
+        4: batteryDepleted
+    - name: upsSecondsOnBattery
+      oid: 1.3.6.1.2.1.33.1.2.2
+      type: gauge
+      help: If the unit is on battery power, the elapsed time since the UPS last switched
+        to battery power, or the time since the network management subsystem was last
+        restarted, whichever is less - 1.3.6.1.2.1.33.1.2.2
+    - name: upsEstimatedMinutesRemaining
+      oid: 1.3.6.1.2.1.33.1.2.3
+      type: gauge
+      help: An estimate of the time to battery charge depletion under the present
+        load conditions if the utility power is off and remains off, or if it were
+        to be lost and remain off. - 1.3.6.1.2.1.33.1.2.3
+    - name: upsEstimatedChargeRemaining
+      oid: 1.3.6.1.2.1.33.1.2.4
+      type: gauge
+      help: An estimate of the battery charge remaining expressed as a percent of
+        full charge. - 1.3.6.1.2.1.33.1.2.4
+    - name: upsBatteryVoltage
+      oid: 1.3.6.1.2.1.33.1.2.5
+      type: gauge
+      help: The magnitude of the present battery voltage. - 1.3.6.1.2.1.33.1.2.5
+      scale: 0.1
+    - name: upsBatteryCurrent
+      oid: 1.3.6.1.2.1.33.1.2.6
+      type: gauge
+      help: The present battery current. - 1.3.6.1.2.1.33.1.2.6
+    - name: upsBatteryTemperature
+      oid: 1.3.6.1.2.1.33.1.2.7
+      type: gauge
+      help: The ambient temperature at or near the UPS Battery casing. - 1.3.6.1.2.1.33.1.2.7
+    - name: upsInputLineBads
+      oid: 1.3.6.1.2.1.33.1.3.1
+      type: counter
+      help: A count of the number of times the input entered an out-of-tolerance condition
+        as defined by the manufacturer - 1.3.6.1.2.1.33.1.3.1
+    - name: upsInputNumLines
+      oid: 1.3.6.1.2.1.33.1.3.2
+      type: gauge
+      help: The number of input lines utilized in this device - 1.3.6.1.2.1.33.1.3.2
+    - name: upsInputLineIndex
+      oid: 1.3.6.1.2.1.33.1.3.3.1.1
+      type: gauge
+      help: The input line identifier. - 1.3.6.1.2.1.33.1.3.3.1.1
+      indexes:
+      - labelname: upsInputLineIndex
+        type: gauge
+    - name: upsInputFrequency
+      oid: 1.3.6.1.2.1.33.1.3.3.1.2
+      type: gauge
+      help: The present input frequency. - 1.3.6.1.2.1.33.1.3.3.1.2
+      indexes:
+      - labelname: upsInputLineIndex
+        type: gauge
+      scale: 0.1
+    - name: upsInputVoltage
+      oid: 1.3.6.1.2.1.33.1.3.3.1.3
+      type: gauge
+      help: The magnitude of the present input voltage. - 1.3.6.1.2.1.33.1.3.3.1.3
+      indexes:
+      - labelname: upsInputLineIndex
+        type: gauge
+    - name: upsInputCurrent
+      oid: 1.3.6.1.2.1.33.1.3.3.1.4
+      type: gauge
+      help: The magnitude of the present input current. - 1.3.6.1.2.1.33.1.3.3.1.4
+      indexes:
+      - labelname: upsInputLineIndex
+        type: gauge
+    - name: upsInputTruePower
+      oid: 1.3.6.1.2.1.33.1.3.3.1.5
+      type: gauge
+      help: The magnitude of the present input true power. - 1.3.6.1.2.1.33.1.3.3.1.5
+      indexes:
+      - labelname: upsInputLineIndex
+        type: gauge
+    - name: upsOutputSource
+      oid: 1.3.6.1.2.1.33.1.4.1
+      type: gauge
+      help: The present source of output power - 1.3.6.1.2.1.33.1.4.1
+      enum_values:
+        1: other
+        2: none
+        3: normal
+        4: bypass
+        5: battery
+        6: booster
+        7: reducer
+    - name: upsOutputFrequency
+      oid: 1.3.6.1.2.1.33.1.4.2
+      type: gauge
+      help: The present output frequency. - 1.3.6.1.2.1.33.1.4.2
+      scale: 0.1
+    - name: upsOutputNumLines
+      oid: 1.3.6.1.2.1.33.1.4.3
+      type: gauge
+      help: The number of output lines utilized in this device - 1.3.6.1.2.1.33.1.4.3
+    - name: upsOutputLineIndex
+      oid: 1.3.6.1.2.1.33.1.4.4.1.1
+      type: gauge
+      help: The output line identifier. - 1.3.6.1.2.1.33.1.4.4.1.1
+      indexes:
+      - labelname: upsOutputLineIndex
+        type: gauge
+    - name: upsOutputVoltage
+      oid: 1.3.6.1.2.1.33.1.4.4.1.2
+      type: gauge
+      help: The present output voltage. - 1.3.6.1.2.1.33.1.4.4.1.2
+      indexes:
+      - labelname: upsOutputLineIndex
+        type: gauge
+    - name: upsOutputCurrent
+      oid: 1.3.6.1.2.1.33.1.4.4.1.3
+      type: gauge
+      help: The present output current. - 1.3.6.1.2.1.33.1.4.4.1.3
+      indexes:
+      - labelname: upsOutputLineIndex
+        type: gauge
+    - name: upsOutputPower
+      oid: 1.3.6.1.2.1.33.1.4.4.1.4
+      type: gauge
+      help: The present output true power. - 1.3.6.1.2.1.33.1.4.4.1.4
+      indexes:
+      - labelname: upsOutputLineIndex
+        type: gauge
+    - name: upsOutputPercentLoad
+      oid: 1.3.6.1.2.1.33.1.4.4.1.5
+      type: gauge
+      help: The percentage of the UPS power capacity presently being used on this
+        output line, i.e., the greater of the percent load of true power capacity
+        and the percent load of VA. - 1.3.6.1.2.1.33.1.4.4.1.5
+      indexes:
+      - labelname: upsOutputLineIndex
+        type: gauge
+    - name: upsBypassFrequency
+      oid: 1.3.6.1.2.1.33.1.5.1
+      type: gauge
+      help: The present bypass frequency. - 1.3.6.1.2.1.33.1.5.1
+      scale: 0.1
+    - name: upsBypassNumLines
+      oid: 1.3.6.1.2.1.33.1.5.2
+      type: gauge
+      help: The number of bypass lines utilized in this device - 1.3.6.1.2.1.33.1.5.2
+    - name: upsBypassLineIndex
+      oid: 1.3.6.1.2.1.33.1.5.3.1.1
+      type: gauge
+      help: The bypass line identifier. - 1.3.6.1.2.1.33.1.5.3.1.1
+      indexes:
+      - labelname: upsBypassLineIndex
+        type: gauge
+    - name: upsBypassVoltage
+      oid: 1.3.6.1.2.1.33.1.5.3.1.2
+      type: gauge
+      help: The present bypass voltage. - 1.3.6.1.2.1.33.1.5.3.1.2
+      indexes:
+      - labelname: upsBypassLineIndex
+        type: gauge
+    - name: upsBypassCurrent
+      oid: 1.3.6.1.2.1.33.1.5.3.1.3
+      type: gauge
+      help: The present bypass current. - 1.3.6.1.2.1.33.1.5.3.1.3
+      indexes:
+      - labelname: upsBypassLineIndex
+        type: gauge
+    - name: upsBypassPower
+      oid: 1.3.6.1.2.1.33.1.5.3.1.4
+      type: gauge
+      help: The present true power conveyed by the bypass. - 1.3.6.1.2.1.33.1.5.3.1.4
+      indexes:
+      - labelname: upsBypassLineIndex
+        type: gauge
+    - name: upsAlarmsPresent
+      oid: 1.3.6.1.2.1.33.1.6.1
+      type: gauge
+      help: The present number of active alarm conditions. - 1.3.6.1.2.1.33.1.6.1
+    - name: upsAlarmId
+      oid: 1.3.6.1.2.1.33.1.6.2.1.1
+      type: gauge
+      help: A unique identifier for an alarm condition - 1.3.6.1.2.1.33.1.6.2.1.1
+      indexes:
+      - labelname: upsAlarmId
+        type: gauge
+    - name: upsAlarmDescr
+      oid: 1.3.6.1.2.1.33.1.6.2.1.2
+      type: OctetString
+      help: A reference to an alarm description object - 1.3.6.1.2.1.33.1.6.2.1.2
+      indexes:
+      - labelname: upsAlarmId
+        type: gauge
+    - name: upsAlarmTime
+      oid: 1.3.6.1.2.1.33.1.6.2.1.3
+      type: gauge
+      help: The value of sysUpTime when the alarm condition was detected - 1.3.6.1.2.1.33.1.6.2.1.3
+      indexes:
+      - labelname: upsAlarmId
+        type: gauge
+    - name: upsTestId
+      oid: 1.3.6.1.2.1.33.1.7.1
+      type: OctetString
+      help: The test is named by an OBJECT IDENTIFIER which allows a standard mechanism
+        for the initiation of tests, including the well known tests identified in
+        this document as well as those introduced by a particular implementation,
+        i.e., as documented in the private enterprise MIB definition for the device
+        - 1.3.6.1.2.1.33.1.7.1
+    - name: upsTestSpinLock
+      oid: 1.3.6.1.2.1.33.1.7.2
+      type: gauge
+      help: A spin lock on the test subsystem - 1.3.6.1.2.1.33.1.7.2
+    - name: upsTestResultsSummary
+      oid: 1.3.6.1.2.1.33.1.7.3
+      type: gauge
+      help: The results of the current or last UPS diagnostics test performed - 1.3.6.1.2.1.33.1.7.3
+      enum_values:
+        1: donePass
+        2: doneWarning
+        3: doneError
+        4: aborted
+        5: inProgress
+        6: noTestsInitiated
+    - name: upsTestResultsDetail
+      oid: 1.3.6.1.2.1.33.1.7.4
+      type: DisplayString
+      help: Additional information about upsTestResultsSummary - 1.3.6.1.2.1.33.1.7.4
+    - name: upsTestStartTime
+      oid: 1.3.6.1.2.1.33.1.7.5
+      type: gauge
+      help: The value of sysUpTime at the time the test in progress was initiated,
+        or, if no test is in progress, the time the previous test was initiated -
+        1.3.6.1.2.1.33.1.7.5
+    - name: upsTestElapsedTime
+      oid: 1.3.6.1.2.1.33.1.7.6
+      type: gauge
+      help: The amount of time, in TimeTicks, since the test in progress was initiated,
+        or, if no test is in progress, the previous test took to complete - 1.3.6.1.2.1.33.1.7.6
+    - name: upsShutdownType
+      oid: 1.3.6.1.2.1.33.1.8.1
+      type: gauge
+      help: This object determines the nature of the action to be taken at the time
+        when the countdown of the upsShutdownAfterDelay and upsRebootWithDuration
+        objects reaches zero - 1.3.6.1.2.1.33.1.8.1
+      enum_values:
+        1: output
+        2: system
+    - name: upsShutdownAfterDelay
+      oid: 1.3.6.1.2.1.33.1.8.2
+      type: gauge
+      help: Setting this object will shutdown (i.e., turn off) either the UPS output
+        or the UPS system (as determined by the value of upsShutdownType at the time
+        of shutdown) after the indicated number of seconds, or less if the UPS batteries
+        become depleted - 1.3.6.1.2.1.33.1.8.2
+    - name: upsStartupAfterDelay
+      oid: 1.3.6.1.2.1.33.1.8.3
+      type: gauge
+      help: Setting this object will start the output after the indicated number of
+        seconds, including starting the UPS, if necessary - 1.3.6.1.2.1.33.1.8.3
+    - name: upsRebootWithDuration
+      oid: 1.3.6.1.2.1.33.1.8.4
+      type: gauge
+      help: Setting this object will immediately shutdown (i.e., turn off) either
+        the UPS output or the UPS system (as determined by the value of upsShutdownType
+        at the time of shutdown) for a period equal to the indicated number of seconds,
+        after which time the output will be started, including starting the UPS, if
+        necessary - 1.3.6.1.2.1.33.1.8.4
+    - name: upsAutoRestart
+      oid: 1.3.6.1.2.1.33.1.8.5
+      type: gauge
+      help: Setting this object to 'on' will cause the UPS system to restart after
+        a shutdown if the shutdown occurred during a power loss as a result of either
+        a upsShutdownAfterDelay or an internal battery depleted condition - 1.3.6.1.2.1.33.1.8.5
+      enum_values:
+        1: "on"
+        2: "off"
+    - name: upsConfigInputVoltage
+      oid: 1.3.6.1.2.1.33.1.9.1
+      type: gauge
+      help: The magnitude of the nominal input voltage - 1.3.6.1.2.1.33.1.9.1
+    - name: upsConfigInputFreq
+      oid: 1.3.6.1.2.1.33.1.9.2
+      type: gauge
+      help: The nominal input frequency - 1.3.6.1.2.1.33.1.9.2
+    - name: upsConfigOutputVoltage
+      oid: 1.3.6.1.2.1.33.1.9.3
+      type: gauge
+      help: The magnitude of the nominal output voltage - 1.3.6.1.2.1.33.1.9.3
+    - name: upsConfigOutputFreq
+      oid: 1.3.6.1.2.1.33.1.9.4
+      type: gauge
+      help: The nominal output frequency - 1.3.6.1.2.1.33.1.9.4
+    - name: upsConfigOutputVA
+      oid: 1.3.6.1.2.1.33.1.9.5
+      type: gauge
+      help: The magnitude of the nominal Volt-Amp rating. - 1.3.6.1.2.1.33.1.9.5
+    - name: upsConfigOutputPower
+      oid: 1.3.6.1.2.1.33.1.9.6
+      type: gauge
+      help: The magnitude of the nominal true power rating. - 1.3.6.1.2.1.33.1.9.6
+    - name: upsConfigLowBattTime
+      oid: 1.3.6.1.2.1.33.1.9.7
+      type: gauge
+      help: The value of upsEstimatedMinutesRemaining at which a lowBattery condition
+        is declared - 1.3.6.1.2.1.33.1.9.7
+    - name: upsConfigAudibleStatus
+      oid: 1.3.6.1.2.1.33.1.9.8
+      type: gauge
+      help: The requested state of the audible alarm - 1.3.6.1.2.1.33.1.9.8
+      enum_values:
+        1: disabled
+        2: enabled
+        3: muted
+    - name: upsConfigLowVoltageTransferPoint
+      oid: 1.3.6.1.2.1.33.1.9.9
+      type: gauge
+      help: The minimum input line voltage allowed before the UPS system transfers
+        to battery backup. - 1.3.6.1.2.1.33.1.9.9
+    - name: upsConfigHighVoltageTransferPoint
+      oid: 1.3.6.1.2.1.33.1.9.10
+      type: gauge
+      help: The maximum line voltage allowed before the UPS system transfers to battery
+        backup. - 1.3.6.1.2.1.33.1.9.10
   yamaha_rt:
     walk:
     - 1.3.6.1.4.1.1182.2.1.18.1.3

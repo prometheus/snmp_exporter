@@ -59,6 +59,7 @@ UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_AIROS_OLD_URL:= https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/FROGFOOT-RESOURCES-MIB
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
+UPS_MIB_URL       := https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/UPS-MIB
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
@@ -179,6 +180,7 @@ mibs: \
   $(MIBDIR)/.cisco_imc \
   $(MIBDIR)/.cisco-device \
   $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
+  $(MIBDIR)/UPS-MIB \
   $(MIBDIR)/.dlink-mibs \
   $(MIBDIR)/.eltex-mes \
   $(MIBDIR)/.juniper \
@@ -300,6 +302,8 @@ $(MIBDIR)/.net-snmp:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB $(NET_SNMP_URL)/UCD-SNMP-MIB.txt
 	@touch $(MIBDIR)/.net-snmp
 
+
+
 $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
 	@echo ">> Downloading PICO-IPSEC-FLOW-MONITOR-MIB.txt"
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
@@ -368,6 +372,10 @@ $(MIBDIR)/UBNT-AirFiber-MIB:
 $(MIBDIR)/FROGFOOT-RESOURCES-MIB:
 	@echo ">> Downloading FROGFOOT-RESOURCES-MIB (UBNT AirOS)"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/FROGFOOT-RESOURCES-MIB $(UBNT_AIROS_OLD_URL)
+
+$(MIBDIR)/UPS-MIB:
+	@echo ">> Downloading UPS-MIB (Generic UPS)"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UPS-MIB $(UPS_MIB_URL)
 
 $(MIBDIR)/.dlink-mibs:
 	@echo ">> Downloading DLINK mibs"
