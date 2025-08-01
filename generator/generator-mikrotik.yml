@@ -1,0 +1,45 @@
+---
+
+modules:
+# Mikrotik Router
+#
+# http://download2.mikrotik.com/Mikrotik.mib
+  mikrotik:
+    walk:
+      - mikrotik
+      - sysDescr
+      - mikrotik
+      - hrSystem
+      - hrStorage
+      - hrDevice
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifName
+      - source_indexes: [mtxrInterfaceStatsIndex]
+        lookup: ifName
+      - source_indexes: [mtxrGaugeIndex]
+        lookup: mtxrGaugeName
+        drop_source_indexes: true
+      - source_indexes: [mtxrNeighborIndex]
+        lookup: mtxrNeighborMacAddress
+        drop_source_indexes: true
+      - source_indexes: [mtxrNeighborIndex]
+        lookup: mtxrNeighborInterfaceID
+      - source_indexes: [mtxrNeighborInterfaceID]
+        lookup: ifName
+        drop_source_indexes: true
+      - source_indexes: [mtxrOpticalIndex]
+        lookup: mtxrOpticalName
+      - source_indexes: [mtxrPOEInterfaceIndex]
+        lookup: mtxrPOEName
+      - source_indexes: [mtxrPartitionIndex]
+        lookup: mtxrPartitionName
+    overrides:
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
+      # Remap enums where 1==true, 2==false to become 0==false, 1==true.
+      hrDiskStorageRemoveble:
+        scale: -1.0
+        offset: 2.0

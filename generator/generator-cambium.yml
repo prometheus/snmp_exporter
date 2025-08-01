@@ -1,0 +1,27 @@
+---
+modules:
+# Cambium Radio
+#
+  cambium_450i:
+    walk:
+      - 1.3.6.1.4.1.161.19.3.3.1.261 # daVersion
+      - 1.3.6.1.4.1.161.19.3.3.1.265 # hardwareVersion
+      - 1.3.6.1.4.1.161.19.3.3.24.3 # afcServerVersion
+      - 1.3.6.1.4.1.161.19.3.3.1.25 # swVersion
+      - 1.3.6.1.4.1.161.19.3.3.1.1 # whispBoxSoftwareVer
+      - 1.3.6.1.4.1.161.19.3.3.1.2 # whispBoxFPGAVer
+      - 1.3.6.1.4.1.161.19.3.3.1.4 # whispBoxBoot
+      - 1.3.6.1.4.1.161.19.3.3.1.6 # boxDeviceType
+      - 1.3.6.1.4.1.161.19.3.3.1.7 # boxDeviceTypeID
+      - 1.3.6.1.4.1.161.19.3.3.1.11 # platformVer
+      - 1.3.6.1.4.1.161.19.3.3.1.12 # platformType
+      - 1.3.6.1.4.1.161.19.3.3.1.10 #boxFrequency
+      - 1.3.6.1.4.1.161.19.3.3.1.35 #boxTemperatureC
+      - 1.3.6.1.4.1.161.19.3.3.1.36 #boxTemperatureF
+      - 1.3.6.1.4.1.161.19.3.3.1.233 #activeTxPowerHdths
+      - 1.3.6.1.4.1.161.19.3.3.2.23 #transmitterOP
+      - 1.3.6.1.4.1.161.19.3.2.2.8 #radioDbm
+      - 1.3.6.1.4.1.161.19.3.2.2.21 #radioDbmInt
+      - 1.3.6.1.4.1.161.19.3.2.2.64 #airDelayns
+      - 1.3.6.1.4.1.161.19.3.3.2.14 #antennaGain
+      - 1.3.6.1.4.1.161.19.3.2.2.2 #rssi

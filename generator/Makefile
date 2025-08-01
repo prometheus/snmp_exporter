@@ -97,7 +97,14 @@ generator: *.go
 	go build
 
 generate: generator mibs
-	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator.yml -o snmp.yml
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator-axis.yml -o snmp-axis.yml
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator-cambium.yml -o snmp-cambium.yml
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator-eaton.yml -o snmp-eaton.yml
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator-mikrotik.yml -o snmp-mikrotik.yml 
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator-morningstar.yml -o snmp-morningstar.yml
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator-schneider.yml -o snmp-schneider.yml
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate -g generator-ubiquiti.yml -o snmp-ubiquiti.yml
 
 parse_errors: generator mibs
 	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors parse_errors

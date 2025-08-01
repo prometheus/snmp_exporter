@@ -1,0 +1,16 @@
+---
+modules:
+# Axis camera
+#
+# https://raw.githubusercontent.com/librenms/librenms/master/mibs/axis/AXIS-ROOT-MIB
+# https://raw.githubusercontent.com/librenms/librenms/master/mibs/axis/AXIS-VIDEO-MIB
+#
+  axis_camera:
+    walk:
+      - sysDescr
+      - 1.3.6.1.4.1.368.4.1.3.1.3 #tempSensorStatus
+      - 1.3.6.1.4.1.368.4.1.3.1.4 #tempSensorValue
+
+    overrides:
+      tempSensorStatus:
+        help: The status of the temperature sensor. - 1.3.6.1.4.1.368.4.1.3.1.3 (1=ok, 2=failure, 3=outOfBoundary)
