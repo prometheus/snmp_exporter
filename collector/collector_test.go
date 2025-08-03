@@ -186,7 +186,7 @@ func TestPduToSample(t *testing.T) {
 					"Template": []config.RegexpExtract{
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("([0-9].[0-9]+)"),
+								regexp.MustCompile(`(\d.\d+)`),
 							},
 							Value: "$1",
 						},
