@@ -361,9 +361,7 @@ func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 func substituteEnvVariables(value string) (string, error) {
-	result := os.Expand(value, func(s string) string {
-		return os.Getenv(s)
-	})
+	result := os.Expand(value, os.Getenv)
 	if result == "" {
 		return "", errors.New(value + " environment variable not found")
 	}
