@@ -183,7 +183,7 @@ func initSNMP(logger *slog.Logger) (string, error) {
 	// way to disable or redirect.
 	r, w, err := os.Pipe()
 	if err != nil {
-		return "", fmt.Errorf("error creating pipe: %s", err)
+		return "", fmt.Errorf("error creating pipe: %w", err)
 	}
 	defer r.Close()
 	defer w.Close()
@@ -195,7 +195,7 @@ func initSNMP(logger *slog.Logger) (string, error) {
 	go func() {
 		data, err := io.ReadAll(r)
 		if err != nil {
-			errch <- fmt.Errorf("error reading from pipe: %s", err)
+			errch <- fmt.Errorf("error reading from pipe: %w", err)
 			return
 		}
 		errch <- nil
