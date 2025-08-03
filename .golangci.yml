@@ -15,7 +15,6 @@ linters:
     gocritic:
       enable-all: true
       disabled-checks:
-        - exposedSyncMutex
         - hugeParam
         - ifElseChain
         - nestingReduce
