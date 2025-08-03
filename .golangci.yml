@@ -15,7 +15,6 @@ linters:
     gocritic:
       enable-all: true
       disabled-checks:
-        - emptyStringTest
         - exposedSyncMutex
         - hugeParam
         - ifElseChain
