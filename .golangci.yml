@@ -16,7 +16,6 @@ linters:
       enable-all: true
       disabled-checks:
         - hugeParam
-        - typeSwitchVar
         - unlambda
         - unnamedResult
     revive:

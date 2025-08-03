@@ -809,36 +809,36 @@ func splitOid(oid []int, count int) ([]int, []int) {
 
 // This mirrors decodeValue in gosnmp's helper.go.
 func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
-	switch pdu.Value.(type) {
+	switch v := pdu.Value.(type) {
 	case int:
-		return strconv.Itoa(pdu.Value.(int))
+		return strconv.Itoa(v)
 	case uint:
-		return strconv.FormatUint(uint64(pdu.Value.(uint)), 10)
+		return strconv.FormatUint(uint64(v), 10)
 	case uint64:
-		return strconv.FormatUint(pdu.Value.(uint64), 10)
+		return strconv.FormatUint(v, 10)
 	case float32:
-		return strconv.FormatFloat(float64(pdu.Value.(float32)), 'f', -1, 32)
+		return strconv.FormatFloat(float64(v), 'f', -1, 32)
 	case float64:
-		return strconv.FormatFloat(pdu.Value.(float64), 'f', -1, 64)
+		return strconv.FormatFloat(v, 'f', -1, 64)
 	case string:
 		if pdu.Type == gosnmp.ObjectIdentifier {
 			// Trim leading period.
-			return pdu.Value.(string)[1:]
+			return v[1:]
 		}
 		// DisplayString.
-		return strings.ToValidUTF8(pdu.Value.(string), "�")
+		return strings.ToValidUTF8(v, "�")
 	case []byte:
 		if typ == "" || typ == "Bits" {
 			typ = "OctetString"
 		}
 		// Reuse the OID index parsing code.
-		parts := make([]int, len(pdu.Value.([]byte)))
-		for i, o := range pdu.Value.([]byte) {
+		parts := make([]int, len(v))
+		for i, o := range v {
 			parts[i] = int(o)
 		}
 		if typ == "OctetString" || typ == "DisplayString" {
 			// Prepend the length, as it is explicit in an index.
-			parts = append([]int{len(pdu.Value.([]byte))}, parts...)
+			parts = append([]int{len(v)}, parts...)
 		}
 		str, _, _ := indexOidsAsString(parts, typ, 0, false, nil)
 		return strings.ToValidUTF8(str, "�")
