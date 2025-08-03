@@ -587,9 +587,9 @@ modules:
 
 # keepalived
 #
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/KEEPALIVED-MIB.txt
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRP-MIB.txt
-# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRPv3-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.3.4/doc/KEEPALIVED-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.3.4/doc/VRRP-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.3.4/doc/VRRPv3-MIB.txt
   keepalived:
     walk:
       - vrrpInstanceTable # Table of VRRP instances.
@@ -1211,3 +1211,27 @@ modules:
       - source_indexes:
         - bvValue
         lookup: bvDescription
+
+# Generic UPS Mibs from Observioum covering 
+# 1.3.6.1.2.1.33.1
+
+  ups_mib:
+    walk:
+      - "UPS-MIB::upsIdent"
+      - "UPS-MIB::upsBattery"
+      - "UPS-MIB::upsInput"
+      - "UPS-MIB::upsOutput"
+      - "UPS-MIB::upsBypass"
+      - "UPS-MIB::upsAlarm"
+      - "UPS-MIB::upsTest"
+      - "UPS-MIB::upsControl"
+      - "UPS-MIB::upsConfig"
+    overrides:
+      upsInputFrequency:
+        scale: 0.1
+      upsOutputFrequency:
+        scale: 0.1
+      upsBypassFrequency:
+        scale: 0.1
+      upsBatteryVoltage:
+        scale: 0.1
