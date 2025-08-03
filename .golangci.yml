@@ -16,7 +16,6 @@ linters:
       enable-all: true
       disabled-checks:
         - hugeParam
-        - singleCaseSwitch
         - typeDefFirst
         - typeSwitchVar
         - unlambda

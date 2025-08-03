@@ -107,8 +107,7 @@ func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 	walkNode(nodes, func(n *Node) {
 		// Set type on MAC addresses and strings.
 		// RFC 2579
-		switch n.Hint {
-		case "1x:":
+		if n.Hint == "1x:" {
 			n.Type = "PhysAddress48"
 		}
 		if displayStringRe.MatchString(n.Hint) {
