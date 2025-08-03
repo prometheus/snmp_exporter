@@ -197,15 +197,15 @@ $(MIBDIR)/apc-powernet-mib:
 
 $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB:
 	@echo ">> Downloading ARISTA-ENTITY-SENSOR-MIB"
-	@curl $(CURL_OPTS) -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 -o $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB "$(ARISTA_URL)/ARISTA-ENTITY-SENSOR-MIB.txt"
+	@curl $(CURL_OPTS) -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" -o $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB "$(ARISTA_URL)/ARISTA-ENTITY-SENSOR-MIB.txt"
 
 $(MIBDIR)/ARISTA-SMI-MIB:
 	@echo ">> Downloading ARISTA-SMI-MIB"
-	@curl $(CURL_OPTS) -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 -o $(MIBDIR)/ARISTA-SMI-MIB "$(ARISTA_URL)/ARISTA-SMI-MIB.txt"
+	@curl $(CURL_OPTS) -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" -o $(MIBDIR)/ARISTA-SMI-MIB "$(ARISTA_URL)/ARISTA-SMI-MIB.txt"
 
 $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB:
 	@echo ">> Downloading ARISTA-SW-IP-FORWARDING-MIB"
-	@curl $(CURL_OPTS) -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
+	@curl $(CURL_OPTS) -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
 
 $(MIBDIR)/AIRESPACE-REF-MIB:
 	@echo ">> Downloading Cisco AIRESPACE-REF-MIB"
