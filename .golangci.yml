@@ -1,6 +1,7 @@
 version: "2"
 linters:
   enable:
+    - gocritic
     - misspell
     - revive
     - sloglint
@@ -10,6 +11,21 @@ linters:
     errcheck:
       exclude-functions:
         - (net/http.ResponseWriter).Write
+    gocritic:
+      enable-all: true
+      disabled-checks:
+        - emptyStringTest
+        - exposedSyncMutex
+        - hugeParam
+        - ifElseChain
+        - nestingReduce
+        - regexpMust
+        - regexpSimplify
+        - singleCaseSwitch
+        - typeDefFirst
+        - typeSwitchVar
+        - unlambda
+        - unnamedResult
     revive:
       rules:
         - name: unused-parameter
