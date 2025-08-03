@@ -29,9 +29,7 @@ import (
 	"github.com/prometheus/snmp_exporter/config"
 )
 
-var (
-	cannotFindModuleRE = regexp.MustCompile(`Cannot find module \((.+)\): (.+)`)
-)
+var cannotFindModuleRE = regexp.MustCompile(`Cannot find module \((.+)\): (.+)`)
 
 // Generate a snmp_exporter config and write it out.
 func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logger) error {

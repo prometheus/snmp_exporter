@@ -26,3 +26,19 @@ linters:
           - errcheck
           - govet
         path: _test.go
+formatters:
+  enable:
+    - gci
+    - gofumpt
+    - goimports
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/prometheus/snmp_exporter)
+    gofumpt:
+      extra-rules: true
+    goimports:
+      local-prefixes:
+        - github.com/prometheus/snmp_exporter
