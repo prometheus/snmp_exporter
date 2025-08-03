@@ -170,7 +170,7 @@ func main() {
 func scanParseOutput(logger *slog.Logger, output string) []string {
 	var parseOutput []string
 	output = strings.TrimSpace(strings.ToValidUTF8(output, "�"))
-	if len(output) > 0 {
+	if output != "" {
 		parseOutput = strings.Split(output, "\n")
 	}
 	parseErrors := len(parseOutput)
