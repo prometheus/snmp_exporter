@@ -16,7 +16,6 @@ linters:
       enable-all: true
       disabled-checks:
         - hugeParam
-        - regexpSimplify
         - singleCaseSwitch
         - typeDefFirst
         - typeSwitchVar
