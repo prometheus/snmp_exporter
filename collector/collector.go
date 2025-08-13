@@ -451,7 +451,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				}
 			}
 			// Set EngineID option if one is configured and we're using SNMPv3
-			if (c.snmpEngineID != "" && c.auth.Version == 3) {
+			if c.snmpEngineID != "" && c.auth.Version == 3 {
 				// Convert the SNMP Engine ID to a byte string
 				sEID, _ := hex.DecodeString(c.snmpEngineID)
 				// Set the options.
