@@ -120,9 +120,9 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 
 	snmpEngineID := query.Get("snmp_engineID")
 	if len(query["snmp_engineID"]) > 1 {
-					http.Error(w, "'snmp_engineID' parameter must only be specified once", http.StatusBadRequest)
-					snmpRequestErrors.Inc()
-					return
+		http.Error(w, "'snmp_engineID' parameter must only be specified once", http.StatusBadRequest)
+		snmpRequestErrors.Inc()
+		return
 	}
 
 	queryModule := query["module"]
