@@ -16,6 +16,7 @@ package collector
 import (
 	"context"
 	"encoding/binary"
+	"encoding/hex"
 	"fmt"
 	"log/slog"
 	"net"
@@ -291,30 +292,32 @@ func NewNamedModule(name string, module *config.Module) *NamedModule {
 }
 
 type Collector struct {
-	ctx         context.Context
-	target      string
-	auth        *config.Auth
-	authName    string
-	modules     []*NamedModule
-	logger      *slog.Logger
-	metrics     Metrics
-	concurrency int
-	snmpContext string
-	debugSNMP   bool
+	ctx          context.Context
+	target       string
+	auth         *config.Auth
+	authName     string
+	modules      []*NamedModule
+	logger       *slog.Logger
+	metrics      Metrics
+	concurrency  int
+	snmpContext  string
+	snmpEngineID string
+	debugSNMP    bool
 }
 
-func New(ctx context.Context, target, authName, snmpContext string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
+func New(ctx context.Context, target, authName, snmpContext string, snmpEngineID string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
 	return &Collector{
-		ctx:         ctx,
-		target:      target,
-		authName:    authName,
-		auth:        auth,
-		modules:     modules,
-		snmpContext: snmpContext,
-		logger:      logger.With("source_address", *srcAddress),
-		metrics:     metrics,
-		concurrency: conc,
-		debugSNMP:   debugSNMP,
+		ctx:          ctx,
+		target:       target,
+		authName:     authName,
+		auth:         auth,
+		modules:      modules,
+		snmpContext:  snmpContext,
+		snmpEngineID: snmpEngineID,
+		logger:       logger.With("source_address", *srcAddress),
+		metrics:      metrics,
+		concurrency:  conc,
+		debugSNMP:    debugSNMP,
 	}
 }
 
@@ -446,6 +449,15 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 					useUnconnectedUDPSocket = true
 					break
 				}
+			}
+			// Set EngineID option if one is configured and we're using SNMPv3
+			if (c.snmpEngineID != "" && c.auth.Version == 3) {
+				// Convert the SNMP Engine ID to a byte string
+				sEID, _ := hex.DecodeString(c.snmpEngineID)
+				// Set the options.
+				client.SetOptions(func(g *gosnmp.GoSNMP) {
+					g.ContextEngineID = string(sEID)
+				})
 			}
 			// Set the options.
 			client.SetOptions(func(g *gosnmp.GoSNMP) {
