@@ -170,7 +170,7 @@ modules:
         ignore: true
 # MES 2448P
   eltex_mes:
-    walk: 
+    walk:
      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
@@ -738,7 +738,7 @@ modules:
         ignore: true # Lookup metric
       loadDescr:
         ignore: true
-        
+
 
 # Ubiquiti / UniFi
 #
@@ -1167,11 +1167,11 @@ modules:
       - 1.3.6.1.4.1.935.1.1.1.9.2.3   # upsEnvOverHumidity
       - 1.3.6.1.4.1.935.1.1.1.9.2.4   # upsEnvUnderHumidity
   # tplink ddm information for sfps
-  # 
+  #
   # Downloads can be found here:
   # https://www.tp-link.com/en/support/download/tl-sg3428x/
   #
-  # tested against TL SG3428X 
+  # tested against TL SG3428X
   tplink-ddm:
     walk:
       - ddmStatusBiasCurrent
@@ -1238,7 +1238,7 @@ modules:
     - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
-  
+
   # Juniper
   #
   # https://apps.juniper.net/mib-explorer/
@@ -1381,7 +1381,7 @@ modules:
         - bvValue
         lookup: bvDescription
 
-# Generic UPS Mibs from Observioum covering 
+# Generic UPS Mibs from Observioum covering
 # 1.3.6.1.2.1.33.1
 
   ups_mib:
