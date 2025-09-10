@@ -35627,6 +35627,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoExtIfIndex
       oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.2
       type: gauge
@@ -35636,6 +35643,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoExtIfDescr
       oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
       type: DisplayString
@@ -35645,6 +35659,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoExtIfUpperLayer
       oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.4
       type: gauge
@@ -35654,6 +35675,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoExtIfType
       oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.5
       type: gauge
@@ -35664,6 +35692,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
       enum_values:
         6: ethernet-csmacd
         62: fastEther
@@ -35677,6 +35712,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoExtIfDuplex
       oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.7
       type: gauge
@@ -35686,6 +35728,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
       enum_values:
         1: halfduplex
         2: fullduplex
@@ -35699,6 +35748,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoExtIfPhysicalAddress
       oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.9
       type: PhysAddress48
@@ -35709,6 +35765,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoExtIfAdminStatus
       oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.10
       type: gauge
@@ -35718,6 +35781,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
       enum_values:
         1: up
         2: down
@@ -35731,6 +35801,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
       enum_values:
         1: up
         2: down
@@ -35745,6 +35822,13 @@ modules:
         type: gauge
       - labelname: picoExtIfIndex
         type: gauge
+      lookups:
+      - labels:
+        - picoExtIfInstalledSlot
+        - picoExtIfIndex
+        labelname: picoExtIfDescr
+        oid: 1.3.6.1.4.1.119.2.3.84.6.1.1.3
+        type: DisplayString
     - name: picoNetmonWatchgroupIndex
       oid: 1.3.6.1.4.1.119.2.3.84.7.1.1.1.1
       type: gauge
