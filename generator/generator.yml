@@ -729,6 +729,17 @@ modules:
       - picoMobileMIB
       - picoIPv4MIB
       - picoIPv6MIB
+      - picoNAPTMIB
+    lookups:
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifDescr
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifName
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifAlias
+    overrides:
+      naptCacheIfIndex:
+        ignore: true
 
 # Raritan
 #
