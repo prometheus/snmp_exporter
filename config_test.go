@@ -73,7 +73,7 @@ func TestLoadMultipleConfigs(t *testing.T) {
 
 // When all environment variables are present
 func TestEnvSecrets(t *testing.T) {
-	t.Setenv("ENV_USERNAME", "snmp_username")
+	t.Setenv("ENV_USERNAME", "username") // snmp_ prefix is set in config file
 	t.Setenv("ENV_PASSWORD", "snmp_password")
 	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
 
@@ -110,6 +110,9 @@ func TestEnvSecretsMissing(t *testing.T) {
 
 	sc := &SafeConfig{}
 	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
+	if err == nil {
+		t.Fatal("no error despite missing env var")
+	}
 	if err != nil {
 		// we check the error message pattern to determine the error
 		if strings.Contains(err.Error(), "environment variable not found") {
