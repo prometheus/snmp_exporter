@@ -119,8 +119,8 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 	}
 
 	snmpEngineID := query.Get("snmp_engineid")
-	if len(query["snmp_engineID"]) > 1 {
-		http.Error(w, "'snmp_engineID' parameter must only be specified once", http.StatusBadRequest)
+	if len(query["snmp_engineid"]) > 1 {
+		http.Error(w, "'snmp_engineid' parameter must only be specified once", http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
 	}
