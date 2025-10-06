@@ -23,7 +23,7 @@ import (
 	"time"
 
 	"github.com/gosnmp/gosnmp"
-	"gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v2"
 )
 
 type Auth struct {
