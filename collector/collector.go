@@ -305,7 +305,7 @@ type Collector struct {
 	debugSNMP    bool
 }
 
-func New(ctx context.Context, target, authName, snmpContext string, snmpEngineID string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
+func New(ctx context.Context, target, authName, snmpContext, snmpEngineID string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
 	return &Collector{
 		ctx:          ctx,
 		target:       target,
