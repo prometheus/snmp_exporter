@@ -26,6 +26,18 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type Auth struct {
+	Community     Secret `yaml:"community,omitempty"`
+	SecurityLevel string `yaml:"security_level,omitempty"`
+	Username      string `yaml:"username,omitempty"`
+	Password      Secret `yaml:"password,omitempty"`
+	AuthProtocol  string `yaml:"auth_protocol,omitempty"`
+	PrivProtocol  string `yaml:"priv_protocol,omitempty"`
+	PrivPassword  Secret `yaml:"priv_password,omitempty"`
+	ContextName   string `yaml:"context_name,omitempty"`
+	Version       int    `yaml:"version,omitempty"`
+}
+
 func LoadFile(logger *slog.Logger, paths []string, expandEnvVars bool) (*Config, error) {
 	cfg := &Config{}
 	for _, p := range paths {
@@ -271,18 +283,6 @@ func (s Secret) MarshalYAML() (interface{}, error) {
 	return nil, nil
 }
 
-type Auth struct {
-	Community     Secret `yaml:"community,omitempty"`
-	SecurityLevel string `yaml:"security_level,omitempty"`
-	Username      string `yaml:"username,omitempty"`
-	Password      Secret `yaml:"password,omitempty"`
-	AuthProtocol  string `yaml:"auth_protocol,omitempty"`
-	PrivProtocol  string `yaml:"priv_protocol,omitempty"`
-	PrivPassword  Secret `yaml:"priv_password,omitempty"`
-	ContextName   string `yaml:"context_name,omitempty"`
-	Version       int    `yaml:"version,omitempty"`
-}
-
 func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*c = DefaultAuth
 	type plain Auth
@@ -361,9 +361,7 @@ func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 func substituteEnvVariables(value string) (string, error) {
-	result := os.Expand(value, func(s string) string {
-		return os.Getenv(s)
-	})
+	result := os.Expand(value, os.Getenv)
 	if result == "" {
 		return "", errors.New(value + " environment variable not found")
 	}

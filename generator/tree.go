@@ -107,8 +107,7 @@ func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 	walkNode(nodes, func(n *Node) {
 		// Set type on MAC addresses and strings.
 		// RFC 2579
-		switch n.Hint {
-		case "1x:":
+		if n.Hint == "1x:" {
 			n.Type = "PhysAddress48"
 		}
 		if displayStringRe.MatchString(n.Hint) {
@@ -395,11 +394,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
-					if prevType == subtype {
+					switch subtype {
+					case prevType:
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
-					} else if prev2Type == subtype {
+					case prev2Type:
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-2]
-					} else {
+					default:
 						logger.Warn("Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
 						return
 					}
@@ -513,23 +513,24 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Check that the object before an InetAddress is an InetAddressType.
 	// If not, change it to an OctetString.
 	for _, metric := range out.Metrics {
-		if metric.Type == "InetAddress" || metric.Type == "InetAddressMissingSize" {
-			// Get previous oid.
-			oids := strings.Split(metric.Oid, ".")
-			i, _ := strconv.Atoi(oids[len(oids)-1])
-			oids[len(oids)-1] = strconv.Itoa(i - 1)
-			prevOid := strings.Join(oids, ".")
-			if prevObj, ok := nameToNode[prevOid]; !ok || prevObj.TextualConvention != "InetAddressType" {
-				metric.Type = "OctetString"
-			} else {
-				// Make sure the InetAddressType is included.
-				if len(tableInstances[metric.Oid]) > 0 {
-					for _, index := range tableInstances[metric.Oid] {
-						needToWalk[prevOid+index+"."] = struct{}{}
-					}
-				} else {
-					needToWalk[prevOid] = struct{}{}
+		if metric.Type != "InetAddress" && metric.Type != "InetAddressMissingSize" {
+			continue
+		}
+		// Get previous oid.
+		oids := strings.Split(metric.Oid, ".")
+		i, _ := strconv.Atoi(oids[len(oids)-1])
+		oids[len(oids)-1] = strconv.Itoa(i - 1)
+		prevOid := strings.Join(oids, ".")
+		if prevObj, ok := nameToNode[prevOid]; !ok || prevObj.TextualConvention != "InetAddressType" {
+			metric.Type = "OctetString"
+		} else {
+			// Make sure the InetAddressType is included.
+			if len(tableInstances[metric.Oid]) > 0 {
+				for _, index := range tableInstances[metric.Oid] {
+					needToWalk[prevOid+index+"."] = struct{}{}
 				}
+			} else {
+				needToWalk[prevOid] = struct{}{}
 			}
 		}
 	}
@@ -537,17 +538,18 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	// Apply module config overrides to their corresponding metrics.
 	for name, params := range cfg.Overrides {
 		for _, metric := range out.Metrics {
-			if name == metric.Name || name == metric.Oid {
-				metric.RegexpExtracts = params.RegexpExtracts
-				metric.DateTimePattern = params.DateTimePattern
-				metric.Offset = params.Offset
-				metric.Scale = params.Scale
-				if params.Help != "" {
-					metric.Help = params.Help
-				}
-				if params.Name != "" {
-					metric.Name = params.Name
-				}
+			if name != metric.Name && name != metric.Oid {
+				continue
+			}
+			metric.RegexpExtracts = params.RegexpExtracts
+			metric.DateTimePattern = params.DateTimePattern
+			metric.Offset = params.Offset
+			metric.Scale = params.Scale
+			if params.Help != "" {
+				metric.Help = params.Help
+			}
+			if params.Name != "" {
+				metric.Name = params.Name
 			}
 		}
 	}
