@@ -31,9 +31,9 @@ func TestHideConfigSecrets(t *testing.T) {
 	}
 
 	// String method must not reveal authentication credentials.
-	sc.RLock()
+	sc.mu.RLock()
 	c, err := yaml.Marshal(sc.C)
-	sc.RUnlock()
+	sc.mu.RUnlock()
 	if err != nil {
 		t.Errorf("Error marshaling config: %v", err)
 	}
@@ -48,9 +48,9 @@ func TestLoadConfigWithOverrides(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-with-overrides.yml", err)
 	}
-	sc.RLock()
+	sc.mu.RLock()
 	_, err = yaml.Marshal(sc.C)
-	sc.RUnlock()
+	sc.mu.RUnlock()
 	if err != nil {
 		t.Errorf("Error marshaling config: %v", err)
 	}
@@ -63,9 +63,9 @@ func TestLoadMultipleConfigs(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error loading configs %v: %v", configs, err)
 	}
-	sc.RLock()
+	sc.mu.RLock()
 	_, err = yaml.Marshal(sc.C)
-	sc.RUnlock()
+	sc.mu.RUnlock()
 	if err != nil {
 		t.Errorf("Error marshaling config: %v", err)
 	}
@@ -84,9 +84,9 @@ func TestEnvSecrets(t *testing.T) {
 	}
 
 	// String method must not reveal authentication credentials.
-	sc.RLock()
+	sc.mu.RLock()
 	c, err := yaml.Marshal(sc.C)
-	sc.RUnlock()
+	sc.mu.RUnlock()
 	if err != nil {
 		t.Errorf("Error marshaling config: %v", err)
 	}
