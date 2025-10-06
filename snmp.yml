@@ -33530,9 +33530,13 @@ modules:
         labelname: mtxrWifiInterfacesId
   nec_ix:
     walk:
+    - 1.3.6.1.2.1.2.2.1.2
+    - 1.3.6.1.2.1.31.1.1.1.1
+    - 1.3.6.1.2.1.31.1.1.1.18
     - 1.3.6.1.4.1.119.2.3.84.11
     - 1.3.6.1.4.1.119.2.3.84.12
     - 1.3.6.1.4.1.119.2.3.84.13
+    - 1.3.6.1.4.1.119.2.3.84.15
     - 1.3.6.1.4.1.119.2.3.84.2
     - 1.3.6.1.4.1.119.2.3.84.3
     - 1.3.6.1.4.1.119.2.3.84.6
@@ -33731,6 +33735,98 @@ modules:
       oid: 1.3.6.1.4.1.119.2.3.84.13.2.4
       type: counter
       help: The total count of IPv6 UFS cache overflow - 1.3.6.1.4.1.119.2.3.84.13.2.4
+    - name: naptCacheEntries
+      oid: 1.3.6.1.4.1.119.2.3.84.15.1.1.1.2
+      type: gauge
+      help: The number of current NAPT cache. - 1.3.6.1.4.1.119.2.3.84.15.1.1.1.2
+      indexes:
+      - labelname: naptCacheIfIndex
+        type: gauge
+      lookups:
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifDescr
+        oid: 1.3.6.1.2.1.2.2.1.2
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+    - name: naptCachePeak
+      oid: 1.3.6.1.4.1.119.2.3.84.15.1.1.1.3
+      type: gauge
+      help: The peak value of NAPT cache. - 1.3.6.1.4.1.119.2.3.84.15.1.1.1.3
+      indexes:
+      - labelname: naptCacheIfIndex
+        type: gauge
+      lookups:
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifDescr
+        oid: 1.3.6.1.2.1.2.2.1.2
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+    - name: naptCacheCreates
+      oid: 1.3.6.1.4.1.119.2.3.84.15.1.1.1.4
+      type: counter
+      help: The total count of created NAPT cache. - 1.3.6.1.4.1.119.2.3.84.15.1.1.1.4
+      indexes:
+      - labelname: naptCacheIfIndex
+        type: gauge
+      lookups:
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifDescr
+        oid: 1.3.6.1.2.1.2.2.1.2
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
+    - name: naptCacheOverflows
+      oid: 1.3.6.1.4.1.119.2.3.84.15.1.1.1.5
+      type: counter
+      help: The total count of NAPT cache overflow. - 1.3.6.1.4.1.119.2.3.84.15.1.1.1.5
+      indexes:
+      - labelname: naptCacheIfIndex
+        type: gauge
+      lookups:
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifDescr
+        oid: 1.3.6.1.2.1.2.2.1.2
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifName
+        oid: 1.3.6.1.2.1.31.1.1.1.1
+        type: DisplayString
+      - labels:
+        - naptCacheIfIndex
+        labelname: ifAlias
+        oid: 1.3.6.1.2.1.31.1.1.1.18
+        type: DisplayString
     - name: picoCelsius
       oid: 1.3.6.1.4.1.119.2.3.84.2.1.1
       type: gauge
