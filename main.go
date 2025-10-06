@@ -118,6 +118,13 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 		return
 	}
 
+	snmpEngineID := query.Get("snmp_engineid")
+	if len(query["snmp_engineid"]) > 1 {
+		http.Error(w, "'snmp_engineid' parameter must only be specified once", http.StatusBadRequest)
+		snmpRequestErrors.Inc()
+		return
+	}
+
 	queryModule := query["module"]
 	if len(queryModule) == 0 {
 		queryModule = append(queryModule, "if_mib")
@@ -157,7 +164,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 	sc.RUnlock()
 	logger = logger.With("auth", authName, "target", target)
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, authName, snmpContext, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
+	c := collector.New(r.Context(), target, authName, snmpContext, snmpEngineID, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
