@@ -543,14 +543,14 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 		locString := fmt.Sprintf("%s%02d%02d", string(v[8]), v[9], v[10])
 		loc, err := time.Parse("-0700", locString)
 		if err != nil {
-			return 0, fmt.Errorf("error parsing location string: %q, error: %s", locString, err)
+			return 0, fmt.Errorf("error parsing location string: %q, error: %w", locString, err)
 		}
 		tz = loc.Location()
 	default:
 		return 0, fmt.Errorf("invalid DateAndTime length %v", pduLength)
 	}
 	if err != nil {
-		return 0, fmt.Errorf("unable to parse DateAndTime %q, error: %s", v, err)
+		return 0, fmt.Errorf("unable to parse DateAndTime %q, error: %w", v, err)
 	}
 	// Build the date from the various fields and time zone.
 	t := time.Date(
@@ -569,7 +569,7 @@ func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, met
 	pduValue := pduValueAsString(pdu, "DisplayString", metrics)
 	t, err := timefmt.Parse(pduValue, metric.DateTimePattern)
 	if err != nil {
-		return 0, fmt.Errorf("error parsing date and time %q", err)
+		return 0, fmt.Errorf("error parsing date and time %w", err)
 	}
 	return float64(t.Unix()), nil
 }
@@ -680,7 +680,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t, value, labelvalues...)
 	if err != nil {
 		sample = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v from indexOids %v: %v", metric.Name, labelvalues, indexOids, err))
+			fmt.Errorf("error for metric %s with labels %v from indexOids %v: %w", metric.Name, labelvalues, indexOids, err))
 	}
 
 	return []prometheus.Metric{sample}
@@ -705,7 +705,7 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 				prometheus.GaugeValue, v, labelvalues...)
 			if err != nil {
 				newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for regex_extract", nil, nil),
-					fmt.Errorf("error for metric %s with labels %v: %v", metric.Name+name, labelvalues, err))
+					fmt.Errorf("error for metric %s with labels %v: %w", metric.Name+name, labelvalues, err))
 			}
 			results = append(results, newMetric)
 			break
@@ -727,7 +727,7 @@ func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []stri
 		prometheus.GaugeValue, 1.0, labelvalues...)
 	if err != nil {
 		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsInfo", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+			fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 	}
 	return []prometheus.Metric{newMetric}
 }
@@ -745,7 +745,7 @@ func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []
 		prometheus.GaugeValue, 1.0, append(labelvalues, state)...)
 	if err != nil {
 		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+			fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 	}
 	results = append(results, newMetric)
 
@@ -757,7 +757,7 @@ func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []
 			prometheus.GaugeValue, 0.0, append(labelvalues, v)...)
 		if err != nil {
 			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
-				fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+				fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 		}
 		results = append(results, newMetric)
 	}
@@ -785,7 +785,7 @@ func bits(metric *config.Metric, value interface{}, labelnames, labelvalues []st
 			prometheus.GaugeValue, bit, append(labelvalues, v)...)
 		if err != nil {
 			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for Bits", nil, nil),
-				fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+				fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 		}
 		results = append(results, newMetric)
 	}
