@@ -20,13 +20,12 @@ modules:
     - 1.3.6.1.4.1.318.1.1.1.3
     - 1.3.6.1.4.1.318.1.1.1.4
     - 1.3.6.1.4.1.318.1.1.1.7.2
+    - 1.3.6.1.4.1.318.1.1.1.8
     - 1.3.6.1.4.1.318.1.1.10.2.3.2
     - 1.3.6.1.4.1.318.1.1.26.10.2.2
     - 1.3.6.1.4.1.318.1.1.26.4.3
     - 1.3.6.1.4.1.318.1.1.26.6.3
     - 1.3.6.1.4.1.318.1.1.26.8.3
-    get:
-    - 1.3.6.1.4.1.318.1.1.1.8.1.0
     metrics:
     - name: upsOutletGroupStatusTableSize
       oid: 1.3.6.1.4.1.318.1.1.1.12.1.1
@@ -316,7 +315,7 @@ modules:
         2: upsMainOutletGroup
     - name: upsBasicBatteryStatus
       oid: 1.3.6.1.4.1.318.1.1.1.2.1.1
-      type: gauge
+      type: EnumAsStateSet
       help: The status of the UPS batteries - 1.3.6.1.4.1.318.1.1.1.2.1.1
       enum_values:
         1: unknown
@@ -324,10 +323,11 @@ modules:
         3: batteryLow
         4: batteryInFaultCondition
         5: noBatteryPresent
-    - name: upsBasicBatteryTimeOnBattery
+    - name: upsBasicBatteryTimeOnBattery_seconds
       oid: 1.3.6.1.4.1.318.1.1.1.2.1.2
       type: gauge
       help: The elapsed time since the UPS has switched to battery power. - 1.3.6.1.4.1.318.1.1.1.2.1.2
+      scale: 0.01
     - name: upsBasicBatteryLastReplaceDate
       oid: 1.3.6.1.4.1.318.1.1.1.2.1.3
       type: DisplayString
@@ -342,17 +342,19 @@ modules:
       oid: 1.3.6.1.4.1.318.1.1.1.2.2.2
       type: gauge
       help: The current internal UPS temperature expressed in Celsius - 1.3.6.1.4.1.318.1.1.1.2.2.2
-    - name: upsAdvBatteryRunTimeRemaining
+    - name: upsAdvBatteryRunTimeRemaining_seconds
       oid: 1.3.6.1.4.1.318.1.1.1.2.2.3
       type: gauge
       help: The UPS battery run time remaining before battery exhaustion - 1.3.6.1.4.1.318.1.1.1.2.2.3
-    - name: upsAdvBatteryReplaceIndicator
+      scale: 0.01
+    - name: upsAdvBattery_needsreplacing
       oid: 1.3.6.1.4.1.318.1.1.1.2.2.4
       type: gauge
       help: Indicates whether the UPS batteries need replacing. - 1.3.6.1.4.1.318.1.1.1.2.2.4
       enum_values:
         1: noBatteryNeedsReplacing
         2: batteryNeedsReplacing
+      offset: -1
     - name: upsAdvBatteryNumOfBattPacks
       oid: 1.3.6.1.4.1.318.1.1.1.2.2.5
       type: gauge
@@ -470,11 +472,12 @@ modules:
         type: gauge
       - labelname: upsAdvBatteryCurrentIndex
         type: gauge
-    - name: upsAdvBatteryEstimatedChargeTime
+    - name: upsAdvBatteryEstimatedChargeTime_seconds
       oid: 1.3.6.1.4.1.318.1.1.1.2.2.15
       type: gauge
       help: The estimated remaining time required to charge the UPS to a full state
         of charge - 1.3.6.1.4.1.318.1.1.1.2.2.15
+      scale: 0.01
     - name: upsAdvBatteryPower
       oid: 1.3.6.1.4.1.318.1.1.1.2.2.16
       type: gauge
@@ -562,29 +565,34 @@ modules:
     - name: upsHighPrecBatteryCapacity
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.1
       type: gauge
-      help: The remaining battery capacity expressed in tenths of percent of full
-        capacity. - 1.3.6.1.4.1.318.1.1.1.2.3.1
+      help: The remaining battery capacity expressed in percent of full capacity -
+        1.3.6.1.4.1.318.1.1.1.2.2.1
+      scale: 0.1
     - name: upsHighPrecBatteryTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.2
       type: gauge
-      help: The current internal UPS temperature expressed in tenths of degrees Celsius
-        - 1.3.6.1.4.1.318.1.1.1.2.3.2
+      help: The current internal UPS temperature expressed in degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.2
+      scale: 0.1
     - name: upsHighPrecBatteryNominalVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.3
       type: gauge
-      help: The nominal battery voltage in tenths of Volts. - 1.3.6.1.4.1.318.1.1.1.2.3.3
+      help: The nominal battery voltage in Volts. - 1.3.6.1.4.1.318.1.1.1.2.3.3
+      scale: 0.1
     - name: upsHighPrecBatteryActualVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.4
       type: gauge
-      help: The actual battery bus voltage in tenths of Volts. - 1.3.6.1.4.1.318.1.1.1.2.3.4
+      help: The actual battery bus voltage in Volts. - 1.3.6.1.4.1.318.1.1.1.2.3.4
+      scale: 0.1
     - name: upsHighPrecBatteryCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.5
       type: gauge
-      help: The battery current in tenths of Amps - 1.3.6.1.4.1.318.1.1.1.2.3.5
+      help: The battery current in Amps - 1.3.6.1.4.1.318.1.1.1.2.3.5
+      scale: 0.1
     - name: upsHighPrecTotalDCCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.6
       type: gauge
-      help: The total DC current in tenths of Amps. - 1.3.6.1.4.1.318.1.1.1.2.3.6
+      help: The total DC current in Amps. - 1.3.6.1.4.1.318.1.1.1.2.3.6
+      scale: 0.1
     - name: upsHighPrecBatteryActualVoltageTableIndex
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.1
       type: gauge
@@ -605,10 +613,11 @@ modules:
     - name: upsHighPrecBatteryVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
       type: gauge
-      help: The actual battery bus voltage expressed as tenths of Volts - 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
+      help: The actual battery bus voltage expressed as Volts - 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
       indexes:
       - labelname: upsHighPrecBatteryActualVoltageTableIndex
         type: gauge
+      scale: 0.1
     - name: upsHighPrecTotalDCCurrentTableIndex
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.1
       type: gauge
@@ -629,10 +638,11 @@ modules:
     - name: upsHighPrecTotalDCFrameCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
       type: gauge
-      help: The total DC current in tenths of Amperes. - 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
+      help: The total DC current in Amperes. - 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
       indexes:
       - labelname: upsHighPrecTotalDCCurrentTableIndex
         type: gauge
+      scale: 0.1
     - name: upsHighPrecBatteryCurrentTableIndex
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.1
       type: gauge
@@ -666,34 +676,17 @@ modules:
     - name: upsHighPrecBatteryFrameCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
       type: gauge
-      help: The Battery current in tenths of Amperes. - 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
+      help: The Battery current in Amperes. - 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
       indexes:
       - labelname: upsHighPrecBatteryCurrentTableIndex
         type: gauge
       - labelname: upsHighPrecBatteryCurrentIndex
         type: gauge
+      scale: 0.1
     - name: upsHighPrecBatteryPackTableSize
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.1
       type: gauge
       help: The number of entries in the upsHighPrecBatteryPacks. - 1.3.6.1.4.1.318.1.1.1.2.3.10.1
-    - name: upsHighPrecBatteryPackIndex
-      oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.1
-      type: gauge
-      help: The battery pack identifier. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.1
-      indexes:
-      - labelname: upsHighPrecBatteryPackIndex
-        type: gauge
-      - labelname: upsHighPrecBatteryCartridgeIndex
-        type: gauge
-    - name: upsHighPrecBatteryCartridgeIndex
-      oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.2
-      type: gauge
-      help: The battery cartridge identifier. - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.2
-      indexes:
-      - labelname: upsHighPrecBatteryPackIndex
-        type: gauge
-      - labelname: upsHighPrecBatteryCartridgeIndex
-        type: gauge
     - name: upsHighPrecBatteryPackFirmwareRevision
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.3
       type: DisplayString
@@ -702,6 +695,8 @@ modules:
       - labelname: upsHighPrecBatteryPackIndex
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
+        type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
         type: gauge
     - name: upsHighPrecBatteryPackSerialNumber
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.4
@@ -712,15 +707,20 @@ modules:
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
         type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
+        type: gauge
     - name: upsHighPrecBatteryPackTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.5
       type: gauge
-      help: The battery pack temperature measured in 10ths of degree Celcius - 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.5
+      help: The battery pack temperature measured in degrees Celcius
       indexes:
       - labelname: upsHighPrecBatteryPackIndex
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
         type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
+        type: gauge
+      scale: 0.1
     - name: upsHighPrecBatteryPackStatus
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.6
       type: OctetString
@@ -729,6 +729,8 @@ modules:
       - labelname: upsHighPrecBatteryPackIndex
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
+        type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
         type: gauge
     - name: upsHighPrecBatteryPackCartridgeHealth
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.7
@@ -739,6 +741,8 @@ modules:
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
         type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
+        type: gauge
     - name: upsHighPrecBatteryPackCartridgeReplaceDate
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.8
       type: DisplayString
@@ -747,6 +751,8 @@ modules:
       - labelname: upsHighPrecBatteryPackIndex
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
+        type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
         type: gauge
     - name: upsHighPrecBatteryPackCartridgeInstallDate
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.9
@@ -757,6 +763,8 @@ modules:
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
         type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
+        type: gauge
     - name: upsHighPrecBatteryPackCartridgeStatus
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.2.1.10
       type: OctetString
@@ -765,6 +773,8 @@ modules:
       - labelname: upsHighPrecBatteryPackIndex
         type: gauge
       - labelname: upsHighPrecBatteryCartridgeIndex
+        type: gauge
+      - labelname: upsHighPrecBatteryExtraIndex
         type: gauge
     - name: upsHighPrecBatteryPackOnlyTableSize
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.10.3
@@ -847,22 +857,25 @@ modules:
     - name: upsHighPrecActivePower
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.12
       type: gauge
-      help: Active Power of Battery in tenths of kW - 1.3.6.1.4.1.318.1.1.1.2.3.12
+      help: Active Power of Battery in kW - 1.3.6.1.4.1.318.1.1.1.2.3.12
+      scale: 0.1
     - name: upsHighPrecExtdBatteryTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.13
       type: gauge
-      help: The current internal UPS temperature expressed in tenths of degrees Celsius
-        - 1.3.6.1.4.1.318.1.1.1.2.3.13
+      help: The current internal UPS temperature expressed in degrees Celsius
+      scale: 0.1
     - name: upsHighPrecMaximumModuleTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.14
       type: gauge
-      help: The current maximum temperature across all battery modules in tenths of
-        degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.14
+      help: The current maximum temperature across all battery modules in degrees
+        Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.14
+      scale: 0.1
     - name: upsHighPrecMinimumModuleTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.15
       type: gauge
-      help: The current minimum temperature across all battery modules in tenths of
-        degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.15
+      help: The current minimum temperature across all battery modules in degrees
+        Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.15
+      scale: 0.1
     - name: upsHighPrecMaximumCellVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.2.3.16
       type: gauge
@@ -935,27 +948,29 @@ modules:
     - name: upsBatteryCabinetTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.8
       type: gauge
-      help: The measured temperature of the battery cabinet in tenths of degrees Celcius
-        - 1.3.6.1.4.1.318.1.1.1.2.5.1.8
+      help: The measured temperature of the battery cabinet in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.8
       indexes:
       - labelname: upsBatteryCabinetIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabinetMaxTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.9
       type: gauge
       help: The highest temperature measured for the battery in the battery cabinet
-        in tenths of degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.9
+        in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.9
       indexes:
       - labelname: upsBatteryCabinetIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabinetMinTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.10
       type: gauge
       help: The lowest temperature measured for the battery in the battery cabinet
-        in tenths of degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.10
+        in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.10
       indexes:
       - labelname: upsBatteryCabinetIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabinetAverageTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.5.1.11
       type: gauge
@@ -1036,35 +1051,38 @@ modules:
     - name: upsBatteryCabStringCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.4
       type: gauge
-      help: The current in a battery string or battery halfstring, in tenths of Amps.
-        - 1.3.6.1.4.1.318.1.1.1.2.6.1.4
+      help: The current in a battery string or battery halfstring, in  Amps - 1.3.6.1.4.1.318.1.1.1.2.6.1.4
       indexes:
       - labelname: upsBatteryCabStringIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabStringAverageTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.5
       type: gauge
       help: Temperature of the battery string or the average of the aggregated temperature
-        of each battery block/module (in tenths of degrees Celcius) - 1.3.6.1.4.1.318.1.1.1.2.6.1.5
+        of each battery block/module (in degrees Celcius) - 1.3.6.1.4.1.318.1.1.1.2.6.1.5
       indexes:
       - labelname: upsBatteryCabStringIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabStringMaxTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.6
       type: gauge
       help: The actual highest battery temperature measurement for the battery blocks/modules
-        (in tenths of degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.6
+        (in degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.6
       indexes:
       - labelname: upsBatteryCabStringIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabStringMinTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.7
       type: gauge
       help: The actual lowest battery temperature measurement for the battery blocks/modules
-        (in tenths of degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.7
+        (in degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.7
       indexes:
       - labelname: upsBatteryCabStringIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabStringFuseStatus
       oid: 1.3.6.1.4.1.318.1.1.1.2.6.1.8
       type: gauge
@@ -1128,11 +1146,11 @@ modules:
     - name: upsBatteryCabBlockTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.6
       type: gauge
-      help: The temperature for the battery block/module in tenths of degrees Celcius
-        - 1.3.6.1.4.1.318.1.1.1.2.7.1.6
+      help: The temperature for the battery block/module in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.7.1.6
       indexes:
       - labelname: upsBatteryCabBlockIndex
         type: gauge
+      scale: 0.1
     - name: upsBatteryCabBlockFuseStatus
       oid: 1.3.6.1.4.1.318.1.1.1.2.7.1.7
       type: gauge
@@ -1207,10 +1225,11 @@ modules:
     - name: upsBatteryCabBlockCellTemperature
       oid: 1.3.6.1.4.1.318.1.1.1.2.8.1.5
       type: gauge
-      help: The temperature for the battery cell in tenths of degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.8.1.5
+      help: The temperature for the battery cell in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.8.1.5
       indexes:
       - labelname: upsBatteryCabBlockCellIndex
         type: gauge
+      scale: 0.1
     - name: upsBasicInputPhase
       oid: 1.3.6.1.4.1.318.1.1.1.3.1.1
       type: gauge
@@ -1235,7 +1254,7 @@ modules:
       help: The current input frequency to the UPS system in Hz. - 1.3.6.1.4.1.318.1.1.1.3.2.4
     - name: upsAdvInputLineFailCause
       oid: 1.3.6.1.4.1.318.1.1.1.3.2.5
-      type: gauge
+      type: EnumAsStateSet
       help: The reason for the occurrence of the last transfer to UPS battery power
         - 1.3.6.1.4.1.318.1.1.1.3.2.5
       enum_values:
@@ -1354,45 +1373,53 @@ modules:
     - name: upsHighPrecInputLineVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.1
       type: gauge
-      help: The current utility line voltage in tenths of VAC. - 1.3.6.1.4.1.318.1.1.1.3.3.1
+      help: The current utility line voltage in VAC
+      scale: 0.1
     - name: upsHighPrecInputMaxLineVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.2
       type: gauge
-      help: The maximum utility line voltage in tenths of VAC over the previous 1
-        minute period. - 1.3.6.1.4.1.318.1.1.1.3.3.2
+      help: The maximum utility line voltage in VAC over the previous 1 minute period.
+        - 1.3.6.1.4.1.318.1.1.1.3.3.2
+      scale: 0.1
     - name: upsHighPrecInputMinLineVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.3
       type: gauge
-      help: The minimum utility line voltage in tenths of VAC over the previous 1
-        minute period. - 1.3.6.1.4.1.318.1.1.1.3.3.3
+      help: The minimum utility line voltage in VAC over the previous 1 minute period.
+        - 1.3.6.1.4.1.318.1.1.1.3.3.3
+      scale: 0.1
     - name: upsHighPrecInputFrequency
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.4
       type: gauge
-      help: The current input frequency to the UPS system in tenths of Hz. - 1.3.6.1.4.1.318.1.1.1.3.3.4
+      help: The current input frequency to the UPS system in Hz. - 1.3.6.1.4.1.318.1.1.1.3.3.4
+      scale: 0.1
     - name: upsHighPrecInputEnergyUsage
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.5
       type: gauge
-      help: The input energy usage of the UPS in hundredths of kWh. - 1.3.6.1.4.1.318.1.1.1.3.3.5
+      help: The input energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.3.3.5
+      scale: 0.01
     - name: upsHighPrecInputBypassVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.6
       type: gauge
-      help: The current bypass line voltage in tenths of VAC. - 1.3.6.1.4.1.318.1.1.1.3.3.6
+      help: The current bypass line voltage in VAC. - 1.3.6.1.4.1.318.1.1.1.3.3.6
+      scale: 0.1
     - name: upsHighPrecInputBypassFrequency
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.7
       type: gauge
-      help: The current input bypass frequency to the UPS system in tenths of Hz.
-        - 1.3.6.1.4.1.318.1.1.1.3.3.7
+      help: The current input bypass frequency to the UPS system in Hz - 1.3.6.1.4.1.318.1.1.1.3.3.7
+      scale: 0.1
     - name: upsHighPrecInputDCVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.8
       type: gauge
-      help: The DC input voltage, in tenths, of Volts on the inverter - 1.3.6.1.4.1.318.1.1.1.3.3.8
+      help: The DC input voltage, in Volts on the inverter - 1.3.6.1.4.1.318.1.1.1.3.3.8
+      scale: 0.1
     - name: upsHighPrecInputDCCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.3.3.9
       type: gauge
-      help: The DC input current, in tenths of amperes, of the inverter. - 1.3.6.1.4.1.318.1.1.1.3.3.9
+      help: The DC input current, in amperes, of the inverter. - 1.3.6.1.4.1.318.1.1.1.3.3.9
+      scale: 0.1
     - name: upsBasicOutputStatus
       oid: 1.3.6.1.4.1.318.1.1.1.4.1.1
-      type: gauge
+      type: EnumAsStateSet
       help: The current state of the UPS - 1.3.6.1.4.1.318.1.1.1.4.1.1
       enum_values:
         1: unknown
@@ -1541,10 +1568,11 @@ modules:
     - name: upsAdvOutputCrestFactor
       oid: 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
       type: gauge
-      help: The output current crest factor expressed in tenths. - 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
+      help: The output current crest factor - 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
       indexes:
       - labelname: upsAdvOutputStatisticsIndex
         type: gauge
+      scale: 0.1
     - name: upsAdvOutputNeutralCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.4.2.11
       type: gauge
@@ -1602,32 +1630,36 @@ modules:
     - name: upsHighPrecOutputVoltage
       oid: 1.3.6.1.4.1.318.1.1.1.4.3.1
       type: gauge
-      help: The output voltage of the UPS system in tenths of VAC. - 1.3.6.1.4.1.318.1.1.1.4.3.1
+      help: The output voltage of the UPS system in VAC. - 1.3.6.1.4.1.318.1.1.1.4.3.1
+      scale: 0.1
     - name: upsHighPrecOutputFrequency
       oid: 1.3.6.1.4.1.318.1.1.1.4.3.2
       type: gauge
-      help: The current output frequency of the UPS system in tenths of Hz. - 1.3.6.1.4.1.318.1.1.1.4.3.2
+      help: The current output frequency of the UPS system in Hz. - 1.3.6.1.4.1.318.1.1.1.4.3.2
+      scale: 0.1
     - name: upsHighPrecOutputLoad
       oid: 1.3.6.1.4.1.318.1.1.1.4.3.3
       type: gauge
-      help: The current UPS load expressed in tenths of percent of rated capacity.
-        - 1.3.6.1.4.1.318.1.1.1.4.3.3
+      help: The current UPS load expressed in percent of rated capacity. - 1.3.6.1.4.1.318.1.1.1.4.3.3
+      scale: 0.1
     - name: upsHighPrecOutputCurrent
       oid: 1.3.6.1.4.1.318.1.1.1.4.3.4
       type: gauge
-      help: The current in tenths of amperes drawn by the load on the UPS. - 1.3.6.1.4.1.318.1.1.1.4.3.4
+      help: The current in amperes drawn by the load on the UPS. - 1.3.6.1.4.1.318.1.1.1.4.3.4
+      scale: 0.1
     - name: upsHighPrecOutputEfficiency
       oid: 1.3.6.1.4.1.318.1.1.1.4.3.5
       type: gauge
-      help: The positive values represent efficiency of the UPS in tenths of percent
-        - 1.3.6.1.4.1.318.1.1.1.4.3.5
+      help: The positive values represent efficiency of the UPS in percent - 1.3.6.1.4.1.318.1.1.1.4.3.5
+      scale: 0.1
     - name: upsHighPrecOutputEnergyUsage
       oid: 1.3.6.1.4.1.318.1.1.1.4.3.6
       type: gauge
-      help: The output energy usage of the UPS in hundredths of kWh. - 1.3.6.1.4.1.318.1.1.1.4.3.6
+      help: The output energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.4.3.6
+      scale: 0.01
     - name: upsAdvTestDiagnosticSchedule
       oid: 1.3.6.1.4.1.318.1.1.1.7.2.1
-      type: gauge
+      type: EnumAsInfo
       help: The UPS system's automatic battery test schedule. - 1.3.6.1.4.1.318.1.1.1.7.2.1
       enum_values:
         1: unknown
@@ -1642,17 +1674,9 @@ modules:
         10: eightWeeks
         11: twentysixWeeks
         12: fiftytwoWeeks
-    - name: upsAdvTestDiagnostics
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.2
-      type: gauge
-      help: Setting this variable to testDiagnostics(2) causes the UPS to perform
-        a diagnostic self test - 1.3.6.1.4.1.318.1.1.1.7.2.2
-      enum_values:
-        1: noTestDiagnostics
-        2: testDiagnostics
     - name: upsAdvTestDiagnosticsResults
       oid: 1.3.6.1.4.1.318.1.1.1.7.2.3
-      type: gauge
+      type: EnumAsInfo
       help: The results of the last UPS diagnostics test performed. - 1.3.6.1.4.1.318.1.1.1.7.2.3
       enum_values:
         1: ok
@@ -1664,18 +1688,9 @@ modules:
       type: DisplayString
       help: The date the last UPS diagnostics test was performed in mm/dd/yy format.
         - 1.3.6.1.4.1.318.1.1.1.7.2.4
-    - name: upsAdvTestRuntimeCalibration
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.5
-      type: gauge
-      help: Setting this variable to performCalibration(2) causes the UPS to discharge
-        to calibrate the UPS - 1.3.6.1.4.1.318.1.1.1.7.2.5
-      enum_values:
-        1: noPerformCalibration
-        2: performCalibration
-        3: cancelCurrentCalibration
     - name: upsAdvTestCalibrationResults
       oid: 1.3.6.1.4.1.318.1.1.1.7.2.6
-      type: gauge
+      type: EnumAsInfo
       help: The results of the last runtime calibration - 1.3.6.1.4.1.318.1.1.1.7.2.6
       enum_values:
         1: ok
@@ -1690,26 +1705,6 @@ modules:
       type: DisplayString
       help: The date the last UPS runtime calibration was performed in mm/dd/yy format.
         - 1.3.6.1.4.1.318.1.1.1.7.2.7
-    - name: upsAdvTestDiagnosticTime
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.8
-      type: DisplayString
-      help: The time of the day to perform automatic battery test - 1.3.6.1.4.1.318.1.1.1.7.2.8
-    - name: upsAdvTestDiagnosticDay
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.9
-      type: gauge
-      help: The day of the week to perform automatic battery test. - 1.3.6.1.4.1.318.1.1.1.7.2.9
-      enum_values:
-        1: monday
-        2: tuesday
-        3: wednesday
-        4: thursday
-        5: friday
-        6: saturday
-        7: sunday
-    - name: upsAdvTestBatteryInterval
-      oid: 1.3.6.1.4.1.318.1.1.1.7.2.10
-      type: DisplayString
-      help: The UPS system's automatic battery test period. - 1.3.6.1.4.1.318.1.1.1.7.2.10
     - name: upsAdvTestCalibrationLastSuccessfulDate
       oid: 1.3.6.1.4.1.318.1.1.1.7.2.11
       type: DisplayString
@@ -1767,13 +1762,15 @@ modules:
         6: every12weeks
         7: every26weeks
         8: every52weeks
-    - name: upsCommStatus
+    - name: upsCommStatus_ok
       oid: 1.3.6.1.4.1.318.1.1.1.8.1
       type: gauge
-      help: The status of agent's communication with UPS. - 1.3.6.1.4.1.318.1.1.1.8.1
+      help: The status of agent's communication with UPS. 1=ok, 0=noComm
       enum_values:
         1: ok
         2: noComm
+      offset: 2
+      scale: -1
     - name: iemStatusProbeNumber
       oid: 1.3.6.1.4.1.318.1.1.10.2.3.2.1.1
       type: gauge
