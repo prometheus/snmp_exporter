@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"github.com/prometheus/common/promslog"
-	yaml "gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
