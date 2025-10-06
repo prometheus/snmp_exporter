@@ -17,12 +17,15 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/prometheus/common/promslog"
 	yaml "gopkg.in/yaml.v2"
 )
 
+var nopLogger = promslog.NewNopLogger()
+
 func TestHideConfigSecrets(t *testing.T) {
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig([]string{"testdata/snmp-auth.yml"}, false)
+	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth.yml"}, false)
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth.yml", err)
 	}
@@ -41,7 +44,7 @@ func TestHideConfigSecrets(t *testing.T) {
 
 func TestLoadConfigWithOverrides(t *testing.T) {
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig([]string{"testdata/snmp-with-overrides.yml"}, false)
+	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-with-overrides.yml"}, false)
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-with-overrides.yml", err)
 	}
@@ -56,7 +59,7 @@ func TestLoadConfigWithOverrides(t *testing.T) {
 func TestLoadMultipleConfigs(t *testing.T) {
 	sc := &SafeConfig{}
 	configs := []string{"testdata/snmp-auth.yml", "testdata/snmp-with-overrides.yml"}
-	err := sc.ReloadConfig(configs, false)
+	err := sc.ReloadConfig(nopLogger, configs, false)
 	if err != nil {
 		t.Errorf("Error loading configs %v: %v", configs, err)
 	}
@@ -75,7 +78,7 @@ func TestEnvSecrets(t *testing.T) {
 	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
 
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig([]string{"testdata/snmp-auth-envvars.yml"}, true)
+	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-envvars.yml", err)
 	}
@@ -106,7 +109,7 @@ func TestEnvSecretsMissing(t *testing.T) {
 	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
 
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig([]string{"testdata/snmp-auth-envvars.yml"}, true)
+	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
 	if err != nil {
 		// we check the error message pattern to determine the error
 		if strings.Contains(err.Error(), "environment variable not found") {
@@ -120,7 +123,7 @@ func TestEnvSecretsMissing(t *testing.T) {
 // When SNMPv2 was specified without credentials
 func TestEnvSecretsNotSpecified(t *testing.T) {
 	sc := &SafeConfig{}
-	err := sc.ReloadConfig([]string{"testdata/snmp-auth-v2nocreds.yml"}, true)
+	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-v2nocreds.yml"}, true)
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-v2nocreds.yml", err)
 	}

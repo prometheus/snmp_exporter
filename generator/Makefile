@@ -15,7 +15,7 @@ MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
 CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail
-CURL_USER_AGENT ?= -H "User-Agent: snmp_exporter generator"
+CURL_USER_AGENT ?= -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 snmp_exporter/generator"
 
 REPO_TAG ?= $(shell git rev-parse --abbrev-ref HEAD)
 
@@ -31,21 +31,21 @@ ifeq ($(SELINUX_ENABLED),1)
   DOCKER_VOL_OPTS ?= :z
 endif
 
-APC_URL           := https://download.schneider-electric.com/files?p_Doc_Ref=APC_POWERNETMIB_EN&p_enDocType=Firmware
+APC_URL           := https://raw.githubusercontent.com/prometheus-community/snmp/refs/heads/main/apc/PowerNet-MIB
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
-ELTEX_MES_URL     := https://api.prod.eltex-co.ru/storage/upload_center/files/33/mibs_10.3.6.13.zip
+ELTEX_MES_URL     := https://api.prod.eltex-co.ru/storage/upload_center/files/37/mibs_10.4.2.1.zip
 DELL_NETWORK_URL  := https://supportkb.dell.com/attachment/ka02R000000I7TFQA0/Current_MIBs_pkb_en_US_1.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
 IANA_PRINTER_URL  := https://www.iana.org/assignments/ianaprinter-mib/ianaprinter-mib
 FIELDSERVER_URL   := https://media.msanet.com/NA/USA/SMC/SoftwareDownloads/FS-8704-26%20SNMP%20Standard%20MIB%20File.zip
-KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/KEEPALIVED-MIB.txt
-VRRP_URL          := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRP-MIB.txt
-VRRPV3_URL        := https://raw.githubusercontent.com/acassen/keepalived/v2.2.8/doc/VRRPv3-MIB.txt
+KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.3.4/doc/KEEPALIVED-MIB.txt
+VRRP_URL          := https://raw.githubusercontent.com/acassen/keepalived/v2.3.4/doc/VRRP-MIB.txt
+VRRPV3_URL        := https://raw.githubusercontent.com/acassen/keepalived/v2.3.4/doc/VRRPv3-MIB.txt
 KEMP_LM_URL       := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
 MIKROTIK_URL      := https://download.mikrotik.com/routeros/7.18.2/mikrotik.mib
 NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
@@ -59,6 +59,7 @@ UBNT_AIROS_URL    := https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
 UBNT_AIROS_OLD_URL:= https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/FROGFOOT-RESOURCES-MIB
 UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.txt
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
+UPS_MIB_URL       := https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/UPS-MIB
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
@@ -66,7 +67,7 @@ LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/moni
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
-POWERCOM_URL      := https://www.upspowercom.com/pcm-img/Card-DA807/Upsmate_PCM.mib
+POWERCOM_URL      := https://raw.githubusercontent.com/prometheus-community/snmp/refs/heads/main/powercom/XPPC-MIB
 TPLINK_DDM        := https://static.tp-link.com/upload/software/2024/202402/20240229/L2-tplinkMibs.zip
 CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-mibs
 CISCO_CUCS_URL_v2 := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/v2
@@ -179,6 +180,7 @@ mibs: \
   $(MIBDIR)/.cisco_imc \
   $(MIBDIR)/.cisco-device \
   $(MIBDIR)/FROGFOOT-RESOURCES-MIB \
+  $(MIBDIR)/UPS-MIB \
   $(MIBDIR)/.dlink-mibs \
   $(MIBDIR)/.eltex-mes \
   $(MIBDIR)/.juniper \
@@ -195,15 +197,15 @@ $(MIBDIR)/apc-powernet-mib:
 
 $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB:
 	@echo ">> Downloading ARISTA-ENTITY-SENSOR-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB "$(ARISTA_URL)/ARISTA-ENTITY-SENSOR-MIB.txt"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB "$(ARISTA_URL)/ARISTA-ENTITY-SENSOR-MIB.txt"
 
 $(MIBDIR)/ARISTA-SMI-MIB:
 	@echo ">> Downloading ARISTA-SMI-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-SMI-MIB "$(ARISTA_URL)/ARISTA-SMI-MIB.txt"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/ARISTA-SMI-MIB "$(ARISTA_URL)/ARISTA-SMI-MIB.txt"
 
 $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB:
 	@echo ">> Downloading ARISTA-SW-IP-FORWARDING-MIB"
-	@curl $(CURL_OPTS) -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB "$(ARISTA_URL)/ARISTA-SW-IP-FORWARDING-MIB.txt"
 
 $(MIBDIR)/AIRESPACE-REF-MIB:
 	@echo ">> Downloading Cisco AIRESPACE-REF-MIB"
@@ -300,6 +302,8 @@ $(MIBDIR)/.net-snmp:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/UCD-SNMP-MIB $(NET_SNMP_URL)/UCD-SNMP-MIB.txt
 	@touch $(MIBDIR)/.net-snmp
 
+
+
 $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt:
 	@echo ">> Downloading PICO-IPSEC-FLOW-MONITOR-MIB.txt"
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/PICO-IPSEC-FLOW-MONITOR-MIB.txt "$(NEC_URL)/PICO-IPSEC-FLOW-MONITOR-MIB.txt"
@@ -368,6 +372,10 @@ $(MIBDIR)/UBNT-AirFiber-MIB:
 $(MIBDIR)/FROGFOOT-RESOURCES-MIB:
 	@echo ">> Downloading FROGFOOT-RESOURCES-MIB (UBNT AirOS)"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/FROGFOOT-RESOURCES-MIB $(UBNT_AIROS_OLD_URL)
+
+$(MIBDIR)/UPS-MIB:
+	@echo ">> Downloading UPS-MIB (Generic UPS)"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/UPS-MIB $(UPS_MIB_URL)
 
 $(MIBDIR)/.dlink-mibs:
 	@echo ">> Downloading DLINK mibs"

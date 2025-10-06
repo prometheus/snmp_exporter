@@ -16,7 +16,6 @@ linters:
           severity: warning
           disabled: true
   exclusions:
-    generated: lax
     presets:
       - comments
       - common-false-positives
@@ -27,14 +26,3 @@ linters:
           - errcheck
           - govet
         path: _test.go
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
-formatters:
-  exclusions:
-    generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
