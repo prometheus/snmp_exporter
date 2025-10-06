@@ -207,6 +207,8 @@ modules:
           indices: ["2","3","4"]  # List of interface indices to get
 
       dynamic: # dynamic filters are handed by the snmp exporter. The generator will simply pass on the configuration in the snmp.yml.
+    # Note: Only the dynamic filters are included in the generated snmp.yml and passed to the snmp_exporter.
+    # Static filters are handled at generation time by the generator and do not appear in the runtime configuration.
                # The exporter will do a snmp walk of the oid and will restrict snmp walk made on the targets
                # to the index matching the value in the values list.
                # This would be typically used to specify a filter for interfaces with a certain name in ifAlias, ifSpeed or admin status.
