@@ -132,7 +132,7 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 	uniqueM := make(map[string]bool)
 	var modules []string
 	for _, qm := range queryModule {
-		for _, m := range strings.Split(qm, ",") {
+		for m := range strings.SplitSeq(qm, ",") {
 			if m == "" {
 				continue
 			}

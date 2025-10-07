@@ -17,6 +17,7 @@ import (
 	"fmt"
 	"log/slog"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -466,12 +467,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 
 				// If lookup label is used as source index in another lookup,
 				// we need to add this new label as another index.
-				for _, sourceIndex := range requiredAsIndex {
-					if sourceIndex == l.Labelname {
-						idx := &config.Index{Labelname: l.Labelname, Type: l.Type}
-						metric.Indexes = append(metric.Indexes, idx)
-						break
-					}
+				if slices.Contains(requiredAsIndex, l.Labelname) {
+					idx := &config.Index{Labelname: l.Labelname, Type: l.Type}
+					metric.Indexes = append(metric.Indexes, idx)
 				}
 
 				// Make sure we walk the lookup OID(s).
