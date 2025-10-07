@@ -118,6 +118,13 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 		return
 	}
 
+	snmpEngineID := query.Get("snmp_engineid")
+	if len(query["snmp_engineid"]) > 1 {
+		http.Error(w, "'snmp_engineid' parameter must only be specified once", http.StatusBadRequest)
+		snmpRequestErrors.Inc()
+		return
+	}
+
 	queryModule := query["module"]
 	if len(queryModule) == 0 {
 		queryModule = append(queryModule, "if_mib")
@@ -135,10 +142,10 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 			}
 		}
 	}
-	sc.RLock()
+	sc.mu.RLock()
 	auth, authOk := sc.C.Auths[authName]
 	if !authOk {
-		sc.RUnlock()
+		sc.mu.RUnlock()
 		http.Error(w, fmt.Sprintf("Unknown auth '%s'", authName), http.StatusBadRequest)
 		snmpRequestErrors.Inc()
 		return
@@ -147,17 +154,17 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 	for _, m := range modules {
 		module, moduleOk := sc.C.Modules[m]
 		if !moduleOk {
-			sc.RUnlock()
+			sc.mu.RUnlock()
 			http.Error(w, fmt.Sprintf("Unknown module '%s'", m), http.StatusBadRequest)
 			snmpRequestErrors.Inc()
 			return
 		}
 		nmodules = append(nmodules, collector.NewNamedModule(m, module))
 	}
-	sc.RUnlock()
+	sc.mu.RUnlock()
 	logger = logger.With("auth", authName, "target", target)
 	registry := prometheus.NewRegistry()
-	c := collector.New(r.Context(), target, authName, snmpContext, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
+	c := collector.New(r.Context(), target, authName, snmpContext, snmpEngineID, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
@@ -178,8 +185,8 @@ func updateConfiguration(w http.ResponseWriter, r *http.Request) {
 }
 
 type SafeConfig struct {
-	sync.RWMutex
-	C *config.Config
+	mu sync.RWMutex
+	C  *config.Config
 }
 
 func (sc *SafeConfig) ReloadConfig(logger *slog.Logger, configFile []string, expandEnvVars bool) (err error) {
@@ -187,13 +194,13 @@ func (sc *SafeConfig) ReloadConfig(logger *slog.Logger, configFile []string, exp
 	if err != nil {
 		return err
 	}
-	sc.Lock()
+	sc.mu.Lock()
 	sc.C = conf
 	// Initialize metrics.
 	for module := range sc.C.Modules {
 		snmpCollectionDuration.WithLabelValues(module)
 	}
-	sc.Unlock()
+	sc.mu.Unlock()
 	return nil
 }
 
@@ -366,9 +373,9 @@ func main() {
 	}
 
 	http.HandleFunc(configPath, func(w http.ResponseWriter, r *http.Request) {
-		sc.RLock()
+		sc.mu.RLock()
 		c, err := yaml.Marshal(sc.C)
-		sc.RUnlock()
+		sc.mu.RUnlock()
 		if err != nil {
 			logger.Error("Error marshaling configuration", "err", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)

@@ -214,7 +214,7 @@ func TestTreePrepare(t *testing.T) {
 
 func TestGenerateConfigModule(t *testing.T) {
 	var regexpFooBar config.Regexp
-	regexpFooBar.Regexp, _ = regexp.Compile(".*")
+	regexpFooBar.Regexp = regexp.MustCompile(".*")
 
 	strMetrics := make(map[string][]config.RegexpExtract)
 	strMetrics["Status"] = []config.RegexpExtract{
