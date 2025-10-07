@@ -902,6 +902,8 @@ modules:
       - picoIPv6MIB
       - picoNAPTMIB
     lookups:
+      - source_indexes: [picoExtIfInstalledSlot, picoExtIfIndex]
+        lookup: picoExtIfDescr
       - source_indexes: [naptCacheIfIndex]
         lookup: IF-MIB::ifDescr
       - source_indexes: [naptCacheIfIndex]
