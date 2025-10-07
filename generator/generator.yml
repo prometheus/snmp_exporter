@@ -868,6 +868,8 @@ modules:
     lookups:
       - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
         lookup: prtMarkerSuppliesType
+      - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
+        lookup: prtMarkerSuppliesDescription
     overrides:
       prtGeneralReset:
         type: EnumAsStateSet
