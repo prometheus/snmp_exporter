@@ -138,7 +138,7 @@ type Module struct {
 	Filters    []DynamicFilter `yaml:"filters,omitempty"`
 }
 
-func (c *Module) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (c *Module) UnmarshalYAML(unmarshal func(any) error) error {
 	*c = DefaultModule
 	type plain Module
 	return unmarshal((*plain)(c))
@@ -273,7 +273,7 @@ var (
 )
 
 // MarshalYAML implements the yaml.Marshaler interface.
-func (s Secret) MarshalYAML() (interface{}, error) {
+func (s Secret) MarshalYAML() (any, error) {
 	if DoNotHideSecrets {
 		return string(s), nil
 	}
@@ -283,7 +283,7 @@ func (s Secret) MarshalYAML() (interface{}, error) {
 	return nil, nil
 }
 
-func (c *Auth) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (c *Auth) UnmarshalYAML(unmarshal func(any) error) error {
 	*c = DefaultAuth
 	type plain Auth
 	if err := unmarshal((*plain)(c)); err != nil {
@@ -327,7 +327,7 @@ type RegexpExtract struct {
 	Regex Regexp `yaml:"regex"`
 }
 
-func (c *RegexpExtract) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (c *RegexpExtract) UnmarshalYAML(unmarshal func(any) error) error {
 	*c = DefaultRegexpExtract
 	type plain RegexpExtract
 	return unmarshal((*plain)(c))
@@ -339,7 +339,7 @@ type Regexp struct {
 }
 
 // MarshalYAML implements the yaml.Marshaler interface.
-func (re Regexp) MarshalYAML() (interface{}, error) {
+func (re Regexp) MarshalYAML() (any, error) {
 	if re.Regexp != nil {
 		return re.String(), nil
 	}
@@ -347,7 +347,7 @@ func (re Regexp) MarshalYAML() (interface{}, error) {
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
-func (re *Regexp) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (re *Regexp) UnmarshalYAML(unmarshal func(any) error) error {
 	var s string
 	if err := unmarshal(&s); err != nil {
 		return err
