@@ -586,9 +586,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	return out, nil
 }
 
-var (
-	invalidLabelCharRE = regexp.MustCompile(`[^a-zA-Z0-9_]`)
-)
+var invalidLabelCharRE = regexp.MustCompile(`[^a-zA-Z0-9_]`)
 
 func sanitizeLabelName(name string) string {
 	return invalidLabelCharRE.ReplaceAllString(name, "_")
