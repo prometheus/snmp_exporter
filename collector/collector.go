@@ -63,7 +63,7 @@ var combinedTypeMapping = map[string]map[int]string{
 
 func oidToList(oid string) []int {
 	result := []int{}
-	for _, x := range strings.Split(oid, ".") {
+	for x := range strings.SplitSeq(oid, ".") {
 		o, _ := strconv.Atoi(x)
 		result = append(result, o)
 	}
@@ -118,10 +118,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		maxOids = 1
 	}
 	for len(getOids) > 0 {
-		oids := len(getOids)
-		if oids > maxOids {
-			oids = maxOids
-		}
+		oids := min(len(getOids), maxOids)
 
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
@@ -355,7 +352,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 			g.MaxRepetitions = module.WalkParams.MaxRepetitions
 			g.UseUnconnectedUDPSocket = module.WalkParams.UseUnconnectedUDPSocket
 			if module.WalkParams.AllowNonIncreasingOIDs {
-				g.AppOpts = map[string]interface{}{
+				g.AppOpts = map[string]any{
 					"c": true,
 				}
 			}
@@ -423,10 +420,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 // Collect implements Prometheus.Collector.
 func (c Collector) Collect(ch chan<- prometheus.Metric) {
 	wg := sync.WaitGroup{}
-	workerCount := c.concurrency
-	if workerCount < 1 {
-		workerCount = 1
-	}
+	workerCount := max(c.concurrency, 1)
 	ctx, cancel := context.WithCancel(c.ctx)
 	defer cancel()
 	workerChan := make(chan *NamedModule)
@@ -764,7 +758,7 @@ func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []
 	return results
 }
 
-func bits(metric *config.Metric, value interface{}, labelnames, labelvalues []string) []prometheus.Metric {
+func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []prometheus.Metric {
 	bytes, ok := value.([]byte)
 	if !ok {
 		return []prometheus.Metric{prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "BITS type was not a BISTRING on the wire.", nil, nil),
@@ -936,7 +930,7 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		return strings.Join(parts, "."), subOid, indexOids
 	case "InetAddressIPv6":
 		subOid, indexOids := splitOid(indexOids, 16)
-		parts := make([]interface{}, 16)
+		parts := make([]any, 16)
 		for i, o := range subOid {
 			parts[i] = o
 		}

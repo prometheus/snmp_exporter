@@ -24,7 +24,7 @@ import (
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/prometheus/common/promslog"
 	"github.com/prometheus/common/promslog/flag"
-	"gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
