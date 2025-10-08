@@ -15,6 +15,7 @@ package scraper
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"net"
@@ -67,11 +68,11 @@ func (g *GoSNMPWrapper) Connect() error {
 	st := time.Now()
 	err := g.c.Connect()
 	if err != nil {
-		if err == context.Canceled {
+		if errors.Is(err, context.Canceled) {
 			return fmt.Errorf("scrape cancelled after %s (possible timeout) connecting to target %s",
 				time.Since(st), g.c.Target)
 		}
-		return fmt.Errorf("error connecting to target %s: %s", g.c.Target, err)
+		return fmt.Errorf("error connecting to target %s: %w", g.c.Target, err)
 	}
 	return nil
 }
@@ -85,11 +86,11 @@ func (g *GoSNMPWrapper) Get(oids []string) (results *gosnmp.SnmpPacket, err erro
 	st := time.Now()
 	results, err = g.c.Get(oids)
 	if err != nil {
-		if err == context.Canceled {
+		if errors.Is(err, context.Canceled) {
 			err = fmt.Errorf("scrape cancelled after %s (possible timeout) getting target %s",
 				time.Since(st), g.c.Target)
 		} else {
-			err = fmt.Errorf("error getting target %s: %s", g.c.Target, err)
+			err = fmt.Errorf("error getting target %s: %w", g.c.Target, err)
 		}
 		return
 	}
@@ -106,11 +107,11 @@ func (g *GoSNMPWrapper) WalkAll(oid string) (results []gosnmp.SnmpPDU, err error
 		results, err = g.c.BulkWalkAll(oid)
 	}
 	if err != nil {
-		if err == context.Canceled {
+		if errors.Is(err, context.Canceled) {
 			err = fmt.Errorf("scrape canceled after %s (possible timeout) walking target %s",
 				time.Since(st), g.c.Target)
 		} else {
-			err = fmt.Errorf("error walking target %s: %s", g.c.Target, err)
+			err = fmt.Errorf("error walking target %s: %w", g.c.Target, err)
 		}
 		return
 	}

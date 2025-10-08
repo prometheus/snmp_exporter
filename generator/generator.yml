@@ -868,6 +868,8 @@ modules:
     lookups:
       - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
         lookup: prtMarkerSuppliesType
+      - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
+        lookup: prtMarkerSuppliesDescription
     overrides:
       prtGeneralReset:
         type: EnumAsStateSet
@@ -898,6 +900,19 @@ modules:
       - picoMobileMIB
       - picoIPv4MIB
       - picoIPv6MIB
+      - picoNAPTMIB
+    lookups:
+      - source_indexes: [picoExtIfInstalledSlot, picoExtIfIndex]
+        lookup: picoExtIfDescr
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifDescr
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifName
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifAlias
+    overrides:
+      naptCacheIfIndex:
+        ignore: true
 
 # Raritan
 #

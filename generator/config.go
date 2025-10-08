@@ -39,7 +39,7 @@ type MetricOverrides struct {
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
-func (c *MetricOverrides) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (c *MetricOverrides) UnmarshalYAML(unmarshal func(any) error) error {
 	type plain MetricOverrides
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
@@ -62,7 +62,7 @@ type ModuleConfig struct {
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
-func (c *ModuleConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (c *ModuleConfig) UnmarshalYAML(unmarshal func(any) error) error {
 	type plain ModuleConfig
 	if err := unmarshal((*plain)(c)); err != nil {
 		return err
