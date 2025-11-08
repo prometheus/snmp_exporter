@@ -16,6 +16,7 @@ package collector
 import (
 	"context"
 	"encoding/binary"
+	"encoding/hex"
 	"fmt"
 	"log/slog"
 	"net"
@@ -62,7 +63,7 @@ var combinedTypeMapping = map[string]map[int]string{
 
 func oidToList(oid string) []int {
 	result := []int{}
-	for _, x := range strings.Split(oid, ".") {
+	for x := range strings.SplitSeq(oid, ".") {
 		o, _ := strconv.Atoi(x)
 		result = append(result, o)
 	}
@@ -117,10 +118,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		maxOids = 1
 	}
 	for len(getOids) > 0 {
-		oids := len(getOids)
-		if oids > maxOids {
-			oids = maxOids
-		}
+		oids := min(len(getOids), maxOids)
 
 		packet, err := snmp.Get(getOids[:oids])
 		if err != nil {
@@ -291,30 +289,32 @@ func NewNamedModule(name string, module *config.Module) *NamedModule {
 }
 
 type Collector struct {
-	ctx         context.Context
-	target      string
-	auth        *config.Auth
-	authName    string
-	modules     []*NamedModule
-	logger      *slog.Logger
-	metrics     Metrics
-	concurrency int
-	snmpContext string
-	debugSNMP   bool
+	ctx          context.Context
+	target       string
+	auth         *config.Auth
+	authName     string
+	modules      []*NamedModule
+	logger       *slog.Logger
+	metrics      Metrics
+	concurrency  int
+	snmpContext  string
+	snmpEngineID string
+	debugSNMP    bool
 }
 
-func New(ctx context.Context, target, authName, snmpContext string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
+func New(ctx context.Context, target, authName, snmpContext, snmpEngineID string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
 	return &Collector{
-		ctx:         ctx,
-		target:      target,
-		authName:    authName,
-		auth:        auth,
-		modules:     modules,
-		snmpContext: snmpContext,
-		logger:      logger.With("source_address", *srcAddress),
-		metrics:     metrics,
-		concurrency: conc,
-		debugSNMP:   debugSNMP,
+		ctx:          ctx,
+		target:       target,
+		authName:     authName,
+		auth:         auth,
+		modules:      modules,
+		snmpContext:  snmpContext,
+		snmpEngineID: snmpEngineID,
+		logger:       logger.With("source_address", *srcAddress),
+		metrics:      metrics,
+		concurrency:  conc,
+		debugSNMP:    debugSNMP,
 	}
 }
 
@@ -352,7 +352,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 			g.MaxRepetitions = module.WalkParams.MaxRepetitions
 			g.UseUnconnectedUDPSocket = module.WalkParams.UseUnconnectedUDPSocket
 			if module.WalkParams.AllowNonIncreasingOIDs {
-				g.AppOpts = map[string]interface{}{
+				g.AppOpts = map[string]any{
 					"c": true,
 				}
 			}
@@ -420,10 +420,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 // Collect implements Prometheus.Collector.
 func (c Collector) Collect(ch chan<- prometheus.Metric) {
 	wg := sync.WaitGroup{}
-	workerCount := c.concurrency
-	if workerCount < 1 {
-		workerCount = 1
-	}
+	workerCount := max(c.concurrency, 1)
 	ctx, cancel := context.WithCancel(c.ctx)
 	defer cancel()
 	workerChan := make(chan *NamedModule)
@@ -446,6 +443,15 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 					useUnconnectedUDPSocket = true
 					break
 				}
+			}
+			// Set EngineID option if one is configured and we're using SNMPv3
+			if c.snmpEngineID != "" && c.auth.Version == 3 {
+				// Convert the SNMP Engine ID to a byte string
+				sEID, _ := hex.DecodeString(c.snmpEngineID)
+				// Set the options.
+				client.SetOptions(func(g *gosnmp.GoSNMP) {
+					g.ContextEngineID = string(sEID)
+				})
 			}
 			// Set the options.
 			client.SetOptions(func(g *gosnmp.GoSNMP) {
@@ -531,14 +537,14 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 		locString := fmt.Sprintf("%s%02d%02d", string(v[8]), v[9], v[10])
 		loc, err := time.Parse("-0700", locString)
 		if err != nil {
-			return 0, fmt.Errorf("error parsing location string: %q, error: %s", locString, err)
+			return 0, fmt.Errorf("error parsing location string: %q, error: %w", locString, err)
 		}
 		tz = loc.Location()
 	default:
 		return 0, fmt.Errorf("invalid DateAndTime length %v", pduLength)
 	}
 	if err != nil {
-		return 0, fmt.Errorf("unable to parse DateAndTime %q, error: %s", v, err)
+		return 0, fmt.Errorf("unable to parse DateAndTime %q, error: %w", v, err)
 	}
 	// Build the date from the various fields and time zone.
 	t := time.Date(
@@ -557,13 +563,13 @@ func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, met
 	pduValue := pduValueAsString(pdu, "DisplayString", metrics)
 	t, err := timefmt.Parse(pduValue, metric.DateTimePattern)
 	if err != nil {
-		return 0, fmt.Errorf("error parsing date and time %q", err)
+		return 0, fmt.Errorf("error parsing date and time %w", err)
 	}
 	return float64(t.Unix()), nil
 }
 
 func parseNtpTimestamp(pdu *gosnmp.SnmpPDU) (float64, error) {
-	var data = pdu.Value.([]byte)
+	data := pdu.Value.([]byte)
 
 	// Prometheus uses the Unix time epoch (seconds since 1970).
 	// NTP seconds are counted since 1900 and must be corrected
@@ -668,7 +674,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		t, value, labelvalues...)
 	if err != nil {
 		sample = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v from indexOids %v: %v", metric.Name, labelvalues, indexOids, err))
+			fmt.Errorf("error for metric %s with labels %v from indexOids %v: %w", metric.Name, labelvalues, indexOids, err))
 	}
 
 	return []prometheus.Metric{sample}
@@ -693,7 +699,7 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 				prometheus.GaugeValue, v, labelvalues...)
 			if err != nil {
 				newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for regex_extract", nil, nil),
-					fmt.Errorf("error for metric %s with labels %v: %v", metric.Name+name, labelvalues, err))
+					fmt.Errorf("error for metric %s with labels %v: %w", metric.Name+name, labelvalues, err))
 			}
 			results = append(results, newMetric)
 			break
@@ -715,7 +721,7 @@ func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []stri
 		prometheus.GaugeValue, 1.0, labelvalues...)
 	if err != nil {
 		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsInfo", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+			fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 	}
 	return []prometheus.Metric{newMetric}
 }
@@ -733,7 +739,7 @@ func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []
 		prometheus.GaugeValue, 1.0, append(labelvalues, state)...)
 	if err != nil {
 		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+			fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 	}
 	results = append(results, newMetric)
 
@@ -745,14 +751,14 @@ func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []
 			prometheus.GaugeValue, 0.0, append(labelvalues, v)...)
 		if err != nil {
 			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
-				fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+				fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 		}
 		results = append(results, newMetric)
 	}
 	return results
 }
 
-func bits(metric *config.Metric, value interface{}, labelnames, labelvalues []string) []prometheus.Metric {
+func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []prometheus.Metric {
 	bytes, ok := value.([]byte)
 	if !ok {
 		return []prometheus.Metric{prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "BITS type was not a BISTRING on the wire.", nil, nil),
@@ -773,7 +779,7 @@ func bits(metric *config.Metric, value interface{}, labelnames, labelvalues []st
 			prometheus.GaugeValue, bit, append(labelvalues, v)...)
 		if err != nil {
 			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for Bits", nil, nil),
-				fmt.Errorf("error for metric %s with labels %v: %v", metric.Name, labelvalues, err))
+				fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 		}
 		results = append(results, newMetric)
 	}
@@ -797,36 +803,36 @@ func splitOid(oid []int, count int) ([]int, []int) {
 
 // This mirrors decodeValue in gosnmp's helper.go.
 func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
-	switch pdu.Value.(type) {
+	switch v := pdu.Value.(type) {
 	case int:
-		return strconv.Itoa(pdu.Value.(int))
+		return strconv.Itoa(v)
 	case uint:
-		return strconv.FormatUint(uint64(pdu.Value.(uint)), 10)
+		return strconv.FormatUint(uint64(v), 10)
 	case uint64:
-		return strconv.FormatUint(pdu.Value.(uint64), 10)
+		return strconv.FormatUint(v, 10)
 	case float32:
-		return strconv.FormatFloat(float64(pdu.Value.(float32)), 'f', -1, 32)
+		return strconv.FormatFloat(float64(v), 'f', -1, 32)
 	case float64:
-		return strconv.FormatFloat(pdu.Value.(float64), 'f', -1, 64)
+		return strconv.FormatFloat(v, 'f', -1, 64)
 	case string:
 		if pdu.Type == gosnmp.ObjectIdentifier {
 			// Trim leading period.
-			return pdu.Value.(string)[1:]
+			return v[1:]
 		}
 		// DisplayString.
-		return strings.ToValidUTF8(pdu.Value.(string), "�")
+		return strings.ToValidUTF8(v, "�")
 	case []byte:
 		if typ == "" || typ == "Bits" {
 			typ = "OctetString"
 		}
 		// Reuse the OID index parsing code.
-		parts := make([]int, len(pdu.Value.([]byte)))
-		for i, o := range pdu.Value.([]byte) {
+		parts := make([]int, len(v))
+		for i, o := range v {
 			parts[i] = int(o)
 		}
 		if typ == "OctetString" || typ == "DisplayString" {
 			// Prepend the length, as it is explicit in an index.
-			parts = append([]int{len(pdu.Value.([]byte))}, parts...)
+			parts = append([]int{len(v)}, parts...)
 		}
 		str, _, _ := indexOidsAsString(parts, typ, 0, false, nil)
 		return strings.ToValidUTF8(str, "�")
@@ -924,7 +930,7 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		return strings.Join(parts, "."), subOid, indexOids
 	case "InetAddressIPv6":
 		subOid, indexOids := splitOid(indexOids, 16)
-		parts := make([]interface{}, 16)
+		parts := make([]any, 16)
 		for i, o := range subOid {
 			parts[i] = o
 		}

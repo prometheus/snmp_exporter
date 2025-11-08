@@ -24,14 +24,12 @@ import (
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/prometheus/common/promslog"
 	"github.com/prometheus/common/promslog/flag"
-	"gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 )
 
-var (
-	cannotFindModuleRE = regexp.MustCompile(`Cannot find module \((.+)\): (.+)`)
-)
+var cannotFindModuleRE = regexp.MustCompile(`Cannot find module \((.+)\): (.+)`)
 
 // Generate a snmp_exporter config and write it out.
 func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logger) error {
@@ -42,12 +40,12 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logge
 
 	content, err := os.ReadFile(*generatorYmlPath)
 	if err != nil {
-		return fmt.Errorf("error reading yml config: %s", err)
+		return fmt.Errorf("error reading yml config: %w", err)
 	}
 	cfg := &Config{}
 	err = yaml.UnmarshalStrict(content, cfg)
 	if err != nil {
-		return fmt.Errorf("error parsing yml config: %s", err)
+		return fmt.Errorf("error parsing yml config: %w", err)
 	}
 
 	outputConfig := config.Config{}
@@ -79,23 +77,23 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logge
 	out, err := yaml.Marshal(outputConfig)
 	config.DoNotHideSecrets = false
 	if err != nil {
-		return fmt.Errorf("error marshaling yml: %s", err)
+		return fmt.Errorf("error marshaling yml: %w", err)
 	}
 
 	// Check the generated config to catch auth/version issues.
 	err = yaml.UnmarshalStrict(out, &config.Config{})
 	if err != nil {
-		return fmt.Errorf("error parsing generated config: %s", err)
+		return fmt.Errorf("error parsing generated config: %w", err)
 	}
 
 	f, err := os.Create(outputPath)
 	if err != nil {
-		return fmt.Errorf("error opening output file: %s", err)
+		return fmt.Errorf("error opening output file: %w", err)
 	}
 	out = append([]byte("# WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.\n"), out...)
 	_, err = f.Write(out)
 	if err != nil {
-		return fmt.Errorf("error writing to output file: %s", err)
+		return fmt.Errorf("error writing to output file: %w", err)
 	}
 	logger.Info("Config written", "file", outputPath)
 	return nil
@@ -170,7 +168,7 @@ func main() {
 func scanParseOutput(logger *slog.Logger, output string) []string {
 	var parseOutput []string
 	output = strings.TrimSpace(strings.ToValidUTF8(output, "�"))
-	if len(output) > 0 {
+	if output != "" {
 		parseOutput = strings.Split(output, "\n")
 	}
 	parseErrors := len(parseOutput)

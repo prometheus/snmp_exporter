@@ -207,6 +207,8 @@ modules:
           indices: ["2","3","4"]  # List of interface indices to get
 
       dynamic: # dynamic filters are handed by the snmp exporter. The generator will simply pass on the configuration in the snmp.yml.
+    # Note: Only the dynamic filters are included in the generated snmp.yml and passed to the snmp_exporter.
+    # Static filters are handled at generation time by the generator and do not appear in the runtime configuration.
                # The exporter will do a snmp walk of the oid and will restrict snmp walk made on the targets
                # to the index matching the value in the values list.
                # This would be typically used to specify a filter for interfaces with a certain name in ifAlias, ifSpeed or admin status.
@@ -240,7 +242,7 @@ Some of these are quite sluggish, so use wget to download.
 
 Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mibs` is one option.
 
-* Cisco: ftp://ftp.cisco.com/pub/mibs/v2/v2.tar.gz
+* Cisco: https://cfnng.cisco.com/mibs or https://github.com/cisco/cisco-mibs
 * APC: https://download.schneider-electric.com/files?p_File_Name=powernet432.mib
 * Servertech: ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
 * Palo Alto PanOS 7.0 enterprise MIBs: https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip
