@@ -2,7 +2,7 @@ auths:
   with_secret:
     community: mysecret
     security_level: SomethingReadOnly
-    username: ${ENV_USERNAME}
+    username: snmp_${ENV_USERNAME}
     password: ${ENV_PASSWORD}
     auth_protocol: SHA256
     priv_protocol: AES
