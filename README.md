@@ -177,7 +177,7 @@ scrape_configs:
       - targets: ['localhost:9116']
 ```
 
-You could pass `username`, `password` & `priv_password` via environment variables of your choice in below format. 
+You could pass `username`, `password`, `priv_password` & `community` via environment variables of your choice in below format. 
 If the variables exist in the environment, they are resolved on the fly otherwise the string in the config file is passed as-is.
 
 This requires the `--config.expand-environment-variables` flag be set.
@@ -185,7 +185,7 @@ This requires the `--config.expand-environment-variables` flag be set.
 ```YAML
 auths:
   example_with_envs:
-    community: mysecret
+    community: ${SNMP_COMMUNITY_STRING}
     security_level: SomethingReadOnly
     username: ${ARISTA_USERNAME}
     password: ${ARISTA_PASSWORD}

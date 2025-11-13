@@ -76,6 +76,7 @@ func TestEnvSecrets(t *testing.T) {
 	t.Setenv("ENV_USERNAME", "snmp_username")
 	t.Setenv("ENV_PASSWORD", "snmp_password")
 	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
+	t.Setenv("ENV_COMMUNITY", "snmp_community")
 
 	sc := &SafeConfig{}
 	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
@@ -97,7 +98,7 @@ func TestEnvSecrets(t *testing.T) {
 
 	// we check whether vars we set are resolved correctly in config
 	for i := range sc.C.Auths {
-		if sc.C.Auths[i].Username != "snmp_username" || sc.C.Auths[i].Password != "snmp_password" || sc.C.Auths[i].PrivPassword != "snmp_priv_password" {
+		if sc.C.Auths[i].Username != "snmp_username" || sc.C.Auths[i].Password != "snmp_password" || sc.C.Auths[i].PrivPassword != "snmp_priv_password" || sc.C.Auths[i].Community != "snmp_community" {
 			t.Fatal("failed to resolve secrets from env vars")
 		}
 	}

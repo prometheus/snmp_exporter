@@ -1,6 +1,6 @@
 auths:
   with_secret:
-    community: mysecret
+    community: ${ENV_COMMUNITY}
     security_level: SomethingReadOnly
     username: ${ENV_USERNAME}
     password: ${ENV_PASSWORD}
