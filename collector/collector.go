@@ -797,7 +797,11 @@ func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []
 // Some routers exclude trailing 0s in responses.
 func splitOid(oid []int, count int) ([]int, []int) {
 	head := make([]int, count)
-	tail := []int{}
+	tailCapacity := len(oid) - count
+	if tailCapacity < 0 {
+		tailCapacity = 0
+	}
+	tail := make([]int, 0, tailCapacity)
 	for i, v := range oid {
 		if i < count {
 			head[i] = v
