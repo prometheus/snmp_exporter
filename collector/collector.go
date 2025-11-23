@@ -71,11 +71,18 @@ func oidToList(oid string) []int {
 }
 
 func listToOid(l []int) string {
-	var result []string
-	for _, o := range l {
-		result = append(result, strconv.Itoa(o))
+	if len(l) == 0 {
+		return ""
 	}
-	return strings.Join(result, ".")
+	var result strings.Builder
+	result.Grow(len(l) * 4) // Estimate 3 digits + dot per number
+	for i, o := range l {
+		if i > 0 {
+			result.WriteByte('.')
+		}
+		result.WriteString(strconv.Itoa(o))
+	}
+	return result.String()
 }
 
 type ScrapeResults struct {
