@@ -62,7 +62,7 @@ var combinedTypeMapping = map[string]map[int]string{
 }
 
 func oidToList(oid string) []int {
-	result := []int{}
+	result := make([]int, 0, strings.Count(oid, ".")+1)
 	for x := range strings.SplitSeq(oid, ".") {
 		o, _ := strconv.Atoi(x)
 		result = append(result, o)
