@@ -62,7 +62,7 @@ var combinedTypeMapping = map[string]map[int]string{
 }
 
 func oidToList(oid string) []int {
-	result := []int{}
+	result := make([]int, 0, strings.Count(oid, ".")+1)
 	for x := range strings.SplitSeq(oid, ".") {
 		o, _ := strconv.Atoi(x)
 		result = append(result, o)
@@ -71,11 +71,18 @@ func oidToList(oid string) []int {
 }
 
 func listToOid(l []int) string {
-	var result []string
-	for _, o := range l {
-		result = append(result, strconv.Itoa(o))
+	if len(l) == 0 {
+		return ""
 	}
-	return strings.Join(result, ".")
+	var result strings.Builder
+	result.Grow(len(l) * 4) // Estimate 3 digits + dot per number
+	for i, o := range l {
+		if i > 0 {
+			result.WriteByte('.')
+		}
+		result.WriteString(strconv.Itoa(o))
+	}
+	return result.String()
 }
 
 type ScrapeResults struct {
@@ -790,7 +797,11 @@ func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []
 // Some routers exclude trailing 0s in responses.
 func splitOid(oid []int, count int) ([]int, []int) {
 	head := make([]int, count)
-	tail := []int{}
+	tailCapacity := len(oid) - count
+	if tailCapacity < 0 {
+		tailCapacity = 0
+	}
+	tail := make([]int, 0, tailCapacity)
 	for i, v := range oid {
 		if i < count {
 			head[i] = v
