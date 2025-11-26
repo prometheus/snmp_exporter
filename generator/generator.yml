@@ -914,10 +914,9 @@ modules:
       naptCacheIfIndex:
         ignore: true
 
-# Raritan
+# Raritan PDU (Legacy PX series - PDU-MIB)
 #
 # https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-# https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
   raritan:
     walk:
       - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
@@ -930,13 +929,125 @@ modules:
       - 1.3.6.1.4.1.13742.4.1.2.2.1.6  # outletVoltage
       - 1.3.6.1.4.1.13742.4.1.2.2.1.7  # outletActivePower
       - 1.3.6.1.4.1.13742.4.1.3.1.5    # unitCpuTemp
-      - 1.3.6.1.4.1.13742.6.5.5.3.1    # externalSensors
     lookups:
       - source_indexes: [outletIndex]
         lookup: outletLabel
     overrides:
       outletOperationalState:
         type: EnumAsStateSet
+
+# Raritan PDU2 (PX2, PX3, PX4, PXC, SRC, PRO3X, PRO4X series - PDU2-MIB)
+#
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/PDU2_MIB_4.3.10_51837.txt
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
+  raritan_pdu2:
+    walk:
+      # Nameplate (device identification)
+      - "PDU2-MIB::nameplateTable"
+      # Unit configuration
+      - "PDU2-MIB::unitConfigurationTable"
+      # Inlet configuration
+      - "PDU2-MIB::inletConfigurationTable"
+      # Outlet configuration
+      - "PDU2-MIB::outletConfigurationTable"
+      # Unit sensor measurements (temperature, humidity, etc.)
+      - "PDU2-MIB::unitSensorMeasurementsTable"
+      # Inlet sensor measurements (voltage, current, power, energy)
+      - "PDU2-MIB::inletSensorMeasurementsTable"
+      # Inlet pole sensor measurements (per-pole data for 3-phase)
+      - "PDU2-MIB::inletPoleSensorMeasurementsTable"
+      # Outlet sensor measurements (voltage, current, power, energy per outlet)
+      - "PDU2-MIB::outletSensorMeasurementsTable"
+      # Outlet pole sensor measurements
+      - "PDU2-MIB::outletPoleSensorMeasurementsTable"
+      # Over current protector measurements (breaker status)
+      - "PDU2-MIB::overCurrentProtectorSensorMeasurementsTable"
+      # External sensor measurements (environmental sensors)
+      - "PDU2-MIB::externalSensorMeasurementsTable"
+      # Circuit measurements (for branch circuit monitoring)
+      - "PDU2-MIB::circuitSensorMeasurementsTable"
+      # Transfer switch measurements
+      - "PDU2-MIB::transferSwitchSensorMeasurementsTable"
+    lookups:
+      - source_indexes: [pduId]
+        lookup: "PDU2-MIB::pduName"
+      - source_indexes: [pduId, inletId]
+        lookup: "PDU2-MIB::inletLabel"
+      - source_indexes: [pduId, outletId]
+        lookup: "PDU2-MIB::outletLabel"
+      - source_indexes: [pduId, outletId]
+        lookup: "PDU2-MIB::outletName"
+      - source_indexes: [pduId, externalSensorId]
+        lookup: "PDU2-MIB::externalSensorSerialNumber"
+    overrides:
+      pduName:
+        ignore: true
+      inletLabel:
+        ignore: true
+      outletLabel:
+        ignore: true
+      outletName:
+        ignore: true
+      externalSensorSerialNumber:
+        ignore: true
+      measurementsUnitSensorState:
+        type: EnumAsStateSet
+      measurementsInletSensorState:
+        type: EnumAsStateSet
+      measurementsOutletSensorState:
+        type: EnumAsStateSet
+      measurementsExternalSensorState:
+        type: EnumAsStateSet
+      measurementsOverCurrentProtectorSensorState:
+        type: EnumAsStateSet
+      measurementsCircuitSensorState:
+        type: EnumAsStateSet
+      measurementsTransferSwitchSensorState:
+        type: EnumAsStateSet
+
+# Raritan Asset Management (Asset Strips for rack unit tracking)
+#
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
+  raritan_assetmanagement:
+    walk:
+      # Asset strip count and default LED colors
+      - "ASSETMANAGEMENT-MIB::assetStripCount"
+      - "ASSETMANAGEMENT-MIB::defaultLEDColorConnected"
+      - "ASSETMANAGEMENT-MIB::defaultLEDColorDisconnected"
+      # Asset strip configuration (strip state, rack unit count, etc.)
+      - "ASSETMANAGEMENT-MIB::assetStripConfigurationTable"
+      # Asset management table (tag IDs, rack unit positions, LED status)
+      - "ASSETMANAGEMENT-MIB::assetManagementTable"
+      # Blade extension table (for blade servers)
+      - "ASSETMANAGEMENT-MIB::bladeExtensionTable"
+    lookups:
+      - source_indexes: [assetStripID]
+        lookup: "ASSETMANAGEMENT-MIB::assetStripName"
+      - source_indexes: [assetStripID, rackUnitID]
+        lookup: "ASSETMANAGEMENT-MIB::rackUnitName"
+    overrides:
+      assetStripName:
+        ignore: true
+      rackUnitName:
+        ignore: true
+      assetStripState:
+        type: EnumAsStateSet
+      ledOperationMode:
+        type: EnumAsStateSet
+      ledMode:
+        type: EnumAsStateSet
+      rackUnitType:
+        type: EnumAsInfo
+      assetStripType:
+        type: EnumAsInfo
+      rackUnitNumberingMode:
+        type: EnumAsInfo
+      assetStripOrientation:
+        type: EnumAsInfo
+      tagID:
+        type: DisplayString
+      tagFamily:
+        type: DisplayString
 
 # InfraPower PDU's
 #

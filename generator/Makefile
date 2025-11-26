@@ -61,7 +61,8 @@ UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.tx
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 UPS_MIB_URL       := https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/UPS-MIB
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
+RARITAN2_URL      := https://cdn1.raritan.com/download/pdu-g2/4.3.10/PDU2_MIB_4.3.10_51837.txt
+RARITAN_AM_URL    := https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
@@ -171,6 +172,7 @@ mibs: \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/PDU2-MIB.txt \
+  $(MIBDIR)/PDU_AssetManagement_MIB.txt \
   $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/CyberPower.MIB \
@@ -409,6 +411,10 @@ $(MIBDIR)/PDU-MIB.txt:
 $(MIBDIR)/PDU2-MIB.txt:
 	@echo ">> Downloading Raritan PDU2-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU2-MIB.txt "$(RARITAN2_URL)"
+
+$(MIBDIR)/PDU_AssetManagement_MIB.txt:
+	@echo ">> Downloading Raritan AssetManagement_MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU_AssetManagement_MIB.txt "$(RARITAN_AM_URL)"
 
 $(MIBDIR)/Infrapower-MIB.mib:
 	$(eval TMP := $(shell mktemp))
