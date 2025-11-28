@@ -69,6 +69,8 @@ modules:
     walk:
       - CISCO-PROCESS-MIB::cpmCPUTotal1minRev
       - CISCO-PROCESS-MIB::cpmCPUTotal5minRev
+      - CISCO-PROCESS-MIB::cpmCore1min
+      - CISCO-PROCESS-MIB::cpmCore5min
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolUsed
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolFree
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolType
