@@ -8,7 +8,7 @@ require (
 	github.com/itchyny/timefmt-go v0.1.7
 	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/client_model v0.6.2
-	github.com/prometheus/common v0.67.3
+	github.com/prometheus/common v0.67.4
 	github.com/prometheus/exporter-toolkit v0.15.0
 	go.yaml.in/yaml/v2 v2.4.3
 )
