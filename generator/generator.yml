@@ -69,6 +69,8 @@ modules:
     walk:
       - CISCO-PROCESS-MIB::cpmCPUTotal1minRev
       - CISCO-PROCESS-MIB::cpmCPUTotal5minRev
+      - CISCO-PROCESS-MIB::cpmCore1min
+      - CISCO-PROCESS-MIB::cpmCore5min
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolUsed
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolFree
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolType
@@ -170,7 +172,7 @@ modules:
         ignore: true
 # MES 2448P
   eltex_mes:
-    walk: 
+    walk:
      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
@@ -211,11 +213,11 @@ modules:
 # Download site: http://www.apc.com/us/en/tools/download/index.cfm
   apcups:
     walk:
-      - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
-      - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
-      - 1.3.6.1.4.1.318.1.1.1.4       # upsOutput
-      - 1.3.6.1.4.1.318.1.1.1.7.2     # upsAdvTest
-      - 1.3.6.1.4.1.318.1.1.1.8.1     # upsCommStatus
+      - PowerNet-MIB::upsBattery      # 1.3.6.1.4.1.318.1.1.1.2
+      - PowerNet-MIB::upsInput        # 1.3.6.1.4.1.318.1.1.1.3
+      - PowerNet-MIB::upsOutput       # 1.3.6.1.4.1.318.1.1.1.4
+      - PowerNet-MIB::upsAdvTest      # 1.3.6.1.4.1.318.1.1.1.7.2
+      - PowerNet-MIB::upsComm         # 1.3.6.1.4.1.318.1.1.1.8
       - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
       - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
       - 1.3.6.1.4.1.318.1.1.26.4.3    # rPDU2DeviceStatusTable
@@ -238,6 +240,175 @@ modules:
         type: EnumAsStateSet
       upsAdvBatteryChargerStatus:
         type: EnumAsStateSet
+      upsHighPrecBatteryPackIndex:
+        ignore: true
+      upsHighPrecBatteryCartridgeIndex:
+        ignore: true
+      upsHighPrecBatteryExtraIndex:
+        ignore: true
+      upsHighPrecBatteryPackTemperature:
+        scale: 0.1
+        help: The battery pack temperature measured in degrees Celcius
+      upsBasicBatteryStatus_seconds:
+        scale: 0.01
+      upsHighPrecBatteryCapacity:
+        scale: 0.1
+        help: The remaining battery capacity expressed in percent of full capacity - 1.3.6.1.4.1.318.1.1.1.2.2.1
+      upsHighPrecBatteryActualVoltage:
+        scale: 0.1
+        help: The actual battery bus voltage in Volts. - 1.3.6.1.4.1.318.1.1.1.2.3.4
+      upsAdvBatteryRunTimeRemaining:
+        name: upsAdvBatteryRunTimeRemaining_seconds
+        scale: 0.01
+      upsHighPrecBatteryTemperature:
+        scale: 0.1
+        help: The current internal UPS temperature expressed in degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.2
+      upsAdvBatteryReplaceIndicator:
+        name: upsAdvBattery_needsreplacing
+        help: Indicates whether the UPS batteries need replacing. - 1.3.6.1.4.1.318.1.1.1.2.2.4
+        offset: -1.0
+      upsBasicBatteryStatus:
+        type: EnumAsStateSet
+      upsBasicBatteryTimeOnBattery:
+        name: upsBasicBatteryTimeOnBattery_seconds
+        scale: 0.01
+      upsAdvInputLineFailCause:
+        type: EnumAsStateSet
+      upsHighPrecInputFrequency:
+        scale: 0.1
+        help: The current input frequency to the UPS system in Hz. - 1.3.6.1.4.1.318.1.1.1.3.3.4
+      upsHighPrecInputLineVoltage:
+        scale: 0.1
+        help: The current utility line voltage in VAC
+      upsHighPrecInputMaxLineVoltage:
+        scale: 0.1
+        help: The maximum utility line voltage in VAC over the previous 1 minute period. - 1.3.6.1.4.1.318.1.1.1.3.3.2
+      upsHighPrecInputMinLineVoltage:
+        scale: 0.1
+        help: The minimum utility line voltage in VAC over the previous 1 minute period. - 1.3.6.1.4.1.318.1.1.1.3.3.3
+      upsHighPrecOutputCurrent:
+        scale: 0.1
+        help: The current in amperes drawn by the load on the UPS. - 1.3.6.1.4.1.318.1.1.1.4.3.4
+      upsHighPrecOutputEfficiency:
+        scale: 0.1
+        help: The positive values represent efficiency of the UPS in percent - 1.3.6.1.4.1.318.1.1.1.4.3.5
+      upsHighPrecOutputEnergyUsage:
+        scale: 0.01
+        help: The output energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.4.3.6
+      upsHighPrecOutputFrequency:
+        scale: 0.1
+        help: The current output frequency of the UPS system in Hz. - 1.3.6.1.4.1.318.1.1.1.4.3.2
+      upsHighPrecOutputLoad:
+        scale: 0.1
+        help: The current UPS load expressed in percent of rated capacity. - 1.3.6.1.4.1.318.1.1.1.4.3.3
+      upsHighPrecOutputVoltage:
+        scale: 0.1
+        help: The output voltage of the UPS system in VAC. - 1.3.6.1.4.1.318.1.1.1.4.3.1
+      upsBasicOutputStatus:
+        type: EnumAsStateSet
+      upsAdvTestCalibrationResults:
+        type: EnumAsInfo
+      upsAdvTestDiagnosticSchedule:
+        type: EnumAsInfo
+      upsAdvTestDiagnosticsResults:
+        type: EnumAsInfo
+      upsAdvTestDiagnostics:
+        ignore: true
+      upsAdvTestRuntimeCalibration:
+        ignore: true
+      upsAdvTestDiagnosticTime:
+        ignore: true
+      upsAdvTestDiagnosticDay:
+        ignore: true
+      upsAdvTestBatteryInterval:
+        ignore: true
+      upsCommStatus:
+        name: upsCommStatus_ok
+        help: The status of agent's communication with UPS. 1=ok, 0=noComm
+        scale: -1.0
+        offset: 2.0
+      upsHighPrecBatteryNominalVoltage:
+        scale: 0.1
+        help: The nominal battery voltage in Volts. - 1.3.6.1.4.1.318.1.1.1.2.3.3
+      upsHighPrecBatteryCurrent:
+        scale: 0.1
+        help: The battery current in Amps - 1.3.6.1.4.1.318.1.1.1.2.3.5
+      upsHighPrecTotalDCCurrent:
+        scale: 0.1
+        help: The total DC current in Amps. - 1.3.6.1.4.1.318.1.1.1.2.3.6
+      upsHighPrecBatteryVoltage:
+        scale: 0.1
+        help: The actual battery bus voltage expressed as Volts - 1.3.6.1.4.1.318.1.1.1.2.3.7.1.3
+      upsHighPrecTotalDCFrameCurrent:
+        scale: 0.1
+        help: The total DC current in Amperes. - 1.3.6.1.4.1.318.1.1.1.2.3.8.1.3
+      upsHighPrecBatteryFrameCurrent:
+        scale: 0.1
+        help: The Battery current in Amperes. - 1.3.6.1.4.1.318.1.1.1.2.3.9.1.4
+      upsHighPrecActivePower:
+        scale: 0.1
+        help: Active Power of Battery in kW - 1.3.6.1.4.1.318.1.1.1.2.3.12
+      upsHighPrecExtdBatteryTemperature:
+        scale: 0.1
+        help: The current internal UPS temperature expressed in degrees Celsius
+      upsHighPrecMaximumModuleTemperature:
+        scale: 0.1
+        help: The current maximum temperature across all battery modules in degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.14
+      upsHighPrecMinimumModuleTemperature:
+        scale: 0.1
+        help: The current minimum temperature across all battery modules in degrees Celsius - 1.3.6.1.4.1.318.1.1.1.2.3.15
+      upsBatteryCabinetTemperature:
+        scale: 0.1
+        help: The measured temperature of the battery cabinet in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.8
+      upsBatteryCabinetMaxTemperature:
+        scale: 0.1
+        help: The highest temperature measured for the battery in the battery cabinet in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.9
+      upsBatteryCabinetMinTemperature:
+        scale: 0.1
+        help: The lowest temperature measured for the battery in the battery cabinet in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.5.1.10
+      upsBatteryCabStringCurrent:
+        scale: 0.1
+        help: The current in a battery string or battery halfstring, in  Amps - 1.3.6.1.4.1.318.1.1.1.2.6.1.4
+      upsBatteryCabStringAverageTemperature:
+        scale: 0.1
+        help: Temperature of the battery string or the average of the aggregated temperature
+          of each battery block/module (in degrees Celcius) - 1.3.6.1.4.1.318.1.1.1.2.6.1.5
+      upsBatteryCabStringMaxTemperature:
+        scale: 0.1
+        help: The actual highest battery temperature measurement for the battery blocks/modules (in degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.6
+      upsBatteryCabStringMinTemperature:
+        scale: 0.1
+        help: The actual lowest battery temperature measurement for the battery blocks/modules
+          (in degrees Celcius). - 1.3.6.1.4.1.318.1.1.1.2.6.1.7
+      upsBatteryCabBlockTemperature:
+        scale: 0.1
+        help: The temperature for the battery block/module in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.7.1.6
+      upsBatteryCabBlockCellTemperature:
+        scale: 0.1
+        help: The temperature for the battery cell in degrees Celcius - 1.3.6.1.4.1.318.1.1.1.2.8.1.5
+      upsHighPrecInputBypassVoltage:
+        scale: 0.1
+        help: The current bypass line voltage in VAC. - 1.3.6.1.4.1.318.1.1.1.3.3.6
+      upsHighPrecInputBypassFrequency:
+        scale: 0.1
+        help: The current input bypass frequency to the UPS system in Hz - 1.3.6.1.4.1.318.1.1.1.3.3.7
+      upsHighPrecInputDCVoltage:
+        scale: 0.1
+        help: The DC input voltage, in Volts on the inverter - 1.3.6.1.4.1.318.1.1.1.3.3.8
+      upsHighPrecInputDCCurrent:
+        scale: 0.1
+        help: The DC input current, in amperes, of the inverter. - 1.3.6.1.4.1.318.1.1.1.3.3.9
+      upsAdvOutputCrestFactor:
+        scale: 0.1
+        help: The output current crest factor - 1.3.6.1.4.1.318.1.1.1.4.2.10.1.4
+      upsAdvBatteryEstimatedChargeTime:
+        scale: 0.01
+        name: upsAdvBatteryEstimatedChargeTime_seconds
+        help: The estimated remaining time required to charge the UPS to a full state
+          of charge - 1.3.6.1.4.1.318.1.1.1.2.2.15
+      upsHighPrecInputEnergyUsage:
+        scale: 0.01
+        help: The input energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.3.3.5
 
 # ServerTech Sentry 3 MIB
 #
@@ -569,7 +740,7 @@ modules:
         ignore: true # Lookup metric
       loadDescr:
         ignore: true
-        
+
 
 # Ubiquiti / UniFi
 #
@@ -699,6 +870,8 @@ modules:
     lookups:
       - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
         lookup: prtMarkerSuppliesType
+      - source_indexes: [hrDeviceIndex, prtMarkerSuppliesIndex]
+        lookup: prtMarkerSuppliesDescription
     overrides:
       prtGeneralReset:
         type: EnumAsStateSet
@@ -729,11 +902,23 @@ modules:
       - picoMobileMIB
       - picoIPv4MIB
       - picoIPv6MIB
+      - picoNAPTMIB
+    lookups:
+      - source_indexes: [picoExtIfInstalledSlot, picoExtIfIndex]
+        lookup: picoExtIfDescr
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifDescr
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifName
+      - source_indexes: [naptCacheIfIndex]
+        lookup: IF-MIB::ifAlias
+    overrides:
+      naptCacheIfIndex:
+        ignore: true
 
-# Raritan
+# Raritan PDU (Legacy PX series - PDU-MIB)
 #
 # https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-# https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
   raritan:
     walk:
       - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
@@ -746,13 +931,125 @@ modules:
       - 1.3.6.1.4.1.13742.4.1.2.2.1.6  # outletVoltage
       - 1.3.6.1.4.1.13742.4.1.2.2.1.7  # outletActivePower
       - 1.3.6.1.4.1.13742.4.1.3.1.5    # unitCpuTemp
-      - 1.3.6.1.4.1.13742.6.5.5.3.1    # externalSensors
     lookups:
       - source_indexes: [outletIndex]
         lookup: outletLabel
     overrides:
       outletOperationalState:
         type: EnumAsStateSet
+
+# Raritan PDU2 (PX2, PX3, PX4, PXC, SRC, PRO3X, PRO4X series - PDU2-MIB)
+#
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/PDU2_MIB_4.3.10_51837.txt
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
+  raritan_pdu2:
+    walk:
+      # Nameplate (device identification)
+      - "PDU2-MIB::nameplateTable"
+      # Unit configuration
+      - "PDU2-MIB::unitConfigurationTable"
+      # Inlet configuration
+      - "PDU2-MIB::inletConfigurationTable"
+      # Outlet configuration
+      - "PDU2-MIB::outletConfigurationTable"
+      # Unit sensor measurements (temperature, humidity, etc.)
+      - "PDU2-MIB::unitSensorMeasurementsTable"
+      # Inlet sensor measurements (voltage, current, power, energy)
+      - "PDU2-MIB::inletSensorMeasurementsTable"
+      # Inlet pole sensor measurements (per-pole data for 3-phase)
+      - "PDU2-MIB::inletPoleSensorMeasurementsTable"
+      # Outlet sensor measurements (voltage, current, power, energy per outlet)
+      - "PDU2-MIB::outletSensorMeasurementsTable"
+      # Outlet pole sensor measurements
+      - "PDU2-MIB::outletPoleSensorMeasurementsTable"
+      # Over current protector measurements (breaker status)
+      - "PDU2-MIB::overCurrentProtectorSensorMeasurementsTable"
+      # External sensor measurements (environmental sensors)
+      - "PDU2-MIB::externalSensorMeasurementsTable"
+      # Circuit measurements (for branch circuit monitoring)
+      - "PDU2-MIB::circuitSensorMeasurementsTable"
+      # Transfer switch measurements
+      - "PDU2-MIB::transferSwitchSensorMeasurementsTable"
+    lookups:
+      - source_indexes: [pduId]
+        lookup: "PDU2-MIB::pduName"
+      - source_indexes: [pduId, inletId]
+        lookup: "PDU2-MIB::inletLabel"
+      - source_indexes: [pduId, outletId]
+        lookup: "PDU2-MIB::outletLabel"
+      - source_indexes: [pduId, outletId]
+        lookup: "PDU2-MIB::outletName"
+      - source_indexes: [pduId, externalSensorId]
+        lookup: "PDU2-MIB::externalSensorSerialNumber"
+    overrides:
+      pduName:
+        ignore: true
+      inletLabel:
+        ignore: true
+      outletLabel:
+        ignore: true
+      outletName:
+        ignore: true
+      externalSensorSerialNumber:
+        ignore: true
+      measurementsUnitSensorState:
+        type: EnumAsStateSet
+      measurementsInletSensorState:
+        type: EnumAsStateSet
+      measurementsOutletSensorState:
+        type: EnumAsStateSet
+      measurementsExternalSensorState:
+        type: EnumAsStateSet
+      measurementsOverCurrentProtectorSensorState:
+        type: EnumAsStateSet
+      measurementsCircuitSensorState:
+        type: EnumAsStateSet
+      measurementsTransferSwitchSensorState:
+        type: EnumAsStateSet
+
+# Raritan Asset Management (Asset Strips for rack unit tracking)
+#
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
+  raritan_assetmanagement:
+    walk:
+      # Asset strip count and default LED colors
+      - "ASSETMANAGEMENT-MIB::assetStripCount"
+      - "ASSETMANAGEMENT-MIB::defaultLEDColorConnected"
+      - "ASSETMANAGEMENT-MIB::defaultLEDColorDisconnected"
+      # Asset strip configuration (strip state, rack unit count, etc.)
+      - "ASSETMANAGEMENT-MIB::assetStripConfigurationTable"
+      # Asset management table (tag IDs, rack unit positions, LED status)
+      - "ASSETMANAGEMENT-MIB::assetManagementTable"
+      # Blade extension table (for blade servers)
+      - "ASSETMANAGEMENT-MIB::bladeExtensionTable"
+    lookups:
+      - source_indexes: [assetStripID]
+        lookup: "ASSETMANAGEMENT-MIB::assetStripName"
+      - source_indexes: [assetStripID, rackUnitID]
+        lookup: "ASSETMANAGEMENT-MIB::rackUnitName"
+    overrides:
+      assetStripName:
+        ignore: true
+      rackUnitName:
+        ignore: true
+      assetStripState:
+        type: EnumAsStateSet
+      ledOperationMode:
+        type: EnumAsStateSet
+      ledMode:
+        type: EnumAsStateSet
+      rackUnitType:
+        type: EnumAsInfo
+      assetStripType:
+        type: EnumAsInfo
+      rackUnitNumberingMode:
+        type: EnumAsInfo
+      assetStripOrientation:
+        type: EnumAsInfo
+      tagID:
+        type: DisplayString
+      tagFamily:
+        type: DisplayString
 
 # InfraPower PDU's
 #
@@ -998,11 +1295,11 @@ modules:
       - 1.3.6.1.4.1.935.1.1.1.9.2.3   # upsEnvOverHumidity
       - 1.3.6.1.4.1.935.1.1.1.9.2.4   # upsEnvUnderHumidity
   # tplink ddm information for sfps
-  # 
+  #
   # Downloads can be found here:
   # https://www.tp-link.com/en/support/download/tl-sg3428x/
   #
-  # tested against TL SG3428X 
+  # tested against TL SG3428X
   tplink-ddm:
     walk:
       - ddmStatusBiasCurrent
@@ -1069,7 +1366,7 @@ modules:
     - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
     - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
-  
+
   # Juniper
   #
   # https://apps.juniper.net/mib-explorer/
@@ -1212,7 +1509,7 @@ modules:
         - bvValue
         lookup: bvDescription
 
-# Generic UPS Mibs from Observioum covering 
+# Generic UPS Mibs from Observioum covering
 # 1.3.6.1.2.1.33.1
 
   ups_mib:
