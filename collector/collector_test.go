@@ -737,6 +737,10 @@ func TestPduValueAsString(t *testing.T) {
 			result: "1",
 		},
 		{
+			pdu:    &gosnmp.SnmpPDU{Value: uint32(1)},
+			result: "1",
+		},
+		{
 			pdu:    &gosnmp.SnmpPDU{Value: uint64(1)},
 			result: "1",
 		},
@@ -1533,6 +1537,68 @@ func TestScrapeTarget(t *testing.T) {
 			},
 			getCall:  []string{"1.3.6.1.2.1.31.1.1.1.18.2", "1.3.6.1.2.1.31.1.1.1.18.3"},
 			walkCall: []string{"1.3.6.1.2.1.2.2.1.2"},
+		},
+		{
+			name: "filter NoSuchObject",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.2.0": {Type: gosnmp.NoSuchObject, Name: "1.3.6.1.2.1.1.2.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0"},
+			walkCall: []string{},
+		},
+		{
+			name: "filter NoSuchInstance",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.3.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.3.0": {Type: gosnmp.NoSuchInstance, Name: "1.3.6.1.2.1.1.3.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.3.0"},
+			walkCall: []string{},
+		},
+		{
+			name: "filter EndOfMibView",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.4.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.4.0": {Type: gosnmp.EndOfMibView, Name: "1.3.6.1.2.1.1.4.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.4.0"},
+			walkCall: []string{},
+		},
+		{
+			name: "filter all exception types",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0", "1.3.6.1.2.1.1.3.0", "1.3.6.1.2.1.1.4.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.2.0": {Type: gosnmp.NoSuchObject, Name: "1.3.6.1.2.1.1.2.0", Value: nil},
+				"1.3.6.1.2.1.1.3.0": {Type: gosnmp.NoSuchInstance, Name: "1.3.6.1.2.1.1.3.0", Value: nil},
+				"1.3.6.1.2.1.1.4.0": {Type: gosnmp.EndOfMibView, Name: "1.3.6.1.2.1.1.4.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0", "1.3.6.1.2.1.1.3.0", "1.3.6.1.2.1.1.4.0"},
+			walkCall: []string{},
 		},
 	}
 
