@@ -231,6 +231,40 @@ type DynamicFilter struct {
 	Values  []string `yaml:"values,omitempty"`
 }
 
+// FormatOp represents a single octet-format specification from RFC 2579 DISPLAY-HINT.
+// The generator parses DISPLAY-HINT strings into a slice of FormatOp, which the
+// collector applies at runtime without parsing. This enables automatic formatting
+// of unknown textual conventions that have valid DISPLAY-HINT definitions.
+type FormatOp struct {
+	Take       int    `yaml:"take"`                  // bytes to consume per application
+	StarPrefix bool   `yaml:"star_prefix,omitempty"` // '*' prefix - first byte is repeat count
+	Fmt        string `yaml:"fmt"`                   // "d", "x", "a", "t", "o"
+	Sep        string `yaml:"sep,omitempty"`         // separator after each application (RFC 2579 part 4)
+	Term       string `yaml:"term,omitempty"`        // terminator after repeat group (RFC 2579 part 5)
+}
+
+// UnmarshalYAML validates FormatOp fields at config load time.
+// Defensive check for hand-edited configs; malformed FormatSpec (e.g., Take <= 0)
+// could cause infinite loops or crashes at runtime.
+func (c *FormatOp) UnmarshalYAML(unmarshal func(any) error) error {
+	type plain FormatOp
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	if c.Take <= 0 {
+		return fmt.Errorf("format_spec take must be positive, got %d", c.Take)
+	}
+	switch c.Fmt {
+	case "d", "x", "o", "a", "t":
+		// Valid formats
+	case "":
+		return fmt.Errorf("format_spec fmt is required")
+	default:
+		return fmt.Errorf("format_spec fmt must be one of d, x, o, a, t; got %q", c.Fmt)
+	}
+	return nil
+}
+
 type Metric struct {
 	Name            string                     `yaml:"name"`
 	Oid             string                     `yaml:"oid"`
@@ -243,6 +277,7 @@ type Metric struct {
 	EnumValues      map[int]string             `yaml:"enum_values,omitempty"`
 	Offset          float64                    `yaml:"offset,omitempty"`
 	Scale           float64                    `yaml:"scale,omitempty"`
+	FormatSpec      []FormatOp                 `yaml:"format_spec,omitempty"`
 }
 
 type Index struct {
@@ -251,13 +286,15 @@ type Index struct {
 	FixedSize  int            `yaml:"fixed_size,omitempty"`
 	Implied    bool           `yaml:"implied,omitempty"`
 	EnumValues map[int]string `yaml:"enum_values,omitempty"`
+	FormatSpec []FormatOp     `yaml:"format_spec,omitempty"`
 }
 
 type Lookup struct {
-	Labels    []string `yaml:"labels"`
-	Labelname string   `yaml:"labelname"`
-	Oid       string   `yaml:"oid,omitempty"`
-	Type      string   `yaml:"type,omitempty"`
+	Labels     []string   `yaml:"labels"`
+	Labelname  string     `yaml:"labelname"`
+	Oid        string     `yaml:"oid,omitempty"`
+	Type       string     `yaml:"type,omitempty"`
+	FormatSpec []FormatOp `yaml:"format_spec,omitempty"`
 }
 
 // Secret is a string that must not be revealed on marshaling.

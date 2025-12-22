@@ -177,6 +177,8 @@ func metricType(t string) (string, bool) {
 		return t, true
 	case "EnumAsInfo", "EnumAsStateSet":
 		return t, true
+	case "DisplayHint":
+		return t, true
 	default:
 		// Unsupported type.
 		return "", false
@@ -205,6 +207,24 @@ func minimizeOids(oids []string) []string {
 		}
 	}
 	return minimized
+}
+
+// promoteToDisplayHint attempts to promote OctetString to DisplayHint using a MIB hint.
+// If currentType is already DisplayHint but no valid hint exists, logs a warning.
+// skipAutoPromotion should be true when the user explicitly requested OctetString output.
+func promoteToDisplayHint(hint string, typ *string, formatSpec *[]config.FormatOp, skipAutoPromotion bool, logger *slog.Logger, context string, logArgs ...any) {
+	currentType := *typ
+	if hint != "" && !skipAutoPromotion && (currentType == "OctetString" || currentType == "DisplayHint") {
+		if spec, err := parseDisplayHint(hint); err == nil {
+			*typ = "DisplayHint"
+			*formatSpec = spec
+		} else if currentType == "DisplayHint" {
+			args := append([]any{"hint", hint, "err", err}, logArgs...)
+			logger.Warn("DisplayHint type"+context+" but MIB hint unparseable, use display_hint override to specify format", args...)
+		}
+	} else if currentType == "DisplayHint" && hint == "" {
+		logger.Warn("DisplayHint type"+context+" but MIB has no DISPLAY-HINT, use display_hint override to specify format", logArgs...)
+	}
 }
 
 // Search node tree for the longest OID match.
@@ -367,6 +387,13 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				EnumValues: n.EnumValues,
 			}
 
+			// For OctetString types with DISPLAY-HINT, promote to DisplayHint type.
+			// For DisplayHint type overrides without display_hint, use MIB's hint.
+			// Note: Explicit OctetString override means user wants hex - don't auto-promote.
+			overrideType := cfg.Overrides[metric.Name].Type
+			promoteToDisplayHint(n.Hint, &metric.Type, &metric.FormatSpec,
+				overrideType == "OctetString", logger, " override", "node", n.Label)
+
 			if cfg.Overrides[metric.Name].Ignore {
 				return // Ignored metric.
 			}
@@ -392,6 +419,10 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					index.Implied = true
 				}
 				index.EnumValues = indexNode.EnumValues
+
+				// For OctetString indexes with DISPLAY-HINT, promote to DisplayHint type.
+				promoteToDisplayHint(indexNode.Hint, &index.Type, &index.FormatSpec,
+					false, logger, " override on index", "node", n.Label, "index", i)
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
@@ -460,6 +491,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					Type:      typ,
 					Oid:       indexNode.Oid,
 				}
+				// For OctetString lookups with DISPLAY-HINT, promote to DisplayHint type.
+				promoteToDisplayHint(indexNode.Hint, &l.Type, &l.FormatSpec,
+					false, logger, " override on lookup", "metric", metric.Name, "lookup", lookup.Lookup)
 				for _, oldIndex := range lookup.SourceIndexes {
 					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
 				}
@@ -548,6 +582,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 			if params.Name != "" {
 				metric.Name = params.Name
+			}
+			// Apply display_hint override: sets type to DisplayHint and parses the hint.
+			if params.DisplayHint != "" {
+				// parseDisplayHint already validated in UnmarshalYAML.
+				if spec, err := parseDisplayHint(params.DisplayHint); err == nil {
+					metric.Type = "DisplayHint"
+					metric.FormatSpec = spec
+				}
 			}
 		}
 	}

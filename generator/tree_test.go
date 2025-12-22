@@ -589,6 +589,66 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// DisplayHint type override without display_hint uses MIB's hint.
+		{
+			node: &Node{
+				Oid: "1", Type: "OTHER", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Type: "OCTETSTR", Label: "node1", Hint: "1d.1d.1d.1d"},
+				},
+			},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+				Overrides: map[string]MetricOverrides{
+					"node1": {Type: "DisplayHint"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "node1",
+						Oid:  "1.1",
+						Type: "DisplayHint",
+						Help: " - 1.1",
+						FormatSpec: []config.FormatOp{
+							{Take: 1, Fmt: "d", Sep: "."},
+							{Take: 1, Fmt: "d", Sep: "."},
+							{Take: 1, Fmt: "d", Sep: "."},
+							{Take: 1, Fmt: "d"},
+						},
+					},
+				},
+			},
+		},
+		// OctetString type override should NOT be promoted to DisplayHint.
+		// User explicitly wants hex output, even if MIB has DISPLAY-HINT.
+		{
+			node: &Node{
+				Oid: "1", Type: "OTHER", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Type: "OCTETSTR", Label: "node1", Hint: "1d.1d.1d.1d"},
+				},
+			},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+				Overrides: map[string]MetricOverrides{
+					"node1": {Type: "OctetString"},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "node1",
+						Oid:  "1.1",
+						Type: "OctetString",
+						Help: " - 1.1",
+						// No FormatSpec - user wants raw hex
+					},
+				},
+			},
+		},
 		// Enums
 		{
 			node: &Node{

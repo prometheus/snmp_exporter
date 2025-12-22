@@ -567,6 +567,40 @@ func TestPduToSample(t *testing.T) {
 				`Desc{fqName: "test_metric", help: "Help string (Bits)", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"missing"} gauge:{value:0}`,
 			},
 		},
+		// DisplayHint with regex_extracts - verifies FormatSpec is applied before regex matching.
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Value: []byte{192, 168, 1, 100}, // IP address bytes
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.1.1.1.1",
+				Type: "DisplayHint",
+				Help: "Help string",
+				FormatSpec: []config.FormatOp{
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d"},
+				},
+				RegexpExtracts: map[string][]config.RegexpExtract{
+					"_last_octet": {
+						{
+							Regex: config.Regexp{
+								regexp.MustCompile(`192\.168\.1\.(\d+)`),
+							},
+							Value: "$1",
+						},
+					},
+				},
+			},
+			oidToPdu: make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric_last_octet", help: "Help string (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:100}`,
+			},
+		},
 	}
 
 	for _, c := range cases {
@@ -1018,6 +1052,90 @@ func TestIndexesToLabels(t *testing.T) {
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "3"},
 		},
+		// DisplayHint type with FormatSpec applies RFC 2579 formatting.
+		{
+			oid: []int{4, 192, 168, 1, 1},
+			metric: config.Metric{Indexes: []*config.Index{{
+				Labelname: "l",
+				Type:      "DisplayHint",
+				FormatSpec: []config.FormatOp{
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d"},
+				},
+			}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.168.1.1"},
+		},
+		// DisplayHint with FixedSize.
+		{
+			oid: []int{192, 168, 1, 1},
+			metric: config.Metric{Indexes: []*config.Index{{
+				Labelname: "l",
+				Type:      "DisplayHint",
+				FixedSize: 4,
+				FormatSpec: []config.FormatOp{
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d"},
+				},
+			}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.168.1.1"},
+		},
+		// DisplayHint with Implied.
+		{
+			oid: []int{192, 168, 1, 1},
+			metric: config.Metric{Indexes: []*config.Index{{
+				Labelname: "l",
+				Type:      "DisplayHint",
+				Implied:   true,
+				FormatSpec: []config.FormatOp{
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d"},
+				},
+			}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.168.1.1"},
+		},
+		// DisplayHint with MAC-style hint (1x: implicit repetition).
+		{
+			oid: []int{6, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF},
+			metric: config.Metric{Indexes: []*config.Index{{
+				Labelname:  "l",
+				Type:       "DisplayHint",
+				FormatSpec: []config.FormatOp{{Take: 1, Fmt: "x", Sep: ":"}},
+			}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "aa:bb:cc:dd:ee:ff"},
+		},
+		// DisplayHint without FormatSpec falls back to hex (edge case).
+		{
+			oid:      []int{3, 65, 32, 255},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "DisplayHint"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0x4120FF"},
+		},
+		// OctetString always renders as raw hex, even if FormatSpec is present.
+		{
+			oid: []int{4, 192, 168, 1, 1},
+			metric: config.Metric{Indexes: []*config.Index{{
+				Labelname: "l",
+				Type:      "OctetString",
+				FormatSpec: []config.FormatOp{
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d", Sep: "."},
+					{Take: 1, Fmt: "d"},
+				},
+			}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0xC0A80101"},
+		},
 		{
 			oid: []int{3, 65, 32, 255},
 			metric: config.Metric{
@@ -1137,6 +1255,46 @@ func TestIndexesToLabels(t *testing.T) {
 				"1.1.3.8":     {Value: []byte{4, 5, 6, 7, 8, 9}},
 			},
 			result: map[string]string{"lldpRemTimeMark": "1", "lldpRemLocalPortNum": "8", "lldpRemIndex": "1", "lldpLocPortId": "04:05:06:07:08:09"},
+		},
+		// Lookup with DisplayHint + FormatSpec applies RFC 2579 formatting.
+		{
+			oid: []int{1},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{{
+					Labels:    []string{"idx"},
+					Labelname: "ip_addr",
+					Oid:       "1.2.3",
+					Type:      "DisplayHint",
+					FormatSpec: []config.FormatOp{
+						{Take: 1, Fmt: "d", Sep: "."},
+						{Take: 1, Fmt: "d", Sep: "."},
+						{Take: 1, Fmt: "d", Sep: "."},
+						{Take: 1, Fmt: "d"},
+					},
+				}},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{
+				"1.2.3.1": {Value: []byte{10, 0, 0, 1}},
+			},
+			result: map[string]string{"idx": "1", "ip_addr": "10.0.0.1"},
+		},
+		// Lookup with DisplayHint but no FormatSpec falls back to hex.
+		{
+			oid: []int{1},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{{
+					Labels:    []string{"idx"},
+					Labelname: "raw_data",
+					Oid:       "1.2.3",
+					Type:      "DisplayHint",
+				}},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{
+				"1.2.3.1": {Value: []byte{0xAB, 0xCD}},
+			},
+			result: map[string]string{"idx": "1", "raw_data": "0xABCD"},
 		},
 	}
 	for _, c := range cases {
@@ -1455,6 +1613,437 @@ func TestAddAllowedIndices(t *testing.T) {
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("addAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}
+	}
+}
+
+func TestApplyFormatSpec(t *testing.T) {
+	cases := []struct {
+		name   string
+		spec   []config.FormatOp
+		data   []byte
+		result string
+	}{
+		{
+			name:   "Empty spec returns hex",
+			spec:   []config.FormatOp{},
+			data:   []byte{0x01, 0x02, 0x03},
+			result: "010203",
+		},
+		{
+			name:   "Empty data returns empty hex",
+			spec:   []config.FormatOp{{Take: 1, Fmt: "d"}},
+			data:   []byte{},
+			result: "",
+		},
+		{
+			name: "InetAddressIPv4 - 1d.1d.1d.1d",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{192, 168, 1, 1},
+			result: "192.168.1.1",
+		},
+		{
+			name: "InetAddressIPv4z - 1d.1d.1d.1d%4d (zone ID)",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "%"},
+				{Take: 4, Fmt: "d"},
+			},
+			data:   []byte{192, 168, 1, 1, 0, 0, 0, 3},
+			result: "192.168.1.1%3",
+		},
+		{
+			name: "PhysAddress (MAC) - 1x: with implicit repetition",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "x", Sep: ":"},
+			},
+			data:   []byte{0x00, 0x1a, 0x2b, 0x3c, 0x4d, 0x5e},
+			result: "00:1a:2b:3c:4d:5e",
+		},
+		{
+			name: "InetAddressIPv6 - 2x:...:2x",
+			spec: []config.FormatOp{
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x"},
+			},
+			data:   []byte{0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
+			result: "2001:0db8:0000:0000:0000:0000:0000:0001",
+		},
+		{
+			name: "InetAddressIPv6z - IPv6 with zone ID",
+			spec: []config.FormatOp{
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: "%"},
+				{Take: 4, Fmt: "d"},
+			},
+			data:   []byte{0xfe, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x05},
+			result: "fe80:0000:0000:0000:0000:0000:0000:0001%5",
+		},
+		{
+			name: "DisplayString - 255a",
+			spec: []config.FormatOp{
+				{Take: 255, Fmt: "a"},
+			},
+			data:   []byte("Hello, World!"),
+			result: "Hello, World!",
+		},
+		{
+			name: "Simple decimal - 1d",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{42},
+			result: "42",
+		},
+		{
+			name: "Multi-byte decimal - 4d (DNS-SERVER-MIB)",
+			spec: []config.FormatOp{
+				{Take: 4, Fmt: "d"},
+			},
+			data:   []byte{0x00, 0x01, 0x00, 0x00},
+			result: "65536",
+		},
+		{
+			name: "Octal format - 1o",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "o"},
+			},
+			data:   []byte{8},
+			result: "10",
+		},
+		{
+			name: "Hex with dash separator - 1x- (ALCATEL-IND1-ISIS-SPB-MIB)",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "x", Sep: "-"},
+			},
+			data:   []byte{0xaa, 0xbb, 0xcc},
+			result: "aa-bb-cc",
+		},
+		{
+			name: "Star prefix repeat",
+			spec: []config.FormatOp{
+				{Take: 1, StarPrefix: true, Fmt: "x", Sep: ":"},
+			},
+			data:   []byte{3, 0xaa, 0xbb, 0xcc},
+			result: "aa:bb:cc",
+		},
+		{
+			name: "Star prefix with terminator",
+			spec: []config.FormatOp{
+				{Take: 1, StarPrefix: true, Fmt: "d", Sep: ".", Term: "/"},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{3, 10, 20, 30, 40},
+			result: "10.20.30/40",
+		},
+		{
+			name: "Trailing separator suppressed",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "d", Sep: "."},
+			},
+			data:   []byte{1, 2, 3},
+			result: "1.2.3",
+		},
+		{
+			name: "DateAndTime-like format - 2d-1d-1d,1d:1d:1d.1d",
+			spec: []config.FormatOp{
+				{Take: 2, Fmt: "d", Sep: "-"},
+				{Take: 1, Fmt: "d", Sep: "-"},
+				{Take: 1, Fmt: "d", Sep: ","},
+				{Take: 1, Fmt: "d", Sep: ":"},
+				{Take: 1, Fmt: "d", Sep: ":"},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{0x07, 0xE6, 8, 15, 8, 1, 15, 0},
+			result: "2022-8-15,8:1:15.0",
+		},
+		{
+			name: "Data shorter than spec",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{10, 20},
+			result: "10.20",
+		},
+		{
+			name: "UTF-8 format - 1t (F5-PLATFORM-STATS-MIB)",
+			spec: []config.FormatOp{
+				{Take: 10, Fmt: "t"},
+			},
+			data:   []byte("hello"),
+			result: "hello",
+		},
+		{
+			name: "UUID format (UUID-TC-MIB) - 4x-2x-2x-1x1x-6x",
+			spec: []config.FormatOp{
+				{Take: 4, Fmt: "x", Sep: "-"},
+				{Take: 2, Fmt: "x", Sep: "-"},
+				{Take: 2, Fmt: "x", Sep: "-"},
+				{Take: 1, Fmt: "x"},
+				{Take: 1, Fmt: "x", Sep: "-"},
+				{Take: 6, Fmt: "x"},
+			},
+			data:   []byte{0x12, 0x34, 0x56, 0x78, 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x00, 0x11, 0x22, 0x33, 0x44, 0x55},
+			result: "12345678-abcd-ef01-2345-001122334455",
+		},
+		{
+			name: "IPv4 with prefix (VIPTELA-OPER-BGP) - 1d.1d.1d.1d/1d",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "/"},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{192, 168, 1, 0, 24},
+			result: "192.168.1.0/24",
+		},
+		{
+			name: "IPv4 with port (MPLS-TC-STD-MIB) - 1d.1d.1d.1d:2d",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: ":"},
+				{Take: 2, Fmt: "d"},
+			},
+			data:   []byte{192, 168, 1, 1, 0x1f, 0x90}, // port 8080
+			result: "192.168.1.1:8080",
+		},
+		{
+			name: "Version number (RAISECOM-SYSTEM-MIB) - 4d.4d.4d.4d",
+			spec: []config.FormatOp{
+				{Take: 4, Fmt: "d", Sep: "."},
+				{Take: 4, Fmt: "d", Sep: "."},
+				{Take: 4, Fmt: "d", Sep: "."},
+				{Take: 4, Fmt: "d"},
+			},
+			data:   []byte{0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4},
+			result: "1.2.3.4",
+		},
+		{
+			name: "VPN RD (JUNIPER-VPN-MIB) - 2x-1d.1d.1d.1d:2d",
+			spec: []config.FormatOp{
+				{Take: 2, Fmt: "x", Sep: "-"},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: ":"},
+				{Take: 2, Fmt: "d"},
+			},
+			data:   []byte{0x00, 0x01, 192, 168, 1, 1, 0x00, 0x64}, // type 1, 192.168.1.1:100
+			result: "0001-192.168.1.1:100",
+		},
+		{
+			name: "Simple date (ADVA-MIB) - 2d-1d-1d",
+			spec: []config.FormatOp{
+				{Take: 2, Fmt: "d", Sep: "-"},
+				{Take: 1, Fmt: "d", Sep: "-"},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{0x07, 0xe9, 12, 25}, // 2025-12-25
+			result: "2025-12-25",
+		},
+		{
+			name: "MAC with dash (TPLINK-TC-MIB) - 1x-1x-1x-1x-1x-1x",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "x", Sep: "-"},
+				{Take: 1, Fmt: "x", Sep: "-"},
+				{Take: 1, Fmt: "x", Sep: "-"},
+				{Take: 1, Fmt: "x", Sep: "-"},
+				{Take: 1, Fmt: "x", Sep: "-"},
+				{Take: 1, Fmt: "x"},
+			},
+			data:   []byte{0x00, 0x1a, 0x2b, 0x3c, 0x4d, 0x5e},
+			result: "00-1a-2b-3c-4d-5e",
+		},
+		{
+			name: "Bridge ID (PRVT-SPANNING-TREE-MIB) - 2d.1x:1x:1x:1x:1x:1x",
+			spec: []config.FormatOp{
+				{Take: 2, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "x", Sep: ":"},
+				{Take: 1, Fmt: "x", Sep: ":"},
+				{Take: 1, Fmt: "x", Sep: ":"},
+				{Take: 1, Fmt: "x", Sep: ":"},
+				{Take: 1, Fmt: "x", Sep: ":"},
+				{Take: 1, Fmt: "x"},
+			},
+			data:   []byte{0x80, 0x00, 0x00, 0x1a, 0x2b, 0x3c, 0x4d, 0x5e}, // priority 32768
+			result: "32768.00:1a:2b:3c:4d:5e",
+		},
+		{
+			name: "IPv6-mapped IPv4 (WATCHGUARD-IPSEC-SA-MON-MIB-EXT)",
+			spec: []config.FormatOp{
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 2, Fmt: "x", Sep: ":"},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d", Sep: "."},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 192, 168, 1, 1},
+			result: "0000:0000:0000:0000:0000:ffff:192.168.1.1",
+		},
+		{
+			name: "Timezone offset (SNMPv2-TC DateAndTime suffix) - 1a1d:1d",
+			spec: []config.FormatOp{
+				{Take: 1, Fmt: "a"},
+				{Take: 1, Fmt: "d", Sep: ":"},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{'+', 5, 30}, // +05:30
+			result: "+5:30",
+		},
+		{
+			name: "Zero octet length produces empty output",
+			spec: []config.FormatOp{
+				{Take: 0, Fmt: "a"},
+				{Take: 1, Fmt: "d"},
+			},
+			data:   []byte{42},
+			result: "42",
+		},
+		// Note: applyFormatSpec produces raw bytes for 'a' and 't' formats.
+		// Invalid UTF-8 is sanitized at call sites via strings.ToValidUTF8().
+		// The following tests document the raw output behavior.
+		{
+			name: "ASCII format with high bytes (raw output)",
+			spec: []config.FormatOp{
+				{Take: 10, Fmt: "a"},
+			},
+			data:   []byte{'H', 'i', 0x80, 0xFF}, // 0x80 and 0xFF are invalid UTF-8
+			result: "Hi\x80\xff",                 // Raw bytes preserved
+		},
+		{
+			name: "UTF-8 format with incomplete sequence (raw output)",
+			spec: []config.FormatOp{
+				{Take: 10, Fmt: "t"},
+			},
+			data:   []byte{'O', 'K', 0xC2}, // 0xC2 starts a 2-byte sequence but is incomplete
+			result: "OK\xc2",               // Raw bytes preserved
+		},
+		{
+			name: "Star prefix with repeat count zero",
+			spec: []config.FormatOp{
+				{Take: 1, StarPrefix: true, Fmt: "x", Sep: ":"},
+			},
+			// repeat=0 means skip, then read next byte (0x02) as count, apply 2 times
+			data:   []byte{0, 2, 0xaa, 0xbb},
+			result: "aa:bb",
+		},
+		{
+			name: "Star prefix with repeat count zero followed by another spec",
+			spec: []config.FormatOp{
+				{Take: 1, StarPrefix: true, Fmt: "x", Sep: ":"},
+				{Take: 1, Fmt: "d", Sep: "."},
+			},
+			data:   []byte{0, 10, 20, 30}, // repeat=0 for first spec, second spec applies with implicit repetition
+			result: "10.20.30",
+		},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			got := applyFormatSpec(c.spec, c.data)
+			if got != c.result {
+				t.Errorf("applyFormatSpec(%v, %v): got %q, want %q", c.spec, c.data, got, c.result)
+			}
+		})
+	}
+}
+
+// TestApplyFormatSpecUTF8Sanitization verifies that invalid UTF-8 is sanitized
+// when applyFormatSpec results are wrapped with strings.ToValidUTF8 (as done at call sites).
+func TestApplyFormatSpecUTF8Sanitization(t *testing.T) {
+	cases := []struct {
+		name   string
+		spec   []config.FormatOp
+		data   []byte
+		result string
+	}{
+		{
+			name: "ASCII format with invalid UTF-8 bytes sanitized",
+			spec: []config.FormatOp{
+				{Take: 10, Fmt: "a"},
+			},
+			data:   []byte{'H', 'i', 0x80, 0xFF, '!'},
+			result: "Hi�!", // Consecutive invalid bytes replaced with single replacement char
+		},
+		{
+			name: "UTF-8 format with incomplete sequence sanitized",
+			spec: []config.FormatOp{
+				{Take: 10, Fmt: "t"},
+			},
+			data:   []byte{'O', 'K', 0xC2}, // 0xC2 starts 2-byte sequence, incomplete
+			result: "OK�",
+		},
+		{
+			name: "UTF-8 format with overlong encoding sanitized",
+			spec: []config.FormatOp{
+				{Take: 10, Fmt: "t"},
+			},
+			data:   []byte{0xC0, 0x80}, // Overlong encoding of NUL - treated as single invalid sequence
+			result: "�",
+		},
+		{
+			name: "UTF-8 format with invalid continuation byte sanitized",
+			spec: []config.FormatOp{
+				{Take: 10, Fmt: "t"},
+			},
+			data:   []byte{'A', 0xE2, 0x28, 0xA1}, // 0xE2 expects valid continuation, 0x28 is not
+			result: "A�(�",
+		},
+		{
+			name: "Valid UTF-8 preserved",
+			spec: []config.FormatOp{
+				{Take: 20, Fmt: "t"},
+			},
+			data:   []byte("Hello, 世界!"),
+			result: "Hello, 世界!",
+		},
+		{
+			name: "Mixed valid and invalid UTF-8",
+			spec: []config.FormatOp{
+				{Take: 20, Fmt: "t"},
+			},
+			data:   []byte{'H', 'i', 0xFF, 0xFE, ' ', 0xE4, 0xB8, 0x96}, // "Hi" + invalid + " " + "世"
+			result: "Hi� 世",                                             // Consecutive invalid bytes replaced with single replacement char
+		},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			// This mirrors the call site behavior: applyFormatSpec wrapped with ToValidUTF8
+			raw := applyFormatSpec(c.spec, c.data)
+			got := strings.ToValidUTF8(raw, "�")
+			if got != c.result {
+				t.Errorf("ToValidUTF8(applyFormatSpec(%v, %v)): got %q, want %q", c.spec, c.data, got, c.result)
+			}
+		})
 	}
 }
 

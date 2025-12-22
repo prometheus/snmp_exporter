@@ -175,7 +175,10 @@ modules:
         type: DisplayString # Override the metric type, possible types are:
                              #   gauge:   An integer with type gauge.
                              #   counter: An integer with type counter.
-                             #   OctetString: A bit string, rendered as 0xff34.
+                             #   OctetString: A bit string, rendered as 0xff34. Use to disable
+                             #       automatic DISPLAY-HINT formatting when raw hex is preferred.
+                             #   DisplayHint: Format per RFC 2579 DISPLAY-HINT. See display_hint option.
+                             #       Textual conventions with valid MIB hints are auto-formatted.
                              #   DateAndTime: An RFC 2579 DateAndTime byte sequence. If the device has no time zone data, UTC is used.
                              #   ParseDateAndTime: Parse a DisplayString and return the timestamp. See datetime_pattern config option
                              #   NTPTimeStamp: Parse the NTP timestamp (RFC-1305, March 1992, Section 3.1) and return Unix timestamp as float.
@@ -191,6 +194,10 @@ modules:
                              #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
                              #   Bits: An RFC 2578 BITS construct, which produces a StateSet with a time series per bit.
+        display_hint: "1d.1d.1d.1d" # RFC 2579 DISPLAY-HINT string. Implies type: DisplayHint.
+                                    # Use for MIBs with broken/missing hints, or to override the MIB's hint.
+                                    # Examples: "1d.1d.1d.1d" (IPv4), "1x:" (MAC), "255a" (ASCII string),
+                                    #           "1d.1d.1d.1d%4d" (InetAddressIPv4z: 192.168.1.1%42).
 
     filters: # Define filters to collect only a subset of OID table indices
       static: # static filters are handled in the generator. They will convert walks to multiple gets with the specified indices

@@ -661,14 +661,26 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 			}
 		}
 
+		// Get the string value, using FormatSpec for DisplayHint types.
+		var pduStr string
+		if metricType == "DisplayHint" && len(metric.FormatSpec) > 0 {
+			if bytes, ok := pdu.Value.([]byte); ok {
+				pduStr = strings.ToValidUTF8(applyFormatSpec(metric.FormatSpec, bytes), "�")
+			} else {
+				pduStr = pduValueAsString(pdu, metricType, metrics)
+			}
+		} else {
+			pduStr = pduValueAsString(pdu, metricType, metrics)
+		}
+
 		if len(metric.RegexpExtracts) > 0 {
-			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType, metrics), labelnames, labelvalues, logger)
+			return applyRegexExtracts(metric, pduStr, labelnames, labelvalues, logger)
 		}
 		// For strings we put the value as a label with the same name as the metric.
 		// If the name is already an index, we do not need to set it again.
 		if _, ok := labels[metric.Name]; !ok {
 			labelnames = append(labelnames, metric.Name)
-			labelvalues = append(labelvalues, pduValueAsString(pdu, metricType, metrics))
+			labelvalues = append(labelvalues, pduStr)
 		}
 	}
 
@@ -841,11 +853,11 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
 		for i, o := range v {
 			parts[i] = int(o)
 		}
-		if typ == "OctetString" || typ == "DisplayString" {
+		if typ == "OctetString" || typ == "DisplayString" || typ == "DisplayHint" {
 			// Prepend the length, as it is explicit in an index.
 			parts = append([]int{len(v)}, parts...)
 		}
-		str, _, _ := indexOidsAsString(parts, typ, 0, false, nil)
+		str, _, _ := indexOidsAsString(parts, typ, 0, false, nil, nil)
 		return strings.ToValidUTF8(str, "�")
 	case nil:
 		return ""
@@ -859,7 +871,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
 // Convert oids to a string index value.
 //
 // Returns the string, the oids that were used and the oids left over.
-func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool, enumValues map[int]string) (string, []int, []int) {
+func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool, enumValues map[int]string, formatSpec []config.FormatOp) (string, []int, []int) {
 	if typeMapping, ok := combinedTypeMapping[typ]; ok {
 		subOid, valueOids := splitOid(indexOids, 2)
 		if typ == "InetAddressMissingSize" {
@@ -869,15 +881,15 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		var str string
 		var used, remaining []int
 		if t, ok := typeMapping[subOid[0]]; ok {
-			str, used, remaining = indexOidsAsString(valueOids, t, 0, false, enumValues)
+			str, used, remaining = indexOidsAsString(valueOids, t, 0, false, enumValues, nil)
 			return str, append(subOid, used...), remaining
 		}
 		if typ == "InetAddressMissingSize" {
 			// We don't know the size, so pass everything remaining.
-			return indexOidsAsString(indexOids, "OctetString", 0, true, enumValues)
+			return indexOidsAsString(indexOids, "OctetString", 0, true, enumValues, nil)
 		}
 		// The 2nd oid is the length.
-		return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false, enumValues)
+		return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false, enumValues, nil)
 	}
 
 	switch typ {
@@ -953,6 +965,31 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 			return value, subOid, indexOids
 		}
 		return fmt.Sprintf("%d", subOid[0]), subOid, indexOids
+	case "DisplayHint":
+		// DisplayHint uses the same index extraction as OctetString.
+		var subOid []int
+		length := fixedSize
+		if implied {
+			length = len(indexOids)
+		}
+		if length == 0 {
+			subOid, indexOids = splitOid(indexOids, 1)
+			length = subOid[0]
+		}
+		content, indexOids := splitOid(indexOids, length)
+		subOid = append(subOid, content...)
+		parts := make([]byte, length)
+		for i, o := range content {
+			parts[i] = byte(o)
+		}
+		if len(parts) == 0 {
+			return "", subOid, indexOids
+		}
+		// Apply FormatSpec if available, otherwise return hex dump.
+		if len(formatSpec) > 0 {
+			return strings.ToValidUTF8(applyFormatSpec(formatSpec, parts), "�"), subOid, indexOids
+		}
+		return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
 	default:
 		panic(fmt.Sprintf("Unknown index type %s", typ))
 	}
@@ -965,13 +1002,97 @@ func getPrevOid(oid string) string {
 	return strings.Join(oids, ".")
 }
 
+// applyFormatSpec applies an RFC 2579 DISPLAY-HINT format specification to raw bytes.
+// The format spec is pre-parsed by the generator into a slice of FormatOp.
+// This implements RFC 2579's implicit repetition rule: the last spec repeats until data is exhausted.
+// Trailing separators are suppressed per the RFC.
+func applyFormatSpec(spec []config.FormatOp, data []byte) string {
+	if len(spec) == 0 || len(data) == 0 {
+		return hex.EncodeToString(data)
+	}
+
+	var result strings.Builder
+	result.Grow(len(data) * 4) // Preallocate for typical output size
+	pos := 0
+	specIdx := 0
+
+	for pos < len(data) {
+		op := spec[specIdx]
+
+		// Handle '*' repeat indicator: first byte is repeat count
+		repeatCount := 1
+		if op.StarPrefix && pos < len(data) {
+			repeatCount = int(data[pos])
+			pos++
+		}
+
+		for r := 0; r < repeatCount && pos < len(data); r++ {
+			end := pos + op.Take
+			if end > len(data) {
+				end = len(data)
+			}
+			chunk := data[pos:end]
+
+			// Format the chunk
+			switch op.Fmt {
+			case "d":
+				// Multi-byte = single big-endian integer
+				var val uint64
+				for _, b := range chunk {
+					val = (val << 8) | uint64(b)
+				}
+				result.WriteString(strconv.FormatUint(val, 10))
+			case "x":
+				// Multi-byte = single big-endian hex value
+				var val uint64
+				for _, b := range chunk {
+					val = (val << 8) | uint64(b)
+				}
+				result.WriteString(fmt.Sprintf("%0*x", len(chunk)*2, val))
+			case "o":
+				var val uint64
+				for _, b := range chunk {
+					val = (val << 8) | uint64(b)
+				}
+				result.WriteString(strconv.FormatUint(val, 8))
+			case "a", "t":
+				result.Write(chunk)
+			}
+			pos = end
+
+			// Emit separator (RFC 2579: suppressed if last char of output)
+			moreData := pos < len(data)
+			if op.Sep != "" && moreData {
+				// Also suppress if next char would be terminator
+				if op.Term == "" || r != repeatCount-1 {
+					result.WriteString(op.Sep)
+				}
+			}
+		}
+
+		// Emit terminator after repeat group (if present)
+		if op.Term != "" && pos < len(data) {
+			result.WriteString(op.Term)
+		}
+
+		// Advance to next spec, or stay on last (implicit repetition)
+		if specIdx < len(spec)-1 {
+			specIdx++
+		}
+		// If specIdx == len(spec)-1 and data remains, loop continues
+		// applying the last spec (RFC 2579 implicit repetition rule)
+	}
+	return result.String()
+}
+
 func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, metrics Metrics) map[string]string {
 	labels := map[string]string{}
 	labelOids := map[string][]int{}
 
 	// Covert indexes to useful strings.
 	for _, index := range metric.Indexes {
-		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize, index.Implied, index.EnumValues)
+		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize, index.Implied, index.EnumValues, index.FormatSpec)
+
 		// The labelvalue is the text form of the index oids.
 		labels[index.Labelname] = str
 		// Save its oid in case we need it for lookups.
@@ -1003,6 +1124,14 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 					if ty, ok := typeMapping[val]; ok {
 						t = ty
 					}
+				}
+			}
+			// For DisplayHint lookups with FormatSpec, apply formatting.
+			if t == "DisplayHint" && len(lookup.FormatSpec) > 0 {
+				if bytes, ok := pdu.Value.([]byte); ok {
+					labels[lookup.Labelname] = strings.ToValidUTF8(applyFormatSpec(lookup.FormatSpec, bytes), "�")
+					labelOids[lookup.Labelname] = []int{int(gosnmp.ToBigInt(pdu.Value).Int64())}
+					continue
 				}
 			}
 			labels[lookup.Labelname] = pduValueAsString(&pdu, t, metrics)

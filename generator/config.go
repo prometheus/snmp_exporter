@@ -36,6 +36,7 @@ type MetricOverrides struct {
 	Type            string                            `yaml:"type,omitempty"`
 	Help            string                            `yaml:"help,omitempty"`
 	Name            string                            `yaml:"name,omitempty"`
+	DisplayHint     string                            `yaml:"display_hint,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
@@ -48,6 +49,18 @@ func (c *MetricOverrides) UnmarshalYAML(unmarshal func(any) error) error {
 	typ, ok := metricType(c.Type)
 	if c.Type != "" && (!ok || typ != c.Type) {
 		return fmt.Errorf("invalid metric type override '%s'", c.Type)
+	}
+
+	// Validate display_hint if provided.
+	if c.DisplayHint != "" {
+		// Check for conflicting type: OctetString + display_hint.
+		if c.Type == "OctetString" {
+			return fmt.Errorf("conflicting overrides: type 'OctetString' (raw hex) cannot be combined with display_hint")
+		}
+		// Validate that the display_hint string is parseable.
+		if _, err := parseDisplayHint(c.DisplayHint); err != nil {
+			return fmt.Errorf("invalid display_hint '%s': %w", c.DisplayHint, err)
+		}
 	}
 
 	return nil
