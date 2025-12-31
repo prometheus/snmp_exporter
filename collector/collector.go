@@ -143,7 +143,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 			return results, fmt.Errorf("error reported by target %s: Error Status %d", target, packet.Error)
 		}
 		for _, v := range packet.Variables {
-			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
+			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance || v.Type == gosnmp.EndOfMibView {
 				logger.Debug("OID not supported by target", "oids", v.Name)
 				continue
 			}
@@ -818,6 +818,8 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
 	case int:
 		return strconv.Itoa(v)
 	case uint:
+		return strconv.FormatUint(uint64(v), 10)
+	case uint32:
 		return strconv.FormatUint(uint64(v), 10)
 	case uint64:
 		return strconv.FormatUint(v, 10)
