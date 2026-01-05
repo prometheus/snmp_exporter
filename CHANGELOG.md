@@ -1,3 +1,7 @@
+## 0.30.1 / 2026-01-06
+
+* [BUGFIX] Fix gosnmp import #1547
+
 ## 0.30.0 / 2026-01-05
 
 * [FEATURE] Add snmp_engineid support #1482
