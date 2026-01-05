@@ -1,3 +1,22 @@
+## 0.30.0 / 2026-01-05
+
+* [FEATURE] Add snmp_engineid support #1482
+* [ENHANCEMENT] Warn if configuration file not found, fail if missing auths or modules #1457
+* [ENHANCEMENT] Optimize OID conversion functions with pre-allocation #1533
+* [ENHANCEMENT] Handle uint32 type in pduValueAsString #1542
+* [BUGFIX] Fix generator Makefile user agent #1476
+
+snmp.yml changes:
+* Update ELTEX MIB #1435
+* Update keepalived MIB #1455
+* Add UPS MIB #1464
+* Improve APC UPS module #1494
+* Add NAPT metrics in nec_ix module #1497
+* Annotate supply metrics with prtMarkerSuppliesDescription #1513
+* Add picoExtIfDescr label to nec_ix module #1514
+* Update Raritan PDU2 MIB #1535
+* Add Cisco Core metrics #1536
+
 ## 0.29.0 / 2025-04-23
 
 * [CHANGE] generator: fail early for bad walk OID #1411
