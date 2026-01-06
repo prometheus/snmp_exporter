@@ -804,7 +804,7 @@ func TestPduValueAsString(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := pduValueAsString(c.pdu, c.typ, Metrics{})
+		got := pduValueAsString(c.pdu, c.typ, "", Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("pduValueAsString(%v, %q): got %q, want %q", c.pdu, c.typ, got, c.result)
 		}
