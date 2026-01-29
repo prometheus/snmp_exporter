@@ -52599,6 +52599,7 @@ modules:
     walk:
     - 1.3.6.1.4.1.1718.3.2.2
     - 1.3.6.1.4.1.1718.3.2.3
+    - 1.3.6.1.4.1.1718.3.2.7
     metrics:
     - name: infeedIndex
       oid: 1.3.6.1.4.1.1718.3.2.2.1.1
@@ -53123,6 +53124,128 @@ modules:
       - labelname: infeedIndex
         type: gauge
       - labelname: outletIndex
+        type: gauge
+    - name: branchIndex
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.1
+      type: gauge
+      help: Index for the branch table. - 1.3.6.1.4.1.1718.3.2.7.1.1
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+    - name: branchID
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+      type: DisplayString
+      help: The ID of the branch. - 1.3.6.1.4.1.1718.3.2.7.1.2
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+    - name: branchName
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+      type: DisplayString
+      help: The name of the branch. - 1.3.6.1.4.1.1718.3.2.7.1.3
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+    - name: branchCapabilities
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.4
+      type: Bits
+      help: The capabilities of the branch. - 1.3.6.1.4.1.1718.3.2.7.1.4
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+      enum_values:
+        0: onSense
+        1: loadSense
+    - name: branchStatus
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.5
+      type: gauge
+      help: The status of the branch. - 1.3.6.1.4.1.1718.3.2.7.1.5
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+      enum_values:
+        0: "off"
+        1: "on"
+        2: offWait
+        3: onWait
+        4: offError
+        5: onError
+        6: noComm
+        7: reading
+        8: offFuse
+        9: onFuse
+    - name: branchLoadStatus
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.6
+      type: gauge
+      help: The status of the load measured on the branch. - 1.3.6.1.4.1.1718.3.2.7.1.6
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+      enum_values:
+        0: normal
+        1: notOn
+        2: reading
+        3: loadLow
+        4: loadHigh
+        5: overLoad
+        6: readError
+        7: noComm
+    - name: branchLoadValue
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.7
+      type: gauge
+      help: The load measured on the branch - 1.3.6.1.4.1.1718.3.2.7.1.7
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+    - name: branchLoadHighThresh
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.8
+      type: gauge
+      help: The load high threshold value of the branch in Amps. - 1.3.6.1.4.1.1718.3.2.7.1.8
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
+        type: gauge
+    - name: branchCapacity
+      oid: 1.3.6.1.4.1.1718.3.2.7.1.9
+      type: gauge
+      help: The load capacity of the branch - 1.3.6.1.4.1.1718.3.2.7.1.9
+      indexes:
+      - labelname: towerIndex
+        type: gauge
+      - labelname: infeedIndex
+        type: gauge
+      - labelname: branchIndex
         type: gauge
     max_repetitions: 4
   servertech_sentry4:
