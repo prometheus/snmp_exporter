@@ -13,6 +13,7 @@
 
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
+SNMP_YML ?= '../snmp.yml'
 
 CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail
 CURL_USER_AGENT ?= -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 snmp_exporter/generator"
@@ -115,7 +116,7 @@ generator: *.go
 	go build
 
 generate: generator mibs
-	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate --output-path=$(SNMP_YML)
 
 parse_errors: generator mibs
 	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors parse_errors
