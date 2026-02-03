@@ -419,9 +419,22 @@ modules:
   servertech_sentry3:
     max_repetitions: 4 # See https://github.com/prometheus/snmp_exporter/issues/1080
     walk:
-      - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
-      - 1.3.6.1.4.1.1718.3.2.3  # outletTable
-      - 1.3.6.1.4.1.1718.3.2.7  # branchTable
+      - "Sentry3-MIB::infeedTable"  # 1.3.6.1.4.1.1718.3.2.2
+      - "Sentry3-MIB::outletTable"  # 1.3.6.1.4.1.1718.3.2.3
+      - "Sentry3-MIB::branchTable"  # 1.3.6.1.4.1.1718.3.2.7
+    lookups:
+      - source_indexes: [towerIndex, infeedIndex]
+        lookup: infeedID
+      - source_indexes: [towerIndex, infeedIndex]
+        lookup: infeedName
+      - source_indexes: [towerIndex, infeedIndex, outletIndex]
+        lookup: outletID
+      - source_indexes: [towerIndex, infeedIndex, outletIndex]
+        lookup: outletName
+      - source_indexes: [towerIndex, infeedIndex, branchIndex]
+        lookup: branchID
+      - source_indexes: [towerIndex, infeedIndex, branchIndex]
+        lookup: branchName
     overrides:
       infeedCapacityUsed:
         ignore: true  # Composite metric: infeedLoadValue / infeedCapacity * 100

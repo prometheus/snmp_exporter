@@ -52610,6 +52610,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedID
       oid: 1.3.6.1.4.1.1718.3.2.2.1.2
       type: DisplayString
@@ -52619,6 +52632,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedName
       oid: 1.3.6.1.4.1.1718.3.2.2.1.3
       type: DisplayString
@@ -52628,6 +52654,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedCapabilities
       oid: 1.3.6.1.4.1.1718.3.2.2.1.4
       type: Bits
@@ -52637,6 +52676,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
       enum_values:
         0: onSense
         1: loadSense
@@ -52656,6 +52708,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
       enum_values:
         0: "off"
         1: "on"
@@ -52676,6 +52741,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
       enum_values:
         0: normal
         1: notOn
@@ -52694,6 +52772,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedLoadHighThresh
       oid: 1.3.6.1.4.1.1718.3.2.2.1.8
       type: gauge
@@ -52703,6 +52794,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedOutletCount
       oid: 1.3.6.1.4.1.1718.3.2.2.1.9
       type: gauge
@@ -52713,6 +52817,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedCapacity
       oid: 1.3.6.1.4.1.1718.3.2.2.1.10
       type: gauge
@@ -52722,6 +52839,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedVoltage
       oid: 1.3.6.1.4.1.1718.3.2.2.1.11
       type: gauge
@@ -52731,6 +52861,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedPower
       oid: 1.3.6.1.4.1.1718.3.2.2.1.12
       type: gauge
@@ -52740,6 +52883,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedApparentPower
       oid: 1.3.6.1.4.1.1718.3.2.2.1.13
       type: gauge
@@ -52749,6 +52905,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedPowerFactor
       oid: 1.3.6.1.4.1.1718.3.2.2.1.14
       type: gauge
@@ -52758,6 +52927,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedCrestFactor
       oid: 1.3.6.1.4.1.1718.3.2.2.1.15
       type: gauge
@@ -52767,6 +52949,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedEnergy
       oid: 1.3.6.1.4.1.1718.3.2.2.1.16
       type: gauge
@@ -52776,6 +52971,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedReactance
       oid: 1.3.6.1.4.1.1718.3.2.2.1.17
       type: gauge
@@ -52786,6 +52994,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
       enum_values:
         0: unknown
         1: capacitive
@@ -52800,6 +53021,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedPhaseCurrent
       oid: 1.3.6.1.4.1.1718.3.2.2.1.19
       type: gauge
@@ -52809,6 +53043,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedLineID
       oid: 1.3.6.1.4.1.1718.3.2.2.1.21
       type: DisplayString
@@ -52818,6 +53065,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedLineToLineID
       oid: 1.3.6.1.4.1.1718.3.2.2.1.22
       type: DisplayString
@@ -52827,6 +53087,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedPhaseID
       oid: 1.3.6.1.4.1.1718.3.2.2.1.23
       type: DisplayString
@@ -52836,6 +53109,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: infeedVACapacity
       oid: 1.3.6.1.4.1.1718.3.2.2.1.24
       type: gauge
@@ -52845,6 +53131,19 @@ modules:
         type: gauge
       - labelname: infeedIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
     - name: outletIndex
       oid: 1.3.6.1.4.1.1718.3.2.3.1.1
       type: gauge
@@ -52856,6 +53155,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletID
       oid: 1.3.6.1.4.1.1718.3.2.3.1.2
       type: DisplayString
@@ -52867,6 +53193,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletName
       oid: 1.3.6.1.4.1.1718.3.2.3.1.3
       type: DisplayString
@@ -52878,6 +53231,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletCapabilities
       oid: 1.3.6.1.4.1.1718.3.2.3.1.4
       type: Bits
@@ -52889,6 +53269,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
       enum_values:
         0: onSense
         1: loadSense
@@ -52910,6 +53317,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
       enum_values:
         0: "off"
         1: "on"
@@ -52932,6 +53366,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
       enum_values:
         0: normal
         1: notOn
@@ -52952,6 +53413,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletLoadLowThresh
       oid: 1.3.6.1.4.1.1718.3.2.3.1.8
       type: gauge
@@ -52963,6 +53451,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletLoadHighThresh
       oid: 1.3.6.1.4.1.1718.3.2.3.1.9
       type: gauge
@@ -52974,6 +53489,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletControlState
       oid: 1.3.6.1.4.1.1718.3.2.3.1.10
       type: gauge
@@ -52985,6 +53527,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
       enum_values:
         0: idleOff
         1: idleOn
@@ -53015,6 +53584,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
       enum_values:
         0: none
         1: "on"
@@ -53031,6 +53627,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletVoltage
       oid: 1.3.6.1.4.1.1718.3.2.3.1.13
       type: gauge
@@ -53042,6 +53665,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletPower
       oid: 1.3.6.1.4.1.1718.3.2.3.1.14
       type: gauge
@@ -53053,6 +53703,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletApparentPower
       oid: 1.3.6.1.4.1.1718.3.2.3.1.15
       type: gauge
@@ -53065,6 +53742,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletPowerFactor
       oid: 1.3.6.1.4.1.1718.3.2.3.1.16
       type: gauge
@@ -53076,6 +53780,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletCrestFactor
       oid: 1.3.6.1.4.1.1718.3.2.3.1.17
       type: gauge
@@ -53088,6 +53819,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletEnergy
       oid: 1.3.6.1.4.1.1718.3.2.3.1.18
       type: gauge
@@ -53099,6 +53857,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: outletWakeupState
       oid: 1.3.6.1.4.1.1718.3.2.3.1.19
       type: gauge
@@ -53110,6 +53895,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
       enum_values:
         1: last
         2: "off"
@@ -53125,6 +53937,33 @@ modules:
         type: gauge
       - labelname: outletIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletID
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.1718.3.2.3.1.3
+        type: DisplayString
     - name: branchIndex
       oid: 1.3.6.1.4.1.1718.3.2.7.1.1
       type: gauge
@@ -53136,6 +53975,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
     - name: branchID
       oid: 1.3.6.1.4.1.1718.3.2.7.1.2
       type: DisplayString
@@ -53147,6 +54013,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
     - name: branchName
       oid: 1.3.6.1.4.1.1718.3.2.7.1.3
       type: DisplayString
@@ -53158,6 +54051,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
     - name: branchCapabilities
       oid: 1.3.6.1.4.1.1718.3.2.7.1.4
       type: Bits
@@ -53169,6 +54089,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
       enum_values:
         0: onSense
         1: loadSense
@@ -53183,6 +54130,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
       enum_values:
         0: "off"
         1: "on"
@@ -53205,6 +54179,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
       enum_values:
         0: normal
         1: notOn
@@ -53225,6 +54226,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
     - name: branchLoadHighThresh
       oid: 1.3.6.1.4.1.1718.3.2.7.1.8
       type: gauge
@@ -53236,6 +54264,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
     - name: branchCapacity
       oid: 1.3.6.1.4.1.1718.3.2.7.1.9
       type: gauge
@@ -53247,6 +54302,33 @@ modules:
         type: gauge
       - labelname: branchIndex
         type: gauge
+      lookups:
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedID
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        labelname: infeedName
+        oid: 1.3.6.1.4.1.1718.3.2.2.1.3
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchID
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.2
+        type: DisplayString
+      - labels:
+        - towerIndex
+        - infeedIndex
+        - branchIndex
+        labelname: branchName
+        oid: 1.3.6.1.4.1.1718.3.2.7.1.3
+        type: DisplayString
     max_repetitions: 4
   servertech_sentry4:
     walk:
