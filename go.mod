@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
-	github.com/gosnmp/gosnmp v1.43.1
+	github.com/gosnmp/gosnmp v1.43.2
 	github.com/itchyny/timefmt-go v0.1.7
 	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/client_model v0.6.2
@@ -31,7 +31,7 @@ require (
 	golang.org/x/net v0.48.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/sys v0.40.0 // indirect
 	golang.org/x/text v0.32.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
