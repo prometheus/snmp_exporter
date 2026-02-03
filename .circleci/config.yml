@@ -45,7 +45,7 @@ jobs:
     - run: make generator
     - run: make parse_errors
     - run: make generate
-    - run: diff -u ../snmp.yml snmp.yml
+    - run: git diff --exit-code
 
   publish_generator_main:
     executor: golang
