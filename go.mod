@@ -8,7 +8,7 @@ require (
 	github.com/itchyny/timefmt-go v0.1.7
 	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/client_model v0.6.2
-	github.com/prometheus/common v0.67.4
+	github.com/prometheus/common v0.67.5
 	github.com/prometheus/exporter-toolkit v0.15.1
 	go.yaml.in/yaml/v2 v2.4.3
 )
@@ -34,5 +34,5 @@ require (
 	golang.org/x/sys v0.40.0 // indirect
 	golang.org/x/text v0.32.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
-	google.golang.org/protobuf v1.36.10 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 )
