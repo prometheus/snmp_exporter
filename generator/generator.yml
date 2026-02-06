@@ -449,39 +449,49 @@ modules:
 # https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib
   servertech_sentry4:
     walk:
-      - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.7.3   # st4BranchMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.8.3   # st4OutletMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.9.3   # st4TempSensorMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.14.3  # st4FanSensorMonitorTable
-
+      - "Sentry4-MIB::st4InputCordMonitorTable"   # 1.3.6.1.4.1.1718.4.1.3.3
+      - "Sentry4-MIB::st4LineMonitorTable"        # 1.3.6.1.4.1.1718.4.1.4.3
+      - "Sentry4-MIB::st4PhaseMonitorTable"       # 1.3.6.1.4.1.1718.4.1.5.3
+      - "Sentry4-MIB::st4BranchMonitorTable"      # 1.3.6.1.4.1.1718.4.1.7.3
+      - "Sentry4-MIB::st4OutletMonitorTable"      # 1.3.6.1.4.1.1718.4.1.8.3
+      - "Sentry4-MIB::st4TempSensorMonitorTable"  # 1.3.6.1.4.1.1718.4.1.9.3
+      - "Sentry4-MIB::st4FanSensorMonitorTable"   # 1.3.6.1.4.1.1718.4.1.14.3
     lookups:
-      - source_indexes: [st4UnitIndex]
-        lookup: st4UnitName
+      - source_indexes: [st4UnitIndex, st4InputCordIndex]
+        lookup: st4InputCordID
       - source_indexes: [st4UnitIndex, st4InputCordIndex]
         lookup: st4InputCordName
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
+        lookup: st4LineID
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
         lookup: st4LineLabel
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
+        lookup: st4PhaseID
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
         lookup: st4PhaseLabel
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
+        lookup: st4BranchID
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
         lookup: st4BranchLabel
         drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
+        lookup: st4OutletID
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
         lookup: st4OutletName
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
+        lookup: st4AdcSensorID
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
         lookup: st4AdcSensorName
         drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4AdcSensorIndex, st4FanSensorIndex]
-        lookup: st4AdcSensorName
-        drop_source_indexes: true
-
+      - source_indexes: [st4UnitIndex, st4FanSensorIndex]
+        lookup: st4FanSensorID
+      - source_indexes: [st4UnitIndex, st4FanSensorIndex]
+        lookup: st4FanSensorName
     overrides:
       st4TempSensorValue:
         scale: 0.1
