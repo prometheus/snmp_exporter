@@ -185,7 +185,7 @@ func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus
 	for _, pdu := range pdus {
 		found := false
 		for _, val := range filter.Values {
-			snmpval := pduValueAsString(&pdu, "DisplayString", metrics)
+			snmpval := pduValueAsString(&pdu, "DisplayString", "", metrics)
 			logger.Debug("evaluating filters", "config value", val, "snmp value", snmpval)
 
 			if regexp.MustCompile(val).MatchString(snmpval) {
@@ -567,7 +567,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 }
 
 func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, metrics Metrics) (float64, error) {
-	pduValue := pduValueAsString(pdu, "DisplayString", metrics)
+	pduValue := pduValueAsString(pdu, "DisplayString", "", metrics)
 	t, err := timefmt.Parse(pduValue, metric.DateTimePattern)
 	if err != nil {
 		return 0, fmt.Errorf("error parsing date and time %w", err)
@@ -662,13 +662,13 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		}
 
 		if len(metric.RegexpExtracts) > 0 {
-			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType, metrics), labelnames, labelvalues, logger)
+			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType, metric.DisplayHint, metrics), labelnames, labelvalues, logger)
 		}
 		// For strings we put the value as a label with the same name as the metric.
 		// If the name is already an index, we do not need to set it again.
 		if _, ok := labels[metric.Name]; !ok {
 			labelnames = append(labelnames, metric.Name)
-			labelvalues = append(labelvalues, pduValueAsString(pdu, metricType, metrics))
+			labelvalues = append(labelvalues, pduValueAsString(pdu, metricType, metric.DisplayHint, metrics))
 		}
 	}
 
@@ -813,7 +813,7 @@ func splitOid(oid []int, count int) ([]int, []int) {
 }
 
 // This mirrors decodeValue in gosnmp's helper.go.
-func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
+func pduValueAsString(pdu *gosnmp.SnmpPDU, typ, displayHint string, metrics Metrics) string {
 	switch v := pdu.Value.(type) {
 	case int:
 		return strconv.Itoa(v)
@@ -835,6 +835,13 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
 		// DisplayString.
 		return strings.ToValidUTF8(v, "�")
 	case []byte:
+		// Apply DISPLAY-HINT if provided and type is OctetString
+		if displayHint != "" && (typ == "" || typ == "OctetString") {
+			if result, ok := applyDisplayHint(displayHint, v); ok {
+				return strings.ToValidUTF8(result, "�")
+			}
+			// Fall through to default formatting on parse error
+		}
 		if typ == "" || typ == "Bits" {
 			typ = "OctetString"
 		}
@@ -1007,7 +1014,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 					}
 				}
 			}
-			labels[lookup.Labelname] = pduValueAsString(&pdu, t, metrics)
+			labels[lookup.Labelname] = pduValueAsString(&pdu, t, lookup.DisplayHint, metrics)
 			labelOids[lookup.Labelname] = []int{int(gosnmp.ToBigInt(pdu.Value).Int64())}
 		} else {
 			labels[lookup.Labelname] = ""

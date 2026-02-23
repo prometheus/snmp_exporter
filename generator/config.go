@@ -36,6 +36,7 @@ type MetricOverrides struct {
 	Type            string                            `yaml:"type,omitempty"`
 	Help            string                            `yaml:"help,omitempty"`
 	Name            string                            `yaml:"name,omitempty"`
+	DisplayHint     string                            `yaml:"display_hint,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
@@ -85,4 +86,5 @@ type Lookup struct {
 	SourceIndexes     []string `yaml:"source_indexes"`
 	Lookup            string   `yaml:"lookup"`
 	DropSourceIndexes bool     `yaml:"drop_source_indexes,omitempty"`
+	DisplayHint       string   `yaml:"display_hint,omitempty"`
 }

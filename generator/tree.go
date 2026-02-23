@@ -460,6 +460,19 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					Type:      typ,
 					Oid:       indexNode.Oid,
 				}
+				// Handle display_hint for lookup
+				if lookup.DisplayHint != "" {
+					if lookup.DisplayHint == "@mib" {
+						// Resolve @mib sentinel to the MIB's DISPLAY-HINT
+						if indexNode.Hint != "" {
+							l.DisplayHint = indexNode.Hint
+						} else {
+							logger.Warn("display_hint @mib specified but MIB has no DISPLAY-HINT", "lookup", lookup.Lookup)
+						}
+					} else {
+						l.DisplayHint = lookup.DisplayHint
+					}
+				}
 				for _, oldIndex := range lookup.SourceIndexes {
 					l.Labels = append(l.Labels, sanitizeLabelName(oldIndex))
 				}
@@ -548,6 +561,18 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 			if params.Name != "" {
 				metric.Name = params.Name
+			}
+			if params.DisplayHint != "" {
+				if params.DisplayHint == "@mib" {
+					// Resolve @mib sentinel to the MIB's DISPLAY-HINT
+					if n, ok := nameToNode[metric.Oid]; ok && n.Hint != "" {
+						metric.DisplayHint = n.Hint
+					} else {
+						logger.Warn("display_hint @mib specified but MIB has no DISPLAY-HINT", "metric", metric.Oid)
+					}
+				} else {
+					metric.DisplayHint = params.DisplayHint
+				}
 			}
 		}
 	}
