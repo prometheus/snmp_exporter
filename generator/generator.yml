@@ -144,6 +144,112 @@ modules:
       - 1.3.6.1.4.1.674.10892.5.2 # statusGroup
       - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
       - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
+
+# DELL-RAC-MIB
+  dell_rac:
+    walk:
+      - DELL-RAC-MIB::drsCMCPowerTable
+      - DELL-RAC-MIB::drsCMCPSUTable
+    overrides:
+      drsKWhCumulativeTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsMaxPowerSpecification:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPotentialPower:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPowerSurplus:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsIdlePower:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsAmpsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsKWhCumulative:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPSULocation:
+        type: DisplayString
+      drsPSUAmpsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPSUWattsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPSUVoltsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsMinTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsMinUsage:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsPeakTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsPeakUsage:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsResetTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+
 # Dell network (Force10)
   dell_network:
     walk:
