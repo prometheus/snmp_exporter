@@ -59018,9 +59018,9 @@ modules:
       - labelname: diskSMARTInfoIndex
         type: gauge
     - name: diskSMARTAttrRaw
-      oid: 1.3.6.1.4.1.6574.5.1.1.8
+      oid: 1.3.6.1.4.1.6574.5.1.1.10
       type: gauge
-      help: SMART attribute raw value - 1.3.6.1.4.1.6574.5.1.1.8
+      help: SMART attribute raw value - 1.3.6.1.4.1.6574.5.1.1.10
       indexes:
       - labelname: diskSMARTInfoIndex
         type: gauge
