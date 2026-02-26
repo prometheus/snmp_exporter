@@ -173,10 +173,10 @@ modules:
 # MES 2448P
   eltex_mes:
     walk:
-     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
-     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
-     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
-     - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
+      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
+      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
+      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
+      - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
 
 # HPE MIBs
   hpe:
@@ -1387,9 +1387,9 @@ modules:
               value: '$1'
   cisco_imc:
     walk:
-    - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
-    - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
-    - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
+      - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
+      - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
+      - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
 
   # Juniper
   #
@@ -1515,22 +1515,22 @@ modules:
         ignore: true
     lookups:
       - source_indexes:
-        - aiValue
+          - aiValue
         lookup: aiDescription
       - source_indexes:
-        - aoValue
+          - aoValue
         lookup: aoDescription
       - source_indexes:
-        - avValue
+          - avValue
         lookup: avDescription
       - source_indexes:
-        - biValue
+          - biValue
         lookup: biDescription
       - source_indexes:
-        - boValue
+          - boValue
         lookup: boDescription
       - source_indexes:
-        - bvValue
+          - bvValue
         lookup: bvDescription
 
 # Generic UPS Mibs from Observioum covering
