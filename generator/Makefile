@@ -35,7 +35,7 @@ endif
 APC_URL           := https://raw.githubusercontent.com/prometheus-community/snmp/refs/heads/main/apc/PowerNet-MIB
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
-DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
+DELL_OM_URL       := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
 ELTEX_MES_URL     := https://api.prod.eltex-co.ru/storage/upload_center/files/49/mibs_10.4.3.3.zip
 DELL_NETWORK_URL  := https://supportkb.dell.com/attachment/ka02R000000I7TFQA0/Current_MIBs_pkb_en_US_1.zip
@@ -97,8 +97,9 @@ clean:
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
-		$(MIBDIR)/.dlink-mibs \
 		$(MIBDIR)/.dell-network \
+		$(MIBDIR)/.dell-om-mibs \
+		$(MIBDIR)/.dlink-mibs \
 		$(MIBDIR)/.hpe-mib \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
@@ -146,7 +147,7 @@ mibs: \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/iDRAC-SMIv2.mib \
+  $(MIBDIR)/.dell-om-mibs \
   $(MIBDIR)/.hpe-mib \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
@@ -218,12 +219,16 @@ $(MIBDIR)/AIRESPACE-WIRELESS-MIB:
 	@echo ">> Downloading Cisco AIRESPACE-WIRELESS-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CISCO_URL)/AIRESPACE-WIRELESS-MIB.my"
 
-$(MIBDIR)/iDRAC-SMIv2.mib:
+$(MIBDIR)/.dell-om-mibs:
 	$(eval TMP := $(shell mktemp))
+	$(eval TMP_DIR := $(shell mktemp -d))
 	@echo ">> Downloading dell to $(TMP)"
-	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-SMIv2.mib
-	@rm -v $(TMP)
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_OM_URL)
+	@unzip -j -d $(TMP_DIR) $(TMP)
+	@cp -v $(TMP_DIR)/iDRAC-SMIv2.mib $(MIBDIR)
+	@cp -v $(TMP_DIR)/DELL-RAC-MIB.txt $(MIBDIR)
+	@rm -rvf $(TMP_DIR) $(TMP)
+	@touch $(MIBDIR)/.dell-om-mibs
 
 $(MIBDIR)/.hpe-mib:
 	$(eval TMP := $(shell mktemp))
