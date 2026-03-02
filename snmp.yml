@@ -14121,6 +14121,284 @@ modules:
       indexes:
       - labelname: dellNetFlashPartitionNumber
         type: gauge
+  dell_rac:
+    walk:
+    - 1.3.6.1.4.1.674.10892.2.4.1
+    - 1.3.6.1.4.1.674.10892.2.4.2
+    metrics:
+    - name: drsChassisIndex
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.1
+      type: gauge
+      help: 0004.0001.0001.0001 This attribute defines the index (one-based) of the
+        associated chassis. - 1.3.6.1.4.1.674.10892.2.4.1.1.1
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+    - name: drsPotentialPower
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.2
+      type: DisplayString
+      help: 0004.0001.0001.0002 This attribute defines the power (in Watts) required
+        by the chassis infrastructure, plus the sum of the maximum power requirements
+        for all currently powered-on servers. - 1.3.6.1.4.1.674.10892.2.4.1.1.2
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsIdlePower
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.3
+      type: DisplayString
+      help: 0004.0001.0001.0003 This attribute defines the power (in Watts) required
+        by the chassis infrastructure, plus the sum of the minimum power requirements
+        for all currently powered-on servers. - 1.3.6.1.4.1.674.10892.2.4.1.1.3
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsMaxPowerSpecification
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.4
+      type: DisplayString
+      help: 0004.0001.0001.0004 This attribute defines the power limit (in Watts)
+        at which server throttling will take place. - 1.3.6.1.4.1.674.10892.2.4.1.1.4
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsPowerSurplus
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.5
+      type: DisplayString
+      help: 0004.0001.0001.0005 This attribute defines the power surplus (in Watts)
+        remaining above the drsPotentialPower reading. - 1.3.6.1.4.1.674.10892.2.4.1.1.5
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsKWhCumulative
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.6
+      type: DisplayString
+      help: 0004.0001.0001.0006 This attribute defines the cumulative chassis power
+        usage (in KWh) since last reset. - 1.3.6.1.4.1.674.10892.2.4.1.1.6
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsKWhCumulativeTime
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.7
+      type: DisplayString
+      help: 0004.0001.0001.0007 This attribute defines the timestamp of the most recent
+        chassis power accumulator reset. - 1.3.6.1.4.1.674.10892.2.4.1.1.7
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsWattsPeakUsage
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.8
+      type: DisplayString
+      help: 0004.0001.0001.0008 This attribute defines the chassis peak power usage
+        (in Watts) since last reset. - 1.3.6.1.4.1.674.10892.2.4.1.1.8
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsWattsPeakTime
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.9
+      type: DisplayString
+      help: 0004.0001.0001.0009 This attribute defines the timestamp of the most recent
+        chassis peak power usage. - 1.3.6.1.4.1.674.10892.2.4.1.1.9
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsWattsMinUsage
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.10
+      type: DisplayString
+      help: 0004.0001.0001.0010 This attribute defines the chassis mimimum power usage
+        (in Watts) since last reset. - 1.3.6.1.4.1.674.10892.2.4.1.1.10
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsWattsMinTime
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.11
+      type: DisplayString
+      help: 0004.0001.0001.0011 This attribute defines the timestamp of the most recent
+        chassis minimum power usage. - 1.3.6.1.4.1.674.10892.2.4.1.1.11
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsWattsResetTime
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.12
+      type: DisplayString
+      help: 0004.0001.0001.0012 This attribute defines the timestamp of the most recent
+        reset of the chassis min/peak Watts readings. - 1.3.6.1.4.1.674.10892.2.4.1.1.12
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsWattsReading
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.13
+      type: DisplayString
+      help: 0004.0001.0001.0013 This attribute defines the instantaneous chassis power
+        usage (in Watts). - 1.3.6.1.4.1.674.10892.2.4.1.1.13
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsAmpsReading
+      oid: 1.3.6.1.4.1.674.10892.2.4.1.1.14
+      type: DisplayString
+      help: 0004.0001.0001.0014 This attribute defines the instantaneous chassis current
+        usage (in Watts). - 1.3.6.1.4.1.674.10892.2.4.1.1.14
+      indexes:
+      - labelname: drsChassisIndex
+        type: gauge
+        fixed_size: 1
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsPSUChassisIndex
+      oid: 1.3.6.1.4.1.674.10892.2.4.2.1.1
+      type: gauge
+      help: 0004.0002.0001.0001 This attribute defines the index (one-based) of the
+        associated chassis. - 1.3.6.1.4.1.674.10892.2.4.2.1.1
+      indexes:
+      - labelname: drsPSUChassisIndex
+        type: gauge
+        fixed_size: 1
+      - labelname: drsPSUIndex
+        type: gauge
+    - name: drsPSUIndex
+      oid: 1.3.6.1.4.1.674.10892.2.4.2.1.2
+      type: gauge
+      help: 0004.0002.0001.0002 This attribute defines the index (one-based) of the
+        associated CMC PSU. - 1.3.6.1.4.1.674.10892.2.4.2.1.2
+      indexes:
+      - labelname: drsPSUChassisIndex
+        type: gauge
+        fixed_size: 1
+      - labelname: drsPSUIndex
+        type: gauge
+    - name: drsPSULocation
+      oid: 1.3.6.1.4.1.674.10892.2.4.2.1.3
+      type: DisplayString
+      help: 0004.0002.0001.0003 This attribute defines the location of the CMC PSU.
+        - 1.3.6.1.4.1.674.10892.2.4.2.1.3
+      indexes:
+      - labelname: drsPSUChassisIndex
+        type: gauge
+        fixed_size: 1
+      - labelname: drsPSUIndex
+        type: gauge
+    - name: drsPSUMonitoringCapable
+      oid: 1.3.6.1.4.1.674.10892.2.4.2.1.4
+      type: gauge
+      help: 0004.0002.0001.0004 This attribute defines the PSU Monitoring capabilities,
+        or the absence of a PSU in this location. - 1.3.6.1.4.1.674.10892.2.4.2.1.4
+      indexes:
+      - labelname: drsPSUChassisIndex
+        type: gauge
+        fixed_size: 1
+      - labelname: drsPSUIndex
+        type: gauge
+      enum_values:
+        1: absent
+        2: none
+        3: basic
+    - name: drsPSUVoltsReading
+      oid: 1.3.6.1.4.1.674.10892.2.4.2.1.5
+      type: DisplayString
+      help: 0004.0002.0001.0005 This attribute defines the instantaneous PSU Voltage
+        reading. - 1.3.6.1.4.1.674.10892.2.4.2.1.5
+      indexes:
+      - labelname: drsPSUChassisIndex
+        type: gauge
+        fixed_size: 1
+      - labelname: drsPSUIndex
+        type: gauge
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsPSUAmpsReading
+      oid: 1.3.6.1.4.1.674.10892.2.4.2.1.6
+      type: DisplayString
+      help: 0004.0002.0001.0006 This attribute defines the instantaneous PSU Current
+        reading. - 1.3.6.1.4.1.674.10892.2.4.2.1.6
+      indexes:
+      - labelname: drsPSUChassisIndex
+        type: gauge
+        fixed_size: 1
+      - labelname: drsPSUIndex
+        type: gauge
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
+    - name: drsPSUWattsReading
+      oid: 1.3.6.1.4.1.674.10892.2.4.2.1.7
+      type: DisplayString
+      help: 0004.0002.0001.0007 This attribute defines the instantaneous PSU Wattage
+        reading. - 1.3.6.1.4.1.674.10892.2.4.2.1.7
+      indexes:
+      - labelname: drsPSUChassisIndex
+        type: gauge
+        fixed_size: 1
+      - labelname: drsPSUIndex
+        type: gauge
+      regex_extracts:
+        "":
+        - value: $1
+          regex: ^(?:(.*))$
   dlink:
     walk:
     - 1.3.6.1.4.1.171.12.1.1.6
