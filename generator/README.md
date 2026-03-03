@@ -143,6 +143,9 @@ modules:
         lookup: bsnDot11EssSsid
         drop_source_indexes: false  # If true, delete source index labels for this lookup.
                                     # This avoids label clutter when the new index is unique.
+        display_hint: "@mib"        # RFC 2579 DISPLAY-HINT to format the lookup value as a string.
+                                    # Useful when lookup values display as hex (e.g., 0x48656C6C6F) instead of text.
+                                    # Use "@mib" to use the hint from the MIB, or provide a custom hint string.
 
       # It is also possible to chain lookups or use multiple labels to gather label values.
       # This might be helpful to resolve multiple index labels to a proper human readable label.
@@ -191,6 +194,11 @@ modules:
                              #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
                              #   Bits: An RFC 2578 BITS construct, which produces a StateSet with a time series per bit.
+        display_hint: "255a" # RFC 2579 DISPLAY-HINT to format OctetString values as readable strings.
+                             # Useful when vendor-specific types display as hex instead of text.
+                             # Use "@mib" to use the hint from the MIB, or provide a custom hint.
+                             # Only applies to OctetString types; ignored for types with dedicated handlers.
+                             # See the "DISPLAY-HINT for OctetString" section below for format details.
 
     filters: # Define filters to collect only a subset of OID table indices
       static: # static filters are handled in the generator. They will convert walks to multiple gets with the specified indices
@@ -235,6 +243,52 @@ a device type, the name of a colour etc. It is important that this value is cons
 to alert on. For example the link state, is it up or down, is it in an error state,
 whether a panel is open or closed etc. Please be careful to not use this for high
 cardinality values as it will generate 1 time series per possible value.
+
+### DISPLAY-HINT for OctetString
+
+When the snmp_exporter encounters an OctetString with an unknown textual convention, it
+renders the value as hexadecimal (e.g., `0x506F776572456467652052373530`). This often
+happens with vendor-specific types that have a DISPLAY-HINT in the MIB but no built-in
+handler in the exporter.
+
+The `display_hint` override lets you format these values as readable strings. Use `@mib`
+to apply the hint from the MIB (resolved through TC imports), or provide a custom hint string.
+
+Hint format (RFC 2579 Section 3.1): each specifier is `<length><format><separator>` where:
+- `length` - bytes to consume per application (e.g., `1`, `2`, `255`)
+- `format` - output format: `a` (ASCII), `t` (UTF-8), `d` (decimal), `x` (hex), `o` (octal)
+- `separator` - optional character emitted after each application (e.g., `:`, `.`, `-`)
+
+The last specifier repeats for remaining data (implicit repetition). For example, `1x:`
+applied to 6 bytes produces `AA:BB:CC:DD:EE:FF` - the `1x:` spec repeats 6 times.
+
+Common patterns:
+| Hint | Description | Example Output |
+|------|-------------|----------------|
+| `255a` | ASCII text | `PowerEdge R750` |
+| `32a`, `64a` | ASCII with different length limits | `eth0` |
+| `1x:` | Hex bytes, colon separator (MAC) | `00:1A:2B:3C:4D:5E` |
+| `1x-` | Hex bytes, dash separator (Windows MAC) | `00-1A-2B-3C-4D-5E` |
+| `1x` | Hex bytes, no separator | `001A2B3C4D5E` |
+| `1d.` | Decimal bytes, dot separator (IPv4) | `192.168.1.1` |
+| `2x:` | Hex pairs, colon separator (IPv6) | `2001:0DB8:0000:0001` |
+| `1x:1x:1x:1x:1x:1x:1x:1x` | 8-byte WWN (Fibre Channel) | `20:00:00:1B:32:A1:C0:9F` |
+
+Notes:
+- The length number is bytes consumed per application, not a maximum string length
+- `a` and `t` are usually interchangeable; `t` indicates UTF-8 explicitly
+- Hex output (`x`) is uppercase and zero-padded (e.g., `1x` outputs `0A` not `A`)
+- Trailing separators are automatically suppressed
+- Can be combined with `regex_extracts`: `display_hint` formats the value, then `regex_extracts` matches against the result
+
+Example: A vendor MIB defines `modelName` with hint `255a`, but the exporter shows
+`0x506F77657245646765` instead of `PowerEdge`. Adding `display_hint: "@mib"` to the
+override will format it correctly.
+
+See https://www.rfc-editor.org/rfc/rfc2579#section-3.1 for the full specification.
+
+This only applies to OctetString types. Types with dedicated handlers (DisplayString,
+PhysAddress48, InetAddressIPv4, etc.) ignore this setting.
 
 ## Where to get MIBs
 
