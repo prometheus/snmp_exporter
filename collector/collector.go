@@ -990,7 +990,11 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 		}
 		oid := lookup.Oid
 		for _, label := range lookup.Labels {
-			oid = fmt.Sprintf("%s.%s", oid, listToOid(labelOids[label]))
+			if _, err := strconv.ParseUint(label, 10, 64); err == nil {
+				oid = fmt.Sprintf("%s.%v", oid, label)
+			} else {
+				oid = fmt.Sprintf("%s.%s", oid, listToOid(labelOids[label]))
+			}
 		}
 		if pdu, ok := oidToPdu[oid]; ok {
 			t := lookup.Type
