@@ -358,6 +358,7 @@ $(MIBDIR)/.synology:
 	@echo ">> Downloading synology to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(SYNOLOGY_URL)
 	@unzip -j -d $(MIBDIR) $(TMP)
+	@patch mibs/SYNOLOGY-SMART-MIB.txt mib-patches/SYNOLOGY-SMART-MIB.0.patch
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.synology
 
