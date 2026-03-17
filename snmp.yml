@@ -59312,6 +59312,13 @@ modules:
       indexes:
       - labelname: diskSMARTInfoIndex
         type: gauge
+    - name: diskSMARTAttrRaw64
+      oid: 1.3.6.1.4.1.6574.5.1.1.10
+      type: counter
+      help: SMART attribute raw value with 64-bit capacity - 1.3.6.1.4.1.6574.5.1.1.10
+      indexes:
+      - labelname: diskSMARTInfoIndex
+        type: gauge
     - name: serviceInfoIndex
       oid: 1.3.6.1.4.1.6574.6.1.1.1
       type: gauge

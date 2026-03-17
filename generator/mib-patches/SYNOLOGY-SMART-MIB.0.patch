@@ -1,0 +1,35 @@
+--- SYNOLOGY-SMART-MIB.txt.orig	2026-03-16 16:08:45.666867623 +0100
++++ mibs/SYNOLOGY-SMART-MIB.txt	2026-03-16 16:18:19.739944908 +0100
+@@ -3,7 +3,7 @@
+ IMPORTS
+ 	OBJECT-GROUP, MODULE-COMPLIANCE
+ 		FROM SNMPv2-CONF
+-	OBJECT-TYPE, Integer32, enterprises, MODULE-IDENTITY
++	OBJECT-TYPE, Integer32, Counter64, enterprises, MODULE-IDENTITY
+ 		FROM SNMPv2-SMI;
+ 
+ synologyDiskSMART MODULE-IDENTITY
+@@ -44,7 +44,8 @@
+ 	diskSMARTAttrWorst		Integer32,
+ 	diskSMARTAttrThreshold	Integer32,
+ 	diskSMARTAttrRaw		Integer32,
+-	diskSMARTAttrStatus		OCTET STRING
++	diskSMARTAttrStatus		OCTET STRING,
++	diskSMARTAttrRaw64		Counter64
+ }
+ 
+ diskSMARTInfoIndex OBJECT-TYPE
+@@ -110,6 +111,13 @@
+ 	DESCRIPTION	"SMART attribute status"
+ 	::= { diskSMARTEntry 9 }
+ 
++diskSMARTAttrRaw64 OBJECT-TYPE
++	SYNTAX		Counter64
++	MAX-ACCESS	read-only
++	STATUS		current
++	DESCRIPTION	"SMART attribute raw value with 64-bit capacity"
++	::= { diskSMARTEntry 10 }
++
+ synologyDiskSMARTConformance	OBJECT IDENTIFIER ::= { synologyDiskSMART 2 }
+ synologyDiskSMARTCompliances	OBJECT IDENTIFIER ::= { synologyDiskSMARTConformance 1 }
+ synologyDiskSMARTGroups			OBJECT IDENTIFIER ::= { synologyDiskSMARTConformance 2 }
