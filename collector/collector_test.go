@@ -724,9 +724,10 @@ func TestSplitOid(t *testing.T) {
 
 func TestPduValueAsString(t *testing.T) {
 	cases := []struct {
-		pdu    *gosnmp.SnmpPDU
-		typ    string
-		result string
+		pdu         *gosnmp.SnmpPDU
+		typ         string
+		displayHint string
+		result      string
 	}{
 		{
 			pdu:    &gosnmp.SnmpPDU{Value: int(-1)},
@@ -802,11 +803,39 @@ func TestPduValueAsString(t *testing.T) {
 			typ:    "DisplayString",
 			result: "sane�",
 		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{0x00, 0x1a, 0x2b, 0x3c, 0x4d, 0x5e}},
+			typ:    "PhysAddress48",
+			result: "00:1A:2B:3C:4D:5E",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{192, 168, 1, 1}},
+			typ:         "OctetString",
+			displayHint: "1d.1d.1d.1d",
+			result:      "192.168.1.1",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{0x00, 0x1a, 0x2b, 0x3c, 0x4d, 0x5e}},
+			displayHint: "1x:",
+			result:      "00:1A:2B:3C:4D:5E",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{65, 66}},
+			typ:         "DisplayString",
+			displayHint: "1x:",
+			result:      "AB",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{127, 128, 255, 0}},
+			typ:         "OctetString",
+			displayHint: "z",
+			result:      "0x7F80FF00",
+		},
 	}
 	for _, c := range cases {
-		got := pduValueAsString(c.pdu, c.typ, "", Metrics{})
+		got := pduValueAsString(c.pdu, c.typ, c.displayHint, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
-			t.Errorf("pduValueAsString(%v, %q): got %q, want %q", c.pdu, c.typ, got, c.result)
+			t.Errorf("pduValueAsString(%v, %q, %q): got %q, want %q", c.pdu, c.typ, c.displayHint, got, c.result)
 		}
 	}
 }
