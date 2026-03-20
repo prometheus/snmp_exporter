@@ -202,6 +202,56 @@ func TestPduToSample(t *testing.T) {
 		{
 			pdu: &gosnmp.SnmpPDU{
 				Name:  "1.1.1.1.1",
+				Value: "70",
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:  "TestMetricName",
+				Oid:   "1.1.1.1.1",
+				Help:  "HelpText",
+				Scale: 0.1,
+				RegexpExtracts: map[string][]config.RegexpExtract{
+					"": {
+						{
+							Regex: config.Regexp{regexp.MustCompile(`(.*)`)},
+							Value: "$1",
+						},
+					},
+				},
+			},
+			oidToPdu: make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{
+				`Desc{fqName: "TestMetricName", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:7}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Value: "10",
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:   "TestMetricName",
+				Oid:    "1.1.1.1.1",
+				Help:   "HelpText",
+				Offset: 5,
+				RegexpExtracts: map[string][]config.RegexpExtract{
+					"": {
+						{
+							Regex: config.Regexp{regexp.MustCompile(`(.*)`)},
+							Value: "$1",
+						},
+					},
+				},
+			},
+			oidToPdu: make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{
+				`Desc{fqName: "TestMetricName", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:15}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
 				Type:  gosnmp.Integer,
 				Value: 2,
 			},

@@ -702,6 +702,10 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 				logger.Debug("Error parsing float64 from value", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String(), "extracted_value", res)
 				continue
 			}
+			if metric.Scale != 0.0 {
+				v *= metric.Scale
+			}
+			v += metric.Offset
 			newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
 				prometheus.GaugeValue, v, labelvalues...)
 			if err != nil {
