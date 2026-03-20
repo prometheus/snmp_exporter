@@ -1,6 +1,12 @@
+ARG DISTROLESS_ARCH="amd64"
+
+# Use DISTROLESS_ARCH for base image selection (handles armv7->arm mapping).
+FROM gcr.io/distroless/static-debian13:nonroot-${DISTROLESS_ARCH}
+# Base image sets USER to 65532:65532 (nonroot user).
+
 ARG ARCH="amd64"
 ARG OS="linux"
-FROM quay.io/prometheus/busybox-${OS}-${ARCH}:latest
+
 LABEL maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
 LABEL org.opencontainers.image.authors="The Prometheus Authors"
 LABEL org.opencontainers.image.vendor="Prometheus"
@@ -12,13 +18,10 @@ LABEL org.opencontainers.image.documentation="https://github.com/prometheus/snmp
 LABEL org.opencontainers.image.licenses="Apache License 2.0"
 LABEL io.prometheus.image.variant="distroless"
 
-ARG ARCH="amd64"
-ARG OS="linux"
 COPY .build/${OS}-${ARCH}/snmp_exporter  /bin/snmp_exporter
 COPY snmp.yml       /etc/snmp_exporter/snmp.yml
 COPY LICENSE        /LICENSE
 COPY NOTICE         /NOTICE
-
 
 EXPOSE      9116
 ENTRYPOINT  [ "/bin/snmp_exporter" ]
