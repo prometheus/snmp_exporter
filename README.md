@@ -1,5 +1,9 @@
 # Prometheus SNMP Exporter
 
+[![Build Status](https://github.com/prometheus/snmp_exporter/actions/workflows/ci.yml/badge.svg)](https://github.com/prometheus/snmp_exporter/actions/workflows/ci.yml)
+[![Docker Repository on Quay](https://quay.io/repository/prometheus/snmp-exporter/status)][quay]
+[![Docker Pulls](https://img.shields.io/docker/pulls/prom/snmp-exporter.svg?maxAge=604800)][hub]
+
 This exporter is the recommended way to expose SNMP data in a format which
 Prometheus can ingest.
 
