@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.source="https://github.com/prometheus/snmp_export
 LABEL org.opencontainers.image.url="https://github.com/prometheus/snmp_exporter"
 LABEL org.opencontainers.image.documentation="https://github.com/prometheus/snmp_exporter/blob/main/README.md"
 LABEL org.opencontainers.image.licenses="Apache License 2.0"
-LABEL io.prometheus.image.variant="distroless"
+LABEL io.prometheus.image.variant="busybox"
 
 ARG ARCH="amd64"
 ARG OS="linux"
