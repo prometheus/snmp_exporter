@@ -31696,6 +31696,10 @@ modules:
       oid: 1.3.6.1.4.1.14988.1.1.13.12
       type: gauge
       help: Signal-to-Interference-plus-Noise Ratio - 1.3.6.1.4.1.14988.1.1.13.12
+    - name: mtxrWirelessModemPinStatus
+      oid: 1.3.6.1.4.1.14988.1.1.13.13
+      type: DisplayString
+      help: Pin status of the modem - 1.3.6.1.4.1.14988.1.1.13.13
     - name: mtxrInterfaceStatsIndex
       oid: 1.3.6.1.4.1.14988.1.1.14.1.1.1
       type: gauge
@@ -32797,6 +32801,206 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+    - name: mtxrLTEModemPrimaryBand
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.15
+      type: DisplayString
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.15'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemSessionUptime
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.16
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.16'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemRegStatus
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.17
+      type: DisplayString
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.17'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemPinStatus
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.18
+      type: DisplayString
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.18'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemModel
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.19
+      type: DisplayString
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.19'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemFirmware
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.20
+      type: DisplayString
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.20'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemCQI
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.21
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.21'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemNrRSRP
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.22
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.22'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemNrRSRQ
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.23
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.23'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemNrSINR
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.24
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.24'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTEModemSignalRSRQD10
+      oid: 1.3.6.1.4.1.14988.1.1.16.1.1.25
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.1.1.25'
+      indexes:
+      - labelname: mtxrLTEModemInterfaceIndex
+        type: gauge
+    - name: mtxrLTECarrierAggInterfaceIndex
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.1
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.2.1.1.1'
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggIndex
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.2
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.2.1.1.2'
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggBand
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.3
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.2.1.1.3'
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggEARFCN
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.4
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.2.1.1.4'
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggBandwidth
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.5
+      type: gauge
+      help: MHz - 1.3.6.1.4.1.14988.1.1.16.2.1.1.5
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggPhyCellId
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.6
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.2.1.1.6'
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggRSSI
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.7
+      type: gauge
+      help: dBm - 1.3.6.1.4.1.14988.1.1.16.2.1.1.7
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggRSRP
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.8
+      type: gauge
+      help: dBm - 1.3.6.1.4.1.14988.1.1.16.2.1.1.8
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggRSRQ
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.9
+      type: gauge
+      help: dB - 1.3.6.1.4.1.14988.1.1.16.2.1.1.9
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggSINR
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.10
+      type: gauge
+      help: dB - 1.3.6.1.4.1.14988.1.1.16.2.1.1.10
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggSNR
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.11
+      type: gauge
+      help: dB - 1.3.6.1.4.1.14988.1.1.16.2.1.1.11
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+    - name: mtxrLTECarrierAggNR
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.12
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.2.1.1.12'
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: mtxrLTECarrierAggUplink
+      oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.13
+      type: gauge
+      help: ' - 1.3.6.1.4.1.14988.1.1.16.2.1.1.13'
+      indexes:
+      - labelname: mtxrLTECarrierAggInterfaceIndex
+        type: gauge
+      - labelname: mtxrLTECarrierAggIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
     - name: mtxrPartitionIndex
       oid: 1.3.6.1.4.1.14988.1.1.17.1.1.1
       type: gauge
@@ -33831,6 +34035,18 @@ modules:
         type: DisplayString
       - labels: []
         labelname: mtxrWifiInterfacesId
+    - name: mtxrCtTotalEntries
+      oid: 1.3.6.1.4.1.14988.1.1.22.1
+      type: counter
+      help: Total number of connections - 1.3.6.1.4.1.14988.1.1.22.1
+    - name: mtxrCtIP4Entries
+      oid: 1.3.6.1.4.1.14988.1.1.22.2
+      type: counter
+      help: Total number of ipv4 connections - 1.3.6.1.4.1.14988.1.1.22.2
+    - name: mtxrCtIP6Entries
+      oid: 1.3.6.1.4.1.14988.1.1.22.3
+      type: counter
+      help: Total number of ipv6 connections - 1.3.6.1.4.1.14988.1.1.22.3
   nec_ix:
     walk:
     - 1.3.6.1.2.1.2.2.1.2
