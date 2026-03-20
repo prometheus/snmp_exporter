@@ -16,10 +16,22 @@ jobs:
       image: quay.io/prometheus/golang-builder:1.26-base
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: prometheus/promci@fc721ff8497a70a93a881cd552b71af7fb3a9d53 # v0.5.4
-      - uses: ./.github/promci/actions/setup_environment
+      - uses: prometheus/promci-setup@5af30ba8c199a91d6c04ebdc3c48e630e355f62d # v0.1.0
       - run: make
       - run: git diff --exit-code
+
+  mixins:
+    name: Test mixins
+    runs-on: ubuntu-latest
+    container:
+      # Whenever the Go version is updated here, .promu.yml
+      # should also be updated.
+      image: quay.io/prometheus/golang-builder:1.26-base
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - run: go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest
+      - run: go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+      - run: make -C snmp-mixin lint build
 
   generator:
     name: Generator tests
@@ -33,8 +45,7 @@ jobs:
         working-directory: ./generator
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: prometheus/promci@fc721ff8497a70a93a881cd552b71af7fb3a9d53 # v0.5.4
-      - uses: ./.github/promci/actions/setup_environment
+      - uses: prometheus/promci-setup@5af30ba8c199a91d6c04ebdc3c48e630e355f62d # v0.1.0
       - run: apt-get update
       - run: apt-get -y install build-essential diffutils libsnmp-dev p7zip-full
       - run: make mibs

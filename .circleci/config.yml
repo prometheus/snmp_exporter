@@ -1,36 +1,33 @@
 ---
+# Prometheus has switched to GitHub action.
+# Circle CI is not disabled repository-wise so that previous pull requests
+# continue working.
+# This file does not generate any CircleCI workflow.
+
 version: 2.1
 
-orbs:
-  prometheus: prometheus/prometheus@0.17.1
-
 executors:
-  # Whenever the Go version is updated here, .promu.yml
-  # should also be updated.
   golang:
     docker:
-    - image: cimg/go:1.26
-    parameters:
-      working_dir:
-        type: string
-        default: ~/project
-    working_directory: << parameters.working_dir >>
+      - image: busybox
 
 jobs:
-  mixin:
+  noopjob:
     executor: golang
 
     steps:
-    - checkout
-    - run: go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest
-    - run: go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
-    - run: make -C snmp-mixin lint build
+      - run:
+          command: "true"
 
 workflows:
   version: 2
   snmp_exporter:
     jobs:
-    - mixin:
-        filters:
-          tags:
-            only: /.*/
+      - noopjob
+    triggers:
+      - schedule:
+          cron: "0 0 30 2 *"
+          filters:
+            branches:
+              only:
+                - main
