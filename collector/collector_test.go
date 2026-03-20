@@ -202,6 +202,56 @@ func TestPduToSample(t *testing.T) {
 		{
 			pdu: &gosnmp.SnmpPDU{
 				Name:  "1.1.1.1.1",
+				Value: "70",
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:  "TestMetricName",
+				Oid:   "1.1.1.1.1",
+				Help:  "HelpText",
+				Scale: 0.1,
+				RegexpExtracts: map[string][]config.RegexpExtract{
+					"": {
+						{
+							Regex: config.Regexp{regexp.MustCompile(`(.*)`)},
+							Value: "$1",
+						},
+					},
+				},
+			},
+			oidToPdu: make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{
+				`Desc{fqName: "TestMetricName", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:7}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
+				Value: "10",
+			},
+			indexOids: []int{},
+			metric: &config.Metric{
+				Name:   "TestMetricName",
+				Oid:    "1.1.1.1.1",
+				Help:   "HelpText",
+				Offset: 5,
+				RegexpExtracts: map[string][]config.RegexpExtract{
+					"": {
+						{
+							Regex: config.Regexp{regexp.MustCompile(`(.*)`)},
+							Value: "$1",
+						},
+					},
+				},
+			},
+			oidToPdu: make(map[string]gosnmp.SnmpPDU),
+			expectedMetrics: []string{
+				`Desc{fqName: "TestMetricName", help: "HelpText (regex extracted)", constLabels: {}, variableLabels: {}} gauge:{value:15}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1.1.1.1",
 				Type:  gosnmp.Integer,
 				Value: 2,
 			},
@@ -724,9 +774,10 @@ func TestSplitOid(t *testing.T) {
 
 func TestPduValueAsString(t *testing.T) {
 	cases := []struct {
-		pdu    *gosnmp.SnmpPDU
-		typ    string
-		result string
+		pdu         *gosnmp.SnmpPDU
+		typ         string
+		displayHint string
+		result      string
 	}{
 		{
 			pdu:    &gosnmp.SnmpPDU{Value: int(-1)},
@@ -734,6 +785,10 @@ func TestPduValueAsString(t *testing.T) {
 		},
 		{
 			pdu:    &gosnmp.SnmpPDU{Value: uint(1)},
+			result: "1",
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: uint32(1)},
 			result: "1",
 		},
 		{
@@ -798,11 +853,39 @@ func TestPduValueAsString(t *testing.T) {
 			typ:    "DisplayString",
 			result: "sane�",
 		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{0x00, 0x1a, 0x2b, 0x3c, 0x4d, 0x5e}},
+			typ:    "PhysAddress48",
+			result: "00:1A:2B:3C:4D:5E",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{192, 168, 1, 1}},
+			typ:         "OctetString",
+			displayHint: "1d.1d.1d.1d",
+			result:      "192.168.1.1",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{0x00, 0x1a, 0x2b, 0x3c, 0x4d, 0x5e}},
+			displayHint: "1x:",
+			result:      "00:1A:2B:3C:4D:5E",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{65, 66}},
+			typ:         "DisplayString",
+			displayHint: "1x:",
+			result:      "AB",
+		},
+		{
+			pdu:         &gosnmp.SnmpPDU{Value: []byte{127, 128, 255, 0}},
+			typ:         "OctetString",
+			displayHint: "z",
+			result:      "0x7F80FF00",
+		},
 	}
 	for _, c := range cases {
-		got := pduValueAsString(c.pdu, c.typ, Metrics{})
+		got := pduValueAsString(c.pdu, c.typ, c.displayHint, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
-			t.Errorf("pduValueAsString(%v, %q): got %q, want %q", c.pdu, c.typ, got, c.result)
+			t.Errorf("pduValueAsString(%v, %q, %q): got %q, want %q", c.pdu, c.typ, c.displayHint, got, c.result)
 		}
 	}
 }
@@ -1533,6 +1616,68 @@ func TestScrapeTarget(t *testing.T) {
 			},
 			getCall:  []string{"1.3.6.1.2.1.31.1.1.1.18.2", "1.3.6.1.2.1.31.1.1.1.18.3"},
 			walkCall: []string{"1.3.6.1.2.1.2.2.1.2"},
+		},
+		{
+			name: "filter NoSuchObject",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.2.0": {Type: gosnmp.NoSuchObject, Name: "1.3.6.1.2.1.1.2.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0"},
+			walkCall: []string{},
+		},
+		{
+			name: "filter NoSuchInstance",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.3.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.3.0": {Type: gosnmp.NoSuchInstance, Name: "1.3.6.1.2.1.1.3.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.3.0"},
+			walkCall: []string{},
+		},
+		{
+			name: "filter EndOfMibView",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.4.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.4.0": {Type: gosnmp.EndOfMibView, Name: "1.3.6.1.2.1.1.4.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.4.0"},
+			walkCall: []string{},
+		},
+		{
+			name: "filter all exception types",
+			module: &config.Module{
+				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0", "1.3.6.1.2.1.1.3.0", "1.3.6.1.2.1.1.4.0"},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+				"1.3.6.1.2.1.1.2.0": {Type: gosnmp.NoSuchObject, Name: "1.3.6.1.2.1.1.2.0", Value: nil},
+				"1.3.6.1.2.1.1.3.0": {Type: gosnmp.NoSuchInstance, Name: "1.3.6.1.2.1.1.3.0", Value: nil},
+				"1.3.6.1.2.1.1.4.0": {Type: gosnmp.EndOfMibView, Name: "1.3.6.1.2.1.1.4.0", Value: nil},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0", "1.3.6.1.2.1.1.3.0", "1.3.6.1.2.1.1.4.0"},
+			walkCall: []string{},
 		},
 	}
 

@@ -78,7 +78,7 @@ func (g *GoSNMPWrapper) Connect() error {
 }
 
 func (g *GoSNMPWrapper) Close() error {
-	return g.c.Conn.Close()
+	return g.c.Close()
 }
 
 func (g *GoSNMPWrapper) Get(oids []string) (*gosnmp.SnmpPacket, error) {

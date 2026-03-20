@@ -62,7 +62,7 @@ var combinedTypeMapping = map[string]map[int]string{
 }
 
 func oidToList(oid string) []int {
-	result := []int{}
+	result := make([]int, 0, strings.Count(oid, ".")+1)
 	for x := range strings.SplitSeq(oid, ".") {
 		o, _ := strconv.Atoi(x)
 		result = append(result, o)
@@ -71,11 +71,18 @@ func oidToList(oid string) []int {
 }
 
 func listToOid(l []int) string {
-	var result []string
-	for _, o := range l {
-		result = append(result, strconv.Itoa(o))
+	if len(l) == 0 {
+		return ""
 	}
-	return strings.Join(result, ".")
+	var result strings.Builder
+	result.Grow(len(l) * 4) // Estimate 3 digits + dot per number
+	for i, o := range l {
+		if i > 0 {
+			result.WriteByte('.')
+		}
+		result.WriteString(strconv.Itoa(o))
+	}
+	return result.String()
 }
 
 type ScrapeResults struct {
@@ -136,7 +143,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 			return results, fmt.Errorf("error reported by target %s: Error Status %d", target, packet.Error)
 		}
 		for _, v := range packet.Variables {
-			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance {
+			if v.Type == gosnmp.NoSuchObject || v.Type == gosnmp.NoSuchInstance || v.Type == gosnmp.EndOfMibView {
 				logger.Debug("OID not supported by target", "oids", v.Name)
 				continue
 			}
@@ -178,7 +185,7 @@ func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus
 	for _, pdu := range pdus {
 		found := false
 		for _, val := range filter.Values {
-			snmpval := pduValueAsString(&pdu, "DisplayString", metrics)
+			snmpval := pduValueAsString(&pdu, "DisplayString", "", metrics)
 			logger.Debug("evaluating filters", "config value", val, "snmp value", snmpval)
 
 			if regexp.MustCompile(val).MatchString(snmpval) {
@@ -560,7 +567,7 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 }
 
 func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, metrics Metrics) (float64, error) {
-	pduValue := pduValueAsString(pdu, "DisplayString", metrics)
+	pduValue := pduValueAsString(pdu, "DisplayString", "", metrics)
 	t, err := timefmt.Parse(pduValue, metric.DateTimePattern)
 	if err != nil {
 		return 0, fmt.Errorf("error parsing date and time %w", err)
@@ -655,13 +662,13 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		}
 
 		if len(metric.RegexpExtracts) > 0 {
-			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType, metrics), labelnames, labelvalues, logger)
+			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType, metric.DisplayHint, metrics), labelnames, labelvalues, logger)
 		}
 		// For strings we put the value as a label with the same name as the metric.
 		// If the name is already an index, we do not need to set it again.
 		if _, ok := labels[metric.Name]; !ok {
 			labelnames = append(labelnames, metric.Name)
-			labelvalues = append(labelvalues, pduValueAsString(pdu, metricType, metrics))
+			labelvalues = append(labelvalues, pduValueAsString(pdu, metricType, metric.DisplayHint, metrics))
 		}
 	}
 
@@ -695,6 +702,10 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 				logger.Debug("Error parsing float64 from value", "metric", metric.Name, "value", pduValue, "regex", strMetric.Regex.String(), "extracted_value", res)
 				continue
 			}
+			if metric.Scale != 0.0 {
+				v *= metric.Scale
+			}
+			v += metric.Offset
 			newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
 				prometheus.GaugeValue, v, labelvalues...)
 			if err != nil {
@@ -790,7 +801,11 @@ func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []
 // Some routers exclude trailing 0s in responses.
 func splitOid(oid []int, count int) ([]int, []int) {
 	head := make([]int, count)
-	tail := []int{}
+	tailCapacity := len(oid) - count
+	if tailCapacity < 0 {
+		tailCapacity = 0
+	}
+	tail := make([]int, 0, tailCapacity)
 	for i, v := range oid {
 		if i < count {
 			head[i] = v
@@ -802,11 +817,13 @@ func splitOid(oid []int, count int) ([]int, []int) {
 }
 
 // This mirrors decodeValue in gosnmp's helper.go.
-func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
+func pduValueAsString(pdu *gosnmp.SnmpPDU, typ, displayHint string, metrics Metrics) string {
 	switch v := pdu.Value.(type) {
 	case int:
 		return strconv.Itoa(v)
 	case uint:
+		return strconv.FormatUint(uint64(v), 10)
+	case uint32:
 		return strconv.FormatUint(uint64(v), 10)
 	case uint64:
 		return strconv.FormatUint(v, 10)
@@ -822,6 +839,13 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ string, metrics Metrics) string {
 		// DisplayString.
 		return strings.ToValidUTF8(v, "�")
 	case []byte:
+		// Apply DISPLAY-HINT if provided and type is OctetString
+		if displayHint != "" && (typ == "" || typ == "OctetString") {
+			if result, ok := applyDisplayHint(displayHint, v); ok {
+				return strings.ToValidUTF8(result, "�")
+			}
+			// Fall through to default formatting on parse error
+		}
 		if typ == "" || typ == "Bits" {
 			typ = "OctetString"
 		}
@@ -994,7 +1018,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 					}
 				}
 			}
-			labels[lookup.Labelname] = pduValueAsString(&pdu, t, metrics)
+			labels[lookup.Labelname] = pduValueAsString(&pdu, t, lookup.DisplayHint, metrics)
 			labelOids[lookup.Labelname] = []int{int(gosnmp.ToBigInt(pdu.Value).Int64())}
 		} else {
 			labels[lookup.Labelname] = ""

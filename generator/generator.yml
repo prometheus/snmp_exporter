@@ -69,6 +69,8 @@ modules:
     walk:
       - CISCO-PROCESS-MIB::cpmCPUTotal1minRev
       - CISCO-PROCESS-MIB::cpmCPUTotal5minRev
+      - CISCO-PROCESS-MIB::cpmCore1min
+      - CISCO-PROCESS-MIB::cpmCore5min
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolUsed
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolFree
       - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolType
@@ -142,6 +144,112 @@ modules:
       - 1.3.6.1.4.1.674.10892.5.2 # statusGroup
       - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
       - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
+
+# DELL-RAC-MIB
+  dell_rac:
+    walk:
+      - DELL-RAC-MIB::drsCMCPowerTable
+      - DELL-RAC-MIB::drsCMCPSUTable
+    overrides:
+      drsKWhCumulativeTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsMaxPowerSpecification:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPotentialPower:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPowerSurplus:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsIdlePower:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsAmpsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsKWhCumulative:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPSULocation:
+        type: DisplayString
+      drsPSUAmpsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPSUWattsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsPSUVoltsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsMinTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsMinUsage:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsPeakTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsReading:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsPeakUsage:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+      drsWattsResetTime:
+        type: DisplayString
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: '$1'
+
 # Dell network (Force10)
   dell_network:
     walk:
@@ -171,10 +279,10 @@ modules:
 # MES 2448P
   eltex_mes:
     walk:
-     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
-     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
-     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
-     - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
+      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
+      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
+      - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
+      - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
 
 # HPE MIBs
   hpe:
@@ -417,8 +525,22 @@ modules:
   servertech_sentry3:
     max_repetitions: 4 # See https://github.com/prometheus/snmp_exporter/issues/1080
     walk:
-      - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
-      - 1.3.6.1.4.1.1718.3.2.3  # outletTable
+      - "Sentry3-MIB::infeedTable"  # 1.3.6.1.4.1.1718.3.2.2
+      - "Sentry3-MIB::outletTable"  # 1.3.6.1.4.1.1718.3.2.3
+      - "Sentry3-MIB::branchTable"  # 1.3.6.1.4.1.1718.3.2.7
+    lookups:
+      - source_indexes: [towerIndex, infeedIndex]
+        lookup: infeedID
+      - source_indexes: [towerIndex, infeedIndex]
+        lookup: infeedName
+      - source_indexes: [towerIndex, infeedIndex, outletIndex]
+        lookup: outletID
+      - source_indexes: [towerIndex, infeedIndex, outletIndex]
+        lookup: outletName
+      - source_indexes: [towerIndex, infeedIndex, branchIndex]
+        lookup: branchID
+      - source_indexes: [towerIndex, infeedIndex, branchIndex]
+        lookup: branchName
     overrides:
       infeedCapacityUsed:
         ignore: true  # Composite metric: infeedLoadValue / infeedCapacity * 100
@@ -433,39 +555,49 @@ modules:
 # https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib
   servertech_sentry4:
     walk:
-      - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.7.3   # st4BranchMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.8.3   # st4OutletMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.9.3   # st4TempSensorMonitorTable
-      - 1.3.6.1.4.1.1718.4.1.14.3  # st4FanSensorMonitorTable
-
+      - "Sentry4-MIB::st4InputCordMonitorTable"   # 1.3.6.1.4.1.1718.4.1.3.3
+      - "Sentry4-MIB::st4LineMonitorTable"        # 1.3.6.1.4.1.1718.4.1.4.3
+      - "Sentry4-MIB::st4PhaseMonitorTable"       # 1.3.6.1.4.1.1718.4.1.5.3
+      - "Sentry4-MIB::st4BranchMonitorTable"      # 1.3.6.1.4.1.1718.4.1.7.3
+      - "Sentry4-MIB::st4OutletMonitorTable"      # 1.3.6.1.4.1.1718.4.1.8.3
+      - "Sentry4-MIB::st4TempSensorMonitorTable"  # 1.3.6.1.4.1.1718.4.1.9.3
+      - "Sentry4-MIB::st4FanSensorMonitorTable"   # 1.3.6.1.4.1.1718.4.1.14.3
     lookups:
-      - source_indexes: [st4UnitIndex]
-        lookup: st4UnitName
+      - source_indexes: [st4UnitIndex, st4InputCordIndex]
+        lookup: st4InputCordID
       - source_indexes: [st4UnitIndex, st4InputCordIndex]
         lookup: st4InputCordName
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
+        lookup: st4LineID
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
         lookup: st4LineLabel
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
+        lookup: st4PhaseID
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
         lookup: st4PhaseLabel
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
+        lookup: st4BranchID
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
         lookup: st4BranchLabel
         drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
+        lookup: st4OutletID
       - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
         lookup: st4OutletName
         drop_source_indexes: true
       - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
+        lookup: st4AdcSensorID
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
         lookup: st4AdcSensorName
         drop_source_indexes: true
-      - source_indexes: [st4UnitIndex, st4AdcSensorIndex, st4FanSensorIndex]
-        lookup: st4AdcSensorName
-        drop_source_indexes: true
-
+      - source_indexes: [st4UnitIndex, st4FanSensorIndex]
+        lookup: st4FanSensorID
+      - source_indexes: [st4UnitIndex, st4FanSensorIndex]
+        lookup: st4FanSensorName
     overrides:
       st4TempSensorValue:
         scale: 0.1
@@ -914,10 +1046,9 @@ modules:
       naptCacheIfIndex:
         ignore: true
 
-# Raritan
+# Raritan PDU (Legacy PX series - PDU-MIB)
 #
 # https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-# https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
   raritan:
     walk:
       - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
@@ -930,13 +1061,125 @@ modules:
       - 1.3.6.1.4.1.13742.4.1.2.2.1.6  # outletVoltage
       - 1.3.6.1.4.1.13742.4.1.2.2.1.7  # outletActivePower
       - 1.3.6.1.4.1.13742.4.1.3.1.5    # unitCpuTemp
-      - 1.3.6.1.4.1.13742.6.5.5.3.1    # externalSensors
     lookups:
       - source_indexes: [outletIndex]
         lookup: outletLabel
     overrides:
       outletOperationalState:
         type: EnumAsStateSet
+
+# Raritan PDU2 (PX2, PX3, PX4, PXC, SRC, PRO3X, PRO4X series - PDU2-MIB)
+#
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/PDU2_MIB_4.3.10_51837.txt
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
+  raritan_pdu2:
+    walk:
+      # Nameplate (device identification)
+      - "PDU2-MIB::nameplateTable"
+      # Unit configuration
+      - "PDU2-MIB::unitConfigurationTable"
+      # Inlet configuration
+      - "PDU2-MIB::inletConfigurationTable"
+      # Outlet configuration
+      - "PDU2-MIB::outletConfigurationTable"
+      # Unit sensor measurements (temperature, humidity, etc.)
+      - "PDU2-MIB::unitSensorMeasurementsTable"
+      # Inlet sensor measurements (voltage, current, power, energy)
+      - "PDU2-MIB::inletSensorMeasurementsTable"
+      # Inlet pole sensor measurements (per-pole data for 3-phase)
+      - "PDU2-MIB::inletPoleSensorMeasurementsTable"
+      # Outlet sensor measurements (voltage, current, power, energy per outlet)
+      - "PDU2-MIB::outletSensorMeasurementsTable"
+      # Outlet pole sensor measurements
+      - "PDU2-MIB::outletPoleSensorMeasurementsTable"
+      # Over current protector measurements (breaker status)
+      - "PDU2-MIB::overCurrentProtectorSensorMeasurementsTable"
+      # External sensor measurements (environmental sensors)
+      - "PDU2-MIB::externalSensorMeasurementsTable"
+      # Circuit measurements (for branch circuit monitoring)
+      - "PDU2-MIB::circuitSensorMeasurementsTable"
+      # Transfer switch measurements
+      - "PDU2-MIB::transferSwitchSensorMeasurementsTable"
+    lookups:
+      - source_indexes: [pduId]
+        lookup: "PDU2-MIB::pduName"
+      - source_indexes: [pduId, inletId]
+        lookup: "PDU2-MIB::inletLabel"
+      - source_indexes: [pduId, outletId]
+        lookup: "PDU2-MIB::outletLabel"
+      - source_indexes: [pduId, outletId]
+        lookup: "PDU2-MIB::outletName"
+      - source_indexes: [pduId, externalSensorId]
+        lookup: "PDU2-MIB::externalSensorSerialNumber"
+    overrides:
+      pduName:
+        ignore: true
+      inletLabel:
+        ignore: true
+      outletLabel:
+        ignore: true
+      outletName:
+        ignore: true
+      externalSensorSerialNumber:
+        ignore: true
+      measurementsUnitSensorState:
+        type: EnumAsStateSet
+      measurementsInletSensorState:
+        type: EnumAsStateSet
+      measurementsOutletSensorState:
+        type: EnumAsStateSet
+      measurementsExternalSensorState:
+        type: EnumAsStateSet
+      measurementsOverCurrentProtectorSensorState:
+        type: EnumAsStateSet
+      measurementsCircuitSensorState:
+        type: EnumAsStateSet
+      measurementsTransferSwitchSensorState:
+        type: EnumAsStateSet
+
+# Raritan Asset Management (Asset Strips for rack unit tracking)
+#
+# https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
+  raritan_assetmanagement:
+    walk:
+      # Asset strip count and default LED colors
+      - "ASSETMANAGEMENT-MIB::assetStripCount"
+      - "ASSETMANAGEMENT-MIB::defaultLEDColorConnected"
+      - "ASSETMANAGEMENT-MIB::defaultLEDColorDisconnected"
+      # Asset strip configuration (strip state, rack unit count, etc.)
+      - "ASSETMANAGEMENT-MIB::assetStripConfigurationTable"
+      # Asset management table (tag IDs, rack unit positions, LED status)
+      - "ASSETMANAGEMENT-MIB::assetManagementTable"
+      # Blade extension table (for blade servers)
+      - "ASSETMANAGEMENT-MIB::bladeExtensionTable"
+    lookups:
+      - source_indexes: [assetStripID]
+        lookup: "ASSETMANAGEMENT-MIB::assetStripName"
+      - source_indexes: [assetStripID, rackUnitID]
+        lookup: "ASSETMANAGEMENT-MIB::rackUnitName"
+    overrides:
+      assetStripName:
+        ignore: true
+      rackUnitName:
+        ignore: true
+      assetStripState:
+        type: EnumAsStateSet
+      ledOperationMode:
+        type: EnumAsStateSet
+      ledMode:
+        type: EnumAsStateSet
+      rackUnitType:
+        type: EnumAsInfo
+      assetStripType:
+        type: EnumAsInfo
+      rackUnitNumberingMode:
+        type: EnumAsInfo
+      assetStripOrientation:
+        type: EnumAsInfo
+      tagID:
+        type: DisplayString
+      tagFamily:
+        type: DisplayString
 
 # InfraPower PDU's
 #
@@ -1250,9 +1493,9 @@ modules:
               value: '$1'
   cisco_imc:
     walk:
-    - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
-    - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
-    - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
+      - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState
+      - 1.3.6.1.4.1.9.9.719.1.1.1.1.11  #cucsFaultDescription
+      - 1.3.6.1.4.1.9.9.719.1.1.1.1.20  #cucsFaultSeverity
 
   # Juniper
   #
@@ -1378,22 +1621,22 @@ modules:
         ignore: true
     lookups:
       - source_indexes:
-        - aiValue
+          - aiValue
         lookup: aiDescription
       - source_indexes:
-        - aoValue
+          - aoValue
         lookup: aoDescription
       - source_indexes:
-        - avValue
+          - avValue
         lookup: avDescription
       - source_indexes:
-        - biValue
+          - biValue
         lookup: biDescription
       - source_indexes:
-        - boValue
+          - boValue
         lookup: boDescription
       - source_indexes:
-        - bvValue
+          - bvValue
         lookup: bvDescription
 
 # Generic UPS Mibs from Observioum covering

@@ -13,6 +13,7 @@
 
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
+SNMP_YML ?= '../snmp.yml'
 
 CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail
 CURL_USER_AGENT ?= -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 snmp_exporter/generator"
@@ -34,9 +35,10 @@ endif
 APC_URL           := https://raw.githubusercontent.com/prometheus-community/snmp/refs/heads/main/apc/PowerNet-MIB
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
-DELL_URL          := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
+DELL_OM_URL       := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
-ELTEX_MES_URL     := https://api.prod.eltex-co.ru/storage/upload_center/files/37/mibs_10.4.2.1.zip
+ELTEX_MES_URL     := https://api.prod.eltex-co.ru/storage/upload_center/files/42/mibs_10.4.3.4.zip
+# hint: https://eltex-co.com/download/?product=337 if you need to update the ELTEX_MES_URL
 DELL_NETWORK_URL  := https://supportkb.dell.com/attachment/ka02R000000I7TFQA0/Current_MIBs_pkb_en_US_1.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
@@ -47,7 +49,7 @@ KEEPALIVED_URL    := https://raw.githubusercontent.com/acassen/keepalived/v2.3.4
 VRRP_URL          := https://raw.githubusercontent.com/acassen/keepalived/v2.3.4/doc/VRRP-MIB.txt
 VRRPV3_URL        := https://raw.githubusercontent.com/acassen/keepalived/v2.3.4/doc/VRRPv3-MIB.txt
 KEMP_LM_URL       := https://kemptechnologies.com/files/packages/current/LM_mibs.zip
-MIKROTIK_URL      := https://download.mikrotik.com/routeros/7.18.2/mikrotik.mib
+MIKROTIK_URL      := https://download.mikrotik.com/routeros/7.22/mikrotik.mib
 NEC_URL           := https://jpn.nec.com/univerge/ix/Manual/MIB
 NET_SNMP_URL      := https://raw.githubusercontent.com/net-snmp/net-snmp/v5.9/mibs
 PALOALTO_URL      := https://docs.paloaltonetworks.com/content/dam/techdocs/en_US/zip/snmp-mib/pan-10-0-snmp-mib-modules.zip
@@ -61,7 +63,8 @@ UBNT_AIRFIBER_URL := https://dl.ubnt.com/firmwares/airfiber5X/v4.1.0/UBNT-MIB.tx
 UBNT_DL_URL       := http://dl.ubnt-ut.com/snmp
 UPS_MIB_URL       := https://raw.githubusercontent.com/pgmillon/observium/refs/heads/master/mibs/UPS-MIB
 RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
-RARITAN2_URL      := https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
+RARITAN2_URL      := https://cdn1.raritan.com/download/pdu-g2/4.3.10/PDU2_MIB_4.3.10_51837.txt
+RARITAN_AM_URL    := https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
 LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
@@ -95,8 +98,9 @@ clean:
 		$(MIBDIR)/.cisco_v2 \
 		$(MIBDIR)/.cisco_imc \
 		$(MIBDIR)/.dell \
-		$(MIBDIR)/.dlink-mibs \
 		$(MIBDIR)/.dell-network \
+		$(MIBDIR)/.dell-om-mibs \
+		$(MIBDIR)/.dlink-mibs \
 		$(MIBDIR)/.hpe-mib \
 		$(MIBDIR)/.net-snmp \
 		$(MIBDIR)/.paloalto_panos \
@@ -114,7 +118,7 @@ generator: *.go
 	go build
 
 generate: generator mibs
-	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate
+	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors generate --output-path=$(SNMP_YML)
 
 parse_errors: generator mibs
 	MIBDIRS=$(MIB_PATH) ./generator --fail-on-parse-errors parse_errors
@@ -144,7 +148,7 @@ mibs: \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
   $(MIBDIR)/ARISTA-SMI-MIB \
   $(MIBDIR)/ARISTA-SW-IP-FORWARDING-MIB \
-  $(MIBDIR)/iDRAC-SMIv2.mib \
+  $(MIBDIR)/.dell-om-mibs \
   $(MIBDIR)/.hpe-mib \
   $(MIBDIR)/IANA-CHARSET-MIB.txt \
   $(MIBDIR)/IANA-IFTYPE-MIB.txt \
@@ -171,6 +175,7 @@ mibs: \
   $(MIBDIR)/UBNT-AirMAX-MIB.txt \
   $(MIBDIR)/PDU-MIB.txt \
   $(MIBDIR)/PDU2-MIB.txt \
+  $(MIBDIR)/PDU_AssetManagement_MIB.txt \
   $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/CyberPower.MIB \
@@ -215,12 +220,16 @@ $(MIBDIR)/AIRESPACE-WIRELESS-MIB:
 	@echo ">> Downloading Cisco AIRESPACE-WIRELESS-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/AIRESPACE-WIRELESS-MIB "$(CISCO_URL)/AIRESPACE-WIRELESS-MIB.my"
 
-$(MIBDIR)/iDRAC-SMIv2.mib:
+$(MIBDIR)/.dell-om-mibs:
 	$(eval TMP := $(shell mktemp))
+	$(eval TMP_DIR := $(shell mktemp -d))
 	@echo ">> Downloading dell to $(TMP)"
-	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) support/station/mibs/iDRAC-SMIv2.mib
-	@rm -v $(TMP)
+	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(TMP) $(DELL_OM_URL)
+	@unzip -j -d $(TMP_DIR) $(TMP)
+	@cp -v $(TMP_DIR)/iDRAC-SMIv2.mib $(MIBDIR)
+	@cp -v $(TMP_DIR)/DELL-RAC-MIB.txt $(MIBDIR)
+	@rm -rvf $(TMP_DIR) $(TMP)
+	@touch $(MIBDIR)/.dell-om-mibs
 
 $(MIBDIR)/.hpe-mib:
 	$(eval TMP := $(shell mktemp))
@@ -349,6 +358,7 @@ $(MIBDIR)/.synology:
 	@echo ">> Downloading synology to $(TMP)"
 	@curl $(CURL_OPTS) -o $(TMP) $(SYNOLOGY_URL)
 	@unzip -j -d $(MIBDIR) $(TMP)
+	@patch mibs/SYNOLOGY-SMART-MIB.txt mib-patches/SYNOLOGY-SMART-MIB.0.patch
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.synology
 
@@ -409,6 +419,10 @@ $(MIBDIR)/PDU-MIB.txt:
 $(MIBDIR)/PDU2-MIB.txt:
 	@echo ">> Downloading Raritan PDU2-MIB"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU2-MIB.txt "$(RARITAN2_URL)"
+
+$(MIBDIR)/PDU_AssetManagement_MIB.txt:
+	@echo ">> Downloading Raritan AssetManagement_MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/PDU_AssetManagement_MIB.txt "$(RARITAN_AM_URL)"
 
 $(MIBDIR)/Infrapower-MIB.mib:
 	$(eval TMP := $(shell mktemp))
