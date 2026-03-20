@@ -22,7 +22,7 @@ jobs:
       - run: git diff --exit-code
 
   generator:
-    name: Go tests
+    name: Generator tests
     runs-on: ubuntu-latest
     container:
       # Whenever the Go version is updated here, .promu.yml

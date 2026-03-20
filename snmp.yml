@@ -23118,6 +23118,8 @@ modules:
         304: docsCableScte25d1FwdOob
         305: docsCableScte25d1RetOob
         306: docsCableScte25d2MacOob
+        307: lora
+        308: lorawan
     - name: ifMtu
       oid: 1.3.6.1.2.1.2.2.1.4
       type: gauge
