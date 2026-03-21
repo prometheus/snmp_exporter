@@ -967,7 +967,7 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		}
 		return fmt.Sprintf("%d", subOid[0]), subOid, indexOids
 	default:
-		panic(fmt.Sprintf("Unknown index type %s", typ))
+		return fmt.Sprintf("unknown_index_type_%s", typ), []int{}, indexOids
 	}
 }
 
