@@ -193,7 +193,7 @@ mibs: \
 	$(MIBDIR)/.yamaha-rt
 
 $(MIBDIR)/apc-powernet-mib:
-	@echo ">> Downloading apc-powernet-mib" 
+	@echo ">> Downloading apc-powernet-mib"
 	@echo ">> if download fails please check https://www.se.com/at/de/search/?q=powernet+mib&submit+search+query=Search for the latest release"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib "$(APC_URL)"
 	# Workaround to make DisplayString available (#867)
@@ -248,10 +248,10 @@ $(MIBDIR)/FServer-Std.MIB:
 	@unzip -j -d $(MIBDIR) $(TMP) FServer-Std.MIB
 	# Remove invalid line in the MIB
 	@sed -i.bak '/----/d' $(MIBDIR)/FServer-Std.MIB
-	# Fix MIB - it claims that these tables have two indices but the data returned
-	# from the device only has a single index.
+	# Fix MIB - Change INDEX { index1, index2 } to INDEX { index1 }
+	# for analog/binary Input, Output, and Value tables.
 	@sed -i -r \
-		'/(analog|binary)(Inputs|Outputs|Values)Entry OBJECT-TYPE/,/::=/ { /[ab][iov]Description/d }' \
+		'/(analog|binary)(Inputs|Outputs|Values)Entry OBJECT-TYPE/,/::=/ s/INDEX\s+\{\s+([^,]+),\s+[^}]+\}/INDEX { \1 }/' \
 		$(MIBDIR)/FServer-Std.MIB
 	@rm -v $(TMP)
 
@@ -497,7 +497,7 @@ $(MIBDIR)/.eltex-mes:
 $(MIBDIR)/.juniper:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading Juniper mibs to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL) 
+	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) \
 		StandardMibs/mib-alarmmib.txt \
 		StandardMibs/mib-rfc2819a.txt \
@@ -542,8 +542,9 @@ $(MIBDIR)/.cisco-device:
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENHANCED-MEMPOOL-MIB $(CISCO_URL)/CISCO-ENHANCED-MEMPOOL-MIB.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ENTITY-FRU-CONTROL-MIB $(CISCO_URL)/CISCO-ENTITY-FRU-CONTROL-MIB.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-FC-FE-MIB $(CISCO_URL)/CISCO-FC-FE-MIB.my
+	# Remove extra comma/newline issue in CISCO-FC-FE-MIB
 	@sed -i -E 's/OBJECT.+TransceiverPowerControl/OBJECT          fcIfTransceiverPowerControl/' $(MIBDIR)/CISCO-FC-FE-MIB
-	@sed -i -E -z 's/(fcIfSysTransceiverPowerControlCapability,\n.+fcIfSysTransceiverPowerControl),/\1/' $(MIBDIR)/CISCO-FC-FE-MIB
+	@perl -i -0777 -pe 's/(fcIfSysTransceiverPowerControlCapability,\n.+fcIfSysTransceiverPowerControl),/\1/g' $(MIBDIR)/CISCO-FC-FE-MIB
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ST-TC $(CISCO_URL)/CISCO-ST-TC.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-VSAN-MIB $(CISCO_URL)/CISCO-VSAN-MIB.my
 	@curl $(CURL_OPTS) -o $(MIBDIR)/CISCO-ZS-MIB $(CISCO_URL)/CISCO-ZS-MIB.my
@@ -566,6 +567,5 @@ $(MIBDIR)/.yamaha-rt:
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-rt-switch.mib.txt $(YAMAHA_URL)/yamaha-rt-switch.mib.txt
 	@curl $(CURL_OPTS) $(CURL_USER_AGENT) -o $(MIBDIR)/yamaha-smi.mib.txt $(YAMAHA_URL)/yamaha-smi.mib.txt
 	# Workaround to make DisplayString available (#867)
-	@find $(MIBDIR) -name 'yamaha-*.mib.txt' | xargs sed -i.bak -z -E 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/'
-	@rm $(MIBDIR)/yamaha-*.mib.txt.bak
+	@find $(MIBDIR) -name 'yamaha-*.mib.txt' -exec perl -i -0777 -pe 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/g' {} +
 	@touch $(MIBDIR)/.yamaha-rt
