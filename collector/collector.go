@@ -456,7 +456,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				// Convert the SNMP Engine ID to a byte string
 				sEID, err := hex.DecodeString(c.snmpEngineID)
 				if err != nil {
-					logger.Error("Failed to decode snmpEngineID as hex", "engineID", c.snmpEngineID, "err", err)
+					logger.Debug("Failed to decode snmpEngineID as hex", "engineID", c.snmpEngineID, "err", err)
 					cancel()
 					return
 				}
