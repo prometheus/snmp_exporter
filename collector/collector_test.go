@@ -695,24 +695,43 @@ func TestGetPduLargeValue(t *testing.T) {
 
 func TestNtpTimestamp(t *testing.T) {
 	cases := []struct {
+		name   string
 		pdu    *gosnmp.SnmpPDU
 		result float64
-		err    error
+		err    bool
 	}{
 		{
+			name:   "valid NTP timestamp",
 			pdu:    &gosnmp.SnmpPDU{Value: []byte{235, 6, 119, 246, 48, 209, 11, 59}},
 			result: 1.734080886e+09,
-			err:    nil,
+			err:    false,
+		},
+		{
+			name:   "invalid type (integer instead of bytes)",
+			pdu:    &gosnmp.SnmpPDU{Value: 42},
+			result: 0,
+			err:    true,
+		},
+		{
+			name:   "too short data",
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{1, 2, 3}},
+			result: 0,
+			err:    true,
 		},
 	}
 	for _, c := range cases {
-		got, err := parseNtpTimestamp(c.pdu)
-		if !reflect.DeepEqual(err, c.err) {
-			t.Errorf("parseNtpTimestamp(%v) error: got %v, want %v", c.pdu, err, c.err)
-		}
-		if !reflect.DeepEqual(got, c.result) {
-			t.Errorf("parseNtpTimestamp(%v) result: got %v, want %v", c.pdu, got, c.result)
-		}
+		t.Run(c.name, func(t *testing.T) {
+			got, err := parseNtpTimestamp(c.pdu)
+			if c.err && err == nil {
+				t.Errorf("parseNtpTimestamp(%v): expected error, got nil", c.pdu)
+			}
+			if !c.err && err != nil {
+				t.Errorf("parseNtpTimestamp(%v): unexpected error: %v", c.pdu, err)
+			}
+			if got != c.result {
+				t.Errorf("parseNtpTimestamp(%v) result: got %v, want %v", c.pdu, got, c.result)
+			}
+		})
 	}
 }
 
