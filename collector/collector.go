@@ -435,7 +435,12 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 			// Set EngineID option if one is configured and we're using SNMPv3
 			if c.snmpEngineID != "" && c.auth.Version == 3 {
 				// Convert the SNMP Engine ID to a byte string
-				sEID, _ := hex.DecodeString(c.snmpEngineID)
+				sEID, err := hex.DecodeString(c.snmpEngineID)
+				if err != nil {
+					logger.Debug("Failed to decode snmpEngineID as hex", "engineID", c.snmpEngineID, "err", err)
+					cancel()
+					return
+				}
 				// Set the options.
 				client.SetOptions(func(g *gosnmp.GoSNMP) {
 					g.ContextEngineID = string(sEID)
