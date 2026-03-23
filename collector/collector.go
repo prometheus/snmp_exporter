@@ -19,7 +19,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log/slog"
-	"net"
 	"regexp"
 	"strconv"
 	"strings"
@@ -160,24 +159,6 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		results.pdus = append(results.pdus, pdus...)
 	}
 	return results, nil
-}
-
-func configureTarget(g *gosnmp.GoSNMP, target string) error {
-	if s := strings.SplitN(target, "://", 2); len(s) == 2 {
-		g.Transport = s[0]
-		target = s[1]
-	}
-	g.Target = target
-	g.Port = 161
-	if host, port, err := net.SplitHostPort(target); err == nil {
-		g.Target = host
-		p, err := strconv.Atoi(port)
-		if err != nil {
-			return fmt.Errorf("error converting port number to int for target %q: %w", target, err)
-		}
-		g.Port = uint16(p)
-	}
-	return nil
 }
 
 func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
