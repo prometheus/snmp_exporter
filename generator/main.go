@@ -90,6 +90,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logge
 	if err != nil {
 		return fmt.Errorf("error opening output file: %w", err)
 	}
+	defer f.Close()
 	out = append([]byte("# WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.\n"), out...)
 	_, err = f.Write(out)
 	if err != nil {
