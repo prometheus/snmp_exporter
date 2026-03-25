@@ -12,6 +12,14 @@ auths:
     auth_protocol: MD5
     priv_protocol: DES
     version: 2
+  public_v3:
+    security_level: authPriv
+    username: snmpv3User
+    auth_protocol: SHA
+    password: authPass
+    priv_protocol: AES
+    priv_password: privPass
+    version: 3
 modules:
   apcups:
     walk:
