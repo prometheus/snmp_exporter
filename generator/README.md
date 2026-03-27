@@ -297,7 +297,7 @@ Some of these are quite sluggish, so use wget to download.
 Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mibs` is one option.
 
 * Cisco: https://cfnng.cisco.com/mibs or https://github.com/cisco/cisco-mibs
-* APC: https://download.schneider-electric.com/files?p_File_Name=powernet432.mib
+* APC: https://download.schneider-electric.com/files?p_File_Name=powernet459.mib
 * Servertech: ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
 * Palo Alto PanOS 7.0 enterprise MIBs: https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip
 * Arista Networks: https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt
