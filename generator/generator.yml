@@ -795,7 +795,7 @@ modules:
       SYNOLOGY-DISK-MIB::diskModel:
         type: DisplayString
       SYNOLOGY-DISK-MIB::diskType:
-        type: DisplayString      
+        type: DisplayString
       SYNOLOGY-DISK-MIB::diskID:
         type: DisplayString
       SYNOLOGY-DISK-MIB::diskName:
