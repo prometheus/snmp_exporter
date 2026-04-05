@@ -58692,12 +58692,12 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskID
       oid: 1.3.6.1.4.1.6574.2.1.1.2
-      type: OctetString
+      type: DisplayString
       help: Synology disk ID The ID of disk is assigned by disk Station. - 1.3.6.1.4.1.6574.2.1.1.2
       indexes:
       - labelname: diskIndex
@@ -58707,7 +58707,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskModel
@@ -58722,7 +58722,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskType
@@ -58738,7 +58738,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskStatus
@@ -58754,7 +58754,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskTemperature
@@ -58770,12 +58770,12 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskRole
       oid: 1.3.6.1.4.1.6574.2.1.1.7
-      type: OctetString
+      type: DisplayString
       help: Synology disk role The role of the disk in system - 1.3.6.1.4.1.6574.2.1.1.7
       indexes:
       - labelname: diskIndex
@@ -58785,7 +58785,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskRetry
@@ -58801,7 +58801,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskBadSector
@@ -58817,7 +58817,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskIdentifyFail
@@ -58833,7 +58833,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskRemainLife
@@ -58848,12 +58848,12 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskName
       oid: 1.3.6.1.4.1.6574.2.1.1.12
-      type: OctetString
+      type: DisplayString
       help: Synology disk name The name of disk which align to storage manager. -
         1.3.6.1.4.1.6574.2.1.1.12
       indexes:
@@ -58864,7 +58864,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: diskHealthStatus
@@ -58880,7 +58880,7 @@ modules:
         - diskIndex
         labelname: diskID
         oid: 1.3.6.1.4.1.6574.2.1.1.2
-        type: OctetString
+        type: DisplayString
       - labels: []
         labelname: diskIndex
     - name: raidIndex

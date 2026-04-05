@@ -795,6 +795,12 @@ modules:
       SYNOLOGY-DISK-MIB::diskModel:
         type: DisplayString
       SYNOLOGY-DISK-MIB::diskType:
+        type: DisplayString      
+      SYNOLOGY-DISK-MIB::diskID:
+        type: DisplayString
+      SYNOLOGY-DISK-MIB::diskName:
+        type: DisplayString
+      SYNOLOGY-DISK-MIB::diskRole:
         type: DisplayString
       SYNOLOGY-RAID-MIB::raidFreeSize:
         type: gauge
