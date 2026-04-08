@@ -562,7 +562,13 @@ func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, met
 }
 
 func parseNtpTimestamp(pdu *gosnmp.SnmpPDU) (float64, error) {
-	data := pdu.Value.([]byte)
+	data, ok := pdu.Value.([]byte)
+	if !ok {
+		return 0, fmt.Errorf("invalid NTPTimeStamp type %T", pdu.Value)
+	}
+	if len(data) < 8 {
+		return 0, fmt.Errorf("invalid NTPTimeStamp length %d, expected at least 8", len(data))
+	}
 
 	// Prometheus uses the Unix time epoch (seconds since 1970).
 	// NTP seconds are counted since 1900 and must be corrected
