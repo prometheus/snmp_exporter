@@ -32,6 +32,9 @@ jobs:
       - run: make parse_errors
       - run: make generate
       - run: git diff --exit-code
+      - uses: prometheus/promci-artifacts/save@f9a587dbc0b2c78a0c54f8ad1cde71ea29a4b76f # v0.1.0
+        with:
+          directory: generator
 
   publish_generator_main:
     name: Publish generator main branch artifacts
@@ -46,6 +49,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - uses: prometheus/promci-artifacts/restore@f9a587dbc0b2c78a0c54f8ad1cde71ea29a4b76f # v0.1.0
       - uses: prometheus/promci/publish_main@769ee18070cd21cfc2a24fa912349fd3e48dee58 # v0.6.0
         with:
           docker_hub_login: ${{ secrets.docker_hub_login }}
@@ -66,6 +70,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - uses: prometheus/promci-artifacts/restore@f9a587dbc0b2c78a0c54f8ad1cde71ea29a4b76f # v0.1.0
       - uses: prometheus/promci/publish_release@769ee18070cd21cfc2a24fa912349fd3e48dee58 # v0.6.0
         with:
           docker_hub_login: ${{ secrets.docker_hub_login }}
