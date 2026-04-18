@@ -419,7 +419,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 			logger := c.logger.With("worker", i)
 			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress, c.debugSNMP)
 			if err != nil {
-				logger.Info("Failed to create snmp srape client", "err", err)
+				logger.Info("Failed to create snmp scrape client", "err", err)
 				cancel()
 				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error during initialisation of the Worker", nil, nil), err)
 				return
