@@ -1060,6 +1060,12 @@ func TestIndexesToLabels(t *testing.T) {
 			result:   map[string]string{"l": "0x4120FF"},
 		},
 		{
+			oid:      []int{4, 127, 0, 0, 1},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "OctetString", DisplayHint: "1d."}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "127.0.0.1"},
+		},
+		{
 			oid:      []int{65, 32, 255},
 			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "OctetString", FixedSize: 3}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
