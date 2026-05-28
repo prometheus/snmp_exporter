@@ -54,6 +54,8 @@ jobs:
   publish_release:
     name: Publish release artefacts
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [test_go, build]
     if: |
       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
@@ -63,4 +65,4 @@ jobs:
         with:
           docker_hub_password: ${{ secrets.docker_hub_password }}
           quay_io_password: ${{ secrets.quay_io_password }}
-          github_token: ${{ secrets.PROMBOT_GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
