@@ -844,7 +844,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ, displayHint string, metrics Metr
 			// Prepend the length, as it is explicit in an index.
 			parts = append([]int{len(v)}, parts...)
 		}
-		str, _, _ := indexOidsAsString(parts, typ, 0, false, nil)
+		str, _, _ := indexOidsAsString(parts, typ, "", 0, false, nil)
 		return strings.ToValidUTF8(str, "�")
 	case nil:
 		return ""
@@ -858,7 +858,7 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ, displayHint string, metrics Metr
 // Convert oids to a string index value.
 //
 // Returns the string, the oids that were used and the oids left over.
-func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool, enumValues map[int]string) (string, []int, []int) {
+func indexOidsAsString(indexOids []int, typ, displayHint string, fixedSize int, implied bool, enumValues map[int]string) (string, []int, []int) {
 	if typeMapping, ok := combinedTypeMapping[typ]; ok {
 		subOid, valueOids := splitOid(indexOids, 2)
 		if typ == "InetAddressMissingSize" {
@@ -868,15 +868,15 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		var str string
 		var used, remaining []int
 		if t, ok := typeMapping[subOid[0]]; ok {
-			str, used, remaining = indexOidsAsString(valueOids, t, 0, false, enumValues)
+			str, used, remaining = indexOidsAsString(valueOids, t, displayHint, 0, false, enumValues)
 			return str, append(subOid, used...), remaining
 		}
 		if typ == "InetAddressMissingSize" {
 			// We don't know the size, so pass everything remaining.
-			return indexOidsAsString(indexOids, "OctetString", 0, true, enumValues)
+			return indexOidsAsString(indexOids, "OctetString", displayHint, 0, true, enumValues)
 		}
 		// The 2nd oid is the length.
-		return indexOidsAsString(indexOids, "OctetString", subOid[1]+2, false, enumValues)
+		return indexOidsAsString(indexOids, "OctetString", displayHint, subOid[1]+2, false, enumValues)
 	}
 
 	switch typ {
@@ -911,6 +911,9 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		}
 		if len(parts) == 0 {
 			return "", subOid, indexOids
+		}
+		if v, ok := applyDisplayHint(displayHint, parts); ok {
+			return v, subOid, indexOids
 		}
 		return fmt.Sprintf("0x%X", string(parts)), subOid, indexOids
 	case "DisplayString":
@@ -970,7 +973,7 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 
 	// Covert indexes to useful strings.
 	for _, index := range metric.Indexes {
-		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize, index.Implied, index.EnumValues)
+		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.DisplayHint, index.FixedSize, index.Implied, index.EnumValues)
 		// The labelvalue is the text form of the index oids.
 		labels[index.Labelname] = str
 		// Save its oid in case we need it for lookups.
