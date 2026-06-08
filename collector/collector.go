@@ -711,6 +711,14 @@ func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []stri
 	if !ok {
 		state = strconv.Itoa(int(value))
 	}
+	// If the metric name is already a label (e.g. it is also a table index with
+	// type EnumAsInfo), the enum string is already captured there and we must not
+	// add it again or Prometheus will reject the duplicate label.
+	for _, ln := range labelnames {
+		if ln == metric.Name {
+			return []prometheus.Metric{}
+		}
+	}
 	labelnames = append(labelnames, metric.Name)
 	labelvalues = append(labelvalues, state)
 
@@ -1004,7 +1012,16 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 					}
 				}
 			}
-			labels[lookup.Labelname] = pduValueAsString(&pdu, t, lookup.DisplayHint, metrics)
+			if t == "EnumAsInfo" && len(lookup.EnumValues) > 0 {
+				intVal := int(gosnmp.ToBigInt(pdu.Value).Int64())
+				if str, ok := lookup.EnumValues[intVal]; ok {
+					labels[lookup.Labelname] = str
+				} else {
+					labels[lookup.Labelname] = strconv.Itoa(intVal)
+				}
+			} else {
+				labels[lookup.Labelname] = pduValueAsString(&pdu, t, lookup.DisplayHint, metrics)
+			}
 			labelOids[lookup.Labelname] = []int{int(gosnmp.ToBigInt(pdu.Value).Int64())}
 		} else {
 			labels[lookup.Labelname] = ""
