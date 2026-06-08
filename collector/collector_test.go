@@ -1221,6 +1221,58 @@ func TestIndexesToLabels(t *testing.T) {
 			},
 			result: map[string]string{"lldpRemTimeMark": "1", "lldpRemLocalPortNum": "8", "lldpRemIndex": "1", "lldpLocPortId": "04:05:06:07:08:09"},
 		},
+		{
+			oid: []int{2},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{
+					{
+						Labels:     []string{"idx"},
+						Labelname:  "poolType",
+						Oid:        "1.2.3",
+						Type:       "EnumAsInfo",
+						EnumValues: map[int]string{1: "processorMemory", 2: "ioMemory", 3: "pciMemory"},
+					},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.2": {Value: 2}},
+			result:   map[string]string{"idx": "2", "poolType": "ioMemory"},
+		},
+		{
+			oid: []int{2},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{
+					{
+						Labels:     []string{"idx"},
+						Labelname:  "poolType",
+						Oid:        "1.2.3",
+						Type:       "EnumAsInfo",
+						EnumValues: map[int]string{1: "processorMemory", 2: "ioMemory", 3: "pciMemory"},
+					},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.2": {Value: 99}},
+			result:   map[string]string{"idx": "2", "poolType": "99"},
+		},
+		{
+			oid: []int{2},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{
+					{
+						Labels:     []string{"idx"},
+						Labelname:  "poolType",
+						Oid:        "1.2.3",
+						Type:       "EnumAsInfo",
+						EnumValues: map[int]string{1: "processorMemory", 2: "ioMemory", 3: "pciMemory"},
+					},
+					{Labelname: "idx"},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.2": {Value: 2}},
+			result:   map[string]string{"poolType": "ioMemory"},
+		},
 	}
 	for _, c := range cases {
 		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, Metrics{})
