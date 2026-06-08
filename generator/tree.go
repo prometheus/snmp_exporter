@@ -391,10 +391,10 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if n.ImpliedIndex && count+1 == len(n.Indexes) {
 					index.Implied = true
 				}
-			index.EnumValues = indexNode.EnumValues
-			if len(index.EnumValues) > 0 && index.Type != "EnumAsStateSet" && indexNode.Type != "gauge" {
-				index.Type = "EnumAsInfo"
-			}
+				index.EnumValues = indexNode.EnumValues
+				if len(index.EnumValues) > 0 && index.Type != "EnumAsStateSet" && indexNode.Type != "gauge" {
+					index.Type = "EnumAsInfo"
+				}
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
