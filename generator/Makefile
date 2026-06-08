@@ -192,7 +192,7 @@ mibs: \
 	$(MIBDIR)/.yamaha-rt
 
 $(MIBDIR)/apc-powernet-mib:
-	@echo ">> Downloading apc-powernet-mib" 
+	@echo ">> Downloading apc-powernet-mib"
 	@echo ">> if download fails please check https://www.se.com/at/de/search/?q=powernet+mib&submit+search+query=Search for the latest release"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib "$(APC_URL)"
 	# Workaround to make DisplayString available (#867)
@@ -497,7 +497,7 @@ $(MIBDIR)/.eltex-mes:
 $(MIBDIR)/.juniper:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading Juniper mibs to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL) 
+	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) \
 		StandardMibs/mib-alarmmib.txt \
 		StandardMibs/mib-rfc2819a.txt \
