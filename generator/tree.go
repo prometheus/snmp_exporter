@@ -391,10 +391,10 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if n.ImpliedIndex && count+1 == len(n.Indexes) {
 					index.Implied = true
 				}
-				index.EnumValues = indexNode.EnumValues
-				if len(index.EnumValues) > 0 && index.Type != "EnumAsStateSet" {
-					index.Type = "EnumAsInfo"
-				}
+			index.EnumValues = indexNode.EnumValues
+			if len(index.EnumValues) > 0 && index.Type != "EnumAsStateSet" && indexNode.Type != "gauge" {
+				index.Type = "EnumAsInfo"
+			}
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
@@ -458,7 +458,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if !ok {
 					return nil, fmt.Errorf("unknown index type %s for %s", indexNode.Type, lookup.Lookup)
 				}
-				if len(indexNode.EnumValues) > 0 && typ != "EnumAsStateSet" {
+				if len(indexNode.EnumValues) > 0 && typ != "EnumAsStateSet" && indexNode.Type != "gauge" {
 					typ = "EnumAsInfo"
 				}
 				l := &config.Lookup{
