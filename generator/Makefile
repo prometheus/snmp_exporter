@@ -37,7 +37,7 @@ ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_OM_URL       := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
-ELTEX_MES_URL     := https://api.prod.eltex-co.ru/storage/upload_center/files/42/mibs_10.4.3.4.zip
+ELTEX_MES_URL     := https://eltex.ru/storage/upload_center/files/42/mibs_10.4.3.4.zip
 # hint: https://eltex-co.com/download/?product=337 if you need to update the ELTEX_MES_URL
 DELL_NETWORK_URL  := https://supportkb.dell.com/attachment/ka02R000000I7TFQA0/Current_MIBs_pkb_en_US_1.zip
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
@@ -193,7 +193,7 @@ mibs: \
 	$(MIBDIR)/.yamaha-rt
 
 $(MIBDIR)/apc-powernet-mib:
-	@echo ">> Downloading apc-powernet-mib" 
+	@echo ">> Downloading apc-powernet-mib"
 	@echo ">> if download fails please check https://www.se.com/at/de/search/?q=powernet+mib&submit+search+query=Search for the latest release"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/apc-powernet-mib "$(APC_URL)"
 	# Workaround to make DisplayString available (#867)
@@ -497,7 +497,7 @@ $(MIBDIR)/.eltex-mes:
 $(MIBDIR)/.juniper:
 	$(eval TMP := $(shell mktemp))
 	@echo ">> Downloading Juniper mibs to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL) 
+	@curl $(CURL_OPTS) -o $(TMP) $(JUNIPER_URL)
 	@unzip -j -d $(MIBDIR) $(TMP) \
 		StandardMibs/mib-alarmmib.txt \
 		StandardMibs/mib-rfc2819a.txt \
