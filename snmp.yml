@@ -2378,7 +2378,7 @@ modules:
       help: The IP version of this row. - 1.3.6.1.4.1.30065.3.1.1.1.1.1
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2394,7 +2394,7 @@ modules:
         those received in error - 1.3.6.1.4.1.30065.3.1.1.1.1.3
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2406,7 +2406,7 @@ modules:
         those received in error - 1.3.6.1.4.1.30065.3.1.1.1.1.4
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2418,7 +2418,7 @@ modules:
         including those received in error - 1.3.6.1.4.1.30065.3.1.1.1.1.5
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2430,7 +2430,7 @@ modules:
         including those received in error - 1.3.6.1.4.1.30065.3.1.1.1.1.6
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2444,7 +2444,7 @@ modules:
         - 1.3.6.1.4.1.30065.3.1.1.1.1.7
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2456,7 +2456,7 @@ modules:
         could be found to transmit them to their destination - 1.3.6.1.4.1.30065.3.1.1.1.1.8
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2469,7 +2469,7 @@ modules:
         be received at this entity - 1.3.6.1.4.1.30065.3.1.1.1.1.9
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2481,7 +2481,7 @@ modules:
         software but discarded because of an unknown or unsupported protocol - 1.3.6.1.4.1.30065.3.1.1.1.1.10
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2493,7 +2493,7 @@ modules:
         frame didn't carry enough data - 1.3.6.1.4.1.30065.3.1.1.1.1.11
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2506,7 +2506,7 @@ modules:
         to forward them to that final destination - 1.3.6.1.4.1.30065.3.1.1.1.1.12
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2519,7 +2519,7 @@ modules:
         to forward them to that final destination - 1.3.6.1.4.1.30065.3.1.1.1.1.13
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2531,7 +2531,7 @@ modules:
         interface - 1.3.6.1.4.1.30065.3.1.1.1.1.14
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2542,7 +2542,7 @@ modules:
       help: The number of IP datagrams successfully reassembled - 1.3.6.1.4.1.30065.3.1.1.1.1.15
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2554,7 +2554,7 @@ modules:
         whatever reason: timed out, errors, etc.) - 1.3.6.1.4.1.30065.3.1.1.1.1.16'
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2567,7 +2567,7 @@ modules:
         (e.g., for lack of buffer space) - 1.3.6.1.4.1.30065.3.1.1.1.1.17
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2579,7 +2579,7 @@ modules:
         (including ICMP) - 1.3.6.1.4.1.30065.3.1.1.1.1.18
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2591,7 +2591,7 @@ modules:
         (including ICMP) - 1.3.6.1.4.1.30065.3.1.1.1.1.19
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2603,7 +2603,7 @@ modules:
         ICMP) supplied to IP in requests for transmission - 1.3.6.1.4.1.30065.3.1.1.1.1.20
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2615,7 +2615,7 @@ modules:
         ICMP) supplied to IP in requests for transmission - 1.3.6.1.4.1.30065.3.1.1.1.1.21
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2627,7 +2627,7 @@ modules:
         could be found to transmit them to their destination - 1.3.6.1.4.1.30065.3.1.1.1.1.22
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2640,7 +2640,7 @@ modules:
         in software - 1.3.6.1.4.1.30065.3.1.1.1.1.23
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2653,7 +2653,7 @@ modules:
         in software - 1.3.6.1.4.1.30065.3.1.1.1.1.24
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2666,7 +2666,7 @@ modules:
         software (e.g., for lack of buffer space) - 1.3.6.1.4.1.30065.3.1.1.1.1.25
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2678,7 +2678,7 @@ modules:
         be transmitted - 1.3.6.1.4.1.30065.3.1.1.1.1.26
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2689,7 +2689,7 @@ modules:
       help: The number of IP datagrams that have been successfully fragmented - 1.3.6.1.4.1.30065.3.1.1.1.1.27
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2701,7 +2701,7 @@ modules:
         to be fragmented but could not be - 1.3.6.1.4.1.30065.3.1.1.1.1.28
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2713,7 +2713,7 @@ modules:
         result of IP fragmentation - 1.3.6.1.4.1.30065.3.1.1.1.1.29
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2725,7 +2725,7 @@ modules:
         to the lower layers for transmission - 1.3.6.1.4.1.30065.3.1.1.1.1.30
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2737,7 +2737,7 @@ modules:
         to the lower layers for transmission - 1.3.6.1.4.1.30065.3.1.1.1.1.31
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2749,7 +2749,7 @@ modules:
         lower layers for transmission - 1.3.6.1.4.1.30065.3.1.1.1.1.32
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2761,7 +2761,7 @@ modules:
         lower layers for transmission - 1.3.6.1.4.1.30065.3.1.1.1.1.33
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2772,7 +2772,7 @@ modules:
       help: The number of IP multicast datagrams received by software - 1.3.6.1.4.1.30065.3.1.1.1.1.34
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2783,7 +2783,7 @@ modules:
       help: The number of IP multicast datagrams received by software - 1.3.6.1.4.1.30065.3.1.1.1.1.35
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2795,7 +2795,7 @@ modules:
         - 1.3.6.1.4.1.30065.3.1.1.1.1.36
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2807,7 +2807,7 @@ modules:
         - 1.3.6.1.4.1.30065.3.1.1.1.1.37
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2818,7 +2818,7 @@ modules:
       help: The number of IP multicast datagrams transmitted by software - 1.3.6.1.4.1.30065.3.1.1.1.1.38
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2829,7 +2829,7 @@ modules:
       help: The number of IP multicast datagrams transmitted by software - 1.3.6.1.4.1.30065.3.1.1.1.1.39
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2841,7 +2841,7 @@ modules:
         - 1.3.6.1.4.1.30065.3.1.1.1.1.40
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2853,7 +2853,7 @@ modules:
         - 1.3.6.1.4.1.30065.3.1.1.1.1.41
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2864,7 +2864,7 @@ modules:
       help: The number of IP broadcast datagrams received by software - 1.3.6.1.4.1.30065.3.1.1.1.1.42
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2875,7 +2875,7 @@ modules:
       help: The number of IP broadcast datagrams received by software - 1.3.6.1.4.1.30065.3.1.1.1.1.43
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2886,7 +2886,7 @@ modules:
       help: The number of IP broadcast datagrams transmitted by software - 1.3.6.1.4.1.30065.3.1.1.1.1.44
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2897,7 +2897,7 @@ modules:
       help: The number of IP broadcast datagrams transmitted by software - 1.3.6.1.4.1.30065.3.1.1.1.1.45
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2909,7 +2909,7 @@ modules:
         more of this entry's counters suffered a discontinuity - 1.3.6.1.4.1.30065.3.1.1.1.1.46
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2920,7 +2920,7 @@ modules:
       help: The minimum reasonable polling interval for this entry - 1.3.6.1.4.1.30065.3.1.1.1.1.47
       indexes:
       - labelname: aristaSwFwdIpStatsIPVersion
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -2989,12 +2989,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -3027,12 +3059,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -3042,7 +3106,22 @@ modules:
         - cempMemPoolIndex
         labelname: cempMemPoolType
         oid: 1.3.6.1.4.1.9.9.221.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: processorMemory
+          3: ioMemory
+          4: pciMemory
+          5: fastMemory
+          6: multibusMemory
+          7: interruptStackMemory
+          8: processStackMemory
+          9: localExceptionMemory
+          10: virtualMemory
+          11: reservedMemory
+          12: imageMemory
+          13: asicMemory
+          14: posixMemory
       - labels:
         - cempMemPoolIndex
         labelname: cempMemPoolName
@@ -3077,12 +3156,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -3092,7 +3203,22 @@ modules:
         - cempMemPoolIndex
         labelname: cempMemPoolType
         oid: 1.3.6.1.4.1.9.9.221.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: processorMemory
+          3: ioMemory
+          4: pciMemory
+          5: fastMemory
+          6: multibusMemory
+          7: interruptStackMemory
+          8: processStackMemory
+          9: localExceptionMemory
+          10: virtualMemory
+          11: reservedMemory
+          12: imageMemory
+          13: asicMemory
+          14: posixMemory
       - labels:
         - cempMemPoolIndex
         labelname: cempMemPoolName
@@ -3113,12 +3239,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -3128,7 +3286,22 @@ modules:
         - cempMemPoolIndex
         labelname: cempMemPoolType
         oid: 1.3.6.1.4.1.9.9.221.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: processorMemory
+          3: ioMemory
+          4: pciMemory
+          5: fastMemory
+          6: multibusMemory
+          7: interruptStackMemory
+          8: processStackMemory
+          9: localExceptionMemory
+          10: virtualMemory
+          11: reservedMemory
+          12: imageMemory
+          13: asicMemory
+          14: posixMemory
       - labels:
         - cempMemPoolIndex
         labelname: cempMemPoolName
@@ -3149,12 +3322,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -3164,7 +3369,22 @@ modules:
         - cempMemPoolIndex
         labelname: cempMemPoolType
         oid: 1.3.6.1.4.1.9.9.221.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: processorMemory
+          3: ioMemory
+          4: pciMemory
+          5: fastMemory
+          6: multibusMemory
+          7: interruptStackMemory
+          8: processStackMemory
+          9: localExceptionMemory
+          10: virtualMemory
+          11: reservedMemory
+          12: imageMemory
+          13: asicMemory
+          14: posixMemory
       - labels:
         - cempMemPoolIndex
         labelname: cempMemPoolName
@@ -3272,12 +3492,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -3296,12 +3548,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -3320,12 +3604,44 @@ modules:
         - entPhysicalIndex
         labelname: entSensorScale
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.2
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: yocto
+          2: zepto
+          3: atto
+          4: femto
+          5: pico
+          6: nano
+          7: micro
+          8: milli
+          9: units
+          10: kilo
+          11: mega
+          12: giga
+          13: tera
+          14: exa
+          15: peta
+          16: zetta
+          17: yotta
       - labels:
         - entPhysicalIndex
         labelname: entSensorType
         oid: 1.3.6.1.4.1.9.9.91.1.1.1.1.1
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: voltsAC
+          4: voltsDC
+          5: amperes
+          6: watts
+          7: hertz
+          8: celsius
+          9: percentRH
+          10: rpm
+          11: cmm
+          12: truthvalue
+          13: specialEnum
       - labels:
         - entPhysicalIndex
         labelname: entPhysicalName
@@ -5385,7 +5701,7 @@ modules:
       help: The index to the ATS bank entry. - 1.3.6.1.4.1.3808.1.1.5.5.1.4.1.1
       indexes:
       - labelname: atsLoadDevBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5403,7 +5719,7 @@ modules:
         the ATS can provide - 1.3.6.1.4.1.3808.1.1.5.5.1.4.1.2
       indexes:
       - labelname: atsLoadDevBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5470,7 +5786,7 @@ modules:
       help: The index to ATS bank entry. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.1
       indexes:
       - labelname: atsLoadStatusBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5487,7 +5803,7 @@ modules:
       help: Getting this OID will return the phase number. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.2
       indexes:
       - labelname: atsLoadStatusBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5506,7 +5822,7 @@ modules:
       help: The output current in 0.1 amperes drawn by the load on the ATS - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.3
       indexes:
       - labelname: atsLoadStatusBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5518,7 +5834,7 @@ modules:
       help: Getting this OID will return the bank load state. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.4
       indexes:
       - labelname: atsLoadStatusBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5535,7 +5851,7 @@ modules:
       help: The output power in Watts. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.5
       indexes:
       - labelname: atsLoadStatusBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5548,7 +5864,7 @@ modules:
         0.1 kilowatt-hours. - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.6
       indexes:
       - labelname: atsLoadStatusBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5561,7 +5877,7 @@ modules:
         reset - 1.3.6.1.4.1.3808.1.1.5.5.2.4.1.7
       indexes:
       - labelname: atsLoadStatusBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5638,7 +5954,7 @@ modules:
       help: The index to the ATS bank entry. - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.1
       indexes:
       - labelname: atsLoadCfgBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5656,7 +5972,7 @@ modules:
         a low consumption condition - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.2
       indexes:
       - labelname: atsLoadCfgBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5669,7 +5985,7 @@ modules:
         an overload condition - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.3
       indexes:
       - labelname: atsLoadCfgBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5682,7 +5998,7 @@ modules:
         an overload condition - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.4
       indexes:
       - labelname: atsLoadCfgBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5695,7 +6011,7 @@ modules:
         is possible and additional outlets are requested to be turned on - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.5
       indexes:
       - labelname: atsLoadCfgBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -5712,7 +6028,7 @@ modules:
         be reset to zero - 1.3.6.1.4.1.3808.1.1.5.5.3.4.1.6
       indexes:
       - labelname: atsLoadCfgBankTableIndex
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: total
           2: bank1
@@ -25024,7 +25340,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25043,7 +25359,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25067,7 +25383,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25087,7 +25403,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25107,7 +25423,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25125,7 +25441,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25150,7 +25466,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25169,7 +25485,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25188,7 +25504,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25207,7 +25523,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25226,7 +25542,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25245,7 +25561,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -25263,7 +25579,7 @@ modules:
       - labelname: vrrpv3OperationsVrId
         type: gauge
       - labelname: vrrpv3OperationsInetAddrType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           0: unknown
           1: ipv4
@@ -34552,7 +34868,7 @@ modules:
       help: The type of local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.1
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34561,7 +34877,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34582,7 +34898,7 @@ modules:
       help: The value of the local peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.2
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34591,7 +34907,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34607,7 +34923,7 @@ modules:
       help: The type of remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.3
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34616,7 +34932,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34637,7 +34953,7 @@ modules:
       help: The value of the remote peer identity - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.4
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34646,7 +34962,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34662,7 +34978,7 @@ modules:
       help: The internal index of the local-remote peer association - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.5
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34671,7 +34987,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34687,7 +35003,7 @@ modules:
       help: The IP address of the local peer. - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.6
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34696,7 +35012,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34712,7 +35028,7 @@ modules:
       help: The IP address of the remote peer. - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.7
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34721,7 +35037,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34738,7 +35054,7 @@ modules:
         of a second. - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.8
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34747,7 +35063,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34764,7 +35080,7 @@ modules:
         pikeTunnelTable) for this peer association - 1.3.6.1.4.1.119.2.3.84.3.1.2.2.1.9
       indexes:
       - labelname: pikePeerLocalType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -34773,7 +35089,7 @@ modules:
       - labelname: pikePeerLocalValue
         type: DisplayString
       - labelname: pikePeerRemoteType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: idIpv4Addr
           2: idFqdn
@@ -37712,7 +38028,44 @@ modules:
         - prtMarkerSuppliesIndex
         labelname: prtMarkerSuppliesType
         oid: 1.3.6.1.2.1.43.11.1.1.5
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: toner
+          4: wasteToner
+          5: ink
+          6: inkCartridge
+          7: inkRibbon
+          8: wasteInk
+          9: opc
+          10: developer
+          11: fuserOil
+          12: solidWax
+          13: ribbonWax
+          14: wasteWax
+          15: fuser
+          16: coronaWire
+          17: fuserOilWick
+          18: cleanerUnit
+          19: fuserCleaningPad
+          20: transferUnit
+          21: tonerCartridge
+          22: fuserOiler
+          23: water
+          24: wasteWater
+          25: glueWaterAdditive
+          26: wastePaper
+          27: bindingSupply
+          28: bandingSupply
+          29: stitchingWire
+          30: shrinkWrap
+          31: paperWrap
+          32: staples
+          33: inserts
+          34: covers
+          35: matteToner
+          36: matteInk
       - labels:
         - hrDeviceIndex
         - prtMarkerSuppliesIndex
@@ -37772,7 +38125,44 @@ modules:
         - prtMarkerSuppliesIndex
         labelname: prtMarkerSuppliesType
         oid: 1.3.6.1.2.1.43.11.1.1.5
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: toner
+          4: wasteToner
+          5: ink
+          6: inkCartridge
+          7: inkRibbon
+          8: wasteInk
+          9: opc
+          10: developer
+          11: fuserOil
+          12: solidWax
+          13: ribbonWax
+          14: wasteWax
+          15: fuser
+          16: coronaWire
+          17: fuserOilWick
+          18: cleanerUnit
+          19: fuserCleaningPad
+          20: transferUnit
+          21: tonerCartridge
+          22: fuserOiler
+          23: water
+          24: wasteWater
+          25: glueWaterAdditive
+          26: wastePaper
+          27: bindingSupply
+          28: bandingSupply
+          29: stitchingWire
+          30: shrinkWrap
+          31: paperWrap
+          32: staples
+          33: inserts
+          34: covers
+          35: matteToner
+          36: matteInk
       - labels:
         - hrDeviceIndex
         - prtMarkerSuppliesIndex
@@ -37795,7 +38185,44 @@ modules:
         - prtMarkerSuppliesIndex
         labelname: prtMarkerSuppliesType
         oid: 1.3.6.1.2.1.43.11.1.1.5
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: toner
+          4: wasteToner
+          5: ink
+          6: inkCartridge
+          7: inkRibbon
+          8: wasteInk
+          9: opc
+          10: developer
+          11: fuserOil
+          12: solidWax
+          13: ribbonWax
+          14: wasteWax
+          15: fuser
+          16: coronaWire
+          17: fuserOilWick
+          18: cleanerUnit
+          19: fuserCleaningPad
+          20: transferUnit
+          21: tonerCartridge
+          22: fuserOiler
+          23: water
+          24: wasteWater
+          25: glueWaterAdditive
+          26: wastePaper
+          27: bindingSupply
+          28: bandingSupply
+          29: stitchingWire
+          30: shrinkWrap
+          31: paperWrap
+          32: staples
+          33: inserts
+          34: covers
+          35: matteToner
+          36: matteInk
       - labels:
         - hrDeviceIndex
         - prtMarkerSuppliesIndex
@@ -37818,7 +38245,44 @@ modules:
         - prtMarkerSuppliesIndex
         labelname: prtMarkerSuppliesType
         oid: 1.3.6.1.2.1.43.11.1.1.5
-        type: gauge
+        type: EnumAsInfo
+        enum_values:
+          1: other
+          2: unknown
+          3: toner
+          4: wasteToner
+          5: ink
+          6: inkCartridge
+          7: inkRibbon
+          8: wasteInk
+          9: opc
+          10: developer
+          11: fuserOil
+          12: solidWax
+          13: ribbonWax
+          14: wasteWax
+          15: fuser
+          16: coronaWire
+          17: fuserOilWick
+          18: cleanerUnit
+          19: fuserCleaningPad
+          20: transferUnit
+          21: tonerCartridge
+          22: fuserOiler
+          23: water
+          24: wasteWater
+          25: glueWaterAdditive
+          26: wastePaper
+          27: bindingSupply
+          28: bandingSupply
+          29: stitchingWire
+          30: shrinkWrap
+          31: paperWrap
+          32: staples
+          33: inserts
+          34: covers
+          35: matteToner
+          36: matteInk
       - labels:
         - hrDeviceIndex
         - prtMarkerSuppliesIndex
@@ -40655,7 +41119,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -40755,7 +41219,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -40893,7 +41357,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -40990,7 +41454,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41087,7 +41551,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41186,7 +41650,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41288,7 +41752,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41387,7 +41851,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41485,7 +41949,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41584,7 +42048,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41683,7 +42147,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41781,7 +42245,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41880,7 +42344,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -41977,7 +42441,7 @@ modules:
       - labelname: pduId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42076,7 +42540,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42184,7 +42648,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42330,7 +42794,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42435,7 +42899,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42540,7 +43004,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42647,7 +43111,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42757,7 +43221,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42864,7 +43328,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -42970,7 +43434,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43077,7 +43541,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43184,7 +43648,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43290,7 +43754,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43397,7 +43861,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43502,7 +43966,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43609,7 +44073,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43719,7 +44183,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43867,7 +44331,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -43974,7 +44438,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44081,7 +44545,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44190,7 +44654,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44302,7 +44766,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44411,7 +44875,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44519,7 +44983,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44628,7 +45092,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44737,7 +45201,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44845,7 +45309,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -44954,7 +45418,7 @@ modules:
       - labelname: inletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45059,7 +45523,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45161,7 +45625,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45301,7 +45765,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45400,7 +45864,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45499,7 +45963,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45600,7 +46064,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45704,7 +46168,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45805,7 +46269,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -45905,7 +46369,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46006,7 +46470,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46107,7 +46571,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46207,7 +46671,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46308,7 +46772,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46407,7 +46871,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46521,7 +46985,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46673,7 +47137,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46784,7 +47248,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -46895,7 +47359,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47008,7 +47472,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47124,7 +47588,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47237,7 +47701,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47349,7 +47813,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47462,7 +47926,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47575,7 +48039,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47687,7 +48151,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47800,7 +48264,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -47911,7 +48375,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48024,7 +48488,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48140,7 +48604,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48294,7 +48758,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48407,7 +48871,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48520,7 +48984,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48635,7 +49099,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48753,7 +49217,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48868,7 +49332,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -48982,7 +49446,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -49097,7 +49561,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -49212,7 +49676,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -49326,7 +49790,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -49441,7 +49905,7 @@ modules:
       - labelname: outletPoleIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -49759,7 +50223,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -49861,7 +50325,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50001,7 +50465,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50100,7 +50564,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50199,7 +50663,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50300,7 +50764,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50404,7 +50868,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50505,7 +50969,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50605,7 +51069,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50706,7 +51170,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50807,7 +51271,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -50907,7 +51371,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51008,7 +51472,7 @@ modules:
       - labelname: transferSwitchId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51107,7 +51571,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51209,7 +51673,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51349,7 +51813,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51448,7 +51912,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51547,7 +52011,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51648,7 +52112,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51752,7 +52216,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51853,7 +52317,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -51953,7 +52417,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -52054,7 +52518,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -52155,7 +52619,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -52255,7 +52719,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -52356,7 +52820,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -52455,7 +52919,7 @@ modules:
       - labelname: circuitId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
