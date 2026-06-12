@@ -93,6 +93,14 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 	// Evaluate rules.
 	newGet := module.Get
 	newWalk := module.Walk
+
+	// allowedIndicesByTarget accumulates, for each target OID, the
+	// intersection of the indices allowed by every filter targeting it.
+	// This makes multiple filters that target the same OID act as an AND,
+	// rather than the later filter discarding the earlier one's results.
+	allowedIndicesByTarget := map[string][]string{}
+	var filteredTargets []string
+
 	for _, filter := range module.Filters {
 		allowedList := []string{}
 		pdus, err := snmp.WalkAll(filter.Oid)
@@ -107,13 +115,23 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		// Update config to get only index and not walk them.
 		newWalk = updateWalkConfig(newWalk, filter, logger)
 
-		// Only Keep indices not involved in filters.
-		newCfg := updateGetConfig(newGet, filter, logger)
+		for _, targetOid := range filter.Targets {
+			if existing, ok := allowedIndicesByTarget[targetOid]; ok {
+				allowedIndicesByTarget[targetOid] = intersectIndices(existing, allowedList)
+			} else {
+				filteredTargets = append(filteredTargets, targetOid)
+				allowedIndicesByTarget[targetOid] = allowedList
+			}
+		}
+	}
 
-		// We now add each index from filter to the get list.
-		newCfg = addAllowedIndices(filter, allowedList, logger, newCfg)
-
-		newGet = newCfg
+	// Apply the combined filters: remove each filtered target OID from the
+	// get config once, then add back only the indices allowed by every
+	// filter targeting that OID.
+	for _, targetOid := range filteredTargets {
+		singleTarget := config.DynamicFilter{Targets: []string{targetOid}}
+		newGet = updateGetConfig(newGet, singleTarget, logger)
+		newGet = addAllowedIndices(singleTarget, allowedIndicesByTarget[targetOid], logger, newGet)
 	}
 
 	version := auth.Version
@@ -159,6 +177,22 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		results.pdus = append(results.pdus, pdus...)
 	}
 	return results, nil
+}
+
+// intersectIndices returns the indices present in both a and b, preserving
+// the order of a.
+func intersectIndices(a, b []string) []string {
+	bSet := make(map[string]bool, len(b))
+	for _, idx := range b {
+		bSet[idx] = true
+	}
+	result := make([]string, 0, len(a))
+	for _, idx := range a {
+		if bSet[idx] {
+			result = append(result, idx)
+		}
+	}
+	return result
 }
 
 func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
