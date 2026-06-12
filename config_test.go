@@ -123,6 +123,25 @@ func TestEnvSecretsMissing(t *testing.T) {
 	}
 }
 
+// When environment variables are present but set to empty values.
+func TestEnvSecretsEmpty(t *testing.T) {
+	t.Setenv("ENV_USERNAME", "")
+	t.Setenv("ENV_PASSWORD", "")
+	t.Setenv("ENV_PRIV_PASSWORD", "")
+
+	sc := &SafeConfig{}
+	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
+	if err != nil {
+		t.Fatalf("Error loading config with empty env vars: %v", err)
+	}
+
+	for i := range sc.C.Auths {
+		if sc.C.Auths[i].Username != "snmp_" || sc.C.Auths[i].Password != "" || sc.C.Auths[i].PrivPassword != "" {
+			t.Fatal("failed to resolve empty env vars")
+		}
+	}
+}
+
 // When SNMPv2 was specified without credentials
 func TestEnvSecretsNotSpecified(t *testing.T) {
 	sc := &SafeConfig{}
