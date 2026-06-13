@@ -1451,6 +1451,53 @@ func TestScrapeTarget(t *testing.T) {
 			walkCall: []string{"1.3.6.1.2.1.2.2.1.2"},
 		},
 		{
+			// Two dynamic filters targeting the same OID should be ANDed
+			// together: only indices that satisfy both filters should be
+			// kept, instead of the second filter discarding the first's
+			// results.
+			name: "dynamic filter intersection",
+			module: &config.Module{
+				Get:  []string{},
+				Walk: []string{"1.3.6.1.2.1.31.1.1.1.18"},
+				Filters: []config.DynamicFilter{
+					{
+						Oid: "1.3.6.1.2.1.2.2.1.2",
+						Targets: []string{
+							"1.3.6.1.2.1.31.1.1.1.18",
+						},
+						Values: []string{"Intel Corporation 82540EM Gigabit Ethernet Controller"},
+					},
+					{
+						Oid: "1.3.6.1.2.1.2.2.1.7",
+						Targets: []string{
+							"1.3.6.1.2.1.31.1.1.1.18",
+						},
+						Values: []string{"1"},
+					},
+				},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.31.1.1.1.18.2": {Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+			},
+			walkResponses: map[string][]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.2.2.1.2": {
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.1", Value: "lo"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.2", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.3", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+				},
+				"1.3.6.1.2.1.2.2.1.7": {
+					{Name: ".1.3.6.1.2.1.2.2.1.7.1", Value: 1},
+					{Name: ".1.3.6.1.2.1.2.2.1.7.2", Value: 1},
+					{Name: ".1.3.6.1.2.1.2.2.1.7.3", Value: 2},
+				},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.31.1.1.1.18.2"},
+			walkCall: []string{"1.3.6.1.2.1.2.2.1.2", "1.3.6.1.2.1.2.2.1.7"},
+		},
+		{
 			name: "filter NoSuchObject",
 			module: &config.Module{
 				Get: []string{"1.3.6.1.2.1.1.1.0", "1.3.6.1.2.1.1.2.0"},
