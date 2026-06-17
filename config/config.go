@@ -140,6 +140,10 @@ type Module struct {
 
 func (c *Module) UnmarshalYAML(unmarshal func(any) error) error {
 	*c = DefaultModule
+	if c.WalkParams.Retries != nil {
+		retries := *c.WalkParams.Retries
+		c.WalkParams.Retries = &retries
+	}
 	type plain Module
 	return unmarshal((*plain)(c))
 }
@@ -365,8 +369,8 @@ func (re *Regexp) UnmarshalYAML(unmarshal func(any) error) error {
 func substituteEnvVariables(value string) (string, error) {
 	missingEnv := ""
 	result := os.Expand(value, func(s string) string {
-		v := os.Getenv(s)
-		if v == "" && missingEnv == "" {
+		v, ok := os.LookupEnv(s)
+		if !ok && missingEnv == "" {
 			missingEnv = s
 		}
 		return v
