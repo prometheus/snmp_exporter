@@ -292,23 +292,15 @@ PhysAddress48, InetAddressIPv4, etc.) ignore this setting.
 
 ## Where to get MIBs
 
-Some of these are quite sluggish, so use wget to download.
+Many vendor MIBs are already included via the
+[prometheus-community/snmp](https://github.com/prometheus-community/snmp)
+repository. Run `make mibs` in the generator directory to download all
+supported MIBs automatically.
 
-Put the extracted mibs in a location NetSNMP can read them from. `$HOME/.snmp/mibs` is one option.
-
-* Cisco: https://cfnng.cisco.com/mibs or https://github.com/cisco/cisco-mibs
-* APC: https://download.schneider-electric.com/files?p_Doc_Ref=APC_POWERNETMIB_EN&p_enDocType=Firmware - now handled via https://github.com/prometheus-community/snmp/tree/main/apc
-* Servertech: ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
-* Palo Alto PanOS 7.0 enterprise MIBs: https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip
-* Arista Networks: https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt
-                   https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
-                   https://www.arista.com/assets/data/docs/MIBS/ARISTA-SMI-MIB.txt
-* Synology: https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_MIB_File.zip
-* MikroTik: http://download2.mikrotik.com/Mikrotik.mib
-* UCD-SNMP-MIB (Net-SNMP): http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
-* Ubiquiti Networks: http://dl.ubnt-ut.com/snmp/UBNT-MIB
-                     http://dl.ubnt-ut.com/snmp/UBNT-UniFi-MIB
-                     https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+For MIBs not yet covered, check the vendor's support or developer portal
+directly. Vendor MIBs contributed to `prometheus-community/snmp` are
+preferred over direct vendor links as they are maintained and versioned
+centrally.
 
 https://github.com/librenms/librenms/tree/master/mibs can also be a good source of MIBs.
 
