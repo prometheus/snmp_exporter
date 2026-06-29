@@ -1,4 +1,4 @@
-FROM golang:bookworm AS builder
+FROM golang:trixie AS builder
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libsnmp-dev
@@ -6,7 +6,7 @@ RUN apt-get update \
 ARG REPO_TAG=main
 RUN go install github.com/prometheus/snmp_exporter/generator@"$REPO_TAG"
 
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 WORKDIR "/opt"
 
@@ -17,7 +17,7 @@ ENV MIBDIRS=mibs
 CMD ["generate"]
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libsnmp40 \
+    && apt-get install -y --no-install-recommends libsnmp40t64 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /go/bin/generator /bin/generator
