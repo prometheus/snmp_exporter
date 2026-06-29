@@ -259,11 +259,12 @@ type Index struct {
 }
 
 type Lookup struct {
-	Labels      []string `yaml:"labels"`
-	Labelname   string   `yaml:"labelname"`
-	Oid         string   `yaml:"oid,omitempty"`
-	Type        string   `yaml:"type,omitempty"`
-	DisplayHint string   `yaml:"display_hint,omitempty"`
+	Labels      []string       `yaml:"labels"`
+	Labelname   string         `yaml:"labelname"`
+	Oid         string         `yaml:"oid,omitempty"`
+	Type        string         `yaml:"type,omitempty"`
+	DisplayHint string         `yaml:"display_hint,omitempty"`
+	EnumValues  map[int]string `yaml:"enum_values,omitempty"`
 }
 
 // Secret is a string that must not be revealed on marshaling.
