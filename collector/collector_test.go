@@ -1240,178 +1240,63 @@ func TestIndexesToLabels(t *testing.T) {
 			},
 			result: map[string]string{"lldpRemTimeMark": "1", "lldpRemLocalPortNum": "8", "lldpRemIndex": "1", "lldpLocPortId": "04:05:06:07:08:09"},
 		},
+		{
+			oid: []int{2},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{
+					{
+						Labels:     []string{"idx"},
+						Labelname:  "poolType",
+						Oid:        "1.2.3",
+						Type:       "EnumAsInfo",
+						EnumValues: map[int]string{1: "processorMemory", 2: "ioMemory", 3: "pciMemory"},
+					},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.2": {Value: 2}},
+			result:   map[string]string{"idx": "2", "poolType": "ioMemory"},
+		},
+		{
+			oid: []int{2},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{
+					{
+						Labels:     []string{"idx"},
+						Labelname:  "poolType",
+						Oid:        "1.2.3",
+						Type:       "EnumAsInfo",
+						EnumValues: map[int]string{1: "processorMemory", 2: "ioMemory", 3: "pciMemory"},
+					},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.2": {Value: 99}},
+			result:   map[string]string{"idx": "2", "poolType": "99"},
+		},
+		{
+			oid: []int{2},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "idx", Type: "gauge"}},
+				Lookups: []*config.Lookup{
+					{
+						Labels:     []string{"idx"},
+						Labelname:  "poolType",
+						Oid:        "1.2.3",
+						Type:       "EnumAsInfo",
+						EnumValues: map[int]string{1: "processorMemory", 2: "ioMemory", 3: "pciMemory"},
+					},
+					{Labelname: "idx"},
+				},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.2": {Value: 2}},
+			result:   map[string]string{"poolType": "ioMemory"},
+		},
 	}
 	for _, c := range cases {
 		got := indexesToLabels(c.oid, &c.metric, c.oidToPdu, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("indexesToLabels(%v, %v, %v): got %v, want %v", c.oid, c.metric, c.oidToPdu, got, c.result)
-		}
-	}
-}
-
-func TestConfigureTarget(t *testing.T) {
-	cases := []struct {
-		target     string
-		gTransport string
-		gTarget    string
-		gPort      uint16
-		shouldErr  bool
-	}{
-		{
-			target:     "localhost",
-			gTransport: "",
-			gTarget:    "localhost",
-			gPort:      161,
-			shouldErr:  false,
-		},
-		{
-			target:     "localhost:1161",
-			gTransport: "",
-			gTarget:    "localhost",
-			gPort:      1161,
-			shouldErr:  false,
-		},
-		{
-			target:     "udp://localhost",
-			gTransport: "udp",
-			gTarget:    "localhost",
-			gPort:      161,
-			shouldErr:  false,
-		},
-		{
-			target:     "udp://localhost:1161",
-			gTransport: "udp",
-			gTarget:    "localhost",
-			gPort:      1161,
-			shouldErr:  false,
-		},
-		{
-			target:     "tcp://localhost",
-			gTransport: "tcp",
-			gTarget:    "localhost",
-			gPort:      161,
-			shouldErr:  false,
-		},
-		{
-			target:     "tcp://localhost:1161",
-			gTransport: "tcp",
-			gTarget:    "localhost",
-			gPort:      1161,
-			shouldErr:  false,
-		},
-		{
-			target:     "[::1]",
-			gTransport: "",
-			gTarget:    "[::1]",
-			gPort:      161,
-			shouldErr:  false,
-		},
-		{
-			target:     "[::1]:1161",
-			gTransport: "",
-			gTarget:    "::1",
-			gPort:      1161,
-			shouldErr:  false,
-		},
-		{
-			target:     "udp://[::1]",
-			gTransport: "udp",
-			gTarget:    "[::1]",
-			gPort:      161,
-			shouldErr:  false,
-		},
-		{
-			target:     "udp://[::1]:1161",
-			gTransport: "udp",
-			gTarget:    "::1",
-			gPort:      1161,
-			shouldErr:  false,
-		},
-		{
-			target:     "tcp://[::1]",
-			gTransport: "tcp",
-			gTarget:    "[::1]",
-			gPort:      161,
-			shouldErr:  false,
-		},
-		{
-			target:     "tcp://[::1]:1161",
-			gTransport: "tcp",
-			gTarget:    "::1",
-			gPort:      1161,
-			shouldErr:  false,
-		},
-		{ // this case is valid during parse but invalid during connect
-			target:     "tcp://udp://localhost:1161",
-			gTransport: "tcp",
-			gTarget:    "udp://localhost:1161",
-			gPort:      161,
-			shouldErr:  false,
-		},
-		{
-			target:     "localhost:badport",
-			gTransport: "",
-			gTarget:    "",
-			gPort:      0,
-			shouldErr:  true,
-		},
-		{
-			target:     "udp://localhost:badport",
-			gTransport: "",
-			gTarget:    "",
-			gPort:      0,
-			shouldErr:  true,
-		},
-		{
-			target:     "tcp://localhost:badport",
-			gTransport: "",
-			gTarget:    "",
-			gPort:      0,
-			shouldErr:  true,
-		},
-		{
-			target:     "[::1]:badport",
-			gTransport: "",
-			gTarget:    "",
-			gPort:      0,
-			shouldErr:  true,
-		},
-		{
-			target:     "udp://[::1]:badport",
-			gTransport: "",
-			gTarget:    "",
-			gPort:      0,
-			shouldErr:  true,
-		},
-		{
-			target:     "tcp://[::1]:badport",
-			gTransport: "",
-			gTarget:    "",
-			gPort:      0,
-			shouldErr:  true,
-		},
-	}
-
-	for _, c := range cases {
-		var g gosnmp.GoSNMP
-		err := configureTarget(&g, c.target)
-		if c.shouldErr {
-			if err == nil {
-				t.Fatalf("Was expecting error, but none returned for %q", c.target)
-			}
-			continue
-		}
-		if err != nil {
-			t.Fatalf("Error configuring target %q: %v", c.target, err)
-		}
-		if g.Transport != c.gTransport {
-			t.Fatalf("Bad SNMP transport for %q, got=%q, expected=%q", c.target, g.Transport, c.gTransport)
-		}
-		if g.Target != c.gTarget {
-			t.Fatalf("Bad SNMP target for %q, got=%q, expected=%q", c.target, g.Target, c.gTarget)
-		}
-		if g.Port != c.gPort {
-			t.Fatalf("Bad SNMP port for %q, got=%d, expected=%d", c.target, g.Port, c.gPort)
 		}
 	}
 }
@@ -1635,6 +1520,53 @@ func TestScrapeTarget(t *testing.T) {
 			},
 			getCall:  []string{"1.3.6.1.2.1.31.1.1.1.18.2", "1.3.6.1.2.1.31.1.1.1.18.3"},
 			walkCall: []string{"1.3.6.1.2.1.2.2.1.2"},
+		},
+		{
+			// Two dynamic filters targeting the same OID should be ANDed
+			// together: only indices that satisfy both filters should be
+			// kept, instead of the second filter discarding the first's
+			// results.
+			name: "dynamic filter intersection",
+			module: &config.Module{
+				Get:  []string{},
+				Walk: []string{"1.3.6.1.2.1.31.1.1.1.18"},
+				Filters: []config.DynamicFilter{
+					{
+						Oid: "1.3.6.1.2.1.2.2.1.2",
+						Targets: []string{
+							"1.3.6.1.2.1.31.1.1.1.18",
+						},
+						Values: []string{"Intel Corporation 82540EM Gigabit Ethernet Controller"},
+					},
+					{
+						Oid: "1.3.6.1.2.1.2.2.1.7",
+						Targets: []string{
+							"1.3.6.1.2.1.31.1.1.1.18",
+						},
+						Values: []string{"1"},
+					},
+				},
+			},
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.31.1.1.1.18.2": {Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+			},
+			walkResponses: map[string][]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.2.2.1.2": {
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.1", Value: "lo"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.2", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+					{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.2.2.1.2.3", Value: "Intel Corporation 82540EM Gigabit Ethernet Controller"},
+				},
+				"1.3.6.1.2.1.2.2.1.7": {
+					{Name: ".1.3.6.1.2.1.2.2.1.7.1", Value: 1},
+					{Name: ".1.3.6.1.2.1.2.2.1.7.2", Value: 1},
+					{Name: ".1.3.6.1.2.1.2.2.1.7.3", Value: 2},
+				},
+			},
+			expectPdus: []gosnmp.SnmpPDU{
+				{Type: gosnmp.OctetString, Name: ".1.3.6.1.2.1.31.1.1.1.18.2", Value: "eth0"},
+			},
+			getCall:  []string{"1.3.6.1.2.1.31.1.1.1.18.2"},
+			walkCall: []string{"1.3.6.1.2.1.2.2.1.2", "1.3.6.1.2.1.2.2.1.7"},
 		},
 		{
 			name: "filter NoSuchObject",

@@ -140,6 +140,10 @@ type Module struct {
 
 func (c *Module) UnmarshalYAML(unmarshal func(any) error) error {
 	*c = DefaultModule
+	if c.WalkParams.Retries != nil {
+		retries := *c.WalkParams.Retries
+		c.WalkParams.Retries = &retries
+	}
 	type plain Module
 	return unmarshal((*plain)(c))
 }
@@ -255,11 +259,12 @@ type Index struct {
 }
 
 type Lookup struct {
-	Labels      []string `yaml:"labels"`
-	Labelname   string   `yaml:"labelname"`
-	Oid         string   `yaml:"oid,omitempty"`
-	Type        string   `yaml:"type,omitempty"`
-	DisplayHint string   `yaml:"display_hint,omitempty"`
+	Labels      []string       `yaml:"labels"`
+	Labelname   string         `yaml:"labelname"`
+	Oid         string         `yaml:"oid,omitempty"`
+	Type        string         `yaml:"type,omitempty"`
+	DisplayHint string         `yaml:"display_hint,omitempty"`
+	EnumValues  map[int]string `yaml:"enum_values,omitempty"`
 }
 
 // Secret is a string that must not be revealed on marshaling.
@@ -363,9 +368,16 @@ func (re *Regexp) UnmarshalYAML(unmarshal func(any) error) error {
 }
 
 func substituteEnvVariables(value string) (string, error) {
-	result := os.Expand(value, os.Getenv)
-	if result == "" {
-		return "", errors.New(value + " environment variable not found")
+	missingEnv := ""
+	result := os.Expand(value, func(s string) string {
+		v, ok := os.LookupEnv(s)
+		if !ok && missingEnv == "" {
+			missingEnv = s
+		}
+		return v
+	})
+	if missingEnv != "" {
+		return "", errors.New(missingEnv + " environment variable not found")
 	}
 	return result, nil
 }

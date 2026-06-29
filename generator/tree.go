@@ -392,6 +392,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					index.Implied = true
 				}
 				index.EnumValues = indexNode.EnumValues
+				if len(index.EnumValues) > 0 && index.Type != "EnumAsStateSet" && indexNode.Type != "gauge" {
+					index.Type = "EnumAsInfo"
+				}
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
@@ -455,10 +458,14 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				if !ok {
 					return nil, fmt.Errorf("unknown index type %s for %s", indexNode.Type, lookup.Lookup)
 				}
+				if len(indexNode.EnumValues) > 0 && typ != "EnumAsStateSet" && indexNode.Type != "gauge" {
+					typ = "EnumAsInfo"
+				}
 				l := &config.Lookup{
-					Labelname: sanitizeLabelName(indexNode.Label),
-					Type:      typ,
-					Oid:       indexNode.Oid,
+					Labelname:  sanitizeLabelName(indexNode.Label),
+					Type:       typ,
+					Oid:        indexNode.Oid,
+					EnumValues: indexNode.EnumValues,
 				}
 				// Handle display_hint for lookup
 				if lookup.DisplayHint != "" {
@@ -481,7 +488,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				// If lookup label is used as source index in another lookup,
 				// we need to add this new label as another index.
 				if slices.Contains(requiredAsIndex, l.Labelname) {
-					idx := &config.Index{Labelname: l.Labelname, Type: l.Type}
+					idx := &config.Index{Labelname: l.Labelname, Type: l.Type, EnumValues: indexNode.EnumValues}
 					metric.Indexes = append(metric.Indexes, idx)
 				}
 

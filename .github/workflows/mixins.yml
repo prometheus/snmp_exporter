@@ -1,0 +1,26 @@
+---
+name: Mixins
+on:
+  pull_request:
+  push:
+    branches: [main, 'release-*']
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  mixins:
+    name: Test mixins
+    runs-on: ubuntu-latest
+    container:
+      # Whenever the Go version is updated here, .promu.yml
+      # should also be updated.
+      image: quay.io/prometheus/golang-builder:1.26-base
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - run: go install github.com/monitoring-mixins/mixtool/cmd/mixtool@latest
+      - run: go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+      - run: make -C snmp-mixin lint build

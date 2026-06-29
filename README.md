@@ -182,7 +182,7 @@ scrape_configs:
 ```
 
 You could pass `username`, `password` & `priv_password` via environment variables of your choice in below format. 
-If the variables exist in the environment, they are resolved on the fly otherwise the string in the config file is passed as-is.
+If the variables exist in the environment, they are resolved on the fly, otherwise `snmp_exporter` will error while loading the config.
 
 This requires the `--config.expand-environment-variables` flag be set.
 
@@ -222,6 +222,19 @@ If you need to generate your own configuration from MIBs, you can use the
 
 Use the generator if you need to customize which objects are walked or use
 non-public MIBs.
+
+### Getting more MIBs
+
+The generator ships with a curated set of open MIBs. For vendor MIBs not
+included here, the
+[prometheus-community/snmp](https://github.com/prometheus-community/snmp)
+repository maintains a growing collection of MIBs and ready-to-use generator
+configs contributed by the community. Clone or download MIBs from that
+repository and place them in the generator's `mibs/` directory, then
+regenerate `snmp.yml` with `make generate`.
+
+If you have vendor MIBs or generator configs for devices not yet represented
+there, consider contributing them upstream to grow the shared library.
 
 ## Large counter value handling
 

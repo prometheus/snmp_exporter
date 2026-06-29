@@ -19,7 +19,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log/slog"
-	"net"
 	"regexp"
 	"strconv"
 	"strings"
@@ -94,6 +93,14 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 	// Evaluate rules.
 	newGet := module.Get
 	newWalk := module.Walk
+
+	// allowedIndicesByTarget accumulates, for each target OID, the
+	// intersection of the indices allowed by every filter targeting it.
+	// This makes multiple filters that target the same OID act as an AND,
+	// rather than the later filter discarding the earlier one's results.
+	allowedIndicesByTarget := map[string][]string{}
+	var filteredTargets []string
+
 	for _, filter := range module.Filters {
 		allowedList := []string{}
 		pdus, err := snmp.WalkAll(filter.Oid)
@@ -108,13 +115,23 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		// Update config to get only index and not walk them.
 		newWalk = updateWalkConfig(newWalk, filter, logger)
 
-		// Only Keep indices not involved in filters.
-		newCfg := updateGetConfig(newGet, filter, logger)
+		for _, targetOid := range filter.Targets {
+			if existing, ok := allowedIndicesByTarget[targetOid]; ok {
+				allowedIndicesByTarget[targetOid] = intersectIndices(existing, allowedList)
+			} else {
+				filteredTargets = append(filteredTargets, targetOid)
+				allowedIndicesByTarget[targetOid] = allowedList
+			}
+		}
+	}
 
-		// We now add each index from filter to the get list.
-		newCfg = addAllowedIndices(filter, allowedList, logger, newCfg)
-
-		newGet = newCfg
+	// Apply the combined filters: remove each filtered target OID from the
+	// get config once, then add back only the indices allowed by every
+	// filter targeting that OID.
+	for _, targetOid := range filteredTargets {
+		singleTarget := config.DynamicFilter{Targets: []string{targetOid}}
+		newGet = updateGetConfig(newGet, singleTarget, logger)
+		newGet = addAllowedIndices(singleTarget, allowedIndicesByTarget[targetOid], logger, newGet)
 	}
 
 	version := auth.Version
@@ -162,22 +179,20 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 	return results, nil
 }
 
-func configureTarget(g *gosnmp.GoSNMP, target string) error {
-	if s := strings.SplitN(target, "://", 2); len(s) == 2 {
-		g.Transport = s[0]
-		target = s[1]
+// intersectIndices returns the indices present in both a and b, preserving
+// the order of a.
+func intersectIndices(a, b []string) []string {
+	bSet := make(map[string]bool, len(b))
+	for _, idx := range b {
+		bSet[idx] = true
 	}
-	g.Target = target
-	g.Port = 161
-	if host, port, err := net.SplitHostPort(target); err == nil {
-		g.Target = host
-		p, err := strconv.Atoi(port)
-		if err != nil {
-			return fmt.Errorf("error converting port number to int for target %q: %w", target, err)
+	result := make([]string, 0, len(a))
+	for _, idx := range a {
+		if bSet[idx] {
+			result = append(result, idx)
 		}
-		g.Port = uint16(p)
 	}
-	return nil
+	return result
 }
 
 func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
@@ -438,7 +453,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 			logger := c.logger.With("worker", i)
 			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress, c.debugSNMP)
 			if err != nil {
-				logger.Info("Failed to create snmp srape client", "err", err)
+				logger.Info("Failed to create snmp scrape client", "err", err)
 				cancel()
 				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error during initialisation of the Worker", nil, nil), err)
 				return
@@ -454,7 +469,12 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 			// Set EngineID option if one is configured and we're using SNMPv3
 			if c.snmpEngineID != "" && c.auth.Version == 3 {
 				// Convert the SNMP Engine ID to a byte string
-				sEID, _ := hex.DecodeString(c.snmpEngineID)
+				sEID, err := hex.DecodeString(c.snmpEngineID)
+				if err != nil {
+					logger.Debug("Failed to decode snmpEngineID as hex", "engineID", c.snmpEngineID, "err", err)
+					cancel()
+					return
+				}
 				// Set the options.
 				client.SetOptions(func(g *gosnmp.GoSNMP) {
 					g.ContextEngineID = string(sEID)
@@ -730,6 +750,14 @@ func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []stri
 	state, ok := metric.EnumValues[int(value)]
 	if !ok {
 		state = strconv.Itoa(int(value))
+	}
+	// If the metric name is already a label (e.g. it is also a table index with
+	// type EnumAsInfo), the enum string is already captured there and we must not
+	// add it again or Prometheus will reject the duplicate label.
+	for _, ln := range labelnames {
+		if ln == metric.Name {
+			return []prometheus.Metric{}
+		}
 	}
 	labelnames = append(labelnames, metric.Name)
 	labelvalues = append(labelvalues, state)
@@ -1024,7 +1052,16 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 					}
 				}
 			}
-			labels[lookup.Labelname] = pduValueAsString(&pdu, t, lookup.DisplayHint, metrics)
+			if t == "EnumAsInfo" && len(lookup.EnumValues) > 0 {
+				intVal := int(gosnmp.ToBigInt(pdu.Value).Int64())
+				if str, ok := lookup.EnumValues[intVal]; ok {
+					labels[lookup.Labelname] = str
+				} else {
+					labels[lookup.Labelname] = strconv.Itoa(intVal)
+				}
+			} else {
+				labels[lookup.Labelname] = pduValueAsString(&pdu, t, lookup.DisplayHint, metrics)
+			}
 			labelOids[lookup.Labelname] = []int{int(gosnmp.ToBigInt(pdu.Value).Int64())}
 		} else {
 			labels[lookup.Labelname] = ""

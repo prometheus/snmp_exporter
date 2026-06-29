@@ -44,7 +44,13 @@ func NewGoSNMP(logger *slog.Logger, target, srcAddress string, debug bool) (*GoS
 		if err != nil {
 			return nil, fmt.Errorf("error converting port number to int for target %q: %w", target, err)
 		}
+		if p < 0 || p > 65535 {
+			return nil, fmt.Errorf("port number out of range for target %q", target)
+		}
 		port = uint16(p)
+	} else if host, _, err := net.SplitHostPort(target + ":0"); err == nil {
+		// Strip brackets from IPv6 addresses like "[::1]" that have no port.
+		target = host
 	}
 	g := &gosnmp.GoSNMP{
 		Transport: transport,
