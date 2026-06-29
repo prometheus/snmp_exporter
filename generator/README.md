@@ -234,7 +234,38 @@ to represent these strings in Prometheus. They can be "info" metrics, or they ca
 "state sets". SNMP does not specify which should be used, and it's up to the use case
 of the data. Some users may also prefer the raw integer value, rather than the string.
 
-In order to set enum integer to string mapping, you must use one of the two overrides.
+#### Enum indexes and lookups
+
+When an SNMP column with MIB enum values is used as a table **index** or **lookup**,
+the generator defaults to `EnumAsInfo` and the exporter emits human-readable strings
+in **label values** instead of numeric strings. For example:
+
+```
+# Before (numeric label)
+cempMemPoolUsed{cempMemPoolType="3", ...}
+
+# After (human-readable label)
+cempMemPoolUsed{cempMemPoolType="ioMemory", ...}
+```
+
+This applies when regenerating any module, not only the default `snmp.yml`. Plain
+integer indexes (such as `ifIndex`) and string lookups (such as `ifDescr`) are
+unchanged. Unknown enum values fall back to the decimal string (e.g. `"99"`).
+
+To keep numeric label values, override the column with `type: gauge`:
+
+```yaml
+modules:
+  cisco_device:
+    overrides:
+      cempMemPoolType:
+        type: gauge
+```
+
+#### Enum metric columns
+
+For enum columns exported as their own metrics (not just as indexes or lookups), use
+one of the two overrides to control how the sample is represented:
 
 `EnumAsInfo` should be used for properties that provide inventory-like data. For example
 a device type, the name of a colour etc. It is important that this value is constant.
