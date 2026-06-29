@@ -14,11 +14,18 @@
 package main
 
 import (
+	"net/http"
+	"net/http/httptest"
+	"net/url"
+	"reflect"
 	"strings"
 	"testing"
 
 	"github.com/prometheus/common/promslog"
 	"go.yaml.in/yaml/v2"
+
+	"github.com/prometheus/snmp_exporter/collector"
+	"github.com/prometheus/snmp_exporter/config"
 )
 
 var nopLogger = promslog.NewNopLogger()
@@ -148,5 +155,82 @@ func TestEnvSecretsNotSpecified(t *testing.T) {
 	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-v2nocreds.yml"}, true)
 	if err != nil {
 		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-v2nocreds.yml", err)
+	}
+}
+
+func TestParseModules(t *testing.T) {
+	cases := []struct {
+		name    string
+		query   url.Values
+		want    []string
+		wantErr string
+	}{
+		{
+			name:  "defaults to if_mib when omitted",
+			query: url.Values{},
+			want:  []string{"if_mib"},
+		},
+		{
+			name:    "rejects explicit empty module",
+			query:   url.Values{"module": {""}},
+			wantErr: "'module' parameter must contain at least one module name",
+		},
+		{
+			name:  "deduplicates modules across repeated params and csv values",
+			query: url.Values{"module": {"if_mib,system", "system", "if_mib"}},
+			want:  []string{"if_mib", "system"},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got, err := parseModules(tc.query)
+			if tc.wantErr != "" {
+				if err == nil {
+					t.Fatalf("expected error %q, got nil", tc.wantErr)
+				}
+				if err.Error() != tc.wantErr {
+					t.Fatalf("expected error %q, got %q", tc.wantErr, err.Error())
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Fatalf("expected modules %v, got %v", tc.want, got)
+			}
+		})
+	}
+}
+
+func TestHandlerRejectsEmptyModuleParameter(t *testing.T) {
+	sc = &SafeConfig{
+		C: &config.Config{
+			Auths: map[string]*config.Auth{
+				"public_v2": {
+					Community:     "public",
+					SecurityLevel: "noAuthNoPriv",
+					AuthProtocol:  "MD5",
+					PrivProtocol:  "DES",
+					Version:       2,
+				},
+			},
+			Modules: map[string]*config.Module{
+				"if_mib": {},
+			},
+		},
+	}
+
+	req := httptest.NewRequest(http.MethodGet, "/snmp?target=127.0.0.1&module=", http.NoBody)
+	resp := httptest.NewRecorder()
+
+	handler(resp, req, nopLogger, collector.Metrics{})
+
+	if resp.Code != http.StatusBadRequest {
+		t.Fatalf("expected status %d, got %d", http.StatusBadRequest, resp.Code)
+	}
+	if !strings.Contains(resp.Body.String(), "'module' parameter must contain at least one module name") {
+		t.Fatalf("unexpected response body: %q", resp.Body.String())
 	}
 }

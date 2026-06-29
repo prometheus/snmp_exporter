@@ -18,6 +18,7 @@ import (
 	"log/slog"
 	"net/http"
 	_ "net/http/pprof"
+	"net/url"
 	"os"
 	"os/signal"
 	"strings"
@@ -83,6 +84,30 @@ const (
 	configPath = "/config"
 )
 
+func parseModules(query url.Values) ([]string, error) {
+	queryModule := query["module"]
+	if len(queryModule) == 0 {
+		queryModule = append(queryModule, "if_mib")
+	}
+	uniqueM := make(map[string]bool)
+	var modules []string
+	for _, qm := range queryModule {
+		for m := range strings.SplitSeq(qm, ",") {
+			if m == "" {
+				continue
+			}
+			if _, ok := uniqueM[m]; !ok {
+				uniqueM[m] = true
+				modules = append(modules, m)
+			}
+		}
+	}
+	if len(modules) == 0 {
+		return nil, fmt.Errorf("'module' parameter must contain at least one module name")
+	}
+	return modules, nil
+}
+
 func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, exporterMetrics collector.Metrics) {
 	query := r.URL.Query()
 
@@ -125,22 +150,11 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 		return
 	}
 
-	queryModule := query["module"]
-	if len(queryModule) == 0 {
-		queryModule = append(queryModule, "if_mib")
-	}
-	uniqueM := make(map[string]bool)
-	var modules []string
-	for _, qm := range queryModule {
-		for m := range strings.SplitSeq(qm, ",") {
-			if m == "" {
-				continue
-			}
-			if _, ok := uniqueM[m]; !ok {
-				uniqueM[m] = true
-				modules = append(modules, m)
-			}
-		}
+	modules, err := parseModules(query)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		snmpRequestErrors.Inc()
+		return
 	}
 	sc.mu.RLock()
 	auth, authOk := sc.C.Auths[authName]
