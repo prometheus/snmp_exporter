@@ -19,7 +19,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log/slog"
-	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -101,7 +100,8 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 	allowedIndicesByTarget := map[string][]string{}
 	var filteredTargets []string
 
-	for _, filter := range module.Filters {
+	for i := range module.Filters {
+		filter := &module.Filters[i]
 		allowedList := []string{}
 		pdus, err := snmp.WalkAll(filter.Oid)
 		// Do not try to filter anything if we had errors.
@@ -113,7 +113,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		allowedList = filterAllowedIndices(logger, filter, pdus, allowedList, metrics)
 
 		// Update config to get only index and not walk them.
-		newWalk = updateWalkConfig(newWalk, filter, logger)
+		newWalk = updateWalkConfig(newWalk, *filter, logger)
 
 		for _, targetOid := range filter.Targets {
 			if existing, ok := allowedIndicesByTarget[targetOid]; ok {
@@ -195,15 +195,15 @@ func intersectIndices(a, b []string) []string {
 	return result
 }
 
-func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
+func filterAllowedIndices(logger *slog.Logger, filter *config.DynamicFilter, pdus []gosnmp.SnmpPDU, allowedList []string, metrics Metrics) []string {
 	logger.Debug("Evaluating rule for oid", "oid", filter.Oid)
 	for _, pdu := range pdus {
 		found := false
-		for _, val := range filter.Values {
+		for i, re := range filter.Regexps() {
 			snmpval := pduValueAsString(&pdu, "DisplayString", "", metrics)
-			logger.Debug("evaluating filters", "config value", val, "snmp value", snmpval)
+			logger.Debug("evaluating filters", "config value", filter.Values[i], "snmp value", snmpval)
 
-			if regexp.MustCompile(val).MatchString(snmpval) {
+			if re.MatchString(snmpval) {
 				found = true
 				break
 			}

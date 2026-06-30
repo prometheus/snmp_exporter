@@ -14,6 +14,7 @@
 package config
 
 import (
+	"strings"
 	"testing"
 
 	"go.yaml.in/yaml/v2"
@@ -54,5 +55,25 @@ modules:
 	// This is the core check for the fix to ensure pointers are isolated
 	if m1.WalkParams.Retries == m2.WalkParams.Retries {
 		t.Error("BUG: module1 and module2 share the same Retries pointer!")
+	}
+}
+
+func TestDynamicFilterRejectsInvalidRegex(t *testing.T) {
+	content := `
+modules:
+  module1:
+    walk: ["1.2.4"]
+    filters:
+    - oid: "1.2.3"
+      targets: ["1.2.4"]
+      values: ["("]
+`
+	cfg := &Config{}
+	err := yaml.UnmarshalStrict([]byte(content), cfg)
+	if err == nil {
+		t.Fatal("expected invalid dynamic filter regex to be rejected")
+	}
+	if !strings.Contains(err.Error(), `invalid dynamic filter value "("`) {
+		t.Fatalf("unexpected error: %v", err)
 	}
 }
