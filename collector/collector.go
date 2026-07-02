@@ -1019,8 +1019,9 @@ func indexesToLabels(indexOids []int, metric *config.Metric, oidToPdu map[string
 	// Covert indexes to useful strings.
 	for _, index := range metric.Indexes {
 		str, subOid, remainingOids := indexOidsAsString(indexOids, index.Type, index.FixedSize, index.Implied, index.EnumValues)
-		// The labelvalue is the text form of the index oids.
-		labels[index.Labelname] = str
+		// The labelvalue is the text form of the index oids. Ensure it is valid UTF-8,
+		// as required for Prometheus label values.
+		labels[index.Labelname] = strings.ToValidUTF8(str, "�")
 		// Save its oid in case we need it for lookups.
 		labelOids[index.Labelname] = subOid
 		// For the next iteration.
