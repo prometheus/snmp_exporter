@@ -250,6 +250,25 @@ type Metric struct {
 	DisplayHint     string                     `yaml:"display_hint,omitempty"`
 }
 
+// RenderableIndexTypes are the Index types the collector can render as label
+// values (the switch in indexOidsAsString); any other type panics there. The
+// generator rejects indexes whose type is not in this map.
+var RenderableIndexTypes = map[string]bool{
+	"Integer32":              true,
+	"Integer":                true,
+	"gauge":                  true,
+	"counter":                true,
+	"PhysAddress48":          true,
+	"OctetString":            true,
+	"DisplayString":          true,
+	"InetAddressIPv4":        true,
+	"InetAddressIPv6":        true,
+	"InetAddress":            true,
+	"InetAddressMissingSize": true,
+	"LldpPortId":             true,
+	"EnumAsInfo":             true,
+}
+
 type Index struct {
 	Labelname  string         `yaml:"labelname"`
 	Type       string         `yaml:"type"`

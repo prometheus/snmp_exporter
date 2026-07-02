@@ -396,6 +396,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					index.Type = "EnumAsInfo"
 				}
 
+				// The collector can only render certain types as index labels.
+				if !config.RenderableIndexTypes[index.Type] {
+					logger.Warn("Can't render index type as a label", "node", n.Label, "index", i, "type", index.Type)
+					return
+				}
+
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
 					switch subtype {
@@ -488,6 +494,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				// If lookup label is used as source index in another lookup,
 				// we need to add this new label as another index.
 				if slices.Contains(requiredAsIndex, l.Labelname) {
+					if !config.RenderableIndexTypes[l.Type] {
+						return nil, fmt.Errorf("cannot use lookup '%s' of type %s as an index", lookup.Lookup, l.Type)
+					}
 					idx := &config.Index{Labelname: l.Labelname, Type: l.Type, EnumValues: indexNode.EnumValues}
 					metric.Indexes = append(metric.Indexes, idx)
 				}

@@ -16,6 +16,7 @@ package main
 import (
 	"reflect"
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/prometheus/common/promslog"
@@ -799,6 +800,32 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Table with an index type the collector cannot render is dropped.
+		{
+			node: &Node{
+				Oid: "1", Label: "root",
+				Children: []*Node{
+					{
+						Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{
+								Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "DisplayString", TextualConvention: "DateAndTime"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+								},
+							},
+						},
+					},
+				},
+			},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+			},
+		},
 		// Tables with non-integer indexes.
 		{
 			node: &Node{
@@ -956,30 +983,7 @@ func TestGenerateConfigModule(t *testing.T) {
 							},
 						},
 					},
-					{
-						Name: "bitstringIndex",
-						Oid:  "1.2.1.1",
-						Help: " - 1.2.1.1",
-						Type: "Bits",
-						Indexes: []*config.Index{
-							{
-								Labelname: "bitstringIndex",
-								Type:      "Bits",
-							},
-						},
-					},
-					{
-						Name: "bitstringFoo",
-						Oid:  "1.2.1.2",
-						Help: " - 1.2.1.2",
-						Type: "gauge",
-						Indexes: []*config.Index{
-							{
-								Labelname: "bitstringIndex",
-								Type:      "Bits",
-							},
-						},
-					},
+					// bitstring table dropped: the collector cannot render a Bits index.
 					{
 						Name: "ipaddrIndex",
 						Oid:  "1.3.1.1",
@@ -2407,5 +2411,43 @@ func TestGenerateConfigModule(t *testing.T) {
 			out, _ = yaml.Marshal(c.out)
 			t.Errorf("Wanted: %s", out)
 		}
+	}
+}
+
+// A chained lookup whose intermediate label becomes an index must be a type
+// the collector can render, otherwise config generation fails.
+func TestGenerateConfigModuleChainedLookupIndexType(t *testing.T) {
+	node := &Node{
+		Oid: "1", Label: "root",
+		Children: []*Node{
+			{
+				Oid: "1.1", Label: "table",
+				Children: []*Node{
+					{
+						Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+						Children: []*Node{
+							{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "INTEGER"},
+							{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableTime", Type: "OCTETSTR", TextualConvention: "DateAndTime"},
+							{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableName", Type: "OCTETSTR", TextualConvention: "DisplayString"},
+						},
+					},
+				},
+			},
+		},
+	}
+	cfg := &ModuleConfig{
+		Walk: []string{"1"},
+		Lookups: []*Lookup{
+			{SourceIndexes: []string{"tableIndex"}, Lookup: "tableTime"},
+			{SourceIndexes: []string{"tableTime"}, Lookup: "tableName"},
+		},
+	}
+	nameToNode := prepareTree(node, promslog.NewNopLogger())
+	_, err := generateConfigModule(cfg, node, nameToNode, promslog.NewNopLogger())
+	if err == nil {
+		t.Fatal("Expected error for chained lookup index with non-renderable type, got nil")
+	}
+	if !strings.Contains(err.Error(), "cannot use lookup") {
+		t.Fatalf("Expected 'cannot use lookup' error, got: %s", err)
 	}
 }
