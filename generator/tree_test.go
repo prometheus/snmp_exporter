@@ -126,6 +126,16 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Label: "mac", Hint: "1x:"},
 			out: &Node{Oid: "1", Label: "mac", Hint: "1x:", Type: "PhysAddress48"},
 		},
+		// MAC Address type set on six-byte fixed-size string.
+		{
+			in:  &Node{Oid: "1", Label: "mac6", Hint: "1x:", FixedSize: 6, Type: "OCTETSTR"},
+			out: &Node{Oid: "1", Label: "mac6", Hint: "1x:", FixedSize: 6, Type: "PhysAddress48"},
+		},
+		// Fixed-size string other than six bytes keeps its type.
+		{
+			in:  &Node{Oid: "1", Label: "serial8", Hint: "1x:", FixedSize: 8, Type: "OCTETSTR"},
+			out: &Node{Oid: "1", Label: "serial8", Hint: "1x:", FixedSize: 8, Type: "OCTETSTR"},
+		},
 		// Short ASCII string.
 		{
 			in:  &Node{Oid: "1", Label: "ascii", Hint: "32a"},
@@ -902,6 +912,18 @@ func TestGenerateConfigModule(t *testing.T) {
 							},
 						},
 					},
+					{
+						Oid: "1.10", Label: "sizedHex",
+						Children: []*Node{
+							{
+								Oid: "1.10.1", Label: "sizedHexEntry", Indexes: []string{"sizedHexIndex"},
+								Children: []*Node{
+									{Oid: "1.10.1.1", Access: "ACCESS_READONLY", Label: "sizedHexIndex", Type: "OCTETSTR", Hint: "1x:", FixedSize: 8},
+									{Oid: "1.10.1.2", Access: "ACCESS_READONLY", Label: "sizedHexFoo", Type: "INTEGER"},
+								},
+							},
+						},
+					},
 				},
 			},
 			cfg: &ModuleConfig{
@@ -1127,6 +1149,32 @@ func TestGenerateConfigModule(t *testing.T) {
 							{
 								Labelname: "ipv6Index",
 								Type:      "InetAddressIPv6",
+							},
+						},
+					},
+					{
+						Name: "sizedHexIndex",
+						Oid:  "1.10.1.1",
+						Help: " - 1.10.1.1",
+						Type: "OctetString",
+						Indexes: []*config.Index{
+							{
+								Labelname: "sizedHexIndex",
+								Type:      "OctetString",
+								FixedSize: 8,
+							},
+						},
+					},
+					{
+						Name: "sizedHexFoo",
+						Oid:  "1.10.1.2",
+						Help: " - 1.10.1.2",
+						Type: "gauge",
+						Indexes: []*config.Index{
+							{
+								Labelname: "sizedHexIndex",
+								Type:      "OctetString",
+								FixedSize: 8,
 							},
 						},
 					},
