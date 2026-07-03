@@ -29,6 +29,20 @@ import (
 	"github.com/prometheus/snmp_exporter/scraper"
 )
 
+func mustCompileDynamicFilter(t *testing.T, filter *config.DynamicFilter) {
+	t.Helper()
+	if err := filter.CompileRegexps(); err != nil {
+		t.Fatalf("compiling dynamic filter regexps: %v", err)
+	}
+}
+
+func mustCompileDynamicFilters(t *testing.T, filters []config.DynamicFilter) {
+	t.Helper()
+	for i := range filters {
+		mustCompileDynamicFilter(t, &filters[i])
+	}
+}
+
 func TestPduToSample(t *testing.T) {
 	cases := []struct {
 		pdu             *gosnmp.SnmpPDU
@@ -1350,7 +1364,8 @@ func TestFilterAllowedIndices(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := filterAllowedIndices(promslog.NewNopLogger(), c.filter, pdus, c.allowedList, Metrics{})
+		mustCompileDynamicFilter(t, &c.filter)
+		got := filterAllowedIndices(promslog.NewNopLogger(), &c.filter, pdus, c.allowedList, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("filterAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}
@@ -1642,6 +1657,7 @@ func TestScrapeTarget(t *testing.T) {
 	for _, c := range cases {
 		tt := c
 		t.Run(tt.name, func(t *testing.T) {
+			mustCompileDynamicFilters(t, tt.module.Filters)
 			mock := scraper.NewMockSNMPScraper(tt.getResponse, tt.walkResponses)
 			results, err := ScrapeTarget(mock, "someTarget", auth, tt.module, promslog.NewNopLogger(), Metrics{})
 			if err != nil {
