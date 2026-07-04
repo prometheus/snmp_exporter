@@ -21,6 +21,7 @@ func NewMockSNMPScraper(get map[string]gosnmp.SnmpPDU, walk map[string][]gosnmp.
 	return &mockSNMPScraper{
 		GetResponses:  get,
 		WalkResponses: walk,
+		WalkErrors:    make(map[string]error),
 		callGet:       make([]string, 0),
 		callWalk:      make([]string, 0),
 	}
@@ -29,11 +30,17 @@ func NewMockSNMPScraper(get map[string]gosnmp.SnmpPDU, walk map[string][]gosnmp.
 type mockSNMPScraper struct {
 	GetResponses  map[string]gosnmp.SnmpPDU
 	WalkResponses map[string][]gosnmp.SnmpPDU
+	WalkErrors    map[string]error
 	ConnectError  error
 	CloseError    error
 
 	callGet  []string
 	callWalk []string
+}
+
+// SetWalkError registers a per-OID error returned by WalkAll for that OID.
+func (m *mockSNMPScraper) SetWalkError(oid string, err error) {
+	m.WalkErrors[oid] = err
 }
 
 func (m *mockSNMPScraper) CallGet() []string {
@@ -66,6 +73,9 @@ func (m *mockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 
 func (m *mockSNMPScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
 	m.callWalk = append(m.callWalk, baseOID)
+	if err, exists := m.WalkErrors[baseOID]; exists {
+		return nil, err
+	}
 	if pdus, exists := m.WalkResponses[baseOID]; exists {
 		return pdus, nil
 	}

@@ -14,15 +14,24 @@
 package collector
 
 import (
+	"context"
 	"errors"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
+	"net/http/httptest"
 	"reflect"
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/gosnmp/gosnmp"
 	io_prometheus_client "github.com/prometheus/client_model/go"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/promslog"
 
 	"github.com/prometheus/snmp_exporter/config"
@@ -1658,5 +1667,221 @@ func TestScrapeTarget(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+// testMetrics returns a Metrics struct with real (but unregistered) Prometheus
+// instruments, suitable for use in collector unit tests.
+func testMetrics() Metrics {
+	return Metrics{
+		SNMPCollectionDuration: prometheus.NewHistogramVec(
+			prometheus.HistogramOpts{Name: "test_snmp_collection_duration_seconds", Help: "test"},
+			[]string{"module"},
+		),
+		SNMPUnexpectedPduType: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_unexpected_pdu_type_total", Help: "test"},
+		),
+		SNMPDuration: prometheus.NewHistogram(
+			prometheus.HistogramOpts{Name: "test_snmp_duration_seconds", Help: "test"},
+		),
+		SNMPPackets: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_packets_total", Help: "test"},
+		),
+		SNMPRetries: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_retries_total", Help: "test"},
+		),
+		SNMPInflight: prometheus.NewGauge(
+			prometheus.GaugeOpts{Name: "test_snmp_inflight", Help: "test"},
+		),
+	}
+}
+
+// injectScraper is a prometheus.Collector that exercises Collector.collect()
+// with injected mock scrapers instead of creating real SNMP connections.
+// This allows unit-testing partial collection behavior without network dependencies.
+type injectScraper struct {
+	c       *Collector
+	scrapers []scraper.SNMPScraper
+	modules  []*NamedModule
+}
+
+func (is *injectScraper) Describe(ch chan<- *prometheus.Desc) {
+	is.c.Describe(ch)
+}
+
+func (is *injectScraper) Collect(ch chan<- prometheus.Metric) {
+	for i, m := range is.modules {
+		is.c.collect(ch, is.c.logger, is.scrapers[i], m)
+	}
+}
+
+// TestContinueOnErrorReturnsPartialMetrics verifies that when one module's walk
+// fails, the other module's metrics are still present in the gathered result.
+//
+// registry.Gather() always returns both valid metric families and errors
+// simultaneously — the HTTP handler's ContinueOnError option controls whether
+// the HTTP response includes the valid metrics even when errors are present,
+// but Gather() itself always returns partial results regardless of that setting.
+func TestContinueOnErrorReturnsPartialMetrics(t *testing.T) {
+	// Module "good" returns one metric; module "bad" errors.
+	retries := new(int)
+	cfg := &config.Config{
+		Modules: map[string]*config.Module{
+			"good": {
+				Walk: []string{"1.3.6.1.2.1.1.3"},
+				Metrics: []*config.Metric{
+					{Name: "sysUpTime", Oid: "1.3.6.1.2.1.1.3", Type: "gauge", Help: "uptime"},
+				},
+				WalkParams: config.WalkParams{MaxRepetitions: 10, Retries: retries, Timeout: time.Second},
+			},
+			"bad": {
+				Walk: []string{"1.3.6.1.99.99"},
+				Metrics: []*config.Metric{
+					{Name: "noSuchMetric", Oid: "1.3.6.1.99.99", Type: "gauge", Help: "always errors"},
+				},
+				WalkParams: config.WalkParams{MaxRepetitions: 10, Retries: retries, Timeout: time.Second},
+			},
+		},
+		Auths: map[string]*config.Auth{
+			"public_v2": {Version: 2, Community: "public"},
+		},
+	}
+
+	goodPDU := gosnmp.SnmpPDU{Name: ".1.3.6.1.2.1.1.3.0", Type: gosnmp.TimeTicks, Value: uint32(12345)}
+
+	goodMock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.1.3": {goodPDU},
+		},
+	)
+	badMock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{},
+	)
+	badMock.SetWalkError("1.3.6.1.99.99", fmt.Errorf("request timeout (after 3 retries)"))
+
+	modules := []*NamedModule{
+		NewNamedModule("good", cfg.Modules["good"]),
+		NewNamedModule("bad", cfg.Modules["bad"]),
+	}
+
+	c := &Collector{
+		ctx:     context.Background(),
+		target:  "192.0.2.1",
+		auth:    cfg.Auths["public_v2"],
+		modules: modules,
+		logger:  slog.Default(),
+		metrics: testMetrics(),
+	}
+
+	registry := prometheus.NewRegistry()
+	registry.MustRegister(&injectScraper{
+		c:       c,
+		scrapers: []scraper.SNMPScraper{goodMock, badMock},
+		modules:  modules,
+	})
+
+	// Gather returns valid metric families AND errors simultaneously.
+	mfs, err := registry.Gather()
+
+	if len(mfs) == 0 {
+		t.Errorf("expected non-empty metric families from good module, got none")
+	}
+	if err == nil {
+		t.Errorf("expected an error from bad module's walk failure, got nil")
+	}
+
+	names := make(map[string]bool, len(mfs))
+	for _, mf := range mfs {
+		names[mf.GetName()] = true
+	}
+	if !names["sysUpTime"] {
+		families := make([]string, 0, len(mfs))
+		for _, mf := range mfs {
+			families = append(families, mf.GetName())
+		}
+		t.Errorf("good module metrics (sysUpTime) must be present in gathered result; got families: %v", families)
+	}
+}
+
+// TestContinueOnErrorHTTPHandler is an end-to-end HTTP integration test that
+// verifies the HTTP handler returns partial metrics (from the good module) even
+// when another module's walk fails.
+//
+// This test exercises the full promhttp.HandlerFor path (not just registry.Gather)
+// and WILL FAIL if ErrorHandling is changed from promhttp.ContinueOnError to the
+// zero-value promhttp.HandlerOpts{} (which is HTTPErrorOnError in client_golang
+// v1.23.2+).  With HTTPErrorOnError the handler returns HTTP 500 and an error
+// message body with no metric lines, so strings.Contains(body, "sysUpTime")
+// becomes false.
+func TestContinueOnErrorHTTPHandler(t *testing.T) {
+	retries := new(int)
+	modules := []*NamedModule{
+		NewNamedModule("good", &config.Module{
+			Walk: []string{"1.3.6.1.2.1.1.3"},
+			Metrics: []*config.Metric{
+				{Name: "sysUpTime", Oid: "1.3.6.1.2.1.1.3", Type: "gauge", Help: "uptime"},
+			},
+			WalkParams: config.WalkParams{MaxRepetitions: 10, Retries: retries, Timeout: time.Second},
+		}),
+		NewNamedModule("bad", &config.Module{
+			Walk: []string{"1.3.6.1.99.99"},
+			Metrics: []*config.Metric{
+				{Name: "noSuchMetric", Oid: "1.3.6.1.99.99", Type: "gauge", Help: "always errors"},
+			},
+			WalkParams: config.WalkParams{MaxRepetitions: 10, Retries: retries, Timeout: time.Second},
+		}),
+	}
+
+	goodMock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.1.3": {
+				{Name: ".1.3.6.1.2.1.1.3.0", Type: gosnmp.TimeTicks, Value: uint32(12345)},
+			},
+		},
+	)
+	badMock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{},
+	)
+	badMock.SetWalkError("1.3.6.1.99.99", fmt.Errorf("request timeout (after 3 retries)"))
+
+	c := &Collector{
+		ctx:     context.Background(),
+		target:  "192.0.2.1",
+		auth:    &config.Auth{Version: 2, Community: "public"},
+		modules: modules,
+		logger:  slog.Default(),
+		metrics: testMetrics(),
+	}
+
+	registry := prometheus.NewRegistry()
+	registry.MustRegister(&injectScraper{
+		c:        c,
+		scrapers:  []scraper.SNMPScraper{goodMock, badMock},
+		modules:   modules,
+	})
+
+	// Use the same HandlerOpts as main.go line 184.
+	// Changing this to promhttp.HandlerOpts{} (HTTPErrorOnError, the zero value)
+	// causes the handler to return HTTP 500 with an error body and no metrics,
+	// which makes the strings.Contains check below fail.
+	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{ErrorHandling: promhttp.ContinueOnError})
+
+	req := httptest.NewRequest(http.MethodGet, "/metrics", nil)
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, req)
+
+	resp := w.Result()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("failed to read response body: %v", err)
+	}
+	bodyStr := string(body)
+
+	if !strings.Contains(bodyStr, "sysUpTime") {
+		t.Errorf("expected HTTP response body to contain sysUpTime from good module; got:\n%s", bodyStr)
 	}
 }
