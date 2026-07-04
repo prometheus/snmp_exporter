@@ -82,3 +82,13 @@ func (m *mockSNMPScraper) Close() error {
 
 func (m *mockSNMPScraper) SetOptions(...func(*gosnmp.GoSNMP)) {
 }
+
+// Clone returns a new mock that shares the same response maps (safe for parallel reads).
+func (m *mockSNMPScraper) Clone() SNMPScraper {
+	return &mockSNMPScraper{
+		GetResponses:  m.GetResponses,
+		WalkResponses: m.WalkResponses,
+		callGet:       make([]string, 0),
+		callWalk:      make([]string, 0),
+	}
+}

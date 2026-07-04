@@ -87,6 +87,39 @@ func (g *GoSNMPWrapper) Close() error {
 	return g.c.Close()
 }
 
+// Clone returns a new unconnected GoSNMPWrapper copying transport/auth settings.
+// The caller must call Connect() before using the clone.
+func (g *GoSNMPWrapper) Clone() SNMPScraper {
+	clone := &gosnmp.GoSNMP{
+		Transport:               g.c.Transport,
+		Target:                  g.c.Target,
+		Port:                    g.c.Port,
+		LocalAddr:               g.c.LocalAddr,
+		Version:                 g.c.Version,
+		Community:               g.c.Community,
+		MsgFlags:                g.c.MsgFlags,
+		SecurityModel:           g.c.SecurityModel,
+		ContextEngineID:         g.c.ContextEngineID,
+		ContextName:             g.c.ContextName,
+		Logger:                  g.c.Logger,
+		AppOpts:                 g.c.AppOpts,
+		Retries:                 g.c.Retries,
+		Timeout:                 g.c.Timeout,
+		MaxRepetitions:          g.c.MaxRepetitions,
+		MaxOids:                 g.c.MaxOids,
+		UseUnconnectedUDPSocket: g.c.UseUnconnectedUDPSocket,
+		NonRepeaters:            g.c.NonRepeaters,
+		Context:                 g.c.Context,
+		// OnSent/OnRecv/OnRetry intentionally omitted: these closures capture
+		// per-collect() counters by reference; sharing them across goroutines
+		// would cause a data race. Parallel-walk clones do not count packets.
+	}
+	if g.c.SecurityParameters != nil {
+		clone.SecurityParameters = g.c.SecurityParameters.Copy()
+	}
+	return &GoSNMPWrapper{c: clone, logger: g.logger}
+}
+
 func (g *GoSNMPWrapper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 	g.logger.Debug("Getting OIDs", "oids", oids)
 	st := time.Now()
