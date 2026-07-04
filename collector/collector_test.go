@@ -22,6 +22,7 @@ import (
 
 	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/gosnmp/gosnmp"
+	"github.com/prometheus/client_golang/prometheus"
 	io_prometheus_client "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/promslog"
 
@@ -1681,3 +1682,30 @@ func TestScrapeTarget(t *testing.T) {
 		})
 	}
 }
+
+// testMetrics returns a Metrics struct with real (but unregistered) Prometheus
+// instruments, suitable for use in collector unit tests.
+func testMetrics() Metrics {
+	return Metrics{
+		SNMPCollectionDuration: prometheus.NewHistogramVec(
+			prometheus.HistogramOpts{Name: "test_snmp_collection_duration_seconds", Help: "test"},
+			[]string{"module"},
+		),
+		SNMPUnexpectedPduType: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_unexpected_pdu_type_total", Help: "test"},
+		),
+		SNMPDuration: prometheus.NewHistogram(
+			prometheus.HistogramOpts{Name: "test_snmp_duration_seconds", Help: "test"},
+		),
+		SNMPPackets: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_packets_total", Help: "test"},
+		),
+		SNMPRetries: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_retries_total", Help: "test"},
+		),
+		SNMPInflight: prometheus.NewGauge(
+			prometheus.GaugeOpts{Name: "test_snmp_inflight", Help: "test"},
+		),
+	}
+}
+

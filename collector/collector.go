@@ -37,8 +37,8 @@ import (
 var (
 	// 64-bit float mantissa: https://en.wikipedia.org/wiki/Double-precision_floating-point_format
 	float64Mantissa uint64 = 9007199254740992
-	wrapCounters           = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
-	srcAddress             = kingpin.Flag("snmp.source-address", "Source address to send snmp from in the format 'address:port' to use when connecting targets. If the port parameter is empty or '0', as in '127.0.0.1:' or '[::1]:0', a source port number is automatically (random) chosen.").Default("").String()
+	wrapCounters = kingpin.Flag("snmp.wrap-large-counters", "Wrap 64-bit counters to avoid floating point rounding.").Default("true").Bool()
+	srcAddress   = kingpin.Flag("snmp.source-address", "Source address to send snmp from in the format 'address:port' to use when connecting targets. If the port parameter is empty or '0', as in '127.0.0.1:' or '[::1]:0', a source port number is automatically (random) chosen.").Default("").String()
 )
 
 // Types preceded by an enum with their actual type.
@@ -169,12 +169,69 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		getOids = getOids[oids:]
 	}
 
-	for _, subtree := range newWalk {
-		pdus, err := snmp.WalkAll(subtree)
-		if err != nil {
-			return results, err
+	if len(newWalk) == 0 {
+		return results, nil
+	}
+
+	// WalkConcurrency <= 1: walk sequentially on the original connection.
+	// This preserves deterministic ordering and avoids clone overhead for
+	// single-threaded use and tests.
+	if module.WalkParams.WalkConcurrency <= 1 {
+		for _, subtree := range newWalk {
+			pdus, err := snmp.WalkAll(subtree)
+			if err != nil {
+				return results, err
+			}
+			results.pdus = append(results.pdus, pdus...)
 		}
-		results.pdus = append(results.pdus, pdus...)
+		return results, nil
+	}
+
+	concurrency := module.WalkParams.WalkConcurrency
+	if concurrency > len(newWalk) {
+		concurrency = len(newWalk)
+	}
+
+	type walkResult struct {
+		pdus []gosnmp.SnmpPDU
+		err  error
+	}
+
+	resultsCh := make(chan walkResult, len(newWalk))
+	sem := make(chan struct{}, concurrency)
+
+	var wg sync.WaitGroup
+	for _, subtree := range newWalk {
+		wg.Add(1)
+		go func(oid string) {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+
+			// Each goroutine needs its own SNMP connection: gosnmp is not goroutine-safe.
+			client := snmp.Clone()
+			if err := client.Connect(); err != nil {
+				resultsCh <- walkResult{err: err}
+				return
+			}
+			defer client.Close()
+
+			pdus, err := client.WalkAll(oid)
+			resultsCh <- walkResult{pdus: pdus, err: err}
+		}(subtree)
+	}
+
+	// Close resultsCh once all goroutines finish.
+	go func() {
+		wg.Wait()
+		close(resultsCh)
+	}()
+
+	for r := range resultsCh {
+		if r.err != nil {
+			return results, r.err
+		}
+		results.pdus = append(results.pdus, r.pdus...)
 	}
 	return results, nil
 }

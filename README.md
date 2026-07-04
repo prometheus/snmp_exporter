@@ -108,6 +108,8 @@ It is also possible when using SNMPv3 to supply an optional `snmp_engineid` para
 The multi-module functionality allows you to specify multiple modules, enabling the retrieval of information from several modules in a single scrape.
 The concurrency can be specified using the snmp-exporter option `--snmp.module-concurrency` (the default is 1).
 
+If one module fails or times out, the metrics from all other modules in the same scrape are still returned. Only the failing module emits an `snmp_error` metric.
+
 Note: This implementation does not perform any de-duplication of walks between different modules.
 
 There are two ways to specify multiple modules. You can either separate them with a comma or define multiple params_module.
