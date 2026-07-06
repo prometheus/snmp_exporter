@@ -14,8 +14,6 @@
 package scraper
 
 import (
-	"context"
-
 	"github.com/gosnmp/gosnmp"
 )
 
@@ -96,8 +94,3 @@ func (m *mockSNMPScraper) Clone() SNMPScraper {
 	}
 }
 
-func (m *mockSNMPScraper) Context() context.Context {
-	return context.Background()
-}
-
-func (m *mockSNMPScraper) SetContext(_ context.Context) {}
