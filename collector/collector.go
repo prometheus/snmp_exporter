@@ -91,7 +91,7 @@ type ScrapeResults struct {
 	pdus []gosnmp.SnmpPDU
 }
 
-func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, module *config.Module, logger *slog.Logger, metrics Metrics) (ScrapeResults, error) {
+func ScrapeTarget(ctx context.Context, snmp scraper.SNMPScraper, target string, auth *config.Auth, module *config.Module, logger *slog.Logger, metrics Metrics) (ScrapeResults, error) {
 	results := ScrapeResults{}
 	// Evaluate rules.
 	newGet := module.Get
@@ -202,9 +202,9 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 	}
 	close(subtreeCh)
 
-	// errgroup cancels ctx on the first error; g.Wait() blocks until all
+	// errgroup cancels gCtx on the first error; g.Wait() blocks until all
 	// workers finish, so ScrapeTarget never returns with live goroutines.
-	g, ctx := errgroup.WithContext(snmp.Context())
+	g, gCtx := errgroup.WithContext(ctx)
 	// Per-worker result slices: each goroutine appends to its own slot,
 	// so no mutex is needed on the hot path.
 	workerResults := make([][]gosnmp.SnmpPDU, concurrency)
@@ -214,7 +214,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		g.Go(func() error {
 			worker := snmp.Clone()
 			// Propagate the cancellable context so workers abort on error.
-			worker.SetContext(ctx)
+			worker.SetOptions(func(g *gosnmp.GoSNMP) { g.Context = gCtx })
 			if err := worker.Connect(); err != nil {
 				return err
 			}
@@ -222,8 +222,8 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 
 			for oid := range subtreeCh {
 				// Check for cancellation before starting a new walk.
-				if ctx.Err() != nil {
-					return ctx.Err()
+				if gCtx.Err() != nil {
+					return gCtx.Err()
 				}
 				pdus, err := worker.WalkAll(oid)
 				if err != nil {
@@ -411,7 +411,7 @@ func (c Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- prometheus.NewDesc("dummy", "dummy", nil, nil)
 }
 
-func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, client scraper.SNMPScraper, module *NamedModule) {
+func (c Collector) collect(ctx context.Context, ch chan<- prometheus.Metric, logger *slog.Logger, client scraper.SNMPScraper, module *NamedModule) {
 	var (
 		packets atomic.Uint64
 		retries atomic.Uint64
@@ -453,7 +453,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 	start := time.Now()
 	moduleLabel := prometheus.Labels{"module": module.name}
 	c.metrics.SNMPInflight.Inc()
-	results, err := ScrapeTarget(client, c.target, c.auth, module.Module, logger, c.metrics)
+	results, err := ScrapeTarget(ctx, client, c.target, c.auth, module.Module, logger, c.metrics)
 	c.metrics.SNMPInflight.Dec()
 	if err != nil {
 		logger.Info("Error scraping target", "err", err)
@@ -466,12 +466,12 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 		time.Since(start).Seconds(),
 	)
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, moduleLabel),
+		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get and bulkget (walk packets not counted when walk_concurrency > 1).", nil, moduleLabel),
 		prometheus.GaugeValue,
 		float64(packets.Load()),
 	)
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, moduleLabel),
+		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get and bulkget (walk packets not counted when walk_concurrency > 1).", nil, moduleLabel),
 		prometheus.GaugeValue,
 		float64(retries.Load()),
 	)
@@ -572,7 +572,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				_logger := logger.With("module", m.name)
 				_logger.Debug("Starting scrape")
 				start := time.Now()
-				c.collect(ch, _logger, client, m)
+				c.collect(ctx, ch, _logger, client, m)
 				duration := time.Since(start).Seconds()
 				_logger.Debug("Finished scrape", "duration_seconds", duration)
 				c.metrics.SNMPCollectionDuration.WithLabelValues(m.name).Observe(duration)
