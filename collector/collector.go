@@ -204,9 +204,12 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 	// errgroup cancels ctx on the first error; g.Wait() blocks until all
 	// workers finish, so ScrapeTarget never returns with live goroutines.
 	g, ctx := errgroup.WithContext(snmp.Context())
-	var mu sync.Mutex
+	// Per-worker result slices: each goroutine appends to its own slot,
+	// so no mutex is needed on the hot path.
+	workerResults := make([][]gosnmp.SnmpPDU, concurrency)
 
 	for i := 0; i < concurrency; i++ {
+		i := i // capture loop variable for closure
 		g.Go(func() error {
 			worker := snmp.Clone()
 			// Propagate the cancellable context so workers abort on error.
@@ -225,9 +228,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 				if err != nil {
 					return err
 				}
-				mu.Lock()
-				results.pdus = append(results.pdus, pdus...)
-				mu.Unlock()
+				workerResults[i] = append(workerResults[i], pdus...)
 			}
 			return nil
 		})
@@ -235,6 +236,10 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 
 	if err := g.Wait(); err != nil {
 		return results, err
+	}
+	// Merge per-worker slices into results after all workers have finished.
+	for _, wPdus := range workerResults {
+		results.pdus = append(results.pdus, wPdus...)
 	}
 	return results, nil
 }
