@@ -53,7 +53,7 @@ func TestPduToSample(t *testing.T) {
 					"Extension": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile(".*"),
+								Regexp: regexp.MustCompile(".*"),
 							},
 							Value: "5",
 						},
@@ -79,7 +79,7 @@ func TestPduToSample(t *testing.T) {
 					"Extension": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile(".*"),
+								Regexp: regexp.MustCompile(".*"),
 							},
 							Value: "",
 						},
@@ -102,7 +102,7 @@ func TestPduToSample(t *testing.T) {
 					"Extension": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("(will_not_match)"),
+								Regexp: regexp.MustCompile("(will_not_match)"),
 							},
 							Value: "",
 						},
@@ -125,7 +125,7 @@ func TestPduToSample(t *testing.T) {
 					"Status": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile(".*"),
+								Regexp: regexp.MustCompile(".*"),
 							},
 							Value: "5",
 						},
@@ -150,7 +150,7 @@ func TestPduToSample(t *testing.T) {
 					"Blank": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("^XXXX$"),
+								Regexp: regexp.MustCompile("^XXXX$"),
 							},
 							Value: "4",
 						},
@@ -158,7 +158,7 @@ func TestPduToSample(t *testing.T) {
 					"Extension": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile(".*"),
+								Regexp: regexp.MustCompile(".*"),
 							},
 							Value: "5",
 						},
@@ -166,19 +166,19 @@ func TestPduToSample(t *testing.T) {
 					"MultipleRegexes": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("^XXXX$"),
+								Regexp: regexp.MustCompile("^XXXX$"),
 							},
 							Value: "123",
 						},
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile("123.*"),
+								Regexp: regexp.MustCompile("123.*"),
 							},
 							Value: "999",
 						},
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile(".*"),
+								Regexp: regexp.MustCompile(".*"),
 							},
 							Value: "777",
 						},
@@ -186,7 +186,7 @@ func TestPduToSample(t *testing.T) {
 					"Template": {
 						{
 							Regex: config.Regexp{
-								regexp.MustCompile(`(\d.\d+)`),
+								Regexp: regexp.MustCompile(`(\d.\d+)`),
 							},
 							Value: "$1",
 						},
@@ -214,7 +214,7 @@ func TestPduToSample(t *testing.T) {
 				RegexpExtracts: map[string][]config.RegexpExtract{
 					"": {
 						{
-							Regex: config.Regexp{regexp.MustCompile(`(.*)`)},
+							Regex: config.Regexp{Regexp: regexp.MustCompile(`(.*)`)},
 							Value: "$1",
 						},
 					},
@@ -239,7 +239,7 @@ func TestPduToSample(t *testing.T) {
 				RegexpExtracts: map[string][]config.RegexpExtract{
 					"": {
 						{
-							Regex: config.Regexp{regexp.MustCompile(`(.*)`)},
+							Regex: config.Regexp{Regexp: regexp.MustCompile(`(.*)`)},
 							Value: "$1",
 						},
 					},
@@ -429,7 +429,7 @@ func TestPduToSample(t *testing.T) {
 				Help:    "Help string",
 				Indexes: []*config.Index{{Labelname: "foo", Type: "DisplayString"}},
 				RegexpExtracts: map[string][]config.RegexpExtract{
-					"": {{Value: "1", Regex: config.Regexp{regexp.MustCompile(".*")}}},
+					"": {{Value: "1", Regex: config.Regexp{Regexp: regexp.MustCompile(".*")}}},
 				},
 			},
 			oidToPdu:        make(map[string]gosnmp.SnmpPDU),

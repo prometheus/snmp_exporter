@@ -135,6 +135,21 @@ func (g *GoSNMPWrapper) Clone() SNMPScraper {
 	return &GoSNMPWrapper{c: clone, logger: g.logger}
 }
 
+// Context returns the context associated with this scraper.
+// Falls back to context.Background() if none has been set.
+func (g *GoSNMPWrapper) Context() context.Context {
+	if g.c.Context != nil {
+		return g.c.Context
+	}
+	return context.Background()
+}
+
+// SetContext sets the context on the underlying GoSNMP client,
+// enabling cancellation of in-flight SNMP operations.
+func (g *GoSNMPWrapper) SetContext(ctx context.Context) {
+	g.c.Context = ctx
+}
+
 func (g *GoSNMPWrapper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 	g.logger.Debug("Getting OIDs", "oids", oids)
 	st := time.Now()
