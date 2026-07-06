@@ -15,10 +15,12 @@ package collector
 
 import (
 	"errors"
+	"log/slog"
 	"reflect"
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/gosnmp/gosnmp"
@@ -1680,6 +1682,104 @@ func TestScrapeTarget(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestScrapeTargetParallelWalk(t *testing.T) {
+	// Three subtrees with 2 PDUs each.
+	oid1 := []gosnmp.SnmpPDU{
+		{Name: ".1.3.6.1.2.1.2.2.1.7.1", Type: gosnmp.Integer, Value: 1},
+		{Name: ".1.3.6.1.2.1.2.2.1.7.2", Type: gosnmp.Integer, Value: 1},
+	}
+	oid2 := []gosnmp.SnmpPDU{
+		{Name: ".1.3.6.1.2.1.2.2.1.8.1", Type: gosnmp.Integer, Value: 1},
+		{Name: ".1.3.6.1.2.1.2.2.1.8.2", Type: gosnmp.Integer, Value: 1},
+	}
+	oid3 := []gosnmp.SnmpPDU{
+		{Name: ".1.3.6.1.2.1.31.1.1.1.15.1", Type: gosnmp.Gauge32, Value: uint(1000)},
+		{Name: ".1.3.6.1.2.1.31.1.1.1.15.2", Type: gosnmp.Gauge32, Value: uint(100)},
+	}
+
+	mock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.2.2.1.7":     oid1,
+			"1.3.6.1.2.1.2.2.1.8":     oid2,
+			"1.3.6.1.2.1.31.1.1.1.15": oid3,
+		},
+	)
+
+	retries := 0
+	module := &config.Module{
+		Walk: []string{
+			"1.3.6.1.2.1.2.2.1.7",
+			"1.3.6.1.2.1.2.2.1.8",
+			"1.3.6.1.2.1.31.1.1.1.15",
+		},
+		Metrics: []*config.Metric{},
+		WalkParams: config.WalkParams{
+			MaxRepetitions:  10,
+			Retries:         &retries,
+			Timeout:         time.Second,
+			WalkConcurrency: 3, // exercises the parallel code path
+		},
+	}
+
+	results, err := ScrapeTarget(mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(results.pdus) != 6 {
+		t.Errorf("got %d PDUs, want 6", len(results.pdus))
+	}
+
+	// Verify all three OIDs were walked (order may vary).
+	names := make([]string, len(results.pdus))
+	for i, p := range results.pdus {
+		names[i] = p.Name
+	}
+	for _, want := range []string{
+		".1.3.6.1.2.1.2.2.1.7.1", ".1.3.6.1.2.1.2.2.1.7.2",
+		".1.3.6.1.2.1.2.2.1.8.1", ".1.3.6.1.2.1.2.2.1.8.2",
+		".1.3.6.1.2.1.31.1.1.1.15.1", ".1.3.6.1.2.1.31.1.1.1.15.2",
+	} {
+		found := false
+		for _, n := range names {
+			if n == want {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("missing PDU %s in results", want)
+		}
+	}
+}
+
+func TestScrapeTargetParallelWalkConnectError(t *testing.T) {
+	// Clone().Connect() failure should be propagated and not hang.
+	mock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.2.2.1.7": {{Name: ".1.3.6.1.2.1.2.2.1.7.1", Type: gosnmp.Integer, Value: 1}},
+		},
+	)
+	mock.ConnectError = errors.New("simulated connect failure")
+
+	retries := 0
+	module := &config.Module{
+		Walk: []string{"1.3.6.1.2.1.2.2.1.7"},
+		WalkParams: config.WalkParams{
+			MaxRepetitions:  10,
+			Retries:         &retries,
+			Timeout:         time.Second,
+			WalkConcurrency: 2,
+		},
+	}
+
+	_, err := ScrapeTarget(mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
+	if err == nil {
+		t.Fatal("expected error from clone connect failure, got nil")
 	}
 }
 
