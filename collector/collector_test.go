@@ -14,6 +14,7 @@
 package collector
 
 import (
+	"context"
 	"errors"
 	"log/slog"
 	"reflect"
@@ -1661,7 +1662,7 @@ func TestScrapeTarget(t *testing.T) {
 		tt := c
 		t.Run(tt.name, func(t *testing.T) {
 			mock := scraper.NewMockSNMPScraper(tt.getResponse, tt.walkResponses)
-			results, err := ScrapeTarget(mock, "someTarget", auth, tt.module, promslog.NewNopLogger(), Metrics{})
+			results, err := ScrapeTarget(context.Background(), mock, "someTarget", auth, tt.module, promslog.NewNopLogger(), Metrics{})
 			if err != nil {
 				t.Errorf("ScrapeTarget returned an error: %v", err)
 			}
@@ -1725,7 +1726,7 @@ func TestScrapeTargetParallelWalk(t *testing.T) {
 		},
 	}
 
-	results, err := ScrapeTarget(mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
+	results, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -1777,7 +1778,7 @@ func TestScrapeTargetParallelWalkConnectError(t *testing.T) {
 		},
 	}
 
-	_, err := ScrapeTarget(mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
+	_, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
 	if err == nil {
 		t.Fatal("expected error from clone connect failure, got nil")
 	}

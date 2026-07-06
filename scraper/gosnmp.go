@@ -104,6 +104,15 @@ func hostOnly(addr string) string {
 
 // Clone returns a new unconnected GoSNMPWrapper copying transport/auth settings.
 // The caller must call Connect() before using the clone.
+//
+// Fields explicitly NOT copied:
+//   - Conn: connections are not goroutine-safe; clone must Connect() independently.
+//   - OnSent/OnRecv/OnRetry/OnFinish/PreSend: capture per-scrape counters by
+//     reference; sharing them across goroutines causes data races.
+//
+// If GoSNMP gains new configuration fields in a future version they must be
+// added here manually; the struct copy (`c := *g.c`) cannot be used because
+// GoSNMP embeds sync.Mutex and go vet (copylocks) rejects copying a lock value.
 func (g *GoSNMPWrapper) Clone() SNMPScraper {
 	clone := &gosnmp.GoSNMP{
 		Transport:               g.c.Transport,
@@ -120,14 +129,17 @@ func (g *GoSNMPWrapper) Clone() SNMPScraper {
 		AppOpts:                 g.c.AppOpts,
 		Retries:                 g.c.Retries,
 		Timeout:                 g.c.Timeout,
+		ExponentialTimeout:      g.c.ExponentialTimeout,
 		MaxRepetitions:          g.c.MaxRepetitions,
 		MaxOids:                 g.c.MaxOids,
 		UseUnconnectedUDPSocket: g.c.UseUnconnectedUDPSocket,
 		NonRepeaters:            g.c.NonRepeaters,
 		Context:                 g.c.Context,
-		// OnSent/OnRecv/OnRetry intentionally omitted: these closures capture
-		// per-collect() counters by reference; sharing them across goroutines
-		// would cause a data race. Parallel-walk clones do not count packets.
+		Control:                 g.c.Control,
+		TrapSecurityParametersTable: g.c.TrapSecurityParametersTable,
+		// OnSent/OnRecv/OnRetry/OnFinish/PreSend intentionally omitted: these
+		// closures capture per-collect() counters by reference; sharing them
+		// across goroutines would cause a data race.
 	}
 	if g.c.SecurityParameters != nil {
 		clone.SecurityParameters = g.c.SecurityParameters.Copy()
