@@ -23,12 +23,14 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/gosnmp/gosnmp"
 	"github.com/itchyny/timefmt-go"
 	"github.com/prometheus/client_golang/prometheus"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/prometheus/snmp_exporter/config"
 	"github.com/prometheus/snmp_exporter/scraper"
@@ -192,46 +194,47 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		concurrency = len(newWalk)
 	}
 
-	type walkResult struct {
-		pdus []gosnmp.SnmpPDU
-		err  error
-	}
-
-	resultsCh := make(chan walkResult, len(newWalk))
-	sem := make(chan struct{}, concurrency)
-
-	var wg sync.WaitGroup
+	// Feed subtrees to the worker pool via a buffered channel.
+	subtreeCh := make(chan string, len(newWalk))
 	for _, subtree := range newWalk {
-		wg.Add(1)
-		go func(oid string) {
-			defer wg.Done()
-			sem <- struct{}{}
-			defer func() { <-sem }()
+		subtreeCh <- subtree
+	}
+	close(subtreeCh)
 
-			// Each goroutine needs its own SNMP connection: gosnmp is not goroutine-safe.
-			client := snmp.Clone()
-			if err := client.Connect(); err != nil {
-				resultsCh <- walkResult{err: err}
-				return
+	// errgroup cancels ctx on the first error; g.Wait() blocks until all
+	// workers finish, so ScrapeTarget never returns with live goroutines.
+	g, ctx := errgroup.WithContext(snmp.Context())
+	var mu sync.Mutex
+
+	for i := 0; i < concurrency; i++ {
+		g.Go(func() error {
+			worker := snmp.Clone()
+			// Propagate the cancellable context so workers abort on error.
+			worker.SetContext(ctx)
+			if err := worker.Connect(); err != nil {
+				return err
 			}
-			defer client.Close()
+			defer worker.Close()
 
-			pdus, err := client.WalkAll(oid)
-			resultsCh <- walkResult{pdus: pdus, err: err}
-		}(subtree)
+			for oid := range subtreeCh {
+				// Check for cancellation before starting a new walk.
+				if ctx.Err() != nil {
+					return ctx.Err()
+				}
+				pdus, err := worker.WalkAll(oid)
+				if err != nil {
+					return err
+				}
+				mu.Lock()
+				results.pdus = append(results.pdus, pdus...)
+				mu.Unlock()
+			}
+			return nil
+		})
 	}
 
-	// Close resultsCh once all goroutines finish.
-	go func() {
-		wg.Wait()
-		close(resultsCh)
-	}()
-
-	for r := range resultsCh {
-		if r.err != nil {
-			return results, r.err
-		}
-		results.pdus = append(results.pdus, r.pdus...)
+	if err := g.Wait(); err != nil {
+		return results, err
 	}
 	return results, nil
 }
@@ -404,24 +407,28 @@ func (c Collector) Describe(ch chan<- *prometheus.Desc) {
 
 func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, client scraper.SNMPScraper, module *NamedModule) {
 	var (
-		packets uint64
-		retries uint64
+		packets atomic.Uint64
+		retries atomic.Uint64
 	)
 	client.SetOptions(
 		// Set the metrics options.
+		// NOTE: OnSent/OnRecv/OnRetry are only set on the parent client, not on
+		// per-subtree clones (Clone() intentionally omits them). So
+		// snmp_scrape_packets_sent/retried counts GET-phase packets only when
+		// walk_concurrency > 1. This is a known limitation documented here.
 		func(g *gosnmp.GoSNMP) {
 			var sent time.Time
 			g.OnSent = func(x *gosnmp.GoSNMP) {
 				sent = time.Now()
 				c.metrics.SNMPPackets.Inc()
-				packets++
+				packets.Add(1)
 			}
 			g.OnRecv = func(x *gosnmp.GoSNMP) {
 				c.metrics.SNMPDuration.Observe(time.Since(sent).Seconds())
 			}
 			g.OnRetry = func(x *gosnmp.GoSNMP) {
 				c.metrics.SNMPRetries.Inc()
-				retries++
+				retries.Add(1)
 			}
 		},
 		// Set the Walk options.
@@ -454,11 +461,11 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(packets))
+		float64(packets.Load()))
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(retries))
+		float64(retries.Load()))
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,

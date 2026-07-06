@@ -14,6 +14,8 @@
 package scraper
 
 import (
+	"context"
+
 	"github.com/gosnmp/gosnmp"
 )
 
@@ -26,4 +28,8 @@ type SNMPScraper interface {
 	// Clone returns a new unconnected scraper with the same transport/auth settings.
 	// Used to create per-goroutine connections for parallel OID walks.
 	Clone() SNMPScraper
+	// Context returns the context associated with this scraper.
+	Context() context.Context
+	// SetContext sets the context on this scraper, enabling cancellation.
+	SetContext(context.Context)
 }
