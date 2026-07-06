@@ -14,10 +14,58 @@
 package scraper
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/prometheus/common/promslog"
 )
+
+func TestHostOnly(t *testing.T) {
+	cases := []struct {
+		input string
+		want  string
+	}{
+		{"", ""},
+		{"192.168.1.1", "192.168.1.1"},
+		{"192.168.1.1:12345", "192.168.1.1"},
+		{"::1", "::1"},
+		{"[::1]:12345", "::1"},
+		{"0.0.0.0:9161", "0.0.0.0"},
+		{"somehost", "somehost"},
+		{"somehost:161", "somehost"},
+	}
+	for _, c := range cases {
+		t.Run(c.input, func(t *testing.T) {
+			got := hostOnly(c.input)
+			if got != c.want {
+				t.Errorf("hostOnly(%q) = %q, want %q", c.input, got, c.want)
+			}
+		})
+	}
+}
+
+func TestCloneStripsLocalAddrPort(t *testing.T) {
+	logger := promslog.NewNopLogger()
+	w, err := NewGoSNMP(logger, "192.0.2.1", "0.0.0.0:9161", false)
+	if err != nil {
+		t.Fatalf("NewGoSNMP: %v", err)
+	}
+	clone := w.Clone().(*GoSNMPWrapper)
+	if clone.c.LocalAddr != "0.0.0.0" {
+		t.Errorf("Clone().LocalAddr = %q, want %q", clone.c.LocalAddr, "0.0.0.0")
+	}
+}
+
+func TestMockCloneCopiesConnectError(t *testing.T) {
+	wantErr := errors.New("simulated connect failure")
+	m := NewMockSNMPScraper(nil, nil)
+	m.ConnectError = wantErr
+
+	clone := m.Clone()
+	if err := clone.Connect(); err != wantErr {
+		t.Errorf("Clone().Connect() = %v, want %v", err, wantErr)
+	}
+}
 
 func TestNewGoSNMPTargetParsing(t *testing.T) {
 	cases := []struct {
