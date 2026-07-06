@@ -88,6 +88,7 @@ func (m *mockSNMPScraper) Clone() SNMPScraper {
 	return &mockSNMPScraper{
 		GetResponses:  m.GetResponses,
 		WalkResponses: m.WalkResponses,
+		ConnectError:  m.ConnectError,
 		callGet:       make([]string, 0),
 		callWalk:      make([]string, 0),
 	}
