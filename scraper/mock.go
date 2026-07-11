@@ -93,4 +93,3 @@ func (m *mockSNMPScraper) Clone() SNMPScraper {
 		callWalk:      make([]string, 0),
 	}
 }
-

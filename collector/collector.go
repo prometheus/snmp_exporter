@@ -462,19 +462,23 @@ func (c Collector) collect(ctx context.Context, ch chan<- prometheus.Metric, log
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		time.Since(start).Seconds())
+		time.Since(start).Seconds(),
+	)
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get and bulkget (walk packets not counted when walk_concurrency > 1).", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(packets.Load()))
+		float64(packets.Load()),
+	)
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get and bulkget (walk packets not counted when walk_concurrency > 1).", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(retries.Load()))
+		float64(retries.Load()),
+	)
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(len(results.pdus)))
+		float64(len(results.pdus)),
+	)
 
 	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
 	for _, pdu := range results.pdus {
@@ -505,7 +509,8 @@ func (c Collector) collect(ctx context.Context, ch chan<- prometheus.Metric, log
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, moduleLabel),
 		prometheus.GaugeValue,
-		time.Since(start).Seconds())
+		time.Since(start).Seconds(),
+	)
 }
 
 // Collect implements Prometheus.Collector.
@@ -651,7 +656,8 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 		int(v[5]),
 		int(v[6]),
 		int(v[7])*1e+8,
-		tz)
+		tz,
+	)
 	return float64(t.Unix()), nil
 }
 
