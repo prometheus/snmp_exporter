@@ -62,7 +62,7 @@ func TestMockCloneCopiesConnectError(t *testing.T) {
 	m.ConnectError = wantErr
 
 	clone := m.Clone()
-	if err := clone.Connect(); err != wantErr {
+	if err := clone.Connect(); !errors.Is(err, wantErr) {
 		t.Errorf("Clone().Connect() = %v, want %v", err, wantErr)
 	}
 }
