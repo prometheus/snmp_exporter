@@ -14,15 +14,29 @@
 package scraper
 
 import (
+	"slices"
+	"sync"
+
 	"github.com/gosnmp/gosnmp"
 )
+
+// mockCalls records Get/Walk invocations. One instance is shared between a
+// mock and all its clones (guarded by mu) so tests can assert aggregate
+// behavior such as "each subtree walked exactly once".
+type mockCalls struct {
+	mu   sync.Mutex
+	get  []string
+	walk []string
+}
 
 func NewMockSNMPScraper(get map[string]gosnmp.SnmpPDU, walk map[string][]gosnmp.SnmpPDU) *mockSNMPScraper {
 	return &mockSNMPScraper{
 		GetResponses:  get,
 		WalkResponses: walk,
-		callGet:       make([]string, 0),
-		callWalk:      make([]string, 0),
+		calls: &mockCalls{
+			get:  make([]string, 0),
+			walk: make([]string, 0),
+		},
 	}
 }
 
@@ -32,16 +46,19 @@ type mockSNMPScraper struct {
 	ConnectError  error
 	CloseError    error
 
-	callGet  []string
-	callWalk []string
+	calls *mockCalls
 }
 
 func (m *mockSNMPScraper) CallGet() []string {
-	return m.callGet
+	m.calls.mu.Lock()
+	defer m.calls.mu.Unlock()
+	return slices.Clone(m.calls.get)
 }
 
 func (m *mockSNMPScraper) CallWalk() []string {
-	return m.callWalk
+	m.calls.mu.Lock()
+	defer m.calls.mu.Unlock()
+	return slices.Clone(m.calls.walk)
 }
 
 func (m *mockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
@@ -56,8 +73,10 @@ func (m *mockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 				Value: nil,
 			})
 		}
-		m.callGet = append(m.callGet, oid)
 	}
+	m.calls.mu.Lock()
+	m.calls.get = append(m.calls.get, oids...)
+	m.calls.mu.Unlock()
 	return &gosnmp.SnmpPacket{
 		Variables: pdus,
 		Error:     gosnmp.NoError,
@@ -65,7 +84,9 @@ func (m *mockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 }
 
 func (m *mockSNMPScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
-	m.callWalk = append(m.callWalk, baseOID)
+	m.calls.mu.Lock()
+	m.calls.walk = append(m.calls.walk, baseOID)
+	m.calls.mu.Unlock()
 	if pdus, exists := m.WalkResponses[baseOID]; exists {
 		return pdus, nil
 	}
@@ -83,13 +104,15 @@ func (m *mockSNMPScraper) Close() error {
 func (m *mockSNMPScraper) SetOptions(...func(*gosnmp.GoSNMP)) {
 }
 
-// Clone returns a new mock that shares the same response maps (safe for parallel reads).
+// Clone returns a new mock sharing the same response maps (safe for parallel reads)
+// and the same call record, so CallGet/CallWalk on the parent report calls made
+// through clones too.
 func (m *mockSNMPScraper) Clone() SNMPScraper {
 	return &mockSNMPScraper{
 		GetResponses:  m.GetResponses,
 		WalkResponses: m.WalkResponses,
 		ConnectError:  m.ConnectError,
-		callGet:       make([]string, 0),
-		callWalk:      make([]string, 0),
+		CloseError:    m.CloseError,
+		calls:         m.calls,
 	}
 }
