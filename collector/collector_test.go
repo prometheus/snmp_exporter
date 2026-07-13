@@ -16,9 +16,9 @@ package collector
 import (
 	"context"
 	"errors"
-	"log/slog"
 	"reflect"
 	"regexp"
+	"sort"
 	"strings"
 	"testing"
 	"time"
@@ -1726,7 +1726,7 @@ func TestScrapeTargetParallelWalk(t *testing.T) {
 		},
 	}
 
-	results, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
+	results, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, promslog.NewNopLogger(), testMetrics())
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -1755,6 +1755,19 @@ func TestScrapeTargetParallelWalk(t *testing.T) {
 			t.Errorf("missing PDU %s in results", want)
 		}
 	}
+
+	// Each subtree must be walked exactly once across all clones. The mock
+	// shares one call record between parent and clones to make this visible.
+	walked := mock.CallWalk()
+	sort.Strings(walked)
+	wantWalks := []string{
+		"1.3.6.1.2.1.2.2.1.7",
+		"1.3.6.1.2.1.2.2.1.8",
+		"1.3.6.1.2.1.31.1.1.1.15",
+	}
+	if !reflect.DeepEqual(walked, wantWalks) {
+		t.Errorf("walked subtrees %v, want each exactly once: %v", walked, wantWalks)
+	}
 }
 
 func TestScrapeTargetParallelWalkConnectError(t *testing.T) {
@@ -1778,7 +1791,7 @@ func TestScrapeTargetParallelWalkConnectError(t *testing.T) {
 		},
 	}
 
-	_, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, slog.Default(), testMetrics())
+	_, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, promslog.NewNopLogger(), testMetrics())
 	if err == nil {
 		t.Fatal("expected error from clone connect failure, got nil")
 	}
