@@ -18,6 +18,7 @@ import (
 	"net"
 	"testing"
 
+	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/common/promslog"
 )
 
@@ -71,6 +72,32 @@ func TestCloneConnectsWithSourceAddress(t *testing.T) {
 		t.Fatalf("clone Connect() with source address set: %v", err)
 	}
 	clone.Close()
+}
+
+func TestCloneReplaysOptions(t *testing.T) {
+	w, err := NewGoSNMP(promslog.NewNopLogger(), "192.0.2.1", "", false)
+	if err != nil {
+		t.Fatalf("NewGoSNMP: %v", err)
+	}
+
+	applied := 0
+	w.SetOptions(func(g *gosnmp.GoSNMP) {
+		applied++
+		g.OnSent = func(*gosnmp.GoSNMP) {}
+	})
+	if applied != 1 {
+		t.Fatalf("option fn applied %d times after SetOptions, want 1", applied)
+	}
+
+	clone := w.Clone().(*GoSNMPWrapper)
+	// Clone must re-invoke the option fn on the copy so hook closures are
+	// recreated with fresh per-connection state instead of shared or dropped.
+	if applied != 2 {
+		t.Errorf("option fn applied %d times after Clone, want 2", applied)
+	}
+	if clone.c.OnSent == nil {
+		t.Error("clone.c.OnSent is nil, want hook installed by replayed option fn")
+	}
 }
 
 func TestMockCloneCopiesConnectError(t *testing.T) {

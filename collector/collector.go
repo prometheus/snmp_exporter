@@ -416,11 +416,10 @@ func (c Collector) collect(ctx context.Context, ch chan<- prometheus.Metric, log
 		retries atomic.Uint64
 	)
 	client.SetOptions(
-		// Set the metrics options.
-		// NOTE: OnSent/OnRecv/OnRetry are only set on the parent client, not on
-		// per-subtree clones (Clone() intentionally omits them). So
-		// snmp_scrape_packets_sent/retried counts GET-phase packets only when
-		// walk_concurrency > 1. This is a known limitation documented here.
+		// Set the metrics options. Clone() replays these option fns on each
+		// per-subtree clone, so walk traffic at walk_concurrency > 1 is
+		// counted too: each clone gets fresh hook closures (own `sent`
+		// timestamp) feeding the same thread-safe counters.
 		func(g *gosnmp.GoSNMP) {
 			var sent time.Time
 			g.OnSent = func(x *gosnmp.GoSNMP) {
@@ -465,12 +464,12 @@ func (c Collector) collect(ctx context.Context, ch chan<- prometheus.Metric, log
 		time.Since(start).Seconds(),
 	)
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get and bulkget (walk packets not counted when walk_concurrency > 1).", nil, moduleLabel),
+		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, moduleLabel),
 		prometheus.GaugeValue,
 		float64(packets.Load()),
 	)
 	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get and bulkget (walk packets not counted when walk_concurrency > 1).", nil, moduleLabel),
+		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
 		float64(retries.Load()),
 	)

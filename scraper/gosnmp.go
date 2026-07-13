@@ -29,6 +29,11 @@ import (
 type GoSNMPWrapper struct {
 	c      *gosnmp.GoSNMP
 	logger *slog.Logger
+	// opts records every option fn passed to SetOptions so Clone can replay
+	// them on the copy. Replaying re-invokes each fn, recreating hook
+	// closures (OnSent etc.) with fresh per-connection state rather than
+	// sharing the parent's closures across goroutines.
+	opts []func(*gosnmp.GoSNMP)
 }
 
 func NewGoSNMP(logger *slog.Logger, target, srcAddress string, debug bool) (*GoSNMPWrapper, error) {
@@ -64,7 +69,11 @@ func NewGoSNMP(logger *slog.Logger, target, srcAddress string, debug bool) (*GoS
 	return &GoSNMPWrapper{c: g, logger: logger}, nil
 }
 
+// SetOptions applies fns to the underlying client and records them for
+// replay by Clone. Option fns accumulate across calls; when several set the
+// same field or hook, the one applied last wins.
 func (g *GoSNMPWrapper) SetOptions(fns ...func(*gosnmp.GoSNMP)) {
+	g.opts = append(g.opts, fns...)
 	for _, fn := range fns {
 		fn(g.c)
 	}
@@ -105,13 +114,18 @@ func cloneLocalAddr(addr string) string {
 	return net.JoinHostPort(host, "0")
 }
 
-// Clone returns a new unconnected GoSNMPWrapper copying transport/auth settings.
-// The caller must call Connect() before using the clone.
+// Clone returns a new unconnected GoSNMPWrapper copying transport/auth
+// settings. The caller must call Connect() before using the clone.
 //
-// Fields explicitly NOT copied:
-//   - Conn: connections are not goroutine-safe; clone must Connect() independently.
-//   - OnSent/OnRecv/OnRetry/OnFinish/PreSend: capture per-scrape counters by
-//     reference; sharing them across goroutines causes data races.
+// Conn is intentionally not copied: connections are not goroutine-safe, so
+// the clone must Connect() independently. LocalAddr has its port normalized
+// to 0 so each clone binds a fresh source port (see cloneLocalAddr).
+//
+// Hook fields (OnSent/OnRecv/OnRetry/OnFinish/PreSend) are not copied
+// directly either — their closures hold per-connection state. Instead,
+// every option fn previously applied via SetOptions is replayed on the
+// clone, recreating the hooks with fresh state that still feeds the shared
+// (thread-safe) counters.
 //
 // If GoSNMP gains new configuration fields in a future version they must be
 // added here manually; the struct copy (`c := *g.c`) cannot be used because
@@ -139,14 +153,16 @@ func (g *GoSNMPWrapper) Clone() SNMPScraper {
 		Context:                     g.c.Context,
 		Control:                     g.c.Control,
 		TrapSecurityParametersTable: g.c.TrapSecurityParametersTable,
-		// OnSent/OnRecv/OnRetry/OnFinish/PreSend intentionally omitted: these
-		// closures capture per-collect() counters by reference; sharing them
-		// across goroutines would cause a data race.
 	}
 	if g.c.SecurityParameters != nil {
 		clone.SecurityParameters = g.c.SecurityParameters.Copy()
 	}
-	return &GoSNMPWrapper{c: clone, logger: g.logger}
+	w := &GoSNMPWrapper{c: clone, logger: g.logger}
+	// Replay recorded options (metrics hooks, walk params) on the clone.
+	// Field values were already copied above; the point is re-running the
+	// closures so the clone gets its own hook instances.
+	w.SetOptions(g.opts...)
+	return w
 }
 
 func (g *GoSNMPWrapper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
