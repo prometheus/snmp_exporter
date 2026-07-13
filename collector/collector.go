@@ -209,7 +209,6 @@ func ScrapeTarget(ctx context.Context, snmp scraper.SNMPScraper, target string, 
 	workerResults := make([][]gosnmp.SnmpPDU, concurrency)
 
 	for i := 0; i < concurrency; i++ {
-		i := i // capture loop variable for closure
 		g.Go(func() error {
 			worker := snmp.Clone()
 			// Propagate the cancellable context so workers abort on error.
