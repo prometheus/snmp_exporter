@@ -87,11 +87,14 @@ func (g *GoSNMPWrapper) Close() error {
 	return g.c.Close()
 }
 
-// hostOnly returns only the host part of a host:port string.
-// If addr has no port or cannot be parsed, it is returned unchanged.
-// This prevents clones from inheriting a fixed source port that would
-// cause "bind: address already in use" when multiple clones connect.
-func hostOnly(addr string) string {
+// cloneLocalAddr returns addr with its port component replaced by "0" so
+// each clone binds a fresh ephemeral source port. The port must be
+// normalized rather than stripped: gosnmp passes LocalAddr verbatim to
+// net.ResolveUDPAddr, which requires "host:port" form. Keeping a fixed
+// port would instead cause "bind: address already in use" when multiple
+// clones connect. An empty addr or one without a port component is
+// returned unchanged.
+func cloneLocalAddr(addr string) string {
 	if addr == "" {
 		return ""
 	}
@@ -99,7 +102,7 @@ func hostOnly(addr string) string {
 	if err != nil {
 		return addr // no port component, return as-is
 	}
-	return host
+	return net.JoinHostPort(host, "0")
 }
 
 // Clone returns a new unconnected GoSNMPWrapper copying transport/auth settings.
@@ -118,7 +121,7 @@ func (g *GoSNMPWrapper) Clone() SNMPScraper {
 		Transport:                   g.c.Transport,
 		Target:                      g.c.Target,
 		Port:                        g.c.Port,
-		LocalAddr:                   hostOnly(g.c.LocalAddr),
+		LocalAddr:                   cloneLocalAddr(g.c.LocalAddr),
 		Version:                     g.c.Version,
 		Community:                   g.c.Community,
 		MsgFlags:                    g.c.MsgFlags,

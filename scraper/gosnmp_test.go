@@ -15,45 +15,62 @@ package scraper
 
 import (
 	"errors"
+	"net"
 	"testing"
 
 	"github.com/prometheus/common/promslog"
 )
 
-func TestHostOnly(t *testing.T) {
+func TestCloneLocalAddr(t *testing.T) {
 	cases := []struct {
 		input string
 		want  string
 	}{
 		{"", ""},
+		// No port component: returned unchanged (gosnmp rejects it at
+		// Connect() for parent and clone alike; not this function's problem).
 		{"192.168.1.1", "192.168.1.1"},
-		{"192.168.1.1:12345", "192.168.1.1"},
 		{"::1", "::1"},
-		{"[::1]:12345", "::1"},
-		{"0.0.0.0:9161", "0.0.0.0"},
 		{"somehost", "somehost"},
-		{"somehost:161", "somehost"},
+		// Fixed port: normalized to 0 so clones bind fresh source ports.
+		{"192.168.1.1:12345", "192.168.1.1:0"},
+		{"0.0.0.0:9161", "0.0.0.0:0"},
+		{"somehost:161", "somehost:0"},
+		{"[::1]:12345", "[::1]:0"},
+		// Auto-port forms stay auto.
+		{"192.168.1.1:", "192.168.1.1:0"},
+		{"192.168.1.1:0", "192.168.1.1:0"},
 	}
 	for _, c := range cases {
 		t.Run(c.input, func(t *testing.T) {
-			got := hostOnly(c.input)
+			got := cloneLocalAddr(c.input)
 			if got != c.want {
-				t.Errorf("hostOnly(%q) = %q, want %q", c.input, got, c.want)
+				t.Errorf("cloneLocalAddr(%q) = %q, want %q", c.input, got, c.want)
 			}
 		})
 	}
 }
 
-func TestCloneStripsLocalAddrPort(t *testing.T) {
-	logger := promslog.NewNopLogger()
-	w, err := NewGoSNMP(logger, "192.0.2.1", "0.0.0.0:9161", false)
+func TestCloneConnectsWithSourceAddress(t *testing.T) {
+	// Reserve a local UDP port to stand in for the parent's fixed source
+	// port, and keep it bound: the clone must neither reuse it (bind
+	// conflict) nor fail to parse its own LocalAddr.
+	reserved, err := net.ListenUDP("udp", &net.UDPAddr{IP: net.IPv4(127, 0, 0, 1)})
+	if err != nil {
+		t.Fatalf("reserving local UDP port: %v", err)
+	}
+	defer reserved.Close()
+
+	w, err := NewGoSNMP(promslog.NewNopLogger(), "127.0.0.1:1161", reserved.LocalAddr().String(), false)
 	if err != nil {
 		t.Fatalf("NewGoSNMP: %v", err)
 	}
-	clone := w.Clone().(*GoSNMPWrapper)
-	if clone.c.LocalAddr != "0.0.0.0" {
-		t.Errorf("Clone().LocalAddr = %q, want %q", clone.c.LocalAddr, "0.0.0.0")
+	clone := w.Clone()
+	// UDP "connect" only binds and sets the peer; no listener is needed.
+	if err := clone.Connect(); err != nil {
+		t.Fatalf("clone Connect() with source address set: %v", err)
 	}
+	clone.Close()
 }
 
 func TestMockCloneCopiesConnectError(t *testing.T) {
