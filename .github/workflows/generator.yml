@@ -42,40 +42,66 @@ jobs:
     permissions:
       packages: write
     needs: [generator]
-    defaults:
-      run:
-        working-directory: ./generator
     if: |
       (github.event_name == 'push' && github.event.ref == 'refs/heads/main')
     steps:
-      - uses: prometheus/promci-artifacts/restore@f9a587dbc0b2c78a0c54f8ad1cde71ea29a4b76f # v0.1.0
-      - uses: prometheus/promci/publish_main@13941414d409d227afd67544e5d306827db5a1a2 # v0.8.5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          docker_hub_login: ${{ secrets.docker_hub_login }}
-          docker_hub_password: ${{ secrets.docker_hub_password }}
-          ghcr_io_password: ${{ github.token }}
-          quay_io_login: ${{ secrets.quay_io_login }}
-          quay_io_password: ${{ secrets.quay_io_password }}
+          persist-credentials: false
+      - uses: prometheus/promci-setup@3e5cd31b34b8ae19efa8f071c5e3cdb44884a7f8 # v0.2.1
+        with:
+          enable_docker_multibuild: true
+      - name: Publish Docker images
+        env:
+          DOCKER_IMAGE_TAG: main
+          REPO_TAG: main
+        run: |
+          set -euo pipefail
+          publish() {
+            local repo="$1" login="$2" password="$3"
+            local registry="${repo%%/*}"
+            make -C generator docker DOCKER_REPO="$repo" DOCKER_IMAGE_TAG="$DOCKER_IMAGE_TAG" REPO_TAG="$REPO_TAG"
+            echo "$password" | docker login -u "$login" --password-stdin "$registry"
+            make -C generator docker-publish DOCKER_REPO="$repo" DOCKER_IMAGE_TAG="$DOCKER_IMAGE_TAG"
+            make -C generator docker-tag-latest DOCKER_REPO="$repo" DOCKER_IMAGE_TAG="$DOCKER_IMAGE_TAG"
+            docker push "${repo}/snmp-generator:latest"
+          }
+          publish docker.io/prom "${{ secrets.docker_hub_login }}" "${{ secrets.docker_hub_password }}"
+          publish ghcr.io/prometheus prometheus "${{ github.token }}"
+          publish quay.io/prometheus "${{ secrets.quay_io_login }}" "${{ secrets.quay_io_password }}"
 
   publish_generator_release:
     name: Publish generator release artefacts
     runs-on: ubuntu-latest
     permissions:
-      contents: write
       packages: write
     needs: [generator]
-    defaults:
-      run:
-        working-directory: ./generator
     if: |
       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
     steps:
-      - uses: prometheus/promci-artifacts/restore@f9a587dbc0b2c78a0c54f8ad1cde71ea29a4b76f # v0.1.0
-      - uses: prometheus/promci/publish_release@13941414d409d227afd67544e5d306827db5a1a2 # v0.8.5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          docker_hub_login: ${{ secrets.docker_hub_login }}
-          docker_hub_password: ${{ secrets.docker_hub_password }}
-          ghcr_io_password: ${{ github.token }}
-          quay_io_login: ${{ secrets.quay_io_login }}
-          quay_io_password: ${{ secrets.quay_io_password }}
-          github_token: ${{ github.token }}
+          persist-credentials: false
+      - uses: prometheus/promci-setup@3e5cd31b34b8ae19efa8f071c5e3cdb44884a7f8 # v0.2.1
+        with:
+          enable_docker_multibuild: true
+      - name: Publish Docker images
+        env:
+          DOCKER_IMAGE_TAG: ${{ github.ref_name }}
+          REPO_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          publish() {
+            local repo="$1" login="$2" password="$3"
+            local registry="${repo%%/*}"
+            make -C generator docker DOCKER_REPO="$repo" DOCKER_IMAGE_TAG="$DOCKER_IMAGE_TAG" REPO_TAG="$REPO_TAG"
+            echo "$password" | docker login -u "$login" --password-stdin "$registry"
+            make -C generator docker-publish DOCKER_REPO="$repo" DOCKER_IMAGE_TAG="$DOCKER_IMAGE_TAG"
+            if [[ "$DOCKER_IMAGE_TAG" =~ ^v[0-9]+(\.[0-9]+){2}$ ]]; then
+              make -C generator docker-tag-latest DOCKER_REPO="$repo" DOCKER_IMAGE_TAG="$DOCKER_IMAGE_TAG"
+              docker push "${repo}/snmp-generator:latest"
+            fi
+          }
+          publish docker.io/prom "${{ secrets.docker_hub_login }}" "${{ secrets.docker_hub_password }}"
+          publish ghcr.io/prometheus prometheus "${{ github.token }}"
+          publish quay.io/prometheus "${{ secrets.quay_io_login }}" "${{ secrets.quay_io_password }}"
