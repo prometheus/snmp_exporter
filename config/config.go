@@ -251,8 +251,7 @@ type Metric struct {
 }
 
 // RenderableIndexTypes are the Index types the collector can render as label
-// values (the switch in indexOidsAsString); any other type panics there. The
-// generator rejects indexes whose type is not in this map.
+// values (the switch in indexOidsAsString); any other type panics there.
 var RenderableIndexTypes = map[string]bool{
 	"Integer32":              true,
 	"Integer":                true,
@@ -275,6 +274,17 @@ type Index struct {
 	FixedSize  int            `yaml:"fixed_size,omitempty"`
 	Implied    bool           `yaml:"implied,omitempty"`
 	EnumValues map[int]string `yaml:"enum_values,omitempty"`
+}
+
+func (c *Index) UnmarshalYAML(unmarshal func(any) error) error {
+	type plain Index
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	if !RenderableIndexTypes[c.Type] {
+		return fmt.Errorf("invalid index type %q", c.Type)
+	}
+	return nil
 }
 
 type Lookup struct {

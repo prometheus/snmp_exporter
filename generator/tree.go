@@ -347,7 +347,11 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 
 	// Find all the usable metrics.
 	for _, metricNode := range metrics {
+		var indexErr error
 		walkNode(metricNode, func(n *Node) {
+			if indexErr != nil {
+				return
+			}
 			t, ok := metricType(n.Type)
 			if !ok {
 				return // Unsupported type.
@@ -398,7 +402,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 
 				// The collector can only render certain types as index labels.
 				if !config.RenderableIndexTypes[index.Type] {
-					logger.Warn("Can't render index type as a label", "node", n.Label, "index", i, "type", index.Type)
+					indexErr = fmt.Errorf("cannot use index '%s' of type %s on metric '%s'", i, index.Type, n.Label)
 					return
 				}
 
@@ -420,6 +424,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 			out.Metrics = append(out.Metrics, metric)
 		})
+		if indexErr != nil {
+			return nil, indexErr
+		}
 	}
 
 	// Build an map of all oid targeted by a filter to access it easily later.

@@ -800,32 +800,6 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
-		// Table with an index type the collector cannot render is dropped.
-		{
-			node: &Node{
-				Oid: "1", Label: "root",
-				Children: []*Node{
-					{
-						Oid: "1.1", Label: "table",
-						Children: []*Node{
-							{
-								Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
-								Children: []*Node{
-									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "DisplayString", TextualConvention: "DateAndTime"},
-									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
-								},
-							},
-						},
-					},
-				},
-			},
-			cfg: &ModuleConfig{
-				Walk: []string{"1"},
-			},
-			out: &config.Module{
-				Walk: []string{"1"},
-			},
-		},
 		// Tables with non-integer indexes.
 		{
 			node: &Node{
@@ -839,18 +813,6 @@ func TestGenerateConfigModule(t *testing.T) {
 								Children: []*Node{
 									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "octetIndex", Type: "OCTETSTR"},
 									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "octetFoo", Type: "INTEGER"},
-								},
-							},
-						},
-					},
-					{
-						Oid: "1.2", Label: "bitstring",
-						Children: []*Node{
-							{
-								Oid: "1.2.1", Label: "bitstringEntry", Indexes: []string{"bitstringIndex"},
-								Children: []*Node{
-									{Oid: "1.2.1.1", Access: "ACCESS_READONLY", Label: "bitstringIndex", Type: "BITSTRING"},
-									{Oid: "1.2.1.2", Access: "ACCESS_READONLY", Label: "bitstringFoo", Type: "INTEGER"},
 								},
 							},
 						},
@@ -983,7 +945,6 @@ func TestGenerateConfigModule(t *testing.T) {
 							},
 						},
 					},
-					// bitstring table dropped: the collector cannot render a Bits index.
 					{
 						Name: "ipaddrIndex",
 						Oid:  "1.3.1.1",
@@ -2411,6 +2372,35 @@ func TestGenerateConfigModule(t *testing.T) {
 			out, _ = yaml.Marshal(c.out)
 			t.Errorf("Wanted: %s", out)
 		}
+	}
+}
+
+func TestGenerateConfigModuleIndexType(t *testing.T) {
+	node := &Node{
+		Oid: "1", Label: "root",
+		Children: []*Node{
+			{
+				Oid: "1.1", Label: "table",
+				Children: []*Node{
+					{
+						Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+						Children: []*Node{
+							{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "DisplayString", TextualConvention: "DateAndTime"},
+							{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+						},
+					},
+				},
+			},
+		},
+	}
+	cfg := &ModuleConfig{Walk: []string{"1"}}
+	nameToNode := prepareTree(node, promslog.NewNopLogger())
+	_, err := generateConfigModule(cfg, node, nameToNode, promslog.NewNopLogger())
+	if err == nil {
+		t.Fatal("Expected error for non-renderable index type, got nil")
+	}
+	if !strings.Contains(err.Error(), "cannot use index 'tableIndex' of type DateAndTime") {
+		t.Fatalf("Unexpected error: %s", err)
 	}
 }
 
