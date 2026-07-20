@@ -32,13 +32,13 @@ ifeq ($(SELINUX_ENABLED),1)
   DOCKER_VOL_OPTS ?= :z
 endif
 
-APC_URL           := https://raw.githubusercontent.com/prometheus-community/snmp/refs/heads/main/apc/PowerNet-MIB
+APC_URL           := https://raw.githubusercontent.com/prometheus-community/snmp/main/apc/PowerNet-MIB
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
 CISCO_URL         := https://raw.githubusercontent.com/cisco/cisco-mibs/f55dc443daff58dfc86a764047ded2248bb94e12/v2
 DELL_OM_URL       := https://dl.dell.com/FOLDER11196144M/1/Dell-OM-MIBS-11010_A00.zip
 DLINK_URL         := https://ftp.dlink.de/des/des-3200-18/driver_software/DES-3200-18_mib_revC_4-04_all_en_20130603.zip
 ELTEX_MIBS_URL    := https://raw.githubusercontent.com/prometheus-community/snmp/main/eltex
-DELL_NETWORK_URL  := https://supportkb.dell.com/attachment/ka02R000000I7TFQA0/Current_MIBs_pkb_en_US_1.zip
+DELL_NETWORK_MIBS_URL := https://raw.githubusercontent.com/prometheus-community/snmp/main/dell_network
 HPE_URL           := https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p1580676047/v229101/upd11.85mib.tar.gz
 IANA_CHARSET_URL  := https://www.iana.org/assignments/ianacharset-mib/ianacharset-mib
 IANA_IFTYPE_URL   := https://www.iana.org/assignments/ianaiftype-mib/ianaiftype-mib
@@ -513,15 +513,10 @@ $(MIBDIR)/.juniper:
 	@touch $(MIBDIR)/.juniper
 
 $(MIBDIR)/.dell-network:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading Dell network mibs to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(DELL_NETWORK_URL)
-	@unzip -j -d $(MIBDIR)/dell $(TMP) DELL-NETWORKING-MIB-9.14.2.1.zip
-	@unzip -j -d $(MIBDIR) $(MIBDIR)/dell/DELL-NETWORKING-MIB-9.14.2.1.zip \
-		DELL-NETWORKING-CHASSIS-MIB.mib \
-		DELL-NETWORKING-TC.mib \
-		DELL-NETWORKING-SMI.mib
-	@rm -rfv $(TMP) $(MIBDIR)/dell
+	@echo ">> Downloading Dell network mibs"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/DELL-NETWORKING-CHASSIS-MIB.mib "$(DELL_NETWORK_MIBS_URL)/DELL-NETWORKING-CHASSIS-MIB.mib"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/DELL-NETWORKING-TC.mib "$(DELL_NETWORK_MIBS_URL)/DELL-NETWORKING-TC.mib"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/DELL-NETWORKING-SMI.mib "$(DELL_NETWORK_MIBS_URL)/DELL-NETWORKING-SMI.mib"
 	@touch $(MIBDIR)/.dell-network
 
 # sed below fixes CISCO-FC-FE-MIB mib (ref: https://github.com/cisco/cisco-mibs/issues/136)
