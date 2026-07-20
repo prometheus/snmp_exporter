@@ -14,10 +14,34 @@
 package config
 
 import (
+	"strings"
 	"testing"
 
 	"go.yaml.in/yaml/v2"
 )
+
+func TestInvalidIndexType(t *testing.T) {
+	content := `
+modules:
+  module1:
+    metrics:
+      - name: metric1
+        oid: 1.2.3
+        type: gauge
+        help: A metric
+        indexes:
+          - labelname: index1
+            type: DateAndTime
+`
+	cfg := &Config{}
+	err := yaml.UnmarshalStrict([]byte(content), cfg)
+	if err == nil {
+		t.Fatal("Expected invalid index type to fail config parsing")
+	}
+	if !strings.Contains(err.Error(), `invalid index type "DateAndTime"`) {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+}
 
 func TestWalkParamsRetriesIsolation(t *testing.T) {
 	content := `

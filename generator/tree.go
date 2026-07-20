@@ -347,7 +347,11 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 
 	// Find all the usable metrics.
 	for _, metricNode := range metrics {
+		var indexErr error
 		walkNode(metricNode, func(n *Node) {
+			if indexErr != nil {
+				return
+			}
 			t, ok := metricType(n.Type)
 			if !ok {
 				return // Unsupported type.
@@ -396,6 +400,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					index.Type = "EnumAsInfo"
 				}
 
+				// The collector can only render certain types as index labels.
+				if !config.RenderableIndexTypes[index.Type] {
+					indexErr = fmt.Errorf("cannot use index '%s' of type %s on metric '%s'", i, index.Type, n.Label)
+					return
+				}
+
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
 					switch subtype {
@@ -414,6 +424,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			}
 			out.Metrics = append(out.Metrics, metric)
 		})
+		if indexErr != nil {
+			return nil, indexErr
+		}
 	}
 
 	// Build an map of all oid targeted by a filter to access it easily later.
@@ -488,6 +501,9 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 				// If lookup label is used as source index in another lookup,
 				// we need to add this new label as another index.
 				if slices.Contains(requiredAsIndex, l.Labelname) {
+					if !config.RenderableIndexTypes[l.Type] {
+						return nil, fmt.Errorf("cannot use lookup '%s' of type %s as an index", lookup.Lookup, l.Type)
+					}
 					idx := &config.Index{Labelname: l.Labelname, Type: l.Type, EnumValues: indexNode.EnumValues}
 					metric.Indexes = append(metric.Indexes, idx)
 				}
