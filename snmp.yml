@@ -14741,8 +14741,6 @@ modules:
       indexes:
       - labelname: aiValue
         type: gauge
-      - labelname: aiDescription
-        type: DisplayString
       lookups:
       - labels:
         - aiValue
@@ -14756,8 +14754,6 @@ modules:
       indexes:
       - labelname: aoValue
         type: gauge
-      - labelname: aoDescription
-        type: DisplayString
       lookups:
       - labels:
         - aoValue
@@ -14771,8 +14767,6 @@ modules:
       indexes:
       - labelname: avValue
         type: gauge
-      - labelname: avDescription
-        type: DisplayString
       lookups:
       - labels:
         - avValue
@@ -14786,8 +14780,6 @@ modules:
       indexes:
       - labelname: biValue
         type: gauge
-      - labelname: biDescription
-        type: DisplayString
       lookups:
       - labels:
         - biValue
@@ -14801,8 +14793,6 @@ modules:
       indexes:
       - labelname: boValue
         type: gauge
-      - labelname: boDescription
-        type: DisplayString
       lookups:
       - labels:
         - boValue
@@ -14816,8 +14806,6 @@ modules:
       indexes:
       - labelname: bvValue
         type: gauge
-      - labelname: bvDescription
-        type: DisplayString
       lookups:
       - labels:
         - bvValue
