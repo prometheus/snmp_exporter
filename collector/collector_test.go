@@ -978,6 +978,21 @@ func TestParseDateAndTimeWithPattern(t *testing.T) {
 	}
 }
 
+// Every type listed as renderable must be handled by indexOidsAsString
+// rather than hitting its unknown-type panic.
+func TestRenderableIndexTypes(t *testing.T) {
+	for typ := range config.RenderableIndexTypes {
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					t.Errorf("indexOidsAsString panicked for type %s: %v", typ, r)
+				}
+			}()
+			indexOidsAsString([]int{4, 1, 2, 3, 4, 5, 6, 7, 8}, typ, 0, false, nil)
+		}()
+	}
+}
+
 func TestIndexesToLabels(t *testing.T) {
 	cases := []struct {
 		oid      []int
