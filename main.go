@@ -155,7 +155,7 @@ func loadRuntimeSnapshot(
 	return &runtimeSnapshot{profiles: profiles, inventory: devices, output: outputConfig}, nil
 }
 
-func newRemoteWriteOutput(ctx context.Context, config *remotewrite.RuntimeConfig, metrics output.Metrics) (output.Output, error) {
+func newRemoteWriteOutput(ctx context.Context, config *remotewrite.RuntimeConfig, metrics output.Metrics, logger *slog.Logger) (output.Output, error) {
 	headerProvider, err := remotewrite.NewEnvHeaderProvider(config.HeaderEnv)
 	if err != nil {
 		return nil, fmt.Errorf("create remote write credentials: %w", err)
@@ -163,7 +163,7 @@ func newRemoteWriteOutput(ctx context.Context, config *remotewrite.RuntimeConfig
 	if _, err := headerProvider.Headers(ctx); err != nil {
 		return nil, fmt.Errorf("resolve remote write credentials: %w", err)
 	}
-	remoteOutput, err := remotewrite.NewOutput(config.Sender, config.Queue, nil, headerProvider, metrics)
+	remoteOutput, err := remotewrite.NewOutput(config.Sender, config.Queue, nil, headerProvider, metrics, logger)
 	if err != nil {
 		return nil, fmt.Errorf("create remote write output: %w", err)
 	}
@@ -178,7 +178,7 @@ func startCollector(
 	registerer prometheus.Registerer,
 ) (*collectorRuntime, error) {
 	outputMetrics := output.NewMetrics(registerer)
-	remoteOutput, err := newRemoteWriteOutput(ctx, snapshot.output, outputMetrics)
+	remoteOutput, err := newRemoteWriteOutput(ctx, snapshot.output, outputMetrics, logger)
 	if err != nil {
 		return nil, err
 	}
@@ -236,7 +236,7 @@ func (runtime *collectorRuntime) Ready() error {
 // the new profiles and inventory. A validation, output startup, or scheduler
 // reconciliation error leaves the previous runtime active.
 func (runtime *collectorRuntime) Reload(ctx context.Context, snapshot *runtimeSnapshot) error {
-	nextOutput, err := newRemoteWriteOutput(ctx, snapshot.output, runtime.outputMetrics)
+	nextOutput, err := newRemoteWriteOutput(ctx, snapshot.output, runtime.outputMetrics, runtime.logger)
 	if err != nil {
 		return err
 	}
@@ -346,7 +346,7 @@ func main() {
 	}
 	initializeModuleMetrics(snapshot.profiles)
 	if *dryRun {
-		if _, err := newRemoteWriteOutput(context.Background(), snapshot.output, output.Metrics{}); err != nil {
+		if _, err := newRemoteWriteOutput(context.Background(), snapshot.output, output.Metrics{}, logger); err != nil {
 			logger.Error("Error validating output", "err", err)
 			os.Exit(1)
 		}

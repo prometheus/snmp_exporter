@@ -17,6 +17,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -52,6 +53,7 @@ type AsyncOutput struct {
 	sender    Sender
 	retryable RetryClassifier
 	metrics   Metrics
+	logger    *slog.Logger
 	now       func() time.Time
 	waitRetry func(context.Context, time.Duration) bool
 	threshold chan struct{}
@@ -66,9 +68,14 @@ type AsyncOutput struct {
 	changed   chan struct{}
 	runCtx    context.Context
 	cancel    context.CancelFunc
+
+	// deliveryFailures is owned by the run goroutine. It spans batches so a
+	// permanent downstream failure cannot emit one log line per flush interval.
+	deliveryFailures     uint64
+	deliveryFailureSince time.Time
 }
 
-func NewAsync(id string, config QueueConfig, sender Sender, retryable RetryClassifier, metrics Metrics) (*AsyncOutput, error) {
+func NewAsync(id string, config QueueConfig, sender Sender, retryable RetryClassifier, metrics Metrics, logger *slog.Logger) (*AsyncOutput, error) {
 	if id == "" {
 		return nil, fmt.Errorf("output ID is required")
 	}
@@ -81,6 +88,9 @@ func NewAsync(id string, config QueueConfig, sender Sender, retryable RetryClass
 	if sender == nil {
 		return nil, fmt.Errorf("output sender is required")
 	}
+	if logger == nil {
+		return nil, fmt.Errorf("output logger is required")
+	}
 	if retryable == nil {
 		retryable = func(error) bool { return true }
 	}
@@ -91,6 +101,7 @@ func NewAsync(id string, config QueueConfig, sender Sender, retryable RetryClass
 		sender:    sender,
 		retryable: retryable,
 		metrics:   metrics,
+		logger:    logger.With("component", "output", "output", id),
 		now:       time.Now,
 		waitRetry: waitForRetry,
 		threshold: make(chan struct{}, 1),
@@ -365,14 +376,17 @@ func (q *AsyncOutput) sendWithRetry(ctx context.Context, batch []sample.Sample) 
 		err := q.sender.Send(requestCtx, batch)
 		cancel()
 		if err == nil {
+			q.logDeliveryRecovered(len(batch))
 			return nil
 		}
 		if ctx.Err() != nil {
 			return ctx.Err()
 		}
 		if !q.retryable(err) {
+			q.logDeliveryFailure(err, len(batch), false, 0)
 			return err
 		}
+		q.logDeliveryFailure(err, len(batch), true, backoff)
 		if q.metrics.RetriesTotal != nil {
 			q.metrics.RetriesTotal.WithLabelValues(q.id).Inc()
 		}
@@ -383,6 +397,50 @@ func (q *AsyncOutput) sendWithRetry(ctx context.Context, batch []sample.Sample) 
 			backoff = min(backoff*2, q.config.RetryMaxBackoff)
 		}
 	}
+}
+
+func (q *AsyncOutput) logDeliveryFailure(err error, batchSamples int, retrying bool, retryIn time.Duration) {
+	if q.deliveryFailures == 0 {
+		q.deliveryFailureSince = q.now()
+	}
+	q.deliveryFailures++
+	if !shouldLogFailure(q.deliveryFailures) {
+		return
+	}
+
+	attributes := []any{
+		"err", err,
+		"batch_samples", batchSamples,
+		"consecutive_failures", q.deliveryFailures,
+	}
+	if retrying {
+		attributes = append(attributes, "retry_in", retryIn)
+		q.logger.Warn("Output delivery failed; retrying", attributes...)
+		return
+	}
+	q.logger.Warn("Output delivery failed; dropping batch", attributes...)
+}
+
+func (q *AsyncOutput) logDeliveryRecovered(batchSamples int) {
+	if q.deliveryFailures == 0 {
+		return
+	}
+	failures := q.deliveryFailures
+	failureSince := q.deliveryFailureSince
+	q.deliveryFailures = 0
+	q.deliveryFailureSince = time.Time{}
+	q.logger.Info("Output delivery recovered",
+		"batch_samples", batchSamples,
+		"failed_attempts", failures,
+		"failure_duration", q.now().Sub(failureSince),
+	)
+}
+
+func shouldLogFailure(failures uint64) bool {
+	// Log the first failure and powers of two after that. At a capped retry
+	// interval this provides periodic evidence of a continuing outage without
+	// writing one warning for every request.
+	return failures != 0 && failures&(failures-1) == 0
 }
 
 func (q *AsyncOutput) signalChangedLocked() {

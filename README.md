@@ -93,6 +93,12 @@ The operational HTTP server listens on `:9116` by default.
 The device metrics themselves are sent through Remote Write; they are not
 served by `/metrics`. The removed `/snmp` and `/config` endpoints return 404.
 
+Remote Write delivery failures are logged at warning level on the first failed
+attempt and then at attempts 2, 4, 8, and so on to avoid log flooding. A
+successful request after an outage emits a recovery log, while non-retryable
+failures warn that the affected batch was dropped. Logs never include request
+headers, credentials, payloads, or response bodies.
+
 ## Reload
 
 Reload all configuration without restarting:

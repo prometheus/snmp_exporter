@@ -17,6 +17,7 @@ import (
 	"context"
 	"errors"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -225,6 +226,7 @@ func TestNewOutputUsesSharedAsyncQueue(t *testing.T) {
 		server.Client(),
 		nil,
 		output.Metrics{},
+		slog.Default(),
 	)
 	if err != nil {
 		t.Fatalf("NewOutput() returned unexpected error: %v", err)
@@ -259,6 +261,7 @@ func TestAsyncOutputRetriesTransientHTTPStatus(t *testing.T) {
 		server.Client(),
 		nil,
 		output.Metrics{},
+		slog.Default(),
 	)
 	if err != nil {
 		t.Fatalf("NewOutput() returned unexpected error: %v", err)

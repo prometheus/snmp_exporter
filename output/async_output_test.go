@@ -14,8 +14,11 @@
 package output
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
+	"log/slog"
 	"sync"
 	"testing"
 	"time"
@@ -162,6 +165,78 @@ func TestAsyncOutputRetriesSameBatch(t *testing.T) {
 	closeOutput(t, queued)
 }
 
+func TestAsyncOutputLogsFailuresWithoutSpammingAndRecovery(t *testing.T) {
+	transient := errors.New("remote write transport request failed")
+	sender := &recordingSender{}
+	sender.sendFn = func(context.Context, []sample.Sample) error {
+		if sender.sends() <= 4 {
+			return transient
+		}
+		return nil
+	}
+	var logs bytes.Buffer
+	logger := slog.New(slog.NewJSONHandler(&logs, nil))
+	queued := newTestAsyncWithLogger(t, testQueueConfig(), sender, func(err error) bool {
+		return errors.Is(err, transient)
+	}, Metrics{}, logger)
+	queued.waitRetry = func(context.Context, time.Duration) bool { return true }
+	startOutput(t, queued)
+
+	if err := queued.Write(context.Background(), []sample.Sample{testSample(1)}); err != nil {
+		t.Fatalf("Write() returned unexpected error: %v", err)
+	}
+	if err := queued.Flush(context.Background()); err != nil {
+		t.Fatalf("Flush() returned unexpected error: %v", err)
+	}
+
+	got := logs.String()
+	if count := bytes.Count(logs.Bytes(), []byte(`"msg":"Output delivery failed; retrying"`)); count != 3 {
+		t.Fatalf("retry warning count = %d, want 3 for failures 1, 2, and 4; logs:\n%s", count, got)
+	}
+	if !bytes.Contains(logs.Bytes(), []byte(`"consecutive_failures":4`)) {
+		t.Fatalf("logs are missing the fourth consecutive failure: %s", got)
+	}
+	if !bytes.Contains(logs.Bytes(), []byte(`"msg":"Output delivery recovered"`)) {
+		t.Fatalf("logs are missing recovery message: %s", got)
+	}
+	if !bytes.Contains(logs.Bytes(), []byte(`"failed_attempts":4`)) {
+		t.Fatalf("recovery log is missing failure count: %s", got)
+	}
+	closeOutput(t, queued)
+}
+
+func TestAsyncOutputLogsPermanentDrop(t *testing.T) {
+	permanent := errors.New("remote write returned HTTP status 401 Unauthorized")
+	sender := &recordingSender{sendFn: func(context.Context, []sample.Sample) error {
+		return permanent
+	}}
+	var logs bytes.Buffer
+	logger := slog.New(slog.NewJSONHandler(&logs, nil))
+	registry := prometheus.NewRegistry()
+	metrics := NewMetrics(registry)
+	queued := newTestAsyncWithLogger(t, testQueueConfig(), sender, func(error) bool { return false }, metrics, logger)
+	startOutput(t, queued)
+
+	if err := queued.Write(context.Background(), []sample.Sample{testSample(1)}); err != nil {
+		t.Fatalf("Write() returned unexpected error: %v", err)
+	}
+	if err := queued.Flush(context.Background()); err != nil {
+		t.Fatalf("Flush() returned unexpected error: %v", err)
+	}
+
+	got := logs.String()
+	if !bytes.Contains(logs.Bytes(), []byte(`"msg":"Output delivery failed; dropping batch"`)) {
+		t.Fatalf("logs are missing permanent drop warning: %s", got)
+	}
+	if !bytes.Contains(logs.Bytes(), []byte(`"batch_samples":1`)) {
+		t.Fatalf("drop warning is missing batch size: %s", got)
+	}
+	if value := counterValue(t, metrics.DroppedTotal.WithLabelValues("remote_write", "non_retryable")); value != 1 {
+		t.Fatalf("non_retryable dropped counter = %v, want 1", value)
+	}
+	closeOutput(t, queued)
+}
+
 func TestAsyncOutputBatchesBySampleLimit(t *testing.T) {
 	sender := &recordingSender{batches: make(chan []sample.Sample, 3)}
 	config := testQueueConfig()
@@ -266,7 +341,13 @@ func TestAsyncOutputRejectsInvalidBatchAtomically(t *testing.T) {
 
 func newTestAsync(t *testing.T, config QueueConfig, sender Sender, retryable RetryClassifier, metrics Metrics) *AsyncOutput {
 	t.Helper()
-	queued, err := NewAsync("remote_write", config, sender, retryable, metrics)
+	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
+	return newTestAsyncWithLogger(t, config, sender, retryable, metrics, logger)
+}
+
+func newTestAsyncWithLogger(t *testing.T, config QueueConfig, sender Sender, retryable RetryClassifier, metrics Metrics, logger *slog.Logger) *AsyncOutput {
+	t.Helper()
+	queued, err := NewAsync("remote_write", config, sender, retryable, metrics, logger)
 	if err != nil {
 		t.Fatalf("NewAsync() returned unexpected error: %v", err)
 	}

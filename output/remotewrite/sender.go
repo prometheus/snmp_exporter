@@ -18,6 +18,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"sync"
@@ -107,12 +108,12 @@ func New(config Config, client httpDoer, headers HeaderProvider) (*Sender, error
 
 // NewOutput composes the Remote Write sender with the shared asynchronous
 // queue. It does not create another queue inside the sender.
-func NewOutput(config Config, queue output.QueueConfig, client httpDoer, headers HeaderProvider, metrics output.Metrics) (*output.AsyncOutput, error) {
+func NewOutput(config Config, queue output.QueueConfig, client httpDoer, headers HeaderProvider, metrics output.Metrics, logger *slog.Logger) (*output.AsyncOutput, error) {
 	sender, err := New(config, client, headers)
 	if err != nil {
 		return nil, err
 	}
-	return output.NewAsync("remote_write", queue, sender, IsRetryable, metrics)
+	return output.NewAsync("remote_write", queue, sender, IsRetryable, metrics, logger)
 }
 
 func (s *Sender) Start(context.Context) error {
