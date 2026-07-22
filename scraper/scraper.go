@@ -23,4 +23,7 @@ type SNMPScraper interface {
 	Connect() error
 	Close() error
 	SetOptions(...func(*gosnmp.GoSNMP))
+	// Clone returns a new unconnected scraper with the same transport/auth settings.
+	// Used to create per-goroutine connections for parallel OID walks.
+	Clone() SNMPScraper
 }

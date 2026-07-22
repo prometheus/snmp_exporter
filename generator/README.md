@@ -122,6 +122,10 @@ modules:
                          # May need to be reduced for buggy devices.
     retries: 3   # How many times to retry a failed request, defaults to 3.
     timeout: 5s  # Timeout for each individual SNMP request, defaults to 5s.
+    walk_concurrency: 1  # Maximum number of OID subtrees to walk in parallel, defaults to 1 (sequential).
+                         # Increasing this reduces wall-clock scrape time on devices with large tables
+                         # (e.g. walk_concurrency: 4 for switches with hundreds of interfaces).
+                         # Higher values increase SNMP agent load — tune carefully per device type.
 
     allow_nonincreasing_oids: false # Do not check whether the returned OIDs are increasing, defaults to false
                                     # Some agents return OIDs out of order, but can complete the walk anyway.

@@ -105,6 +105,7 @@ var (
 		Timeout:                 time.Second * 5,
 		UseUnconnectedUDPSocket: false,
 		AllowNonIncreasingOIDs:  false,
+		WalkConcurrency:         1,
 	}
 	DefaultModule = Module{
 		WalkParams: DefaultWalkParams,
@@ -127,6 +128,7 @@ type WalkParams struct {
 	Timeout                 time.Duration `yaml:"timeout,omitempty"`
 	UseUnconnectedUDPSocket bool          `yaml:"use_unconnected_udp_socket,omitempty"`
 	AllowNonIncreasingOIDs  bool          `yaml:"allow_nonincreasing_oids,omitempty"`
+	WalkConcurrency         int           `yaml:"walk_concurrency,omitempty"`
 }
 
 type Module struct {

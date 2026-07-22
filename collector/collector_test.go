@@ -14,14 +14,18 @@
 package collector
 
 import (
+	"context"
 	"errors"
 	"reflect"
 	"regexp"
+	"sort"
 	"strings"
 	"testing"
+	"time"
 
 	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/gosnmp/gosnmp"
+	"github.com/prometheus/client_golang/prometheus"
 	io_prometheus_client "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/promslog"
 
@@ -1658,7 +1662,7 @@ func TestScrapeTarget(t *testing.T) {
 		tt := c
 		t.Run(tt.name, func(t *testing.T) {
 			mock := scraper.NewMockSNMPScraper(tt.getResponse, tt.walkResponses)
-			results, err := ScrapeTarget(mock, "someTarget", auth, tt.module, promslog.NewNopLogger(), Metrics{})
+			results, err := ScrapeTarget(context.Background(), mock, "someTarget", auth, tt.module, promslog.NewNopLogger(), Metrics{})
 			if err != nil {
 				t.Errorf("ScrapeTarget returned an error: %v", err)
 			}
@@ -1679,5 +1683,142 @@ func TestScrapeTarget(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestScrapeTargetParallelWalk(t *testing.T) {
+	// Three subtrees with 2 PDUs each.
+	oid1 := []gosnmp.SnmpPDU{
+		{Name: ".1.3.6.1.2.1.2.2.1.7.1", Type: gosnmp.Integer, Value: 1},
+		{Name: ".1.3.6.1.2.1.2.2.1.7.2", Type: gosnmp.Integer, Value: 1},
+	}
+	oid2 := []gosnmp.SnmpPDU{
+		{Name: ".1.3.6.1.2.1.2.2.1.8.1", Type: gosnmp.Integer, Value: 1},
+		{Name: ".1.3.6.1.2.1.2.2.1.8.2", Type: gosnmp.Integer, Value: 1},
+	}
+	oid3 := []gosnmp.SnmpPDU{
+		{Name: ".1.3.6.1.2.1.31.1.1.1.15.1", Type: gosnmp.Gauge32, Value: uint(1000)},
+		{Name: ".1.3.6.1.2.1.31.1.1.1.15.2", Type: gosnmp.Gauge32, Value: uint(100)},
+	}
+
+	mock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.2.2.1.7":     oid1,
+			"1.3.6.1.2.1.2.2.1.8":     oid2,
+			"1.3.6.1.2.1.31.1.1.1.15": oid3,
+		},
+	)
+
+	retries := 0
+	module := &config.Module{
+		Walk: []string{
+			"1.3.6.1.2.1.2.2.1.7",
+			"1.3.6.1.2.1.2.2.1.8",
+			"1.3.6.1.2.1.31.1.1.1.15",
+		},
+		Metrics: []*config.Metric{},
+		WalkParams: config.WalkParams{
+			MaxRepetitions:  10,
+			Retries:         &retries,
+			Timeout:         time.Second,
+			WalkConcurrency: 3, // exercises the parallel code path
+		},
+	}
+
+	results, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, promslog.NewNopLogger(), testMetrics())
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(results.pdus) != 6 {
+		t.Errorf("got %d PDUs, want 6", len(results.pdus))
+	}
+
+	// Verify all three OIDs were walked (order may vary).
+	names := make([]string, len(results.pdus))
+	for i, p := range results.pdus {
+		names[i] = p.Name
+	}
+	for _, want := range []string{
+		".1.3.6.1.2.1.2.2.1.7.1", ".1.3.6.1.2.1.2.2.1.7.2",
+		".1.3.6.1.2.1.2.2.1.8.1", ".1.3.6.1.2.1.2.2.1.8.2",
+		".1.3.6.1.2.1.31.1.1.1.15.1", ".1.3.6.1.2.1.31.1.1.1.15.2",
+	} {
+		found := false
+		for _, n := range names {
+			if n == want {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("missing PDU %s in results", want)
+		}
+	}
+
+	// Each subtree must be walked exactly once across all clones. The mock
+	// shares one call record between parent and clones to make this visible.
+	walked := mock.CallWalk()
+	sort.Strings(walked)
+	wantWalks := []string{
+		"1.3.6.1.2.1.2.2.1.7",
+		"1.3.6.1.2.1.2.2.1.8",
+		"1.3.6.1.2.1.31.1.1.1.15",
+	}
+	if !reflect.DeepEqual(walked, wantWalks) {
+		t.Errorf("walked subtrees %v, want each exactly once: %v", walked, wantWalks)
+	}
+}
+
+func TestScrapeTargetParallelWalkConnectError(t *testing.T) {
+	// Clone().Connect() failure should be propagated and not hang.
+	mock := scraper.NewMockSNMPScraper(
+		map[string]gosnmp.SnmpPDU{},
+		map[string][]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.2.2.1.7": {{Name: ".1.3.6.1.2.1.2.2.1.7.1", Type: gosnmp.Integer, Value: 1}},
+		},
+	)
+	mock.ConnectError = errors.New("simulated connect failure")
+
+	retries := 0
+	module := &config.Module{
+		Walk: []string{"1.3.6.1.2.1.2.2.1.7"},
+		WalkParams: config.WalkParams{
+			MaxRepetitions:  10,
+			Retries:         &retries,
+			Timeout:         time.Second,
+			WalkConcurrency: 2,
+		},
+	}
+
+	_, err := ScrapeTarget(context.Background(), mock, "192.0.2.1", &config.Auth{Version: 2}, module, promslog.NewNopLogger(), testMetrics())
+	if err == nil {
+		t.Fatal("expected error from clone connect failure, got nil")
+	}
+}
+
+// testMetrics returns a Metrics struct with real (but unregistered) Prometheus
+// instruments, suitable for use in collector unit tests.
+func testMetrics() Metrics {
+	return Metrics{
+		SNMPCollectionDuration: prometheus.NewHistogramVec(
+			prometheus.HistogramOpts{Name: "test_snmp_collection_duration_seconds", Help: "test"},
+			[]string{"module"},
+		),
+		SNMPUnexpectedPduType: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_unexpected_pdu_type_total", Help: "test"},
+		),
+		SNMPDuration: prometheus.NewHistogram(
+			prometheus.HistogramOpts{Name: "test_snmp_duration_seconds", Help: "test"},
+		),
+		SNMPPackets: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_packets_total", Help: "test"},
+		),
+		SNMPRetries: prometheus.NewCounter(
+			prometheus.CounterOpts{Name: "test_snmp_retries_total", Help: "test"},
+		),
+		SNMPInflight: prometheus.NewGauge(
+			prometheus.GaugeOpts{Name: "test_snmp_inflight", Help: "test"},
+		),
 	}
 }
