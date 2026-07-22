@@ -5,6 +5,9 @@ go:
 repository:
     path: github.com/prometheus/snmp_exporter
 build:
+    binaries:
+        - name: snmp_collector
+          path: .
     ldflags: |
         -X github.com/prometheus/common/version.Version={{.Version}}
         -X github.com/prometheus/common/version.Revision={{.Revision}}

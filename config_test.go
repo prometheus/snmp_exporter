@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2026 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,223 +14,308 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
-	"reflect"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/prometheus/common/promslog"
-	"go.yaml.in/yaml/v2"
 
-	"github.com/prometheus/snmp_exporter/collector"
 	"github.com/prometheus/snmp_exporter/config"
+	"github.com/prometheus/snmp_exporter/inventory"
+	"github.com/prometheus/snmp_exporter/output"
+	"github.com/prometheus/snmp_exporter/sample"
 )
 
 var nopLogger = promslog.NewNopLogger()
 
-func TestHideConfigSecrets(t *testing.T) {
-	sc := &SafeConfig{}
-	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth.yml"}, false)
-	if err != nil {
-		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth.yml", err)
-	}
+func TestLoadRuntimeSnapshot(t *testing.T) {
+	configPath, inventoryPath, outputPath := writeRuntimeFiles(t)
 
-	// String method must not reveal authentication credentials.
-	sc.mu.RLock()
-	c, err := yaml.Marshal(sc.C)
-	sc.mu.RUnlock()
+	snapshot, err := loadRuntimeSnapshot(
+		nopLogger,
+		[]string{configPath},
+		false,
+		[]string{inventoryPath},
+		outputPath,
+		time.Minute,
+		45*time.Second,
+	)
 	if err != nil {
-		t.Errorf("Error marshaling config: %v", err)
+		t.Fatalf("loadRuntimeSnapshot() returned unexpected error: %v", err)
 	}
-	if strings.Contains(string(c), "mysecret") {
-		t.Fatal("config's String method reveals authentication credentials.")
+	if snapshot.inventory.Len() != 1 {
+		t.Fatalf("inventory length = %d, want 1", snapshot.inventory.Len())
+	}
+	if snapshot.output.Sender.Endpoint != "https://mimir.example.com/api/v1/push" {
+		t.Fatalf("remote write endpoint = %q", snapshot.output.Sender.Endpoint)
+	}
+	device, ok := snapshot.inventory.Device("switch-01")
+	if !ok || device.Interval != time.Minute || device.Timeout != 45*time.Second {
+		t.Fatalf("device defaults = %#v", device)
 	}
 }
 
-func TestLoadConfigWithOverrides(t *testing.T) {
-	sc := &SafeConfig{}
-	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-with-overrides.yml"}, false)
-	if err != nil {
-		t.Errorf("Error loading config %v: %v", "testdata/snmp-with-overrides.yml", err)
-	}
-	sc.mu.RLock()
-	_, err = yaml.Marshal(sc.C)
-	sc.mu.RUnlock()
-	if err != nil {
-		t.Errorf("Error marshaling config: %v", err)
-	}
-}
-
-func TestLoadMultipleConfigs(t *testing.T) {
-	sc := &SafeConfig{}
-	configs := []string{"testdata/snmp-auth.yml", "testdata/snmp-with-overrides.yml"}
-	err := sc.ReloadConfig(nopLogger, configs, false)
-	if err != nil {
-		t.Errorf("Error loading configs %v: %v", configs, err)
-	}
-	sc.mu.RLock()
-	_, err = yaml.Marshal(sc.C)
-	sc.mu.RUnlock()
-	if err != nil {
-		t.Errorf("Error marshaling config: %v", err)
-	}
-}
-
-// When all environment variables are present
-func TestEnvSecrets(t *testing.T) {
-	t.Setenv("ENV_USERNAME", "username") // snmp_ prefix is set in config file
-	t.Setenv("ENV_PASSWORD", "snmp_password")
-	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
-
-	sc := &SafeConfig{}
-	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
-	if err != nil {
-		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-envvars.yml", err)
-	}
-
-	// String method must not reveal authentication credentials.
-	sc.mu.RLock()
-	c, err := yaml.Marshal(sc.C)
-	sc.mu.RUnlock()
-	if err != nil {
-		t.Errorf("Error marshaling config: %v", err)
-	}
-
-	if strings.Contains(string(c), "mysecret") {
-		t.Fatal("config's String method reveals authentication credentials.")
-	}
-
-	// we check whether vars we set are resolved correctly in config
-	for i := range sc.C.Auths {
-		if sc.C.Auths[i].Username != "snmp_username" || sc.C.Auths[i].Password != "snmp_password" || sc.C.Auths[i].PrivPassword != "snmp_priv_password" {
-			t.Fatal("failed to resolve secrets from env vars")
-		}
-	}
-}
-
-// When environment variable(s) are absent
-func TestEnvSecretsMissing(t *testing.T) {
-	t.Setenv("ENV_PASSWORD", "snmp_password")
-	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
-
-	sc := &SafeConfig{}
-	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
-	if err == nil {
-		t.Fatal("no error despite missing env var")
-	}
-	if err != nil {
-		// we check the error message pattern to determine the error
-		if strings.Contains(err.Error(), "environment variable not found") {
-			t.Logf("Error loading config as env var is not set/missing %v: %v", "testdata/snmp-auth-envvars.yml", err)
-		} else {
-			t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-envvars.yml", err)
-		}
-	}
-}
-
-// When environment variables are present but set to empty values.
-func TestEnvSecretsEmpty(t *testing.T) {
-	t.Setenv("ENV_USERNAME", "")
-	t.Setenv("ENV_PASSWORD", "")
-	t.Setenv("ENV_PRIV_PASSWORD", "")
-
-	sc := &SafeConfig{}
-	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-envvars.yml"}, true)
-	if err != nil {
-		t.Fatalf("Error loading config with empty env vars: %v", err)
-	}
-
-	for i := range sc.C.Auths {
-		if sc.C.Auths[i].Username != "snmp_" || sc.C.Auths[i].Password != "" || sc.C.Auths[i].PrivPassword != "" {
-			t.Fatal("failed to resolve empty env vars")
-		}
-	}
-}
-
-// When SNMPv2 was specified without credentials
-func TestEnvSecretsNotSpecified(t *testing.T) {
-	sc := &SafeConfig{}
-	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-auth-v2nocreds.yml"}, true)
-	if err != nil {
-		t.Errorf("Error loading config %v: %v", "testdata/snmp-auth-v2nocreds.yml", err)
-	}
-}
-
-func TestParseModules(t *testing.T) {
-	cases := []struct {
-		name    string
-		query   url.Values
-		want    []string
-		wantErr string
+func TestLoadRuntimeSnapshotRequiresInventoryAndOutput(t *testing.T) {
+	configPath, inventoryPath, outputPath := writeRuntimeFiles(t)
+	tests := []struct {
+		name      string
+		inventory []string
+		output    string
+		wantErr   string
 	}{
-		{
-			name:  "defaults to if_mib when omitted",
-			query: url.Values{},
-			want:  []string{"if_mib"},
-		},
-		{
-			name:    "rejects explicit empty module",
-			query:   url.Values{"module": {""}},
-			wantErr: "'module' parameter must contain at least one module name",
-		},
-		{
-			name:  "deduplicates modules across repeated params and csv values",
-			query: url.Values{"module": {"if_mib,system", "system", "if_mib"}},
-			want:  []string{"if_mib", "system"},
-		},
+		{name: "missing inventory", output: outputPath, wantErr: "--inventory.file is required"},
+		{name: "missing output", inventory: []string{inventoryPath}, wantErr: "--output.file is required"},
 	}
-
-	for _, tc := range cases {
-		t.Run(tc.name, func(t *testing.T) {
-			got, err := parseModules(tc.query)
-			if tc.wantErr != "" {
-				if err == nil {
-					t.Fatalf("expected error %q, got nil", tc.wantErr)
-				}
-				if err.Error() != tc.wantErr {
-					t.Fatalf("expected error %q, got %q", tc.wantErr, err.Error())
-				}
-				return
-			}
-			if err != nil {
-				t.Fatalf("unexpected error: %v", err)
-			}
-			if !reflect.DeepEqual(got, tc.want) {
-				t.Fatalf("expected modules %v, got %v", tc.want, got)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := loadRuntimeSnapshot(
+				nopLogger, []string{configPath}, false, tt.inventory, tt.output,
+				time.Minute, 45*time.Second,
+			)
+			if err == nil || !strings.Contains(err.Error(), tt.wantErr) {
+				t.Fatalf("loadRuntimeSnapshot() error = %v, want %q", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestHandlerRejectsEmptyModuleParameter(t *testing.T) {
-	sc = &SafeConfig{
-		C: &config.Config{
-			Auths: map[string]*config.Auth{
-				"public_v2": {
-					Community:     "public",
-					SecurityLevel: "noAuthNoPriv",
-					AuthProtocol:  "MD5",
-					PrivProtocol:  "DES",
-					Version:       2,
-				},
-			},
-			Modules: map[string]*config.Module{
-				"if_mib": {},
-			},
-		},
+func TestLoadRuntimeSnapshotRejectsInvalidInventoryBeforeActivation(t *testing.T) {
+	configPath, inventoryPath, outputPath := writeRuntimeFiles(t)
+	content, err := os.ReadFile(inventoryPath)
+	if err != nil {
+		t.Fatalf("read inventory: %v", err)
+	}
+	writeMainTestFile(t, inventoryPath, strings.Replace(string(content), "profile: if_mib", "profile: missing", 1))
+
+	_, err = loadRuntimeSnapshot(
+		nopLogger, []string{configPath}, false, []string{inventoryPath}, outputPath,
+		time.Minute, 45*time.Second,
+	)
+	if err == nil || !strings.Contains(err.Error(), "profile \"missing\" does not exist") {
+		t.Fatalf("loadRuntimeSnapshot() error = %v, want missing profile error", err)
+	}
+}
+
+type fakeReadiness struct{ err error }
+
+func (r fakeReadiness) Ready() error { return r.err }
+
+func TestCollectorHTTPHandlerDoesNotExposeExporterEndpoints(t *testing.T) {
+	handler := newHTTPHandler("/metrics", fakeReadiness{})
+	for _, path := range []string{"/snmp", "/config", "/"} {
+		recorder := httptest.NewRecorder()
+		handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, path, http.NoBody))
+		if recorder.Code != http.StatusNotFound {
+			t.Errorf("GET %s status = %d, want 404", path, recorder.Code)
+		}
 	}
 
-	req := httptest.NewRequest(http.MethodGet, "/snmp?target=127.0.0.1&module=", http.NoBody)
-	resp := httptest.NewRecorder()
-
-	handler(resp, req, nopLogger, collector.Metrics{})
-
-	if resp.Code != http.StatusBadRequest {
-		t.Fatalf("expected status %d, got %d", http.StatusBadRequest, resp.Code)
+	health := httptest.NewRecorder()
+	handler.ServeHTTP(health, httptest.NewRequest(http.MethodGet, "/-/healthy", http.NoBody))
+	if health.Code != http.StatusOK {
+		t.Fatalf("health status = %d, want 200", health.Code)
 	}
-	if !strings.Contains(resp.Body.String(), "'module' parameter must contain at least one module name") {
-		t.Fatalf("unexpected response body: %q", resp.Body.String())
+}
+
+func TestCollectorHTTPHandlerReportsReadiness(t *testing.T) {
+	handler := newHTTPHandler("/metrics", fakeReadiness{err: errors.New("not ready")})
+	recorder := httptest.NewRecorder()
+	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/readyz", http.NoBody))
+	if recorder.Code != http.StatusServiceUnavailable {
+		t.Fatalf("readiness status = %d, want 503", recorder.Code)
+	}
+}
+
+func TestCollectorReloadEndpoint(t *testing.T) {
+	reloadCh = make(chan chan error)
+	done := make(chan struct{})
+	go func() {
+		rc := <-reloadCh
+		rc <- nil
+		close(done)
+	}()
+
+	handler := newHTTPHandler("/metrics", fakeReadiness{})
+	recorder := httptest.NewRecorder()
+	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodPost, "/-/reload", http.NoBody))
+	if recorder.Code != http.StatusOK || recorder.Body.String() != "Reloaded\n" {
+		t.Fatalf("reload response = %d/%q, want 200/Reloaded", recorder.Code, recorder.Body.String())
+	}
+	<-done
+
+	methodNotAllowed := httptest.NewRecorder()
+	handler.ServeHTTP(methodNotAllowed, httptest.NewRequest(http.MethodGet, "/-/reload", http.NoBody))
+	if methodNotAllowed.Code != http.StatusBadRequest {
+		t.Fatalf("GET reload status = %d, want 400", methodNotAllowed.Code)
+	}
+}
+
+type recordingRuntimeScheduler struct {
+	reconcileErr error
+	reconciles   int
+	stops        int
+	snapshot     *inventory.Snapshot
+	profiles     *config.Config
+}
+
+func (s *recordingRuntimeScheduler) Reconcile(_ context.Context, snapshot *inventory.Snapshot, profiles *config.Config) error {
+	s.reconciles++
+	s.snapshot = snapshot
+	s.profiles = profiles
+	return s.reconcileErr
+}
+
+func (s *recordingRuntimeScheduler) Stop(context.Context) error {
+	s.stops++
+	return nil
+}
+
+type recordingOutput struct {
+	started int
+	flushed int
+	closed  int
+}
+
+func (*recordingOutput) ID() string { return "previous" }
+func (o *recordingOutput) Start(context.Context) error {
+	o.started++
+	return nil
+}
+func (*recordingOutput) Write(context.Context, []sample.Sample) error { return nil }
+func (o *recordingOutput) Flush(context.Context) error {
+	o.flushed++
+	return nil
+}
+func (*recordingOutput) Ready() error { return nil }
+func (o *recordingOutput) Close(context.Context) error {
+	o.closed++
+	return nil
+}
+
+func TestCollectorRuntimeReloadsProfilesInventoryAndOutput(t *testing.T) {
+	configPath, inventoryPath, outputPath := writeRuntimeFiles(t)
+	snapshot, err := loadRuntimeSnapshot(
+		nopLogger, []string{configPath}, false, []string{inventoryPath}, outputPath,
+		time.Minute, 45*time.Second,
+	)
+	if err != nil {
+		t.Fatalf("loadRuntimeSnapshot() returned unexpected error: %v", err)
+	}
+
+	previous := &recordingOutput{}
+	manager, err := output.NewManager(previous)
+	if err != nil {
+		t.Fatalf("NewManager() returned unexpected error: %v", err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	if err := manager.Start(ctx); err != nil {
+		t.Fatalf("output manager Start() returned unexpected error: %v", err)
+	}
+	reconciler := &recordingRuntimeScheduler{}
+	runtime := &collectorRuntime{
+		scheduler: reconciler,
+		output:    manager,
+		logger:    nopLogger,
+	}
+
+	if err := runtime.Reload(ctx, snapshot); err != nil {
+		t.Fatalf("Reload() returned unexpected error: %v", err)
+	}
+	if reconciler.reconciles != 1 || reconciler.snapshot != snapshot.inventory || reconciler.profiles != snapshot.profiles {
+		t.Fatalf("scheduler reconcile state = %#v, want the complete replacement snapshot", reconciler)
+	}
+	if previous.started != 1 || previous.flushed != 1 || previous.closed != 1 {
+		t.Fatalf("previous output lifecycle = %d/%d/%d, want 1/1/1", previous.started, previous.flushed, previous.closed)
+	}
+	if err := manager.Close(context.Background()); err != nil {
+		t.Fatalf("close replacement output: %v", err)
+	}
+}
+
+func TestCollectorRuntimeKeepsPreviousOutputWhenReconcileFails(t *testing.T) {
+	configPath, inventoryPath, outputPath := writeRuntimeFiles(t)
+	snapshot, err := loadRuntimeSnapshot(
+		nopLogger, []string{configPath}, false, []string{inventoryPath}, outputPath,
+		time.Minute, 45*time.Second,
+	)
+	if err != nil {
+		t.Fatalf("loadRuntimeSnapshot() returned unexpected error: %v", err)
+	}
+
+	previous := &recordingOutput{}
+	manager, err := output.NewManager(previous)
+	if err != nil {
+		t.Fatalf("NewManager() returned unexpected error: %v", err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	if err := manager.Start(ctx); err != nil {
+		t.Fatalf("output manager Start() returned unexpected error: %v", err)
+	}
+	reconcileErr := errors.New("reconcile failed")
+	runtime := &collectorRuntime{
+		scheduler: &recordingRuntimeScheduler{reconcileErr: reconcileErr},
+		output:    manager,
+		logger:    nopLogger,
+	}
+
+	if err := runtime.Reload(ctx, snapshot); !errors.Is(err, reconcileErr) {
+		t.Fatalf("Reload() error = %v, want %v", err, reconcileErr)
+	}
+	if previous.flushed != 0 || previous.closed != 0 {
+		t.Fatalf("previous output changed after rejected reload: flush/close = %d/%d", previous.flushed, previous.closed)
+	}
+	if err := manager.Ready(); err != nil {
+		t.Fatalf("previous output is not active after rejected reload: %v", err)
+	}
+	if err := manager.Close(context.Background()); err != nil {
+		t.Fatalf("close previous output: %v", err)
+	}
+}
+
+func writeRuntimeFiles(t *testing.T) (configPath, inventoryPath, outputPath string) {
+	t.Helper()
+	directory := t.TempDir()
+	configPath = filepath.Join(directory, "snmp.yml")
+	inventoryPath = filepath.Join(directory, "devices.yml")
+	outputPath = filepath.Join(directory, "outputs.yml")
+	writeMainTestFile(t, configPath, strings.Join([]string{
+		"auths:",
+		"  public_v2:",
+		"    community: public",
+		"    version: 2",
+		"modules:",
+		"  if_mib:",
+		"    walk: []",
+		"    metrics: []",
+	}, "\n")+"\n")
+	writeMainTestFile(t, inventoryPath, strings.Join([]string{
+		"devices:",
+		"  - id: switch-01",
+		"    address: udp://192.0.2.1:161",
+		"    profile: if_mib",
+		"    auth: public_v2",
+	}, "\n")+"\n")
+	writeMainTestFile(t, outputPath, strings.Join([]string{
+		"output:",
+		"  type: remote_write",
+		"  remoteWrite:",
+		"    endpoint: https://mimir.example.com/api/v1/push",
+		"    queue: {}",
+	}, "\n")+"\n")
+	return configPath, inventoryPath, outputPath
+}
+
+func writeMainTestFile(t *testing.T, path, content string) {
+	t.Helper()
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
+		t.Fatalf("write test config %q: %v", path, err)
 	}
 }

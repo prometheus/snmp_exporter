@@ -1,0 +1,25 @@
+apiVersion: snmpcollector.io/v1alpha1
+kind: OutputConfig
+
+output:
+  type: remote_write
+
+  remoteWrite:
+    # Replace this endpoint when Mimir is not running on the local machine.
+    endpoint: https://localhost/victoriametrics/api/v1/push
+    maxInFlight: 4
+
+    # Values are read from the environment for every request. Remove
+    # Authorization when the Mimir deployment does not require it.
+    # headerEnv:
+    #   Authorization: MIMIR_AUTHORIZATION
+    #   X-Scope-OrgID: MIMIR_TENANT_ID
+
+    queue:
+      capacity: 10000
+      maxBatchSamples: 2000
+      flushInterval: 2s
+      overflowPolicy: drop_oldest
+      retryMinBackoff: 1s
+      retryMaxBackoff: 30s
+      requestTimeout: 30s

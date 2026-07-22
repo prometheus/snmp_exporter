@@ -2,6 +2,8 @@
   grafanaDashboards: {
     'snmp-ubiquiti-wifi.json': (import 'dashboards/snmp_ubiquiti_wifi.json'),
     'snmp-ubiquiti-access_point.json': (import 'dashboards/snmp_ubiquiti_access_point.json'),
+    'snmp-device-fleet.json': (import 'dashboards/snmp_device_fleet.json'),
+    'snmp-collector-health.json': (import 'dashboards/snmp_collector_health.json'),
   },
 
   // Helper function to ensure that we don't override other rules, by forcing

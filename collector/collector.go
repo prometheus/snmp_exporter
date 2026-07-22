@@ -14,15 +14,12 @@
 package collector
 
 import (
-	"context"
 	"encoding/binary"
-	"encoding/hex"
 	"fmt"
 	"log/slog"
 	"regexp"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/alecthomas/kingpin/v2"
@@ -298,230 +295,6 @@ type Metrics struct {
 	SNMPInflight           prometheus.Gauge
 }
 
-type NamedModule struct {
-	*config.Module
-	name string
-}
-
-func NewNamedModule(name string, module *config.Module) *NamedModule {
-	return &NamedModule{
-		Module: module,
-		name:   name,
-	}
-}
-
-type Collector struct {
-	ctx          context.Context
-	target       string
-	auth         *config.Auth
-	authName     string
-	modules      []*NamedModule
-	logger       *slog.Logger
-	metrics      Metrics
-	concurrency  int
-	snmpContext  string
-	snmpEngineID string
-	debugSNMP    bool
-}
-
-func New(ctx context.Context, target, authName, snmpContext, snmpEngineID string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
-	return &Collector{
-		ctx:          ctx,
-		target:       target,
-		authName:     authName,
-		auth:         auth,
-		modules:      modules,
-		snmpContext:  snmpContext,
-		snmpEngineID: snmpEngineID,
-		logger:       logger.With("source_address", *srcAddress),
-		metrics:      metrics,
-		concurrency:  conc,
-		debugSNMP:    debugSNMP,
-	}
-}
-
-// Describe implements Prometheus.Collector.
-func (c Collector) Describe(ch chan<- *prometheus.Desc) {
-	ch <- prometheus.NewDesc("dummy", "dummy", nil, nil)
-}
-
-func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, client scraper.SNMPScraper, module *NamedModule) {
-	var (
-		packets uint64
-		retries uint64
-	)
-	client.SetOptions(
-		// Set the metrics options.
-		func(g *gosnmp.GoSNMP) {
-			var sent time.Time
-			g.OnSent = func(x *gosnmp.GoSNMP) {
-				sent = time.Now()
-				c.metrics.SNMPPackets.Inc()
-				packets++
-			}
-			g.OnRecv = func(x *gosnmp.GoSNMP) {
-				c.metrics.SNMPDuration.Observe(time.Since(sent).Seconds())
-			}
-			g.OnRetry = func(x *gosnmp.GoSNMP) {
-				c.metrics.SNMPRetries.Inc()
-				retries++
-			}
-		},
-		// Set the Walk options.
-		func(g *gosnmp.GoSNMP) {
-			g.Retries = *module.WalkParams.Retries
-			g.Timeout = module.WalkParams.Timeout
-			g.MaxRepetitions = module.WalkParams.MaxRepetitions
-			g.UseUnconnectedUDPSocket = module.WalkParams.UseUnconnectedUDPSocket
-			if module.WalkParams.AllowNonIncreasingOIDs {
-				g.AppOpts = map[string]any{
-					"c": true,
-				}
-			}
-		},
-	)
-	start := time.Now()
-	moduleLabel := prometheus.Labels{"module": module.name}
-	c.metrics.SNMPInflight.Inc()
-	results, err := ScrapeTarget(client, c.target, c.auth, module.Module, logger, c.metrics)
-	c.metrics.SNMPInflight.Dec()
-	if err != nil {
-		logger.Info("Error scraping target", "err", err)
-		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, moduleLabel), err)
-		return
-	}
-	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, moduleLabel),
-		prometheus.GaugeValue,
-		time.Since(start).Seconds())
-	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, moduleLabel),
-		prometheus.GaugeValue,
-		float64(packets))
-	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, moduleLabel),
-		prometheus.GaugeValue,
-		float64(retries))
-	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, moduleLabel),
-		prometheus.GaugeValue,
-		float64(len(results.pdus)))
-
-	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
-	for _, pdu := range results.pdus {
-		oidToPdu[pdu.Name[1:]] = pdu
-	}
-
-	metricTree := buildMetricTree(module.Metrics)
-	// Look for metrics that match each pdu.
-	for oid, pdu := range oidToPdu {
-		head := metricTree
-		oidList := oidToList(oid)
-		for i, o := range oidList {
-			var ok bool
-			head, ok = head.children[o]
-			if !ok {
-				break
-			}
-			if head.metric != nil {
-				// Found a match.
-				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, logger, c.metrics)
-				for _, sample := range samples {
-					ch <- sample
-				}
-				break
-			}
-		}
-	}
-	ch <- prometheus.MustNewConstMetric(
-		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, moduleLabel),
-		prometheus.GaugeValue,
-		time.Since(start).Seconds())
-}
-
-// Collect implements Prometheus.Collector.
-func (c Collector) Collect(ch chan<- prometheus.Metric) {
-	wg := sync.WaitGroup{}
-	workerCount := max(c.concurrency, 1)
-	ctx, cancel := context.WithCancel(c.ctx)
-	defer cancel()
-	workerChan := make(chan *NamedModule)
-	for i := 0; i < workerCount; i++ {
-		wg.Add(1)
-		go func(i int) {
-			defer wg.Done()
-			logger := c.logger.With("worker", i)
-			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress, c.debugSNMP)
-			if err != nil {
-				logger.Info("Failed to create snmp scrape client", "err", err)
-				cancel()
-				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error during initialisation of the Worker", nil, nil), err)
-				return
-			}
-			// Set UseUnconnectedSocket option if at least one module has it set
-			useUnconnectedUDPSocket := false
-			for _, m := range c.modules {
-				if m.WalkParams.UseUnconnectedUDPSocket {
-					useUnconnectedUDPSocket = true
-					break
-				}
-			}
-			// Set EngineID option if one is configured and we're using SNMPv3
-			if c.snmpEngineID != "" && c.auth.Version == 3 {
-				// Convert the SNMP Engine ID to a byte string
-				sEID, err := hex.DecodeString(c.snmpEngineID)
-				if err != nil {
-					logger.Debug("Failed to decode snmpEngineID as hex", "engineID", c.snmpEngineID, "err", err)
-					cancel()
-					return
-				}
-				// Set the options.
-				client.SetOptions(func(g *gosnmp.GoSNMP) {
-					g.ContextEngineID = string(sEID)
-				})
-			}
-			// Set the options.
-			client.SetOptions(func(g *gosnmp.GoSNMP) {
-				g.Context = ctx
-				g.UseUnconnectedUDPSocket = useUnconnectedUDPSocket
-				c.auth.ConfigureSNMP(g, c.snmpContext)
-			})
-			if err = client.Connect(); err != nil {
-				logger.Info("Error connecting to target", "err", err)
-				ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error connecting to target", nil, nil), err)
-				cancel()
-				return
-			}
-			defer client.Close()
-			for m := range workerChan {
-				_logger := logger.With("module", m.name)
-				_logger.Debug("Starting scrape")
-				start := time.Now()
-				c.collect(ch, _logger, client, m)
-				duration := time.Since(start).Seconds()
-				_logger.Debug("Finished scrape", "duration_seconds", duration)
-				c.metrics.SNMPCollectionDuration.WithLabelValues(m.name).Observe(duration)
-			}
-		}(i)
-	}
-
-	done := false
-	for _, module := range c.modules {
-		if done {
-			break
-		}
-		select {
-		case <-ctx.Done():
-			done = true
-			c.logger.Debug("Context canceled", "err", ctx.Err(), "module", module.name)
-		case workerChan <- module:
-			c.logger.Debug("Sent module to worker", "module", module.name)
-		}
-	}
-	close(workerChan)
-	wg.Wait()
-}
-
 func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 	switch pdu.Type {
 	case gosnmp.Counter64:
@@ -615,7 +388,20 @@ func parseNtpTimestamp(pdu *gosnmp.SnmpPDU) (float64, error) {
 	return float64(t.Unix()), nil
 }
 
-func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger *slog.Logger, metrics Metrics) []prometheus.Metric {
+type metricSample struct {
+	name        string
+	help        string
+	labelnames  []string
+	labelvalues []string
+	valueType   prometheus.ValueType
+	value       float64
+	oid         string
+	info        bool
+	err         error
+	errorHelp   string
+}
+
+func pduToMetricSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger *slog.Logger, metrics Metrics) []metricSample {
 	var err error
 	// The part of the OID that is the indexes.
 	labels := indexesToLabels(indexOids, metric, oidToPdu, metrics)
@@ -642,28 +428,28 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		value, err = parseDateAndTime(pdu)
 		if err != nil {
 			logger.Debug("Error parsing DateAndTime", "err", err)
-			return []prometheus.Metric{}
+			return []metricSample{}
 		}
 	case "ParseDateAndTime":
 		t = prometheus.GaugeValue
 		value, err = parseDateAndTimeWithPattern(metric, pdu, metrics)
 		if err != nil {
 			logger.Debug("Error parsing ParseDateAndTime", "err", err)
-			return []prometheus.Metric{}
+			return []metricSample{}
 		}
 	case "NTPTimeStamp":
 		t = prometheus.GaugeValue
 		value, err = parseNtpTimestamp(pdu)
 		if err != nil {
 			logger.Debug("Error parsing NTPTimeStamp", "err", err)
-			return []prometheus.Metric{}
+			return []metricSample{}
 		}
 	case "EnumAsInfo":
-		return enumAsInfo(metric, int(value), labelnames, labelvalues)
+		return enumAsInfo(metric, int(value), labelnames, labelvalues, pdu.Name)
 	case "EnumAsStateSet":
-		return enumAsStateSet(metric, int(value), labelnames, labelvalues)
+		return enumAsStateSet(metric, int(value), labelnames, labelvalues, pdu.Name)
 	case "Bits":
-		return bits(metric, pdu.Value, labelnames, labelvalues)
+		return bits(metric, pdu.Value, labelnames, labelvalues, pdu.Name)
 	default:
 		// It's some form of string.
 		t = prometheus.GaugeValue
@@ -688,7 +474,7 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		}
 
 		if len(metric.RegexpExtracts) > 0 {
-			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType, metric.DisplayHint, metrics), labelnames, labelvalues, logger)
+			return applyRegexExtracts(metric, pduValueAsString(pdu, metricType, metric.DisplayHint, metrics), labelnames, labelvalues, pdu.Name, logger)
 		}
 		// For strings we put the value as a label with the same name as the metric.
 		// If the name is already an index, we do not need to set it again.
@@ -703,18 +489,19 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 	}
 	value += metric.Offset
 
-	sample, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help, labelnames, nil),
-		t, value, labelvalues...)
-	if err != nil {
-		sample = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v from indexOids %v: %w", metric.Name, labelvalues, indexOids, err))
-	}
-
-	return []prometheus.Metric{sample}
+	return []metricSample{{
+		name:        metric.Name,
+		help:        metric.Help,
+		labelnames:  labelnames,
+		labelvalues: labelvalues,
+		valueType:   t,
+		value:       value,
+		oid:         strings.TrimPrefix(pdu.Name, "."),
+	}}
 }
 
-func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string, logger *slog.Logger) []prometheus.Metric {
-	results := []prometheus.Metric{}
+func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labelvalues []string, oid string, logger *slog.Logger) []metricSample {
+	results := []metricSample{}
 	for name, strMetricSlice := range metric.RegexpExtracts {
 		for _, strMetric := range strMetricSlice {
 			indexes := strMetric.Regex.FindStringSubmatchIndex(pduValue)
@@ -732,20 +519,22 @@ func applyRegexExtracts(metric *config.Metric, pduValue string, labelnames, labe
 				v *= metric.Scale
 			}
 			v += metric.Offset
-			newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+name, metric.Help+" (regex extracted)", labelnames, nil),
-				prometheus.GaugeValue, v, labelvalues...)
-			if err != nil {
-				newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for regex_extract", nil, nil),
-					fmt.Errorf("error for metric %s with labels %v: %w", metric.Name+name, labelvalues, err))
-			}
-			results = append(results, newMetric)
+			results = append(results, metricSample{
+				name:        metric.Name + name,
+				help:        metric.Help + " (regex extracted)",
+				labelnames:  labelnames,
+				labelvalues: labelvalues,
+				valueType:   prometheus.GaugeValue,
+				value:       v,
+				oid:         strings.TrimPrefix(oid, "."),
+			})
 			break
 		}
 	}
 	return results
 }
 
-func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []string) []prometheus.Metric {
+func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []string, oid string) []metricSample {
 	// Lookup enum, default to the value.
 	state, ok := metric.EnumValues[int(value)]
 	if !ok {
@@ -756,61 +545,70 @@ func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []stri
 	// add it again or Prometheus will reject the duplicate label.
 	for _, ln := range labelnames {
 		if ln == metric.Name {
-			return []prometheus.Metric{}
+			return []metricSample{}
 		}
 	}
 	labelnames = append(labelnames, metric.Name)
 	labelvalues = append(labelvalues, state)
 
-	newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name+"_info", metric.Help+" (EnumAsInfo)", labelnames, nil),
-		prometheus.GaugeValue, 1.0, labelvalues...)
-	if err != nil {
-		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsInfo", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
-	}
-	return []prometheus.Metric{newMetric}
+	return []metricSample{{
+		name:        metric.Name + "_info",
+		help:        metric.Help + " (EnumAsInfo)",
+		labelnames:  labelnames,
+		labelvalues: labelvalues,
+		valueType:   prometheus.GaugeValue,
+		value:       1,
+		oid:         strings.TrimPrefix(oid, "."),
+		info:        true,
+	}}
 }
 
-func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []string) []prometheus.Metric {
+func enumAsStateSet(metric *config.Metric, value int, labelnames, labelvalues []string, oid string) []metricSample {
 	labelnames = append(labelnames, metric.Name)
-	results := []prometheus.Metric{}
+	results := []metricSample{}
 
 	state, ok := metric.EnumValues[value]
 	if !ok {
 		// Fallback to using the value.
 		state = strconv.Itoa(value)
 	}
-	newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (EnumAsStateSet)", labelnames, nil),
-		prometheus.GaugeValue, 1.0, append(labelvalues, state)...)
-	if err != nil {
-		newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
-	}
-	results = append(results, newMetric)
+	results = append(results, metricSample{
+		name:        metric.Name,
+		help:        metric.Help + " (EnumAsStateSet)",
+		labelnames:  labelnames,
+		labelvalues: append(append([]string(nil), labelvalues...), state),
+		valueType:   prometheus.GaugeValue,
+		value:       1,
+		oid:         strings.TrimPrefix(oid, "."),
+	})
 
 	for k, v := range metric.EnumValues {
 		if k == value {
 			continue
 		}
-		newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (EnumAsStateSet)", labelnames, nil),
-			prometheus.GaugeValue, 0.0, append(labelvalues, v)...)
-		if err != nil {
-			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for EnumAsStateSet", nil, nil),
-				fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
-		}
-		results = append(results, newMetric)
+		results = append(results, metricSample{
+			name:        metric.Name,
+			help:        metric.Help + " (EnumAsStateSet)",
+			labelnames:  labelnames,
+			labelvalues: append(append([]string(nil), labelvalues...), v),
+			valueType:   prometheus.GaugeValue,
+			value:       0,
+			oid:         strings.TrimPrefix(oid, "."),
+		})
 	}
 	return results
 }
 
-func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []prometheus.Metric {
+func bits(metric *config.Metric, value any, labelnames, labelvalues []string, oid string) []metricSample {
 	bytes, ok := value.([]byte)
 	if !ok {
-		return []prometheus.Metric{prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "BITS type was not a BISTRING on the wire.", nil, nil),
-			fmt.Errorf("error for metric %s with labels %v: %T", metric.Name, labelvalues, value))}
+		return []metricSample{{
+			err:       fmt.Errorf("error for metric %s with labels %v: %T", metric.Name, labelvalues, value),
+			errorHelp: "BITS type was not a BISTRING on the wire.",
+		}}
 	}
 	labelnames = append(labelnames, metric.Name)
-	results := []prometheus.Metric{}
+	results := []metricSample{}
 
 	for k, v := range metric.EnumValues {
 		bit := 0.0
@@ -820,13 +618,15 @@ func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []
 				bit = 1.0
 			}
 		}
-		newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (Bits)", labelnames, nil),
-			prometheus.GaugeValue, bit, append(labelvalues, v)...)
-		if err != nil {
-			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for Bits", nil, nil),
-				fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
-		}
-		results = append(results, newMetric)
+		results = append(results, metricSample{
+			name:        metric.Name,
+			help:        metric.Help + " (Bits)",
+			labelnames:  labelnames,
+			labelvalues: append(append([]string(nil), labelvalues...), v),
+			valueType:   prometheus.GaugeValue,
+			value:       bit,
+			oid:         strings.TrimPrefix(oid, "."),
+		})
 	}
 	return results
 }

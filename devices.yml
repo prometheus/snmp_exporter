@@ -1,0 +1,16 @@
+apiVersion: snmpcollector.io/v1alpha1
+kind: DeviceList
+
+devices:
+  # Replace the documentation address, then set enabled to true.
+  - id: localhost
+    address: udp://127.0.0.1:161
+    profile: if_mib
+    auth: site_v2
+    interval: 60s
+    timeout: 45s
+    enabled: true
+    labels:
+      site: dc01
+      vendor: unknown
+      role: core

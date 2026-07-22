@@ -31,7 +31,7 @@ import (
 
 var cannotFindModuleRE = regexp.MustCompile(`Cannot find module \((.+)\): (.+)`)
 
-// Generate a snmp_exporter config and write it out.
+// Generate an snmp_collector profile config and write it out.
 func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logger) error {
 	outputPath, err := filepath.Abs(*outputPath)
 	if err != nil {
@@ -91,7 +91,7 @@ func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logge
 		return fmt.Errorf("error opening output file: %w", err)
 	}
 	defer f.Close()
-	out = append([]byte("# WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.\n"), out...)
+	out = append([]byte("# WARNING: This file was auto-generated using the snmp_collector generator; manual changes will be lost.\n"), out...)
 	_, err = f.Write(out)
 	if err != nil {
 		return fmt.Errorf("error writing to output file: %w", err)
@@ -106,7 +106,7 @@ var (
 	generateCommand    = kingpin.Command("generate", "Generate snmp.yml from generator.yml")
 	userMibsDir        = kingpin.Flag("mibs-dir", "Paths to mibs directory").Default("").Short('m').Strings()
 	generatorYmlPath   = generateCommand.Flag("generator-path", "Path to the input generator.yml file").Default("generator.yml").Short('g').String()
-	outputPath         = generateCommand.Flag("output-path", "Path to write the snmp_exporter's config file").Default("snmp.yml").Short('o').String()
+	outputPath         = generateCommand.Flag("output-path", "Path to write the snmp_collector profile config").Default("snmp.yml").Short('o').String()
 	parseErrorsCommand = kingpin.Command("parse_errors", "Debug: Print the parse errors output by NetSNMP")
 	dumpCommand        = kingpin.Command("dump", "Debug: Dump the parsed and prepared MIBs")
 )

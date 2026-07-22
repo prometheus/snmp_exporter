@@ -1,0 +1,11 @@
+# Copy this file to auth.yml and provide the environment variables at runtime.
+# Environment expansion requires --config.expand-environment-variables.
+auths:
+  site_v2:
+    version: 3
+    username: ${SNMP_USERNAME}
+    security_level: authPriv
+    auth_protocol: SHA
+    password: ${SNMP_AUTH_PASSWORD}
+    priv_protocol: AES
+    priv_password: ${SNMP_PRIV_PASSWORD}

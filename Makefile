@@ -18,7 +18,7 @@ include Makefile.common
 
 STATICCHECK_IGNORE =
 
-DOCKER_IMAGE_NAME ?= snmp-exporter
+DOCKER_IMAGE_NAME ?= snmp-collector
 
 ifdef DEBUG
 	bindata_flags = -debug

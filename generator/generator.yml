@@ -9,25 +9,31 @@ modules:
   # SNMPv2-MIB for things like sysDescr, sysUpTime, etc.
   system:
     walk:
-      - "SNMPv2-MIB::system"
+      - &system_walk "SNMPv2-MIB::system"
     lookups:
-      - source_indexes: [sysORIndex]
+      - &system_or_lookup
+        source_indexes: [sysORIndex]
         lookup: "SNMPv2-MIB::sysORDescr"
   # Default IF-MIB interfaces table with ifIndex.
   if_mib:
     walk:
-      - "IF-MIB::interfaces"
-      - "IF-MIB::ifXTable"
+      - &if_interfaces_walk "IF-MIB::interfaces"
+      - &if_x_table_walk "IF-MIB::ifXTable"
     lookups:
-      - source_indexes: [ifIndex]
+      - &if_alias_lookup
+        source_indexes: [ifIndex]
         lookup: "IF-MIB::ifAlias"
-      - source_indexes: [ifIndex]
+      - &if_descr_lookup
+        source_indexes: [ifIndex]
         # Disambiguate from PaloAlto PAN-COMMON-MIB::ifDescr.
         lookup: "IF-MIB::ifDescr"
-      - source_indexes: [ifIndex]
+      - &if_name_lookup
+        source_indexes: [ifIndex]
         # Disambiguate from Netscaler NS-ROOT-MIB::ifName.
         lookup: "IF-MIB::ifName"
-    overrides:
+    overrides: &if_mib_overrides
+      ifIndex:
+        ignore: true # Already present as a label on every interface metric.
       ifAlias:
         ignore: true # Lookup metric
       ifDescr:
@@ -43,6 +49,119 @@ modules:
   readynas:
     walk:
       - 1.3.6.1.4.1.4526               # Raid/Disks status
+
+  qnap_nas:
+    walk:
+      - *system_walk
+      - *if_interfaces_walk
+      - *if_x_table_walk
+      - 1.3.6.1.4.1.24681.2.1.101      # Information events
+      - 1.3.6.1.4.1.24681.2.1.102      # Warning events
+      - 1.3.6.1.4.1.24681.2.1.103      # Error events
+      - 1.3.6.1.4.1.24681.2.2.1        # CPU usage
+      - 1.3.6.1.4.1.24681.2.2.2        # Total memory
+      - 1.3.6.1.4.1.24681.2.2.3        # Free memory
+      - 1.3.6.1.4.1.24681.2.2.4        # System uptime
+      - 1.3.6.1.4.1.24681.2.2.5        # CPU temperature
+      - 1.3.6.1.4.1.24681.2.2.6        # System temperature 1
+      - 1.3.6.1.4.1.24681.2.2.7        # System temperature 2
+      - 1.3.6.1.4.1.24681.2.2.10       # Number of disks
+      - 1.3.6.1.4.1.24681.2.2.11       # Disk information table
+      - 1.3.6.1.4.1.24681.2.2.12       # Model name
+      - 1.3.6.1.4.1.24681.2.2.13       # Hostname
+      - 1.3.6.1.4.1.24681.2.2.15       # Fan table
+      - 1.3.6.1.4.1.24681.2.2.17       # Shared-folder table
+      - 1.3.6.1.4.1.24681.2.2.19       # LUN table
+      - 1.3.6.1.4.1.24681.2.2.21       # Power-supply table
+      - 1.3.6.1.4.1.24681.2.2.23       # Storage-pool table
+      - 1.3.6.1.4.1.24681.2.2.30       # External JBOD information
+    lookups:
+      - *system_or_lookup
+      - *if_alias_lookup
+      - *if_descr_lookup
+      - *if_name_lookup
+    overrides:
+      <<: *if_mib_overrides
+      systemCPU_Usage:
+        regex_extracts:
+          _percent:
+            - regex: '\s*([+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*%?\s*'
+              value: '$1'
+      cpu_Temperature:
+        regex_extracts: &qnap_temperature_extracts
+          _celsius:
+            - regex: '\s*(-?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*(?:°\s*)?(?i:C)(?:\s*/.*)?\s*'
+              value: '$1'
+            - regex: '\s*(-?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*'
+              value: '$1'
+      systemTemperature:
+        regex_extracts: *qnap_temperature_extracts
+      systemTemperature2:
+        regex_extracts: *qnap_temperature_extracts
+      hdTemperature:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature1:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature2:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature3:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature4:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature5:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature6:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature7:
+        regex_extracts: *qnap_temperature_extracts
+      jBODHdTemperature8:
+        regex_extracts: *qnap_temperature_extracts
+      systemTotalMem:
+        regex_extracts: &qnap_size_extracts
+          _terabytes:
+            - regex: '\s*([+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*(?i:Ti?B)\s*'
+              value: '$1'
+          _gigabytes:
+            - regex: '\s*([+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*(?i:Gi?B)\s*'
+              value: '$1'
+          _megabytes:
+            - regex: '\s*([+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*(?i:Mi?B)\s*'
+              value: '$1'
+          _kilobytes:
+            - regex: '\s*([+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*(?i:Ki?B)\s*'
+              value: '$1'
+          _bytes:
+            - regex: '\s*([+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*(?i:B|bytes?)\s*'
+              value: '$1'
+      systemFreeMem:
+        regex_extracts: *qnap_size_extracts
+      hdCapacity:
+        regex_extracts: *qnap_size_extracts
+      sysVolumeTotalSize:
+        regex_extracts: *qnap_size_extracts
+      sysVolumeFreeSize:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity1:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity2:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity3:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity4:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity5:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity6:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity7:
+        regex_extracts: *qnap_size_extracts
+      jBODHdCapacity8:
+        regex_extracts: *qnap_size_extracts
+      sysFanSpeed:
+        regex_extracts:
+          _rpm:
+            - regex: '\s*([+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+))\s*(?i:RPM)?\s*'
+              value: '$1'
 
 # Cisco Wireless LAN Controller
   cisco_wlc:
@@ -615,9 +734,41 @@ modules:
 #
   paloalto_fw:
     walk:
+      - *system_walk
+      - *if_interfaces_walk
+      - *if_x_table_walk
       - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
       - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
       - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
+    lookups:
+      - *system_or_lookup
+      - *if_alias_lookup
+      - *if_descr_lookup
+      - *if_name_lookup
+    overrides: *if_mib_overrides
+
+# Check Point Security Gateway
+#
+# CHECKPOINT-MIB enterprise tree: 1.3.6.1.4.1.2620
+  checkpoint:
+    walk:
+      - *system_walk
+      - *if_interfaces_walk
+      - *if_x_table_walk
+      - CHECKPOINT-MIB::fw               # Firewall status, policy and traffic
+      - CHECKPOINT-MIB::vpn              # VPN and IPsec statistics
+      - CHECKPOINT-MIB::ha               # ClusterXL / high availability
+      - CHECKPOINT-MIB::svn              # Gaia system and performance data
+      - CHECKPOINT-MIB::vsx              # Virtual System Extension
+      - CHECKPOINT-MIB::sxl              # SecureXL acceleration
+      - CHECKPOINT-MIB::ips              # IPS status and update state
+      - CHECKPOINT-MIB::httpsInspection  # HTTPS Inspection and HSM status
+    lookups:
+      - *system_or_lookup
+      - *if_alias_lookup
+      - *if_descr_lookup
+      - *if_name_lookup
+    overrides: *if_mib_overrides
 
 # Arista Networks
 #
@@ -1027,30 +1178,31 @@ modules:
 # https://jpn.nec.com/univerge/ix/Manual/MIB/PICO-SMI-MIB.txt
 # https://jpn.nec.com/univerge/ix/Manual/MIB/PICO-SMI-ID-MIB.txt
 # https://jpn.nec.com/univerge/ix/Manual/MIB/PICO-IPSEC-FLOW-MONITOR-MIB.txt
-  nec_ix:
-    walk:
-      - picoSystem
-      - picoIpSecFlowMonitorMIB
-      - picoExtIfMIB
-      - picoNetworkMonitorMIB
-      - picoIsdnMIB
-      - picoNgnMIB
-      - picoMobileMIB
-      - picoIPv4MIB
-      - picoIPv6MIB
-      - picoNAPTMIB
-    lookups:
-      - source_indexes: [picoExtIfInstalledSlot, picoExtIfIndex]
-        lookup: picoExtIfDescr
-      - source_indexes: [naptCacheIfIndex]
-        lookup: IF-MIB::ifDescr
-      - source_indexes: [naptCacheIfIndex]
-        lookup: IF-MIB::ifName
-      - source_indexes: [naptCacheIfIndex]
-        lookup: IF-MIB::ifAlias
-    overrides:
-      naptCacheIfIndex:
-        ignore: true
+# nec_ix: temporarily disabled - PICO-*.txt MIBs return HTTP 403 from jpn.nec.com (Akamai edge block)
+#  nec_ix:
+#    walk:
+#      - picoSystem
+#      - picoIpSecFlowMonitorMIB
+#      - picoExtIfMIB
+#      - picoNetworkMonitorMIB
+#      - picoIsdnMIB
+#      - picoNgnMIB
+#      - picoMobileMIB
+#      - picoIPv4MIB
+#      - picoIPv6MIB
+#      - picoNAPTMIB
+#    lookups:
+#      - source_indexes: [picoExtIfInstalledSlot, picoExtIfIndex]
+#        lookup: picoExtIfDescr
+#      - source_indexes: [naptCacheIfIndex]
+#        lookup: IF-MIB::ifDescr
+#      - source_indexes: [naptCacheIfIndex]
+#        lookup: IF-MIB::ifName
+#      - source_indexes: [naptCacheIfIndex]
+#        lookup: IF-MIB::ifAlias
+#    overrides:
+#      naptCacheIfIndex:
+#        ignore: true
 
 # Raritan PDU (Legacy PX series - PDU-MIB)
 #
@@ -1509,12 +1661,19 @@ modules:
   # https://www.juniper.net/documentation/software/junos/junos244/juniper-mibs-24.4R1.10.zip
   juniper:
     walk:
+      - *system_walk
+      - *if_interfaces_walk
+      - *if_x_table_walk
       - JUNIPER-MIB::jnxOperatingTable
       - JUNIPER-MIB::jnxFruState
       - JUNIPER-ALARM-MIB::jnxRedAlarms
       - JUNIPER-ALARM-MIB::jnxYellowAlarms
       - JUNIPER-SUBSCRIBER-MIB::jnxSubscriberPortTerminatedCounter
     lookups:
+      - *system_or_lookup
+      - *if_alias_lookup
+      - *if_descr_lookup
+      - *if_name_lookup
       - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]
         lookup: jnxOperatingDescr
         drop_source_indexes: false
@@ -1522,6 +1681,7 @@ modules:
         lookup: jnxFruName
         drop_source_indexes: true
     overrides:
+      <<: *if_mib_overrides
       jnxOperatingContentsIndex:
         ignore: true
       jnxOperatingL1Index:
@@ -1540,18 +1700,48 @@ modules:
         type: EnumAsStateSet
   juniper_optics:
     walk:
+      - *system_walk
+      - *if_interfaces_walk
+      - *if_x_table_walk
+      - JUNIPER-MIB::jnxOperatingTable
+      - JUNIPER-MIB::jnxFruState
+      - JUNIPER-ALARM-MIB::jnxRedAlarms
+      - JUNIPER-ALARM-MIB::jnxYellowAlarms
+      - JUNIPER-SUBSCRIBER-MIB::jnxSubscriberPortTerminatedCounter
       - JUNIPER-DOM-MIB::jnxDomCurrentWarnings
       - JUNIPER-DOM-MIB::jnxDomCurrentAlarms
       - JUNIPER-DOM-MIB::jnxDomCurrentRxLaserPower
       - JUNIPER-DOM-MIB::jnxDomCurrentTxLaserOutputPower
       - JUNIPER-DOM-MIB::jnxDomCurrentTxLaserBiasCurrent
     lookups:
-      - source_indexes: [ifIndex]
-        lookup: ifName
+      - *system_or_lookup
+      - *if_alias_lookup
+      - *if_descr_lookup
+      - *if_name_lookup
+      - source_indexes: [jnxOperatingContentsIndex,jnxOperatingL1Index,jnxOperatingL2Index,jnxOperatingL3Index]
+        lookup: jnxOperatingDescr
+        drop_source_indexes: false
+      - source_indexes: [jnxFruContentsIndex,jnxFruL1Index,jnxFruL2Index,jnxFruL3Index]
+        lookup: jnxFruName
         drop_source_indexes: true
-      - source_indexes: [ifIndex]
-        lookup: ifAlias
     overrides:
+      <<: *if_mib_overrides
+      jnxOperatingContentsIndex:
+        ignore: true
+      jnxOperatingL1Index:
+        ignore: true
+      jnxOperatingL2Index:
+        ignore: true
+      jnxOperatingL3Index:
+        ignore: true
+      jnxOperatingDescr:
+        ignore: true
+      jnxYellowAlarmState:
+        type: EnumAsStateSet
+      jnxRedAlarmState:
+        type: EnumAsStateSet
+      jnxFruState:
+        type: EnumAsStateSet
       jnxDomCurrentRxLaserPower:
         scale: .01
       jnxDomCurrentTxLaserOutputPower:

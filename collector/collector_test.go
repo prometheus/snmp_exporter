@@ -15,6 +15,8 @@ package collector
 
 import (
 	"errors"
+	"fmt"
+	"log/slog"
 	"reflect"
 	"regexp"
 	"strings"
@@ -22,12 +24,40 @@ import (
 
 	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/gosnmp/gosnmp"
+	"github.com/prometheus/client_golang/prometheus"
 	io_prometheus_client "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/promslog"
 
 	"github.com/prometheus/snmp_exporter/config"
 	"github.com/prometheus/snmp_exporter/scraper"
 )
+
+// pduToSamples is retained only as a test adapter so the upstream parsing
+// cases can verify the collector core's raw metric conversion.
+func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, oidToPdu map[string]gosnmp.SnmpPDU, logger *slog.Logger, metrics Metrics) []prometheus.Metric {
+	rawSamples := pduToMetricSamples(indexOids, pdu, metric, oidToPdu, logger, metrics)
+	samples := make([]prometheus.Metric, 0, len(rawSamples))
+	for _, raw := range rawSamples {
+		if raw.err != nil {
+			samples = append(samples, prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", raw.errorHelp, nil, nil), raw.err))
+			continue
+		}
+		converted, err := prometheus.NewConstMetric(
+			prometheus.NewDesc(raw.name, raw.help, raw.labelnames, nil),
+			raw.valueType,
+			raw.value,
+			raw.labelvalues...,
+		)
+		if err != nil {
+			converted = prometheus.NewInvalidMetric(
+				prometheus.NewDesc("snmp_error", "Error calling NewConstMetric", nil, nil),
+				fmt.Errorf("error for metric %s with labels %v: %w", raw.name, raw.labelvalues, err),
+			)
+		}
+		samples = append(samples, converted)
+	}
+	return samples
+}
 
 func TestPduToSample(t *testing.T) {
 	cases := []struct {

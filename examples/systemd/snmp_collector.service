@@ -1,0 +1,16 @@
+[Unit]
+Description=Active SNMP Collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=prometheus
+Restart=on-failure
+ExecStart=/opt/snmp_collector/snmp_collector \
+  --config.file=/etc/snmp_collector/snmp.yml \
+  --config.file=/etc/snmp_collector/auth.yml \
+  --inventory.file=/etc/snmp_collector/devices.yml \
+  --output.file=/etc/snmp_collector/outputs.yml
+
+[Install]
+WantedBy=multi-user.target

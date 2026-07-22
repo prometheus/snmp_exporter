@@ -114,7 +114,7 @@ var (
 	}
 )
 
-// Config for the snmp_exporter.
+// Config contains generated SNMP polling modules and authentication profiles.
 type Config struct {
 	Auths   map[string]*Auth   `yaml:"auths,omitempty"`
 	Modules map[string]*Module `yaml:"modules,omitempty"`

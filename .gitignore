@@ -21,7 +21,7 @@ _testmain.go
 
 *.exe
 dependencies-stamp
-/snmp_exporter
+/snmp_collector
 /.build
 /.release
 /.tarballs
@@ -29,6 +29,13 @@ dependencies-stamp
 *.tar.gz
 /vendor
 
+# Local runtime credentials. Keep only .env.example in Git.
+.env
+auth.yml
+
 generator/generator
-generator/mibs
 generator/snmp.yml
+
+# Local binaries and MIB trees (at any directory depth).
+bin/
+mibs/
