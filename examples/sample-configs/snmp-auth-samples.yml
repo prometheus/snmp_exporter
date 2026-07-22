@@ -1,0 +1,43 @@
+# Sample authentication blocks for snmp_exporter.
+#
+# Load alongside the default modules file, for example:
+#   ./snmp_exporter \
+#     --config.file=snmp.yml \
+#     --config.file=examples/sample-configs/snmp-auth-samples.yml \
+#     --config.expand-environment-variables
+#
+# Do not redefine auth names that already exist in snmp.yml (for example
+# public_v1 / public_v2). Use distinct names as below.
+#
+# Replace placeholder secrets before use. Prefer environment variables for
+# SNMPv3 credentials in production (--config.expand-environment-variables).
+
+auths:
+  # SNMPv2c with a non-default read-only community string.
+  readonly_v2c:
+    community: readonly-community
+    version: 2
+
+  # SNMPv3 without authentication or privacy (rarely appropriate outside labs).
+  network_v3_noauth:
+    version: 3
+    username: snmp-ro
+    security_level: noAuthNoPriv
+
+  # SNMPv3 authentication only.
+  network_v3_authnopriv:
+    version: 3
+    username: snmp-ro
+    security_level: authNoPriv
+    password: ${SNMP_AUTH_PASSWORD}
+    auth_protocol: SHA
+
+  # SNMPv3 authentication + privacy (recommended for production).
+  network_v3_authpriv:
+    version: 3
+    username: snmp-ro
+    security_level: authPriv
+    password: ${SNMP_AUTH_PASSWORD}
+    auth_protocol: SHA
+    priv_protocol: AES
+    priv_password: ${SNMP_PRIV_PASSWORD}

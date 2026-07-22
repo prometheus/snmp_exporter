@@ -68,6 +68,10 @@ special installation.
 
 We also provide a sample [systemd unit file](examples/systemd/snmp_exporter.service).
 
+Practical SNMP setup samples (local workstation, network devices, SNMPv2c/v3
+auth, and notes on HTTP proxies such as Zscaler) are under
+[examples/sample-configs](examples/sample-configs).
+
 ## Running
 
 Start `snmp_exporter` as a daemon or from CLI:

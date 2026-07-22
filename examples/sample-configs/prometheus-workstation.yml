@@ -1,0 +1,52 @@
+# Prometheus scrape configuration for a local SNMP agent (developer workstation).
+#
+# Prerequisites:
+#   * snmp_exporter running with the default snmp.yml (modules if_mib, system, hr*).
+#   * Local SNMP agent reachable at 127.0.0.1:161 with a read-only community
+#     that matches the chosen auth (default public_v2 uses community "public").
+#
+# Merge the scrape_configs entries into your prometheus.yml.
+
+scrape_configs:
+  # Interface counters and status from IF-MIB.
+  - job_name: snmp_workstation_if
+    static_configs:
+      - targets:
+          - 127.0.0.1
+    metrics_path: /snmp
+    params:
+      auth: [public_v2]
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9116  # snmp_exporter listen address
+
+  # System + host-resources modules in one scrape (module concurrency configurable
+  # on the exporter via --snmp.module-concurrency).
+  - job_name: snmp_workstation_host
+    static_configs:
+      - targets:
+          - 127.0.0.1
+    metrics_path: /snmp
+    params:
+      auth: [public_v2]
+      module:
+        - system
+        - hrSystem
+        - hrStorage
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9116
+
+  # Exporter process metrics.
+  - job_name: snmp_exporter
+    static_configs:
+      - targets: ["127.0.0.1:9116"]
