@@ -2094,6 +2094,86 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Table with one InetAddressType shared by two InetAddress indexes.
+		// Both indexes become InetAddress, and the shared type is only dropped once.
+		{
+			node: &Node{
+				Oid: "1", Label: "root",
+				Children: []*Node{
+					{
+						Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{
+								Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableAddrType", "tableAddr1", "tableAddr2"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_READONLY", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+									{Oid: "1.1.1.2", Access: "ACCESS_READONLY", Label: "tableAddr1", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+									{Oid: "1.1.1.3", Access: "ACCESS_READONLY", Label: "tableAddr2", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+								},
+							},
+						},
+					},
+				},
+			},
+			cfg: &ModuleConfig{
+				Walk: []string{"1"},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tableAddrType",
+						Oid:  "1.1.1.1",
+						Type: "gauge",
+						Help: " - 1.1.1.1",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableAddr1",
+								Type:      "InetAddress",
+							},
+							{
+								Labelname: "tableAddr2",
+								Type:      "InetAddress",
+							},
+						},
+					},
+					{
+						Name: "tableAddr1",
+						Oid:  "1.1.1.2",
+						Type: "InetAddress",
+						Help: " - 1.1.1.2",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableAddr1",
+								Type:      "InetAddress",
+							},
+							{
+								Labelname: "tableAddr2",
+								Type:      "InetAddress",
+							},
+						},
+					},
+					{
+						Name: "tableAddr2",
+						Oid:  "1.1.1.3",
+						// Not immediately preceded by an InetAddressType OID (that's
+						// tableAddr1's job), so its own value can't be decoded as InetAddress.
+						Type: "OctetString",
+						Help: " - 1.1.1.3",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableAddr1",
+								Type:      "InetAddress",
+							},
+							{
+								Labelname: "tableAddr2",
+								Type:      "InetAddress",
+							},
+						},
+					},
+				},
+			},
+		},
 		// Table with InetAddressType and InetAddress index in wrong order gets dropped.
 		{
 			node: &Node{

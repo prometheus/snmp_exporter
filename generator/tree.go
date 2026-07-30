@@ -408,10 +408,15 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
-					switch subtype {
-					case prevType:
+					switch {
+					case prevType == subtype:
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
-					case prev2Type:
+					case prev2Type == subtype && combinedTypes[prevType] == subtype:
+						// The preceding index is itself a combined-type value (e.g. a second
+						// address sharing the same type field, as in (Type,Addr1,Addr2)). Its
+						// type field was already dropped when Addr1 was processed, so there is
+						// nothing left to remove for Addr2.
+					case prev2Type == subtype:
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-2]
 					default:
 						logger.Warn("Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
