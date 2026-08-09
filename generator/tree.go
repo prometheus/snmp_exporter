@@ -122,7 +122,7 @@ func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 		}
 		// Vendor MIBs (e.g. Dell iDRAC) often define String64 as an OCTET STRING
 		// textual convention for printable text without a DisplayString DISPLAY-HINT.
-		if n.TextualConvention == "String64" {
+		if n.TextualConvention == "String64" || n.TextualConvention == "StringType" {
 			n.Type = "DisplayString"
 		}
 		if n.TextualConvention == "PhysAddress" {
