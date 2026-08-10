@@ -1249,6 +1249,84 @@ modules:
         lookup: lgpPduRcpEntrySysAssignLabel
       - source_indexes: [lgpPduAuxSensorIndex]
         lookup: lgpPduAuxSensorSysAssignLabel
+
+# Eaton ePDU
+#
+# https://github.com/librenms/librenms/tree/master/mibs/eaton
+  eaton_epdu:
+    walk:
+      - EATON-EPDU-MIB::unitTable
+      - EATON-EPDU-MIB::inputTable
+      - EATON-EPDU-MIB::inputVoltageTable
+      - EATON-EPDU-MIB::inputCurrentTable
+      - EATON-EPDU-MIB::inputPowerTable
+      - EATON-EPDU-MIB::inputTotalPowerTable
+      - EATON-EPDU-MIB::groupTable
+      - EATON-EPDU-MIB::groupVoltageTable
+      - EATON-EPDU-MIB::groupCurrentTable
+      - EATON-EPDU-MIB::groupPowerTable
+      - EATON-EPDU-MIB::outletTable
+      - EATON-EPDU-MIB::outletVoltageTable
+      - EATON-EPDU-MIB::outletCurrentTable
+      - EATON-EPDU-MIB::outletPowerTable
+      - EATON-EPDU-MIB::temperatureTable
+      - EATON-EPDU-MIB::humidityTable
+      - EATON-EPDU-MIB::contactTable
+    lookups:
+      - source_indexes: [strappingIndex]
+        lookup: EATON-EPDU-MIB::unitName
+      - source_indexes: [strappingIndex, inputIndex]
+        lookup: EATON-EPDU-MIB::inputFeedName
+      - source_indexes: [strappingIndex, groupIndex]
+        lookup: EATON-EPDU-MIB::groupName
+      - source_indexes: [strappingIndex, outletIndex]
+        lookup: EATON-EPDU-MIB::outletName
+      - source_indexes: [strappingIndex, temperatureIndex]
+        lookup: EATON-EPDU-MIB::temperatureName
+      - source_indexes: [strappingIndex, humidityIndex]
+        lookup: EATON-EPDU-MIB::humidityName
+      - source_indexes: [strappingIndex, contactIndex]
+        lookup: EATON-EPDU-MIB::contactName
+    overrides:
+      unitName:
+        ignore: true
+      inputFeedName:
+        ignore: true
+      groupName:
+        ignore: true
+      outletName:
+        ignore: true
+      temperatureName:
+        ignore: true
+      humidityName:
+        ignore: true
+      contactName:
+        ignore: true
+      inputVoltage:
+        scale: 0.001
+      groupVoltage:
+        scale: 0.001
+      outletVoltage:
+        scale: 0.001
+      inputCurrent:
+        scale: 0.001
+      groupCurrent:
+        scale: 0.001
+      outletCurrent:
+        scale: 0.001
+      inputPowerFactor:
+        scale: 0.001
+      inputTotalPowerFactor:
+        scale: 0.001
+      groupPowerFactor:
+        scale: 0.001
+      outletPowerFactor:
+        scale: 0.001
+      temperatureValue:
+        scale: 0.1
+      humidityValue:
+        scale: 0.1
+
 # Mikrotik Router
 #
 # http://download2.mikrotik.com/Mikrotik.mib

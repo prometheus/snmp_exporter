@@ -14766,6 +14766,2925 @@ modules:
       oid: 1.3.6.1.4.1.11863.10.1.1.1
       type: gauge
       help: this used to get the count of clients - 1.3.6.1.4.1.11863.10.1.1.1
+  eaton_epdu:
+    walk:
+    - 1.3.6.1.4.1.534.6.6.7.1.2
+    - 1.3.6.1.4.1.534.6.6.7.3.1
+    - 1.3.6.1.4.1.534.6.6.7.3.2
+    - 1.3.6.1.4.1.534.6.6.7.3.3
+    - 1.3.6.1.4.1.534.6.6.7.3.4
+    - 1.3.6.1.4.1.534.6.6.7.3.5
+    - 1.3.6.1.4.1.534.6.6.7.5.1
+    - 1.3.6.1.4.1.534.6.6.7.5.3
+    - 1.3.6.1.4.1.534.6.6.7.5.4
+    - 1.3.6.1.4.1.534.6.6.7.5.5
+    - 1.3.6.1.4.1.534.6.6.7.6.1
+    - 1.3.6.1.4.1.534.6.6.7.6.3
+    - 1.3.6.1.4.1.534.6.6.7.6.4
+    - 1.3.6.1.4.1.534.6.6.7.6.5
+    - 1.3.6.1.4.1.534.6.6.7.7.1
+    - 1.3.6.1.4.1.534.6.6.7.7.2
+    - 1.3.6.1.4.1.534.6.6.7.7.3
+    metrics:
+    - name: productName
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.2
+      type: OctetString
+      help: Name of the product. - 1.3.6.1.4.1.534.6.6.7.1.2.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: partNumber
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.3
+      type: OctetString
+      help: Part number of the unit. - 1.3.6.1.4.1.534.6.6.7.1.2.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: serialNumber
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.4
+      type: OctetString
+      help: Serial number of the unit. - 1.3.6.1.4.1.534.6.6.7.1.2.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: firmwareVersion
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.5
+      type: OctetString
+      help: Firmware version. - 1.3.6.1.4.1.534.6.6.7.1.2.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: lcdControl
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.7
+      type: gauge
+      help: Control the local LCD. - 1.3.6.1.4.1.534.6.6.7.1.2.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      enum_values:
+        0: notApplicable
+        1: lcdScreenOff
+        2: lcdKeyLock
+        3: lcdScreenOffAndKeyLock
+    - name: clockValue
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.8
+      type: DateAndTime
+      help: Clock value - 1.3.6.1.4.1.534.6.6.7.1.2.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: temperatureScale
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.9
+      type: gauge
+      help: Scale used to return temperature objects. - 1.3.6.1.4.1.534.6.6.7.1.2.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      enum_values:
+        0: celsius
+        1: fahrenheit
+    - name: unitType
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.10
+      type: gauge
+      help: Technical capabilities of the PDU - 1.3.6.1.4.1.534.6.6.7.1.2.1.10
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      enum_values:
+        0: unknown
+        1: switched
+        2: advancedMonitored
+        3: managed
+        4: monitored
+        5: basic
+        6: inlineMonitored
+    - name: systemType
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.11
+      type: gauge
+      help: Architecture of the ePDU electronic. - 1.3.6.1.4.1.534.6.6.7.1.2.1.11
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      enum_values:
+        0: unknown
+        1: g3ePDU
+        2: g3HDePDU
+    - name: inputCount
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.20
+      type: gauge
+      help: Number of inputs on this ePDU. - 1.3.6.1.4.1.534.6.6.7.1.2.1.20
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: groupCount
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.21
+      type: gauge
+      help: Number of groups on this ePDU - 1.3.6.1.4.1.534.6.6.7.1.2.1.21
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: outletCount
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.22
+      type: gauge
+      help: Number of outlets on this ePDU. - 1.3.6.1.4.1.534.6.6.7.1.2.1.22
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: temperatureCount
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.23
+      type: gauge
+      help: Max number of temperature measurements on this ePDU. - 1.3.6.1.4.1.534.6.6.7.1.2.1.23
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: humidityCount
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.24
+      type: gauge
+      help: Max number of humidity measurements on this ePDU. - 1.3.6.1.4.1.534.6.6.7.1.2.1.24
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: contactCount
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.25
+      type: gauge
+      help: Max number of contact sensors on this ePDU. - 1.3.6.1.4.1.534.6.6.7.1.2.1.25
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+    - name: communicationStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.30
+      type: gauge
+      help: Status of the internal communication with the PDU. - 1.3.6.1.4.1.534.6.6.7.1.2.1.30
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      enum_values:
+        0: good
+        1: communicationLost
+    - name: internalStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.31
+      type: gauge
+      help: Status of the internal failure inside the PDU. - 1.3.6.1.4.1.534.6.6.7.1.2.1.31
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      enum_values:
+        0: good
+        1: internalFailure
+    - name: strappingStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.32
+      type: gauge
+      help: Status of the external communication with a strapping unit. - 1.3.6.1.4.1.534.6.6.7.1.2.1.32
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      enum_values:
+        0: good
+        1: communicationLost
+    - name: inputType
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.2
+      type: gauge
+      help: Type of input - single phase, split phase, three phase delta, or three
+        phase wye. - 1.3.6.1.4.1.534.6.6.7.3.1.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        1: singlePhase
+        2: splitPhase
+        3: threePhaseDelta
+        4: threePhaseWye
+    - name: inputFrequency
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.3
+      type: gauge
+      help: Units are 0.1 Hz; divide by ten to get Hz. - 1.3.6.1.4.1.534.6.6.7.3.1.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputFrequencyStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.4
+      type: gauge
+      help: Status of the measured input frequency relative to the nominal frequency
+        and the admitted tolerance. - 1.3.6.1.4.1.534.6.6.7.3.1.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        0: good
+        1: outOfRange
+    - name: inputVoltageCount
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.5
+      type: gauge
+      help: Number of input voltage measurements on this ePDU. - 1.3.6.1.4.1.534.6.6.7.3.1.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrentCount
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.6
+      type: gauge
+      help: Number of input current measurements on this ePDU. - 1.3.6.1.4.1.534.6.6.7.3.1.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputPowerCount
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.7
+      type: gauge
+      help: Number of rows in the inputPowerTable. - 1.3.6.1.4.1.534.6.6.7.3.1.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputPlugType
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.8
+      type: gauge
+      help: Identifies which plug is on the input. - 1.3.6.1.4.1.534.6.6.7.3.1.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        100: other1Phase
+        101: iecC14Inlet
+        102: iecC20Inlet
+        103: iec316P6
+        104: iec332P6
+        105: iec363P6
+        106: iecC14Plug
+        107: iecC20Plug
+        120: nema515
+        121: nemaL515
+        122: nema520
+        123: nemaL520
+        124: nema615
+        125: nemaL615
+        126: nemaL530
+        127: nema620
+        128: nemaL620
+        129: nemaL630
+        130: cs8265
+        131: nemaL2530
+        140: other208V2P3W
+        141: other230V1P3W
+        150: french
+        151: schuko
+        152: uk
+        160: field208V2P3W
+        161: field230V1P3W
+        200: other2Phase
+        201: nemaL1420
+        202: nemaL1430
+        300: other3Phase
+        301: iec516P6
+        302: iec460P9
+        303: iec560P9
+        304: iec532P6
+        306: iec563P6
+        307: iec4100P9
+        320: nemaL1520
+        321: nemaL2120
+        322: nemaL1530
+        323: nemaL2130
+        324: cs8365
+        325: nemaL2220
+        326: nemaL2230
+        327: nemaL2630
+        340: other208V3P4W
+        341: other208V3P5W
+        342: other400V3P5W
+        343: other480V3P5W
+        350: bladeUps208V
+        351: bladeUps400V
+        360: field208V3P4W
+        361: field400V3P5W
+        400: universalUTP8pin
+    - name: inputFeedColor
+      oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.9
+      type: gauge
+      help: Color code of the input feed. - 1.3.6.1.4.1.534.6.6.7.3.1.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputVoltageMeasType
+      oid: 1.3.6.1.4.1.534.6.6.7.3.2.1.2
+      type: gauge
+      help: Value indicates what input voltage is being measured in this table row
+        - single phase voltage, phase 1 to neutral, phase 2 to neutral, phase 3 to
+        neutral, phase 1 to phase 2, phase 2 to phase 3, or phase 3 to phase 1. -
+        1.3.6.1.4.1.534.6.6.7.3.2.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputVoltageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        1: singlePhase
+        2: phase1toN
+        3: phase2toN
+        4: phase3toN
+        5: phase1to2
+        6: phase2to3
+        7: phase3to1
+    - name: inputVoltage
+      oid: 1.3.6.1.4.1.534.6.6.7.3.2.1.3
+      type: gauge
+      help: An input voltage measurement value - 1.3.6.1.4.1.534.6.6.7.3.2.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputVoltageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      scale: 0.001
+    - name: inputVoltageThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.3.2.1.4
+      type: gauge
+      help: Status of the measured input voltage relative to the configured thresholds.
+        - 1.3.6.1.4.1.534.6.6.7.3.2.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputVoltageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: inputVoltageThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.3.2.1.5
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.3.2.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputVoltageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputVoltageThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.3.2.1.6
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.3.2.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputVoltageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputVoltageThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.3.2.1.7
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.3.2.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputVoltageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputVoltageThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.3.2.1.8
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.3.2.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputVoltageIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrentMeasType
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.2
+      type: gauge
+      help: Which input wire is being measured in this table row - single phase, neutral,
+        phase 1, phase 2, or phase 3. - 1.3.6.1.4.1.534.6.6.7.3.3.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        1: singlePhase
+        2: neutral
+        3: phase1
+        4: phase2
+        5: phase3
+    - name: inputCurrentCapacity
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.3
+      type: gauge
+      help: Rated current capacity of the input - 1.3.6.1.4.1.534.6.6.7.3.3.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrent
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.4
+      type: gauge
+      help: An input current measurement value - 1.3.6.1.4.1.534.6.6.7.3.3.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      scale: 0.001
+    - name: inputCurrentThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.5
+      type: gauge
+      help: Status of the measured input current relative to the configured thresholds.
+        - 1.3.6.1.4.1.534.6.6.7.3.3.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: inputCurrentThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.6
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.3.3.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrentThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.7
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.3.3.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrentThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.8
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.3.3.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrentThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.9
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.3.3.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrentCrestFactor
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.10
+      type: gauge
+      help: Current crest factor - 1.3.6.1.4.1.534.6.6.7.3.3.1.10
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputCurrentPercentLoad
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.11
+      type: gauge
+      help: Current percent load, based on the rated current capacity - 1.3.6.1.4.1.534.6.6.7.3.3.1.11
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputPhaseDesignator
+      oid: 1.3.6.1.4.1.534.6.6.7.3.3.1.12
+      type: DisplayString
+      help: Alphanumeric physical name for the input. - 1.3.6.1.4.1.534.6.6.7.3.3.1.12
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputCurrentIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputPowerIndex
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.1
+      type: gauge
+      help: A unique value for each input power measurement - 1.3.6.1.4.1.534.6.6.7.3.4.1.1
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputPowerMeasType
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.2
+      type: gauge
+      help: Value indicates what is being measured in this table row. - 1.3.6.1.4.1.534.6.6.7.3.4.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      enum_values:
+        0: unknown
+        1: phase1
+        2: phase2
+        3: phase3
+        4: total
+    - name: inputVA
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.3
+      type: gauge
+      help: An input VA value - 1.3.6.1.4.1.534.6.6.7.3.4.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputWatts
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.4
+      type: gauge
+      help: An input Watts value - 1.3.6.1.4.1.534.6.6.7.3.4.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputWh
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.5
+      type: gauge
+      help: Units are Watt-hours - 1.3.6.1.4.1.534.6.6.7.3.4.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputWhTimer
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.6
+      type: counter
+      help: Timestamp of when input Watt-hours (inputWh) was last reset. - 1.3.6.1.4.1.534.6.6.7.3.4.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputPowerFactor
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.7
+      type: gauge
+      help: An input PF value - 1.3.6.1.4.1.534.6.6.7.3.4.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      scale: 0.001
+    - name: inputVAR
+      oid: 1.3.6.1.4.1.534.6.6.7.3.4.1.8
+      type: gauge
+      help: An input VAR value - 1.3.6.1.4.1.534.6.6.7.3.4.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      - labelname: inputPowerIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputTotalVA
+      oid: 1.3.6.1.4.1.534.6.6.7.3.5.1.3
+      type: gauge
+      help: An input VA value - 1.3.6.1.4.1.534.6.6.7.3.5.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputTotalWatts
+      oid: 1.3.6.1.4.1.534.6.6.7.3.5.1.4
+      type: gauge
+      help: An input Watts value - 1.3.6.1.4.1.534.6.6.7.3.5.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputTotalWh
+      oid: 1.3.6.1.4.1.534.6.6.7.3.5.1.5
+      type: gauge
+      help: Units are Watt-hours - 1.3.6.1.4.1.534.6.6.7.3.5.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputTotalWhTimer
+      oid: 1.3.6.1.4.1.534.6.6.7.3.5.1.6
+      type: counter
+      help: Timestamp of when input Watt-hours (inputWh) was last reset. - 1.3.6.1.4.1.534.6.6.7.3.5.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputTotalPowerFactor
+      oid: 1.3.6.1.4.1.534.6.6.7.3.5.1.7
+      type: gauge
+      help: An input PF value - 1.3.6.1.4.1.534.6.6.7.3.5.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+      scale: 0.001
+    - name: inputTotalVAR
+      oid: 1.3.6.1.4.1.534.6.6.7.3.5.1.8
+      type: gauge
+      help: An input VAR value - 1.3.6.1.4.1.534.6.6.7.3.5.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: inputPowerCapacity
+      oid: 1.3.6.1.4.1.534.6.6.7.3.5.1.9
+      type: gauge
+      help: Typical power capacity of the input - 1.3.6.1.4.1.534.6.6.7.3.5.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: inputIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - inputIndex
+        labelname: inputFeedName
+        oid: 1.3.6.1.4.1.534.6.6.7.3.1.1.10
+        type: OctetString
+    - name: groupID
+      oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.2
+      type: DisplayString
+      help: Alphanumeric designator for the group - 1.3.6.1.4.1.534.6.6.7.5.1.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupType
+      oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.4
+      type: gauge
+      help: The type of the group. - 1.3.6.1.4.1.534.6.6.7.5.1.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      enum_values:
+        0: unknown
+        1: breaker1pole
+        2: breaker2pole
+        3: breaker3pole
+        4: outletSection
+        5: userDefined
+    - name: groupBreakerStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.5
+      type: gauge
+      help: Only applicable to breaker-groups - 1.3.6.1.4.1.534.6.6.7.5.1.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      enum_values:
+        0: notApplicable
+        1: breakerOn
+        2: breakerOff
+    - name: groupChildCount
+      oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.6
+      type: gauge
+      help: Number of children for this group. - 1.3.6.1.4.1.534.6.6.7.5.1.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupColor
+      oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.7
+      type: gauge
+      help: Background color code of the group - 1.3.6.1.4.1.534.6.6.7.5.1.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupDesignator
+      oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.8
+      type: DisplayString
+      help: Alphanumeric physical name for the group - 1.3.6.1.4.1.534.6.6.7.5.1.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupInputIndex
+      oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.9
+      type: gauge
+      help: Identifies the input on which the group is connected. - 1.3.6.1.4.1.534.6.6.7.5.1.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupVoltageMeasType
+      oid: 1.3.6.1.4.1.534.6.6.7.5.3.1.2
+      type: gauge
+      help: Value indicates what voltage is being measured in this table row. - 1.3.6.1.4.1.534.6.6.7.5.3.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      enum_values:
+        0: unknown
+        1: singlePhase
+        2: phase1toN
+        3: phase2toN
+        4: phase3toN
+        5: phase1to2
+        6: phase2to3
+        7: phase3to1
+    - name: groupVoltage
+      oid: 1.3.6.1.4.1.534.6.6.7.5.3.1.3
+      type: gauge
+      help: Units are millivolts. - 1.3.6.1.4.1.534.6.6.7.5.3.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      scale: 0.001
+    - name: groupVoltageThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.5.3.1.4
+      type: gauge
+      help: Status of the measured group voltage relative to the configured thresholds.
+        - 1.3.6.1.4.1.534.6.6.7.5.3.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: groupVoltageThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.5.3.1.5
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.5.3.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupVoltageThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.5.3.1.6
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.5.3.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupVoltageThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.5.3.1.7
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.5.3.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupVoltageThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.5.3.1.8
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.5.3.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupCurrentCapacity
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.2
+      type: gauge
+      help: Rated current capacity of the group - 1.3.6.1.4.1.534.6.6.7.5.4.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupCurrent
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.3
+      type: gauge
+      help: A group current measurement value - 1.3.6.1.4.1.534.6.6.7.5.4.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      scale: 0.001
+    - name: groupCurrentThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.4
+      type: gauge
+      help: Status of the measured group current relative to the configured thresholds.
+        - 1.3.6.1.4.1.534.6.6.7.5.4.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: groupCurrentThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.5
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.5.4.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupCurrentThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.6
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.5.4.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupCurrentThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.7
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.5.4.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupCurrentThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.8
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.5.4.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupCurrentCrestFactor
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.9
+      type: gauge
+      help: Current crest factor - 1.3.6.1.4.1.534.6.6.7.5.4.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupCurrentPercentLoad
+      oid: 1.3.6.1.4.1.534.6.6.7.5.4.1.10
+      type: gauge
+      help: Current percent load, based on the rated current capacity - 1.3.6.1.4.1.534.6.6.7.5.4.1.10
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupVA
+      oid: 1.3.6.1.4.1.534.6.6.7.5.5.1.2
+      type: gauge
+      help: A group VA value - 1.3.6.1.4.1.534.6.6.7.5.5.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupWatts
+      oid: 1.3.6.1.4.1.534.6.6.7.5.5.1.3
+      type: gauge
+      help: A group Watts value - 1.3.6.1.4.1.534.6.6.7.5.5.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupWh
+      oid: 1.3.6.1.4.1.534.6.6.7.5.5.1.4
+      type: gauge
+      help: Units are Watt-hours - 1.3.6.1.4.1.534.6.6.7.5.5.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupWhTimer
+      oid: 1.3.6.1.4.1.534.6.6.7.5.5.1.5
+      type: counter
+      help: Timestamp of when group Watt-hours (groupWh) was last reset. - 1.3.6.1.4.1.534.6.6.7.5.5.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: groupPowerFactor
+      oid: 1.3.6.1.4.1.534.6.6.7.5.5.1.6
+      type: gauge
+      help: A group PF value - 1.3.6.1.4.1.534.6.6.7.5.5.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+      scale: 0.001
+    - name: groupVAR
+      oid: 1.3.6.1.4.1.534.6.6.7.5.5.1.7
+      type: gauge
+      help: A group VAR value - 1.3.6.1.4.1.534.6.6.7.5.5.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: groupIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - groupIndex
+        labelname: groupName
+        oid: 1.3.6.1.4.1.534.6.6.7.5.1.1.3
+        type: OctetString
+    - name: outletID
+      oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.2
+      type: DisplayString
+      help: Alphanumeric designator for the outlet. - 1.3.6.1.4.1.534.6.6.7.6.1.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletParentCount
+      oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.4
+      type: gauge
+      help: Number of parents for this outlet. - 1.3.6.1.4.1.534.6.6.7.6.1.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletType
+      oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.5
+      type: gauge
+      help: The physical type of outlet. - 1.3.6.1.4.1.534.6.6.7.6.1.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+      enum_values:
+        0: unknown
+        1: iecC13
+        2: iecC19
+        3: comboC39
+        10: uk
+        11: french
+        12: schuko
+        20: nema515
+        21: nema51520
+        22: nema520
+        23: nemaL520
+        24: nemaL530
+        25: nema615
+        26: nema620
+        27: nemaL620
+        28: nemaL630
+        29: nemaL715
+        30: rf203p277
+        31: sdg300
+        32: sdg400
+    - name: outletDesignator
+      oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.6
+      type: DisplayString
+      help: Alphanumeric physical name for the outlet. - 1.3.6.1.4.1.534.6.6.7.6.1.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletPhaseID
+      oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.7
+      type: gauge
+      help: Value indicates which phases are connected to each outlet in this table
+        row - single phase voltage, phase 1 to neutral, phase 2 to neutral, phase
+        3 to neutral, phase 1 to phase 2, phase 2 to phase 3, phase 3 to phase 1,
+        split-phase with phases 1 and 2, split phase with phases 2 and 3, split phase
+        with phases 3 and 1, three-phase delta, and three-phase wye. - 1.3.6.1.4.1.534.6.6.7.6.1.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+      enum_values:
+        1: singlePhase
+        2: phase1toN
+        3: phase2toN
+        4: phase3toN
+        5: phase1to2
+        6: phase2to3
+        7: phase3to1
+        8: phase12N
+        9: phase23N
+        10: phase31N
+        11: phase123
+        12: phase123N
+    - name: outletVoltage
+      oid: 1.3.6.1.4.1.534.6.6.7.6.3.1.2
+      type: gauge
+      help: Units are millivolts. - 1.3.6.1.4.1.534.6.6.7.6.3.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+      scale: 0.001
+    - name: outletVoltageThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.6.3.1.3
+      type: gauge
+      help: Status of the measured outlet voltage relative to the configured thresholds.
+        - 1.3.6.1.4.1.534.6.6.7.6.3.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: outletVoltageThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.6.3.1.4
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.6.3.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletVoltageThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.6.3.1.5
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.6.3.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletVoltageThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.6.3.1.6
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.6.3.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletVoltageThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.6.3.1.7
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.6.3.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletCurrentCapacity
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.2
+      type: gauge
+      help: Rated current capacity of the outlet - 1.3.6.1.4.1.534.6.6.7.6.4.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletCurrent
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.3
+      type: gauge
+      help: An outlet current measurement value - 1.3.6.1.4.1.534.6.6.7.6.4.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+      scale: 0.001
+    - name: outletCurrentThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.4
+      type: gauge
+      help: Status of the measured outlet current relative to the configured thresholds
+        - 1.3.6.1.4.1.534.6.6.7.6.4.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: outletCurrentThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.5
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.6.4.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletCurrentThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.6
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.6.4.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletCurrentThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.7
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.6.4.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletCurrentThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.8
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.6.4.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletCurrentCrestFactor
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.9
+      type: gauge
+      help: Current crest factor - 1.3.6.1.4.1.534.6.6.7.6.4.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletCurrentPercentLoad
+      oid: 1.3.6.1.4.1.534.6.6.7.6.4.1.10
+      type: gauge
+      help: Current percent load, based on the rated current capacity - 1.3.6.1.4.1.534.6.6.7.6.4.1.10
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletVA
+      oid: 1.3.6.1.4.1.534.6.6.7.6.5.1.2
+      type: gauge
+      help: An outlet VA value - 1.3.6.1.4.1.534.6.6.7.6.5.1.2
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletWatts
+      oid: 1.3.6.1.4.1.534.6.6.7.6.5.1.3
+      type: gauge
+      help: An outlet Watts value - 1.3.6.1.4.1.534.6.6.7.6.5.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletWh
+      oid: 1.3.6.1.4.1.534.6.6.7.6.5.1.4
+      type: gauge
+      help: Units are Watt-hours - 1.3.6.1.4.1.534.6.6.7.6.5.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletWhTimer
+      oid: 1.3.6.1.4.1.534.6.6.7.6.5.1.5
+      type: counter
+      help: Timestamp of when outlet Watt-hours (outletWh) was last reset. - 1.3.6.1.4.1.534.6.6.7.6.5.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: outletPowerFactor
+      oid: 1.3.6.1.4.1.534.6.6.7.6.5.1.6
+      type: gauge
+      help: An outlet PF value - 1.3.6.1.4.1.534.6.6.7.6.5.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+      scale: 0.001
+    - name: outletVAR
+      oid: 1.3.6.1.4.1.534.6.6.7.6.5.1.7
+      type: gauge
+      help: An outlet VAR value - 1.3.6.1.4.1.534.6.6.7.6.5.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: outletIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - outletIndex
+        labelname: outletName
+        oid: 1.3.6.1.4.1.534.6.6.7.6.1.1.3
+        type: OctetString
+    - name: temperatureProbeStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.3
+      type: gauge
+      help: Indicates whether a probe is connected or not. - 1.3.6.1.4.1.534.6.6.7.7.1.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: temperatureIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - temperatureIndex
+        labelname: temperatureName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.2
+        type: OctetString
+      enum_values:
+        -1: bad
+        0: disconnected
+        1: connected
+    - name: temperatureValue
+      oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.4
+      type: gauge
+      help: Units are in tenths of a degree according to the scale specified by temperatureScale
+        (either Fahrenheit or Celsius) - 1.3.6.1.4.1.534.6.6.7.7.1.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: temperatureIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - temperatureIndex
+        labelname: temperatureName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.2
+        type: OctetString
+      scale: 0.1
+    - name: temperatureThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.5
+      type: gauge
+      help: Status of the measured temperature relative to the configured thresholds.
+        - 1.3.6.1.4.1.534.6.6.7.7.1.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: temperatureIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - temperatureIndex
+        labelname: temperatureName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.2
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: temperatureThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.6
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.7.1.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: temperatureIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - temperatureIndex
+        labelname: temperatureName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.2
+        type: OctetString
+    - name: temperatureThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.7
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.7.1.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: temperatureIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - temperatureIndex
+        labelname: temperatureName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.2
+        type: OctetString
+    - name: temperatureThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.8
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.7.1.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: temperatureIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - temperatureIndex
+        labelname: temperatureName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.2
+        type: OctetString
+    - name: temperatureThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.9
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.7.1.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: temperatureIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - temperatureIndex
+        labelname: temperatureName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.1.1.2
+        type: OctetString
+    - name: humidityProbeStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.3
+      type: gauge
+      help: Indicates whether a probe is connected or not. - 1.3.6.1.4.1.534.6.6.7.7.2.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: humidityIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - humidityIndex
+        labelname: humidityName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.2
+        type: OctetString
+      enum_values:
+        -1: bad
+        0: disconnected
+        1: connected
+    - name: humidityValue
+      oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.4
+      type: gauge
+      help: Units are tenths of a percent relative humidity - 1.3.6.1.4.1.534.6.6.7.7.2.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: humidityIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - humidityIndex
+        labelname: humidityName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.2
+        type: OctetString
+      scale: 0.1
+    - name: humidityThStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.5
+      type: gauge
+      help: Status of the measured humidity relative to the configured thresholds.
+        - 1.3.6.1.4.1.534.6.6.7.7.2.1.5
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: humidityIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - humidityIndex
+        labelname: humidityName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.2
+        type: OctetString
+      enum_values:
+        0: good
+        1: lowWarning
+        2: lowCritical
+        3: highWarning
+        4: highCritical
+    - name: humidityThLowerWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.6
+      type: gauge
+      help: Lower warning threshold - 1.3.6.1.4.1.534.6.6.7.7.2.1.6
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: humidityIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - humidityIndex
+        labelname: humidityName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.2
+        type: OctetString
+    - name: humidityThLowerCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.7
+      type: gauge
+      help: Lower critical threshold - 1.3.6.1.4.1.534.6.6.7.7.2.1.7
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: humidityIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - humidityIndex
+        labelname: humidityName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.2
+        type: OctetString
+    - name: humidityThUpperWarning
+      oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.8
+      type: gauge
+      help: Upper warning threshold - 1.3.6.1.4.1.534.6.6.7.7.2.1.8
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: humidityIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - humidityIndex
+        labelname: humidityName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.2
+        type: OctetString
+    - name: humidityThUpperCritical
+      oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.9
+      type: gauge
+      help: Upper critical threshold - 1.3.6.1.4.1.534.6.6.7.7.2.1.9
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: humidityIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - humidityIndex
+        labelname: humidityName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.2.1.2
+        type: OctetString
+    - name: contactProbeStatus
+      oid: 1.3.6.1.4.1.534.6.6.7.7.3.1.3
+      type: gauge
+      help: Indicates whether a probe is connected or not - 1.3.6.1.4.1.534.6.6.7.7.3.1.3
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: contactIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - contactIndex
+        labelname: contactName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.3.1.2
+        type: OctetString
+      enum_values:
+        -1: bad
+        0: disconnected
+        1: connected
+    - name: contactState
+      oid: 1.3.6.1.4.1.534.6.6.7.7.3.1.4
+      type: gauge
+      help: The state of the contact sensor. - 1.3.6.1.4.1.534.6.6.7.7.3.1.4
+      indexes:
+      - labelname: strappingIndex
+        type: gauge
+      - labelname: contactIndex
+        type: gauge
+      lookups:
+      - labels:
+        - strappingIndex
+        labelname: unitName
+        oid: 1.3.6.1.4.1.534.6.6.7.1.2.1.6
+        type: OctetString
+      - labels:
+        - strappingIndex
+        - contactIndex
+        labelname: contactName
+        oid: 1.3.6.1.4.1.534.6.6.7.7.3.1.2
+        type: OctetString
+      enum_values:
+        -1: contactBad
+        0: contactOpen
+        1: contactClosed
   eltex_mes:
     get:
     - 1.3.6.1.4.1.2076.81.1.73.0
