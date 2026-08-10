@@ -1,0 +1,77 @@
+# Prometheus scrape configuration for routers/switches.
+#
+# Architecture notes:
+#   * snmp_exporter must have direct SNMP (UDP/TCP 161) reachability to devices.
+#   * HTTP proxies such as Zscaler do not proxy SNMP. Run the exporter on a host
+#     in the management network / DC / VPN that can open SNMP to the gear.
+#   * Use proxy_url on a job only when Prometheus needs an HTTP proxy to reach
+#     the exporter itself — never as a substitute for SNMP access.
+#
+# Load custom auths if needed:
+#   ./snmp_exporter --config.file=snmp.yml \
+#     --config.file=examples/sample-configs/snmp-auth-samples.yml \
+#     --config.expand-environment-variables
+#
+# Merge the scrape_configs entries into your prometheus.yml. Replace example
+# addresses and auth names.
+
+scrape_configs:
+  # SNMPv2c read-only community (built-in public_v2 in default snmp.yml).
+  - job_name: snmp_network_v2c
+    static_configs:
+      - targets:
+          - 192.0.2.10          # example switch
+          - 192.0.2.11          # example router
+          - switch.example.local
+    metrics_path: /snmp
+    params:
+      auth: [public_v2]
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter.example.local:9116
+
+  # SNMPv3 authPriv (requires network_v3_authpriv from snmp-auth-samples.yml
+  # and SNMP_AUTH_PASSWORD / SNMP_PRIV_PASSWORD in the exporter environment).
+  - job_name: snmp_network_v3
+    static_configs:
+      - targets:
+          - 192.0.2.20
+    metrics_path: /snmp
+    params:
+      auth: [network_v3_authpriv]
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter.example.local:9116
+
+  # Optional: Prometheus reaches the exporter via a corporate HTTP proxy.
+  # SNMP from the exporter to devices remains direct (no proxy).
+  - job_name: snmp_network_via_http_proxy
+    proxy_url: http://proxy.example.local:80
+    static_configs:
+      - targets:
+          - 192.0.2.30
+    metrics_path: /snmp
+    params:
+      auth: [public_v2]
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter.example.local:9116
+
+  - job_name: snmp_exporter
+    static_configs:
+      - targets: ["snmp-exporter.example.local:9116"]
