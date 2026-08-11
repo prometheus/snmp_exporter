@@ -269,11 +269,12 @@ var RenderableIndexTypes = map[string]bool{
 }
 
 type Index struct {
-	Labelname  string         `yaml:"labelname"`
-	Type       string         `yaml:"type"`
-	FixedSize  int            `yaml:"fixed_size,omitempty"`
-	Implied    bool           `yaml:"implied,omitempty"`
-	EnumValues map[int]string `yaml:"enum_values,omitempty"`
+	Labelname   string         `yaml:"labelname"`
+	Type        string         `yaml:"type"`
+	FixedSize   int            `yaml:"fixed_size,omitempty"`
+	Implied     bool           `yaml:"implied,omitempty"`
+	EnumValues  map[int]string `yaml:"enum_values,omitempty"`
+	DisplayHint string         `yaml:"display_hint,omitempty"`
 }
 
 func (c *Index) UnmarshalYAML(unmarshal func(any) error) error {

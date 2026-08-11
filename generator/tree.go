@@ -392,6 +392,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 					return
 				}
 				index.FixedSize = indexNode.FixedSize
+				index.DisplayHint = indexNode.Hint
 				if n.ImpliedIndex && count+1 == len(n.Indexes) {
 					index.Implied = true
 				}
