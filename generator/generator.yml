@@ -152,103 +152,39 @@ modules:
       - DELL-RAC-MIB::drsCMCPSUTable
     overrides:
       drsKWhCumulativeTime:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsMaxPowerSpecification:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsPotentialPower:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsPowerSurplus:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsIdlePower:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsAmpsReading:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsKWhCumulative:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsPSULocation:
         type: DisplayString
       drsPSUAmpsReading:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsPSUWattsReading:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsPSUVoltsReading:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsWattsMinTime:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsWattsMinUsage:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsWattsPeakTime:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsWattsReading:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsWattsPeakUsage:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
       drsWattsResetTime:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '(.*)'
-              value: '$1'
+        type: ParseFloatString
 
 # Dell network (Force10)
   dell_network:
@@ -1212,15 +1148,9 @@ modules:
       pduLocation:
         ignore: true # Lookup metric
       pduMainLoadAmp:
-        regex_extracts:
-          '':
-            - regex: '(.*)(.)'
-              value: '$1.$2'
+        type: ParseFloatString
       pduMainLoadVoltage:
-        regex_extracts:
-          '':
-            - regex: '(.*)(.)'
-              value: '$1.$2'
+        type: ParseFloatString
       pduMainActivePower:
         regex_extracts:
           '':
@@ -1452,11 +1382,7 @@ modules:
         lookup: "IF-MIB::ifName"
     overrides:
       ddmStatusBiasCurrent:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
+        type: ParseFloatString
       ddmStatusLossSignal:
         type: DisplayString
         regex_extracts:
@@ -1466,17 +1392,9 @@ modules:
             - regex: 'True'
               value: '1'
       ddmStatusRxPow:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
+        type: ParseFloatString
       ddmStatusTemperature:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
+        type: ParseFloatString
       ddmStatusTxFault:
         type: DisplayString
         regex_extracts:
@@ -1486,17 +1404,9 @@ modules:
             - regex: 'True'
               value: '1'
       ddmStatusTxPow:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
+        type: ParseFloatString
       ddmStatusVoltage:
-        type: DisplayString
-        regex_extracts:
-          '':
-            - regex: '^(\d+\.\d+).*'
-              value: '$1'
+        type: ParseFloatString
   cisco_imc:
     walk:
       - 1.3.6.1.4.1.9.9.719.1.45.1.1.6  #cucsStorageControllerOperState

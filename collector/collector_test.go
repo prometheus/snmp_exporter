@@ -978,6 +978,43 @@ func TestParseDateAndTimeWithPattern(t *testing.T) {
 	}
 }
 
+func TestParseFloatString(t *testing.T) {
+	cases := []struct {
+		pdu       *gosnmp.SnmpPDU
+		metric    config.Metric
+		result    float64
+		shouldErr bool
+	}{
+		{
+			pdu:       &gosnmp.SnmpPDU{Value: "3.14159"},
+			result:    3.14159,
+			shouldErr: false,
+		},
+		{
+			pdu:       &gosnmp.SnmpPDU{Value: " 3.14159 "},
+			result:    3.14159,
+			shouldErr: false,
+		},
+		{
+			pdu:       &gosnmp.SnmpPDU{Value: "ABC"},
+			result:    0,
+			shouldErr: true,
+		},
+	}
+	for _, c := range cases {
+		got, err := parseFloatString(c.pdu, Metrics{})
+		if c.shouldErr && err == nil {
+			t.Fatalf("Was expecting error, but none returned.")
+		}
+		if !c.shouldErr && err != nil {
+			t.Fatalf("Was expecting no error, but one returned.")
+		}
+		if !reflect.DeepEqual(got, c.result) {
+			t.Errorf("parseFloatString(%v) result: got %v, want %v", c.pdu, got, c.result)
+		}
+	}
+}
+
 // Every type listed as renderable must be handled by indexOidsAsString
 // rather than hitting its unknown-type panic.
 func TestRenderableIndexTypes(t *testing.T) {
