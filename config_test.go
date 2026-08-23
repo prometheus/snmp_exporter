@@ -80,6 +80,7 @@ func TestLoadMultipleConfigs(t *testing.T) {
 
 // When all environment variables are present
 func TestEnvSecrets(t *testing.T) {
+	t.Setenv("ENV_COMMUNITY", "mysecret")
 	t.Setenv("ENV_USERNAME", "username") // snmp_ prefix is set in config file
 	t.Setenv("ENV_PASSWORD", "snmp_password")
 	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
@@ -104,7 +105,7 @@ func TestEnvSecrets(t *testing.T) {
 
 	// we check whether vars we set are resolved correctly in config
 	for i := range sc.C.Auths {
-		if sc.C.Auths[i].Username != "snmp_username" || sc.C.Auths[i].Password != "snmp_password" || sc.C.Auths[i].PrivPassword != "snmp_priv_password" {
+		if sc.C.Auths[i].Community != "mysecret" || sc.C.Auths[i].Username != "snmp_username" || sc.C.Auths[i].Password != "snmp_password" || sc.C.Auths[i].PrivPassword != "snmp_priv_password" {
 			t.Fatal("failed to resolve secrets from env vars")
 		}
 	}
@@ -112,6 +113,7 @@ func TestEnvSecrets(t *testing.T) {
 
 // When environment variable(s) are absent
 func TestEnvSecretsMissing(t *testing.T) {
+	t.Setenv("ENV_COMMUNITY", "mysecret")
 	t.Setenv("ENV_PASSWORD", "snmp_password")
 	t.Setenv("ENV_PRIV_PASSWORD", "snmp_priv_password")
 
@@ -132,6 +134,7 @@ func TestEnvSecretsMissing(t *testing.T) {
 
 // When environment variables are present but set to empty values.
 func TestEnvSecretsEmpty(t *testing.T) {
+	t.Setenv("ENV_COMMUNITY", "")
 	t.Setenv("ENV_USERNAME", "")
 	t.Setenv("ENV_PASSWORD", "")
 	t.Setenv("ENV_PRIV_PASSWORD", "")
@@ -143,7 +146,7 @@ func TestEnvSecretsEmpty(t *testing.T) {
 	}
 
 	for i := range sc.C.Auths {
-		if sc.C.Auths[i].Username != "snmp_" || sc.C.Auths[i].Password != "" || sc.C.Auths[i].PrivPassword != "" {
+		if sc.C.Auths[i].Community != "" || sc.C.Auths[i].Username != "snmp_" || sc.C.Auths[i].Password != "" || sc.C.Auths[i].PrivPassword != "" {
 			t.Fatal("failed to resolve empty env vars")
 		}
 	}

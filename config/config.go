@@ -63,6 +63,13 @@ func LoadFile(logger *slog.Logger, paths []string, expandEnvVars bool) (*Config,
 	if expandEnvVars {
 		var err error
 		for i, auth := range cfg.Auths {
+			if auth.Community != "" {
+				community, err := substituteEnvVariables(string(auth.Community))
+				if err != nil {
+					return nil, err
+				}
+				cfg.Auths[i].Community.Set(community)
+			}
 			if auth.Username != "" {
 				cfg.Auths[i].Username, err = substituteEnvVariables(auth.Username)
 				if err != nil {
