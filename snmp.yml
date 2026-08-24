@@ -58625,6 +58625,18 @@ modules:
       oid: 1.3.6.1.4.1.6574.1.6
       type: gauge
       help: Synology system controller number Controller A(0) Controller B(1) - 1.3.6.1.4.1.6574.1.6
+    - name: cpuUtilization
+      oid: 1.3.6.1.4.1.6574.1.7.1
+      type: gauge
+      help: Synology CPU utilization - 1.3.6.1.4.1.6574.1.7.1
+    - name: memUtilization
+      oid: 1.3.6.1.4.1.6574.1.7.2
+      type: gauge
+      help: Synology memory utilization - 1.3.6.1.4.1.6574.1.7.2
+    - name: thermalStatus
+      oid: 1.3.6.1.4.1.6574.1.8
+      type: gauge
+      help: Synology thermal status - 1.3.6.1.4.1.6574.1.8
     - name: storageIOIndex
       oid: 1.3.6.1.4.1.6574.101.1.1.1
       type: gauge
