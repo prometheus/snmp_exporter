@@ -181,6 +181,7 @@ modules:
                              #   OctetString: A bit string, rendered as 0xff34.
                              #   DateAndTime: An RFC 2579 DateAndTime byte sequence. If the device has no time zone data, UTC is used.
                              #   ParseDateAndTime: Parse a DisplayString and return the timestamp. See datetime_pattern config option
+                             #   ParseFloatString: Parse the value as a DisplayString and return the float64 value.
                              #   NTPTimeStamp: Parse the NTP timestamp (RFC-1305, March 1992, Section 3.1) and return Unix timestamp as float.
                              #   DisplayString: An ASCII or UTF-8 string.
                              #   PhysAddress48: A 48 bit MAC address, rendered as 00:01:02:03:04:ff.

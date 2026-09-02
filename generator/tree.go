@@ -139,6 +139,9 @@ func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 		if n.TextualConvention == "NTPTimeStamp" {
 			n.Type = "NTPTimeStamp"
 		}
+		if n.TextualConvention == "ParseFloatString" {
+			n.Type = "ParseFloatString"
+		}
 		// Convert RFC 4001 InetAddress types textual convention to type.
 		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" || n.TextualConvention == "InetAddress" {
 			n.Type = n.TextualConvention
@@ -172,6 +175,8 @@ func metricType(t string) (string, bool) {
 	case "DateAndTime":
 		return t, true
 	case "ParseDateAndTime":
+		return t, true
+	case "ParseFloatString":
 		return t, true
 	case "NTPTimeStamp":
 		return t, true

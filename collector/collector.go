@@ -595,6 +595,15 @@ func parseDateAndTimeWithPattern(metric *config.Metric, pdu *gosnmp.SnmpPDU, met
 	return float64(t.Unix()), nil
 }
 
+func parseFloatString(pdu *gosnmp.SnmpPDU, metrics Metrics) (float64, error) {
+	pduValue := pduValueAsString(pdu, "DisplayString", "", metrics)
+	f, err := strconv.ParseFloat(strings.TrimSpace(pduValue), 64)
+	if err != nil {
+		return 0, fmt.Errorf("error parsing string to float: %w", err)
+	}
+	return f, nil
+}
+
 func parseNtpTimestamp(pdu *gosnmp.SnmpPDU) (float64, error) {
 	data, ok := pdu.Value.([]byte)
 	if !ok {
@@ -649,6 +658,13 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		value, err = parseDateAndTimeWithPattern(metric, pdu, metrics)
 		if err != nil {
 			logger.Debug("Error parsing ParseDateAndTime", "err", err)
+			return []prometheus.Metric{}
+		}
+	case "ParseFloatString":
+		t = prometheus.GaugeValue
+		value, err = parseFloatString(pdu, metrics)
+		if err != nil {
+			logger.Debug("Error parsing ParseFloatString", "err", err)
 			return []prometheus.Metric{}
 		}
 	case "NTPTimeStamp":

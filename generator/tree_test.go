@@ -181,6 +181,11 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Type: "DisplayString", TextualConvention: "ParseDateAndTime"},
 			out: &Node{Oid: "1", Type: "ParseDateAndTime", TextualConvention: "ParseDateAndTime"},
 		},
+		// ParseFloatString
+		{
+			in:  &Node{Oid: "1", Type: "DisplayString", TextualConvention: "ParseFloatString"},
+			out: &Node{Oid: "1", Type: "ParseFloatString", TextualConvention: "ParseFloatString"},
+		},
 		// RFC 4100 InetAddress conventions.
 		{
 			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddressIPv4"},
@@ -403,6 +408,7 @@ func TestGenerateConfigModule(t *testing.T) {
 					{Oid: "1.204", Access: "ACCESS_READONLY", Label: "InetAddressIPv6", Type: "OCTETSTR", TextualConvention: "InetAddressIPv6"},
 					{Oid: "1.205", Access: "ACCESS_READONLY", Label: "ParseDateAndTime", Type: "DisplayString", TextualConvention: "ParseDateAndTime"},
 					{Oid: "1.206", Access: "ACCESS_READONLY", Label: "NTPTimeStamp", Type: "NTPTimeStamp", TextualConvention: "NTPTimeStamp"},
+					{Oid: "1.207", Access: "ACCESS_READONLY", Label: "ParseFloatString", Type: "ParseFloatString", TextualConvention: "ParseFloatString"},
 				},
 			},
 			cfg: &ModuleConfig{
@@ -536,6 +542,12 @@ func TestGenerateConfigModule(t *testing.T) {
 						Oid:  "1.206",
 						Type: "NTPTimeStamp",
 						Help: " - 1.206",
+					},
+					{
+						Name: "ParseFloatString",
+						Oid:  "1.207",
+						Type: "ParseFloatString",
+						Help: " - 1.207",
 					},
 				},
 			},
