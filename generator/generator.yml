@@ -728,6 +728,8 @@ modules:
         lookup: raidName
         drop_source_indexes: true
     overrides:
+      SYNOLOGY-DISK-MIB::diskIndex:
+        type: DisplayString
       SYNOLOGY-DISK-MIB::diskModel:
         type: DisplayString
       SYNOLOGY-DISK-MIB::diskType:
