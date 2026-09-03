@@ -147,6 +147,16 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Label: "ascii", TextualConvention: "DisplayString"},
 			out: &Node{Oid: "1", Label: "ascii", TextualConvention: "DisplayString", Type: "DisplayString"},
 		},
+		// Vendor String64 TC (e.g. Dell MIBs) → DisplayString for readable labels.
+		{
+			in:  &Node{Oid: "1", Label: "vendorStr", Type: "OCTETSTR", TextualConvention: "String64"},
+			out: &Node{Oid: "1", Label: "vendorStr", Type: "DisplayString", TextualConvention: "String64"},
+		},
+		// Dell also uses StringType the same way.
+		{
+			in:  &Node{Oid: "1", Label: "vendorStr2", Type: "OCTETSTR", TextualConvention: "StringType"},
+			out: &Node{Oid: "1", Label: "vendorStr2", Type: "DisplayString", TextualConvention: "StringType"},
+		},
 		// PhysAddress referencing RFC1213.
 		{
 			in:  &Node{Oid: "1", Label: "mac", TextualConvention: "PhysAddress"},
