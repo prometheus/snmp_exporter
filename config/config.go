@@ -230,9 +230,35 @@ type StaticFilter struct {
 	Indices []string `yaml:"indices,omitempty"`
 }
 type DynamicFilter struct {
-	Oid     string   `yaml:"oid"`
-	Targets []string `yaml:"targets,omitempty"`
-	Values  []string `yaml:"values,omitempty"`
+	Oid     string           `yaml:"oid"`
+	Targets []string         `yaml:"targets,omitempty"`
+	Values  []string         `yaml:"values,omitempty"`
+	regexps []*regexp.Regexp `yaml:"-"`
+}
+
+func (c *DynamicFilter) CompileRegexps() error {
+	regexps := make([]*regexp.Regexp, 0, len(c.Values))
+	for _, value := range c.Values {
+		re, err := regexp.Compile(value)
+		if err != nil {
+			return fmt.Errorf("invalid dynamic filter value %q: %w", value, err)
+		}
+		regexps = append(regexps, re)
+	}
+	c.regexps = regexps
+	return nil
+}
+
+func (c *DynamicFilter) Regexps() []*regexp.Regexp {
+	return c.regexps
+}
+
+func (c *DynamicFilter) UnmarshalYAML(unmarshal func(any) error) error {
+	type plain DynamicFilter
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	return c.CompileRegexps()
 }
 
 type Metric struct {
