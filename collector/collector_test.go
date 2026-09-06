@@ -1409,6 +1409,75 @@ func TestFilterAllowedIndices(t *testing.T) {
 	}
 }
 
+func TestFilterAllowedIndicesCompositeIndex(t *testing.T) {
+	// jnxBgpM2PeerState, indexed by routing instance plus a local and a remote
+	// InetAddress, so the index is many sub-identifiers rather than one.
+	const stateOID = "1.3.6.1.4.1.2636.5.1.1.2.1.1.1.2"
+	pdus := []gosnmp.SnmpPDU{
+		{
+			Name:  stateOID + ".0.1.4.10.0.0.1.4.10.0.0.2",
+			Value: "3",
+		},
+		{
+			Name:  stateOID + ".0.1.4.10.0.0.1.4.10.0.0.3",
+			Value: "1",
+		},
+		{
+			// Leading dot, which gosnmp also emits.
+			Name:  "." + stateOID + ".0.2.4.10.0.1.1.4.10.0.1.2",
+			Value: "3",
+		},
+	}
+
+	filter := config.DynamicFilter{
+		Oid:     stateOID,
+		Targets: []string{"1.3.6.1.4.1.2636.5.1.1.2.1.1.1.11"},
+		Values:  []string{"3"},
+	}
+	want := []string{"0.1.4.10.0.0.1.4.10.0.0.2", "0.2.4.10.0.1.1.4.10.0.1.2"}
+
+	got := filterAllowedIndices(promslog.NewNopLogger(), filter, pdus, []string{}, Metrics{})
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("filterAllowedIndices(): got %v, want %v", got, want)
+	}
+
+	// The whole point of keeping the full index: the GET that gets built has to
+	// address the row the filter matched.
+	gets := addAllowedIndices(filter, got, promslog.NewNopLogger(), []string{})
+	wantGets := []string{
+		"1.3.6.1.4.1.2636.5.1.1.2.1.1.1.11.0.1.4.10.0.0.1.4.10.0.0.2",
+		"1.3.6.1.4.1.2636.5.1.1.2.1.1.1.11.0.2.4.10.0.1.1.4.10.0.1.2",
+	}
+	if !reflect.DeepEqual(gets, wantGets) {
+		t.Errorf("addAllowedIndices(): got %v, want %v", gets, wantGets)
+	}
+}
+
+func TestIndexFromOID(t *testing.T) {
+	cases := []struct {
+		name     string
+		filter   string
+		expected string
+	}{
+		{"1.3.6.1.2.1.2.2.1.8.2", "1.3.6.1.2.1.2.2.1.8", "2"},
+		{".1.3.6.1.2.1.2.2.1.8.2", "1.3.6.1.2.1.2.2.1.8", "2"},
+		{"1.3.6.1.2.1.2.2.1.8.2", ".1.3.6.1.2.1.2.2.1.8", "2"},
+		{"1.3.6.1.4.1.2636.5.1.1.2.1.1.1.2.0.1.4.10.0.0.1", "1.3.6.1.4.1.2636.5.1.1.2.1.1.1.2", "0.1.4.10.0.0.1"},
+		// Not under the filter OID at all.
+		{"1.3.6.1.2.1.2.2.1.9.2", "1.3.6.1.2.1.2.2.1.8", ""},
+		// The filter OID itself carries no index.
+		{"1.3.6.1.2.1.2.2.1.8", "1.3.6.1.2.1.2.2.1.8", ""},
+		// A longer OID that merely starts with the same digits.
+		{"1.3.6.1.2.1.2.2.1.80.2", "1.3.6.1.2.1.2.2.1.8", ""},
+		{"1.3.6.1.2.1.2.2.1.8.2", "", ""},
+	}
+	for _, c := range cases {
+		if got := indexFromOID(c.name, c.filter); got != c.expected {
+			t.Errorf("indexFromOID(%q, %q): got %q, want %q", c.name, c.filter, got, c.expected)
+		}
+	}
+}
+
 func TestUpdateWalkConfig(t *testing.T) {
 	cases := []struct {
 		filter config.DynamicFilter
