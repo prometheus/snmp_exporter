@@ -453,32 +453,12 @@ modules:
         help: The input energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.3.3.5
 
 # APC/Schneider Automatic Transfer Switch (ATS)
-#
-# The apcups module above does not walk the automaticTransferSwitch tree, so
-# ATS devices (e.g. AP77xx 1U models, AP44xx 2U models with banks) need this
-# dedicated module instead.
-#
-# Tested against a real AP7723 (1U, 2 inputs/1 output, single phase). The
-# atsConfigBank*/atsOutputBank* lookups below are included for the 2U models
-# which report per-bank rather than per-phase output metrics; they are simply
-# unused (empty tables) on 1U devices like the AP7723.
-#
-# atsCalibration and atsControl are intentionally not walked: they hold
-# factory calibration factors and write-only reset/test triggers, not
-# telemetry.
-#
-# MIB: https://download.schneider-electric.com/files?p_File_Name=powernet426.mib
-# See: https://github.com/prometheus/snmp_exporter/issues/1688
   apcats:
     walk:
       - PowerNet-MIB::atsIdent    # 1.3.6.1.4.1.318.1.1.8.1
       - PowerNet-MIB::atsConfig   # 1.3.6.1.4.1.318.1.1.8.4
       - PowerNet-MIB::atsStatus   # 1.3.6.1.4.1.318.1.1.8.5
     lookups:
-      # Note: source_indexes must stay unqualified. They are matched against
-      # a table's raw INDEX column names (from the MIB's INDEX {} clause),
-      # which the generator always compares as bare names - a "MIB::" prefix
-      # here would just never match and silently break the lookup.
       - source_indexes: [atsInputTableIndex]
         lookup: "PowerNet-MIB::atsInputName"
         drop_source_indexes: true
@@ -497,12 +477,6 @@ modules:
         lookup: "PowerNet-MIB::atsOutputBank"
         drop_source_indexes: true
     overrides:
-      # All "type:"-only overrides below are qualified with "PowerNet-MIB::"
-      # so they resolve unambiguously (several of these names - e.g.
-      # atsConfigPreferredSource, atsStatusRedundancyState - also exist in
-      # CyberPower.MIB; an unqualified name here would resolve ambiguously
-      # to whichever of the two the generator happened to load last,
-      # silently applying the type to the wrong node).
       "PowerNet-MIB::atsConfigPreferredSource":
         type: EnumAsInfo
       "PowerNet-MIB::atsConfigFrontPanelLockout":
@@ -517,11 +491,6 @@ modules:
         type: EnumAsInfo
       "PowerNet-MIB::atsConfigPhase":
         type: EnumAsInfo
-      # ignore/scale/help overrides cannot be MIB-qualified: the generator
-      # matches them against the metric's bare name (or numeric OID) only,
-      # never against a "MIB::" qualified string, so qualifying these would
-      # silently make them no-ops. Left unqualified; verified collision-free
-      # against all other loaded MIBs.
       atsConfigResetValues:
         ignore: true # Write-only reset trigger, not a telemetry value. - 1.3.6.1.4.1.318.1.1.8.4.7
       "PowerNet-MIB::atsInputVoltageOrientation":
