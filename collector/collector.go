@@ -19,6 +19,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log/slog"
+	"net/netip"
 	"regexp"
 	"strconv"
 	"strings"
@@ -393,19 +394,23 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		time.Since(start).Seconds())
+		time.Since(start).Seconds(),
+	)
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_sent", "Packets sent for get, bulkget, and walk; including retries.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(packets))
+		float64(packets),
+	)
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_packets_retried", "Packets retried for get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(retries))
+		float64(retries),
+	)
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(len(results.pdus)))
+		float64(len(results.pdus)),
+	)
 
 	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
 	for _, pdu := range results.pdus {
@@ -436,7 +441,8 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_duration_seconds", "Total SNMP time scrape took (walk and processing).", nil, moduleLabel),
 		prometheus.GaugeValue,
-		time.Since(start).Seconds())
+		time.Since(start).Seconds(),
+	)
 }
 
 // Collect implements Prometheus.Collector.
@@ -582,7 +588,8 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 		int(v[5]),
 		int(v[6]),
 		int(v[7])*1e+8,
-		tz)
+		tz,
+	)
 	return float64(t.Unix()), nil
 }
 
@@ -997,18 +1004,20 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		return string(parts), subOid, indexOids
 	case "InetAddressIPv4":
 		subOid, indexOids := splitOid(indexOids, 4)
-		parts := make([]string, 4)
+		var parts [4]byte
 		for i, o := range subOid {
-			parts[i] = strconv.Itoa(o)
+			parts[i] = byte(o)
 		}
-		return strings.Join(parts, "."), subOid, indexOids
+		ipAddr := netip.AddrFrom4(parts)
+		return ipAddr.String(), subOid, indexOids
 	case "InetAddressIPv6":
 		subOid, indexOids := splitOid(indexOids, 16)
-		parts := make([]any, 16)
+		var parts [16]byte
 		for i, o := range subOid {
-			parts[i] = o
+			parts[i] = byte(o)
 		}
-		return fmt.Sprintf("%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X:%02X%02X", parts...), subOid, indexOids
+		ipAddr := netip.AddrFrom16(parts)
+		return strings.ToUpper(ipAddr.StringExpanded()), subOid, indexOids
 	case "EnumAsInfo":
 		subOid, indexOids := splitOid(indexOids, 1)
 		value, ok := enumValues[subOid[0]]
