@@ -13,6 +13,1790 @@ auths:
     priv_protocol: DES
     version: 2
 modules:
+  apcats:
+    walk:
+    - 1.3.6.1.4.1.318.1.1.8.1
+    - 1.3.6.1.4.1.318.1.1.8.4
+    - 1.3.6.1.4.1.318.1.1.8.5
+    metrics:
+    - name: atsIdentHardwareRev
+      oid: 1.3.6.1.4.1.318.1.1.8.1.1
+      type: DisplayString
+      help: The hardware revision of the Automatic Transfer Switch - 1.3.6.1.4.1.318.1.1.8.1.1
+    - name: atsIdentFirmwareRev
+      oid: 1.3.6.1.4.1.318.1.1.8.1.2
+      type: DisplayString
+      help: A string identifying the Automatic Transfer Switch firmware revision.
+        - 1.3.6.1.4.1.318.1.1.8.1.2
+    - name: atsIdentFirmwareDate
+      oid: 1.3.6.1.4.1.318.1.1.8.1.3
+      type: DisplayString
+      help: The date of release for this Automatic Transfer Switch firmware revision.
+        - 1.3.6.1.4.1.318.1.1.8.1.3
+    - name: atsIdentDateOfManufacture
+      oid: 1.3.6.1.4.1.318.1.1.8.1.4
+      type: DisplayString
+      help: The date when the Automatic Transfer Switch was manufactured in mm/dd/yyyy
+        format - 1.3.6.1.4.1.318.1.1.8.1.4
+    - name: atsIdentModelNumber
+      oid: 1.3.6.1.4.1.318.1.1.8.1.5
+      type: DisplayString
+      help: A string identifying the model number of the Automatic Transfer Switch
+        - 1.3.6.1.4.1.318.1.1.8.1.5
+    - name: atsIdentSerialNumber
+      oid: 1.3.6.1.4.1.318.1.1.8.1.6
+      type: DisplayString
+      help: A string identifying the serial number of the Automatic Transfer Switch
+        - 1.3.6.1.4.1.318.1.1.8.1.6
+    - name: atsIdentNominalLineVoltage
+      oid: 1.3.6.1.4.1.318.1.1.8.1.7
+      type: gauge
+      help: RMS Utility Voltage measured in Volts. - 1.3.6.1.4.1.318.1.1.8.1.7
+    - name: atsIdentNominalLineFrequency
+      oid: 1.3.6.1.4.1.318.1.1.8.1.8
+      type: gauge
+      help: Utility Power Frequency measured in Hertz. - 1.3.6.1.4.1.318.1.1.8.1.8
+    - name: atsIdentDeviceRating
+      oid: 1.3.6.1.4.1.318.1.1.8.1.9
+      type: gauge
+      help: This gives the device rating in Amps - 1.3.6.1.4.1.318.1.1.8.1.9
+    - name: atsIdentDeviceName
+      oid: 1.3.6.1.4.1.318.1.1.8.1.10
+      type: DisplayString
+      help: A user-defined string identifying the ATS - 1.3.6.1.4.1.318.1.1.8.1.10
+    - name: atsIdentDeviceLocation
+      oid: 1.3.6.1.4.1.318.1.1.8.1.11
+      type: DisplayString
+      help: A user-defined string identifying the location of ATS - 1.3.6.1.4.1.318.1.1.8.1.11
+    - name: atsIdentContact
+      oid: 1.3.6.1.4.1.318.1.1.8.1.12
+      type: DisplayString
+      help: A user-defined string identifying the person to contact regarding the
+        ATS - 1.3.6.1.4.1.318.1.1.8.1.12
+    - name: atsIdentBootMonitorRev
+      oid: 1.3.6.1.4.1.318.1.1.8.1.13
+      type: DisplayString
+      help: The ATS Boot Monitor version - 1.3.6.1.4.1.318.1.1.8.1.13
+    - name: atsIdentLongDescription
+      oid: 1.3.6.1.4.1.318.1.1.8.1.14
+      type: DisplayString
+      help: The ATS Long Description name - 1.3.6.1.4.1.318.1.1.8.1.14
+    - name: atsIdentNMCSerialNumber
+      oid: 1.3.6.1.4.1.318.1.1.8.1.15
+      type: DisplayString
+      help: The ATS Network Management Card (NMC) serial number - 1.3.6.1.4.1.318.1.1.8.1.15
+    - name: atsIdentAppBuildDate
+      oid: 1.3.6.1.4.1.318.1.1.8.1.16
+      type: DisplayString
+      help: The ATS Application build date - 1.3.6.1.4.1.318.1.1.8.1.16
+    - name: atsIdentAOSBuildDate
+      oid: 1.3.6.1.4.1.318.1.1.8.1.17
+      type: DisplayString
+      help: The ATS AOS build date - 1.3.6.1.4.1.318.1.1.8.1.17
+    - name: atsIdentBootMonBuildDate
+      oid: 1.3.6.1.4.1.318.1.1.8.1.18
+      type: DisplayString
+      help: The ATS Boot Monitor build date - 1.3.6.1.4.1.318.1.1.8.1.18
+    - name: atsConfigProductName
+      oid: 1.3.6.1.4.1.318.1.1.8.4.1
+      type: DisplayString
+      help: A configurable character string. - 1.3.6.1.4.1.318.1.1.8.4.1
+    - name: atsConfigPreferredSource
+      oid: 1.3.6.1.4.1.318.1.1.8.4.2
+      type: EnumAsInfo
+      help: This variable returns the preferred source of power when both sources
+        are OK. - 1.3.6.1.4.1.318.1.1.8.4.2
+      enum_values:
+        1: sourceA
+        2: sourceB
+        3: none
+    - name: atsConfigFrontPanelLockout
+      oid: 1.3.6.1.4.1.318.1.1.8.4.3
+      type: EnumAsInfo
+      help: Setting this variable to disableFrontPanel(1), prevents source preference
+        configuration of the Automatic Transfer Switch via the Front Panel - 1.3.6.1.4.1.318.1.1.8.4.3
+      enum_values:
+        1: disableFrontPanel
+        2: enableFrontPanel
+    - name: atsConfigVoltageSensitivity
+      oid: 1.3.6.1.4.1.318.1.1.8.4.4
+      type: EnumAsInfo
+      help: 'This variable defines the sensitivity to changes in voltage: high(1)
+        for best protection, low(2) for frequent small line voltage changes. - 1.3.6.1.4.1.318.1.1.8.4.4'
+      enum_values:
+        1: high
+        2: low
+    - name: atsConfigTransferVoltageRange
+      oid: 1.3.6.1.4.1.318.1.1.8.4.5
+      type: EnumAsInfo
+      help: This variable defines the range of acceptable voltage from a power source
+        - 1.3.6.1.4.1.318.1.1.8.4.5
+      enum_values:
+        1: wide
+        2: medium
+        3: narrow
+    - name: atsConfigCurrentLimit
+      oid: 1.3.6.1.4.1.318.1.1.8.4.6
+      type: gauge
+      help: The threshold (in Amps) at which an Over Current Alarm will be generated
+        - 1.3.6.1.4.1.318.1.1.8.4.6
+    - name: atsConfigLineVRMS
+      oid: 1.3.6.1.4.1.318.1.1.8.4.8
+      type: gauge
+      help: To configure the input RMS voltage. - 1.3.6.1.4.1.318.1.1.8.4.8
+    - name: atsConfigLineVRMSNarrowLimit
+      oid: 1.3.6.1.4.1.318.1.1.8.4.9
+      type: gauge
+      help: To configure the Line VRMS Narrow Limit. - 1.3.6.1.4.1.318.1.1.8.4.9
+    - name: atsConfigLineVRMSMediumLimit
+      oid: 1.3.6.1.4.1.318.1.1.8.4.10
+      type: gauge
+      help: To configure the Line VRMS Medium Limit. - 1.3.6.1.4.1.318.1.1.8.4.10
+    - name: atsConfigLineVRMSWideLimit
+      oid: 1.3.6.1.4.1.318.1.1.8.4.11
+      type: gauge
+      help: To configure the Line VRMS Wide Limit. - 1.3.6.1.4.1.318.1.1.8.4.11
+    - name: atsConfigFrequencyDeviation
+      oid: 1.3.6.1.4.1.318.1.1.8.4.12
+      type: EnumAsInfo
+      help: To configure the frequency deviation - 1.3.6.1.4.1.318.1.1.8.4.12
+      enum_values:
+        1: one
+        2: two
+        3: three
+        5: five
+        10: ten
+    - name: atsConfigBankTableSize
+      oid: 1.3.6.1.4.1.318.1.1.8.4.13
+      type: gauge
+      help: The size of the bank table. - 1.3.6.1.4.1.318.1.1.8.4.13
+    - name: atsConfigBankTableIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.1
+      type: gauge
+      help: An index to the bank table entry. - 1.3.6.1.4.1.318.1.1.8.4.14.1.1
+      indexes:
+      - labelname: atsConfigBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigBankTableIndex
+        labelname: atsConfigBank
+        oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsConfigBankTableIndex
+    - name: atsConfigBank
+      oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.2
+      type: EnumAsInfo
+      help: The bank number of an ATS - 1.3.6.1.4.1.318.1.1.8.4.14.1.2
+      indexes:
+      - labelname: atsConfigBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigBankTableIndex
+        labelname: atsConfigBank
+        oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsConfigBankTableIndex
+      enum_values:
+        1: total
+        2: bank1
+        3: bank2
+    - name: atsConfigBankLowLoadThreshold
+      oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.3
+      type: gauge
+      help: A threshold that indicates the current drawn is nearing a low consumption
+        condition - 1.3.6.1.4.1.318.1.1.8.4.14.1.3
+      indexes:
+      - labelname: atsConfigBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigBankTableIndex
+        labelname: atsConfigBank
+        oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsConfigBankTableIndex
+    - name: atsConfigBankNearOverLoadThreshold
+      oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.4
+      type: gauge
+      help: A threshold that indicates the current drawn is nearing an overload condition
+        - 1.3.6.1.4.1.318.1.1.8.4.14.1.4
+      indexes:
+      - labelname: atsConfigBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigBankTableIndex
+        labelname: atsConfigBank
+        oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsConfigBankTableIndex
+    - name: atsConfigBankOverLoadThreshold
+      oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.5
+      type: gauge
+      help: A threshold that indicates the current drawn has entered an overload condition
+        - 1.3.6.1.4.1.318.1.1.8.4.14.1.5
+      indexes:
+      - labelname: atsConfigBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigBankTableIndex
+        labelname: atsConfigBank
+        oid: 1.3.6.1.4.1.318.1.1.8.4.14.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsConfigBankTableIndex
+    - name: atsConfigPhaseTableSize
+      oid: 1.3.6.1.4.1.318.1.1.8.4.15
+      type: gauge
+      help: The size of the phase table. - 1.3.6.1.4.1.318.1.1.8.4.15
+    - name: atsConfigPhaseTableIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.1
+      type: gauge
+      help: The index to the phase table entry. - 1.3.6.1.4.1.318.1.1.8.4.16.1.1
+      indexes:
+      - labelname: atsConfigPhaseTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigPhaseTableIndex
+        labelname: atsConfigPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels: []
+        labelname: atsConfigPhaseTableIndex
+    - name: atsConfigPhase
+      oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.2
+      type: EnumAsInfo
+      help: The phase number of an ATS - 1.3.6.1.4.1.318.1.1.8.4.16.1.2
+      indexes:
+      - labelname: atsConfigPhaseTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigPhaseTableIndex
+        labelname: atsConfigPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels: []
+        labelname: atsConfigPhaseTableIndex
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+    - name: atsConfigPhaseLowLoadThreshold
+      oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.3
+      type: gauge
+      help: A threshold that indicates the current drawn is nearing a low consumption
+        condition - 1.3.6.1.4.1.318.1.1.8.4.16.1.3
+      indexes:
+      - labelname: atsConfigPhaseTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigPhaseTableIndex
+        labelname: atsConfigPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels: []
+        labelname: atsConfigPhaseTableIndex
+    - name: atsConfigPhaseNearOverLoadThreshold
+      oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.4
+      type: gauge
+      help: A threshold that indicates the current drawn is nearing an overload condition
+        - 1.3.6.1.4.1.318.1.1.8.4.16.1.4
+      indexes:
+      - labelname: atsConfigPhaseTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigPhaseTableIndex
+        labelname: atsConfigPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels: []
+        labelname: atsConfigPhaseTableIndex
+    - name: atsConfigPhaseOverLoadThreshold
+      oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.5
+      type: gauge
+      help: A threshold that indicates the current drawn has entered an overload condition
+        - 1.3.6.1.4.1.318.1.1.8.4.16.1.5
+      indexes:
+      - labelname: atsConfigPhaseTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsConfigPhaseTableIndex
+        labelname: atsConfigPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.4.16.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels: []
+        labelname: atsConfigPhaseTableIndex
+    - name: atsConfigDeviceLocation
+      oid: 1.3.6.1.4.1.318.1.1.8.4.17
+      type: DisplayString
+      help: A user-defined string identifying the location of the ATS - 1.3.6.1.4.1.318.1.1.8.4.17
+    - name: atsConfigContact
+      oid: 1.3.6.1.4.1.318.1.1.8.4.18
+      type: DisplayString
+      help: A user-defined string identifying the person to contact regarding the
+        ATS - 1.3.6.1.4.1.318.1.1.8.4.18
+    - name: atsStatusCommStatus
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.1
+      type: EnumAsStateSet
+      help: This variable returns the current communication status of the Automatic
+        Transfer Switch. - 1.3.6.1.4.1.318.1.1.8.5.1.1
+      enum_values:
+        1: atsNeverDiscovered
+        2: atsCommEstablished
+        3: atsCommLost
+    - name: atsStatusSelectedSource
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.2
+      type: EnumAsStateSet
+      help: This variable returns the current source of power. - 1.3.6.1.4.1.318.1.1.8.5.1.2
+      enum_values:
+        1: sourceA
+        2: sourceB
+    - name: atsStatusRedundancyState
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.3
+      type: EnumAsStateSet
+      help: This variable returns the current redundancy state of the ATS - 1.3.6.1.4.1.318.1.1.8.5.1.3
+      enum_values:
+        1: atsRedundancyLost
+        2: atsFullyRedundant
+    - name: atsStatusOverCurrentState
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.4
+      type: EnumAsStateSet
+      help: This variable returns the output current state of the ATS - 1.3.6.1.4.1.318.1.1.8.5.1.4
+      enum_values:
+        1: atsOverCurrent
+        2: atsCurrentOK
+    - name: atsStatus5VPowerSupply
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.5
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS 5V power supply - 1.3.6.1.4.1.318.1.1.8.5.1.5
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatus24VPowerSupply
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.6
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS 24V power supply for
+        Source A - 1.3.6.1.4.1.318.1.1.8.5.1.6
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatus24VSourceBPowerSupply
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.7
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS 24V power supply for
+        Source B - 1.3.6.1.4.1.318.1.1.8.5.1.7
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatusPlus12VPowerSupply
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.8
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS 12V power supply -
+        1.3.6.1.4.1.318.1.1.8.5.1.8
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatusMinus12VPowerSupply
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.9
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS -12V power supply -
+        1.3.6.1.4.1.318.1.1.8.5.1.9
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatusSwitchStatus
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.10
+      type: EnumAsStateSet
+      help: This variable returns the status of the ATS. - 1.3.6.1.4.1.318.1.1.8.5.1.10
+      enum_values:
+        1: fail
+        2: ok
+    - name: atsStatusFrontPanel
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.11
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS front panel - 1.3.6.1.4.1.318.1.1.8.5.1.11
+      enum_values:
+        1: locked
+        2: unlocked
+    - name: atsStatusSourceAStatus
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.12
+      type: EnumAsStateSet
+      help: This variable returns the status of the Source A. - 1.3.6.1.4.1.318.1.1.8.5.1.12
+      enum_values:
+        1: fail
+        2: ok
+    - name: atsStatusSourceBStatus
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.13
+      type: EnumAsStateSet
+      help: This variable returns the status of the Source B. - 1.3.6.1.4.1.318.1.1.8.5.1.13
+      enum_values:
+        1: fail
+        2: ok
+    - name: atsStatusPhaseSyncStatus
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.14
+      type: EnumAsStateSet
+      help: This variable returns the status of the phase synch. - 1.3.6.1.4.1.318.1.1.8.5.1.14
+      enum_values:
+        1: inSync
+        2: outOfSync
+    - name: atsStatusVoltageOutStatus
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.15
+      type: EnumAsStateSet
+      help: This variable returns the output voltage status. - 1.3.6.1.4.1.318.1.1.8.5.1.15
+      enum_values:
+        1: fail
+        2: ok
+    - name: atsStatusHardwareStatus
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.16
+      type: EnumAsStateSet
+      help: This variable returns the status of display board hardware. - 1.3.6.1.4.1.318.1.1.8.5.1.16
+      enum_values:
+        1: fail
+        2: ok
+    - name: atsStatus3dot3VPowerSupply
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.17
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS 3.3V supply - 1.3.6.1.4.1.318.1.1.8.5.1.17
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatus1Dot0VPowerSupply
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.18
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS 1.0V supply - 1.3.6.1.4.1.318.1.1.8.5.1.18
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatusVBoostSourceA
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.19
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS Source A Boost 48V
+        supply - 1.3.6.1.4.1.318.1.1.8.5.1.19
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatusVBoostSourceB
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.20
+      type: EnumAsStateSet
+      help: This variable returns the present state of the ATS Source B Boost 48V
+        supply - 1.3.6.1.4.1.318.1.1.8.5.1.20
+      enum_values:
+        1: atsPowerSupplyFailure
+        2: atsPowerSupplyOK
+    - name: atsStatusFuseSourceA
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.21
+      type: EnumAsStateSet
+      help: This variable returns the Souce A Fuse State - 1.3.6.1.4.1.318.1.1.8.5.1.21
+      enum_values:
+        1: atsFuseStatusClose
+        2: atsFuseStatusOpen
+    - name: atsStatusFuseSourceB
+      oid: 1.3.6.1.4.1.318.1.1.8.5.1.22
+      type: EnumAsStateSet
+      help: This variable returns the Souce B Fuse State - 1.3.6.1.4.1.318.1.1.8.5.1.22
+      enum_values:
+        1: atsFuseStatusClose
+        2: atsFuseStatusOpen
+    - name: atsNumInputs
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.1
+      type: gauge
+      help: The number of input feeds to this device - 1.3.6.1.4.1.318.1.1.8.5.3.1
+    - name: atsInputTableIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.1
+      type: gauge
+      help: The input identifier. - 1.3.6.1.4.1.318.1.1.8.5.3.2.1.1
+      indexes:
+      - labelname: atsInputTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputTableIndex
+    - name: atsNumInputPhases
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.2
+      type: gauge
+      help: The number of input phases utilized in this device - 1.3.6.1.4.1.318.1.1.8.5.3.2.1.2
+      indexes:
+      - labelname: atsInputTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputTableIndex
+    - name: atsInputVoltageOrientation
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.3
+      type: EnumAsInfo
+      help: 'The input voltage orientation: 1: unknown for this Source 2: singlePhase
+        - phase 1 voltage is between Phase 1 and Neutral - 1.3.6.1.4.1.318.1.1.8.5.3.2.1.3'
+      indexes:
+      - labelname: atsInputTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputTableIndex
+      enum_values:
+        1: unknown
+        2: singlePhase
+        3: splitPhase
+        4: threePhasePhaseToNeutral
+        5: threePhasePhaseToPhase
+    - name: atsInputFrequency
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.4
+      type: gauge
+      help: The input frequency in Hertz, or -1 if it's unsupported by this Source.
+        - 1.3.6.1.4.1.318.1.1.8.5.3.2.1.4
+      indexes:
+      - labelname: atsInputTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputTableIndex
+    - name: atsInputType
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.5
+      type: EnumAsInfo
+      help: The input type. - 1.3.6.1.4.1.318.1.1.8.5.3.2.1.5
+      indexes:
+      - labelname: atsInputTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputTableIndex
+      enum_values:
+        1: unknown
+        2: main
+        3: bypass
+    - name: atsInputName
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+      type: DisplayString
+      help: A name given to a particular input. - 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+      indexes:
+      - labelname: atsInputTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputTableIndex
+    - name: atsInputPhaseTableIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.1
+      type: gauge
+      help: The input identifier. - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.1
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputPhaseIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.2
+      type: gauge
+      help: The input phase identifier. - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.2
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputVoltage
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.3
+      type: gauge
+      help: The input voltage in VAC, or -1 if it's unsupported by this Source. -
+        1.3.6.1.4.1.318.1.1.8.5.3.3.1.3
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputMaxVoltage
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.4
+      type: gauge
+      help: The maximum input voltage in VAC measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.4
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputMinVoltage
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.5
+      type: gauge
+      help: The minimum input voltage in VAC measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.5
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.6
+      type: gauge
+      help: The input current in amperes, or -1 if it's unsupported by this Source.
+        - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.6
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputMaxCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.7
+      type: gauge
+      help: The maximum input current in amperes measured since the last time this
+        variable was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.7
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputMinCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.8
+      type: gauge
+      help: The minimum input current in amperes measured since the last time this
+        variable was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.8
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.9
+      type: gauge
+      help: The input power in Watts, or -1 if it's unsupported by this Source. -
+        1.3.6.1.4.1.318.1.1.8.5.3.3.1.9
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputMaxPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.10
+      type: gauge
+      help: The maximum input power in Watts measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.10
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsInputMinPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.3.3.1.11
+      type: gauge
+      help: The minimum input power in Watts measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.3.3.1.11
+      indexes:
+      - labelname: atsInputPhaseTableIndex
+        type: gauge
+      - labelname: atsInputPhaseIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsInputPhaseTableIndex
+        labelname: atsInputName
+        oid: 1.3.6.1.4.1.318.1.1.8.5.3.2.1.6
+        type: DisplayString
+      - labels: []
+        labelname: atsInputPhaseTableIndex
+    - name: atsNumOutputs
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.1
+      type: gauge
+      help: The number of output feeds to this device - 1.3.6.1.4.1.318.1.1.8.5.4.1
+    - name: atsOutputTableIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.2.1.1
+      type: gauge
+      help: The output identifier. - 1.3.6.1.4.1.318.1.1.8.5.4.2.1.1
+      indexes:
+      - labelname: atsOutputTableIndex
+        type: gauge
+    - name: atsNumOutputPhases
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.2.1.2
+      type: gauge
+      help: The number of output phases utilized in this device - 1.3.6.1.4.1.318.1.1.8.5.4.2.1.2
+      indexes:
+      - labelname: atsOutputTableIndex
+        type: gauge
+    - name: atsOutputVoltageOrientation
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.2.1.3
+      type: EnumAsInfo
+      help: 'The output voltage orientation: 1: unknown for this ATS 2: singlePhase
+        - phase 1 voltage is between Phase 1 and Neutral - 1.3.6.1.4.1.318.1.1.8.5.4.2.1.3'
+      indexes:
+      - labelname: atsOutputTableIndex
+        type: gauge
+      enum_values:
+        1: unknown
+        2: singlePhase
+        3: splitPhase
+        4: threePhasePhaseToNeutral
+        5: threePhasePhaseToPhase
+    - name: atsOutputFrequency
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.2.1.4
+      type: gauge
+      help: The output frequency in Hertz, or -1 if it's unsupported by this ATS.
+        - 1.3.6.1.4.1.318.1.1.8.5.4.2.1.4
+      indexes:
+      - labelname: atsOutputTableIndex
+        type: gauge
+    - name: atsOutputPhaseTableIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.1
+      type: gauge
+      help: The output identifier. - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.1
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputPhaseIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.2
+      type: gauge
+      help: Description of each output phase utilized in this device and one for neutral.
+        - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.2
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+        4: neutral
+    - name: atsOutputVoltage
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.3
+      type: gauge
+      help: The output voltage in VAC, or -1 if it's unsupported by this ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.3
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.4
+      type: gauge
+      help: The output current in Amperes drawn by the load on the ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.4
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+      scale: 0.1
+    - name: atsOutputMaxCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.5
+      type: gauge
+      help: The maximum output current in Amperes measured since the last reset (atsStatusResetMaxMinValues).
+        - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.5
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+      scale: 0.1
+    - name: atsOutputMinCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.6
+      type: gauge
+      help: The minimum output current in Amperes measured since the last reset (atsStatusResetMaxMinValues).
+        - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.6
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+      scale: 0.1
+    - name: atsOutputLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.7
+      type: gauge
+      help: The output load in VA, or -1 if it's unsupported by this ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.7
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMaxLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.8
+      type: gauge
+      help: The maximum output load in VA measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.8
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMinLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.9
+      type: gauge
+      help: The minimum output load in VA measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.9
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputPercentLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.10
+      type: gauge
+      help: The percentage of the ATS load capacity in VA at redundancy @ (n + x)
+        presently being used on this output phase, or -1 if it's unsupported by this
+        ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.10
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMaxPercentLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.11
+      type: gauge
+      help: The maximum percentage of the ATS load capacity in VA measured at redundancy
+        @ (n + x) presently being used on this output phase since the last time this
+        variable was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.11
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMinPercentLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.12
+      type: gauge
+      help: The minimum percentage of the ATS load capacity in VA measured at redundancy
+        @ (n + x) presently being used on this output phase since the last time this
+        variable was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.12
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.13
+      type: gauge
+      help: The output apparent power in VA, or -1 if it's unsupported by this ATS.
+        - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.13
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMaxPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.14
+      type: gauge
+      help: The maximum output power in VAs measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.14
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMinPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.15
+      type: gauge
+      help: The minimum output power in VA measured since the last time this variable
+        was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.15
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputPercentPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.16
+      type: gauge
+      help: The percentage of the ATSpower capacity in VA at redundancy @ (n + x)
+        presently being used on this output phase, or -1 if it's unsupported by this
+        ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.16
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMaxPercentPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.17
+      type: gauge
+      help: The maximum percentage of the ATSpower capacity in VA measured at redundancy
+        @ (n + x) presently being used on this output phase since the last time this
+        variable was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.17
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputMinPercentPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.18
+      type: gauge
+      help: The minimum percentage of the ATSpower capacity in VA measured at redundancy
+        @ (n + x) presently being used on this output phase since the last time this
+        variable was read or reset (atsStatusResetMaxMinValues) - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.18
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+    - name: atsOutputPhaseState
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.3.1.19
+      type: EnumAsStateSet
+      help: Getting this OID will return the phase load state - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.19
+      indexes:
+      - labelname: atsOutputPhaseTableIndex
+        type: gauge
+      - labelname: atsOutputPhaseIndex
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+          4: neutral
+      enum_values:
+        1: normal
+        2: lowload
+        3: nearoverload
+        4: overload
+    - name: atsOutputBankTableSize
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.4
+      type: gauge
+      help: The size of the bank table. - 1.3.6.1.4.1.318.1.1.8.5.4.4
+    - name: atsOutputBankTableIndex
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.1
+      type: gauge
+      help: The index to the bank table entry. - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.1
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputPhase
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+      type: EnumAsInfo
+      help: The phase number of an ATS - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+      enum_values:
+        1: phase1
+        2: phase2
+        3: phase3
+    - name: atsOutputBank
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+      type: EnumAsInfo
+      help: The bank number of an ATS - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+      enum_values:
+        1: total
+        2: bank1
+        3: bank2
+    - name: atsOutputBankCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.4
+      type: gauge
+      help: The bank output current in Amperes. - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.4
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+      scale: 0.1
+    - name: atsOutputBankState
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.5
+      type: EnumAsStateSet
+      help: Getting this OID will return the bank load state - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.5
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+      enum_values:
+        1: normal
+        2: lowload
+        3: nearoverload
+        4: overload
+    - name: atsOutputBankOutputVoltage
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.6
+      type: gauge
+      help: The output voltage in VAC, or -1 if it's unsupported by this ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.6
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMaxCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.7
+      type: gauge
+      help: The maximum bank output current in Amperes measured since the last reset
+        (atsStatusResetMaxMinValues). - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.7
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+      scale: 0.1
+    - name: atsOutputBankMinCurrent
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.8
+      type: gauge
+      help: The minimum bank output current in Amperes measured since the last reset
+        (atsStatusResetMaxMinValues). - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.8
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+      scale: 0.1
+    - name: atsOutputBankLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.9
+      type: gauge
+      help: The output load, on the bank represented by OID atsOutputBank, in VA,
+        or -1 if it's unsupported by this ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.9
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMaxLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.10
+      type: gauge
+      help: The maximum output load, on the bank represented by OID atsOutputBank,
+        in VA measured since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.10
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMinLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.11
+      type: gauge
+      help: The minimum output load, on the bank represented by OID atsOutputBank,
+        in VA measured since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.11
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankPercentLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.12
+      type: gauge
+      help: The percentage of the ATS load capacity in VA at redundancy @ (n + x)
+        presently being used on this bank, represented by OID atsOutputBank - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.12
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMaxPercentLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.13
+      type: gauge
+      help: The maximum percentage of the ATS load capacity in VA measured at redundancy
+        @ (n + x) presently being used on this bank, represented by OID atsOutputBank,
+        since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.13
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMinPercentLoad
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.14
+      type: gauge
+      help: The minimum percentage of the ATS load capacity in VA measured at redundancy
+        @ (n + x) presently being used on this bank, represented by OID atsOutputBank,
+        since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.14
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.15
+      type: gauge
+      help: The output apparent power in VA on the bank represented by OID atsOutputBank
+        or -1 if it's unsupported by this ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.15
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMaxPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.16
+      type: gauge
+      help: The maximum output power in VA measured on the bank represented by OID
+        atsOutputBank since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.16
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMinPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.17
+      type: gauge
+      help: The minimum output power in VA measured on the bank represented by OID
+        atsOutputBank since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.17
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankPercentPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.18
+      type: gauge
+      help: The percentage of the ATSpower capacity in Watts at redundancy @ (n +
+        x) presently being used on this bank, represented by OID atsOutputBank, or
+        -1 if it's unsupported by this ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.18
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMaxPercentPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.19
+      type: gauge
+      help: The maximum percentage of the ATSpower capacity in VA measured at redundancy
+        @ (n + x) presently being used on this bank, represented by OID atsOutputBank,
+        since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.19
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
+    - name: atsOutputBankMinPercentPower
+      oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.20
+      type: gauge
+      help: The minimum percentage of the ATSpower capacity in VA measured at redundancy
+        @ (n + x) presently being used on this bank, represented by OID atsOutputBank
+        since the last time this variable was read or reset (atsStatusResetMaxMinValues)
+        - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.20
+      indexes:
+      - labelname: atsOutputBankTableIndex
+        type: gauge
+      lookups:
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputPhase
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.2
+        type: EnumAsInfo
+        enum_values:
+          1: phase1
+          2: phase2
+          3: phase3
+      - labels:
+        - atsOutputBankTableIndex
+        labelname: atsOutputBank
+        oid: 1.3.6.1.4.1.318.1.1.8.5.4.5.1.3
+        type: EnumAsInfo
+        enum_values:
+          1: total
+          2: bank1
+          3: bank2
+      - labels: []
+        labelname: atsOutputBankTableIndex
   apcups:
     walk:
     - 1.3.6.1.4.1.318.1.1.1.12
