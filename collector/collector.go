@@ -210,13 +210,29 @@ func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus
 			}
 		}
 		if found {
-			pduArray := strings.Split(pdu.Name, ".")
-			index := pduArray[len(pduArray)-1]
+			index := indexFromOID(pdu.Name, filter.Oid)
+			if index == "" {
+				logger.Debug("Skipping PDU that is not under the filter OID", "oid", pdu.Name, "filter oid", filter.Oid)
+				continue
+			}
 			logger.Debug("Caching index", "index", index)
 			allowedList = append(allowedList, index)
 		}
 	}
 	return allowedList
+}
+
+// indexFromOID returns the table index carried by a PDU name, which is every
+// sub-identifier after the filter's own OID. Keeping only the last one drops
+// the rest of a composite index, so addAllowedIndices then builds a GET for an
+// OID that does not exist and the target metric goes missing.
+func indexFromOID(name, filterOID string) string {
+	name = strings.TrimPrefix(name, ".")
+	filterOID = strings.TrimPrefix(filterOID, ".")
+	if filterOID == "" || !strings.HasPrefix(name, filterOID+".") {
+		return ""
+	}
+	return name[len(filterOID)+1:]
 }
 
 func updateWalkConfig(walkConfig []string, filter config.DynamicFilter, logger *slog.Logger) []string {
