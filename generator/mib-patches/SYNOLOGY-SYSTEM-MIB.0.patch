@@ -1,0 +1,40 @@
+--- SYNOLOGY-SYSTEM-MIB.txt.orig
++++ mibs/SYNOLOGY-SYSTEM-MIB.txt
+@@ -134,7 +134,36 @@
+     ::= { synoSystem 6 }
+ 
+ 
+-systemConformance OBJECT IDENTIFIER ::= { synoSystem 7 }
++cpuUtilization OBJECT-TYPE
++    SYNTAX      Integer32
++    MAX-ACCESS  read-only
++    STATUS      current
++    DESCRIPTION
++    "Synology CPU utilization.
++     Utilization (%) is the sum of user and system CPU usage."
++    ::= { synoSystem 7 1 }
++
++memUtilization OBJECT-TYPE
++    SYNTAX      Integer32
++    MAX-ACCESS  read-only
++    STATUS      current
++    DESCRIPTION
++    "Synology memory utilization.
++     Utilization (%) is the sum of memory usage."
++    ::= { synoSystem 7 2 }
++
++thermalStatus OBJECT-TYPE
++    SYNTAX      Integer32(1..2)
++    MAX-ACCESS  read-only
++    STATUS      current
++    DESCRIPTION
++    "Synology thermal status.
++     Normal(1): Thermal status functions normally.
++     Failed(2): Thermal status is abnormal."
++    ::= { synoSystem 8 }
++
++
++systemConformance OBJECT IDENTIFIER ::= { synoSystem 9 }
+ systemCompliances OBJECT IDENTIFIER ::= { systemConformance 1 }
+ systemGroups 			OBJECT IDENTIFIER ::= { systemConformance 2 }
+ 
