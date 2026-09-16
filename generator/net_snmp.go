@@ -74,6 +74,7 @@ import (
 	"fmt"
 	"io"
 	"log/slog"
+	"maps"
 	"os"
 	"sort"
 	"strings"
@@ -111,9 +112,7 @@ func (n *Node) Copy() *Node {
 	for _, child := range n.Children {
 		newNode.Children = append(newNode.Children, child.Copy())
 	}
-	for k, v := range n.EnumValues {
-		newNode.EnumValues[k] = v
-	}
+	maps.Copy(newNode.EnumValues, n.EnumValues)
 	return &newNode
 }
 

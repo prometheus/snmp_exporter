@@ -17,8 +17,8 @@ import (
 	"github.com/gosnmp/gosnmp"
 )
 
-func NewMockSNMPScraper(get map[string]gosnmp.SnmpPDU, walk map[string][]gosnmp.SnmpPDU) *mockSNMPScraper {
-	return &mockSNMPScraper{
+func NewMockSNMPScraper(get map[string]gosnmp.SnmpPDU, walk map[string][]gosnmp.SnmpPDU) *MockSNMPScraper {
+	return &MockSNMPScraper{
 		GetResponses:  get,
 		WalkResponses: walk,
 		callGet:       make([]string, 0),
@@ -26,7 +26,7 @@ func NewMockSNMPScraper(get map[string]gosnmp.SnmpPDU, walk map[string][]gosnmp.
 	}
 }
 
-type mockSNMPScraper struct {
+type MockSNMPScraper struct {
 	GetResponses  map[string]gosnmp.SnmpPDU
 	WalkResponses map[string][]gosnmp.SnmpPDU
 	ConnectError  error
@@ -36,15 +36,15 @@ type mockSNMPScraper struct {
 	callWalk []string
 }
 
-func (m *mockSNMPScraper) CallGet() []string {
+func (m *MockSNMPScraper) CallGet() []string {
 	return m.callGet
 }
 
-func (m *mockSNMPScraper) CallWalk() []string {
+func (m *MockSNMPScraper) CallWalk() []string {
 	return m.callWalk
 }
 
-func (m *mockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
+func (m *MockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 	pdus := make([]gosnmp.SnmpPDU, 0, len(oids))
 	for _, oid := range oids {
 		if response, exists := m.GetResponses[oid]; exists {
@@ -64,7 +64,7 @@ func (m *mockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 	}, nil
 }
 
-func (m *mockSNMPScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
+func (m *MockSNMPScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
 	m.callWalk = append(m.callWalk, baseOID)
 	if pdus, exists := m.WalkResponses[baseOID]; exists {
 		return pdus, nil
@@ -72,13 +72,13 @@ func (m *mockSNMPScraper) WalkAll(baseOID string) ([]gosnmp.SnmpPDU, error) {
 	return nil, nil
 }
 
-func (m *mockSNMPScraper) Connect() error {
+func (m *MockSNMPScraper) Connect() error {
 	return m.ConnectError
 }
 
-func (m *mockSNMPScraper) Close() error {
+func (m *MockSNMPScraper) Close() error {
 	return m.CloseError
 }
 
-func (m *mockSNMPScraper) SetOptions(...func(*gosnmp.GoSNMP)) {
+func (m *MockSNMPScraper) SetOptions(...func(*gosnmp.GoSNMP)) {
 }

@@ -42,7 +42,8 @@ func walkNode(n *Node, f func(n *Node)) {
 	}
 }
 
-// Transform the tree.
+// prepareTree transform the tree in-place. It also returns a map of map from
+// names and oids to nodes.
 func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 	// Build a map from names and oids to nodes.
 	nameToNode := map[string]*Node{}
