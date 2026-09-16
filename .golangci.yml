@@ -3,11 +3,11 @@ linters:
   enable:
     - errorlint
     - gocritic
+    - govet
     - misspell
+    - modernize
     - revive
     - sloglint
-  disable:
-    - unused
   settings:
     errcheck:
       exclude-functions:
@@ -17,11 +17,11 @@ linters:
       disabled-checks:
         - hugeParam
         - unnamedResult
-    revive:
-      rules:
-        - name: unused-parameter
-          severity: warning
-          disabled: true
+    govet:
+      disable:
+        - shadow
+        - fieldalignment
+      enable-all: true
   exclusions:
     presets:
       - comments
@@ -45,7 +45,8 @@ formatters:
         - default
         - prefix(github.com/prometheus/snmp_exporter)
     gofumpt:
-      extra-rules: true
+      extra:
+        group-params: true
     goimports:
       local-prefixes:
         - github.com/prometheus/snmp_exporter

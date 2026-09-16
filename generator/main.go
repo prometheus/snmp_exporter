@@ -32,7 +32,7 @@ import (
 var cannotFindModuleRE = regexp.MustCompile(`Cannot find module \((.+)\): (.+)`)
 
 // Generate a snmp_exporter config and write it out.
-func generateConfig(nodes *Node, nameToNode map[string]*Node, logger *slog.Logger) error {
+func generateConfig(nodes *Node, logger *slog.Logger) error {
 	outputPath, err := filepath.Abs(*outputPath)
 	if err != nil {
 		return fmt.Errorf("unable to determine absolute path for output")
@@ -128,14 +128,16 @@ func main() {
 	parseErrors := len(parseOutput)
 
 	nodes := getMIBTree()
-	nameToNode := prepareTree(nodes, logger)
+	// We don't need the name-to-node mapping here, but we do need the
+	// prepareTree side-effects applied to the nodes.
+	_ = prepareTree(nodes, logger)
 
 	switch command {
 	case generateCommand.FullCommand():
 		if *failOnParseErrors && parseErrors > 0 {
 			logger.Error("Failing on reported parse error(s)", "help", "Use 'generator parse_errors' command to see errors, --no-fail-on-parse-errors to ignore")
 		} else {
-			err := generateConfig(nodes, nameToNode, logger)
+			err := generateConfig(nodes, logger)
 			if err != nil {
 				logger.Error("Error generating config netsnmp", "err", err)
 				os.Exit(1)

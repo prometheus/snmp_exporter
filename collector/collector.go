@@ -21,6 +21,7 @@ import (
 	"log/slog"
 	"net/netip"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"sync"
@@ -355,15 +356,15 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 		// Set the metrics options.
 		func(g *gosnmp.GoSNMP) {
 			var sent time.Time
-			g.OnSent = func(x *gosnmp.GoSNMP) {
+			g.OnSent = func(_ *gosnmp.GoSNMP) {
 				sent = time.Now()
 				c.metrics.SNMPPackets.Inc()
 				packets++
 			}
-			g.OnRecv = func(x *gosnmp.GoSNMP) {
+			g.OnRecv = func(_ *gosnmp.GoSNMP) {
 				c.metrics.SNMPDuration.Observe(time.Since(sent).Seconds())
 			}
-			g.OnRetry = func(x *gosnmp.GoSNMP) {
+			g.OnRetry = func(_ *gosnmp.GoSNMP) {
 				c.metrics.SNMPRetries.Inc()
 				retries++
 			}
@@ -452,7 +453,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 	ctx, cancel := context.WithCancel(c.ctx)
 	defer cancel()
 	workerChan := make(chan *NamedModule)
-	for i := 0; i < workerCount; i++ {
+	for i := range workerCount {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
@@ -548,9 +549,8 @@ func getPduValue(pdu *gosnmp.SnmpPDU) float64 {
 // parseDateAndTime extracts a UNIX timestamp from an RFC 2579 DateAndTime.
 func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 	var (
-		v   []byte
-		tz  *time.Location
-		err error
+		v  []byte
+		tz *time.Location
 	)
 	// DateAndTime should be a slice of bytes.
 	switch pduType := pdu.Value.(type) {
@@ -575,9 +575,6 @@ func parseDateAndTime(pdu *gosnmp.SnmpPDU) (float64, error) {
 		tz = loc.Location()
 	default:
 		return 0, fmt.Errorf("invalid DateAndTime length %v", pduLength)
-	}
-	if err != nil {
-		return 0, fmt.Errorf("unable to parse DateAndTime %q, error: %w", v, err)
 	}
 	// Build the date from the various fields and time zone.
 	t := time.Date(
@@ -777,10 +774,8 @@ func enumAsInfo(metric *config.Metric, value int, labelnames, labelvalues []stri
 	// If the metric name is already a label (e.g. it is also a table index with
 	// type EnumAsInfo), the enum string is already captured there and we must not
 	// add it again or Prometheus will reject the duplicate label.
-	for _, ln := range labelnames {
-		if ln == metric.Name {
-			return []prometheus.Metric{}
-		}
+	if slices.Contains(labelnames, metric.Name) {
+		return []prometheus.Metric{}
 	}
 	labelnames = append(labelnames, metric.Name)
 	labelvalues = append(labelvalues, state)
@@ -858,10 +853,7 @@ func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []
 // Some routers exclude trailing 0s in responses.
 func splitOid(oid []int, count int) ([]int, []int) {
 	head := make([]int, count)
-	tailCapacity := len(oid) - count
-	if tailCapacity < 0 {
-		tailCapacity = 0
-	}
+	tailCapacity := max(len(oid)-count, 0)
 	tail := make([]int, 0, tailCapacity)
 	for i, v := range oid {
 		if i < count {
