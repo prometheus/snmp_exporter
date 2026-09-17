@@ -452,6 +452,130 @@ modules:
         scale: 0.01
         help: The input energy usage of the UPS in kWh. - 1.3.6.1.4.1.318.1.1.1.3.3.5
 
+# APC/Schneider Automatic Transfer Switch (ATS)
+  apcats:
+    walk:
+      - PowerNet-MIB::atsIdent    # 1.3.6.1.4.1.318.1.1.8.1
+      - PowerNet-MIB::atsConfig   # 1.3.6.1.4.1.318.1.1.8.4
+      - PowerNet-MIB::atsStatus   # 1.3.6.1.4.1.318.1.1.8.5
+    lookups:
+      - source_indexes: [atsInputTableIndex]
+        lookup: "PowerNet-MIB::atsInputName"
+        drop_source_indexes: true
+      - source_indexes: [atsInputPhaseTableIndex]
+        lookup: "PowerNet-MIB::atsInputName"
+        drop_source_indexes: true
+      - source_indexes: [atsConfigBankTableIndex]
+        lookup: "PowerNet-MIB::atsConfigBank"
+        drop_source_indexes: true
+      - source_indexes: [atsConfigPhaseTableIndex]
+        lookup: "PowerNet-MIB::atsConfigPhase"
+        drop_source_indexes: true
+      - source_indexes: [atsOutputBankTableIndex]
+        lookup: "PowerNet-MIB::atsOutputPhase"
+      - source_indexes: [atsOutputBankTableIndex]
+        lookup: "PowerNet-MIB::atsOutputBank"
+        drop_source_indexes: true
+    overrides:
+      "PowerNet-MIB::atsConfigPreferredSource":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsConfigFrontPanelLockout":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsConfigVoltageSensitivity":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsConfigTransferVoltageRange":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsConfigFrequencyDeviation":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsConfigBank":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsConfigPhase":
+        type: EnumAsInfo
+      atsConfigResetValues:
+        ignore: true # Write-only reset trigger, not a telemetry value. - 1.3.6.1.4.1.318.1.1.8.4.7
+      "PowerNet-MIB::atsInputVoltageOrientation":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsInputType":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsOutputVoltageOrientation":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsOutputPhase":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsOutputBank":
+        type: EnumAsInfo
+      "PowerNet-MIB::atsStatusCommStatus":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusSelectedSource":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusRedundancyState":
+        type: EnumAsStateSet # 1.3.6.1.4.1.318.1.1.8.5.1.3
+      "PowerNet-MIB::atsStatusOverCurrentState":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatus5VPowerSupply":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatus24VPowerSupply":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatus24VSourceBPowerSupply":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusPlus12VPowerSupply":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusMinus12VPowerSupply":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusSwitchStatus":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusFrontPanel":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusSourceAStatus":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusSourceBStatus":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusPhaseSyncStatus":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusVoltageOutStatus":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusHardwareStatus":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatus3dot3VPowerSupply":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatus1Dot0VPowerSupply":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusVBoostSourceA":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusVBoostSourceB":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusFuseSourceA":
+        type: EnumAsStateSet
+      "PowerNet-MIB::atsStatusFuseSourceB":
+        type: EnumAsStateSet
+      atsStatusResetMaxMinValues:
+        ignore: true # Write-only reset trigger, not a telemetry value. - 1.3.6.1.4.1.318.1.1.8.5.2.1
+      # Output load state per phase (1U) / per bank (2U). Alertable: goes to
+      # nearoverload/overload before a real overload trip.
+      "PowerNet-MIB::atsOutputPhaseState":
+        type: EnumAsStateSet # 1.3.6.1.4.1.318.1.1.8.5.4.3.1.19
+      "PowerNet-MIB::atsOutputBankState":
+        type: EnumAsStateSet # 1.3.6.1.4.1.318.1.1.8.5.4.5.1.5
+      # Unlike the input current (whole Amps), the output current is reported
+      # in tenths of an Amp on both the per-phase and per-bank output tables.
+      atsOutputCurrent:
+        scale: 0.1
+        help: The output current in Amperes drawn by the load on the ATS. - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.4
+      atsOutputMaxCurrent:
+        scale: 0.1
+        help: The maximum output current in Amperes measured since the last reset (atsStatusResetMaxMinValues). - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.5
+      atsOutputMinCurrent:
+        scale: 0.1
+        help: The minimum output current in Amperes measured since the last reset (atsStatusResetMaxMinValues). - 1.3.6.1.4.1.318.1.1.8.5.4.3.1.6
+      atsOutputBankCurrent:
+        scale: 0.1
+        help: The bank output current in Amperes. - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.4
+      atsOutputBankMaxCurrent:
+        scale: 0.1
+        help: The maximum bank output current in Amperes measured since the last reset (atsStatusResetMaxMinValues). - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.7
+      atsOutputBankMinCurrent:
+        scale: 0.1
+        help: The minimum bank output current in Amperes measured since the last reset (atsStatusResetMaxMinValues). - 1.3.6.1.4.1.318.1.1.8.5.4.5.1.8
+
 # ServerTech Sentry 3 MIB
 #
 # Used by ServerTech PDUs
