@@ -78,6 +78,9 @@ YAMAHA_URL        := https://www.rtpro.yamaha.co.jp/RT/docs/mib/
 CYBERPOWER_VERSION := 2.11
 CYBERPOWER_URL     := https://dl4jz3rbrsfum.cloudfront.net/software/CyberPower_MIB_v$(CYBERPOWER_VERSION).MIB.zip
 
+EATON_EPDU_URL    := https://raw.githubusercontent.com/librenms/librenms/refs/heads/master/mibs/eaton/EATON-EPDU-MIB
+EATON_OIDS_URL    := https://raw.githubusercontent.com/librenms/librenms/refs/heads/master/mibs/eaton/EATON-OIDS
+
 EAP_VERSION := 1.0
 EAP_URL     := http://static.tp-link.com/EAP_Private_Mibs_$(EAP_VERSION).zip
 
@@ -178,6 +181,8 @@ mibs: \
   $(MIBDIR)/Infrapower-MIB.mib \
   $(MIBDIR)/LIEBERT_GP_PDU.MIB \
   $(MIBDIR)/CyberPower.MIB \
+  $(MIBDIR)/EATON-OIDS \
+  $(MIBDIR)/EATON-EPDU-MIB \
   $(MIBDIR)/EAP.MIB \
   $(MIBDIR)/EAP-Client.MIB \
   $(MIBDIR)/powercom \
@@ -449,6 +454,14 @@ $(MIBDIR)/CyberPower.MIB:
 	@sed -i.bak -E 's/(DisplayString[[:space:]]*FROM )RFC1213-MIB/\1SNMPv2-TC/' $@
 	@rm $@.bak
 	@rm -v $(TMP)
+
+$(MIBDIR)/EATON-OIDS:
+	@echo ">> Downloading EATON-OIDS"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/EATON-OIDS "$(EATON_OIDS_URL)"
+
+$(MIBDIR)/EATON-EPDU-MIB:
+	@echo ">> Downloading EATON-EPDU-MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/EATON-EPDU-MIB "$(EATON_EPDU_URL)"
 
 $(MIBDIR)/EAP.MIB $(MIBDIR)/EAP-Client.MIB:
 	$(eval TMP := $(shell mktemp))
