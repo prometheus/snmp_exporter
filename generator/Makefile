@@ -15,7 +15,7 @@ MIBDIR   := mibs
 MIB_PATH := 'mibs'
 SNMP_YML ?= '../snmp.yml'
 
-CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail
+CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail --retry-all-errors
 CURL_USER_AGENT ?= -H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 snmp_exporter/generator"
 
 REPO_TAG ?= $(shell git rev-parse --abbrev-ref HEAD)
