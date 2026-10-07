@@ -358,6 +358,9 @@ $(MIBDIR)/.synology:
 	@curl $(CURL_OPTS) -o $(TMP) $(SYNOLOGY_URL)
 	@unzip -j -d $(MIBDIR) $(TMP)
 	@patch mibs/SYNOLOGY-SMART-MIB.txt mib-patches/SYNOLOGY-SMART-MIB.0.patch
+	# Add cpuUtilization, memUtilization and thermalStatus, documented in the MIB
+	# Guide but missing from the published MIB download.
+	@patch mibs/SYNOLOGY-SYSTEM-MIB.txt mib-patches/SYNOLOGY-SYSTEM-MIB.0.patch
 	@rm -v $(TMP)
 	@touch $(MIBDIR)/.synology
 
