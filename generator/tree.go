@@ -116,39 +116,30 @@ func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 			n.Type = "DisplayString"
 		}
 
-		// Some MIBs refer to RFC1213 for this, which is too
-		// old to have the right hint set.
-		if n.TextualConvention == "DisplayString" {
+		switch n.TextualConvention {
+		case "DisplayString":
+			// Some MIBs refer to RFC1213 for this, which is too
+			// old to have the right hint set.
 			n.Type = "DisplayString"
-		}
-		if n.TextualConvention == "PhysAddress" {
+		case "PhysAddress":
 			n.Type = "PhysAddress48"
-		}
-
-		// Promote Opaque Float/Double textual convention to type.
-		if n.TextualConvention == "Float" || n.TextualConvention == "Double" {
+		case "Float", "Double":
+			// Promote Opaque Float/Double textual convention to type.
 			n.Type = n.TextualConvention
-		}
-
-		// Convert RFC 2579 DateAndTime textual convention to type.
-		if n.TextualConvention == "DateAndTime" {
+		case "DateAndTime":
+			// Convert RFC 2579 DateAndTime textual convention to type.
 			n.Type = "DateAndTime"
-		}
-		if n.TextualConvention == "ParseDateAndTime" {
+		case "ParseDateAndTime":
 			n.Type = "ParseDateAndTime"
-		}
-		if n.TextualConvention == "NTPTimeStamp" {
+		case "NTPTimeStamp":
 			n.Type = "NTPTimeStamp"
-		}
-		if n.TextualConvention == "ParseFloatString" {
+		case "ParseFloatString":
 			n.Type = "ParseFloatString"
-		}
-		// Convert RFC 4001 InetAddress types textual convention to type.
-		if n.TextualConvention == "InetAddressIPv4" || n.TextualConvention == "InetAddressIPv6" || n.TextualConvention == "InetAddress" {
+		case "InetAddressIPv4", "InetAddressIPv6", "InetAddress":
+			// Convert RFC 4001 InetAddress types textual convention to type.
 			n.Type = n.TextualConvention
-		}
-		// Convert LLDP-MIB LldpPortId type textual convention to type.
-		if n.TextualConvention == "LldpPortId" {
+		case "LldpPortId":
+			// Convert LLDP-MIB LldpPortId type textual convention to type.
 			n.Type = n.TextualConvention
 		}
 	})
