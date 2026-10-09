@@ -882,6 +882,10 @@ modules:
         type: DisplayString
       SYNOLOGY-SYSTEM-MIB::version:
         type: DisplayString
+      SYNOLOGY-ISCSILUN-MIB::iSCSILUNName:
+        type: DisplayString
+      SYNOLOGY-ISCSILUN-MIB::iSCSILUNUUID:
+        type: DisplayString
 
 # UCD-SNMP-MIB
 #
