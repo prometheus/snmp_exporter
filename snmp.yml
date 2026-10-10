@@ -10476,7 +10476,7 @@ modules:
         25: multiSystemChassis
     - name: chassisName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.10.1.7
-      type: OctetString
+      type: DisplayString
       help: 0300.0010.0001.0007 This attribute defines the user-assigned name of the
         system chassis. - 1.3.6.1.4.1.674.10892.5.4.300.10.1.7
       indexes:
@@ -10484,7 +10484,7 @@ modules:
         type: gauge
     - name: chassisManufacturerName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.10.1.8
-      type: OctetString
+      type: DisplayString
       help: 0300.0010.0001.0008 This attribute defines the name of the manufacturer
         of the system chassis. - 1.3.6.1.4.1.674.10892.5.4.300.10.1.8
       indexes:
@@ -10492,7 +10492,7 @@ modules:
         type: gauge
     - name: chassisModelTypeName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.10.1.9
-      type: OctetString
+      type: DisplayString
       help: 0300.0010.0001.0009 This attribute defines the system model type of the
         system chassis. - 1.3.6.1.4.1.674.10892.5.4.300.10.1.9
       indexes:
@@ -10547,7 +10547,7 @@ modules:
         8: storageClass
     - name: chassisSystemName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.10.1.15
-      type: OctetString
+      type: DisplayString
       help: 0300.0010.0001.0015 This attribute defines the host name of the system
         chassis. - 1.3.6.1.4.1.674.10892.5.4.300.10.1.15
       indexes:
@@ -10765,7 +10765,7 @@ modules:
         type: gauge
     - name: chassisSystemRevisionName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.10.1.48
-      type: OctetString
+      type: DisplayString
       help: 0300.0010.0001.0048 This attribute defines the revision name of the system,
         if applicable. - 1.3.6.1.4.1.674.10892.5.4.300.10.1.48
       indexes:
@@ -10773,7 +10773,7 @@ modules:
         type: gauge
     - name: chassisExpressServiceCodeName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.10.1.49
-      type: OctetString
+      type: DisplayString
       help: 0300.0010.0001.0049 This attribute defines the Express Service Code of
         the system chassis. - 1.3.6.1.4.1.674.10892.5.4.300.10.1.49
       indexes:
@@ -10959,7 +10959,7 @@ modules:
         type: gauge
     - name: systemBIOSVersionName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.50.1.8
-      type: OctetString
+      type: DisplayString
       help: 0300.0050.0001.0008 This attribute defines the version name of the system
         BIOS. - 1.3.6.1.4.1.674.10892.5.4.300.50.1.8
       indexes:
@@ -10969,7 +10969,7 @@ modules:
         type: gauge
     - name: systemBIOSManufacturerName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.50.1.11
-      type: OctetString
+      type: DisplayString
       help: 0300.0050.0001.0011 This attribute defines the name of the manufacturer
         of the system BIOS. - 1.3.6.1.4.1.674.10892.5.4.300.50.1.11
       indexes:
@@ -11072,7 +11072,7 @@ modules:
         23: iDRAC9
     - name: firmwareTypeName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.60.1.8
-      type: OctetString
+      type: DisplayString
       help: 0300.0060.0001.0008 This attribute defines the type name of the firmware.
         - 1.3.6.1.4.1.674.10892.5.4.300.60.1.8
       indexes:
@@ -11092,7 +11092,7 @@ modules:
         type: gauge
     - name: firmwareVersionName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.60.1.11
-      type: OctetString
+      type: DisplayString
       help: 0300.0060.0001.0011 This attribute defines the version of the firmware.
         - 1.3.6.1.4.1.674.10892.5.4.300.60.1.11
       indexes:
@@ -11197,7 +11197,7 @@ modules:
         2: chassisBreachDetectionWhenPowerOFF
     - name: intrusionLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.300.70.1.8
-      type: OctetString
+      type: DisplayString
       help: 0300.0070.0001.0008 This attribute defines the location of the intrusion
         sensor. - 1.3.6.1.4.1.674.10892.5.4.300.70.1.8
       indexes:
@@ -11419,7 +11419,7 @@ modules:
         type: gauge
     - name: powerUnitName
       oid: 1.3.6.1.4.1.674.10892.5.4.600.10.1.7
-      type: OctetString
+      type: DisplayString
       help: 0600.0010.0001.0007 This attribute defines the name of the power unit.
         - 1.3.6.1.4.1.674.10892.5.4.600.10.1.7
       indexes:
@@ -11553,7 +11553,7 @@ modules:
         11: powerSupplyTypeIsVRM
     - name: powerSupplyLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.600.12.1.8
-      type: OctetString
+      type: DisplayString
       help: 0600.0012.0001.0008 This attribute defines the location of the power supply.
         - 1.3.6.1.4.1.674.10892.5.4.600.12.1.8
       indexes:
@@ -11766,7 +11766,7 @@ modules:
         19: voltageProbeTypeIsMemoryStatus
     - name: voltageProbeLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.600.20.1.8
-      type: OctetString
+      type: DisplayString
       help: 0600.0020.0001.0008 This attribute defines the location name of the voltage
         probe. - 1.3.6.1.4.1.674.10892.5.4.600.20.1.8
       indexes:
@@ -11976,7 +11976,7 @@ modules:
         26: amperageProbeTypeIsSystemWatts
     - name: amperageProbeLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.600.30.1.8
-      type: OctetString
+      type: DisplayString
       help: 0600.0030.0001.0008 This attribute defines the location of the amperage
         probe. - 1.3.6.1.4.1.674.10892.5.4.600.30.1.8
       indexes:
@@ -12155,7 +12155,7 @@ modules:
         4: presenceDetected
     - name: systemBatteryLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.600.50.1.7
-      type: OctetString
+      type: DisplayString
       help: 0600.0050.0001.0007 This attribute defines the location of the battery.
         - 1.3.6.1.4.1.674.10892.5.4.600.50.1.7
       indexes:
@@ -12232,7 +12232,7 @@ modules:
         6: nonRecoverable
     - name: powerUsageEntityName
       oid: 1.3.6.1.4.1.674.10892.5.4.600.60.1.6
-      type: OctetString
+      type: DisplayString
       help: 0600.0060.0001.0006 This attribute defines the name of the entity associated
         with this power usage information. - 1.3.6.1.4.1.674.10892.5.4.600.60.1.6
       indexes:
@@ -12481,7 +12481,7 @@ modules:
         type: gauge
     - name: coolingUnitName
       oid: 1.3.6.1.4.1.674.10892.5.4.700.10.1.7
-      type: OctetString
+      type: DisplayString
       help: 0700.0010.0001.0007 This attribute defines the name of the cooling unit.
         - 1.3.6.1.4.1.674.10892.5.4.700.10.1.7
       indexes:
@@ -12611,7 +12611,7 @@ modules:
         11: coolingDeviceTypeIsPassiveCooling
     - name: coolingDeviceLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.700.12.1.8
-      type: OctetString
+      type: DisplayString
       help: 0700.0012.0001.0008 This attribute defines the location name of the cooling
         device. - 1.3.6.1.4.1.674.10892.5.4.700.12.1.8
       indexes:
@@ -12843,7 +12843,7 @@ modules:
         16: temperatureProbeTypeIsDiscrete
     - name: temperatureProbeLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.700.20.1.8
-      type: OctetString
+      type: DisplayString
       help: 0700.0020.0001.0008 This attribute defines the location name of the temperature
         probe. - 1.3.6.1.4.1.674.10892.5.4.700.20.1.8
       indexes:
@@ -13025,7 +13025,7 @@ modules:
         6: deviceTypeIsAVideoProcessor
     - name: processorDeviceManufacturerName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.30.1.8
-      type: OctetString
+      type: DisplayString
       help: 1100.0030.0001.0008 This attribute defines the name of the manufacturer
         of the processor device. - 1.3.6.1.4.1.674.10892.5.4.1100.30.1.8
       indexes:
@@ -13280,7 +13280,7 @@ modules:
         type: gauge
     - name: processorDeviceVersionName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.30.1.16
-      type: OctetString
+      type: DisplayString
       help: 1100.0030.0001.0016 This attribute defines the version of the processor
         device - 1.3.6.1.4.1.674.10892.5.4.1100.30.1.16
       indexes:
@@ -13350,7 +13350,7 @@ modules:
         type: gauge
     - name: processorDeviceBrandName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.30.1.23
-      type: OctetString
+      type: DisplayString
       help: 1100.0030.0001.0023 This attribute defines the brand of the processor
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.30.1.23
       indexes:
@@ -13455,7 +13455,7 @@ modules:
         1024: processorThrottled
     - name: processorDeviceStatusLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.32.1.7
-      type: OctetString
+      type: DisplayString
       help: 1100.0032.0001.0007 This attribute defines the location name of the processor
         device status probe. - 1.3.6.1.4.1.674.10892.5.4.1100.32.1.7
       indexes:
@@ -13566,7 +13566,7 @@ modules:
         26: deviceTypeIsDDR4
     - name: memoryDeviceLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.50.1.8
-      type: OctetString
+      type: DisplayString
       help: 1100.0050.0001.0008 This attribute defines the location of the memory
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.50.1.8
       indexes:
@@ -13576,7 +13576,7 @@ modules:
         type: gauge
     - name: memoryDeviceBankLocationName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.50.1.10
-      type: OctetString
+      type: DisplayString
       help: 1100.0050.0001.0010 This attribute defines the location of the bank for
         the memory device. - 1.3.6.1.4.1.674.10892.5.4.1100.50.1.10
       indexes:
@@ -13606,7 +13606,7 @@ modules:
         type: gauge
     - name: memoryDeviceManufacturerName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.50.1.21
-      type: OctetString
+      type: DisplayString
       help: 1100.0050.0001.0021 This attribute defines the manufacturer of the memory
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.50.1.21
       indexes:
@@ -13616,7 +13616,7 @@ modules:
         type: gauge
     - name: memoryDevicePartNumberName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.50.1.22
-      type: OctetString
+      type: DisplayString
       help: 1100.0050.0001.0022 This attribute defines the manufacturer's part number
         for the memory device. - 1.3.6.1.4.1.674.10892.5.4.1100.50.1.22
       indexes:
@@ -13626,7 +13626,7 @@ modules:
         type: gauge
     - name: memoryDeviceSerialNumberName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.50.1.23
-      type: OctetString
+      type: DisplayString
       help: 1100.0050.0001.0023 This attribute defines the serial number of the memory
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.50.1.23
       indexes:
@@ -13793,7 +13793,7 @@ modules:
         type: gauge
     - name: pCIDeviceManufacturerName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.80.1.8
-      type: OctetString
+      type: DisplayString
       help: 1100.0080.0001.0008 This attribute defines the name of the manufacturer
         of the PCI device. - 1.3.6.1.4.1.674.10892.5.4.1100.80.1.8
       indexes:
@@ -13803,7 +13803,7 @@ modules:
         type: gauge
     - name: pCIDeviceDescriptionName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.80.1.9
-      type: OctetString
+      type: DisplayString
       help: 1100.0080.0001.0009 This attribute defines the description of the PCI
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.80.1.9
       indexes:
@@ -13879,7 +13879,7 @@ modules:
         13: hardwareNotReady
     - name: networkDeviceProductName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.90.1.6
-      type: OctetString
+      type: DisplayString
       help: 1100.0090.0001.0006 This attribute defines the product name of the network
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.90.1.6
       indexes:
@@ -13889,7 +13889,7 @@ modules:
         type: gauge
     - name: networkDeviceVendorName
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.90.1.7
-      type: OctetString
+      type: DisplayString
       help: 1100.0090.0001.0007 This attribute defines the name of the vendor of the
         network device. - 1.3.6.1.4.1.674.10892.5.4.1100.90.1.7
       indexes:
@@ -14175,7 +14175,7 @@ modules:
         176: systemSlotIsPCIExpressGen2X16
     - name: systemSlotSlotExternalSlotName
       oid: 1.3.6.1.4.1.674.10892.5.4.1200.10.1.8
-      type: OctetString
+      type: DisplayString
       help: 1200.0010.0001.0008 This attribute defines the name of the external connector
         name of the system slot. - 1.3.6.1.4.1.674.10892.5.4.1200.10.1.8
       indexes:
