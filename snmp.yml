@@ -60748,14 +60748,14 @@ modules:
         type: gauge
     - name: iSCSILUNUUID
       oid: 1.3.6.1.4.1.6574.104.1.1.2
-      type: OctetString
+      type: DisplayString
       help: LUN uuid - 1.3.6.1.4.1.6574.104.1.1.2
       indexes:
       - labelname: iSCSILUNInfoIndex
         type: gauge
     - name: iSCSILUNName
       oid: 1.3.6.1.4.1.6574.104.1.1.3
-      type: OctetString
+      type: DisplayString
       help: LUN name - 1.3.6.1.4.1.6574.104.1.1.3
       indexes:
       - labelname: iSCSILUNInfoIndex
