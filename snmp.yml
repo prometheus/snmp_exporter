@@ -11281,7 +11281,7 @@ modules:
         type: gauge
     - name: lcLogFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.300.90.1.7
-      type: OctetString
+      type: DisplayString
       help: 0300.0090.0001.0007 Fully qualified device descriptor (FQDD) of the device
         associated with the event associated with the LC log record. - 1.3.6.1.4.1.674.10892.5.4.300.90.1.7
       indexes:
@@ -11635,7 +11635,7 @@ modules:
         type: gauge
     - name: powerSupplyFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.600.12.1.15
-      type: OctetString
+      type: DisplayString
       help: 0600.0012.0001.0015 Fully qualified device descriptor (FQDD) of the power
         supply. - 1.3.6.1.4.1.674.10892.5.4.600.12.1.15
       indexes:
@@ -12737,7 +12737,7 @@ modules:
         2: coolingDeviceIsBad
     - name: coolingDeviceFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.700.12.1.19
-      type: OctetString
+      type: DisplayString
       help: 0700.0012.0001.0019 Fully qualified device descriptor (FQDD) of the cooling
         device. - 1.3.6.1.4.1.674.10892.5.4.700.12.1.19
       indexes:
@@ -13360,7 +13360,7 @@ modules:
         type: gauge
     - name: processorDeviceFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.30.1.26
-      type: OctetString
+      type: DisplayString
       help: 1100.0030.0001.0026 Fully qualified device descriptor (FQDD) of the processor
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.30.1.26
       indexes:
@@ -13636,7 +13636,7 @@ modules:
         type: gauge
     - name: memoryDeviceFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.50.1.26
-      type: OctetString
+      type: DisplayString
       help: 1100.0050.0001.0026 Fully qualified device descriptor (FQDD) of the memory
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.50.1.26
       indexes:
@@ -13813,7 +13813,7 @@ modules:
         type: gauge
     - name: pCIDeviceFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.80.1.12
-      type: OctetString
+      type: DisplayString
       help: 1100.0080.0001.0012 Fully qualified device descriptor (FQDD) of the PCI
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.80.1.12
       indexes:
@@ -13899,7 +13899,7 @@ modules:
         type: gauge
     - name: networkDeviceCurrentMACAddress
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.90.1.15
-      type: OctetString
+      type: PhysAddress48
       help: 1100.0090.0001.0015 This attribute defines the current MAC address of
         the network device. - 1.3.6.1.4.1.674.10892.5.4.1100.90.1.15
       indexes:
@@ -13909,7 +13909,7 @@ modules:
         type: gauge
     - name: networkDevicePermanentMACAddress
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.90.1.16
-      type: OctetString
+      type: PhysAddress48
       help: 1100.0090.0001.0016 This attribute defines the permanent MAC address of
         the network device. - 1.3.6.1.4.1.674.10892.5.4.1100.90.1.16
       indexes:
@@ -14006,7 +14006,7 @@ modules:
         8: fcoeOffload
     - name: networkDeviceFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.1100.90.1.30
-      type: OctetString
+      type: DisplayString
       help: 1100.0090.0001.0030 Fully qualified device descriptor (FQDD) of the network
         device. - 1.3.6.1.4.1.674.10892.5.4.1100.90.1.30
       indexes:
@@ -14278,7 +14278,7 @@ modules:
         type: gauge
     - name: fruFQDD
       oid: 1.3.6.1.4.1.674.10892.5.4.2000.10.1.12
-      type: OctetString
+      type: DisplayString
       help: 2000.0010.0001.0012 Fully qualified device descriptor (FQDD) of the field
         replaceable unit. - 1.3.6.1.4.1.674.10892.5.4.2000.10.1.12
       indexes:
@@ -14557,7 +14557,7 @@ modules:
         type: gauge
     - name: controllerFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.130.1.1.78
-      type: OctetString
+      type: DisplayString
       help: The controller's Fully Qualified Device Descriptor (FQDD) as represented
         in Storage Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.130.1.1.78
       indexes:
@@ -14788,7 +14788,7 @@ modules:
         type: gauge
     - name: enclosureFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.130.3.1.47
-      type: OctetString
+      type: DisplayString
       help: The enclosure/backplane's Fully Qualified Device Descriptor (FQDD) as
         represented in Storage Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.130.3.1.47
       indexes:
@@ -15098,7 +15098,7 @@ modules:
         5: edsffe1DotL
     - name: physicalDiskFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.130.4.1.54
-      type: OctetString
+      type: DisplayString
       help: The physical disk's Fully Qualified Device Descriptor (FQDD) as represented
         in Storage Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.130.4.1.54
       indexes:
@@ -15221,7 +15221,7 @@ modules:
         6: nonRecoverable
     - name: enclosureFanFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.130.7.1.20
-      type: OctetString
+      type: DisplayString
       help: The fan's Fully Qualified Device Descriptor (FQDD) as represented in Storage
         Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.130.7.1.20
       indexes:
@@ -15285,7 +15285,7 @@ modules:
         6: nonRecoverable
     - name: enclosurePowerSupplyFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.130.9.1.15
-      type: OctetString
+      type: DisplayString
       help: The power supply unit's Fully Qualified Device Descriptor (FQDD) as represented
         in Storage Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.130.9.1.15
       indexes:
@@ -15383,7 +15383,7 @@ modules:
         6: nonRecoverable
     - name: enclosureTemperatureProbeFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.130.11.1.15
-      type: OctetString
+      type: DisplayString
       help: The temperature probe's Fully Qualified Device Descriptor (FQDD) as represented
         in Storage Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.130.11.1.15
       indexes:
@@ -15456,7 +15456,7 @@ modules:
         6: nonRecoverable
     - name: enclosureManagementModuleFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.130.13.1.15
-      type: OctetString
+      type: DisplayString
       help: The enclosure management module's Fully Qualified Device Descriptor (FQDD)
         as represented in Storage Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.130.13.1.15
       indexes:
@@ -15732,7 +15732,7 @@ modules:
         type: gauge
     - name: virtualDiskFQDD
       oid: 1.3.6.1.4.1.674.10892.5.5.1.20.140.1.1.35
-      type: OctetString
+      type: DisplayString
       help: The virtual disk's Fully Qualified Device Descriptor (FQDD) as represented
         in Storage Management. - 1.3.6.1.4.1.674.10892.5.5.1.20.140.1.1.35
       indexes:
