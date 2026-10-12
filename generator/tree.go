@@ -121,11 +121,11 @@ func prepareTree(nodes *Node, logger *slog.Logger) map[string]*Node {
 			// Some MIBs refer to RFC1213 for this, which is too
 			// old to have the right hint set.
 			n.Type = "DisplayString"
-		case "String64", "StringType":
-			// Vendor MIBs (e.g. Dell iDRAC) define String64 and StringType
-			// as printable text without a DisplayString DISPLAY-HINT.
+		case "String64", "StringType", "FQDDString":
+			// Vendor MIBs (e.g. Dell iDRAC) define these as printable text
+			// without a DisplayString DISPLAY-HINT.
 			n.Type = "DisplayString"
-		case "PhysAddress":
+		case "PhysAddress", "MACAddress":
 			n.Type = "PhysAddress48"
 		case "Float", "Double":
 			// Promote Opaque Float/Double textual convention to type.
