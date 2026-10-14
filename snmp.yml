@@ -4772,6 +4772,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - entPhysicalIndex
@@ -4840,6 +4841,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       - labelname: cempMemPoolIndex
         type: gauge
       lookups:
@@ -4937,6 +4939,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       - labelname: cempMemPoolIndex
         type: gauge
       lookups:
@@ -5020,6 +5023,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       - labelname: cempMemPoolIndex
         type: gauge
       lookups:
@@ -5103,6 +5107,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       - labelname: cempMemPoolIndex
         type: gauge
       lookups:
@@ -5186,6 +5191,7 @@ modules:
       indexes:
       - labelname: ceImageIndex
         type: gauge
+        display_hint: d
     - name: ceImageName
       oid: 1.3.6.1.4.1.9.9.249.1.1.1.1.2
       type: DisplayString
@@ -5193,6 +5199,7 @@ modules:
       indexes:
       - labelname: ceImageIndex
         type: gauge
+        display_hint: d
     - name: ceImageFamily
       oid: 1.3.6.1.4.1.9.9.249.1.1.1.1.3
       type: DisplayString
@@ -5200,6 +5207,7 @@ modules:
       indexes:
       - labelname: ceImageIndex
         type: gauge
+        display_hint: d
     - name: ceImageFeature
       oid: 1.3.6.1.4.1.9.9.249.1.1.1.1.4
       type: DisplayString
@@ -5207,6 +5215,7 @@ modules:
       indexes:
       - labelname: ceImageIndex
         type: gauge
+        display_hint: d
     - name: ceImageVersion
       oid: 1.3.6.1.4.1.9.9.249.1.1.1.1.5
       type: DisplayString
@@ -5214,6 +5223,7 @@ modules:
       indexes:
       - labelname: ceImageIndex
         type: gauge
+        display_hint: d
     - name: ceImageMedia
       oid: 1.3.6.1.4.1.9.9.249.1.1.1.1.6
       type: gauge
@@ -5221,6 +5231,7 @@ modules:
       indexes:
       - labelname: ceImageIndex
         type: gauge
+        display_hint: d
       enum_values:
         1: ram
         2: rom
@@ -5232,6 +5243,7 @@ modules:
       indexes:
       - labelname: ceImageIndex
         type: gauge
+        display_hint: d
     - name: ciscoImageString
       oid: 1.3.6.1.4.1.9.9.25.1.1.1.2
       type: DisplayString
@@ -5275,6 +5287,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - entPhysicalIndex
@@ -5331,6 +5344,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - entPhysicalIndex
@@ -5387,6 +5401,7 @@ modules:
       indexes:
       - labelname: entPhysicalIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - entPhysicalIndex
@@ -5680,6 +5695,7 @@ modules:
       indexes:
       - labelname: cucsFaultIndex
         type: gauge
+        display_hint: d
     - name: cucsFaultSeverity
       oid: 1.3.6.1.4.1.9.9.719.1.1.1.1.20
       type: gauge
@@ -5687,6 +5703,7 @@ modules:
       indexes:
       - labelname: cucsFaultIndex
         type: gauge
+        display_hint: d
       enum_values:
         0: cleared
         1: info
@@ -5701,6 +5718,7 @@ modules:
       indexes:
       - labelname: cucsStorageControllerInstanceId
         type: gauge
+        display_hint: d
       enum_values:
         0: unknown
         1: operable
@@ -5769,6 +5787,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5788,6 +5807,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       - labelname: bsnAPIfNoiseChannelNo
@@ -5808,6 +5828,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5826,6 +5847,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5850,6 +5872,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5921,6 +5944,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5940,6 +5964,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5959,6 +5984,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5978,6 +6004,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -5997,6 +6024,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6016,6 +6044,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6035,6 +6064,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6054,6 +6084,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6073,6 +6104,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6092,6 +6124,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6111,6 +6144,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6130,6 +6164,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6152,6 +6187,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -6172,6 +6208,7 @@ modules:
       - labelname: bsnAPDot3MacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: bsnAPIfSlotId
         type: gauge
       lookups:
@@ -26136,6 +26173,7 @@ modules:
       indexes:
       - labelname: ipv4InterfaceIfIndex
         type: gauge
+        display_hint: d
     - name: ipv4InterfaceReasmMaxSize
       oid: 1.3.6.1.2.1.4.28.1.2
       type: gauge
@@ -26144,6 +26182,7 @@ modules:
       indexes:
       - labelname: ipv4InterfaceIfIndex
         type: gauge
+        display_hint: d
     - name: ipv4InterfaceEnableStatus
       oid: 1.3.6.1.2.1.4.28.1.3
       type: gauge
@@ -26152,6 +26191,7 @@ modules:
       indexes:
       - labelname: ipv4InterfaceIfIndex
         type: gauge
+        display_hint: d
       enum_values:
         1: up
         2: down
@@ -26163,6 +26203,7 @@ modules:
       indexes:
       - labelname: ipv4InterfaceIfIndex
         type: gauge
+        display_hint: d
   juniper:
     walk:
     - 1.3.6.1.4.1.2636.3.1.13
@@ -26883,6 +26924,7 @@ modules:
       indexes:
       - labelname: jnxSubscriberPort
         type: DisplayString
+        display_hint: 255a
   juniper_optics:
     walk:
     - 1.3.6.1.2.1.31.1.1.1.1
@@ -27055,6 +27097,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27074,6 +27117,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27098,6 +27142,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27118,6 +27163,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27138,6 +27184,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27156,6 +27203,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27181,6 +27229,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27200,6 +27249,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27219,6 +27269,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27238,6 +27289,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27257,6 +27309,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27276,6 +27329,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -27294,6 +27348,7 @@ modules:
         type: gauge
       - labelname: vrrpv3OperationsVrId
         type: gauge
+        display_hint: d
       - labelname: vrrpv3OperationsInetAddrType
         type: EnumAsInfo
         enum_values:
@@ -32127,6 +32182,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatTxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.2
       type: gauge
@@ -32134,6 +32190,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatRxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.3
       type: gauge
@@ -32141,6 +32198,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatStrength
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.4
       type: gauge
@@ -32148,6 +32206,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatSsid
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.5
       type: DisplayString
@@ -32155,6 +32214,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatBssid
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.6
       type: PhysAddress48
@@ -32162,6 +32222,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatFreq
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.7
       type: gauge
@@ -32169,6 +32230,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatBand
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.8
       type: DisplayString
@@ -32176,6 +32238,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatTxCCQ
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.9
       type: counter
@@ -32183,6 +32246,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlStatRxCCQ
       oid: 1.3.6.1.4.1.14988.1.1.1.1.1.10
       type: counter
@@ -32190,6 +32254,7 @@ modules:
       indexes:
       - labelname: mtxrWlStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabAddr
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.1
       type: PhysAddress48
@@ -32198,8 +32263,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabIface
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.2
       type: gauge
@@ -32208,8 +32275,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabStrength
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.3
       type: gauge
@@ -32218,8 +32287,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabTxBytes
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.4
       type: counter
@@ -32228,8 +32299,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRxBytes
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.5
       type: counter
@@ -32238,8 +32311,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabTxPackets
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.6
       type: counter
@@ -32248,8 +32323,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRxPackets
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.7
       type: counter
@@ -32258,8 +32335,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabTxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.8
       type: gauge
@@ -32268,8 +32347,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.9
       type: gauge
@@ -32278,8 +32359,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRouterOSVersion
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.10
       type: DisplayString
@@ -32288,8 +32371,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabUptime
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.11
       type: gauge
@@ -32298,8 +32383,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabSignalToNoise
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.12
       type: gauge
@@ -32308,8 +32395,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabTxStrengthCh0
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.13
       type: gauge
@@ -32318,8 +32407,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRxStrengthCh0
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.14
       type: gauge
@@ -32328,8 +32419,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabTxStrengthCh1
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.15
       type: gauge
@@ -32338,8 +32431,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRxStrengthCh1
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.16
       type: gauge
@@ -32348,8 +32443,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabTxStrengthCh2
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.17
       type: gauge
@@ -32358,8 +32455,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRxStrengthCh2
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.18
       type: gauge
@@ -32368,8 +32467,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabTxStrength
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.19
       type: gauge
@@ -32378,8 +32479,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabRadioName
       oid: 1.3.6.1.4.1.14988.1.1.1.2.1.20
       type: DisplayString
@@ -32388,8 +32491,10 @@ modules:
       - labelname: mtxrWlRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlApIndex
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.1
       type: gauge
@@ -32397,6 +32502,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApTxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.2
       type: gauge
@@ -32404,6 +32510,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApRxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.3
       type: gauge
@@ -32411,6 +32518,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApSsid
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.4
       type: DisplayString
@@ -32418,6 +32526,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApBssid
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.5
       type: PhysAddress48
@@ -32425,6 +32534,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApClientCount
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.6
       type: counter
@@ -32432,6 +32542,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApFreq
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.7
       type: gauge
@@ -32439,6 +32550,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApBand
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.8
       type: DisplayString
@@ -32446,6 +32558,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApNoiseFloor
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.9
       type: gauge
@@ -32453,6 +32566,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApOverallTxCCQ
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.10
       type: counter
@@ -32460,6 +32574,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlApAuthClientCount
       oid: 1.3.6.1.4.1.14988.1.1.1.3.1.11
       type: counter
@@ -32467,6 +32582,7 @@ modules:
       indexes:
       - labelname: mtxrWlApIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlRtabEntryCount
       oid: 1.3.6.1.4.1.14988.1.1.1.4
       type: gauge
@@ -32479,8 +32595,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabIface
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.2
       type: gauge
@@ -32489,8 +32607,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabUptime
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.3
       type: gauge
@@ -32499,8 +32619,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabTxBytes
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.4
       type: counter
@@ -32509,8 +32631,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabRxBytes
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.5
       type: counter
@@ -32519,8 +32643,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabTxPackets
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.6
       type: counter
@@ -32529,8 +32655,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabRxPackets
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.7
       type: counter
@@ -32539,8 +32667,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabTxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.8
       type: gauge
@@ -32549,8 +32679,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabRxRate
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.9
       type: gauge
@@ -32559,8 +32691,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabTxStrength
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.10
       type: gauge
@@ -32569,8 +32703,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabRxStrength
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.11
       type: gauge
@@ -32579,8 +32715,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabSsid
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.12
       type: DisplayString
@@ -32589,8 +32727,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabEapIdent
       oid: 1.3.6.1.4.1.14988.1.1.1.5.1.13
       type: DisplayString
@@ -32599,8 +32739,10 @@ modules:
       - labelname: mtxrWlCMRtabAddr
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWlCMRtabIface
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRtabEntryCount
       oid: 1.3.6.1.4.1.14988.1.1.1.6
       type: gauge
@@ -32612,6 +32754,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRegClientCount
       oid: 1.3.6.1.4.1.14988.1.1.1.7.1.2
       type: counter
@@ -32619,6 +32762,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMAuthClientCount
       oid: 1.3.6.1.4.1.14988.1.1.1.7.1.3
       type: counter
@@ -32626,6 +32770,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMState
       oid: 1.3.6.1.4.1.14988.1.1.1.7.1.4
       type: DisplayString
@@ -32633,6 +32778,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMChannel
       oid: 1.3.6.1.4.1.14988.1.1.1.7.1.5
       type: DisplayString
@@ -32640,6 +32786,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GIndex
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.1
       type: gauge
@@ -32647,6 +32794,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GMode
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.2
       type: gauge
@@ -32654,6 +32802,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: apBridge
         1: stationBridge
@@ -32666,6 +32815,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GConnected
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.4
       type: gauge
@@ -32673,6 +32823,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: "false"
         1: "true"
@@ -32683,6 +32834,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GFreq
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.6
       type: gauge
@@ -32690,6 +32842,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GMcs
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.7
       type: gauge
@@ -32697,6 +32850,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GSignal
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.8
       type: gauge
@@ -32704,6 +32858,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GTxSector
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.9
       type: gauge
@@ -32711,6 +32866,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GTxSectorInfo
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.11
       type: DisplayString
@@ -32718,6 +32874,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GRssi
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.12
       type: gauge
@@ -32725,6 +32882,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GPhyRate
       oid: 1.3.6.1.4.1.14988.1.1.1.8.1.13
       type: gauge
@@ -32732,6 +32890,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaIndex
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.1
       type: gauge
@@ -32739,6 +32898,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaConnected
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.2
       type: gauge
@@ -32746,6 +32906,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: "false"
         1: "true"
@@ -32756,6 +32917,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaMcs
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.4
       type: gauge
@@ -32763,6 +32925,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaSignal
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.5
       type: gauge
@@ -32770,6 +32933,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaTxSector
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.6
       type: gauge
@@ -32777,6 +32941,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaPhyRate
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.8
       type: gauge
@@ -32784,6 +32949,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaRssi
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.9
       type: gauge
@@ -32791,6 +32957,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWl60GStaDistance
       oid: 1.3.6.1.4.1.14988.1.1.1.9.1.10
       type: gauge
@@ -32798,6 +32965,7 @@ modules:
       indexes:
       - labelname: mtxrWl60GStaIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMREntryCount
       oid: 1.3.6.1.4.1.14988.1.1.1.10
       type: gauge
@@ -32809,6 +32977,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMRemoteIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRemoteName
       oid: 1.3.6.1.4.1.14988.1.1.1.11.1.2
       type: DisplayString
@@ -32816,6 +32985,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMRemoteIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRemoteState
       oid: 1.3.6.1.4.1.14988.1.1.1.11.1.3
       type: DisplayString
@@ -32823,6 +32993,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMRemoteIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRemoteAddress
       oid: 1.3.6.1.4.1.14988.1.1.1.11.1.4
       type: DisplayString
@@ -32830,6 +33001,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMRemoteIndex
         type: gauge
+        display_hint: x
     - name: mtxrWlCMRemoteRadios
       oid: 1.3.6.1.4.1.14988.1.1.1.11.1.5
       type: counter
@@ -32837,6 +33009,7 @@ modules:
       indexes:
       - labelname: mtxrWlCMRemoteIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleIndex
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.1
       type: gauge
@@ -32844,6 +33017,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleName
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.2
       type: DisplayString
@@ -32851,6 +33025,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleSrcAddr
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.3
       type: InetAddressIPv4
@@ -32858,6 +33033,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleSrcMask
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.4
       type: InetAddressIPv4
@@ -32865,6 +33041,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleDstAddr
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.5
       type: InetAddressIPv4
@@ -32872,6 +33049,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleDstMask
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.6
       type: InetAddressIPv4
@@ -32879,6 +33057,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleIface
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.7
       type: gauge
@@ -32886,6 +33065,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleBytesIn
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.8
       type: counter
@@ -32893,6 +33073,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleBytesOut
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.9
       type: counter
@@ -32900,6 +33081,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimplePacketsIn
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.10
       type: counter
@@ -32907,6 +33089,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimplePacketsOut
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.11
       type: counter
@@ -32914,6 +33097,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimplePCQQueuesIn
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.12
       type: counter
@@ -32921,6 +33105,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimplePCQQueuesOut
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.13
       type: counter
@@ -32928,6 +33113,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleDroppedIn
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.14
       type: counter
@@ -32935,6 +33121,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueSimpleDroppedOut
       oid: 1.3.6.1.4.1.14988.1.1.2.1.1.15
       type: counter
@@ -32942,6 +33129,7 @@ modules:
       indexes:
       - labelname: mtxrQueueSimpleIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreeIndex
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.1
       type: gauge
@@ -32949,6 +33137,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreeName
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.2
       type: DisplayString
@@ -32956,6 +33145,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreeFlow
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.3
       type: DisplayString
@@ -32963,6 +33153,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreeParentIndex
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.4
       type: gauge
@@ -32970,6 +33161,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreeBytes
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.5
       type: counter
@@ -32977,6 +33169,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreePackets
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.6
       type: counter
@@ -32984,6 +33177,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreeHCBytes
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.7
       type: counter
@@ -32991,6 +33185,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreePCQQueues
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.8
       type: counter
@@ -32998,6 +33193,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrQueueTreeDropped
       oid: 1.3.6.1.4.1.14988.1.1.2.2.1.9
       type: counter
@@ -33005,6 +33201,7 @@ modules:
       indexes:
       - labelname: mtxrQueueTreeIndex
         type: gauge
+        display_hint: x
     - name: mtxrHlCoreVoltage
       oid: 1.3.6.1.4.1.14988.1.1.3.1
       type: gauge
@@ -33097,6 +33294,7 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrGaugeIndex
@@ -33112,6 +33310,7 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrGaugeIndex
@@ -33127,6 +33326,7 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrGaugeIndex
@@ -33142,6 +33342,7 @@ modules:
       indexes:
       - labelname: mtxrGaugeIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrGaugeIndex
@@ -33184,6 +33385,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserServerID
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.2
       type: gauge
@@ -33191,6 +33393,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserName
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.3
       type: DisplayString
@@ -33198,6 +33401,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserDomain
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.4
       type: DisplayString
@@ -33205,6 +33409,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserIP
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.5
       type: InetAddressIPv4
@@ -33212,6 +33417,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserMAC
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.6
       type: PhysAddress48
@@ -33219,6 +33425,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserConnectTime
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.7
       type: gauge
@@ -33226,6 +33433,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserValidTillTime
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.8
       type: gauge
@@ -33233,6 +33441,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserIdleStartTime
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.9
       type: gauge
@@ -33240,6 +33449,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserIdleTimeout
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.10
       type: gauge
@@ -33247,6 +33457,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserPingTimeout
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.11
       type: gauge
@@ -33254,6 +33465,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserBytesIn
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.12
       type: counter
@@ -33261,6 +33473,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserBytesOut
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.13
       type: counter
@@ -33268,6 +33481,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserPacketsIn
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.14
       type: counter
@@ -33275,6 +33489,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserPacketsOut
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.15
       type: counter
@@ -33282,6 +33497,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserLimitBytesIn
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.16
       type: counter
@@ -33289,6 +33505,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserLimitBytesOut
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.17
       type: counter
@@ -33296,6 +33513,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserAdvertStatus
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.18
       type: gauge
@@ -33303,6 +33521,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserRadius
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.19
       type: gauge
@@ -33310,6 +33529,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrHotspotActiveUserBlockedByAdvert
       oid: 1.3.6.1.4.1.14988.1.1.5.1.1.20
       type: gauge
@@ -33317,6 +33537,7 @@ modules:
       indexes:
       - labelname: mtxrHotspotActiveUserIndex
         type: gauge
+        display_hint: x
     - name: mtxrDHCPLeaseCount
       oid: 1.3.6.1.4.1.14988.1.1.6.1
       type: gauge
@@ -33364,6 +33585,7 @@ modules:
       indexes:
       - labelname: mtxrScriptIndex
         type: gauge
+        display_hint: x
     - name: mtxrScriptName
       oid: 1.3.6.1.4.1.14988.1.1.8.1.1.2
       type: DisplayString
@@ -33371,6 +33593,7 @@ modules:
       indexes:
       - labelname: mtxrScriptIndex
         type: gauge
+        display_hint: x
     - name: mtxrScriptRunCmd
       oid: 1.3.6.1.4.1.14988.1.1.8.1.1.3
       type: gauge
@@ -33378,6 +33601,7 @@ modules:
       indexes:
       - labelname: mtxrScriptIndex
         type: gauge
+        display_hint: x
     - name: mtxrDnStatIndex
       oid: 1.3.6.1.4.1.14988.1.1.10.1.1.1
       type: gauge
@@ -33385,6 +33609,7 @@ modules:
       indexes:
       - labelname: mtxrDnStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrDnStatTxRate
       oid: 1.3.6.1.4.1.14988.1.1.10.1.1.2
       type: gauge
@@ -33392,6 +33617,7 @@ modules:
       indexes:
       - labelname: mtxrDnStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrDnStatRxRate
       oid: 1.3.6.1.4.1.14988.1.1.10.1.1.3
       type: gauge
@@ -33399,6 +33625,7 @@ modules:
       indexes:
       - labelname: mtxrDnStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrDnStatTxStrength
       oid: 1.3.6.1.4.1.14988.1.1.10.1.1.4
       type: gauge
@@ -33406,6 +33633,7 @@ modules:
       indexes:
       - labelname: mtxrDnStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrDnStatRxStrength
       oid: 1.3.6.1.4.1.14988.1.1.10.1.1.5
       type: gauge
@@ -33413,6 +33641,7 @@ modules:
       indexes:
       - labelname: mtxrDnStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrDnConnected
       oid: 1.3.6.1.4.1.14988.1.1.10.1.1.6
       type: gauge
@@ -33420,6 +33649,7 @@ modules:
       indexes:
       - labelname: mtxrDnStatIndex
         type: gauge
+        display_hint: x
     - name: mtxrNeighborIndex
       oid: 1.3.6.1.4.1.14988.1.1.11.1.1.1
       type: gauge
@@ -33427,6 +33657,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33456,6 +33687,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33485,6 +33717,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33514,6 +33747,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33543,6 +33777,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33572,6 +33807,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33601,6 +33837,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33630,6 +33867,7 @@ modules:
       indexes:
       - labelname: mtxrNeighborIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrNeighborInterfaceID
         type: gauge
       lookups:
@@ -33739,6 +33977,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33752,6 +33991,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33765,6 +34005,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33778,6 +34019,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33791,6 +34033,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33804,6 +34047,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33817,6 +34061,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33830,6 +34075,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33843,6 +34089,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33856,6 +34103,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33869,6 +34117,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33882,6 +34131,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33895,6 +34145,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33908,6 +34159,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33921,6 +34173,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33934,6 +34187,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33947,6 +34201,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33960,6 +34215,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33973,6 +34229,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33986,6 +34243,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -33999,6 +34257,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34012,6 +34271,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34025,6 +34285,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34038,6 +34299,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34051,6 +34313,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34064,6 +34327,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34077,6 +34341,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34090,6 +34355,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34103,6 +34369,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34116,6 +34383,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34129,6 +34397,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34142,6 +34411,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34155,6 +34425,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34168,6 +34439,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34181,6 +34453,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34194,6 +34467,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34207,6 +34481,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34220,6 +34495,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34233,6 +34509,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34246,6 +34523,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34259,6 +34537,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34272,6 +34551,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34285,6 +34565,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34298,6 +34579,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34311,6 +34593,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34324,6 +34607,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34337,6 +34621,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34350,6 +34635,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34363,6 +34649,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34376,6 +34663,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34389,6 +34677,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34402,6 +34691,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34415,6 +34705,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34428,6 +34719,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34441,6 +34733,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34454,6 +34747,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34467,6 +34761,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34480,6 +34775,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34493,6 +34789,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34506,6 +34803,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34519,6 +34817,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34532,6 +34831,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34545,6 +34845,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34558,6 +34859,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34571,6 +34873,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34584,6 +34887,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34597,6 +34901,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34610,6 +34915,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34623,6 +34929,7 @@ modules:
       indexes:
       - labelname: mtxrInterfaceStatsIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrInterfaceStatsIndex
@@ -34636,6 +34943,7 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPOEInterfaceIndex
@@ -34649,6 +34957,7 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPOEInterfaceIndex
@@ -34662,6 +34971,7 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPOEInterfaceIndex
@@ -34691,6 +35001,7 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPOEInterfaceIndex
@@ -34704,6 +35015,7 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPOEInterfaceIndex
@@ -34717,6 +35029,7 @@ modules:
       indexes:
       - labelname: mtxrPOEInterfaceIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPOEInterfaceIndex
@@ -34730,6 +35043,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemSignalRSSI
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.2
       type: gauge
@@ -34737,6 +35051,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemSignalRSRQ
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.3
       type: gauge
@@ -34744,6 +35059,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemSignalRSRP
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.4
       type: gauge
@@ -34751,6 +35067,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemCellId
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.5
       type: gauge
@@ -34758,6 +35075,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemAccessTechnology
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.6
       type: gauge
@@ -34765,6 +35083,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
       enum_values:
         -1: unknown
         0: gsmcompact
@@ -34784,6 +35103,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemEnbId
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.8
       type: gauge
@@ -34791,6 +35111,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemSectorId
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.9
       type: gauge
@@ -34798,6 +35119,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemLac
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.10
       type: gauge
@@ -34805,6 +35127,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemIMEI
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.11
       type: DisplayString
@@ -34812,6 +35135,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemIMSI
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.12
       type: DisplayString
@@ -34819,6 +35143,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemUICC
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.13
       type: DisplayString
@@ -34826,6 +35151,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemRAT
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.14
       type: DisplayString
@@ -34833,6 +35159,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemPrimaryBand
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.15
       type: DisplayString
@@ -34840,6 +35167,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemSessionUptime
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.16
       type: gauge
@@ -34847,6 +35175,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemRegStatus
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.17
       type: DisplayString
@@ -34854,6 +35183,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemPinStatus
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.18
       type: DisplayString
@@ -34861,6 +35191,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemModel
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.19
       type: DisplayString
@@ -34868,6 +35199,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemFirmware
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.20
       type: DisplayString
@@ -34875,6 +35207,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemCQI
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.21
       type: gauge
@@ -34882,6 +35215,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemNrRSRP
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.22
       type: gauge
@@ -34889,6 +35223,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemNrRSRQ
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.23
       type: gauge
@@ -34896,6 +35231,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemNrSINR
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.24
       type: gauge
@@ -34903,6 +35239,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTEModemSignalRSRQD10
       oid: 1.3.6.1.4.1.14988.1.1.16.1.1.25
       type: gauge
@@ -34910,6 +35247,7 @@ modules:
       indexes:
       - labelname: mtxrLTEModemInterfaceIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggInterfaceIndex
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.1
       type: gauge
@@ -34917,8 +35255,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggIndex
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.2
       type: gauge
@@ -34926,8 +35266,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggBand
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.3
       type: gauge
@@ -34935,8 +35277,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggEARFCN
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.4
       type: gauge
@@ -34944,8 +35288,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggBandwidth
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.5
       type: gauge
@@ -34953,8 +35299,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggPhyCellId
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.6
       type: gauge
@@ -34962,8 +35310,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggRSSI
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.7
       type: gauge
@@ -34971,8 +35321,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggRSRP
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.8
       type: gauge
@@ -34980,8 +35332,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggRSRQ
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.9
       type: gauge
@@ -34989,8 +35343,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggSINR
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.10
       type: gauge
@@ -34998,8 +35354,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggSNR
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.11
       type: gauge
@@ -35007,8 +35365,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
     - name: mtxrLTECarrierAggNR
       oid: 1.3.6.1.4.1.14988.1.1.16.2.1.1.12
       type: gauge
@@ -35016,8 +35376,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
       enum_values:
         1: "true"
         2: "false"
@@ -35028,8 +35390,10 @@ modules:
       indexes:
       - labelname: mtxrLTECarrierAggInterfaceIndex
         type: gauge
+        display_hint: x
       - labelname: mtxrLTECarrierAggIndex
         type: gauge
+        display_hint: x
       enum_values:
         1: "true"
         2: "false"
@@ -35040,6 +35404,7 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPartitionIndex
@@ -35053,6 +35418,7 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPartitionIndex
@@ -35066,6 +35432,7 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPartitionIndex
@@ -35079,6 +35446,7 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPartitionIndex
@@ -35092,6 +35460,7 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPartitionIndex
@@ -35108,6 +35477,7 @@ modules:
       indexes:
       - labelname: mtxrPartitionIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrPartitionIndex
@@ -35124,6 +35494,7 @@ modules:
       indexes:
       - labelname: mtxrScriptRunIndex
         type: gauge
+        display_hint: x
     - name: mtxrScriptRunOutput
       oid: 1.3.6.1.4.1.14988.1.1.18.1.1.2
       type: DisplayString
@@ -35131,6 +35502,7 @@ modules:
       indexes:
       - labelname: mtxrScriptRunIndex
         type: gauge
+        display_hint: x
     - name: mtxrOpticalIndex
       oid: 1.3.6.1.4.1.14988.1.1.19.1.1.1
       type: gauge
@@ -35138,6 +35510,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35151,6 +35524,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35164,6 +35538,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35180,6 +35555,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35196,6 +35572,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35209,6 +35586,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35222,6 +35600,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35235,6 +35614,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35248,6 +35628,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35261,6 +35642,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35274,6 +35656,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35287,6 +35670,7 @@ modules:
       indexes:
       - labelname: mtxrOpticalIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrOpticalIndex
@@ -35304,6 +35688,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAInitiatorCookie
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.2
       type: DisplayString
@@ -35311,6 +35696,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAResponderCookie
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.3
       type: DisplayString
@@ -35318,6 +35704,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAResponder
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.4
       type: gauge
@@ -35325,6 +35712,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: "false"
         1: "true"
@@ -35335,6 +35723,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: "false"
         1: "true"
@@ -35345,6 +35734,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAState
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.7
       type: gauge
@@ -35352,6 +35742,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
       enum_values:
         1: exchange
         2: established
@@ -35364,6 +35755,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSASeen
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.9
       type: gauge
@@ -35371,6 +35763,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAIdentity
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.10
       type: DisplayString
@@ -35378,6 +35771,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAPh2Count
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.11
       type: gauge
@@ -35385,6 +35779,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSALocalAddressType
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.12
       type: gauge
@@ -35392,6 +35787,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: unknown
         1: ipv4
@@ -35406,6 +35802,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSALocalPort
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.14
       type: gauge
@@ -35413,6 +35810,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAPeerAddressType
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.15
       type: gauge
@@ -35420,6 +35818,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: unknown
         1: ipv4
@@ -35434,6 +35833,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSAPeerPort
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.17
       type: gauge
@@ -35441,6 +35841,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSADynamicAddressType
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.18
       type: gauge
@@ -35448,6 +35849,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
       enum_values:
         0: unknown
         1: ipv4
@@ -35462,6 +35864,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSATxBytes
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.20
       type: counter
@@ -35469,6 +35872,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSARxBytes
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.21
       type: counter
@@ -35476,6 +35880,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSATxPackets
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.22
       type: counter
@@ -35483,6 +35888,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrIkeSARxPackets
       oid: 1.3.6.1.4.1.14988.1.1.20.2.1.23
       type: counter
@@ -35490,6 +35896,7 @@ modules:
       indexes:
       - labelname: mtxrIkeSAIndex
         type: gauge
+        display_hint: x
     - name: mtxrWifiCapsmanEnabled
       oid: 1.3.6.1.4.1.14988.1.1.21.1.1
       type: gauge
@@ -35600,6 +36007,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35615,6 +36023,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35630,6 +36039,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35645,6 +36055,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35660,6 +36071,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35675,6 +36087,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35690,6 +36103,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35705,6 +36119,7 @@ modules:
       indexes:
       - labelname: mtxrRemoteCapId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrRemoteCapId
@@ -35721,8 +36136,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35739,8 +36156,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35757,8 +36176,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35775,8 +36196,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35793,8 +36216,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35811,8 +36236,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35829,8 +36256,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35847,8 +36276,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35865,8 +36296,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35883,8 +36316,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35901,8 +36336,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35919,8 +36356,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35937,8 +36376,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35955,8 +36396,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35973,8 +36416,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -35991,8 +36436,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -36009,8 +36456,10 @@ modules:
       - labelname: mtxrWifiRegistrationMacAddress
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
       - labelname: mtxrWifiRegistrationInterface
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiRegistrationInterface
@@ -36029,6 +36478,7 @@ modules:
       indexes:
       - labelname: mtxrWifiInterfacesId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiInterfacesId
@@ -36044,6 +36494,7 @@ modules:
       indexes:
       - labelname: mtxrWifiInterfacesId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiInterfacesId
@@ -36059,6 +36510,7 @@ modules:
       indexes:
       - labelname: mtxrWifiInterfacesId
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - mtxrWifiInterfacesId
@@ -36293,6 +36745,7 @@ modules:
       indexes:
       - labelname: naptCacheIfIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - naptCacheIfIndex
@@ -36316,6 +36769,7 @@ modules:
       indexes:
       - labelname: naptCacheIfIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - naptCacheIfIndex
@@ -36339,6 +36793,7 @@ modules:
       indexes:
       - labelname: naptCacheIfIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - naptCacheIfIndex
@@ -36362,6 +36817,7 @@ modules:
       indexes:
       - labelname: naptCacheIfIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - naptCacheIfIndex
@@ -36592,6 +37048,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36601,6 +37058,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
       enum_values:
@@ -36622,6 +37080,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36631,6 +37090,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
     - name: pikePeerRemoteType
@@ -36647,6 +37107,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36656,6 +37117,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
       enum_values:
@@ -36677,6 +37139,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36686,6 +37149,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
     - name: pikePeerIntIndex
@@ -36702,6 +37166,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36711,6 +37176,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
     - name: pikePeerLocalAddr
@@ -36727,6 +37193,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36736,6 +37203,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
     - name: pikePeerRemoteAddr
@@ -36752,6 +37220,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36761,6 +37230,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
     - name: pikePeerActiveTime
@@ -36778,6 +37248,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36787,6 +37258,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
     - name: pikePeerActiveTunnelIndex
@@ -36804,6 +37276,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerLocalValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerRemoteType
         type: EnumAsInfo
         enum_values:
@@ -36813,6 +37286,7 @@ modules:
           4: idIpv6Addr
       - labelname: pikePeerRemoteValue
         type: DisplayString
+        display_hint: 255a
       - labelname: pikePeerIntIndex
         type: gauge
     - name: pikeTunIndex
@@ -38427,6 +38901,7 @@ modules:
       indexes:
       - labelname: picoNgnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnType
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.2
       type: gauge
@@ -38435,6 +38910,7 @@ modules:
       indexes:
       - labelname: picoNgnIfIndex
         type: gauge
+        display_hint: d
       enum_values:
         1: standard
         2: numbergate
@@ -38446,6 +38922,7 @@ modules:
       indexes:
       - labelname: picoNgnIfIndex
         type: gauge
+        display_hint: d
       enum_values:
         1: global
         2: private
@@ -38457,6 +38934,7 @@ modules:
       indexes:
       - labelname: picoNgnIfIndex
         type: gauge
+        display_hint: d
       enum_values:
         1: notReady
         2: initializing
@@ -38469,6 +38947,7 @@ modules:
       indexes:
       - labelname: picoNgnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnSipUri
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.6
       type: DisplayString
@@ -38476,6 +38955,7 @@ modules:
       indexes:
       - labelname: picoNgnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnUpTime
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.1.1.7
       type: gauge
@@ -38483,6 +38963,7 @@ modules:
       indexes:
       - labelname: picoNgnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnVpnIfIndex
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.1
       type: gauge
@@ -38491,6 +38972,7 @@ modules:
       indexes:
       - labelname: picoNgnVpnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnVpnStatus
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.2
       type: gauge
@@ -38499,6 +38981,7 @@ modules:
       indexes:
       - labelname: picoNgnVpnIfIndex
         type: gauge
+        display_hint: d
       enum_values:
         1: disconnected
         2: connecting
@@ -38510,6 +38993,7 @@ modules:
       indexes:
       - labelname: picoNgnVpnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnVpnBandwidth
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.4
       type: gauge
@@ -38517,6 +39001,7 @@ modules:
       indexes:
       - labelname: picoNgnVpnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnVpnUsedTime
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.5
       type: gauge
@@ -38524,6 +39009,7 @@ modules:
       indexes:
       - labelname: picoNgnVpnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnVpnSbcIpAddress
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.6
       type: InetAddressIPv4
@@ -38531,6 +39017,7 @@ modules:
       indexes:
       - labelname: picoNgnVpnIfIndex
         type: gauge
+        display_hint: d
     - name: picoNgnVpnSbcPort
       oid: 1.3.6.1.4.1.119.2.3.84.9.1.2.1.7
       type: gauge
@@ -38538,6 +39025,7 @@ modules:
       indexes:
       - labelname: picoNgnVpnIfIndex
         type: gauge
+        display_hint: d
   paloalto_fw:
     walk:
     - 1.3.6.1.4.1.25461.2.1.2.1
@@ -39193,6 +39681,7 @@ modules:
       indexes:
       - labelname: panZoneName
         type: DisplayString
+        display_hint: 255a
       - labelname: panVsysId
         type: gauge
     - name: panZoneActiveTcpCps
@@ -39202,6 +39691,7 @@ modules:
       indexes:
       - labelname: panZoneName
         type: DisplayString
+        display_hint: 255a
       - labelname: panVsysId
         type: gauge
     - name: panZoneActiveUdpCps
@@ -39211,6 +39701,7 @@ modules:
       indexes:
       - labelname: panZoneName
         type: DisplayString
+        display_hint: 255a
       - labelname: panVsysId
         type: gauge
     - name: panZoneActiveOtherIpCps
@@ -39220,6 +39711,7 @@ modules:
       indexes:
       - labelname: panZoneName
         type: DisplayString
+        display_hint: 255a
       - labelname: panVsysId
         type: gauge
     - name: ifIndex
@@ -60879,6 +61371,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -60894,6 +61387,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -60909,6 +61403,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -60925,6 +61420,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -60941,6 +61437,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -60957,6 +61454,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -60972,6 +61470,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -60988,6 +61487,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -61004,6 +61504,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -61020,6 +61521,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -61035,6 +61537,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -61051,6 +61554,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -61067,6 +61571,7 @@ modules:
       indexes:
       - labelname: diskIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - diskIndex
@@ -63588,6 +64093,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaName
       oid: 1.3.6.1.4.1.41112.1.4.7.1.2
       type: DisplayString
@@ -63598,6 +64104,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaSignal
       oid: 1.3.6.1.4.1.41112.1.4.7.1.3
       type: gauge
@@ -63608,6 +64115,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaNoiseFloor
       oid: 1.3.6.1.4.1.41112.1.4.7.1.4
       type: gauge
@@ -63618,6 +64126,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaDistance
       oid: 1.3.6.1.4.1.41112.1.4.7.1.5
       type: gauge
@@ -63628,6 +64137,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaCcq
       oid: 1.3.6.1.4.1.41112.1.4.7.1.6
       type: gauge
@@ -63638,6 +64148,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaAmp
       oid: 1.3.6.1.4.1.41112.1.4.7.1.7
       type: gauge
@@ -63648,6 +64159,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaAmq
       oid: 1.3.6.1.4.1.41112.1.4.7.1.8
       type: gauge
@@ -63658,6 +64170,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaAmc
       oid: 1.3.6.1.4.1.41112.1.4.7.1.9
       type: gauge
@@ -63668,6 +64181,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaLastIp
       oid: 1.3.6.1.4.1.41112.1.4.7.1.10
       type: InetAddressIPv4
@@ -63678,6 +64192,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaTxRate
       oid: 1.3.6.1.4.1.41112.1.4.7.1.11
       type: gauge
@@ -63688,6 +64203,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaRxRate
       oid: 1.3.6.1.4.1.41112.1.4.7.1.12
       type: gauge
@@ -63698,6 +64214,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaTxBytes
       oid: 1.3.6.1.4.1.41112.1.4.7.1.13
       type: counter
@@ -63708,6 +64225,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaRxBytes
       oid: 1.3.6.1.4.1.41112.1.4.7.1.14
       type: counter
@@ -63718,6 +64236,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaConnTime
       oid: 1.3.6.1.4.1.41112.1.4.7.1.15
       type: gauge
@@ -63728,6 +64247,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaLocalCINR
       oid: 1.3.6.1.4.1.41112.1.4.7.1.16
       type: gauge
@@ -63738,6 +64258,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaTxCapacity
       oid: 1.3.6.1.4.1.41112.1.4.7.1.17
       type: gauge
@@ -63748,6 +64269,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaRxCapacity
       oid: 1.3.6.1.4.1.41112.1.4.7.1.18
       type: gauge
@@ -63758,6 +64280,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaTxAirtime
       oid: 1.3.6.1.4.1.41112.1.4.7.1.19
       type: gauge
@@ -63768,6 +64291,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaRxAirtime
       oid: 1.3.6.1.4.1.41112.1.4.7.1.20
       type: gauge
@@ -63778,6 +64302,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntStaTxLatency
       oid: 1.3.6.1.4.1.41112.1.4.7.1.21
       type: gauge
@@ -63788,6 +64313,7 @@ modules:
       - labelname: ubntStaMac
         type: PhysAddress48
         fixed_size: 6
+        display_hint: '1x:'
     - name: ubntHostLocaltime
       oid: 1.3.6.1.4.1.41112.1.4.8.1
       type: DisplayString
@@ -63882,6 +64408,7 @@ modules:
       indexes:
       - labelname: loadIndex
         type: gauge
+        display_hint: d
       lookups:
       - labels:
         - loadIndex
@@ -63899,6 +64426,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioName
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.2
       type: DisplayString
@@ -63906,6 +64434,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioRadio
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.3
       type: DisplayString
@@ -63913,6 +64442,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioRxPackets
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.4
       type: counter
@@ -63920,6 +64450,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioTxPackets
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.5
       type: counter
@@ -63927,6 +64458,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioCuTotal
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.6
       type: gauge
@@ -63934,6 +64466,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioCuSelfRx
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.7
       type: gauge
@@ -63941,6 +64474,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioCuSelfTx
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.8
       type: gauge
@@ -63948,6 +64482,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiRadioOtherBss
       oid: 1.3.6.1.4.1.41112.1.6.1.1.1.9
       type: gauge
@@ -63955,6 +64490,7 @@ modules:
       indexes:
       - labelname: unifiRadioIndex
         type: gauge
+        display_hint: x
     - name: unifiVapIndex
       oid: 1.3.6.1.4.1.41112.1.6.1.2.1.1
       type: gauge
@@ -63962,6 +64498,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -63980,6 +64517,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -63998,6 +64536,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64016,6 +64555,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64034,6 +64574,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64052,6 +64593,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64070,6 +64612,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64088,6 +64631,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64106,6 +64650,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64124,6 +64669,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64142,6 +64688,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64160,6 +64707,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64178,6 +64726,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64196,6 +64745,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64214,6 +64764,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64232,6 +64783,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64250,6 +64802,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64268,6 +64821,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64286,6 +64840,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64304,6 +64859,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64322,6 +64878,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64340,6 +64897,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64361,6 +64919,7 @@ modules:
       indexes:
       - labelname: unifiVapIndex
         type: gauge
+        display_hint: x
       lookups:
       - labels:
         - unifiVapIndex
@@ -64379,6 +64938,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfFullDuplex
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.2
       type: gauge
@@ -64386,6 +64946,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
       enum_values:
         1: "true"
         2: "false"
@@ -64396,6 +64957,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfMac
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.4
       type: PhysAddress48
@@ -64403,6 +64965,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfName
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.5
       type: DisplayString
@@ -64410,6 +64973,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfRxBytes
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.6
       type: counter
@@ -64417,6 +64981,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfRxDropped
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.7
       type: counter
@@ -64424,6 +64989,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfRxError
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.8
       type: counter
@@ -64431,6 +64997,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfRxMulticast
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.9
       type: counter
@@ -64438,6 +65005,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfRxPackets
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.10
       type: counter
@@ -64445,6 +65013,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfSpeed
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.11
       type: gauge
@@ -64452,6 +65021,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfTxBytes
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.12
       type: counter
@@ -64459,6 +65029,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfTxDropped
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.13
       type: counter
@@ -64466,6 +65037,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfTxError
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.14
       type: counter
@@ -64473,6 +65045,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfTxPackets
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.15
       type: counter
@@ -64480,6 +65053,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
     - name: unifiIfUp
       oid: 1.3.6.1.4.1.41112.1.6.2.1.1.16
       type: gauge
@@ -64487,6 +65061,7 @@ modules:
       indexes:
       - labelname: unifiIfIndex
         type: gauge
+        display_hint: x
       enum_values:
         1: "true"
         2: "false"
@@ -64936,6 +65511,7 @@ modules:
       indexes:
       - labelname: upsInputLineIndex
         type: gauge
+        display_hint: d
     - name: upsInputFrequency
       oid: 1.3.6.1.2.1.33.1.3.3.1.2
       type: gauge
@@ -64943,6 +65519,7 @@ modules:
       indexes:
       - labelname: upsInputLineIndex
         type: gauge
+        display_hint: d
       scale: 0.1
     - name: upsInputVoltage
       oid: 1.3.6.1.2.1.33.1.3.3.1.3
@@ -64951,6 +65528,7 @@ modules:
       indexes:
       - labelname: upsInputLineIndex
         type: gauge
+        display_hint: d
     - name: upsInputCurrent
       oid: 1.3.6.1.2.1.33.1.3.3.1.4
       type: gauge
@@ -64958,6 +65536,7 @@ modules:
       indexes:
       - labelname: upsInputLineIndex
         type: gauge
+        display_hint: d
     - name: upsInputTruePower
       oid: 1.3.6.1.2.1.33.1.3.3.1.5
       type: gauge
@@ -64965,6 +65544,7 @@ modules:
       indexes:
       - labelname: upsInputLineIndex
         type: gauge
+        display_hint: d
     - name: upsOutputSource
       oid: 1.3.6.1.2.1.33.1.4.1
       type: gauge
@@ -64993,6 +65573,7 @@ modules:
       indexes:
       - labelname: upsOutputLineIndex
         type: gauge
+        display_hint: d
     - name: upsOutputVoltage
       oid: 1.3.6.1.2.1.33.1.4.4.1.2
       type: gauge
@@ -65000,6 +65581,7 @@ modules:
       indexes:
       - labelname: upsOutputLineIndex
         type: gauge
+        display_hint: d
     - name: upsOutputCurrent
       oid: 1.3.6.1.2.1.33.1.4.4.1.3
       type: gauge
@@ -65007,6 +65589,7 @@ modules:
       indexes:
       - labelname: upsOutputLineIndex
         type: gauge
+        display_hint: d
     - name: upsOutputPower
       oid: 1.3.6.1.2.1.33.1.4.4.1.4
       type: gauge
@@ -65014,6 +65597,7 @@ modules:
       indexes:
       - labelname: upsOutputLineIndex
         type: gauge
+        display_hint: d
     - name: upsOutputPercentLoad
       oid: 1.3.6.1.2.1.33.1.4.4.1.5
       type: gauge
@@ -65023,6 +65607,7 @@ modules:
       indexes:
       - labelname: upsOutputLineIndex
         type: gauge
+        display_hint: d
     - name: upsBypassFrequency
       oid: 1.3.6.1.2.1.33.1.5.1
       type: gauge
@@ -65039,6 +65624,7 @@ modules:
       indexes:
       - labelname: upsBypassLineIndex
         type: gauge
+        display_hint: d
     - name: upsBypassVoltage
       oid: 1.3.6.1.2.1.33.1.5.3.1.2
       type: gauge
@@ -65046,6 +65632,7 @@ modules:
       indexes:
       - labelname: upsBypassLineIndex
         type: gauge
+        display_hint: d
     - name: upsBypassCurrent
       oid: 1.3.6.1.2.1.33.1.5.3.1.3
       type: gauge
@@ -65053,6 +65640,7 @@ modules:
       indexes:
       - labelname: upsBypassLineIndex
         type: gauge
+        display_hint: d
     - name: upsBypassPower
       oid: 1.3.6.1.2.1.33.1.5.3.1.4
       type: gauge
@@ -65060,6 +65648,7 @@ modules:
       indexes:
       - labelname: upsBypassLineIndex
         type: gauge
+        display_hint: d
     - name: upsAlarmsPresent
       oid: 1.3.6.1.2.1.33.1.6.1
       type: gauge
@@ -65071,6 +65660,7 @@ modules:
       indexes:
       - labelname: upsAlarmId
         type: gauge
+        display_hint: d
     - name: upsAlarmDescr
       oid: 1.3.6.1.2.1.33.1.6.2.1.2
       type: OctetString
@@ -65078,6 +65668,7 @@ modules:
       indexes:
       - labelname: upsAlarmId
         type: gauge
+        display_hint: d
     - name: upsAlarmTime
       oid: 1.3.6.1.2.1.33.1.6.2.1.3
       type: gauge
@@ -65085,6 +65676,7 @@ modules:
       indexes:
       - labelname: upsAlarmId
         type: gauge
+        display_hint: d
     - name: upsTestId
       oid: 1.3.6.1.2.1.33.1.7.1
       type: OctetString
