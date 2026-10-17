@@ -20,7 +20,6 @@ import (
 	"fmt"
 	"log/slog"
 	"net/netip"
-	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -201,11 +200,11 @@ func filterAllowedIndices(logger *slog.Logger, filter config.DynamicFilter, pdus
 	logger.Debug("Evaluating rule for oid", "oid", filter.Oid)
 	for _, pdu := range pdus {
 		found := false
-		for _, val := range filter.Values {
+		for _, re := range filter.Filters() {
 			snmpval := pduValueAsString(&pdu, "DisplayString", "", metrics)
-			logger.Debug("evaluating filters", "config value", val, "snmp value", snmpval)
+			logger.Debug("evaluating filters", "config value", re.String(), "snmp value", snmpval)
 
-			if regexp.MustCompile(val).MatchString(snmpval) {
+			if re.MatchString(snmpval) {
 				found = true
 				break
 			}
