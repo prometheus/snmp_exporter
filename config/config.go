@@ -233,6 +233,31 @@ type DynamicFilter struct {
 	Oid     string   `yaml:"oid"`
 	Targets []string `yaml:"targets,omitempty"`
 	Values  []string `yaml:"values,omitempty"`
+
+	filters []*regexp.Regexp `yaml:"-"`
+}
+
+func (c *DynamicFilter) UnmarshalYAML(unmarshal func(any) error) error {
+	type plain DynamicFilter
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	filters := make([]*regexp.Regexp, 0, len(c.Values))
+	for _, value := range c.Values {
+		re, err := regexp.Compile(value)
+		if err != nil {
+			return fmt.Errorf("invalid dynamic filter value %q: %w", value, err)
+		}
+		filters = append(filters, re)
+	}
+	c.filters = filters
+	return nil
+}
+
+// Filters returns the compiled Values, which are compiled when the config is
+// loaded.
+func (c *DynamicFilter) Filters() []*regexp.Regexp {
+	return c.filters
 }
 
 type Metric struct {
