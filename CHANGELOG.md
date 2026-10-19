@@ -1,3 +1,69 @@
+## 0.31.0 / 2026-10-17
+
+BREAKING CHANGES:
+
+Regenerating snmp.yml with the generator now maps enum lookup columns to
+human-readable string labels (e.g. `"ioMemory"` instead of `"2"`) by default.
+Dashboards, alerts, or recording rules that match on numeric enum label values
+may need updating. Opt out per metric/lookup with `type: gauge`.
+
+The generator now drops tables whose index type cannot be rendered as a label
+(e.g. DateAndTime, Bits) with a warning, and fails when a chained lookup
+promotes such a type to an index. Previously these produced configs that
+crashed the exporter on scrape.
+
+Building from source now requires Go 1.26 or newer.
+
+* [FEATURE] Add DISPLAY-HINT support for SNMP OctetString formatting #1549
+* [FEATURE] Add `ParseFloatString` type override #1678
+* [CHANGE] Map enum lookup columns to human-readable string labels #1624
+* [CHANGE] generator: Handle net-snmp 5.9.5.x changes to struct tclist #1550
+* [CHANGE] generator: Update Docker base image to Debian Trixie #1635
+* [CHANGE] generator: Reject index types the collector cannot render #1653
+* [CHANGE] Update minimum Go version to 1.26 #1708
+* [ENHANCEMENT] Apply scale and offset during applyRegexExtracts #1580
+* [ENHANCEMENT] Docker: Added consistent opencontainer image labels #1581
+* [ENHANCEMENT] generator: Move generator output to repo root snmp.yml #1557
+* [ENHANCEMENT] docs(generator): Document default EnumAsInfo enum label behavior #1634
+* [ENHANCEMENT] Update docs on where to get APC MIBs #1600
+* [ENHANCEMENT] Add git and patch to RHEL installation command #1609
+* [ENHANCEMENT] generator: Map String64 textual convention to DisplayString #1674
+* [ENHANCEMENT] generator: Publish snmp-generator Docker image via promci #1645
+* [ENHANCEMENT] generator: Retry MIB downloads on all errors #1702
+* [ENHANCEMENT] Use upstream default DOCKER_ARCHS #1703
+* [ENHANCEMENT] docs: Add practical SNMP config samples #1661
+* [ENHANCEMENT] Update gosnmp to 1.45.0 #1667 #1699
+* [BUGFIX] Ensure memory isolation for WalkParams.Retries per module #1598
+* [BUGFIX] Fix multiple dynamic filters on the same OID overriding each other #1625
+* [BUGFIX] Fix IPv6 bracket handling in target parsing #1588
+* [BUGFIX] Treat empty environment variables as set during expansion #1626
+* [BUGFIX] Also error when env var in config is prefixed or suffixed #1500
+* [BUGFIX] Reject empty module query parameter #1629
+* [BUGFIX] Sanitize index-derived label values to valid UTF-8 #1646
+* [BUGFIX] generator: Only rewrite `1x:` hint to PhysAddress48 for fixed size 6 #1648
+* [BUGFIX] Handle hex.DecodeString error for SNMPv3 EngineID #1591
+* [BUGFIX] Use comma-ok type assertion and length guard in parseNtpTimestamp #1590
+* [BUGFIX] generator: Close output file to prevent fd leak #1592
+* [BUGFIX] generator: Fix Synology MIB file download link #1615
+* [BUGFIX] generator: Fix generator publish #1608
+* [BUGFIX] generator: Fetch Eltex MIBs from prometheus-community/snmp #1628
+
+snmp.yml changes:
+* Add branchTable to servertech_sentry3 module #1554
+* Update Sentry3-MIB #1555
+* Improve Sentry4-MIB module #1560
+* Update Eltex MIBs #1564 #1573 #1628
+* Add DELL-RAC-MIB #1566
+* Patch SYNOLOGY-SMART-MIB #1574
+* Update Mikrotik MIBs #1582
+* Add Synology diskID, diskName, diskRole overrides #1603
+* Regenerate snmp.yml with enum lookup string labels #1624
+* Mirror Dell MIBs and update APC PowerNet-MIB to 4.6.0 #1659
+* Use `ParseFloatString` in example modules #1678
+* Add missing Synology system metrics #1681
+* Add apcats module for APC/Schneider ATS devices #1692
+* Add Synology iSCSI DisplayString overrides #1707
+
 ## 0.30.1 / 2026-01-06
 
 * [BUGFIX] Fix gosnmp import #1547
