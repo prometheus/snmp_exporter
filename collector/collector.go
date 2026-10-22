@@ -392,6 +392,9 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, moduleLabel), err)
 		return
 	}
+	if len(results.pdus) == 0 {
+		logger.Warn("Scrape of target returned no data; check that the auth settings (community, or username, security level and passwords) and any access control on the device are correct", "module", module.name)
+	}
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, moduleLabel),
 		prometheus.GaugeValue,
