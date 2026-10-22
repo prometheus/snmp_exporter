@@ -14,7 +14,9 @@
 package collector
 
 import (
+	"bytes"
 	"errors"
+	"log/slog"
 	"reflect"
 	"regexp"
 	"strings"
@@ -22,6 +24,7 @@ import (
 
 	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/gosnmp/gosnmp"
+	"github.com/prometheus/client_golang/prometheus"
 	io_prometheus_client "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/promslog"
 
@@ -1714,6 +1717,55 @@ func TestScrapeTarget(t *testing.T) {
 				if !reflect.DeepEqual(pdu, results.pdus[i]) {
 					t.Errorf("Expected %v, got %v", pdu, results.pdus[i])
 				}
+			}
+		})
+	}
+}
+
+func TestCollectNoDataWarning(t *testing.T) {
+	retries := 0
+	cases := []struct {
+		name         string
+		getResponse  map[string]gosnmp.SnmpPDU
+		expectWarned bool
+	}{
+		{
+			name:         "no PDUs returned",
+			getResponse:  map[string]gosnmp.SnmpPDU{},
+			expectWarned: true,
+		},
+		{
+			name: "PDUs returned",
+			getResponse: map[string]gosnmp.SnmpPDU{
+				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
+			},
+			expectWarned: false,
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			var buf bytes.Buffer
+			logger := slog.New(slog.NewTextHandler(&buf, nil))
+			module := NewNamedModule("test", &config.Module{
+				Get:        []string{"1.3.6.1.2.1.1.1.0"},
+				WalkParams: config.WalkParams{Retries: &retries},
+			})
+			collector := Collector{
+				target: "someTarget",
+				auth:   &config.Auth{Version: 2},
+				logger: logger,
+				metrics: Metrics{
+					SNMPInflight: prometheus.NewGauge(prometheus.GaugeOpts{Name: "snmp_inflight_test"}),
+				},
+			}
+
+			ch := make(chan prometheus.Metric, 100)
+			collector.collect(ch, logger, scraper.NewMockSNMPScraper(c.getResponse, nil), module)
+
+			warned := strings.Contains(buf.String(), "returned no data")
+			if warned != c.expectWarned {
+				t.Errorf("expected warning logged to be %t, got %t: %q", c.expectWarned, warned, buf.String())
 			}
 		})
 	}
