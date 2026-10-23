@@ -29,6 +29,9 @@ import (
 type GoSNMPWrapper struct {
 	c      *gosnmp.GoSNMP
 	logger *slog.Logger
+	// start is when Connect was called, used to report how long the
+	// whole scrape ran before being canceled.
+	start time.Time
 }
 
 func NewGoSNMP(logger *slog.Logger, target, srcAddress string, debug bool) (*GoSNMPWrapper, error) {
@@ -71,12 +74,12 @@ func (g *GoSNMPWrapper) SetOptions(fns ...func(*gosnmp.GoSNMP)) {
 }
 
 func (g *GoSNMPWrapper) Connect() error {
-	st := time.Now()
+	g.start = time.Now()
 	err := g.c.Connect()
 	if err != nil {
 		if errors.Is(err, context.Canceled) {
 			return fmt.Errorf("scrape cancelled after %s (possible timeout) connecting to target %s",
-				time.Since(st), g.c.Target)
+				time.Since(g.start), g.c.Target)
 		}
 		return fmt.Errorf("error connecting to target %s: %w", g.c.Target, err)
 	}
@@ -94,7 +97,7 @@ func (g *GoSNMPWrapper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
 	if err != nil {
 		if errors.Is(err, context.Canceled) {
 			err = fmt.Errorf("scrape cancelled after %s (possible timeout) getting target %s",
-				time.Since(st), g.c.Target)
+				time.Since(g.start), g.c.Target)
 		} else {
 			err = fmt.Errorf("error getting target %s: %w", g.c.Target, err)
 		}
@@ -116,8 +119,8 @@ func (g *GoSNMPWrapper) WalkAll(oid string) ([]gosnmp.SnmpPDU, error) {
 	}
 	if err != nil {
 		if errors.Is(err, context.Canceled) {
-			err = fmt.Errorf("scrape canceled after %s (possible timeout) walking target %s",
-				time.Since(st), g.c.Target)
+			err = fmt.Errorf("scrape canceled after %s (possible timeout) walking subtree %s of target %s",
+				time.Since(g.start), oid, g.c.Target)
 		} else {
 			err = fmt.Errorf("error walking target %s: %w", g.c.Target, err)
 		}
