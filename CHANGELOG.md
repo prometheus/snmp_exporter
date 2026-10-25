@@ -1,4 +1,4 @@
-## 0.31.0 / 2026-10-17
+## 0.31.0 / 2026-10-25
 
 BREAKING CHANGES:
 
@@ -32,7 +32,7 @@ Building from source now requires Go 1.26 or newer.
 * [ENHANCEMENT] generator: Retry MIB downloads on all errors #1702
 * [ENHANCEMENT] Use upstream default DOCKER_ARCHS #1703
 * [ENHANCEMENT] docs: Add practical SNMP config samples #1661
-* [ENHANCEMENT] Update gosnmp to 1.45.0 #1667 #1699
+* [ENHANCEMENT] Update gosnmp to 1.47.0 #1667 #1699 #1716
 * [BUGFIX] Ensure memory isolation for WalkParams.Retries per module #1598
 * [BUGFIX] Fix multiple dynamic filters on the same OID overriding each other #1625
 * [BUGFIX] Fix IPv6 bracket handling in target parsing #1588
@@ -40,6 +40,7 @@ Building from source now requires Go 1.26 or newer.
 * [BUGFIX] Also error when env var in config is prefixed or suffixed #1500
 * [BUGFIX] Reject empty module query parameter #1629
 * [BUGFIX] Sanitize index-derived label values to valid UTF-8 #1646
+* [BUGFIX] Report total scrape duration in scrape canceled errors #1715
 * [BUGFIX] generator: Only rewrite `1x:` hint to PhysAddress48 for fixed size 6 #1648
 * [BUGFIX] Handle hex.DecodeString error for SNMPv3 EngineID #1591
 * [BUGFIX] Use comma-ok type assertion and length guard in parseNtpTimestamp #1590
