@@ -1722,31 +1722,31 @@ func TestScrapeTarget(t *testing.T) {
 	}
 }
 
-func TestCollectNoDataWarning(t *testing.T) {
+func TestCollectNoDataLog(t *testing.T) {
 	retries := 0
 	cases := []struct {
 		name         string
 		getResponse  map[string]gosnmp.SnmpPDU
-		expectWarned bool
+		expectLogged bool
 	}{
 		{
 			name:         "no PDUs returned",
 			getResponse:  map[string]gosnmp.SnmpPDU{},
-			expectWarned: true,
+			expectLogged: true,
 		},
 		{
 			name: "PDUs returned",
 			getResponse: map[string]gosnmp.SnmpPDU{
 				"1.3.6.1.2.1.1.1.0": {Type: gosnmp.OctetString, Name: "1.3.6.1.2.1.1.1.0", Value: "Test Device"},
 			},
-			expectWarned: false,
+			expectLogged: false,
 		},
 	}
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
 			var buf bytes.Buffer
-			logger := slog.New(slog.NewTextHandler(&buf, nil))
+			logger := slog.New(slog.NewTextHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug}))
 			module := NewNamedModule("test", &config.Module{
 				Get:        []string{"1.3.6.1.2.1.1.1.0"},
 				WalkParams: config.WalkParams{Retries: &retries},
@@ -1763,9 +1763,9 @@ func TestCollectNoDataWarning(t *testing.T) {
 			ch := make(chan prometheus.Metric, 100)
 			collector.collect(ch, logger, scraper.NewMockSNMPScraper(c.getResponse, nil), module)
 
-			warned := strings.Contains(buf.String(), "returned no data")
-			if warned != c.expectWarned {
-				t.Errorf("expected warning logged to be %t, got %t: %q", c.expectWarned, warned, buf.String())
+			logged := strings.Contains(buf.String(), "returned no data")
+			if logged != c.expectLogged {
+				t.Errorf("expected no data message logged to be %t, got %t: %q", c.expectLogged, logged, buf.String())
 			}
 		})
 	}
