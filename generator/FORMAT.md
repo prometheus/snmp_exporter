@@ -43,6 +43,9 @@ modules:
           fixed_size: 8   # Only possible for OctetString/DisplayString types.
                           # If only one length is possible this is it. Otherwise
                           # this will be 0 or missing.
+          display_hint: 1d.   # Only possible for OctetString types.
+                              # RFC 2579 DISPLAY-HINT to format OctetString values as readable strings.
+                              # Useful when vendor-specific types display as hex instead of text.
         - labelname: someOtherString
           type: OctetString
           implied: true   # Only possible for OctetString/DisplayString types.
