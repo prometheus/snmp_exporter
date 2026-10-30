@@ -43,6 +43,47 @@ modules:
 	}
 }
 
+func TestBitValues(t *testing.T) {
+	cases := []struct {
+		name    string
+		typ     string
+		values  string
+		wantErr string
+	}{
+		{name: "valid", typ: "BitsAsStateSet", values: `{0: foo, 63: bar}`},
+		{name: "not set on other types", typ: "gauge"},
+		{name: "missing", typ: "BitsAsStateSet", wantErr: `metric "metric1": type BitsAsStateSet requires bit_values`},
+		{name: "wrong type", typ: "gauge", values: `{0: foo}`, wantErr: `metric "metric1": bit_values requires type BitsAsStateSet, got "gauge"`},
+		{name: "negative bit", typ: "BitsAsStateSet", values: `{-1: foo}`, wantErr: `metric "metric1": bit_values position -1 is out of range 0-63`},
+		{name: "bit too high", typ: "BitsAsStateSet", values: `{64: foo}`, wantErr: `metric "metric1": bit_values position 64 is out of range 0-63`},
+		{name: "empty name", typ: "BitsAsStateSet", values: `{3: ""}`, wantErr: `metric "metric1": bit_values position 3 has an empty name`},
+		{name: "duplicate name", typ: "BitsAsStateSet", values: `{1: foo, 2: foo}`, wantErr: `metric "metric1": bit_values name "foo" is used more than once`},
+		{name: "position not a number", typ: "BitsAsStateSet", values: `{a: foo}`, wantErr: `cannot unmarshal !!str`},
+		{name: "invalid metric", typ: "[]", wantErr: `cannot unmarshal !!seq`},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			content := "modules:\n  module1:\n    metrics:\n      - name: metric1\n        oid: 1.2.3\n        help: A metric\n        type: " + c.typ + "\n"
+			if c.values != "" {
+				content += "        bit_values: " + c.values + "\n"
+			}
+			err := yaml.UnmarshalStrict([]byte(content), &Config{})
+			if c.wantErr == "" {
+				if err != nil {
+					t.Fatalf("Unexpected error: %v", err)
+				}
+				return
+			}
+			if err == nil {
+				t.Fatal("Expected config parsing to fail")
+			}
+			if !strings.Contains(err.Error(), c.wantErr) {
+				t.Fatalf("Unexpected error: %v", err)
+			}
+		})
+	}
+}
+
 func TestWalkParamsRetriesIsolation(t *testing.T) {
 	content := `
 modules:
