@@ -245,9 +245,40 @@ type Metric struct {
 	RegexpExtracts  map[string][]RegexpExtract `yaml:"regex_extracts,omitempty"`
 	DateTimePattern string                     `yaml:"datetime_pattern,omitempty"`
 	EnumValues      map[int]string             `yaml:"enum_values,omitempty"`
+	BitValues       map[int]string             `yaml:"bit_values,omitempty"`
 	Offset          float64                    `yaml:"offset,omitempty"`
 	Scale           float64                    `yaml:"scale,omitempty"`
 	DisplayHint     string                     `yaml:"display_hint,omitempty"`
+}
+
+func (c *Metric) UnmarshalYAML(unmarshal func(any) error) error {
+	type plain Metric
+	if err := unmarshal((*plain)(c)); err != nil {
+		return err
+	}
+	if c.Type != "BitsAsStateSet" {
+		if len(c.BitValues) > 0 {
+			return fmt.Errorf("metric %q: bit_values requires type BitsAsStateSet, got %q", c.Name, c.Type)
+		}
+		return nil
+	}
+	if len(c.BitValues) == 0 {
+		return fmt.Errorf("metric %q: type BitsAsStateSet requires bit_values", c.Name)
+	}
+	seen := map[string]struct{}{}
+	for bit, name := range c.BitValues {
+		if bit < 0 || bit > 63 {
+			return fmt.Errorf("metric %q: bit_values position %d is out of range 0-63", c.Name, bit)
+		}
+		if name == "" {
+			return fmt.Errorf("metric %q: bit_values position %d has an empty name", c.Name, bit)
+		}
+		if _, ok := seen[name]; ok {
+			return fmt.Errorf("metric %q: bit_values name %q is used more than once", c.Name, name)
+		}
+		seen[name] = struct{}{}
+	}
+	return nil
 }
 
 // RenderableIndexTypes are the Index types the collector can render as label
