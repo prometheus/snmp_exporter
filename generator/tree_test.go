@@ -2126,6 +2126,63 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Table with one InetAddressType shared by several InetAddress indexes.
+		// The first address takes the type, the others have no type in the OID.
+		{
+			node: &Node{
+				Oid: "1", Label: "root",
+				Children: []*Node{
+					{
+						Oid: "1.1", Label: "table",
+						Children: []*Node{
+							{
+								Oid: "1.1.1", Label: "tableEntry", Indexes: []string{"tableAddrType", "tableGroup", "tableSource", "tableIfIndex", "tableNextHop"},
+								Children: []*Node{
+									{Oid: "1.1.1.1", Access: "ACCESS_NOACCESS", Label: "tableAddrType", Type: "INTEGER", TextualConvention: "InetAddressType"},
+									{Oid: "1.1.1.2", Access: "ACCESS_NOACCESS", Label: "tableGroup", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+									{Oid: "1.1.1.3", Access: "ACCESS_NOACCESS", Label: "tableSource", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+									{Oid: "1.1.1.4", Access: "ACCESS_NOACCESS", Label: "tableIfIndex", Type: "INTEGER"},
+									{Oid: "1.1.1.5", Access: "ACCESS_NOACCESS", Label: "tableNextHop", Type: "OCTETSTR", TextualConvention: "InetAddress"},
+									{Oid: "1.1.1.6", Access: "ACCESS_READONLY", Label: "tablePkts", Type: "COUNTER"},
+								},
+							},
+						},
+					},
+				},
+			},
+			cfg: &ModuleConfig{
+				Walk: []string{"1.1.1.6"},
+			},
+			out: &config.Module{
+				Walk: []string{"1.1.1.6"},
+				Metrics: []*config.Metric{
+					{
+						Name: "tablePkts",
+						Oid:  "1.1.1.6",
+						Type: "counter",
+						Help: " - 1.1.1.6",
+						Indexes: []*config.Index{
+							{
+								Labelname: "tableGroup",
+								Type:      "InetAddress",
+							},
+							{
+								Labelname: "tableSource",
+								Type:      "OctetString",
+							},
+							{
+								Labelname: "tableIfIndex",
+								Type:      "gauge",
+							},
+							{
+								Labelname: "tableNextHop",
+								Type:      "OctetString",
+							},
+						},
+					},
+				},
+			},
+		},
 		// Table with InetAddressType and InetAddress index in wrong order gets dropped.
 		{
 			node: &Node{
