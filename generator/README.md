@@ -69,7 +69,7 @@ If you would like to run the generator in docker to generate your `snmp.yml` con
 
 The Docker image expects a directory containing the `generator.yml` and a directory called `mibs` that contains all MIBs you wish to use.
 
-This example will generate the example `snmp.yml` which is included in the top level of the snmp_exporter repo:
+This example will generate the example `snmp.yml` which is included in the repo:c
 
 ```sh
 make docker-generate
@@ -101,7 +101,7 @@ auths:
     auth_protocol: MD5  # MD5, SHA, SHA224, SHA256, SHA384, or SHA512. Defaults to MD5. -a option to NetSNMP.
                         # Used if security_level is authNoPriv or authPriv.
     priv_protocol: DES  # DES, AES, AES192, AES256, AES192C, or AES256C. Defaults to DES. -x option to NetSNMP.
-                        # Used if security_level is authPriv.
+                        # Used if security_level is authPriv. Cisco IOS and IOS XE need AES192C or AES256C
     priv_password: otherPass # Has no default. Also known as privKey, -X option to NetSNMP.
                              # Required if security_level is authPriv.
     context_name: context # Has no default. -n option to NetSNMP.
