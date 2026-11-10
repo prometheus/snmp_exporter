@@ -69,7 +69,7 @@ If you would like to run the generator in docker to generate your `snmp.yml` con
 
 The Docker image expects a directory containing the `generator.yml` and a directory called `mibs` that contains all MIBs you wish to use.
 
-This example will generate the example `snmp.yml` which is included in the repo:
+This example will generate the example `snmp.yml` which is included in the top level of the snmp_exporter repo:
 
 ```sh
 make docker-generate
