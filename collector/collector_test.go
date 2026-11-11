@@ -1718,3 +1718,39 @@ func TestScrapeTarget(t *testing.T) {
 		})
 	}
 }
+
+func TestMatchMetric(t *testing.T) {
+	scalar := &config.Metric{Name: "mtxrCtTotalEntries", Oid: "1.3.6.1.4.1.14988.1.1.22.1", Type: "counter"}
+	column := &config.Metric{
+		Name:    "ifHCInOctets",
+		Oid:     "1.3.6.1.2.1.31.1.1.1.6",
+		Type:    "counter",
+		Indexes: []*config.Index{{Labelname: "ifIndex", Type: "gauge"}},
+	}
+	tree := buildMetricTree([]*config.Metric{scalar, column})
+
+	cases := []struct {
+		oid       string
+		metric    *config.Metric
+		indexOids []int
+	}{
+		{oid: "1.3.6.1.4.1.14988.1.1.22.1.0", metric: scalar, indexOids: []int{0}},
+		{oid: "1.3.6.1.4.1.14988.1.1.22.1", metric: scalar, indexOids: []int{}},
+		// Seen on RouterOS 7.22, which serves the conntrack counters one level below the MIB.
+		{oid: "1.3.6.1.4.1.14988.1.1.22.1.1.0"},
+		{oid: "1.3.6.1.4.1.14988.1.1.22.1.2.0"},
+		{oid: "1.3.6.1.4.1.14988.1.1.22.1.3"},
+		{oid: "1.3.6.1.2.1.31.1.1.1.6.3", metric: column, indexOids: []int{3}},
+		{oid: "1.3.6.1.2.1.31.1.1.1.7.3"},
+	}
+	for _, c := range cases {
+		metric, indexOids := matchMetric(tree, oidToList(c.oid))
+		if metric != c.metric {
+			t.Errorf("%s: got metric %v, want %v", c.oid, metric, c.metric)
+			continue
+		}
+		if c.metric != nil && !reflect.DeepEqual(indexOids, c.indexOids) {
+			t.Errorf("%s: got index oids %v, want %v", c.oid, indexOids, c.indexOids)
+		}
+	}
+}
