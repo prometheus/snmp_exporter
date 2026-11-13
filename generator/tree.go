@@ -380,6 +380,8 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			prevType := ""
 			// Safi (Subsequent address family, e.g. Multicast/Unicast)
 			prev2Type := ""
+			// Type indexes already merged into an earlier combined index.
+			mergedTypes := map[string]bool{}
 			for count, i := range n.Indexes {
 				index := &config.Index{Labelname: i}
 				indexNode, ok := nameToNode[i]
@@ -409,11 +411,17 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 
 				// Convert (InetAddressType,InetAddress) to (InetAddress)
 				if subtype, ok := combinedTypes[index.Type]; ok {
-					switch subtype {
-					case prevType:
+					switch {
+					case subtype == prevType:
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-1]
-					case prev2Type:
+						mergedTypes[subtype] = true
+					case mergedTypes[subtype]:
+						// The type index was used by an earlier address, so this one has
+						// no type in the OID, just a length and the value.
+						index.Type = "OctetString"
+					case subtype == prev2Type:
 						metric.Indexes = metric.Indexes[:len(metric.Indexes)-2]
+						mergedTypes[subtype] = true
 					default:
 						logger.Warn("Can't handle index type on node, missing preceding", "node", n.Label, "type", index.Type, "missing", subtype)
 						return
