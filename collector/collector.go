@@ -291,6 +291,33 @@ func buildMetricTree(metrics []*config.Metric) *MetricNode {
 	return metricTree
 }
 
+// matchMetric returns the metric a PDU belongs to and the index OIDs that follow the
+// metric's OID, or nil if no metric matches.
+//
+// A metric without indexes is a scalar, which only has the instance .0. Some agents
+// return other OIDs below a scalar, for example when the device and the MIB disagree
+// about where an object lives. Those are not instances of the scalar, and turning
+// each into a sample with no labels produces duplicates that fail the whole scrape.
+func matchMetric(tree *MetricNode, oidList []int) (*config.Metric, []int) {
+	head := tree
+	for i, o := range oidList {
+		var ok bool
+		head, ok = head.children[o]
+		if !ok {
+			return nil, nil
+		}
+		if head.metric == nil {
+			continue
+		}
+		indexOids := oidList[i+1:]
+		if len(head.metric.Indexes) == 0 && len(indexOids) != 0 && (len(indexOids) != 1 || indexOids[0] != 0) {
+			return nil, nil
+		}
+		return head.metric, indexOids
+	}
+	return nil, nil
+}
+
 type Metrics struct {
 	SNMPCollectionDuration *prometheus.HistogramVec
 	SNMPUnexpectedPduType  prometheus.Counter
@@ -421,22 +448,13 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 	metricTree := buildMetricTree(module.Metrics)
 	// Look for metrics that match each pdu.
 	for oid, pdu := range oidToPdu {
-		head := metricTree
-		oidList := oidToList(oid)
-		for i, o := range oidList {
-			var ok bool
-			head, ok = head.children[o]
-			if !ok {
-				break
-			}
-			if head.metric != nil {
-				// Found a match.
-				samples := pduToSamples(oidList[i+1:], &pdu, head.metric, oidToPdu, logger, c.metrics)
-				for _, sample := range samples {
-					ch <- sample
-				}
-				break
-			}
+		metric, indexOids := matchMetric(metricTree, oidToList(oid))
+		if metric == nil {
+			continue
+		}
+		samples := pduToSamples(indexOids, &pdu, metric, oidToPdu, logger, c.metrics)
+		for _, sample := range samples {
+			ch <- sample
 		}
 	}
 	ch <- prometheus.MustNewConstMetric(
