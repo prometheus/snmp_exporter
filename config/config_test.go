@@ -43,6 +43,44 @@ modules:
 	}
 }
 
+func TestInvalidDynamicFilterValue(t *testing.T) {
+	content := `
+modules:
+  module1:
+    filters:
+      - oid: 1.2.3
+        targets: [1.2.4]
+        values: ["("]
+`
+	cfg := &Config{}
+	err := yaml.UnmarshalStrict([]byte(content), cfg)
+	if err == nil {
+		t.Fatal("Expected invalid dynamic filter value to fail config parsing")
+	}
+	if !strings.Contains(err.Error(), `invalid dynamic filter value "("`) {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+}
+
+func TestDynamicFilterFilters(t *testing.T) {
+	content := `
+modules:
+  module1:
+    filters:
+      - oid: 1.2.3
+        targets: [1.2.4]
+        values: ["^eth", "up$"]
+`
+	cfg := &Config{}
+	if err := yaml.UnmarshalStrict([]byte(content), cfg); err != nil {
+		t.Fatalf("Error unmarshaling content: %v", err)
+	}
+	filters := cfg.Modules["module1"].Filters[0].Filters()
+	if len(filters) != 2 || filters[0].String() != "^eth" || filters[1].String() != "up$" {
+		t.Fatalf("Unexpected filters: %v", filters)
+	}
+}
+
 func TestWalkParamsRetriesIsolation(t *testing.T) {
 	content := `
 modules:
