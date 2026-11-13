@@ -244,7 +244,7 @@ func updateGetConfig(getConfig []string, filter config.DynamicFilter, logger *sl
 	for _, elem := range getConfig {
 		found := false
 		for _, targetOid := range filter.Targets {
-			if strings.HasPrefix(elem, targetOid) {
+			if elem == targetOid || strings.HasPrefix(elem, targetOid+".") {
 				found = true
 				break
 			}
