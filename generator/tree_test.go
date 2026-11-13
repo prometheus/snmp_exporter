@@ -668,6 +668,42 @@ func TestGenerateConfigModule(t *testing.T) {
 				},
 			},
 		},
+		// Bitfield overrides with named bits.
+		{
+			node: &Node{
+				Oid: "1", Label: "root",
+				Children: []*Node{
+					{Oid: "1.1", Access: "ACCESS_READONLY", Type: "UNSIGNED32", Label: "node1"},
+					{Oid: "1.2", Access: "ACCESS_READONLY", Type: "COUNTER64", Label: "node2"},
+				},
+			},
+			cfg: &ModuleConfig{
+				Walk: []string{"root"},
+				Overrides: map[string]MetricOverrides{
+					"node1": {Type: "BitsAsStateSet", BitValues: map[int]string{0: "a", 3: "b"}},
+					"1.2":   {Type: "BitsAsStateSet", BitValues: map[int]string{63: "c"}},
+				},
+			},
+			out: &config.Module{
+				Walk: []string{"1"},
+				Metrics: []*config.Metric{
+					{
+						Name:      "node1",
+						Oid:       "1.1",
+						Type:      "BitsAsStateSet",
+						Help:      " - 1.1",
+						BitValues: map[int]string{0: "a", 3: "b"},
+					},
+					{
+						Name:      "node2",
+						Oid:       "1.2",
+						Type:      "BitsAsStateSet",
+						Help:      " - 1.2",
+						BitValues: map[int]string{63: "c"},
+					},
+				},
+			},
+		},
 		// Table with type override.
 		{
 			node: &Node{
@@ -2403,6 +2439,30 @@ func TestGenerateConfigModule(t *testing.T) {
 			t.Errorf("Got: %s", out)
 			out, _ = yaml.Marshal(c.out)
 			t.Errorf("Wanted: %s", out)
+		}
+	}
+}
+
+func TestGenerateConfigModuleBitsAsStateSetType(t *testing.T) {
+	for _, typ := range []string{"OCTETSTR", "BITSTRING", "IPADDR", "UNKNOWN"} {
+		node := &Node{
+			Oid: "1", Label: "root",
+			Children: []*Node{
+				{Oid: "1.1", Access: "ACCESS_READONLY", Type: typ, Label: "node1"},
+			},
+		}
+		cfg := &ModuleConfig{
+			Walk:      []string{"root"},
+			Overrides: map[string]MetricOverrides{"node1": {Type: "BitsAsStateSet", BitValues: map[int]string{0: "a"}}},
+		}
+		nameToNode := prepareTree(node, promslog.NewNopLogger())
+		_, err := generateConfigModule(cfg, node, nameToNode, promslog.NewNopLogger())
+		if err == nil {
+			t.Fatalf("Expected error for BitsAsStateSet on type %s", typ)
+		}
+		want := "cannot use type BitsAsStateSet on 'node1' of type " + typ
+		if err.Error() != want {
+			t.Errorf("Got error %q, wanted %q", err, want)
 		}
 	}
 }

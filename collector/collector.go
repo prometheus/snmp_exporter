@@ -684,6 +684,8 @@ func pduToSamples(indexOids []int, pdu *gosnmp.SnmpPDU, metric *config.Metric, o
 		return enumAsStateSet(metric, int(value), labelnames, labelvalues)
 	case "Bits":
 		return bits(metric, pdu.Value, labelnames, labelvalues)
+	case "BitsAsStateSet":
+		return bitsAsStateSet(metric, pdu.Value, labelnames, labelvalues)
 	default:
 		// It's some form of string.
 		t = prometheus.GaugeValue
@@ -827,21 +829,40 @@ func bits(metric *config.Metric, value any, labelnames, labelvalues []string) []
 		return []prometheus.Metric{prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "BITS type was not a BISTRING on the wire.", nil, nil),
 			fmt.Errorf("error for metric %s with labels %v: %T", metric.Name, labelvalues, value))}
 	}
+	return bitStateSet(metric, metric.EnumValues, "Bits", labelnames, labelvalues, func(k int) bool {
+		// Most significant byte most significant bit, then most significant byte 2nd most significant bit etc.
+		return k >= 0 && k < len(bytes)*8 && (bytes[k/8]&(128>>(k%8))) != 0
+	})
+}
+
+func bitsAsStateSet(metric *config.Metric, value any, labelnames, labelvalues []string) []prometheus.Metric {
+	switch value.(type) {
+	case int, uint, uint32, uint64:
+	default:
+		return []prometheus.Metric{prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "BitsAsStateSet type was not an integer on the wire.", nil, nil),
+			fmt.Errorf("error for metric %s with labels %v: %T", metric.Name, labelvalues, value))}
+	}
+	v := gosnmp.ToBigInt(value)
+	return bitStateSet(metric, metric.BitValues, "BitsAsStateSet", labelnames, labelvalues, func(k int) bool {
+		// Bit 0 is the least significant bit.
+		return k >= 0 && v.Bit(k) == 1
+	})
+}
+
+// bitStateSet returns a sample per named bit, with a value of 1 if isSet reports that bit as set.
+func bitStateSet(metric *config.Metric, names map[int]string, typ string, labelnames, labelvalues []string, isSet func(int) bool) []prometheus.Metric {
 	labelnames = append(labelnames, metric.Name)
 	results := []prometheus.Metric{}
 
-	for k, v := range metric.EnumValues {
+	for k, v := range names {
 		bit := 0.0
-		// Most significant byte most significant bit, then most significant byte 2nd most significant bit etc.
-		if k < len(bytes)*8 {
-			if (bytes[k/8] & (128 >> (k % 8))) != 0 {
-				bit = 1.0
-			}
+		if isSet(k) {
+			bit = 1.0
 		}
-		newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" (Bits)", labelnames, nil),
+		newMetric, err := prometheus.NewConstMetric(prometheus.NewDesc(metric.Name, metric.Help+" ("+typ+")", labelnames, nil),
 			prometheus.GaugeValue, bit, append(labelvalues, v)...)
 		if err != nil {
-			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for Bits", nil, nil),
+			newMetric = prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error calling NewConstMetric for "+typ, nil, nil),
 				fmt.Errorf("error for metric %s with labels %v: %w", metric.Name, labelvalues, err))
 		}
 		results = append(results, newMetric)

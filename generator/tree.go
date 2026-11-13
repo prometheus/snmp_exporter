@@ -176,7 +176,7 @@ func metricType(t string) (string, bool) {
 		return t, true
 	case "NTPTimeStamp":
 		return t, true
-	case "EnumAsInfo", "EnumAsStateSet":
+	case "EnumAsInfo", "EnumAsStateSet", "BitsAsStateSet":
 		return t, true
 	default:
 		// Unsupported type.
@@ -295,6 +295,12 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 		if !ok {
 			logger.Warn("Could not find node to override type", "node", name)
 			continue
+		}
+		// Only integer values can be read as a bitfield.
+		if params.Type == "BitsAsStateSet" {
+			if t, _ := metricType(n.Type); t != "gauge" && t != "counter" {
+				return nil, fmt.Errorf("cannot use type %s on '%s' of type %s", params.Type, name, n.Type)
+			}
 		}
 		// params.Type validated at generator configuration.
 		n.Type = params.Type
@@ -580,6 +586,7 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 			metric.DateTimePattern = params.DateTimePattern
 			metric.Offset = params.Offset
 			metric.Scale = params.Scale
+			metric.BitValues = params.BitValues
 			if params.Help != "" {
 				metric.Help = params.Help
 			}

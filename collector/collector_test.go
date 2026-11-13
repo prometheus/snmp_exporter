@@ -617,6 +617,197 @@ func TestPduToSample(t *testing.T) {
 				`Desc{fqName: "test_metric", help: "Help string (Bits)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"missing"} gauge:{value:0}`,
 			},
 		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.OctetString,
+				Value: []byte{1 << 7},
+			},
+			metric: &config.Metric{
+				Name:       "test_metric",
+				Oid:        "1.1",
+				Type:       "Bits",
+				Help:       "Help string",
+				EnumValues: map[int]string{-1: "bad", 0: "foo"},
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"bad"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (Bits)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"foo"} gauge:{value:1}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 0b101001,
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "normalOperation", 1: "startUp", 3: "normalWithWarning", 5: "abnormalOperation", 40: "unused"},
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"normalOperation"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"startUp"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"normalWithWarning"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"abnormalOperation"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"unused"} gauge:{value:0}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Gauge32,
+				Value: uint(1 << 31),
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "low", 31: "high"},
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"low"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"high"} gauge:{value:1}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.TimeTicks,
+				Value: uint32(1 << 2),
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{2: "bit2", 3: "bit3"},
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"bit2"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"bit3"} gauge:{value:0}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Counter64,
+				Value: uint64(1<<63 | 1),
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "low", 1: "next", 63: "high"},
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"low"} gauge:{value:1}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"next"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"high"} gauge:{value:1}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: -2147483648,
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "low", 31: "sign"},
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"low"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"sign"} gauge:{value:1}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 1,
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{-1: "bad", 0: "low"},
+			},
+			expectedMetrics: []string{
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"bad"} gauge:{value:0}`,
+				`Desc{fqName: "test_metric", help: "Help string (BitsAsStateSet)", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"low"} gauge:{value:1}`,
+			},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.OctetString,
+				Value: []byte{0x80},
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "foo"},
+			},
+			shouldErr: true,
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.OpaqueFloat,
+				Value: float32(1.5),
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "foo"},
+			},
+			shouldErr: true,
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Null,
+				Value: nil,
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "foo"},
+			},
+			shouldErr: true,
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.1",
+				Type:  gosnmp.Integer,
+				Value: 1,
+			},
+			metric: &config.Metric{
+				Name:      "test_metric",
+				Oid:       "1.1",
+				Type:      "BitsAsStateSet",
+				Help:      "Help string",
+				BitValues: map[int]string{0: "foo"},
+				Indexes:   []*config.Index{{Labelname: "test_metric", Type: "gauge"}},
+			},
+			shouldErr: true,
+		},
 	}
 
 	for _, c := range cases {

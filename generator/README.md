@@ -195,11 +195,15 @@ modules:
                              #   EnumAsInfo: An enum for which a single timeseries is created. Good for constant values.
                              #   EnumAsStateSet: An enum with a time series per state. Good for variable low-cardinality enums.
                              #   Bits: An RFC 2578 BITS construct, which produces a StateSet with a time series per bit.
+                             #   BitsAsStateSet: An integer used as a bitfield, which produces a StateSet with a time series per bit named in bit_values.
         display_hint: "255a" # RFC 2579 DISPLAY-HINT to format OctetString values as readable strings.
                              # Useful when vendor-specific types display as hex instead of text.
                              # Use "@mib" to use the hint from the MIB, or provide a custom hint.
                              # Only applies to OctetString types; ignored for types with dedicated handlers.
                              # See the "DISPLAY-HINT for OctetString" section below for format details.
+        bit_values:          # Bit position to name mapping, required with the BitsAsStateSet type.
+          0: normalOperation # See the "BitsAsStateSet" section below for details.
+          1: startUp
 
     filters: # Define filters to collect only a subset of OID table indices
       static: # static filters are handled in the generator. They will convert walks to multiple gets with the specified indices
@@ -275,6 +279,37 @@ a device type, the name of a colour etc. It is important that this value is cons
 to alert on. For example the link state, is it up or down, is it in an error state,
 whether a panel is open or closed etc. Please be careful to not use this for high
 cardinality values as it will generate 1 time series per possible value.
+
+### BitsAsStateSet
+
+Some MIBs define an integer as a bitfield, listing what each bit means only in the
+description. `BitsAsStateSet` produces a time series for each named bit, with a value of
+1 when the bit is set and 0 otherwise, in the same way as `EnumAsStateSet`:
+
+```yaml
+modules:
+  liebert_pdu:
+    overrides:
+      lgpPduEntrySysStatus:
+        type: BitsAsStateSet
+        bit_values:
+          0: normalOperation
+          1: startUp
+          3: normalWithWarning
+```
+
+```
+lgpPduEntrySysStatus{lgpPduEntryIndex="1",lgpPduEntrySysStatus="normalOperation"} 1
+lgpPduEntrySysStatus{lgpPduEntryIndex="1",lgpPduEntrySysStatus="startUp"} 0
+lgpPduEntrySysStatus{lgpPduEntryIndex="1",lgpPduEntrySysStatus="normalWithWarning"} 1
+```
+
+Bit 0 is the least significant bit, so a MIB value of `8` is bit 3. Positions can be
+0 to 63, and bits that are not named are ignored. `scale` and `offset` do not apply.
+
+The type can only be used on integer objects. The generator returns an error for any
+other type. For OCTET STRING values, the `Bits` type reads RFC 2578 BITS, where bit 0 is
+the most significant bit of the first octet.
 
 ### DISPLAY-HINT for OctetString
 
