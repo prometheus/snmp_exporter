@@ -310,7 +310,7 @@ func matchMetric(tree *MetricNode, oidList []int) (*config.Metric, []int) {
 			continue
 		}
 		indexOids := oidList[i+1:]
-		if len(head.metric.Indexes) == 0 && !(len(indexOids) == 0 || (len(indexOids) == 1 && indexOids[0] == 0)) {
+		if len(head.metric.Indexes) == 0 && len(indexOids) != 0 && (len(indexOids) != 1 || indexOids[0] != 0) {
 			return nil, nil
 		}
 		return head.metric, indexOids
