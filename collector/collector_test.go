@@ -1025,7 +1025,7 @@ func TestRenderableIndexTypes(t *testing.T) {
 					t.Errorf("indexOidsAsString panicked for type %s: %v", typ, r)
 				}
 			}()
-			indexOidsAsString([]int{4, 1, 2, 3, 4, 5, 6, 7, 8}, typ, 0, false, nil)
+			indexOidsAsString([]int{4, 1, 2, 3, 4, 5, 6, 7, 8}, typ, "", 0, false, nil)
 		}()
 	}
 }
@@ -1129,6 +1129,12 @@ func TestIndexesToLabels(t *testing.T) {
 			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "OctetString"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "0x4120FF"},
+		},
+		{
+			oid:      []int{4, 127, 0, 0, 1},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "OctetString", DisplayHint: "1d."}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "127.0.0.1"},
 		},
 		{
 			oid:      []int{65, 32, 255},
