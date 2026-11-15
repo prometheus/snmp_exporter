@@ -50,7 +50,7 @@ func writeUint(w *strings.Builder, val uint64, base int) {
 //   - Optional terminator: single character after repeat group (requires '*')
 //
 // The last format specification repeats until all data is exhausted (implicit
-// repetition rule). Trailing separators are suppressed.
+// repetition rule). Trailing separators and terminators are suppressed.
 //
 // Examples:
 //   - "1d.1d.1d.1d" on [192,168,1,1] → "192.168.1.1"
@@ -63,6 +63,9 @@ func applyDisplayHint(hint string, data []byte) (string, bool) {
 
 	var result strings.Builder
 	result.Grow(len(data) * 4) // Preallocate for typical output
+	// Track field content separately so trailing generated punctuation can be
+	// suppressed even when remaining input contains only empty repeat groups.
+	contentEnd := 0
 
 	hintPos := 0
 	dataPos := 0
@@ -162,6 +165,9 @@ func applyDisplayHint(hint string, data []byte) (string, bool) {
 			// Format the chunk using stack-allocated buffers
 			switch fmtChar {
 			case 'd':
+				if len(chunk) == 0 {
+					break
+				}
 				if len(chunk) > 8 {
 					return "", false
 				}
@@ -174,6 +180,9 @@ func applyDisplayHint(hint string, data []byte) (string, bool) {
 			case 'x':
 				writeHex(&result, chunk)
 			case 'o':
+				if len(chunk) == 0 {
+					break
+				}
 				if len(chunk) > 8 {
 					return "", false
 				}
@@ -186,6 +195,9 @@ func applyDisplayHint(hint string, data []byte) (string, bool) {
 			case 'a', 't':
 				// ASCII/UTF-8 - write bytes directly
 				result.Write(chunk)
+			}
+			if len(chunk) > 0 {
+				contentEnd = result.Len()
 			}
 			dataPos = end
 
@@ -202,7 +214,14 @@ func applyDisplayHint(hint string, data []byte) (string, bool) {
 		}
 	}
 
-	return result.String(), true
+	// Keep punctuation from field content, trimming only generated punctuation.
+	formatted := result.String()
+	if contentEnd < len(formatted) && contentEnd <= len(formatted)/4 {
+		// Copy only when most of the output is discarded, avoiding retention of
+		// a large buffer without adding an allocation for small trims.
+		return strings.Clone(formatted[:contentEnd]), true
+	}
+	return formatted[:contentEnd], true
 }
 
 func isDigit(c byte) bool {

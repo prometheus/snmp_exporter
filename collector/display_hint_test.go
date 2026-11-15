@@ -318,6 +318,30 @@ func TestApplyDisplayHintZeroWidthValid(t *testing.T) {
 		result string
 	}{
 		{
+			name:   "Decimal value after zero-width prefix",
+			hint:   "0d[1d",
+			data:   []byte{42},
+			result: "[42",
+		},
+		{
+			name:   "Octal value after zero-width prefix",
+			hint:   "0o[1o",
+			data:   []byte{42},
+			result: "[52",
+		},
+		{
+			name:   "Decimal zero byte after zero-width prefix",
+			hint:   "0d[1d",
+			data:   []byte{0},
+			result: "[0",
+		},
+		{
+			name:   "Octal zero byte after zero-width prefix",
+			hint:   "0o[1o",
+			data:   []byte{0},
+			result: "[0",
+		},
+		{
 			name:   "Zero-width bracket prefix with trailing content",
 			hint:   "0a[1a]1a",
 			data:   []byte{0x41, 0x42},
@@ -334,6 +358,12 @@ func TestApplyDisplayHintZeroWidthValid(t *testing.T) {
 			hint:   "0a[2x]0a:2d",
 			data:   []byte{0x20, 0x01, 0x00, 0x50},
 			result: "[2001]:80",
+		},
+		{
+			name:   "TransportAddressIPv6 RFC 3419",
+			hint:   "0a[2x:2x:2x:2x:2x:2x:2x:2x]0a:2d",
+			data:   []byte{0x20, 1, 0x0d, 0xb8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 80},
+			result: "[2001:0DB8:0000:0000:0000:0000:0000:0001]:80",
 		},
 		{
 			name:   "Zero-width prefix only",
@@ -355,6 +385,100 @@ func TestApplyDisplayHintZeroWidthValid(t *testing.T) {
 			if !ok {
 				t.Errorf("applyDisplayHint(%q, %v) returned ok=false, want ok=true", c.hint, c.data)
 				return
+			}
+			if result != c.result {
+				t.Errorf("applyDisplayHint(%q, %v) = %q, want %q", c.hint, c.data, result, c.result)
+			}
+		})
+	}
+}
+
+func TestApplyDisplayHintTrailingPunctuation(t *testing.T) {
+	cases := []struct {
+		name   string
+		hint   string
+		data   []byte
+		result string
+	}{
+		{
+			name:   "Separator before empty repeat tail",
+			hint:   "1d.*1d",
+			data:   []byte{42, 0},
+			result: "42",
+		},
+		{
+			name:   "Terminator before empty repeat tail",
+			hint:   "*1d./*1d",
+			data:   []byte{1, 42, 0},
+			result: "42",
+		},
+		{
+			name:   "Multiple trailing separators and terminators",
+			hint:   "1d.*0a,/*1d",
+			data:   []byte{42, 2, 0},
+			result: "42",
+		},
+		{
+			name:   "Large empty repeat tail",
+			hint:   "1a*0a./",
+			data:   append([]byte{'A'}, []byte(strings.Repeat("\xff", 1024))...),
+			result: "A",
+		},
+		{
+			name:   "Maximum zero-width repeat count before content",
+			hint:   "1a*0a./1a",
+			data:   []byte{'A', 255, 'B'},
+			result: "A" + strings.Repeat(".", 254) + "/B",
+		},
+		{
+			name:   "Zero-count group terminator before content",
+			hint:   "*1d./1d",
+			data:   []byte{0, 42},
+			result: "/42",
+		},
+		{
+			name:   "Zero-count group between content",
+			hint:   "1d:*1d./1d",
+			data:   []byte{42, 0, 7},
+			result: "42:/7",
+		},
+		{
+			name:   "Only zero-count groups",
+			hint:   "*1d./",
+			data:   []byte{0, 0},
+			result: "",
+		},
+		{
+			name:   "Separator retained across empty group",
+			hint:   "1d.*1d",
+			data:   []byte{42, 0, 1, 7},
+			result: "42.7",
+		},
+		{
+			name:   "Terminator retained across empty group",
+			hint:   "*1d./*1d",
+			data:   []byte{1, 42, 0, 1, 7},
+			result: "42/7",
+		},
+		{
+			name:   "Literal trailing separator retained",
+			hint:   "2a.*1d",
+			data:   []byte{'A', '.', 0},
+			result: "A.",
+		},
+		{
+			name:   "Literal trailing terminator retained",
+			hint:   "*2t./*1d",
+			data:   []byte{1, 'A', '/', 0},
+			result: "A/",
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			result, ok := applyDisplayHint(c.hint, c.data)
+			if !ok {
+				t.Fatalf("applyDisplayHint(%q, %v) returned ok=false, want ok=true", c.hint, c.data)
 			}
 			if result != c.result {
 				t.Errorf("applyDisplayHint(%q, %v) = %q, want %q", c.hint, c.data, result, c.result)
