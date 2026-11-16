@@ -153,7 +153,9 @@ A scrape with a fingerprint works in two phases:
 2. All matchers are evaluated against the values returned by the discovery
    modules. The modules of every matching matcher are scraped as well (union,
    each module is only scraped once). If no matcher matches, the
-   `default_modules` are scraped.
+   `default_modules` are scraped. `default_modules` is optional; without it,
+   only the discovery modules are scraped for targets that match nothing and
+   no `snmp_fingerprint_module_info` series is exported.
 
 The `fingerprint` parameter can be combined with `module`. The explicitly
 requested modules are scraped in addition to the ones selected by the

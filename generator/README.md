@@ -240,7 +240,8 @@ fingerprinters:
     # Modules scraped first. Their results are exported as usual and are used
     # to evaluate the matchers. Required.
     discovery_modules: [system]
-    # Modules scraped when no matcher matches. Optional.
+    # Modules scraped when no matcher matches. Optional. If omitted, only the
+    # discovery modules are scraped for targets that match nothing.
     default_modules: [if_mib]
     # All matchers are evaluated; the modules of all matching matchers are
     # scraped (union).

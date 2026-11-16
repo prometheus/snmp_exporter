@@ -73,7 +73,7 @@ modules:
 fingerprinters:
   fingerprinter_name:
     discovery_modules: [module_name]  # Modules scraped first, used for matching.
-    default_modules: [if_mib]         # Modules scraped when no matcher matches.
+    default_modules: [if_mib]         # Optional. Modules scraped when no matcher matches.
     matchers:
       - oid: 1.3.6.1.2.1.1.2          # Numeric OID; matches values at and below it.
         regex: '1\.3\.6\.1\.4\.1\.14988(\..*)?'  # Anchored, mutually exclusive with exists.

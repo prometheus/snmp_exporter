@@ -371,3 +371,36 @@ func TestCollectWithoutFingerprint(t *testing.T) {
 		t.Errorf("expected no fingerprint metrics, got %v", res.fingerprinted)
 	}
 }
+
+func TestFingerprintMatchWithoutDefaultModules(t *testing.T) {
+	cfg := loadFingerprintTestConfig(t)
+	fp := *cfg.Fingerprinters["system"]
+	fp.DefaultModules = nil
+	cfg.Fingerprinters["system"] = &fp
+	if err := cfg.Validate(); err != nil {
+		t.Fatalf("default_modules must be optional: %v", err)
+	}
+	f, err := NewFingerprint("system", &fp, cfg.Modules)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if got := f.Match([]gosnmp.SnmpPDU{sysObjectID(".1.3.6.1.4.1.8072.3.2.10")}, Metrics{}); len(got) != 0 {
+		t.Errorf("expected no modules, got %d", len(got))
+	}
+
+	// Only the discovery modules are scraped and no fingerprint metric is
+	// emitted.
+	c := newFingerprintTestCollector(t, nil, 1, func() *scraper.MockSNMPScraper {
+		return scraper.NewMockSNMPScraper(map[string]gosnmp.SnmpPDU{
+			"1.3.6.1.2.1.1.2.0": sysObjectID(".1.3.6.1.4.1.8072.3.2.10"),
+		}, nil)
+	})
+	c.fingerprint = f
+	res := runCollect(t, c)
+	if want := []string{"lldp_probe", "system"}; !reflect.DeepEqual(res.scraped, want) {
+		t.Errorf("scraped modules: want %v, got %v", want, res.scraped)
+	}
+	if len(res.fingerprinted) != 0 {
+		t.Errorf("expected no fingerprint metrics, got %v", res.fingerprinted)
+	}
+}
