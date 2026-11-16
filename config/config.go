@@ -86,6 +86,10 @@ func LoadFile(logger *slog.Logger, paths []string, expandEnvVars bool) (*Config,
 		}
 	}
 
+	if err := cfg.Validate(); err != nil {
+		return nil, err
+	}
+
 	return cfg, nil
 }
 
@@ -116,9 +120,10 @@ var (
 
 // Config for the snmp_exporter.
 type Config struct {
-	Auths   map[string]*Auth   `yaml:"auths,omitempty"`
-	Modules map[string]*Module `yaml:"modules,omitempty"`
-	Version int                `yaml:"version,omitempty"`
+	Auths          map[string]*Auth          `yaml:"auths,omitempty"`
+	Modules        map[string]*Module        `yaml:"modules,omitempty"`
+	Fingerprinters map[string]*Fingerprinter `yaml:"fingerprinters,omitempty"`
+	Version        int                       `yaml:"version,omitempty"`
 }
 
 type WalkParams struct {

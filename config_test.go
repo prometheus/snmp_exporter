@@ -160,10 +160,11 @@ func TestEnvSecretsNotSpecified(t *testing.T) {
 
 func TestParseModules(t *testing.T) {
 	cases := []struct {
-		name    string
-		query   url.Values
-		want    []string
-		wantErr string
+		name      string
+		query     url.Values
+		noDefault bool
+		want      []string
+		wantErr   string
 	}{
 		{
 			name:  "defaults to if_mib when omitted",
@@ -176,6 +177,25 @@ func TestParseModules(t *testing.T) {
 			wantErr: "'module' parameter must contain at least one module name",
 		},
 		{
+			name:      "no default module when fingerprint is used",
+			query:     url.Values{},
+			noDefault: true,
+			want:      nil,
+		},
+		{
+			name:      "explicit modules with fingerprint",
+			query:     url.Values{"module": {"system"}},
+			noDefault: true,
+			want:      []string{"system"},
+		},
+		{
+			// The landing page form always sends the module parameter.
+			name:      "allows explicit empty module with fingerprint",
+			query:     url.Values{"module": {""}},
+			noDefault: true,
+			want:      nil,
+		},
+		{
 			name:  "deduplicates modules across repeated params and csv values",
 			query: url.Values{"module": {"if_mib,system", "system", "if_mib"}},
 			want:  []string{"if_mib", "system"},
@@ -184,7 +204,7 @@ func TestParseModules(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			got, err := parseModules(tc.query)
+			got, err := parseModules(tc.query, !tc.noDefault)
 			if tc.wantErr != "" {
 				if err == nil {
 					t.Fatalf("expected error %q, got nil", tc.wantErr)
@@ -232,5 +252,60 @@ func TestHandlerRejectsEmptyModuleParameter(t *testing.T) {
 	}
 	if !strings.Contains(resp.Body.String(), "'module' parameter must contain at least one module name") {
 		t.Fatalf("unexpected response body: %q", resp.Body.String())
+	}
+}
+
+func TestLoadConfigWithFingerprinters(t *testing.T) {
+	sc := &SafeConfig{}
+	err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-fingerprint.yml"}, false)
+	if err != nil {
+		t.Fatalf("Error loading config %v: %v", "testdata/snmp-fingerprint.yml", err)
+	}
+	if _, ok := sc.C.Fingerprinters["system"]; !ok {
+		t.Fatal("fingerprinter 'system' not loaded")
+	}
+}
+
+func TestHandlerFingerprintParameter(t *testing.T) {
+	sc = &SafeConfig{}
+	if err := sc.ReloadConfig(nopLogger, []string{"testdata/snmp-fingerprint.yml"}, false); err != nil {
+		t.Fatalf("Error loading config: %v", err)
+	}
+
+	cases := []struct {
+		name     string
+		query    string
+		wantBody string
+	}{
+		{
+			name:     "unknown fingerprint",
+			query:    "target=127.0.0.1&fingerprint=nope",
+			wantBody: "Unknown fingerprint 'nope'",
+		},
+		{
+			name:     "fingerprint specified twice",
+			query:    "target=127.0.0.1&fingerprint=system&fingerprint=system",
+			wantBody: "'fingerprint' parameter must only be specified once",
+		},
+		{
+			name:     "unknown module next to fingerprint",
+			query:    "target=127.0.0.1&fingerprint=system&module=nope",
+			wantBody: "Unknown module 'nope'",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			req := httptest.NewRequest(http.MethodGet, "/snmp?"+tc.query, http.NoBody)
+			resp := httptest.NewRecorder()
+
+			handler(resp, req, nopLogger, collector.Metrics{})
+
+			if resp.Code != http.StatusBadRequest {
+				t.Fatalf("expected status %d, got %d", http.StatusBadRequest, resp.Code)
+			}
+			if !strings.Contains(resp.Body.String(), tc.wantBody) {
+				t.Fatalf("unexpected response body: %q", resp.Body.String())
+			}
+		})
 	}
 }

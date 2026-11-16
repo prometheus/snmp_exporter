@@ -31,6 +31,7 @@ type MockSNMPScraper struct {
 	WalkResponses map[string][]gosnmp.SnmpPDU
 	ConnectError  error
 	CloseError    error
+	GetError      error
 
 	callGet  []string
 	callWalk []string
@@ -45,6 +46,10 @@ func (m *MockSNMPScraper) CallWalk() []string {
 }
 
 func (m *MockSNMPScraper) Get(oids []string) (*gosnmp.SnmpPacket, error) {
+	if m.GetError != nil {
+		m.callGet = append(m.callGet, oids...)
+		return nil, m.GetError
+	}
 	pdus := make([]gosnmp.SnmpPDU, 0, len(oids))
 	for _, oid := range oids {
 		if response, exists := m.GetResponses[oid]; exists {
