@@ -69,6 +69,7 @@ LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/moni
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
+SCHNEIDER_PM55XX_URL := 'https://download.se.com/files?p_Doc_Ref=PM5560_PM5563_v2.3.0&p_enDocType=Firmware&p_File_Name=PM5560_PM5563_v2.3.0.zip'
 POWERCOM_URL      := https://raw.githubusercontent.com/prometheus-community/snmp/refs/heads/main/powercom/XPPC-MIB
 TPLINK_DDM        := https://static.tp-link.com/upload/software/2024/202402/20240229/L2-tplinkMibs.zip
 CISCO_CUCS_URL    := https://raw.githubusercontent.com/cisco/cisco-mibs/refs/heads/main/ucs-mibs
@@ -142,6 +143,7 @@ mibs: \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/readynas \
   $(MIBDIR)/readydataos \
+  $(MIBDIR)/SchneiderPM55xx_V01_13.mib \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
@@ -567,3 +569,10 @@ $(MIBDIR)/.yamaha-rt:
 	@find $(MIBDIR) -name 'yamaha-*.mib.txt' | xargs sed -i.bak -z -E 's/(DisplayString(, PhysAddress)?[[:space:]\n]*FROM )RFC1213-MIB/\1SNMPv2-TC/'
 	@rm $(MIBDIR)/yamaha-*.mib.txt.bak
 	@touch $(MIBDIR)/.yamaha-rt
+
+$(MIBDIR)/SchneiderPM55xx_V01_13.mib:
+	$(eval TMP := $(shell mktemp))
+	@echo ">> Downloading SchneiderPM55xx_V01_13.mib to $(TMP)"
+	@curl $(CURL_OPTS) -o $(TMP) $(SCHNEIDER_PM55XX_URL)
+	@unzip -j -d $(MIBDIR) $(TMP) SchneiderPM55xx_V01_13.mib
+	@rm -v $(TMP)
