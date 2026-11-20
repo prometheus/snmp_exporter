@@ -70,4 +70,7 @@ modules:
        enum_values: # Enum for this metric. Only used with the enum types.
           0: true
           1: false
+       bit_values: # Bit position to name mapping. Required with, and only valid for, the BitsAsStateSet type.
+          0: normalOperation
+          1: startUp
 ```
