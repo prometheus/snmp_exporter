@@ -137,6 +137,44 @@ Prometheus Example:
         - ucd_la_table
 ```
 
+## Fingerprint-Based Module Discovery
+Instead of choosing the modules for every target by hand, a fingerprinter can
+select them based on what the target returns. Fingerprinters are defined in
+`snmp.yml` (see the [generator documentation](generator/README.md#fingerprinters)).
+
+```
+http://localhost:9116/snmp?fingerprint=default&target=192.0.0.8
+```
+
+A scrape with a fingerprint works in two phases:
+
+1. The `discovery_modules` of the fingerprinter are scraped. Their metrics are
+   exported like those of any other module.
+2. All matchers are evaluated against the values returned by the discovery
+   modules. The modules of every matching matcher are scraped as well (union,
+   each module is only scraped once). If no matcher matches, the
+   `default_modules` are scraped. `default_modules` is optional; without it,
+   only the discovery modules are scraped for targets that match nothing and
+   no `snmp_fingerprint_module_info` series is exported.
+
+The `fingerprint` parameter can be combined with `module`. The explicitly
+requested modules are scraped in addition to the ones selected by the
+fingerprinter. Without a `module` parameter, `if_mib` is not added by default.
+
+If a discovery module fails, the second phase is skipped and the scrape fails,
+so that a transient error does not change the set of exported metrics.
+
+The selected modules are exposed as
+`snmp_fingerprint_module_info{fingerprint="default",module="if_mib"} 1`.
+
+Prometheus Example:
+```YAML
+
+  - job_name: 'snmp_fingerprint'
+    params:
+      fingerprint: [default]
+```
+
 ## Configuration
 
 The default configuration file name is `snmp.yml` and should not be edited

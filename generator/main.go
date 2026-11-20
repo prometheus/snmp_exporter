@@ -50,6 +50,20 @@ func generateConfig(nodes *Node, logger *slog.Logger) error {
 
 	outputConfig := config.Config{}
 	outputConfig.Auths = cfg.Auths
+
+	nameToNode := map[string]*Node{}
+	walkNode(nodes, func(n *Node) {
+		nameToNode[n.Oid] = n
+		nameToNode[n.Label] = n
+		if n.Module != "" {
+			nameToNode[n.Module+"::"+n.Label] = n
+		}
+	})
+	outputConfig.Fingerprinters, err = generateFingerprinters(cfg.Fingerprinters, nameToNode)
+	if err != nil {
+		return err
+	}
+
 	outputConfig.Modules = make(map[string]*config.Module, len(cfg.Modules))
 	for name, m := range cfg.Modules {
 		logger.Info("Generating config for module", "module", name)
@@ -81,9 +95,14 @@ func generateConfig(nodes *Node, logger *slog.Logger) error {
 	}
 
 	// Check the generated config to catch auth/version issues.
-	err = yaml.UnmarshalStrict(out, &config.Config{})
+	generated := &config.Config{}
+	err = yaml.UnmarshalStrict(out, generated)
 	if err != nil {
 		return fmt.Errorf("error parsing generated config: %w", err)
+	}
+	// Check fingerprinters against the generated modules.
+	if err := generated.Validate(); err != nil {
+		return fmt.Errorf("error validating generated config: %w", err)
 	}
 
 	f, err := os.Create(outputPath)

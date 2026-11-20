@@ -1,0 +1,30 @@
+auths:
+  public_v2:
+    community: public
+    version: 2
+modules:
+  system:
+    get:
+      - 1.3.6.1.2.1.1.1.0
+      - 1.3.6.1.2.1.1.2.0
+    metrics:
+      - name: sysDescr
+        oid: 1.3.6.1.2.1.1.1
+        type: DisplayString
+        help: A textual description of the entity.
+  if_mib:
+    walk:
+      - 1.3.6.1.2.1.2
+    metrics: []
+  ubiquiti_unifi:
+    walk:
+      - 1.3.6.1.4.1.41112.1.6
+    metrics: []
+fingerprinters:
+  system:
+    discovery_modules: [system]
+    default_modules: [if_mib]
+    matchers:
+      - oid: 1.3.6.1.2.1.1.2
+        regex: '1\.3\.6\.1\.4\.1\.41112(\..*)?'
+        modules: [if_mib, ubiquiti_unifi]
