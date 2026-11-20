@@ -24,6 +24,7 @@ import (
 	"github.com/gosnmp/gosnmp"
 	io_prometheus_client "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/promslog"
+	"go.yaml.in/yaml/v2"
 
 	"github.com/prometheus/snmp_exporter/config"
 	"github.com/prometheus/snmp_exporter/scraper"
@@ -1359,6 +1360,20 @@ func TestIndexesToLabels(t *testing.T) {
 	}
 }
 
+// loadDynamicFilter passes f through the YAML loader, which compiles its values.
+func loadDynamicFilter(t *testing.T, f config.DynamicFilter) config.DynamicFilter {
+	t.Helper()
+	b, err := yaml.Marshal(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var out config.DynamicFilter
+	if err := yaml.UnmarshalStrict(b, &out); err != nil {
+		t.Fatal(err)
+	}
+	return out
+}
+
 func TestFilterAllowedIndices(t *testing.T) {
 	pdus := []gosnmp.SnmpPDU{
 		{
@@ -1376,6 +1391,10 @@ func TestFilterAllowedIndices(t *testing.T) {
 		{
 			Name:  "1.3.6.1.2.1.2.2.1.8.4",
 			Value: "5",
+		},
+		{
+			Name:  "1.3.6.1.2.1.2.2.1.8.5",
+			Value: "20",
 		},
 	}
 
@@ -1400,9 +1419,18 @@ func TestFilterAllowedIndices(t *testing.T) {
 			},
 			result: []string{"4"},
 		},
+		{
+			// Values are not anchored, so "2" also matches the PDU "20".
+			filter: config.DynamicFilter{
+				Oid:     "1.3.6.1.2.1.2.2.1.8",
+				Targets: []string{"1.3.6.1.2.1.2.2.1.3", "1.3.6.1.2.1.2.2.1.5"},
+				Values:  []string{"2"},
+			},
+			result: []string{"1", "5"},
+		},
 	}
 	for _, c := range cases {
-		got := filterAllowedIndices(promslog.NewNopLogger(), c.filter, pdus, c.allowedList, Metrics{})
+		got := filterAllowedIndices(promslog.NewNopLogger(), loadDynamicFilter(t, c.filter), pdus, c.allowedList, Metrics{})
 		if !reflect.DeepEqual(got, c.result) {
 			t.Errorf("filterAllowedIndices(%v): got %v, want %v", c.filter, got, c.result)
 		}
@@ -1694,6 +1722,9 @@ func TestScrapeTarget(t *testing.T) {
 	for _, c := range cases {
 		tt := c
 		t.Run(tt.name, func(t *testing.T) {
+			for i := range tt.module.Filters {
+				tt.module.Filters[i] = loadDynamicFilter(t, tt.module.Filters[i])
+			}
 			mock := scraper.NewMockSNMPScraper(tt.getResponse, tt.walkResponses)
 			results, err := ScrapeTarget(mock, "someTarget", auth, tt.module, promslog.NewNopLogger(), Metrics{})
 			if err != nil {
