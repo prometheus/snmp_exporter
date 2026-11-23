@@ -123,6 +123,7 @@ type Config struct {
 	Auths          map[string]*Auth          `yaml:"auths,omitempty"`
 	Modules        map[string]*Module        `yaml:"modules,omitempty"`
 	Fingerprinters map[string]*Fingerprinter `yaml:"fingerprinters,omitempty"`
+	Scanners       map[string]*Scanner       `yaml:"scanners,omitempty"`
 	Version        int                       `yaml:"version,omitempty"`
 }
 

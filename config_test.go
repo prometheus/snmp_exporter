@@ -204,7 +204,7 @@ func TestParseModules(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			got, err := parseModules(tc.query, !tc.noDefault)
+			got, err := parseModules(tc.query)
 			if tc.wantErr != "" {
 				if err == nil {
 					t.Fatalf("expected error %q, got nil", tc.wantErr)

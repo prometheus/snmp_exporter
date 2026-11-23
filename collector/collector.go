@@ -87,7 +87,7 @@ func listToOid(l []int) string {
 }
 
 type ScrapeResults struct {
-	pdus []gosnmp.SnmpPDU
+	PDUs []gosnmp.SnmpPDU
 }
 
 func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, module *config.Module, logger *slog.Logger, metrics Metrics) (ScrapeResults, error) {
@@ -166,7 +166,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 				logger.Debug("OID not supported by target", "oids", v.Name)
 				continue
 			}
-			results.pdus = append(results.pdus, v)
+			results.PDUs = append(results.PDUs, v)
 		}
 		getOids = getOids[oids:]
 	}
@@ -176,7 +176,7 @@ func ScrapeTarget(snmp scraper.SNMPScraper, target string, auth *config.Auth, mo
 		if err != nil {
 			return results, err
 		}
-		results.pdus = append(results.pdus, pdus...)
+		results.PDUs = append(results.PDUs, pdus...)
 	}
 	return results, nil
 }
@@ -302,13 +302,13 @@ type Metrics struct {
 
 type NamedModule struct {
 	*config.Module
-	name string
+	Name string
 }
 
 func NewNamedModule(name string, module *config.Module) *NamedModule {
 	return &NamedModule{
 		Module: module,
-		name:   name,
+		Name:   name,
 	}
 }
 
@@ -398,7 +398,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 		},
 	)
 	start := time.Now()
-	moduleLabel := prometheus.Labels{"module": module.name}
+	moduleLabel := prometheus.Labels{"module": module.Name}
 	c.metrics.SNMPInflight.Inc()
 	results, err := ScrapeTarget(client, c.target, c.auth, module.Module, logger, c.metrics)
 	c.metrics.SNMPInflight.Dec()
@@ -425,11 +425,11 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_pdus_returned", "PDUs returned from get, bulkget, and walk.", nil, moduleLabel),
 		prometheus.GaugeValue,
-		float64(len(results.pdus)),
+		float64(len(results.PDUs)),
 	)
 
-	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.pdus))
-	for _, pdu := range results.pdus {
+	oidToPdu := make(map[string]gosnmp.SnmpPDU, len(results.PDUs))
+	for _, pdu := range results.PDUs {
 		oidToPdu[pdu.Name[1:]] = pdu
 	}
 
@@ -459,7 +459,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 		prometheus.GaugeValue,
 		time.Since(start).Seconds(),
 	)
-	return results.pdus, nil
+	return results.PDUs, nil
 }
 
 // collectJob is a module scrape handed to a worker. done, if set, is called
@@ -525,13 +525,13 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 			defer client.Close()
 			for job := range workerChan {
 				m := job.module
-				_logger := logger.With("module", m.name)
+				_logger := logger.With("module", m.Name)
 				_logger.Debug("Starting scrape")
 				start := time.Now()
 				pdus, err := c.collect(ch, _logger, client, m)
 				duration := time.Since(start).Seconds()
 				_logger.Debug("Finished scrape", "duration_seconds", duration)
-				c.metrics.SNMPCollectionDuration.WithLabelValues(m.name).Observe(duration)
+				c.metrics.SNMPCollectionDuration.WithLabelValues(m.Name).Observe(duration)
 				if job.done != nil {
 					job.done(pdus, err)
 				}
@@ -543,8 +543,8 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 	var phase1 []*NamedModule
 	addPhase1 := func(modules []*NamedModule) {
 		for _, m := range modules {
-			if !scraped[m.name] {
-				scraped[m.name] = true
+			if !scraped[m.Name] {
+				scraped[m.Name] = true
 				phase1 = append(phase1, m)
 			}
 		}
@@ -561,14 +561,14 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		)
 		isDiscovery := map[string]bool{}
 		for _, m := range c.fingerprint.DiscoveryModules() {
-			isDiscovery[m.name] = true
+			isDiscovery[m.Name] = true
 		}
 		// Start the discovery modules first, explicitly requested modules are
 		// scraped alongside them.
 		addPhase1(c.fingerprint.DiscoveryModules())
 		addPhase1(c.modules)
 		c.dispatch(ctx, workerChan, phase1, func(m *NamedModule, pdus []gosnmp.SnmpPDU, err error) {
-			if !isDiscovery[m.name] {
+			if !isDiscovery[m.Name] {
 				return
 			}
 			mu.Lock()
@@ -577,7 +577,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				discoveryFailed = true
 				return
 			}
-			discoveryPdus[m.name] = pdus
+			discoveryPdus[m.Name] = pdus
 		})
 
 		switch {
@@ -588,18 +588,18 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 		default:
 			var pdus []gosnmp.SnmpPDU
 			for _, m := range c.fingerprint.DiscoveryModules() {
-				pdus = append(pdus, discoveryPdus[m.name]...)
+				pdus = append(pdus, discoveryPdus[m.Name]...)
 			}
 			matched := c.fingerprint.Match(pdus, c.metrics)
 			var phase2 []*NamedModule
 			for _, m := range matched {
 				ch <- prometheus.MustNewConstMetric(
 					prometheus.NewDesc("snmp_fingerprint_module_info", "Modules selected by the fingerprinter for the target.", nil,
-						prometheus.Labels{"fingerprint": c.fingerprint.Name(), "module": m.name}),
+						prometheus.Labels{"fingerprint": c.fingerprint.Name(), "module": m.Name}),
 					prometheus.GaugeValue, 1,
 				)
-				if !scraped[m.name] {
-					scraped[m.name] = true
+				if !scraped[m.Name] {
+					scraped[m.Name] = true
 					phase2 = append(phase2, m)
 				}
 			}
@@ -630,10 +630,10 @@ func (c Collector) dispatch(ctx context.Context, workerChan chan<- collectJob, m
 		select {
 		case <-ctx.Done():
 			pending.Done()
-			c.logger.Debug("Context canceled", "err", ctx.Err(), "module", module.name)
+			c.logger.Debug("Context canceled", "err", ctx.Err(), "module", module.Name)
 			return
 		case workerChan <- job:
-			c.logger.Debug("Sent module to worker", "module", module.name)
+			c.logger.Debug("Sent module to worker", "module", module.Name)
 		}
 	}
 }

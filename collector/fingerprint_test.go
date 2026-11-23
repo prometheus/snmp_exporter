@@ -106,7 +106,7 @@ func TestNewFingerprint(t *testing.T) {
 	}
 	var discovery []string
 	for _, m := range fp.DiscoveryModules() {
-		discovery = append(discovery, m.name)
+		discovery = append(discovery, m.Name)
 	}
 	if !reflect.DeepEqual(discovery, []string{"system", "lldp_probe"}) {
 		t.Errorf("unexpected discovery modules %v", discovery)
@@ -193,7 +193,7 @@ func TestFingerprintMatch(t *testing.T) {
 			got := fp.Match(c.pdus, Metrics{})
 			var names []string
 			for _, m := range got {
-				names = append(names, m.name)
+				names = append(names, m.Name)
 			}
 			if !reflect.DeepEqual(names, c.expect) {
 				t.Errorf("expected %v, got %v", c.expect, names)

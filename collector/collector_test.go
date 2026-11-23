@@ -1706,13 +1706,13 @@ func TestScrapeTarget(t *testing.T) {
 				t.Errorf("Expected walk call %v, got %v", tt.walkCall, mock.CallWalk())
 			}
 			expectedPdusLen := len(tt.expectPdus)
-			if len(results.pdus) != expectedPdusLen {
-				t.Fatalf("Expected %d PDUs, got %d", expectedPdusLen, len(results.pdus))
+			if len(results.PDUs) != expectedPdusLen {
+				t.Fatalf("Expected %d PDUs, got %d", expectedPdusLen, len(results.PDUs))
 			}
 
 			for i, pdu := range tt.expectPdus {
-				if !reflect.DeepEqual(pdu, results.pdus[i]) {
-					t.Errorf("Expected %v, got %v", pdu, results.pdus[i])
+				if !reflect.DeepEqual(pdu, results.PDUs[i]) {
+					t.Errorf("Expected %v, got %v", pdu, results.PDUs[i])
 				}
 			}
 		})
