@@ -921,6 +921,13 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ, displayHint string, metrics Metr
 // Convert oids to a string index value.
 //
 // Returns the string, the oids that were used and the oids left over.
+// maxIndexOctetStringLength bounds the length used when decoding a variable-length
+// OctetString/DisplayString index whose length is taken from the (attacker-controlled)
+// SNMP response OID. Without it, a crafted response declaring a huge length drives an
+// unbounded make([]int, length)/make([]byte, length), OOM-ing the exporter. Legitimate
+// SNMP string indexes are far smaller than this ceiling (the max BER OctetString length).
+const maxIndexOctetStringLength = 65535
+
 func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool, enumValues map[int]string) (string, []int, []int) {
 	if typeMapping, ok := combinedTypeMapping[typ]; ok {
 		subOid, valueOids := splitOid(indexOids, 2)
@@ -966,6 +973,9 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 			subOid, indexOids = splitOid(indexOids, 1)
 			length = subOid[0]
 		}
+		if length > maxIndexOctetStringLength {
+			length = maxIndexOctetStringLength
+		}
 		content, indexOids := splitOid(indexOids, length)
 		subOid = append(subOid, content...)
 		parts := make([]byte, length)
@@ -985,6 +995,9 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		if length == 0 {
 			subOid, indexOids = splitOid(indexOids, 1)
 			length = subOid[0]
+		}
+		if length > maxIndexOctetStringLength {
+			length = maxIndexOctetStringLength
 		}
 		content, indexOids := splitOid(indexOids, length)
 		subOid = append(subOid, content...)
