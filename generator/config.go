@@ -37,6 +37,7 @@ type MetricOverrides struct {
 	Help            string                            `yaml:"help,omitempty"`
 	Name            string                            `yaml:"name,omitempty"`
 	DisplayHint     string                            `yaml:"display_hint,omitempty"`
+	BitValues       map[int]string                    `yaml:"bit_values,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
