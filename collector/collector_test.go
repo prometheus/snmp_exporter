@@ -1471,6 +1471,22 @@ func TestUpdateGetConfig(t *testing.T) {
 	}
 }
 
+func TestUpdateGetConfigSiblingPrefix(t *testing.T) {
+	// 1.3.6.1.2.1.31.1.1.1.1 (ifName) is a string prefix of its siblings
+	// ifHCOutOctets (.10) and ifAlias (.18), which must be kept.
+	filter := config.DynamicFilter{
+		Oid:     "1.3.6.1.2.1.2.2.1.3",
+		Targets: []string{"1.3.6.1.2.1.31.1.1.1.1"},
+		Values:  []string{".*"},
+	}
+	getConfig := []string{"1.3.6.1.2.1.31.1.1.1.1.7", "1.3.6.1.2.1.31.1.1.1.10.7", "1.3.6.1.2.1.31.1.1.1.18.7"}
+	want := []string{"1.3.6.1.2.1.31.1.1.1.10.7", "1.3.6.1.2.1.31.1.1.1.18.7"}
+	got := updateGetConfig(getConfig, filter, promslog.NewNopLogger())
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("updateGetConfig: got %v, want %v", got, want)
+	}
+}
+
 func TestAddAllowedIndices(t *testing.T) {
 	cases := []struct {
 		filter config.DynamicFilter
