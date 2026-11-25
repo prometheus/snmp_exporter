@@ -65,7 +65,7 @@ RARITAN_URL       := https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
 RARITAN2_URL      := https://cdn1.raritan.com/download/pdu-g2/4.3.10/PDU2_MIB_4.3.10_51837.txt
 RARITAN_AM_URL    := https://cdn1.raritan.com/download/pdu-g2/4.3.10/AssetManagement_MIB_4.3.10_51837.txt
 INFRAPOWER_URL    := https://www.austin-hughes.com/wp-content/uploads/2021/05/IPD-03-S-MIB.zip
-LIEBERT_URL       := https://www.vertiv.com/globalassets/documents/software/monitoring/lgpmib-win_rev16_299461_0.zip
+LIEBERT_URL       := https://raw.githubusercontent.com/prometheus-community/snmp/main/liebert
 READYNAS_URL      := https://www.downloads.netgear.com/files/ReadyNAS/READYNAS-MIB.txt
 READYDATAOS_URL   := https://www.downloads.netgear.com/files/GDC/RD5200/READYDATA_MIB.zip
 SOPHOS_XG_URL     := https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
@@ -436,11 +436,9 @@ $(MIBDIR)/Infrapower-MIB.mib:
 	@rm -v $(TMP)
 
 $(MIBDIR)/LIEBERT_GP_PDU.MIB:
-	$(eval TMP := $(shell mktemp))
-	@echo ">> Downloading LIEBERT_GP_PDU.MIB to $(TMP)"
-	@curl $(CURL_OPTS) -o $(TMP) $(LIEBERT_URL)
-	@unzip -j -d $(MIBDIR) $(TMP) LIEBERT_GP_PDU.MIB LIEBERT_GP_REG.MIB
-	@rm -v $(TMP)
+	@echo ">> Downloading Liebert MIBs"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/LIEBERT_GP_PDU.MIB "$(LIEBERT_URL)/LIEBERT_GP_PDU.MIB"
+	@curl $(CURL_OPTS) -o $(MIBDIR)/LIEBERT_GP_REG.MIB "$(LIEBERT_URL)/LIEBERT_GP_REG.MIB"
 
 $(MIBDIR)/CyberPower.MIB:
 	$(eval TMP := $(shell mktemp))
