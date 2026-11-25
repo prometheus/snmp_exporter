@@ -324,6 +324,12 @@ type Collector struct {
 	snmpContext  string
 	snmpEngineID string
 	debugSNMP    bool
+	fingerprint  *Fingerprint
+	newScraper   func(logger *slog.Logger, target, srcAddress string, debug bool) (scraper.SNMPScraper, error)
+}
+
+func newGoSNMPScraper(logger *slog.Logger, target, srcAddress string, debug bool) (scraper.SNMPScraper, error) {
+	return scraper.NewGoSNMP(logger, target, srcAddress, debug)
 }
 
 func New(ctx context.Context, target, authName, snmpContext, snmpEngineID string, auth *config.Auth, modules []*NamedModule, logger *slog.Logger, metrics Metrics, conc int, debugSNMP bool) *Collector {
@@ -339,7 +345,16 @@ func New(ctx context.Context, target, authName, snmpContext, snmpEngineID string
 		metrics:      metrics,
 		concurrency:  conc,
 		debugSNMP:    debugSNMP,
+		newScraper:   newGoSNMPScraper,
 	}
+}
+
+// WithFingerprint enables fingerprint based module discovery. The discovery
+// modules of fp are scraped first, the modules selected by its matchers are
+// scraped afterwards in addition to the modules passed to New.
+func (c *Collector) WithFingerprint(fp *Fingerprint) *Collector {
+	c.fingerprint = fp
+	return c
 }
 
 // Describe implements Prometheus.Collector.
@@ -347,7 +362,7 @@ func (c Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- prometheus.NewDesc("dummy", "dummy", nil, nil)
 }
 
-func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, client scraper.SNMPScraper, module *NamedModule) {
+func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, client scraper.SNMPScraper, module *NamedModule) ([]gosnmp.SnmpPDU, error) {
 	var (
 		packets uint64
 		retries uint64
@@ -390,7 +405,7 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 	if err != nil {
 		logger.Info("Error scraping target", "err", err)
 		ch <- prometheus.NewInvalidMetric(prometheus.NewDesc("snmp_error", "Error scraping target", nil, moduleLabel), err)
-		return
+		return nil, err
 	}
 	ch <- prometheus.MustNewConstMetric(
 		prometheus.NewDesc("snmp_scrape_walk_duration_seconds", "Time SNMP walk/bulkwalk took.", nil, moduleLabel),
@@ -444,6 +459,14 @@ func (c Collector) collect(ch chan<- prometheus.Metric, logger *slog.Logger, cli
 		prometheus.GaugeValue,
 		time.Since(start).Seconds(),
 	)
+	return results.pdus, nil
+}
+
+// collectJob is a module scrape handed to a worker. done, if set, is called
+// with the scrape results once the module has been collected.
+type collectJob struct {
+	module *NamedModule
+	done   func(pdus []gosnmp.SnmpPDU, err error)
 }
 
 // Collect implements Prometheus.Collector.
@@ -452,13 +475,13 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 	workerCount := max(c.concurrency, 1)
 	ctx, cancel := context.WithCancel(c.ctx)
 	defer cancel()
-	workerChan := make(chan *NamedModule)
+	workerChan := make(chan collectJob)
 	for i := range workerCount {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
 			logger := c.logger.With("worker", i)
-			client, err := scraper.NewGoSNMP(logger, c.target, *srcAddress, c.debugSNMP)
+			client, err := c.newScraper(logger, c.target, *srcAddress, c.debugSNMP)
 			if err != nil {
 				logger.Info("Failed to create snmp scrape client", "err", err)
 				cancel()
@@ -467,7 +490,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 			}
 			// Set UseUnconnectedSocket option if at least one module has it set
 			useUnconnectedUDPSocket := false
-			for _, m := range c.modules {
+			for _, m := range c.allModules() {
 				if m.WalkParams.UseUnconnectedUDPSocket {
 					useUnconnectedUDPSocket = true
 					break
@@ -500,33 +523,131 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 				return
 			}
 			defer client.Close()
-			for m := range workerChan {
+			for job := range workerChan {
+				m := job.module
 				_logger := logger.With("module", m.name)
 				_logger.Debug("Starting scrape")
 				start := time.Now()
-				c.collect(ch, _logger, client, m)
+				pdus, err := c.collect(ch, _logger, client, m)
 				duration := time.Since(start).Seconds()
 				_logger.Debug("Finished scrape", "duration_seconds", duration)
 				c.metrics.SNMPCollectionDuration.WithLabelValues(m.name).Observe(duration)
+				if job.done != nil {
+					job.done(pdus, err)
+				}
 			}
 		}(i)
 	}
 
-	done := false
-	for _, module := range c.modules {
-		if done {
-			break
+	scraped := map[string]bool{}
+	var phase1 []*NamedModule
+	addPhase1 := func(modules []*NamedModule) {
+		for _, m := range modules {
+			if !scraped[m.name] {
+				scraped[m.name] = true
+				phase1 = append(phase1, m)
+			}
 		}
-		select {
-		case <-ctx.Done():
-			done = true
-			c.logger.Debug("Context canceled", "err", ctx.Err(), "module", module.name)
-		case workerChan <- module:
-			c.logger.Debug("Sent module to worker", "module", module.name)
+	}
+
+	if c.fingerprint == nil {
+		addPhase1(c.modules)
+		c.dispatch(ctx, workerChan, phase1, nil)
+	} else {
+		var (
+			mu              sync.Mutex
+			discoveryPdus   = map[string][]gosnmp.SnmpPDU{}
+			discoveryFailed bool
+		)
+		isDiscovery := map[string]bool{}
+		for _, m := range c.fingerprint.DiscoveryModules() {
+			isDiscovery[m.name] = true
+		}
+		// Start the discovery modules first, explicitly requested modules are
+		// scraped alongside them.
+		addPhase1(c.fingerprint.DiscoveryModules())
+		addPhase1(c.modules)
+		c.dispatch(ctx, workerChan, phase1, func(m *NamedModule, pdus []gosnmp.SnmpPDU, err error) {
+			if !isDiscovery[m.name] {
+				return
+			}
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil {
+				discoveryFailed = true
+				return
+			}
+			discoveryPdus[m.name] = pdus
+		})
+
+		switch {
+		case ctx.Err() != nil:
+			c.logger.Debug("Context canceled, skipping fingerprint modules", "err", ctx.Err(), "fingerprint", c.fingerprint.Name())
+		case discoveryFailed:
+			c.logger.Info("Discovery failed, skipping fingerprint modules", "fingerprint", c.fingerprint.Name())
+		default:
+			var pdus []gosnmp.SnmpPDU
+			for _, m := range c.fingerprint.DiscoveryModules() {
+				pdus = append(pdus, discoveryPdus[m.name]...)
+			}
+			matched := c.fingerprint.Match(pdus, c.metrics)
+			var phase2 []*NamedModule
+			for _, m := range matched {
+				ch <- prometheus.MustNewConstMetric(
+					prometheus.NewDesc("snmp_fingerprint_module_info", "Modules selected by the fingerprinter for the target.", nil,
+						prometheus.Labels{"fingerprint": c.fingerprint.Name(), "module": m.name}),
+					prometheus.GaugeValue, 1,
+				)
+				if !scraped[m.name] {
+					scraped[m.name] = true
+					phase2 = append(phase2, m)
+				}
+			}
+			c.logger.Debug("Fingerprint matched", "fingerprint", c.fingerprint.Name(), "modules", len(matched))
+			c.dispatch(ctx, workerChan, phase2, nil)
 		}
 	}
 	close(workerChan)
 	wg.Wait()
+}
+
+// dispatch sends modules to the workers and waits until all modules that were
+// sent have been collected. done is called for every collected module.
+func (c Collector) dispatch(ctx context.Context, workerChan chan<- collectJob, modules []*NamedModule, done func(*NamedModule, []gosnmp.SnmpPDU, error)) {
+	var pending sync.WaitGroup
+	defer pending.Wait()
+	for _, module := range modules {
+		pending.Add(1)
+		job := collectJob{
+			module: module,
+			done: func(pdus []gosnmp.SnmpPDU, err error) {
+				defer pending.Done()
+				if done != nil {
+					done(module, pdus, err)
+				}
+			},
+		}
+		select {
+		case <-ctx.Done():
+			pending.Done()
+			c.logger.Debug("Context canceled", "err", ctx.Err(), "module", module.name)
+			return
+		case workerChan <- job:
+			c.logger.Debug("Sent module to worker", "module", module.name)
+		}
+	}
+}
+
+// allModules returns all modules that may be scraped by the collector.
+func (c Collector) allModules() []*NamedModule {
+	if c.fingerprint == nil {
+		return c.modules
+	}
+	all := slices.Clone(c.modules)
+	for _, m := range c.fingerprint.modules {
+		all = append(all, m)
+	}
+	return all
 }
 
 func getPduValue(pdu *gosnmp.SnmpPDU) float64 {

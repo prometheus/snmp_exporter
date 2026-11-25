@@ -70,4 +70,15 @@ modules:
        enum_values: # Enum for this metric. Only used with the enum types.
           0: true
           1: false
+fingerprinters:
+  fingerprinter_name:
+    discovery_modules: [module_name]  # Modules scraped first, used for matching.
+    default_modules: [if_mib]         # Optional. Modules scraped when no matcher matches.
+    matchers:
+      - oid: 1.3.6.1.2.1.1.2          # Numeric OID; matches values at and below it.
+        regex: '1\.3\.6\.1\.4\.1\.14988(\..*)?'  # Anchored, mutually exclusive with exists.
+        modules: [if_mib, mikrotik]   # Scraped when matched. Union over all matchers.
+      - oid: 1.0.8802.1.1.2.1.3.2
+        exists: true                  # Matches if any value is returned.
+        modules: [lldp_mib]
 ```

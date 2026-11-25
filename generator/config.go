@@ -22,9 +22,10 @@ import (
 
 // The generator config.
 type Config struct {
-	Auths   map[string]*config.Auth  `yaml:"auths"`
-	Modules map[string]*ModuleConfig `yaml:"modules"`
-	Version int                      `yaml:"version,omitempty"`
+	Auths          map[string]*config.Auth          `yaml:"auths"`
+	Modules        map[string]*ModuleConfig         `yaml:"modules"`
+	Fingerprinters map[string]*config.Fingerprinter `yaml:"fingerprinters,omitempty"`
+	Version        int                              `yaml:"version,omitempty"`
 }
 
 type MetricOverrides struct {

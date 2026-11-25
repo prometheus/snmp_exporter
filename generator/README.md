@@ -77,7 +77,7 @@ make docker-generate
 
 ## File Format
 
-`generator.yml` provides a list of auths and modules. Each module defines what to collect from a device type.
+`generator.yml` provides a list of auths, modules and optionally fingerprinters. Each module defines what to collect from a device type.
 The simplest module is just a name and a set of OIDs to walk.
 
 ```yaml
@@ -227,6 +227,46 @@ modules:
             - "1.3.6.1.2.1.2.2.1.4"
           values: ["1", "2"]
 ```
+
+### Fingerprinters
+
+Fingerprinters select the modules to scrape for a target based on the values
+returned by a set of discovery modules. They are used with the `fingerprint`
+URL parameter, e.g. `/snmp?target=192.0.0.8&fingerprint=default`.
+
+```yaml
+fingerprinters:
+  default:
+    # Modules scraped first. Their results are exported as usual and are used
+    # to evaluate the matchers. Required.
+    discovery_modules: [system]
+    # Modules scraped when no matcher matches. Optional. If omitted, only the
+    # discovery modules are scraped for targets that match nothing.
+    default_modules: [if_mib]
+    # All matchers are evaluated; the modules of all matching matchers are
+    # scraped (union).
+    matchers:
+        # OID, may be a MIB name or numeric. The matcher considers all values
+        # returned for this OID and the OIDs below it. It must be collected by
+        # one of the discovery modules.
+      - oid: SNMPv2-MIB::sysObjectID
+        # Anchored regular expression, matched against the value. Object
+        # identifiers are rendered without a leading dot, octet strings as
+        # text. Matches if any value matches.
+        regex: '1\.3\.6\.1\.4\.1\.14988(\..*)?'
+        modules: [if_mib, mikrotik]
+      - oid: LLDP-MIB::lldpLocChassisId
+        # Matches if any value is returned for the OID.
+        # Exactly one of regex or exists must be set.
+        exists: true
+        modules: [lldp_mib]
+```
+
+The generator resolves the OIDs to numeric OIDs and validates that all
+referenced modules exist and that the matcher OIDs are collected by the
+discovery modules. The exporter performs the same validation on load, so
+fingerprinters can also be written by hand, using numeric OIDs, in a separate
+config file.
 
 ### EnumAsInfo and EnumAsStateSet
 

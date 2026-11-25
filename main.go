@@ -84,9 +84,16 @@ const (
 	configPath = "/config"
 )
 
-func parseModules(query url.Values) ([]string, error) {
+// parseModules returns the deduplicated modules from the query. If useDefault
+// is set, if_mib is used when the parameter is omitted and at least one module
+// is required. Otherwise, e.g. when a fingerprint selects the modules, no
+// module is required.
+func parseModules(query url.Values, useDefault bool) ([]string, error) {
 	queryModule := query["module"]
 	if len(queryModule) == 0 {
+		if !useDefault {
+			return nil, nil
+		}
 		queryModule = append(queryModule, "if_mib")
 	}
 	uniqueM := make(map[string]bool)
@@ -102,7 +109,7 @@ func parseModules(query url.Values) ([]string, error) {
 			}
 		}
 	}
-	if len(modules) == 0 {
+	if len(modules) == 0 && useDefault {
 		return nil, fmt.Errorf("'module' parameter must contain at least one module name")
 	}
 	return modules, nil
@@ -150,7 +157,14 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 		return
 	}
 
-	modules, err := parseModules(query)
+	fingerprintName := query.Get("fingerprint")
+	if len(query["fingerprint"]) > 1 {
+		http.Error(w, "'fingerprint' parameter must only be specified once", http.StatusBadRequest)
+		snmpRequestErrors.Inc()
+		return
+	}
+
+	modules, err := parseModules(query, fingerprintName == "")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		snmpRequestErrors.Inc()
@@ -175,10 +189,33 @@ func handler(w http.ResponseWriter, r *http.Request, logger *slog.Logger, export
 		}
 		nmodules = append(nmodules, collector.NewNamedModule(m, module))
 	}
+	var fingerprint *collector.Fingerprint
+	if fingerprintName != "" {
+		fp, ok := sc.C.Fingerprinters[fingerprintName]
+		if !ok {
+			sc.mu.RUnlock()
+			http.Error(w, fmt.Sprintf("Unknown fingerprint '%s'", fingerprintName), http.StatusBadRequest)
+			snmpRequestErrors.Inc()
+			return
+		}
+		fingerprint, err = collector.NewFingerprint(fingerprintName, fp, sc.C.Modules)
+		if err != nil {
+			sc.mu.RUnlock()
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			snmpRequestErrors.Inc()
+			return
+		}
+	}
 	sc.mu.RUnlock()
 	logger = logger.With("auth", authName, "target", target)
+	if fingerprintName != "" {
+		logger = logger.With("fingerprint", fingerprintName)
+	}
 	registry := prometheus.NewRegistry()
 	c := collector.New(r.Context(), target, authName, snmpContext, snmpEngineID, auth, nmodules, logger, exporterMetrics, *concurrency, debug)
+	if fingerprint != nil {
+		c = c.WithFingerprint(fingerprint)
+	}
 	registry.MustRegister(c)
 	// Delegate http serving to Prometheus client library, which will call collector.Collect.
 	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
@@ -364,6 +401,12 @@ func main() {
 						Name:        "module",
 						Placeholder: "module",
 						Value:       "if_mib",
+					},
+					{
+						Label:       "Fingerprint",
+						Type:        "text",
+						Name:        "fingerprint",
+						Placeholder: "fingerprint",
 					},
 				},
 			},
