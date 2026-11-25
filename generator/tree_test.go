@@ -1032,8 +1032,9 @@ func TestGenerateConfigModule(t *testing.T) {
 						Type: "PhysAddress48",
 						Indexes: []*config.Index{
 							{
-								Labelname: "physaddress48Index",
-								Type:      "PhysAddress48",
+								Labelname:   "physaddress48Index",
+								Type:        "PhysAddress48",
+								DisplayHint: "1x:",
 							},
 						},
 					},
@@ -1044,8 +1045,9 @@ func TestGenerateConfigModule(t *testing.T) {
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
-								Labelname: "physaddress48Index",
-								Type:      "PhysAddress48",
+								Labelname:   "physaddress48Index",
+								Type:        "PhysAddress48",
+								DisplayHint: "1x:",
 							},
 						},
 					},
@@ -1156,9 +1158,10 @@ func TestGenerateConfigModule(t *testing.T) {
 						Type: "OctetString",
 						Indexes: []*config.Index{
 							{
-								Labelname: "sizedHexIndex",
-								Type:      "OctetString",
-								FixedSize: 8,
+								Labelname:   "sizedHexIndex",
+								Type:        "OctetString",
+								FixedSize:   8,
+								DisplayHint: "1x:",
 							},
 						},
 					},
@@ -1169,9 +1172,10 @@ func TestGenerateConfigModule(t *testing.T) {
 						Type: "gauge",
 						Indexes: []*config.Index{
 							{
-								Labelname: "sizedHexIndex",
-								Type:      "OctetString",
-								FixedSize: 8,
+								Labelname:   "sizedHexIndex",
+								Type:        "OctetString",
+								FixedSize:   8,
+								DisplayHint: "1x:",
 							},
 						},
 					},
