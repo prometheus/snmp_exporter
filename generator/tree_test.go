@@ -219,6 +219,14 @@ func TestTreePrepare(t *testing.T) {
 			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddress"},
 			out: &Node{Oid: "1", Type: "InetAddress", TextualConvention: "InetAddress"},
 		},
+		{
+			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddressIPv4z"},
+			out: &Node{Oid: "1", Type: "InetAddressIPv4z", TextualConvention: "InetAddressIPv4z"},
+		},
+		{
+			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "InetAddressIPv6z"},
+			out: &Node{Oid: "1", Type: "InetAddressIPv6z", TextualConvention: "InetAddressIPv6z"},
+		},
 		// NTPTimeStamp
 		{
 			in:  &Node{Oid: "1", Type: "OctectString", TextualConvention: "NTPTimeStamp"},
@@ -2403,6 +2411,57 @@ func TestGenerateConfigModule(t *testing.T) {
 			t.Errorf("Got: %s", out)
 			out, _ = yaml.Marshal(c.out)
 			t.Errorf("Wanted: %s", out)
+		}
+	}
+}
+
+// Zoned addresses are kept as their own type, both for plain objects and for
+// table indexes, instead of falling back to a hex string.
+func TestGenerateConfigModuleZonedAddress(t *testing.T) {
+	node := &Node{
+		Oid: "1", Label: "root",
+		Children: []*Node{
+			{Oid: "1.1", Access: "ACCESS_READONLY", Label: "addr4z", Type: "OCTETSTR", TextualConvention: "InetAddressIPv4z"},
+			{Oid: "1.2", Access: "ACCESS_READONLY", Label: "addr6z", Type: "OCTETSTR", TextualConvention: "InetAddressIPv6z"},
+			{
+				Oid: "1.3", Label: "table",
+				Children: []*Node{
+					{
+						Oid: "1.3.1", Label: "tableEntry", Indexes: []string{"tableIndex"},
+						Children: []*Node{
+							{Oid: "1.3.1.1", Access: "ACCESS_READONLY", Label: "tableIndex", Type: "OCTETSTR", TextualConvention: "InetAddressIPv6z"},
+							{Oid: "1.3.1.2", Access: "ACCESS_READONLY", Label: "tableFoo", Type: "INTEGER"},
+						},
+					},
+				},
+			},
+		},
+	}
+	cfg := &ModuleConfig{Walk: []string{"1"}}
+	nameToNode := prepareTree(node, promslog.NewNopLogger())
+	got, err := generateConfigModule(cfg, node, nameToNode, promslog.NewNopLogger())
+	if err != nil {
+		t.Fatalf("Unexpected error: %s", err)
+	}
+	types := map[string]string{}
+	for _, m := range got.Metrics {
+		types[m.Name] = m.Type
+	}
+	want := map[string]string{
+		"addr4z":     "InetAddressIPv4z",
+		"addr6z":     "InetAddressIPv6z",
+		"tableIndex": "InetAddressIPv6z",
+		"tableFoo":   "gauge",
+	}
+	if !reflect.DeepEqual(types, want) {
+		t.Errorf("Wrong metric types, got %v, want %v", types, want)
+	}
+	for _, m := range got.Metrics {
+		if m.Name != "tableFoo" {
+			continue
+		}
+		if len(m.Indexes) != 1 || m.Indexes[0].Type != "InetAddressIPv6z" {
+			t.Errorf("Wrong index for tableFoo: %v", m.Indexes)
 		}
 	}
 }

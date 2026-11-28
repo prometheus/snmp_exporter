@@ -482,7 +482,7 @@ func TestPduToSample(t *testing.T) {
 		{
 			pdu: &gosnmp.SnmpPDU{
 				Name:  "1.42.2",
-				Value: []byte{4, 5, 6, 7, 8},
+				Value: []byte{192, 0, 2, 1, 0, 0, 0, 3},
 			},
 			indexOids: []int{2},
 			metric: &config.Metric{
@@ -492,6 +492,81 @@ func TestPduToSample(t *testing.T) {
 				Help: "Help string",
 			},
 			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": {Value: 3}},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"192.0.2.1%3"} gauge:{value:1}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{0xfe, 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 2},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddress",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": {Value: 4}},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"FE80:0000:0000:0000:0000:0000:0000:0001%258"} gauge:{value:1}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{192, 0, 2, 1, 0, 0, 0, 3},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddressIPv4z",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": {Value: 0}},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"192.0.2.1%3"} gauge:{value:1}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{192, 0, 2, 1, 0, 0, 3},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddress",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": {Value: 3}},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"0xC0000201000003"} gauge:{value:1}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{192, 0, 2, 1},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddressIPv6z",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": {Value: 0}},
+			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"0xC0000201"} gauge:{value:1}`},
+		},
+		{
+			pdu: &gosnmp.SnmpPDU{
+				Name:  "1.42.2",
+				Value: []byte{4, 5, 6, 7, 8},
+			},
+			indexOids: []int{2},
+			metric: &config.Metric{
+				Name: "test_metric",
+				Oid:  "1.42",
+				Type: "InetAddress",
+				Help: "Help string",
+			},
+			oidToPdu:        map[string]gosnmp.SnmpPDU{"1.41.2": {Value: 7}},
 			expectedMetrics: []string{`Desc{fqName: "test_metric", help: "Help string", unit: "", constLabels: {}, variableLabels: {test_metric}} label:{name:"test_metric" value:"0x0405060708"} gauge:{value:1}`},
 		},
 		{
@@ -851,6 +926,31 @@ func TestPduValueAsString(t *testing.T) {
 			result: "0102:0304:0506:0708:090A:0B0C:0D0E:0F10",
 		},
 		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{192, 0, 2, 1, 0, 0, 0, 3}},
+			typ:    "InetAddressIPv4z",
+			result: "192.0.2.1%3",
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{192, 0, 2, 1, 1, 2, 3, 4}},
+			typ:    "InetAddressIPv4z",
+			result: "192.0.2.1%16909060",
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{192, 0, 2, 1}},
+			typ:    "InetAddressIPv4z",
+			result: "0xC0000201",
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 0, 0, 9}},
+			typ:    "InetAddressIPv6z",
+			result: "0102:0304:0506:0708:090A:0B0C:0D0E:0F10%9",
+		},
+		{
+			pdu:    &gosnmp.SnmpPDU{Value: []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}},
+			typ:    "InetAddressIPv6z",
+			result: "0x0102030405060708090A0B0C0D0E0F10",
+		},
+		{
 			pdu:    &gosnmp.SnmpPDU{Value: []byte{2, 0}},
 			typ:    "Bits",
 			result: "0x0200",
@@ -1080,6 +1180,27 @@ func TestIndexesToLabels(t *testing.T) {
 			oid: []int{4},
 			metric: config.Metric{
 				Indexes: []*config.Index{{Labelname: "l", Type: "gauge"}},
+				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3", Type: "InetAddressIPv4z"}},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.4": {Value: []byte{5, 6, 7, 8, 0, 0, 0, 2}}},
+			result:   map[string]string{"l": "5.6.7.8%2"},
+		},
+		{
+			oid: []int{4},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "gauge"}},
+				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3", Type: "InetAddress"}},
+			},
+			oidToPdu: map[string]gosnmp.SnmpPDU{
+				"1.2.3.4": {Value: []byte{5, 6, 7, 8, 0, 0, 0, 2}},
+				"1.2.2.4": {Value: 3},
+			},
+			result: map[string]string{"l": "5.6.7.8%2"},
+		},
+		{
+			oid: []int{4},
+			metric: config.Metric{
+				Indexes: []*config.Index{{Labelname: "l", Type: "gauge"}},
 				Lookups: []*config.Lookup{{Labels: []string{"l"}, Labelname: "l", Oid: "1.2.3", Type: "InetAddressIPv6"}},
 			},
 			oidToPdu: map[string]gosnmp.SnmpPDU{"1.2.3.4": {Value: []byte{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}}},
@@ -1198,6 +1319,54 @@ func TestIndexesToLabels(t *testing.T) {
 			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressIPv6"}}},
 			oidToPdu: map[string]gosnmp.SnmpPDU{},
 			result:   map[string]string{"l": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10"},
+		},
+		{
+			oid:      []int{192, 0, 2, 1, 0, 0, 0, 3},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressIPv4z"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.0.2.1%3"},
+		},
+		{
+			oid:      []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 0, 1, 0},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressIPv6z"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10%256"},
+		},
+		{
+			oid:      []int{3, 8, 192, 0, 2, 1, 0, 0, 0, 3},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.0.2.1%3"},
+		},
+		{
+			oid:      []int{4, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 0, 0, 7},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10%7"},
+		},
+		{
+			oid:      []int{4, 8, 192, 0, 2, 1, 0, 0, 0, 3},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0x0408C000020100000003"},
+		},
+		{
+			oid:      []int{3, 8, 192, 0, 2, 1, 0, 0, 0, 3, 1, 4, 10, 0, 0, 1},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "a", Type: "InetAddress"}, {Labelname: "b", Type: "InetAddress"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"a": "192.0.2.1%3", "b": "10.0.0.1"},
+		},
+		{
+			oid:      []int{3, 192, 0, 2, 1, 0, 0, 0, 3},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressMissingSize"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "192.0.2.1%3"},
+		},
+		{
+			oid:      []int{4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 0, 0, 7},
+			metric:   config.Metric{Indexes: []*config.Index{{Labelname: "l", Type: "InetAddressMissingSize"}}},
+			oidToPdu: map[string]gosnmp.SnmpPDU{},
+			result:   map[string]string{"l": "0102:0304:0506:0708:090A:0B0C:0D0E:0F10%7"},
 		},
 		{
 			oid:      []int{1, 4, 192, 168, 1, 2},

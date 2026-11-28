@@ -189,6 +189,8 @@ modules:
                              #   Double: A 64 bit floating-point value with type gauge.
                              #   InetAddressIPv4: An IPv4 address, rendered as 192.0.0.8.
                              #   InetAddressIPv6: An IPv6 address, rendered as 0102:0304:0506:0708:090A:0B0C:0D0E:0F10.
+                             #   InetAddressIPv4z: An IPv4 address with a zone index, rendered as 192.0.0.8%3.
+                             #   InetAddressIPv6z: An IPv6 address with a zone index, rendered as 0102:0304:0506:0708:090A:0B0C:0D0E:0F10%3.
                              #   InetAddress: An InetAddress per RFC 4001. Must be preceded by an InetAddressType.
                              #   InetAddressMissingSize: An InetAddress that violates section 4.1 of RFC 4001 by
                              #       not having the size in the index. Must be preceded by an InetAddressType.
