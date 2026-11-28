@@ -262,6 +262,8 @@ var RenderableIndexTypes = map[string]bool{
 	"DisplayString":          true,
 	"InetAddressIPv4":        true,
 	"InetAddressIPv6":        true,
+	"InetAddressIPv4z":       true,
+	"InetAddressIPv6z":       true,
 	"InetAddress":            true,
 	"InetAddressMissingSize": true,
 	"LldpPortId":             true,

@@ -48,10 +48,14 @@ var combinedTypeMapping = map[string]map[int]string{
 	"InetAddress": {
 		1: "InetAddressIPv4",
 		2: "InetAddressIPv6",
+		3: "InetAddressIPv4z",
+		4: "InetAddressIPv6z",
 	},
 	"InetAddressMissingSize": {
 		1: "InetAddressIPv4",
 		2: "InetAddressIPv6",
+		3: "InetAddressIPv4z",
+		4: "InetAddressIPv6z",
 	},
 	"LldpPortId": {
 		1: "DisplayString",
@@ -60,6 +64,13 @@ var combinedTypeMapping = map[string]map[int]string{
 		5: "DisplayString",
 		7: "DisplayString",
 	},
+}
+
+// Number of octets in the zoned address types of RFC 4001. The address comes
+// first, followed by a 4 octet zone index.
+var zonedAddressSize = map[string]int{
+	"InetAddressIPv4z": 8,
+	"InetAddressIPv6z": 20,
 }
 
 func oidToList(oid string) []int {
@@ -898,6 +909,9 @@ func pduValueAsString(pdu *gosnmp.SnmpPDU, typ, displayHint string, metrics Metr
 		if typ == "" || typ == "Bits" {
 			typ = "OctetString"
 		}
+		if size, ok := zonedAddressSize[typ]; ok && len(v) != size {
+			typ = "OctetString"
+		}
 		// Reuse the OID index parsing code.
 		parts := make([]int, len(v))
 		for i, o := range v {
@@ -931,8 +945,12 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		var str string
 		var used, remaining []int
 		if t, ok := typeMapping[subOid[0]]; ok {
-			str, used, remaining = indexOidsAsString(valueOids, t, 0, false, enumValues)
-			return str, append(subOid, used...), remaining
+			// A zoned address of the wrong size is not valid, so show it as raw bytes.
+			size, zoned := zonedAddressSize[t]
+			if !zoned || (typ == "InetAddressMissingSize" && len(valueOids) >= size) || (typ == "InetAddress" && subOid[1] == size) {
+				str, used, remaining = indexOidsAsString(valueOids, t, 0, false, enumValues)
+				return str, append(subOid, used...), remaining
+			}
 		}
 		if typ == "InetAddressMissingSize" {
 			// We don't know the size, so pass everything remaining.
@@ -1010,6 +1028,20 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 		}
 		ipAddr := netip.AddrFrom16(parts)
 		return strings.ToUpper(ipAddr.StringExpanded()), subOid, indexOids
+	case "InetAddressIPv4z":
+		subOid, indexOids := splitOid(indexOids, 8)
+		var parts [4]byte
+		for i := range parts {
+			parts[i] = byte(subOid[i])
+		}
+		return fmt.Sprintf("%s%%%d", netip.AddrFrom4(parts), zoneIndex(subOid[4:])), subOid, indexOids
+	case "InetAddressIPv6z":
+		subOid, indexOids := splitOid(indexOids, 20)
+		var parts [16]byte
+		for i := range parts {
+			parts[i] = byte(subOid[i])
+		}
+		return fmt.Sprintf("%s%%%d", strings.ToUpper(netip.AddrFrom16(parts).StringExpanded()), zoneIndex(subOid[16:])), subOid, indexOids
 	case "EnumAsInfo":
 		subOid, indexOids := splitOid(indexOids, 1)
 		value, ok := enumValues[subOid[0]]
@@ -1020,6 +1052,15 @@ func indexOidsAsString(indexOids []int, typ string, fixedSize int, implied bool,
 	default:
 		panic(fmt.Sprintf("Unknown index type %s", typ))
 	}
+}
+
+// Decode the big endian 4 octet zone index of a zoned address.
+func zoneIndex(octets []int) uint32 {
+	var zone uint32
+	for _, o := range octets {
+		zone = zone<<8 | uint32(byte(o))
+	}
+	return zone
 }
 
 func getPrevOid(oid string) string {
